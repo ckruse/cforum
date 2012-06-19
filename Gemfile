@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.6'
+gem 'bson_ext'
+gem "mongo_mapper"
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
+gem 'therubyracer'
 
 
 # Gems used only for assets and not required
