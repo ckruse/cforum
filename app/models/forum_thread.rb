@@ -6,7 +6,7 @@ class ForumThread
   key :tid, String
   key :archived, Boolean
 
-  many :messages
+  many :messages, :class_name => 'ForumMessage'
 end
 
 # eof

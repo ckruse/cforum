@@ -1,4 +1,4 @@
-class Message
+class ForumMessage
   include MongoMapper::EmbeddedDocument
 
   key :id, String
@@ -10,6 +10,8 @@ class Message
   key :flags, Hash
 
   one :author
+
+  many :messages, :class_name => 'ForumMessage'
 end
 
 # eof
