@@ -4,17 +4,17 @@ development:
     adapter: mongodb
     host: localhost
     port: 27017
-    name: cforum-development
+    name: cforum_development
 
 test:
     adapter: mongodb
     host: localhost
     port: 27017
-    name: cforum-test
+    name: cforum_test
 
 production:
     adapter: mongodb
     host: localhost
     port: 27017
-    name: cforum-production
+    name: cforum_production
 
