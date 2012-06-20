@@ -1,0 +1,32 @@
+<% def message_tree(t, msgs) %>
+<ol>
+  <% msgs.each do |msg| %>
+  <li>
+    <header>
+      <p class="category"><%= msg.category %></p>
+      <h3><a href="message.html"><%= msg.subject %></a></h3>
+      <details open>von <a href="author.html"><%= msg.author.name %></a>, <time datetime="2012-05-15 16:00:00"><%= I18n.l(msg.date) %> Uhr</time></details>
+    </header>
+
+    <% if msg.messages.length > 0
+      message_tree(t, msg.messages)
+    end %>
+  </li>
+  <% end %>
+</ol>
+<% end
+
+@threads.each do |t| %>
+<article class="thread">
+  <header>
+    <p class="category"><%= t.messages[0].category %></p>
+    <h2><a href="message.html"><%= t.messages[0].subject %></a></h2>
+    <details>von <a href="author.html"><%= t.messages[0].author.name %></a>, <time datetime="2012-06-15 15:30:00"><%= I18n.l(t.messages[0].date) %> Uhr</time></details>
+  </header>
+
+  <% if t.messages[0].messages.length > 0 %>
+  <% message_tree(t, t.messages[0].messages) %>
+  <% end %>
+
+</article>
+<% end %>
