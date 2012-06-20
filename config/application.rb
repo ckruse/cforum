@@ -64,5 +64,11 @@ module Cforum
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Mongo db configuration
+    db_config = YAML.load_file(Rails.root.jin("config", "database.yml"))[Rails.env]
+    config.database_host = db_config["host"
+    config.database_port = db_config["port"]
+    config.database_name = db_config["name"]
   end
 end
