@@ -1,14 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Cforum</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <title>SELFHTML Threadlist</title>
 
-<%= yield %>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
-</body>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+    <header>
+      <h1><a title="SELFHTML-Forum" href="http://forum.de.selfhtml.org/my/">SELFHTML Forum</a></h1>
+      <p>Das Forum zu SELFHTML</p>
+    </header>
+
+    <div id="main">
+      <%= yield %>
+    </div>
+
+    <nav id="navigation">
+      <ul>
+        <li><a href="">Neuer Thread</a></li>
+        <li><a href="">Anmelden</a></li>
+      </ul>
+    </nav>
+
+  </body>
 </html>
