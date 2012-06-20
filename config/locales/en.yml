@@ -2,4 +2,13 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  layouts:
+    application:
+      new_thread: New thread
+      register: Register
+      welcome_message: Welcome to our new forum.
+      forum_name: cforum Forum
+      title: cforum Forum
+  threads:
+    index:
+      by: "by"
