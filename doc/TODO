@@ -1,0 +1,5 @@
+TODO
+
+- We should use "created_at" and "updated_at" instate of "date"
+- We should have a Settings model in the database for stuff like forum title, welcome message, etc.
+- We should write translations from the beginning, at least english and german
