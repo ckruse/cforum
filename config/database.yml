@@ -1,0 +1,20 @@
+# database config file
+
+development:
+    adapter: mongodb
+    host: localhost
+    port: 27017
+    name: cforum-development
+
+test:
+    adapter: mongodb
+    host: localhost
+    port: 27017
+    name: cforum-test
+
+production:
+    adapter: mongodb
+    host: localhost
+    port: 27017
+    name: cforum-production
+
