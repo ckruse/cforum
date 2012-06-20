@@ -23,8 +23,8 @@
 
     <nav id="navigation">
       <ul>
-        <li><a href=""><%= t "new_thread" %></a></li>
-        <li><a href=""><%= t "register" %></a></li>
+        <li><%= link_to t("new_thread"), new_thread_path %></li>
+        <li><%= link_to t("register"), root_path %></li>
       </ul>
     </nav>
 
