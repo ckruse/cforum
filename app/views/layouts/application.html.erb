@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>SELFHTML Threadlist</title>
+    <title>cforum Threadlist</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -13,8 +13,8 @@
 
   <body>
     <header>
-      <h1><a title="SELFHTML-Forum" href="http://forum.de.selfhtml.org/my/">SELFHTML Forum</a></h1>
-      <p>Das Forum zu SELFHTML</p>
+      <h1><%= link_to "cforum Forum", root_path %></h1>
+      <p><%= t "welcome_message" %></p>
     </header>
 
     <div id="main">
@@ -23,8 +23,8 @@
 
     <nav id="navigation">
       <ul>
-        <li><a href="">Neuer Thread</a></li>
-        <li><a href="">Anmelden</a></li>
+        <li><a href=""><%= t "new_thread" %></a></li>
+        <li><a href=""><%= t "register" %></a></li>
       </ul>
     </nav>
 
