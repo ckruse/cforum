@@ -1,7 +1,18 @@
 TODO
 
+- Rename Thread.messages to Thread.message and it should no longer be an array
+
 - We should use "created_at" and "updated_at" instate of "date"
+  I don't think we need „updated_at“. Hm, well, maybe as a shortcut so we don't have to iterate over all messages /ck
+
 - We should have a Settings model in the database for stuff like forum title, welcome message, etc.
-- We should write translations from the beginning, at least english and german
-- make it possible to make a new thread
+  So you want settings in the database? /ck
+
 - we should have categories as a object in the database (or is it relational db thinking?)
+  no, we shouldn't. Categories are free text, also with the current cforum. /ck
+
+
+- We should write translations from the beginning, at least english and german
+- make it possible to create a new thread
+
+
