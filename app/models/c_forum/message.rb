@@ -5,8 +5,9 @@ module CForum
     key :id, String
     key :subject, String
     key :category, String
-    key :date, Time
     key :content, String
+
+    timestamps!
 
     key :flags, Hash
 

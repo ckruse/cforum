@@ -23,11 +23,14 @@ end
 
 
 def handle_messages(cont, x_msg)
+  the_date = Time.at(x_msg.find_first('./Header/Date')['longSec'].force_encoding('utf-8').to_i)
+
   msg = CForum::Message.new(
     :id => x_msg['id'].gsub(/^m/, ''),
     :author => CForum::Author.new(:name => x_msg.find_first('./Header/Author/Name').content.force_encoding('utf-8')),
     :subject => x_msg.find_first('./Header/Subject').content.force_encoding('utf-8'),
-    :date => Time.at(x_msg.find_first('./Header/Date')['longSec'].force_encoding('utf-8').to_i),
+    :created_at => the_date,
+    :updated_at => the_date,
     :flags => {
       :votingGood => x_msg['votingGood'].to_s,
       :votingBad => x_msg['votingBad'].to_s,
@@ -72,13 +75,14 @@ def handle_doc(doc)
   x_thread = doc.find_first('/Forum/Thread')
 
   thread = CForum::Thread.new(
-    :tid => x_thread['id'].force_encoding('utf-8'),
-    :messages => []
+    :tid => x_thread['id'].force_encoding('utf-8')
   )
 
+  messages = []
   x_thread.find('./Message').each do |m|
-    handle_messages(thread.messages, m)
+    handle_messages(messages, m)
   end
+  thread.message = messages[0] # a thread can only contain one message
 
   thread
 end
@@ -119,9 +123,9 @@ def to_uri(s)
 end
 
 def thread_id(thread)
-  dt = thread.messages[0].date
+  dt = thread.message.created_at
   base_id = dt.strftime("/%Y/") + dt.strftime("%b").downcase + dt.strftime("/%d/")
-  subj = to_uri(thread.messages[0].subject)
+  subj = to_uri(thread.message.subject)
   num = 0
 
   begin

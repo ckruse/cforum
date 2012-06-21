@@ -1,11 +1,5 @@
 TODO
 
-- Rename Thread.messages to Thread.message and it should no longer be an array
-
-- We should use "created_at" and "updated_at" instate of "date"
-  I don't think we need „updated_at“. Hm, well, maybe as a shortcut so we don't have to iterate over all messages /ck
-  I think it would be good to indicate when the user changed the message the last time if she did /jp
-
 - We should have a Settings model in the database for stuff like forum title, welcome message, etc.
   So you want settings in the database? /ck
   Yes so the admin can change them easily /jp
