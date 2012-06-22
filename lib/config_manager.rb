@@ -1,24 +1,29 @@
+# Caches the settings which are often used
+# When you use many workers the Rails.cache gets messed upp
+# therefor we use some manual timeout.
+
 class ConfigManager
+
   @@value_cache = {}
+
   def self.get_value(name, user=nil)
-    s = nil
+    setting = nil
 
     unless user.nil?
-      s = CForum::Setting.find(:user => user, :id => name)
+      setting = CForum::Setting.find(:user => user, :id => name)
     else
       if @@value_cache.has_key?(name) and @@value_cache[name][:expiry] > Time.now
-        s = @@value_cache[name][:value]
+        setting = @@value_cache[name][:value]
       else
-        s = CForum::Setting.find(:id => name)
+        setting = CForum::Setting.find(:id => name)
         @@value_cache[name] = {
           expiry: Time.now + 60,
-          value: s
+          value: setting
         }
       end
     end
 
-    s = s.value if s
-    s
+    setting.value if setting
   end
 end
 
