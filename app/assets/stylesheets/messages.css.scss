@@ -8,12 +8,17 @@ body[data-controller="messages"][data-action="new"] {
     display:inline-block;
     width:10%;
   }
-  label input {
+  label input, label select {
     width:50%;
   }
 
   label textarea {
     display:block;
     width:60%;
+    height:40em;
+  }
+
+  .form-actions {
+    margin-left:10em;
   }
 }
