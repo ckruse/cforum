@@ -1,6 +1,6 @@
 <% @threads.each do |thread| %>
 <article class="thread-tree">
-  <%= render :partial => 'thread_header', :locals => {thread: thread, :msg => thread.message, :first => true} %>
+  <%= render :partial => 'messages/message_header', :locals => {thread: thread, :msg => thread.message, :first => true} %>
 
   <% unless thread.message.messages.blank? %>
     <%= render :partial => 'thread_tree', :locals => {thread: thread} %>

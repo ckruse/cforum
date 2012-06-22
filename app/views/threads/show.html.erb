@@ -2,7 +2,7 @@
   <ol class="answers">
     <% messages.each do |m| %>
     <li>
-      <%= render :partial => 'thread_header', :locals => {thread: thread, msg: m, first: false} %>
+      <%= render :partial => 'messages/message_header', :locals => {thread: thread, msg: m, first: false} %>
 
       <div class="content">
         <%= m.content %>
@@ -17,7 +17,7 @@
 <% end %>
 
 <article class="thread">
-  <%= render :partial => 'thread_header', :locals => {thread: @thread, msg: @thread.message, :first => true} %>
+  <%= render :partial => 'messages/message_header', :locals => {thread: @thread, msg: @thread.message, :first => true} %>
 
   <div class="content">
     <%= @thread.message.content %>
