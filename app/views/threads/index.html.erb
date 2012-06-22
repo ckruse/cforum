@@ -3,7 +3,7 @@
   <%= render :partial => 'messages/message_header', :locals => {thread: thread, :msg => thread.message, :first => true} %>
 
   <% unless thread.message.messages.blank? %>
-    <%= render :partial => 'thread_tree', :locals => {thread: thread} %>
+    <%= render :partial => 'thread_tree', :locals => {thread: thread, messages: thread.message.messages} %>
   <% end %>
 </article>
 <% end %>
