@@ -1,0 +1,19 @@
+<fieldset>
+  <legend><%= t('threads.new.new_thread') %></legend>
+
+  <label for="subject"><span>Subject:</span> <input type="text" name="thread[subject]" id="subject"></label>
+  <label for="category"><span>Category:</span> <select name="thread[category]" id="category">
+      <% @categories.each do |cat| %><option value="<%= cat %>"><%= cat %></option><% end %>
+    </select></label>
+  <label for="name"><span>Name:</span> <input type="text" name="thread[author][name]" id="name"></label>
+  <label for="email"><span>Email:</span> <input type="text" name="thread[author][email]" id="email"></label>
+  <label for="homepage"><span>Homepage:</span> <input type="text" name="thread[author][homepage]" id="homepage"></label>
+
+  <label for="content"><span>Content:</span>
+    <textarea name="thread[content]"></textarea>
+  </label>
+</fieldset>
+
+<p class="form-actions">
+  <input type="submit" value="Post message">
+</p>
