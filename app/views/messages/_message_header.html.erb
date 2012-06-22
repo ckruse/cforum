@@ -1,10 +1,15 @@
   <header>
-    <p class="category"><%= msg.category %></p>
-    <% if first %><h2><%= link_to msg.subject, message_path(thread, msg) %></a></h2>
-    <% else %><h3><%= link_to msg.subject, message_path(thread, msg) %></a></h3>
+    <p class="category"><%= message.category %></p>
+
+    <% if first %>
+      <h2><%= link_to message.subject, message_path(thread, msg) %></h2>
+    <% else %>
+      <h3><%= link_to message.subject, message_path(thread, msg) %></h3>
     <% end %>
+
     <details>
-      <%= t("by") %> <%= msg.author.user ? link_to(msg.author.name, user_path(msg.author.user)) : msg.author.name %>,
-        <time datetime="<%= msg.created_at.to_s %>"><%= I18n.l(msg.created_at) %></time>
+      <%= t("by") %>
+      <%= message.author.user ? link_to(message.author.name, user_path(message.author.user)) : message.author.name %>,
+      <time datetime="<%= message.created_at.to_s %>"><%= I18n.l(message.created_at) %></time>
     </details>
   </header>
