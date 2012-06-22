@@ -9,8 +9,16 @@ en:
       welcome_message: Welcome to our new forum.
       forum_name: Classic Forum
       title: Classic Forum
+
   threads:
     new:
       new_thread: New Thread
+      subject: Subject
+      category: Category
+      name: Name
+      email: Email
+      homepage: Homepage
+      content: Content
+
     index:
       by: "by"

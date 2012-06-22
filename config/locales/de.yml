@@ -6,8 +6,16 @@ de:
       welcome_message: Willkommen im neuen Forum
       forum_name: Classic Forum
       title: Classic Forum
+
   threads:
     new:
       new_thread: New Thread
+      subject: Betreff
+      category: Kategorie
+      name: Name
+      email: Email
+      homepage: Homepage
+      content: Inhalt
+
     index:
       by: von

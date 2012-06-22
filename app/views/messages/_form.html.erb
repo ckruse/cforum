@@ -1,15 +1,15 @@
 <fieldset>
   <legend><%= t('threads.new.new_thread') %></legend>
 
-  <label for="subject"><span>Subject:</span> <input type="text" name="thread[subject]" id="subject"></label>
-  <label for="category"><span>Category:</span> <select name="thread[category]" id="category">
+  <label for="subject"><span><%= t("threads.new.subject") %>:</span> <input type="text" name="thread[subject]" id="subject"></label>
+  <label for="category"><span><%= t("threads.new.category") %>:</span> <select name="thread[category]" id="category">
       <% @categories.each do |cat| %><option value="<%= cat %>"><%= cat %></option><% end %>
     </select></label>
-  <label for="name"><span>Name:</span> <input type="text" name="thread[author][name]" id="name"></label>
-  <label for="email"><span>Email:</span> <input type="text" name="thread[author][email]" id="email"></label>
-  <label for="homepage"><span>Homepage:</span> <input type="text" name="thread[author][homepage]" id="homepage"></label>
+  <label for="name"><span><%= t("threads.new.name") %>:</span> <input type="text" name="thread[author][name]" id="name"></label>
+  <label for="email"><span><%= t("threads.new.email") %>:</span> <input type="text" name="thread[author][email]" id="email"></label>
+  <label for="homepage"><span><%= t("threads.new.homepage") %>:</span> <input type="text" name="thread[author][homepage]" id="homepage"></label>
 
-  <label for="content"><span>Content:</span>
+  <label for="content"><span><%= t("threads.new.content") %>:</span>
     <textarea name="thread[content]"></textarea>
   </label>
 </fieldset>
