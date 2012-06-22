@@ -2,5 +2,18 @@ body[data-controller="threads"][data-action="new"],
 body[data-controller="messages"][data-action="new"] {
   label {
     display:block;
+    margin-bottom:5px;
+  }
+  label span {
+    display:inline-block;
+    width:10%;
+  }
+  label input {
+    width:50%;
+  }
+
+  label textarea {
+    display:block;
+    width:60%;
   }
 }
