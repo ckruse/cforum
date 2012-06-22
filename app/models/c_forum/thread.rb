@@ -13,9 +13,10 @@ module CForum
       msg = message if msg.nil?
       return msg if msg.id == mid
 
-      unless messages.blank?
-        messages.each do |m|
-          return found if found = find_message(mid, m)
+      unless msg.messages.blank?
+        msg.messages.each do |m|
+          found = find_message(mid, m)
+          return found if found
         end
       end
     end
