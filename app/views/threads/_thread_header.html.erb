@@ -1,0 +1,10 @@
+  <header>
+    <p class="category"><%= msg.category %></p>
+    <% if first %><h2><%= link_to msg.subject, message_path(thread, msg) %></a></h2>
+    <% else %><h3><%= link_to msg.subject, message_path(thread, msg) %></a></h3>
+    <% end %>
+    <details>
+      <%= t("by") %> <%= msg.author.user ? link_to(msg.author.name, user_path(msg.author.user)) : msg.author.name %>,
+        <time datetime="<%= msg.created_at.to_s %>"><%= I18n.l(msg.created_at) %></time>
+    </details>
+  </header>

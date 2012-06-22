@@ -1,38 +1,9 @@
-<% def message_tree(thread, messages) %>
-  <ol>
-    <% messages.each do |message| %>
-    <li>
-      <header>
-        <p class="category"><%= message.category %></p>
-        <h3><%= link_to message.subject, message_path(thread, message) %></h3>
-        <details open>
-          <%= t("by") %> <%= message.author.user ? link_to(message.author.name, user_path(message.author.user)) : message.author.name %>,
-          <time datetime="<%= message.created_at.to_s %>"><%= I18n.l(message.created_at) %></time>
-        </details>
-      </header>
-
-      <% unless message.messages.blank?
-        message_tree(thread, message.messages)
-      end %>
-    </li>
-    <% end %>
-  </ol>
-<% end %>
-
 <% @threads.each do |thread| %>
-  <article class="thread">
-    <header>
-      <p class="category"><%= thread.message.category %></p>
-      <h2><%= link_to thread.message.subject, message_path(thread, thread.message) %></a></h2>
-      <details>
-        <%= t("by") %> <%= thread.message.author.user ? link_to(thread.message.author.name, user_path(thread.message.author.user)) : thread.message.author.name %>,
-          <time datetime="<%= thread.message.created_at.to_s %>"><%= I18n.l(thread.message.created_at) %></time>
-      </details>
-    </header>
+<article class="thread-tree">
+  <%= render :partial => 'thread_header', :locals => {thread: thread, :msg => thread.message, :first => true} %>
 
-    <% unless thread.message.messages.blank? %>
-      <% message_tree(thread, thread.message.messages) %>
-    <% end %>
-
-  </article>
+  <% unless thread.message.messages.blank? %>
+    <%= render :partial => 'thread_tree', :locals => {thread: thread} %>
+  <% end %>
+</article>
 <% end %>

@@ -7,7 +7,9 @@ class ThreadsController < ApplicationController
     end
   end
 
-  def view
+  def show
+    @id = '/' + params[:year] + '/' + params[:mon] + '/' + params[:day] + '/' + params[:tid]
+    @thread = CForum::Thread.find_by_id(@id)
   end
 
   def create

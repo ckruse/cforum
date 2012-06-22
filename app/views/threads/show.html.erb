@@ -1,0 +1,29 @@
+<% def whole_thread(thread, messages) %>
+  <ol class="answers">
+    <% messages.each do |m| %>
+    <li>
+      <%= render :partial => 'thread_header', :locals => {thread: thread, msg: m, first: false} %>
+
+      <div class="content">
+        <%= m.content %>
+      </div>
+
+      <% unless m.messages.blank?
+        whole_thread(thread, m.messages)
+      end %>
+    </li>
+    <% end %>
+  </ol>
+<% end %>
+
+<article class="thread">
+  <%= render :partial => 'thread_header', :locals => {thread: @thread, msg: @thread.message, :first => true} %>
+
+  <div class="content">
+    <%= @thread.message.content %>
+  </div>
+
+  <% unless @thread.message.messages.blank? %>
+    <% whole_thread(@thread, @thread.message.messages) %>
+  <% end %>
+</article>
