@@ -1,5 +1,16 @@
 class ThreadsController < ApplicationController
   def index
+    if params[:t]
+      thread = CForum::Thread.find_by_tid("t" + params[:t])
+      if thread
+        if params[:m] && message = thread.find_message(params[:m])
+          return redirect_to message_path(thread, message)
+        else
+          return redirect_to thread_path(thread)
+        end
+      end
+    end
+
     if ConfigManager.get_value('use_archive')
       @threads = CForum::Thread.where(archived: false).order('message.created_at').all
     else
