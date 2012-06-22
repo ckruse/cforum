@@ -26,6 +26,7 @@ class ThreadsController < ApplicationController
   def new
     @thread = CForum::Thread.new
     @thread.message = CForum::Message.new
+    @categories = ConfigManager.get_value('categories', [])
 
     render :template => 'messages/new'
   end
