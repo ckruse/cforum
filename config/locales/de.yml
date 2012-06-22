@@ -1,0 +1,11 @@
+en:
+  layouts:
+    application:
+      new_thread: Neuer Thread
+      register: Registrieren
+      welcome_message: Willkommen im neuen Forum
+      forum_name: Classic Forum
+      title: Classic Forum
+  threads:
+    index:
+      by: von

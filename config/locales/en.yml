@@ -7,8 +7,8 @@ en:
       new_thread: New thread
       register: Register
       welcome_message: Welcome to our new forum.
-      forum_name: cforum Forum
-      title: cforum Forum
+      forum_name: Classic Forum
+      title: Classic Forum
   threads:
     index:
       by: "by"
