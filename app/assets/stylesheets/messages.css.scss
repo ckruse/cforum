@@ -1,0 +1,6 @@
+body[data-controller="threads"][data-action="new"],
+body[data-controller="messages"][data-action="new"] {
+  label {
+    display:block;
+  }
+}

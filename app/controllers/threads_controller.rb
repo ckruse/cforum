@@ -23,6 +23,13 @@ class ThreadsController < ApplicationController
     @thread = CForum::Thread.find_by_id(@id)
   end
 
+  def new
+    @thread = CForum::Thread.new
+    @thread.message = CForum::Message.new
+
+    render :template => 'messages/new'
+  end
+
   def create
   end
 

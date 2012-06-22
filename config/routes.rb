@@ -1,6 +1,7 @@
 Cforum::Application.routes.draw do
   root to: 'threads#index'
   match '/' => 'threads#create', :via => :put
+  match '/new' => 'threads#new'
   match '/:year/:mon/:day/:tid' => 'threads#show', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get
   match '/:year/:mon/:day/:tid' => 'threads#destroy', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :delete
 

@@ -10,5 +10,7 @@ en:
       forum_name: Classic Forum
       title: Classic Forum
   threads:
+    new:
+      new_thread: New Thread
     index:
       by: "by"
