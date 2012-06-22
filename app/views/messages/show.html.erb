@@ -1,0 +1,12 @@
+<article class="message">
+  <%= render :partial => 'message_header', :locals => {thread: @thread, msg: @message, :first => true} %>
+
+  <div class="content">
+    <%= @message.content %>
+  </div>
+
+  <% unless @message.messages.blank? %>
+  <%= render :partial => 'threads/thread_tree', :locals => {thread: @thread, messages: @message.messages } %>
+  <% end %>
+
+</article>
