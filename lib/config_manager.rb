@@ -6,7 +6,7 @@ class ConfigManager
 
   @@value_cache = {}
 
-  def self.get_value(name, user=nil)
+  def self.get_value(name, default = nil, user = nil)
     setting = nil
 
     unless user.nil?
@@ -24,7 +24,9 @@ class ConfigManager
       end
     end
 
-    setting.value if setting
+    ret = default
+    ret = setting.value if setting
+    ret
   end
 end
 
