@@ -2,7 +2,7 @@
   <ol>
     <% messages.each do |message| %>
     <li>
-      <%= render :partial => 'thread_header', :locals => {thread: thread, msg: message, first: false} %>
+      <%= render :partial => 'messages/message_header', :locals => {thread: thread, msg: message, first: false} %>
 
       <% unless message.messages.blank?
         message_tree(thread, message.messages)
