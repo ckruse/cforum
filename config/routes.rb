@@ -1,10 +1,10 @@
 Cforum::Application.routes.draw do
   root to: 'threads#index'
   match '/' => 'threads#create', :via => :put
-  match '/:year/:mon/:day/:tid' => 'threads#view', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get
+  match '/:year/:mon/:day/:tid' => 'threads#show', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get
   match '/:year/:mon/:day/:tid' => 'threads#destroy', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :delete
 
-  match '/:year/:mon/:day/:tid/:mid' => 'messages#view', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get
+  match '/:year/:mon/:day/:tid/:mid' => 'messages#show', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get
   match '/:year/:mon/:day/:tid/:mid' => 'messages#update', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :put
   match '/:year/:mon/:day/:tid/:mid' => 'messages#destroy', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :delete
   match '/:year/:mon/:day/:tid' => 'messages#create', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :put
