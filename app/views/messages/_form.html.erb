@@ -4,10 +4,14 @@
         <%= f.label :subject %>
         <%= f.text_field :subject %>
     </p>
-    <p>
-        <%= f.label :category %>
-        <%= f.text_field :category %>
-    </p>
+
+    <% unless @categories.blank? %>
+        <p>
+            <%= f.label :category %>
+            <%= f.select :category, @categories %>
+        </p>
+    <% end %>
+    
 </fieldset>
 
 <%= f.fields_for f.object.author do |builder| %>

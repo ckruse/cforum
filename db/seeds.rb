@@ -5,3 +5,13 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+CForum::Setting.create!(
+  _id: 'categories',
+  value: %w[
+    CATEGORY1
+    CATEGORY2
+    CATEGORY3
+    CATEGORY4
+  ]
+)

@@ -31,6 +31,7 @@ class ThreadsController < ApplicationController
     @thread = CForum::Thread.new
     @thread.message = CForum::Message.new
     @thread.message.author = CForum::Author.new
+    @categories = ConfigManager.get_value('categories', [])
   end
 
   def create
