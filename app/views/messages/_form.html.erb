@@ -1,24 +1,24 @@
 <fieldset>
-    <legend><%= t ".meta_information" %></legend>
-    <p>
-        <%= f.label :subject %>
-        <%= f.text_field :subject %>
-    </p>
+  <legend><%= t ".meta_information" %></legend>
+  <p>
+    <%= f.label :subject %>
+    <%= f.text_field :subject %>
+  </p>
 
-    <% unless @categories.blank? %>
-        <p>
-            <%= f.label :category %>
-            <%= f.select :category, @categories %>
-        </p>
-    <% end %>
-    
+  <% unless @categories.blank? %>
+    <p>
+      <%= f.label :category %>
+      <%= f.select :category, @categories %>
+    </p>
+  <% end %>
+
 </fieldset>
 
 <%= f.fields_for f.object.author do |builder| %>
-    <%= render "messages/author_fields", f: builder %>
+  <%= render "messages/author_fields", f: builder %>
 <% end %>
 
 <fieldset>
-    <legend><%= t ".content" %></legend>
-    <%= f.text_area :content %>
+  <legend><%= t ".content" %></legend>
+  <%= f.text_area :content %>
 </fieldset>
