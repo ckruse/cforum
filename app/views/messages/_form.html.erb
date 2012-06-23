@@ -1,0 +1,20 @@
+<fieldset>
+    <legend><%= t ".meta_information" %></legend>
+    <p>
+        <%= f.label :subject %>
+        <%= f.text_field :subject %>
+    </p>
+    <p>
+        <%= f.label :category %>
+        <%= f.text_field :category %>
+    </p>
+</fieldset>
+
+<%= f.fields_for f.object.author do |builder| %>
+    <%= render "messages/author_fields", f: builder %>
+<% end %>
+
+<fieldset>
+    <legend><%= t ".content" %></legend>
+    <%= f.text_area :content %>
+</fieldset>
