@@ -1,15 +1,14 @@
 TODO
 
-- We should have a Settings model in the database for stuff like forum title, welcome message, etc.
-  So you want settings in the database? /ck
-  Yes so the admin can change them easily /jp
-
 - we should have categories as a object in the database (or is it relational db thinking?)
   no, we shouldn't. Categories are free text, also with the current cforum. /ck
   So how do you get a list of categories? /jp
 
-
-- We should write translations from the beginning, at least english and german
 - make it possible to create a new thread
 
+- use scope for archived/not archived instead of querying in the controller index
 
+- use the form helpers instead of writing everything on your own
+
+- some funky stuff is going on with the routes, I think we should fix it without the match
+  lines, it fucks up everything which is good in rails, none of the helpers work anymore
