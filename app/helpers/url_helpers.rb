@@ -1,7 +1,11 @@
 module UrlHelpers
-  def threads_path
+
+  def threads_path(thread=nil)
     root_path
   end
+
+  alias :c_forum_threads_path :threads_path
+
   def thread_path(thread)
     thread.id
   end
@@ -11,7 +15,6 @@ module UrlHelpers
   def new_thread_path
     '/new'
   end
-
 
   def messages_path(thread)
     thread.id

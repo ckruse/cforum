@@ -19,21 +19,41 @@ class ThreadsController < ApplicationController
   end
 
   def show
-    @id = '/' + params[:year] + '/' + params[:mon] + '/' + params[:day] + '/' + params[:tid]
+    @id = make_id
     @thread = CForum::Thread.find_by_id(@id)
+  end
+
+  def edit
+    @thread = CForum::Thread.find_by_id(make_id)
   end
 
   def new
     @thread = CForum::Thread.new
     @thread.message = CForum::Message.new
-
-    render :template => 'messages/new'
+    @thread.message.author = CForum::Author.new
   end
 
   def create
+    @thread = CForum::Thread.new(params[:c_forum_thread])
+
+    respond_to do |format|
+      if @thread.save
+        format.html { redirect_to @thread, notice: 'Campaign was successfully created.' }
+        format.json { render json: @thread, status: :created, location: @thread }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @thread.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def destroy
+  end
+
+  private
+
+  def make_id
+    '/' + params[:year] + '/' + params[:mon] + '/' + params[:day] + '/' + params[:tid]
   end
 end
 
