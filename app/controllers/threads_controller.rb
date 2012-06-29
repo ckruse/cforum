@@ -5,7 +5,7 @@ class ThreadsController < ApplicationController
 
   def index
     if params[:t]
-      thread = CForum::Thread.find_by_tid("t" + params[:t])
+      thread = CfThread.find_by_tid("t" + params[:t])
 
       if thread
         if params[:m] && message = thread.find_message(params[:m])
@@ -17,9 +17,9 @@ class ThreadsController < ApplicationController
     end
 
     if ConfigManager.setting('use_archive')
-      @threads = CForum::Thread.where(archived: false).order('message.created_at' => -1).all
+      @threads = CfThread.where(archived: false).order('message.created_at' => -1).all
     else
-      @threads = CForum::Thread.order('message.created_at' => -1).limit(ConfigManager.setting('pagination') || 10)
+      @threads = CfThread.order('message.created_at' => -1).limit(ConfigManager.setting('pagination') || 10)
     end
 
     notification_center.notify(SHOW_THREADLIST, @threads)
@@ -27,27 +27,27 @@ class ThreadsController < ApplicationController
 
   def show
     @id = make_id
-    @thread = CForum::Thread.find_by_id(@id)
+    @thread = CfThread.find_by_id(@id)
 
     notification_center.notify(SHOW_THREAD, @thread)
   end
 
   def edit
     @id = make_id
-    @thread = CForum::Thread.find_by_id(@id)
+    @thread = CfThread.find_by_id(@id)
   end
 
   def new
-    @thread = CForum::Thread.new
-    @thread.message = CForum::Message.new
-    @thread.message.author = CForum::Author.new
+    @thread = CfThread.new
+    @thread.message = CfMessage.new
+    @thread.message.author = CfAuthor.new
     @categories = ConfigManager.setting('categories', [])
 
     notification_center.notify(SHOW_NEW_THREAD, @thread)
   end
 
   def create
-    @thread = CForum::Thread.new(params[:c_forum_thread])
+    @thread = CfThread.new(params[:cf_thread])
 
     respond_to do |format|
       if @thread.save

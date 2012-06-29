@@ -25,9 +25,9 @@ end
 def handle_messages(cont, x_msg)
   the_date = Time.at(x_msg.find_first('./Header/Date')['longSec'].force_encoding('utf-8').to_i)
 
-  msg = CForum::Message.new(
+  msg = CfMessage.new(
     :id => x_msg['id'].gsub(/^m/, ''),
-    :author => CForum::Author.new(:name => x_msg.find_first('./Header/Author/Name').content.force_encoding('utf-8')),
+    :author => CfAuthor.new(:name => x_msg.find_first('./Header/Author/Name').content.force_encoding('utf-8')),
     :subject => x_msg.find_first('./Header/Subject').content.force_encoding('utf-8'),
     :created_at => the_date,
     :updated_at => the_date,
@@ -52,9 +52,9 @@ def handle_messages(cont, x_msg)
     if f['name'] == 'UserName' then
       uname = f.content.force_encoding('utf-8')
 
-      usr = CForum::User.find_by_username(uname)
+      usr = CfUser.find_by_username(uname)
       if !usr then
-        usr = CForum::User.new(:username => uname)
+        usr = CfUser.new(:username => uname)
         usr.save
       end
 
@@ -74,7 +74,7 @@ end
 def handle_doc(doc)
   x_thread = doc.find_first('/Forum/Thread')
 
-  thread = CForum::Thread.new(
+  thread = CfThread.new(
     :tid => x_thread['id'].force_encoding('utf-8')
   )
 

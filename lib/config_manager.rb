@@ -10,7 +10,7 @@ class ConfigManager
     ret = default
 
     unless user.nil?
-      usr = CForum::User.find_by_username(user)
+      usr = CfUser.find_by_username(user)
       ret = usr.settings[name] if usr and usr.settings[name]
     else
       setting = nil
@@ -18,7 +18,7 @@ class ConfigManager
       if @@value_cache.has_key?(name) and @@value_cache[name][:expiry] > Time.now
         setting = @@value_cache[name][:value]
       else
-        setting = CForum::Setting.find_by_id(name)
+        setting = CfSetting.find_by_id(name)
         @@value_cache[name] = {
           expiry: Time.now + 60,
           value: setting
