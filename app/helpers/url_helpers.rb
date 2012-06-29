@@ -25,8 +25,8 @@ module UrlHelpers
   def edit_message_path(thread, message)
     thread.id + "/" + message.id + "/edit"
   end
-  def new_message_path(thread)
-    thread.id + "/new"
+  def new_message_path(thread, message)
+    thread.id + "/" + message.id + "/new"
   end
 
 end
