@@ -402,5 +402,5 @@ Rails.application.config.sorcery.configure do |config|
 
   # This line must come after the 'user config' block.
   # Define which model authenticates with sorcery.
-  config.user_class = "CForum::User"
+  config.user_class = "CfUser"
 end
