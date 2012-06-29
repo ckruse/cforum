@@ -20,5 +20,5 @@ en:
       homepage: Homepage
       content: Content
 
-    index:
-      by: "by"
+  messages:
+    by: "by"

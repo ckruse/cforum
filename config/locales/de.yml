@@ -17,5 +17,5 @@ de:
       homepage: Homepage
       content: Inhalt
 
-    index:
-      by: von
+  messages:
+    by: von
