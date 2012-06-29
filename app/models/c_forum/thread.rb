@@ -19,6 +19,8 @@ module CForum
           return found if found
         end
       end
+
+      nil
     end
   end
 end
