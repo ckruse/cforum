@@ -52,7 +52,7 @@ def handle_messages(cont, x_msg)
     if f['name'] == 'UserName' then
       uname = f.content.force_encoding('utf-8')
 
-      usr = CForum::User.find(username: uname)
+      usr = CForum::User.find_by_username(uname)
       if !usr then
         usr = CForum::User.new(:username => uname)
         usr.save
