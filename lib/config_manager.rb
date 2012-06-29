@@ -6,13 +6,15 @@ class ConfigManager
 
   @@value_cache = {}
 
-  def self.get_setting(name, default = nil, user = nil)
-    setting = nil
+  def self.setting(name, default = nil, user = nil)
+    ret = default
 
     unless user.nil?
-      usr = CForum::User.find_by_id(user)
-      setting = usr.settings[name] if usr and usr.settings[name]
+      usr = CForum::User.find_by_username(user)
+      ret = usr.settings[name] if usr and usr.settings[name]
     else
+      setting = nil
+
       if @@value_cache.has_key?(name) and @@value_cache[name][:expiry] > Time.now
         setting = @@value_cache[name][:value]
       else
@@ -21,12 +23,16 @@ class ConfigManager
           expiry: Time.now + 60,
           value: setting
         }
+
+        ret = setting.value if setting
       end
     end
 
-    ret = default
-    ret = setting.value if setting
     ret
+  end
+
+  def self.user_setting(user, setting)
+    self.get_setting(setting, nil, user)
   end
 end
 
