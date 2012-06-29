@@ -2,6 +2,13 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  users:
+    signed_up: Signed up!
+
+    new:
+      form_invalid: The Form is invalid!
+      passwords_do_not_match: Password and its confirmation do not match!
+
   layouts:
     application:
       new_thread: New thread

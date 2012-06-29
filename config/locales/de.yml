@@ -1,4 +1,11 @@
 de:
+  users:
+    signed_up: Benutzer erfolgreich erstellt!
+
+    new:
+      form_invalid: Das Formular ist fehlerhaft!
+      passwords_do_not_match: Die Passwörter stimmen nicht überein!
+
   layouts:
     application:
       new_thread: Neuer Thread
