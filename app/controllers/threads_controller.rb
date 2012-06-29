@@ -1,4 +1,8 @@
 class ThreadsController < ApplicationController
+  SHOW_THREADLIST = "show_threadlist"
+  SHOW_THREAD = "show_thread"
+  SHOW_NEW_THREAD = "new_thread"
+
   def index
     if params[:t]
       thread = CForum::Thread.find_by_tid("t" + params[:t])
@@ -17,11 +21,15 @@ class ThreadsController < ApplicationController
     else
       @threads = CForum::Thread.order('message.created_at' => -1).limit(ConfigManager.setting('pagination') || 10)
     end
+
+    notification_center.notify(SHOW_THREADLIST, @threads)
   end
 
   def show
     @id = make_id
     @thread = CForum::Thread.find_by_id(@id)
+
+    notification_center.notify(SHOW_THREAD, @thread)
   end
 
   def edit
@@ -35,11 +43,7 @@ class ThreadsController < ApplicationController
     @thread.message.author = CForum::Author.new
     @categories = ConfigManager.setting('categories', [])
 
-    if usr = current_user
-      @thread.message.author.name = usr.settings['name']
-      @thread.message.author.email = usr.settings['email']
-      @thread.message.author.homepage = usr.settings['homepage']
-    end
+    notification_center.notify(SHOW_NEW_THREAD, @thread)
   end
 
   def create
