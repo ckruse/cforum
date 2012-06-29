@@ -1,10 +1,7 @@
 TODO
 
-- we should have categories as a object in the database (or is it relational db thinking?)
-  no, we shouldn't. Categories are free text, also with the current cforum. /ck
-  So how do you get a list of categories? /jp
-
-- make it possible to create a new thread
+- avoid duplicates when posting new messages
+- avoid duplicates when posting new threads
 
 - use scope for archived/not archived instead of querying in the controller index
 
