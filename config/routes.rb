@@ -13,6 +13,8 @@ Cforum::Application.routes.draw do
 
   resources :users
 
+  match '/login' => 'application#login_from_http_basic'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
