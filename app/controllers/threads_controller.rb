@@ -12,7 +12,7 @@ class ThreadsController < ApplicationController
     end
 
     if ConfigManager.get_setting('use_archive')
-      @threads = CForum::Thread.where(archived: false).order('message.created_at').all
+      @threads = CForum::Thread.where(archived: false).order('message.created_at' => -1).all
     else
       @threads = CForum::Thread.order('message.created_at' => -1).limit(ConfigManager.get_setting('pagination') || 10)
     end
