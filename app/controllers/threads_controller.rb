@@ -26,6 +26,10 @@ class ThreadsController < ApplicationController
       @threads = CfThread.order('message.created_at' => -1).limit(ConfigManager.setting('pagination') || 10)
     end
 
+    @threads.each do |t|
+      t.sort_tree
+    end
+
     notification_center.notify(SHOW_THREADLIST, @threads)
   end
 

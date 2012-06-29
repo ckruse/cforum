@@ -2,6 +2,7 @@ class MessagesController < ApplicationController
   def show
     @id = '/' + params[:year] + '/' + params[:mon] + '/' + params[:day] + '/' + params[:tid]
     @thread = CfThread.find_by_id(@id)
+    @thread.sort_tree
 
     @message = @thread.find_message(params[:mid]) if @thread
     raise CForum::NotFoundException.new if @thread.nil? or @message.nil?
@@ -10,6 +11,8 @@ class MessagesController < ApplicationController
   def new
     @id = '/' + params[:year] + '/' + params[:mon] + '/' + params[:day] + '/' + params[:tid]
     @thread = CfThread.find_by_id(@id)
+    @thread.sort_tree
+
     @parent = @thread.find_message(params[:mid]) if @thread
 
     raise CForum::NotFoundException.new if @thread.nil? or @parent.nil?
@@ -22,6 +25,8 @@ class MessagesController < ApplicationController
   def create
     @id = '/' + params[:year] + '/' + params[:mon] + '/' + params[:day] + '/' + params[:tid]
     @thread = CfThread.find_by_id(@id)
+    @thread.sort_tree
+
     @parent = @thread.find_message(params[:mid]) if @thread
 
     raise CForum::NotFoundException.new if @thread.nil? or @parent.nil?

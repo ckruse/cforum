@@ -21,6 +21,19 @@ class CfThread
 
     nil
   end
+
+  def sort_tree(msg = nil)
+    msg = message if msg.nil?
+
+    unless msg.messages.blank?
+      msg.messages.sort! {|a,b| b.created_at <=> a.created_at }
+
+      msg.messages.each do |m|
+        sort_tree(m)
+      end
+    end
+  end
+
 end
 
 # eof
