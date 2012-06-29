@@ -4,7 +4,7 @@ module UrlHelpers
     root_path
   end
 
-  alias :c_forum_threads_path :threads_path
+  alias :cf_threads_path :threads_path
 
   def thread_path(thread)
     thread.id

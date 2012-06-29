@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 class ThreadsController < ApplicationController
   before_filter :require_login, :only => [:edit, :destroy]
 
@@ -49,11 +51,16 @@ class ThreadsController < ApplicationController
   end
 
   def create
+    now = Time.now
+
     @thread = CfThread.new(params[:cf_thread])
+    @thread.id = to_id(@thread)
+    @thread.archived = false
+    @thread.message.id = 1
 
     respond_to do |format|
       if @thread.save
-        format.html { redirect_to @thread, notice: 'Campaign was successfully created.' }
+        format.html { redirect_to root_url, notice: 'Campaign was successfully created.' } # todo: redirect to new thread
         format.json { render json: @thread, status: :created, location: @thread }
       else
         format.html { render action: "new" }
@@ -69,6 +76,44 @@ class ThreadsController < ApplicationController
 
   def make_id
     '/' + params[:year] + '/' + params[:mon] + '/' + params[:day] + '/' + params[:tid]
+  end
+
+  TO_URI_MAP = [
+    {:rx => /[äÄ]/, :replacement => 'ae'},
+    {:rx => /[öÖ]/, :replacement => 'oe'},
+    {:rx => /[üÜ]/, :replacement => 'ue'},
+    {:rx => /ß/,    :replacement => 'ss'},
+    {:rx => /[ÀÁÂÃÅÆàáâãåæĀāĂăĄą]/, :replacement => 'a'},
+    {:rx => /[ÇçĆćĈĉĊċČč]/, :replacement => 'c'},
+    {:rx => /[ÐĎďĐđ]/, :replacement => 'd'},
+    {:rx => /[ÈÉÊËèéêëĒēĔĕĖėĘęĚě]/, :replacement => 'e'},
+    {:rx => /[ÌÍÎÏìíîï]/, :replacement => 'i'},
+    {:rx => /[Ññ]/, :replacement => 'n'},
+    {:rx => /[ÒÓÔÕ×Øòóôõø]/, :replacement => 'o'},
+    {:rx => /[ÙÚÛùúû]/, :replacement => 'u'},
+    {:rx => /[Ýýÿ]/, :replacement => 'y'}
+  ]
+  def to_id(thread)
+    now = Time.now
+    id = now.strftime("/%Y/") + now.strftime("%b").downcase + now.strftime("/%d/")
+
+    subject = thread.message.subject.tr(' ','-')
+    subject.downcase!
+
+    TO_URI_MAP.each do |map|
+      subject.gsub!(map[:rx], map[:replacement])
+    end
+
+
+    subject.gsub!(/[^a-zA-Z0-9.$%;,_*-]/,'-')
+
+    subject.gsub!(/-{2,}/,'-')
+    subject.gsub!(/-+$/,'')
+    subject.gsub!(/^-+/,'')
+
+    subject = subject[0..120]+"..." if subject.length > 120
+
+    id + subject
   end
 end
 
