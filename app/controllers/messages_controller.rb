@@ -29,8 +29,10 @@ class MessagesController < ApplicationController
     @message = CfMessage.new(params[:cf_message])
     @message.id = find_next_id() + 1
 
-    if @message.save
-      redirect_to message_path(@message), :notice => I18n.t('messages.new.created')
+    @parent.messages.push @message
+
+    if @thread.save
+      redirect_to message_path(@thread, @message), :notice => I18n.t('messages.new.created')
     else
       @categories = ConfigManager.setting('categories', [])
       render :new
