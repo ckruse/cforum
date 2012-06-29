@@ -23,9 +23,9 @@ class ConfigManager
           expiry: Time.now + 60,
           value: setting
         }
-
-        ret = setting.value if setting
       end
+
+      ret = setting.value if setting
     end
 
     ret
