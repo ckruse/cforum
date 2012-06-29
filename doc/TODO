@@ -2,6 +2,7 @@ TODO
 
 - avoid duplicates when posting new messages
 - avoid duplicates when posting new threads
+- sort messages
 
 - use scope for archived/not archived instead of querying in the controller index
 
