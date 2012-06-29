@@ -34,6 +34,12 @@ class ThreadsController < ApplicationController
     @thread.message = CForum::Message.new
     @thread.message.author = CForum::Author.new
     @categories = ConfigManager.setting('categories', [])
+
+    if usr = current_user
+      @thread.message.author.name = usr.settings['name']
+      @thread.message.author.email = usr.settings['email']
+      @thread.message.author.homepage = usr.settings['homepage']
+    end
   end
 
   def create
