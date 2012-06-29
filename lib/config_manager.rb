@@ -6,7 +6,7 @@ class ConfigManager
 
   @@value_cache = {}
 
-  def self.get_value(name, default = nil, user = nil)
+  def self.get_setting(name, default = nil, user = nil)
     setting = nil
 
     unless user.nil?

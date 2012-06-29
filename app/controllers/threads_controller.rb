@@ -11,10 +11,10 @@ class ThreadsController < ApplicationController
       end
     end
 
-    if ConfigManager.get_value('use_archive')
+    if ConfigManager.get_setting('use_archive')
       @threads = CForum::Thread.where(archived: false).order('message.created_at').all
     else
-      @threads = CForum::Thread.order('message.created_at' => -1).limit(ConfigManager.get_value('pagination') || 10)
+      @threads = CForum::Thread.order('message.created_at' => -1).limit(ConfigManager.get_setting('pagination') || 10)
     end
   end
 
@@ -31,7 +31,7 @@ class ThreadsController < ApplicationController
     @thread = CForum::Thread.new
     @thread.message = CForum::Message.new
     @thread.message.author = CForum::Author.new
-    @categories = ConfigManager.get_value('categories', [])
+    @categories = ConfigManager.get_setting('categories', [])
   end
 
   def create
