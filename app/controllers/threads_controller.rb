@@ -2,6 +2,7 @@ class ThreadsController < ApplicationController
   def index
     if params[:t]
       thread = CForum::Thread.find_by_tid("t" + params[:t])
+
       if thread
         if params[:m] && message = thread.find_message(params[:m])
           return redirect_to message_path(thread, message)
@@ -24,7 +25,8 @@ class ThreadsController < ApplicationController
   end
 
   def edit
-    @thread = CForum::Thread.find_by_id(make_id)
+    @id = make_id
+    @thread = CForum::Thread.find_by_id(@id)
   end
 
   def new
