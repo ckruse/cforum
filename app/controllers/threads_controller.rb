@@ -1,4 +1,6 @@
 class ThreadsController < ApplicationController
+  before_filter :require_login, :only => [:edit, :destroy]
+
   SHOW_THREADLIST = "show_threadlist"
   SHOW_THREAD = "show_thread"
   SHOW_NEW_THREAD = "new_thread"

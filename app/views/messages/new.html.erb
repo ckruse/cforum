@@ -1,3 +1,19 @@
-<%= form_tag new_thread_path do %>
-<%= render :partial => 'messages/form' %>
+<%= form_for @message, :url => new_message_path(@thread, @parent), :method => :put do |f| %>
+  <% if @message.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@message.errors.count, "error") %> prohibited this thread from being saved:</h2>
+
+      <ul>
+      <% @message.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= render "form", f: f %>
+
+  <p>
+    <%= f.submit %>
+  </p>
 <% end %>

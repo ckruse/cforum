@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <%= f.fields_for f.object.message do |builder| %>
+  <%= f.fields_for :message, f.object.message do |builder| %>
     <%= render "messages/form", f: builder %>
   <% end %>
 
