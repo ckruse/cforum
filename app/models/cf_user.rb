@@ -21,6 +21,7 @@ class CfUser
   key :last_logout_at, Time
 
   key :settings, Hash
+  key :storage, Hash
 end
 
 # eof
