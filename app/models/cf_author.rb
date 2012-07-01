@@ -11,5 +11,5 @@ class CfAuthor
   belongs_to :user, :class_name => 'CfUser'
 
   validates :name, :presence => true, :length => { :in => 2..60 }
-  validates :email, :presence => true, :email => true
+  validates :email, :email => true
 end
