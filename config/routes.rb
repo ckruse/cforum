@@ -1,15 +1,18 @@
 Cforum::Application.routes.draw do
   root to: 'cf_threads#index'
 
+  # thread urls
   match '/' => 'cf_threads#create', :via => :post
   match '/new' => 'cf_threads#new', :via => :get, as: 'new_cf_thread'
   match '/:year/:mon/:day/:tid' => 'cf_threads#show', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get, as: 'cf_thread'
   match '/:year/:mon/:day/:tid' => 'cf_threads#destroy', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :delete
 
+  # message urls
   match '/:year/:mon/:day/:tid/:mid' => 'cf_messages#show', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get, as: 'cf_message'
   match '/:year/:mon/:day/:tid/:mid/edit' => 'cf_messages#edit', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :put, as: 'edit_cf_message'
   match '/:year/:mon/:day/:tid/:mid' => 'cf_messages#update', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :put
   match '/:year/:mon/:day/:tid/:mid' => 'cf_messages#destroy', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :delete
+
   match '/:year/:mon/:day/:tid/:mid/new' => 'cf_messages#new', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get, as: 'new_cf_message'
   match '/:year/:mon/:day/:tid/:mid' => 'cf_messages#create', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :post
 
