@@ -1,6 +1,4 @@
 Cforum::Application.routes.draw do
-  root to: 'cf_threads#index'
-
   # thread urls
   get '/' => 'cf_threads#index', as: 'cf_threads'
   post '/' => 'cf_threads#create'
@@ -77,4 +75,5 @@ Cforum::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+  root to: 'cf_threads#index'
 end
