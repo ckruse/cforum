@@ -26,7 +26,6 @@ def handle_messages(cont, x_msg)
   the_date = Time.at(x_msg.find_first('./Header/Date')['longSec'].force_encoding('utf-8').to_i)
 
   msg = CfMessage.new(
-    :id => x_msg['id'].gsub(/^m/, ''),
     :author => CfAuthor.new(:name => x_msg.find_first('./Header/Author/Name').content.force_encoding('utf-8')),
     :subject => x_msg.find_first('./Header/Subject').content.force_encoding('utf-8'),
     :created_at => the_date,
@@ -39,6 +38,8 @@ def handle_messages(cont, x_msg)
     :content => convert_content(x_msg.find_first('./MessageContent').content.force_encoding('utf-8')),
     :messages => []
   )
+
+  msg.id = x_msg['id'].gsub(/^m/, '')
 
   cat      = x_msg.find_first('./Header/Category').content.force_encoding('utf-8')
   email    = x_msg.find_first('./Header/Author/Email').content.force_encoding('utf-8')
@@ -55,7 +56,7 @@ def handle_messages(cont, x_msg)
       usr = CfUser.find_by_username(uname)
       if !usr then
         usr = CfUser.new(:username => uname)
-        usr.save
+        usr.save!(validate: false)
       end
 
       msg.author.user_id = usr.id
@@ -172,7 +173,7 @@ def find_in_dir(dir)
       thread.archived = (dir =~ /messages/ ? false : true)
 
       puts "saving #{thread.id} from file #{dir + '/' + ent}"
-      thread.save
+      thread.save!(validate: false)
     rescue SystemStackError
       $stderr.puts "thread #{dir + '/' + ent} could not be saved!\n"
       $stderr.puts $!.message

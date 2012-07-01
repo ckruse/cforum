@@ -1,12 +1,13 @@
 class CfThread
-  include MongoMapper::Document
+  include Mongoid::Document
 
-  set_collection_name :threads
+  #set_collection_name :threads
+  store_in collection: "threads"
 
-  key :tid, String
-  key :archived, Boolean
+  field :tid, type: String
+  field :archived, type: Boolean
 
-  one :message, :class_name => 'CfMessage'
+  embeds_one :message, :class_name => 'CfMessage'
 
   def find_message(mid, msg = nil)
     msg = message if msg.nil?

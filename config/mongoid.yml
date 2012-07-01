@@ -1,0 +1,30 @@
+development:
+  sessions:
+    default:
+      database: cforum_development
+      hosts:
+        - localhost:27017
+      options:
+        safe: true
+        consistency: :strong
+
+test:
+  sessions:
+    default:
+      database: cforum_test
+      hosts:
+        - localhost:27017
+      options:
+        safe: true
+        consistency: :strong
+
+
+production:
+  sessions:
+    default:
+      database: cforum_production
+      hosts:
+        - localhost:27017
+      options:
+        safe: true
+        consistency: :strong

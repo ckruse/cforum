@@ -1,10 +1,11 @@
 class CfSetting
-  include MongoMapper::Document
+  include Mongoid::Document
 
-  set_collection_name :settings
+  #set_collection_name :settings
+  store_in collection: 'settings'
 
-  key :user, String, :default => nil
-  key :value
+  field :user, type: String, default: nil
+  field :value
 end
 
 # eof

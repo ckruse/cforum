@@ -1,5 +1,5 @@
 class CfUser
-  include MongoMapper::Document
+  include Mongoid::Document
 
   authenticates_with_sorcery!
 
@@ -9,19 +9,20 @@ class CfUser
   validates_presence_of :username
   validates_uniqueness_of :username
 
-  set_collection_name :users
+  store_in collection: "users"
+  #set_collection_name :users
 
-  key :username, String
-  key :email, String
+  field :username, type: String
+  field :email, type: String
 
-  key :crypted_password, String
-  key :salt, String
+  field :crypted_password, type: String
+  field :salt, type: String
 
-  key :last_login_at, Time
-  key :last_logout_at, Time
+  field :last_login_at, type: Time
+  field :last_logout_at, type: Time
 
-  key :settings, Hash
-  key :storage, Hash
+  field :settings, type: Hash
+  field :storage, type: Hash
 end
 
 # eof

@@ -6,8 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-CForum::Setting.create!(
-  _id: 'categories',
+s = CfSetting.new(
   value: %w[
     CATEGORY1
     CATEGORY2
@@ -15,3 +14,11 @@ CForum::Setting.create!(
     CATEGORY4
   ]
 )
+s.id = 'categories'
+s.save
+
+s = CfSetting.new(
+  value: true
+)
+s.id = 'use_archive'
+s.save

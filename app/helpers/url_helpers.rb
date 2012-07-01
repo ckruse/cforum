@@ -20,6 +20,7 @@ module UrlHelpers
     thread.id
   end
   def message_path(thread, message)
+    raise message.inspect unless message.id.is_a?(String)
     thread.id + "/" + message.id
   end
   def edit_message_path(thread, message)

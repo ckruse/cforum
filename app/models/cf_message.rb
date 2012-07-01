@@ -1,18 +1,23 @@
 class CfMessage
-  include MongoMapper::EmbeddedDocument
+  include Mongoid::Document
+  include Mongoid::Timestamps
 
-  key :id, String
-  key :subject, String
-  key :category, String
-  key :content, String
+  embedded_in :cf_thread
 
-  timestamps!
+  field :id, type: String
+  field :subject, type: String
+  field :category, type: String
+  field :content, type: String
 
-  key :flags, Hash
+  #timestamps!
 
-  one :author, :class_name => 'CfAuthor'
+  field :flags, type: Hash
 
-  many :messages, :class_name => 'CfMessage'
+  embeds_one :author, :class_name => 'CfAuthor'
+  #one :author, :class_name => 'CfAuthor'
+
+  embeds_many :messages, :class_name => 'CfMessage'
+  #many :messages, :class_name => 'CfMessage'
 
   validates_presence_of :id, :subject, :category, :content
   validates_associated :author

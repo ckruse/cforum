@@ -21,9 +21,9 @@ class ThreadsController < ApplicationController
     end
 
     if ConfigManager.setting('use_archive')
-      @threads = CfThread.where(archived: false).order('message.created_at' => -1).all
+      @threads = CfThread.where(archived: false).sort('message.created_at' => -1)
     else
-      @threads = CfThread.order('message.created_at' => -1).limit(ConfigManager.setting('pagination') || 10)
+      @threads = CfThread.all().sort('message.created_at' => -1).limit(ConfigManager.setting('pagination') || 10)
     end
 
     @threads.each do |t|
