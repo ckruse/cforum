@@ -19,6 +19,11 @@ class CfMessagesController < ApplicationController
 
     @message = CfMessage.new
     @message.author = CfAuthor.new
+
+    # inherit message and subject from previous post
+    @message.category = @parent.category
+    @message.subject = @parent.subject
+
     @categories = ConfigManager.setting('categories', [])
   end
 
