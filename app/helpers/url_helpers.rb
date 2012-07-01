@@ -7,7 +7,7 @@ module UrlHelpers
   end
 
   def cf_message_path(thread, message)
-    cf_thread_path(thread) + "/" + message.id
+    cf_thread_path(thread) + "/" + message.id.to_s
   end
   def cf_edit_message_path(thread, message)
     cf_message_path(thread, message) + "/edit"

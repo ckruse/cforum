@@ -15,7 +15,7 @@ class CfThread
 
   def find_message(mid, msg = nil)
     msg = message if msg.nil?
-    return msg if msg.id == mid
+    return msg if msg.id.to_s == mid.to_s
 
     unless msg.messages.blank?
       msg.messages.each do |m|
