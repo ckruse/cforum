@@ -1,4 +1,4 @@
-<%= form_for @thread, :method => :put do |f| %>
+<%= form_for @thread do |f| %>
   <% if @thread.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@thread.errors.count, "error") %> prohibited this thread from being saved:</h2>
