@@ -1,6 +1,6 @@
 class CfMessagesController < ApplicationController
   def show
-    @id = '/' + params[:year] + '/' + params[:mon] + '/' + params[:day] + '/' + params[:tid]
+    @id = CfThread.make_id(params)
     @thread = CfThread.find_by_id(@id)
     @thread.sort_tree
 
@@ -9,7 +9,7 @@ class CfMessagesController < ApplicationController
   end
 
   def new
-    @id = '/' + params[:year] + '/' + params[:mon] + '/' + params[:day] + '/' + params[:tid]
+    @id = CfThread.make_id(params)
     @thread = CfThread.find_by_id(@id)
     @thread.sort_tree
 
@@ -28,7 +28,7 @@ class CfMessagesController < ApplicationController
   end
 
   def create
-    @id = '/' + params[:year] + '/' + params[:mon] + '/' + params[:day] + '/' + params[:tid]
+    @id = CfThread.make_id(params)
     @thread = CfThread.find_by_id(@id)
     @thread.sort_tree
 
