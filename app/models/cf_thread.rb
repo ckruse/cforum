@@ -9,6 +9,10 @@ class CfThread
 
   embeds_one :message, :class_name => 'CfMessage'
 
+  index({ tid: 1 }, { unique: true })
+  index({ archived: 1 })
+  index({ 'message.created' => 1 })
+
   def find_message(mid, msg = nil)
     msg = message if msg.nil?
     return msg if msg.id == mid
