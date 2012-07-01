@@ -37,7 +37,7 @@ class CfMessagesController < ApplicationController
     raise CForum::NotFoundException.new if @thread.nil? or @parent.nil?
 
     @message = CfMessage.new(params[:cf_message])
-    @message.id = find_next_id() + 1
+    @message.id = (find_next_id() + 1).to_s
 
     @parent.messages.push @message
 
