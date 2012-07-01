@@ -21,6 +21,13 @@ class CfMessage
   validates :subject, :length => { :in => 4..64 }
   validates :category, :length => { :in => 5..20 }
   validates :content, :length => { :in => 10..12288 }
+
+  # necessary because of silly bug
+  before_validation(:on => :create) do
+    self.created_at = Time.now if self.created_at.nil?
+    self.updated_at = Time.now if self.updated_at.nil?
+  end
+
 end
 
 # eof
