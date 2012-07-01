@@ -12,7 +12,7 @@
   <% end %>
 
   <%= f.fields_for :message, f.object.message do |builder| %>
-    <%= render "messages/form", f: builder %>
+    <%= render "cf_messages/form", f: builder %>
   <% end %>
 
   <p>
