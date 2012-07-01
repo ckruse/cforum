@@ -2,9 +2,9 @@
     <p class="category"><%= message.category %></p>
 
     <% if first %>
-      <h2><%= link_to message.subject, message_path(thread, message) %></h2>
+      <h2><%= link_to message.subject, cf_message_path(thread, message) %></h2>
     <% else %>
-      <h3><%= link_to message.subject, message_path(thread, message) %></h3>
+      <h3><%= link_to message.subject, cf_message_path(thread, message) %></h3>
     <% end %>
 
     <details>

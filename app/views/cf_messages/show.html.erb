@@ -6,7 +6,7 @@
   </div>
 
   <% unless @message.messages.blank? %>
-  <%= render :partial => 'threads/thread_tree', :locals => {thread: @thread, messages: @message.messages } %>
+  <%= render :partial => 'cf_threads/thread_tree', :locals => {thread: @thread, messages: @message.messages } %>
   <% end %>
 
 </article>

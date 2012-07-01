@@ -8,4 +8,4 @@ class UserData < Plugin
   end
 end
 
-notification_center.register_hook(ThreadsController::SHOW_NEW_THREAD, UserData.new(self))
+notification_center.register_hook(CfThreadsController::SHOW_NEW_THREAD, UserData.new(self))

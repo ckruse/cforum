@@ -39,6 +39,10 @@ class CfThread
     end
   end
 
+  def to_param
+    id[1..-1]
+  end
+
 end
 
 # eof

@@ -1,4 +1,4 @@
-class MessagesController < ApplicationController
+class CfMessagesController < ApplicationController
   def show
     @id = '/' + params[:year] + '/' + params[:mon] + '/' + params[:day] + '/' + params[:tid]
     @thread = CfThread.find_by_id(@id)
@@ -37,7 +37,7 @@ class MessagesController < ApplicationController
     @parent.messages.push @message
 
     if @thread.save
-      redirect_to message_path(@thread, @message), :notice => I18n.t('messages.new.created')
+      redirect_to cf_message_path(@thread, @message), :notice => I18n.t('messages.new.created')
     else
       @categories = ConfigManager.setting('categories', [])
       render :new
