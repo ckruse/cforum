@@ -25,6 +25,8 @@ body {
     font-family: "Doppio One", Helvetica, Tahoma, Verdana, sans-serif;
 }
 
+/* Header */
+
 body > header {
     background: black;
     color: white;
@@ -34,7 +36,7 @@ body > header {
 body > header h1 {
     font-family: , serif;
     margin: 0;
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'Press Start 2P', sans-serif;
 }
 
 body > header .welcome-message {
@@ -60,14 +62,35 @@ body > header > nav li {
     padding: 0 5px;
 }
 
+/* Main */
+
 #main {
     padding: 20px;
 }
 
 h2 {
-    font-family: 'Actor', cursive;
+    font-family: 'Actor', sans-serif;
+    text-transform: uppercase;
 }
 
+/* Form */
 
+label {
+    display: block;
+}
+
+label:after {
+    content: ":";
+}
+
+input[type=text], input[type=email], textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #aaa;
+}
+
+.field_with_errors {
+    color: red;
+}
 
 /* eof */

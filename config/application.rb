@@ -73,5 +73,7 @@ module Cforum
     # config.database_host = db_config["host"]
     # config.database_port = db_config["port"]
     # config.database_name = db_config["name"]
+
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance| "<span class='field_with_errors'>#{html_tag}</span>".html_safe }
   end
 end

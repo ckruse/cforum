@@ -5,20 +5,22 @@
     <%= f.text_field :subject %>
   </p>
 
-  <% unless @categories.blank? %>
+  <%
+  categories = ConfigManager.setting('categories', [])
+  unless categories.blank? %>
     <p>
       <%= f.label :category %>
-      <%= f.select :category, @categories %>
+      <%= f.select :category, categories %>
     </p>
   <% end %>
 
 </fieldset>
 
-<%= f.fields_for :author, f.object.author do |builder| %>
-  <%= render "cf_messages/author_fields", f: builder %>
-<% end %>
-
 <fieldset>
   <legend><%= t ".content" %></legend>
   <%= f.text_area :content %>
 </fieldset>
+
+<%= f.fields_for :author, f.object.author do |builder| %>
+  <%= render "cf_messages/author_fields", f: builder %>
+<% end %>

@@ -49,7 +49,6 @@ class CfThreadsController < ApplicationController
     @thread = CfThread.new
     @thread.message = CfMessage.new
     @thread.message.author = CfAuthor.new
-    @categories = ConfigManager.setting('categories', [])
 
     notification_center.notify(SHOW_NEW_THREAD, @thread)
   end
