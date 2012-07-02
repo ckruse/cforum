@@ -63,7 +63,7 @@ class CfThreadsController < ApplicationController
 
     respond_to do |format|
       if @thread.save
-        format.html { redirect_to root_url, notice: 'Campaign was successfully created.' } # todo: redirect to new thread
+        format.html { redirect_to root_url, notice: 'Thread was successfully created.' } # todo: redirect to new thread
         format.json { render json: @thread, status: :created, location: @thread }
       else
         format.html { render action: "new" }
