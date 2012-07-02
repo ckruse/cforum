@@ -73,6 +73,8 @@ GEM
     origin (1.0.1)
     polyglot (0.3.3)
     public_suffix (1.1.1)
+    quiet_assets (1.0.1)
+      railties (~> 3.1)
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -132,6 +134,7 @@ DEPENDENCIES
   email
   jquery-rails
   mongoid (~> 3.0.0.rc)
+  quiet_assets
   rails (= 3.2.6)
   sass-rails (~> 3.2.3)
   sorcery

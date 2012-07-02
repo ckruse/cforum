@@ -22,5 +22,6 @@ gem 'jquery-rails'
 gem 'sorcery'
 gem "bcrypt-ruby", :require => "bcrypt"
 gem 'email'
+gem 'quiet_assets', :group => :development
 
 # eof
