@@ -12,6 +12,8 @@
  *= require_tree .
  */
 
+@import url(http://fonts.googleapis.com/css?family=Doppio+One|Press+Start+2P|Actor);
+
 html, body {
     margin: 0;
     padding: 0;
@@ -19,17 +21,24 @@ html, body {
 
 body {
     background: #f0f0e8;
-    color: black;
-    font-family: "Helvetica Neue", Helvetica, Tahoma, Verdana, sans-serif;
+    color: #333;
+    font-family: "Doppio One", Helvetica, Tahoma, Verdana, sans-serif;
 }
 
 body > header {
     background: black;
     color: white;
+    padding: 20px 20px 10px 20px;
 }
 
 body > header h1 {
     font-family: , serif;
+    margin: 0;
+    font-family: 'Press Start 2P', cursive;
+}
+
+body > header .welcome-message {
+    float: right;
     margin: 0;
 }
 
@@ -38,7 +47,26 @@ body > header a {
     text-decoration: none;
 }
 
+body > header > nav ul {
+    margin: 0;
+    padding: 10px 0 0 0;
+}
 
+body > header > nav li {
+    list-style-type: none;
+    display: inline;
+    margin-right: 20px;
+    border: 1px solid #f0f0e8;
+    padding: 0 5px;
+}
+
+#main {
+    padding: 20px;
+}
+
+h2 {
+    font-family: 'Actor', cursive;
+}
 
 
 
