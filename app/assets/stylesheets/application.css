@@ -39,6 +39,10 @@ body > header h1 {
     font-family: 'Press Start 2P', sans-serif;
 }
 
+body > header h1 a {
+    padding: 5px;
+}
+
 body > header .welcome-message {
     float: right;
     margin: 0;
@@ -47,6 +51,13 @@ body > header .welcome-message {
 body > header a {
     color: white;
     text-decoration: none;
+    border: 1px solid #f0f0e8;
+    padding: 0 5px;
+}
+
+body > header a:hover {
+    color: black;
+    background: white;
 }
 
 body > header > nav ul {
@@ -58,14 +69,32 @@ body > header > nav li {
     list-style-type: none;
     display: inline;
     margin-right: 20px;
-    border: 1px solid #f0f0e8;
-    padding: 0 5px;
 }
 
 /* Main */
 
 #main {
     padding: 20px;
+}
+
+#main a {
+    text-decoration: none;
+    border: 1px solid #333;
+    padding: 0 5px;
+    color: #333;
+}
+
+#main a:hover {
+    background: #333;
+    color: #f0f0e8;
+}
+
+#main a:visited {
+    color: #666;
+}
+
+#main a:visited:hover {
+    color: #f0f0e8;
 }
 
 h2 {
@@ -91,6 +120,23 @@ input[type=text], input[type=email], textarea {
 
 .field_with_errors {
     color: red;
+}
+
+/* Threads */
+
+.thread-tree {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #555;
+}
+
+.thread-tree .category:before { content: "("; }
+.thread-tree .category:after { content: ")"; }
+.thread-tree .category { display: inline; }
+
+.thread-tree h2 {
+    display: inline;
+    font-size: 1em;
 }
 
 /* eof */
