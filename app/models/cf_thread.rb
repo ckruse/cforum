@@ -8,7 +8,7 @@ class CfThread
 
   field :_id, type: String, default: ->{ CfThread.gen_id(self) if self.message and self.message.created_at and self.message.subject }
   field :tid, type: String
-  field :archived, type: Boolean
+  field :archived, type: Boolean, default: false
 
   embeds_one :message, :class_name => 'CfMessage'
 

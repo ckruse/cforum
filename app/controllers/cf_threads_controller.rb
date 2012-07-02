@@ -58,7 +58,6 @@ class CfThreadsController < ApplicationController
     now = Time.now
 
     @thread = CfThread.new(params[:cf_thread])
-    @thread.archived = false
     @thread.message.id = 1
 
     respond_to do |format|
