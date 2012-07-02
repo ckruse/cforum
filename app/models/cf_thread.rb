@@ -6,7 +6,7 @@ class CfThread
   #set_collection_name :threads
   store_in collection: "threads"
 
-  field :_id, type: String, default: ->{ CfThread.gen_id(self) if self.message and self.message.created_at and self.message.subject }
+  field :_id, type: String, default: -> { CfThread.gen_id(self) if self.message and self.message.subject }
   field :tid, type: String
   field :archived, type: Boolean, default: false
 

@@ -5,7 +5,7 @@ class CfThreadsController < ApplicationController
 
   SHOW_THREADLIST = "show_threadlist"
   SHOW_THREAD = "show_thread"
-  SHOW_NEW_THREAD = "new_thread"
+  SHOW_NEW_THREAD = "show_new_thread"
 
   def index
     if params[:t]
