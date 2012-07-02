@@ -113,7 +113,9 @@ label:after {
 }
 
 input[type=text], input[type=email], textarea {
+    display: block;
     width: 100%;
+    max-width: 60em;
     box-sizing: border-box;
     border: 1px solid #aaa;
 }
@@ -134,9 +136,19 @@ input[type=text], input[type=email], textarea {
 .thread-tree .category:after { content: ")"; }
 .thread-tree .category { display: inline; }
 
-.thread-tree h2 {
+.thread-tree h2, .thread-tree h3 {
     display: inline;
     font-size: 1em;
+}
+
+.thread-tree ol {
+    margin: 0 0 0 20px;
+    list-style-type: none;
+    padding: 0;
+}
+
+.thread-tree li {
+    margin-top: 5px;
 }
 
 /* eof */
