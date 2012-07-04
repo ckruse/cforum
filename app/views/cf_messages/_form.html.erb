@@ -5,15 +5,19 @@
     <%= f.text_field :subject %>
   </p>
 
-  <%
-  categories = ConfigManager.setting('categories', [])
-  unless categories.blank? %>
-    <p>
-      <%= f.label :category %>
-      <%= f.select :category, categories %>
-    </p>
-  <% end %>
-
+  <p>
+    <%= f.label :author %>
+    <%= f.text_field :author %>
+  </p>
+  <p>
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+  </p>
+  <p>
+    <%= f.label :homepage %>
+    <%= f.text_field :homepage %>
+    <%= f.hidden_field :user_id %>
+  </p>
 </fieldset>
 
 <fieldset>
@@ -21,6 +25,3 @@
   <%= f.text_area :content %>
 </fieldset>
 
-<%= f.fields_for :author, f.object.author do |builder| %>
-  <%= render "cf_messages/author_fields", f: builder %>
-<% end %>

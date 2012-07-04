@@ -10,29 +10,13 @@ class ConfigManager
     ret = default
 
     unless user.nil?
-      usr = CfUser.find_by_username(user)
-      ret = usr.settings[name] if usr and usr.settings[name]
-    else
-      setting = nil
-
-      if @@value_cache.has_key?(name) and @@value_cache[name][:expiry] > Time.now
-        setting = @@value_cache[name][:value]
-      else
-        setting = CfSetting.find_by_id(name)
-        @@value_cache[name] = {
-          expiry: Time.now + 60,
-          value: setting
-        }
-      end
-
-      ret = setting.value if setting
+      user = CfUser.find_by_username(user.to_s) if not user.is_a?(CfUser) or not user.is_a?(Integer)
+      user = user.user_id if user.is_a?(CfUser)
     end
 
-    ret
-  end
+    settings = CfSetting.where(user_id: user, name: name)
 
-  def self.user_setting(user, setting)
-    self.get_setting(setting, nil, user)
+    settings.blank? ? ret : settings
   end
 end
 

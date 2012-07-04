@@ -21,12 +21,13 @@ class CfThreadsController < ApplicationController
     end
 
     if ConfigManager.setting('use_archive')
-      @threads = CfThread.where(archived: false).sort('message.created_at' => -1)
+      @threads = CfThread.index.includes(:messages).order('messages.created_at DESC')
     else
-      @threads = CfThread.all().sort('message.created_at' => -1).limit(ConfigManager.setting('pagination') || 10)
+      @threads = CfThread.preload(:messages).order('cforum.threads.created_at DESC').limit(ConfigManager.setting('pagination', 10))
     end
 
     @threads.each do |t|
+      t.gen_tree
       t.sort_tree
     end
 
@@ -48,7 +49,6 @@ class CfThreadsController < ApplicationController
   def new
     @thread = CfThread.new
     @thread.message = CfMessage.new
-    @thread.message.author = CfAuthor.new
 
     notification_center.notify(SHOW_NEW_THREAD, @thread)
   end
@@ -56,12 +56,19 @@ class CfThreadsController < ApplicationController
   def create
     now = Time.now
 
-    @thread = CfThread.new(params[:cf_thread])
-    @thread.message.id = 1
+    @forum = CfForum.find_by_slug('default-forum')
+
+    @thread = CfThread.new()
+    @message = CfMessage.new(params[:cf_thread][:message])
+    @thread.messages << @message
+    @thread.message = @message
+
+    @thread.forum_id = @forum.forum_id
+    @thread.slug = CfThread.gen_id(@thread)
 
     respond_to do |format|
       if @thread.save
-        format.html { redirect_to root_url, notice: 'Thread was successfully created.' } # todo: redirect to new thread
+        format.html { redirect_to cf_message_url(@thread, @message), notice: 'Thread was successfully created.' } # todo: redirect to new thread
         format.json { render json: @thread, status: :created, location: @thread }
       else
         format.html { render action: "new" }

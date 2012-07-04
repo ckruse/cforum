@@ -1,7 +1,8 @@
-class CfUser
-  include Mongoid::Document
-
+class CfUser < ActiveRecord::Base
   authenticates_with_sorcery!
+
+  self.primary_key = 'user_id'
+  self.table_name  = 'cforum.users'
 
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
@@ -9,20 +10,9 @@ class CfUser
   validates_presence_of :username
   validates_uniqueness_of :username
 
-  store_in collection: "users"
-  #set_collection_name :users
+  attr_accessible :username, :email, :crypted_password, :salt, :created_at, :updated_at, :last_login_at, :last_logout_at
 
-  field :username, type: String
-  field :email, type: String
-
-  field :crypted_password, type: String
-  field :salt, type: String
-
-  field :last_login_at, type: Time
-  field :last_logout_at, type: Time
-
-  field :settings, type: Hash
-  field :storage, type: Hash
+  has_many :settings, class_name: 'CfSetting'
 end
 
 # eof

@@ -1,10 +1,14 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.6'
-gem "mongoid", "~> 3.0.0.rc"
+gem 'pg'
 
 gem 'therubyracer'
 
+gem 'sorcery'
+gem "bcrypt-ruby", :require => "bcrypt"
+
+gem 'jquery-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -18,9 +22,6 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
-gem 'sorcery'
-gem "bcrypt-ruby", :require => "bcrypt"
 gem 'email'
 gem 'quiet_assets', :group => :development
 

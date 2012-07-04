@@ -1,7 +1,9 @@
 class CfMessagesController < ApplicationController
   def show
     @id = CfThread.make_id(params)
-    @thread = CfThread.find_by_id(@id)
+    @thread = CfThread.find_by_slug(@id)
+
+    @thread.gen_tree
     @thread.sort_tree
 
     @message = @thread.find_message(params[:mid]) if @thread
@@ -10,7 +12,8 @@ class CfMessagesController < ApplicationController
 
   def new
     @id = CfThread.make_id(params)
-    @thread = CfThread.find_by_id(@id)
+    @thread = CfThread.find_by_slug(@id)
+    @thread.gen_tree
     @thread.sort_tree
 
     @parent = @thread.find_message(params[:mid]) if @thread
@@ -18,10 +21,8 @@ class CfMessagesController < ApplicationController
     raise CForum::NotFoundException.new if @thread.nil? or @parent.nil?
 
     @message = CfMessage.new
-    @message.author = CfAuthor.new
 
     # inherit message and subject from previous post
-    @message.category = @parent.category
     @message.subject = @parent.subject
 
     @categories = ConfigManager.setting('categories', [])
@@ -29,7 +30,8 @@ class CfMessagesController < ApplicationController
 
   def create
     @id = CfThread.make_id(params)
-    @thread = CfThread.find_by_id(@id)
+    @thread = CfThread.find_by_slug(@id)
+    @thread.gen_tree
     @thread.sort_tree
 
     @parent = @thread.find_message(params[:mid]) if @thread
@@ -37,9 +39,9 @@ class CfMessagesController < ApplicationController
     raise CForum::NotFoundException.new if @thread.nil? or @parent.nil?
 
     @message = CfMessage.new(params[:cf_message])
-    @message.id = (find_next_id() + 1).to_s
+    @message.parent_id = @parent.message_id
 
-    @parent.messages.push @message
+    @thread.messages.push @message
 
     if @thread.save
       redirect_to cf_message_path(@thread, @message), :notice => I18n.t('messages.new.created')
@@ -47,21 +49,5 @@ class CfMessagesController < ApplicationController
       @categories = ConfigManager.setting('categories', [])
       render :new
     end
-  end
-
-  private
-
-  def find_next_id(msg = nil, latest = -1)
-    msg = @thread.message if msg.nil?
-
-    latest = msg.id.to_i if msg.id.to_i > latest
-
-    unless msg.messages.empty?
-      msg.messages.each do |m|
-        latest = find_next_id(m, latest)
-      end
-    end
-
-    latest
   end
 end

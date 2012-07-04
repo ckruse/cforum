@@ -6,19 +6,19 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-s = CfSetting.new(
-  value: %w[
-    CATEGORY1
-    CATEGORY2
-    CATEGORY3
-    CATEGORY4
-  ]
-)
-s.id = 'categories'
-s.save
+# s = CfSetting.new(
+#   value: %w[
+#     CATEGORY1
+#     CATEGORY2
+#     CATEGORY3
+#     CATEGORY4
+#   ]
+# )
+# s.id = 'categories'
+# s.save
 
-s = CfSetting.new(
-  value: true
-)
-s.id = 'use_archive'
-s.save
+# s = CfSetting.new(
+#   value: true
+# )
+# s.id = 'use_archive'
+# s.save

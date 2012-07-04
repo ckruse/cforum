@@ -1,20 +1,15 @@
 # -*- encoding: utf-8 -*-
 
-class CfThread
-  include Mongoid::Document
+class CfThread < ActiveRecord::Base
+  self.primary_key = 'thread_id'
+  self.table_name  = 'cforum.threads'
 
-  #set_collection_name :threads
-  store_in collection: "threads"
+  belongs_to :forum, class_name: 'CfForum', :foreign_key => :forum_id
+  has_many :messages, class_name: 'CfMessage', :foreign_key => :thread_id
 
-  field :_id, type: String, default: -> { CfThread.gen_id(self) if self.message and self.message.subject }
-  field :tid, type: String
-  field :archived, type: Boolean, default: false
+  attr_accessible :thread_id, :tid, :slug, :forum_id, :archived, :created_at, :updated_at
 
-  embeds_one :message, :class_name => 'CfMessage'
-
-  index({ tid: 1 }, { unique: true })
-  index({ archived: 1 })
-  index({ 'message.created' => 1 })
+  scope :index, where('archived = ?', false)
 
   def find_message(mid, msg = nil)
     msg = message if msg.nil?
@@ -28,6 +23,29 @@ class CfThread
     end
 
     nil
+  end
+
+  attr_accessor :message
+
+  def gen_tree
+    self.message = messages[0]
+    map = {}
+
+    messages.sort! do |a,b|
+      ret = a.created_at <=> b.created_at
+      ret = a.message_id <=> b.message_id if ret == 0
+
+      ret
+    end
+
+    messages.each do |msg|
+      map[msg.message_id] = msg
+      msg.messages = [] unless msg.messages
+
+      if msg.parent_id
+        map[msg.parent_id].messages << msg
+      end
+    end
   end
 
   def sort_tree(msg = nil)

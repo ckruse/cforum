@@ -1,33 +1,23 @@
-class CfMessage
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class CfMessage < ActiveRecord::Base
+  self.primary_key = 'message_id'
+  self.table_name  = 'cforum.messages'
 
-  embedded_in :cf_thread
+  has_one :owner, class_name: 'CfUser', :foreign_key => :user_id
+  has_many :flags, class_name: 'CfFlag'
 
-  field :id, type: String
-  field :subject, type: String
-  field :category, type: String
-  field :content, type: String
+  belongs_to :thread, class_name: 'CfThread', :foreign_key => :thread_id
 
-  field :flags, type: Hash
+  attr_accessible :message_id, :mid, :thread_id, :subject, :content,
+    :author, :email, :homepage, :deleted, :user_id, :parent_id,
+    :updated_at, :created_at
 
-  embeds_one :author, :class_name => 'CfAuthor'
+  attr_accessor :messages
 
-  embeds_many :messages, :class_name => 'CfMessage'
+  validates :author, presence: true, length: { :in => 2..60 }
+  validates :subject, presence: true, length: { :in => 4..64 }
+  validates :content, presence: true, length: { :in => 10..12288 }
 
-  validates_presence_of :id, :subject, :category, :content
-  validates_associated :author
-
-  validates :subject, :length => { :in => 4..64 }
-  validates :category, :length => { :in => 5..20 }
-  validates :content, :length => { :in => 10..12288 }
-
-  # necessary because of silly bug
-  before_validation(:on => :create) do
-    self.created_at = Time.now if self.created_at.nil?
-    self.updated_at = Time.now if self.updated_at.nil?
-  end
-
+  validates :email, email: true
 end
 
 # eof

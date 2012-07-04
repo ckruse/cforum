@@ -1,11 +1,11 @@
-class CfSetting
-  include Mongoid::Document
+class CfSetting < ActiveRecord::Base
+  self.primary_key = 'setting_id'
+  self.table_name  = 'cforum.settings'
 
-  #set_collection_name :settings
-  store_in collection: 'settings'
+  belongs_to :forum, class_name: 'CfForum', :foreign_key => :forum_id
+  belongs_to :user, class_name: 'CfUser', :foreign_key => :user_id
 
-  field :user, type: String, default: nil
-  field :value
+  attr_accessible :setting_id, :forum_id, :user_id, :name,  :value
 end
 
 # eof

@@ -7,8 +7,5 @@
 
   <p><%= link_to t(".new_message"), new_cf_message_path(@thread, @message) %></p>
 
-  <% unless @message.messages.blank? %>
-  <%= render :partial => 'cf_threads/thread_tree', :locals => {thread: @thread, messages: @message.messages } %>
-  <% end %>
-
+  <%= render :partial => 'cf_threads/thread_tree', :locals => {thread: @thread, messages: [@thread.message] } %>
 </article>

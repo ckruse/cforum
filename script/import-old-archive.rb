@@ -22,32 +22,36 @@ def convert_content(txt)
 end
 
 
-def handle_messages(cont, x_msg)
+def handle_messages(old_msg, x_msg, thread)
   the_date = Time.at(x_msg.find_first('./Header/Date')['longSec'].force_encoding('utf-8').to_i)
 
   msg = CfMessage.new(
-    :author => CfAuthor.new(:name => x_msg.find_first('./Header/Author/Name').content.force_encoding('utf-8')),
-    :subject => x_msg.find_first('./Header/Subject').content.force_encoding('utf-8'),
-    :created_at => the_date,
-    :updated_at => the_date,
-    :flags => {
-      :votingGood => x_msg['votingGood'].to_s,
-      :votingBad => x_msg['votingBad'].to_s,
-      :invisible => x_msg['invisible'] == '1' ? 'yes' : 'no'
-    },
-    :content => convert_content(x_msg.find_first('./MessageContent').content.force_encoding('utf-8')),
-    :messages => []
+    mid: x_msg['id'].gsub(/^m/, ''),
+    author: x_msg.find_first('./Header/Author/Name').content.force_encoding('utf-8'),
+    subject: x_msg.find_first('./Header/Subject').content.force_encoding('utf-8'),
+
+    upvotes: x_msg['votingGood'].to_i,
+    downvotes: x_msg['votingBad'].to_i,
+
+    invisible: x_msg['invisible'] == '1' ? true : false,
+
+    created_at: the_date,
+    updated_at: the_date,
+
+    content: convert_content(x_msg.find_first('./MessageContent').content.force_encoding('utf-8')),
+    parent_id: old_msg ? old_msg.message_id : nil,
+    thread_id: thread.thread_id
   )
 
-  msg.id = x_msg['id'].gsub(/^m/, '')
-
-  cat      = x_msg.find_first('./Header/Category').content.force_encoding('utf-8')
+  # cat      = x_msg.find_first('./Header/Category').content.force_encoding('utf-8')
   email    = x_msg.find_first('./Header/Author/Email').content.force_encoding('utf-8')
   homepage = x_msg.find_first('./Header/Author/HomepageUrl').content.force_encoding('utf-8')
 
-  msg.category        = cat      unless cat.empty?
-  msg.author.email    = email    unless email.empty?
-  msg.author.homepage = homepage unless homepage.empty?
+  # msg.category        = cat      unless cat.empty?
+  msg.email    = email    unless email.blank?
+  msg.homepage = homepage unless homepage.blank?
+
+  msg.save(validate: false)
 
   x_msg.find('./Header/Flags/Flag').each do |f|
     if f['name'] == 'UserName' then
@@ -59,31 +63,55 @@ def handle_messages(cont, x_msg)
         usr.save!(validate: false)
       end
 
-      msg.author.user_id = usr.id
+      msg.user_id = usr.id
+      msg.save
     else
-      msg.flags[f['name']] = f.content.force_encoding('utf-8')
+      CfFlag.create!(message_id: msg.message_id, flag: f['name'], value: f.content.force_encoding('utf-8'))
     end
   end
 
   x_msg.find('./Message').each do |m|
-    handle_messages(msg.messages, m)
+    handle_messages(msg, m, thread)
   end
 
-  cont.push(msg)
+  msg
 end
 
-def handle_doc(doc)
+def handle_doc(doc, opts = {})
   x_thread = doc.find_first('/Forum/Thread')
 
-  thread = CfThread.new(
-    :tid => x_thread['id'].force_encoding('utf-8')
+  forum_name = x_thread.find_first("./Message/Header/Category").content.force_encoding('utf-8')
+  forum_name = "Default-Forum" if forum_name.blank?
+  forum_slug = forum_name.downcase.gsub /\s+/, '-'
+
+  the_date = Time.at(x_thread.find_first('./Message/Header/Date')['longSec'].force_encoding('utf-8').to_i)
+  subject = x_thread.find_first('./Message/Header/Subject').content.force_encoding('utf-8')
+
+  forum = CfForum.find_by_slug(forum_slug)
+  unless forum
+    forum = CfForum.create(
+      name: forum_name,
+      short_name: forum_name,
+      slug: forum_slug,
+      created_at: the_date,
+      updated_at: the_date
+    )
+  end
+
+  thread = CfThread.create!(
+    tid: x_thread['id'].force_encoding('utf-8')[1..-1],
+    archived: opts[:archived],
+    forum_id: forum.forum_id,
+    slug: thread_id(the_date, subject)
   )
 
-  messages = []
+  msg = nil
   x_thread.find('./Message').each do |m|
-    handle_messages(messages, m)
+    msg = handle_messages(nil, m, thread)
   end
-  thread.message = messages[0] # a thread can only contain one message
+
+  thread.message_id = msg.message_id # a thread can only contain one message
+  thread.save
 
   thread
 end
@@ -123,10 +151,9 @@ def to_uri(s)
   s
 end
 
-def thread_id(thread)
-  dt = thread.message.created_at
+def thread_id(dt, subject)
   base_id = dt.strftime("/%Y/") + dt.strftime("%b").downcase + dt.strftime("/%d/")
-  subj = to_uri(thread.message.subject)
+  subj = to_uri(subject)
   num = 0
 
   begin
@@ -168,12 +195,9 @@ def find_in_dir(dir)
     end
 
     begin
-      thread = handle_doc(doc)
-      thread.id = thread_id(thread)
-      thread.archived = (dir =~ /messages/ ? false : true)
+      thread = handle_doc(doc, archived: (dir =~ /messages/ ? false : true))
+      puts "saved #{thread.slug} from file #{dir + '/' + ent}"
 
-      puts "saving #{thread.id} from file #{dir + '/' + ent}"
-      thread.save!(validate: false)
     rescue SystemStackError
       $stderr.puts "thread #{dir + '/' + ent} could not be saved!\n"
       $stderr.puts $!.message

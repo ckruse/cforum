@@ -3,12 +3,11 @@
     <% messages.each do |message| %>
     <li>
       <header>
-        <p class="category"><%= message.category %></p>
         <h3><%= link_to message.subject, cf_message_path(thread, message) %></h3>
 
         <details>
           <%= t("messages.by") %>
-          <%= message.author.user_id ? link_to(message.author.name, users_path + "/" + message.author.user_id.to_s) : message.author.name %>,
+          <%= message.user_id ? link_to(message.author, users_path + "/" + message.user_id.to_s) : message.author %>,
           <time datetime="<%= message.created_at.to_s %>"><%= I18n.l(message.created_at) %></time>
         </details>
       </header>
@@ -24,12 +23,11 @@
 <% @threads.each do |thread| %>
 <article class="thread-tree">
   <header>
-    <p class="category"><%= thread.message.category %></p>
     <h2><%= link_to thread.message.subject, cf_message_path(thread, thread.message) %></h2>
 
     <details>
       <%= t("messages.by") %>
-      <%= thread.message.author.user_id ? link_to(thread.message.author.name, users_path + thread.message.author.user_id.to_s) : thread.message.author.name %>,
+      <%= thread.message.user_id ? link_to(thread.message.author, users_path + thread.message.user_id.to_s) : thread.message.author %>,
       <time datetime="<%= thread.message.created_at.to_s %>"><%= I18n.l(thread.message.created_at) %></time>
     </details>
   </header>
