@@ -8,23 +8,13 @@ class CfThreadsController < ApplicationController
   SHOW_NEW_THREAD = "show_new_thread"
 
   def index
-    if params[:t]
-      thread = CfThread.find_by_tid("t" + params[:t])
+    forum = current_forum
 
-      if thread
-        if params[:m] && message = thread.find_message(params[:m])
-          return redirect_to message_path(thread, message)
-        else
-          return redirect_to thread_path(thread)
-        end
-      end
-    end
+    conditions = {}
+    conditions[:forum_id] = forum.forum_id if forum
+    conditions[:archived] = false if ConfigManager.setting('use_archive')
 
-    if ConfigManager.setting('use_archive')
-      @threads = CfThread.index.includes(:messages).order('messages.created_at DESC')
-    else
-      @threads = CfThread.preload(:messages).order('cforum.threads.created_at DESC').limit(ConfigManager.setting('pagination', 10))
-    end
+    @threads = CfThread.preload(:messages).where(conditions).order('cforum.threads.created_at DESC').limit(ConfigManager.setting('pagination', 150))
 
     @threads.each do |t|
       t.gen_tree
