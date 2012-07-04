@@ -24,8 +24,6 @@ class CfMessagesController < ApplicationController
 
     # inherit message and subject from previous post
     @message.subject = @parent.subject
-
-    @categories = ConfigManager.setting('categories', [])
   end
 
   def create
