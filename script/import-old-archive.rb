@@ -116,44 +116,9 @@ def handle_doc(doc, opts = {})
   thread
 end
 
-TO_URI_MAP = [
-  {:rx => /[äÄ]/, :replacement => 'ae'},
-  {:rx => /[öÖ]/, :replacement => 'oe'},
-  {:rx => /[üÜ]/, :replacement => 'ue'},
-  {:rx => /ß/,    :replacement => 'ss'},
-  {:rx => /[ÀÁÂÃÅÆàáâãåæĀāĂăĄą]/, :replacement => 'a'},
-  {:rx => /[ÇçĆćĈĉĊċČč]/, :replacement => 'c'},
-  {:rx => /[ÐĎďĐđ]/, :replacement => 'd'},
-  {:rx => /[ÈÉÊËèéêëĒēĔĕĖėĘęĚě]/, :replacement => 'e'},
-  {:rx => /[ÌÍÎÏìíîï]/, :replacement => 'i'},
-  {:rx => /[Ññ]/, :replacement => 'n'},
-  {:rx => /[ÒÓÔÕ×Øòóôõø]/, :replacement => 'o'},
-  {:rx => /[ÙÚÛùúû]/, :replacement => 'u'},
-  {:rx => /[Ýýÿ]/, :replacement => 'y'}
-]
-def to_uri(s)
-  s = s.tr(' ','-')
-  s.downcase!
-
-  TO_URI_MAP.each do |map|
-    s.gsub!(map[:rx], map[:replacement])
-  end
-
-
-  s.gsub!(/[^a-zA-Z0-9.$%;,_*-]/,'-')
-
-  s.gsub!(/-{2,}/,'-')
-  s.gsub!(/-+$/,'')
-  s.gsub!(/^-+/,'')
-
-  s = s[0..120]+"..." if s.length > 120
-
-  s
-end
-
 def thread_id(dt, subject)
   base_id = dt.strftime("/%Y/") + dt.strftime("%b").downcase + dt.strftime("/%d/")
-  subj = to_uri(subject)
+  subj = subject.parameterize
   num = 0
 
   begin
