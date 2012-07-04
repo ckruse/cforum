@@ -17,11 +17,11 @@ Cforum::Application.routes.draw do
 
     match '/:year/:mon/:day/:tid/:mid/new' => 'cf_messages#new', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get, as: 'new_cf_message'
     match '/:year/:mon/:day/:tid/:mid' => 'cf_messages#create', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :post
-
-    resources :users
-
-    match '/login' => 'application#login_from_http_basic'
   end
+
+  resources :users
+
+  match '/login' => 'application#login_from_http_basic'
 
   resources :cf_forums, path: ''
   root to: 'cf_forums#index'
