@@ -9,8 +9,6 @@ class CfThread < ActiveRecord::Base
 
   attr_accessible :thread_id, :tid, :slug, :forum_id, :archived, :created_at, :updated_at
 
-  scope :index, where('archived = ?', false)
-
   def find_message(mid)
     messages.each do |m|
       return m if m.message_id == mid
