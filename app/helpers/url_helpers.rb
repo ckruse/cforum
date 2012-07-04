@@ -1,6 +1,6 @@
 module UrlHelpers
   def cf_thread_path(thread)
-    thread.slug
+    cf_forum_path(current_forum) + thread.slug
   end
   def edit_cf_thread_path(thread)
     cf_thread_path(thread) + '/edit'

@@ -1,0 +1,20 @@
+<h1>Foren-Index</h1>
+
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Forum</th>
+      <th>Threads</th>
+      <th>Last Change</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @forums.each do |forum| %>
+    <tr>
+      <td><%= link_to forum.name, forum %></td>
+      <td><%= @counts[forum.forum_id] %></td>
+      <td> TODO </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -9,7 +9,9 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active"><a href="<%= root_url %>">Home</a></li>
-              <li><%= link_to t(".new_thread"), new_cf_thread_path %></li>
+              <% if current_forum %>
+              <li><%= link_to current_forum.name, current_forum %></li>
+              <li><%= link_to t(".new_thread"), new_cf_thread_path %></li><% end %>
               <li><%= link_to t(".register"), root_path %></li>
             </ul>
             <ul class="nav pull-right">
