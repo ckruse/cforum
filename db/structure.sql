@@ -114,6 +114,7 @@ CREATE TABLE messages (
     homepage text,
     upvotes integer DEFAULT 0 NOT NULL,
     downvotes integer DEFAULT 0 NOT NULL,
+    invisible boolean DEFAULT false NOT NULL,
     user_id bigint,
     parent_id bigint,
     deleted boolean DEFAULT false,

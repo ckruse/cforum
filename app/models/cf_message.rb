@@ -9,7 +9,7 @@ class CfMessage < ActiveRecord::Base
 
   attr_accessible :message_id, :mid, :thread_id, :subject, :content,
     :author, :email, :homepage, :deleted, :user_id, :parent_id,
-    :updated_at, :created_at
+    :updated_at, :created_at, :upvotes, :downvotes, :invisible
 
   attr_accessor :messages
 

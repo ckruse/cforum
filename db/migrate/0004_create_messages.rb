@@ -16,6 +16,7 @@ class CreateMessages < ActiveRecord::Migration
 
       t.integer :upvotes, null: false, default: 0
       t.integer :downvotes, null: false, default: 0
+      t.boolean :invisible, null: false, default: false
 
       t.integer :user_id, limit: 8
       t.integer :parent_id, limit: 8
