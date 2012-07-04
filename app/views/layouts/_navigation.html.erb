@@ -1,0 +1,22 @@
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+
+          <a class="brand" href="https://github.com/ckruse/cforum/">Classic Forum</a>
+
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="<%= root_url %>">Home</a></li>
+              <li><%= link_to t(".new_thread"), new_cf_thread_path %></li>
+              <li><%= link_to t(".register"), root_path %></li>
+            </ul>
+            <ul class="nav pull-right">
+              <% if current_user %>
+                <li><%= link_to('Logout', root_url, :method => :delete) %></li>
+              <% else %>
+                <li><%= link_to('Login', '/login') %></li>
+              <% end %>
+            </ul>
+          </div><!--/.nav-collapse -->

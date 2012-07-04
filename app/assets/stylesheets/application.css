@@ -8,147 +8,16 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+ *= require bootstrap
+ *= require responsive
  *= require_self
  *= require_tree .
  */
 
-@import url(http://fonts.googleapis.com/css?family=Doppio+One|Press+Start+2P|Actor);
-
-html, body {
-    margin: 0;
-    padding: 0;
-}
-
 body {
-    background: #f0f0e8;
-    color: #333;
-    font-family: "Doppio One", Helvetica, Tahoma, Verdana, sans-serif;
+  padding-top: 60px;
+  padding-bottom: 40px;
 }
 
-/* Header */
-
-body > header {
-    background: black;
-    color: white;
-    padding: 20px 20px 10px 20px;
-}
-
-body > header h1 {
-    font-family: , serif;
-    margin: 0;
-    font-family: 'Press Start 2P', sans-serif;
-}
-
-body > header h1 a {
-    padding: 5px;
-}
-
-body > header .welcome-message {
-    float: right;
-    margin: 0;
-}
-
-body > header a {
-    color: white;
-    text-decoration: none;
-    border: 1px solid #f0f0e8;
-    padding: 0 5px;
-}
-
-body > header a:hover {
-    color: black;
-    background: white;
-}
-
-body > header > nav ul {
-    margin: 0;
-    padding: 10px 0 0 0;
-}
-
-body > header > nav li {
-    list-style-type: none;
-    display: inline;
-    margin-right: 20px;
-}
-
-/* Main */
-
-#main {
-    padding: 20px;
-}
-
-#main a {
-    text-decoration: none;
-    border: 1px solid #333;
-    padding: 0 5px;
-    color: #333;
-}
-
-#main a:hover {
-    background: #333;
-    color: #f0f0e8;
-}
-
-#main a:visited {
-    color: #666;
-}
-
-#main a:visited:hover {
-    color: #f0f0e8;
-}
-
-h2 {
-    font-family: 'Actor', sans-serif;
-    text-transform: uppercase;
-}
-
-/* Form */
-
-label {
-    display: block;
-}
-
-label:after {
-    content: ":";
-}
-
-input[type=text], input[type=email], textarea {
-    display: block;
-    width: 100%;
-    max-width: 60em;
-    box-sizing: border-box;
-    border: 1px solid #aaa;
-}
-
-.field_with_errors {
-    color: red;
-}
-
-/* Threads */
-
-.thread-tree {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #555;
-}
-
-.thread-tree .category:before { content: "("; }
-.thread-tree .category:after { content: ")"; }
-.thread-tree .category { display: inline; }
-
-.thread-tree h2, .thread-tree h3 {
-    display: inline;
-    font-size: 1em;
-}
-
-.thread-tree ol {
-    margin: 0 0 0 20px;
-    list-style-type: none;
-    padding: 0;
-}
-
-.thread-tree li {
-    margin-top: 5px;
-}
 
 /* eof */

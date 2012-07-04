@@ -6,7 +6,7 @@ class CfMessagesController < ApplicationController
     @thread.gen_tree
     @thread.sort_tree
 
-    @message = @thread.find_message(params[:mid]) if @thread
+    @message = @thread.find_message(params[:mid].to_i) if @thread
     raise CForum::NotFoundException.new if @thread.nil? or @message.nil?
   end
 
@@ -16,7 +16,7 @@ class CfMessagesController < ApplicationController
     @thread.gen_tree
     @thread.sort_tree
 
-    @parent = @thread.find_message(params[:mid]) if @thread
+    @parent = @thread.find_message(params[:mid].to_i) if @thread
 
     raise CForum::NotFoundException.new if @thread.nil? or @parent.nil?
 
@@ -34,7 +34,7 @@ class CfMessagesController < ApplicationController
     @thread.gen_tree
     @thread.sort_tree
 
-    @parent = @thread.find_message(params[:mid]) if @thread
+    @parent = @thread.find_message(params[:mid].to_i) if @thread
 
     raise CForum::NotFoundException.new if @thread.nil? or @parent.nil?
 

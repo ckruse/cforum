@@ -9,6 +9,7 @@ gem 'sorcery'
 gem "bcrypt-ruby", :require => "bcrypt"
 
 gem 'jquery-rails'
+gem 'anjlab-bootstrap-rails', '>= 2.0', :require => 'bootstrap-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.

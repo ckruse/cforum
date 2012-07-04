@@ -36,14 +36,20 @@ class CfThreadsController < ApplicationController
 
   def show
     @id = CfThread.make_id(params)
-    @thread = CfThread.find_by_id(@id)
+    @thread = CfThread.find_by_slug(@id)
+
+    @thread.gen_tree
+    @thread.sort_tree
 
     notification_center.notify(SHOW_THREAD, @thread)
   end
 
   def edit
     @id = CfThread.make_id(params)
-    @thread = CfThread.find_by_id(@id)
+    @thread = CfThread.find_by_slug!(@id)
+
+    @thread.gen_tree
+    @thread.sort_tree
   end
 
   def new

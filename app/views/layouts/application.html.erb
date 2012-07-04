@@ -23,28 +23,31 @@
   </head>
 
   <body data-controller="<%= controller_path %>" data-action="<%= action_name %>"<%= " id='#{yield(:body_id)}'" if content_for? :body_id %>>
-    <header>
-      <p class="welcome-message"><%= t ".welcome_message" %></p>
-      <h1><%= link_to t(".forum_name"), root_path %></h1>
-      <nav id="navigation">
-      <ul>
-        <li><%= link_to t(".new_thread"), new_cf_thread_path %></li>
-        <li><%= link_to t(".register"), root_path %></li>
-      </ul>
-    </nav>
-    </header>
 
-    <div id="main">
-      <div id="alerts-container">
-      <% flash.each do |name,msg| %>
-        <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
-          <%= msg %>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+
+          <%= render 'layouts/navigation' %>
+
         </div>
-      <% end %>
       </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+
+        <div id="alerts-container">
+        <% flash.each do |name,msg| %>
+          <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+            <%= msg %>
+          </div>
+        <% end %>
+        </div>
 
 
-      <%= yield %>
+        <%= yield %>
+      </div>
     </div>
 
   </body>

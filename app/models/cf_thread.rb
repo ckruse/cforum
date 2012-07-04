@@ -11,15 +11,9 @@ class CfThread < ActiveRecord::Base
 
   scope :index, where('archived = ?', false)
 
-  def find_message(mid, msg = nil)
-    msg = message if msg.nil?
-    return msg if msg.id.to_s == mid.to_s
-
-    unless msg.messages.blank?
-      msg.messages.each do |m|
-        found = find_message(mid, m)
-        return found if found
-      end
+  def find_message(mid)
+    messages.each do |m|
+      return m if m.message_id == mid
     end
 
     nil
