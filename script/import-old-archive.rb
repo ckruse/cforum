@@ -33,7 +33,7 @@ def handle_messages(old_msg, x_msg, thread)
     upvotes: x_msg['votingGood'].to_i,
     downvotes: x_msg['votingBad'].to_i,
 
-    invisible: x_msg['invisible'] == '1' ? true : false,
+    invisible: x_msg['invisible'] == '1',
 
     created_at: the_date,
     updated_at: the_date,
