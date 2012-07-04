@@ -1,27 +1,30 @@
 Cforum::Application.routes.draw do
-  
-  get '/' => 'cf_threads#index', as: 'cf_threads'
 
-  # thread urls
-  match '/' => 'cf_threads#create', :via => :post
-  match '/new' => 'cf_threads#new', :via => :get, as: 'new_cf_thread'
-  match '/:year/:mon/:day/:tid' => 'cf_threads#show', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get, as: 'cf_thread'
-  match '/:year/:mon/:day/:tid' => 'cf_threads#destroy', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :delete
+  scope ":curr_forum" do
+    get '/' => 'cf_threads#index', as: 'cf_threads'
 
-  # message urls
-  match '/:year/:mon/:day/:tid/:mid' => 'cf_messages#show', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get, as: 'cf_message'
-  match '/:year/:mon/:day/:tid/:mid/edit' => 'cf_messages#edit', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :put, as: 'edit_cf_message'
-  match '/:year/:mon/:day/:tid/:mid' => 'cf_messages#update', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :put
-  match '/:year/:mon/:day/:tid/:mid' => 'cf_messages#destroy', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :delete
+    # thread urls
+    match '/' => 'cf_threads#create', :via => :post
+    match '/new' => 'cf_threads#new', :via => :get, as: 'new_cf_thread'
+    match '/:year/:mon/:day/:tid' => 'cf_threads#show', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get, as: 'cf_thread'
+    match '/:year/:mon/:day/:tid' => 'cf_threads#destroy', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :delete
 
-  match '/:year/:mon/:day/:tid/:mid/new' => 'cf_messages#new', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get, as: 'new_cf_message'
-  match '/:year/:mon/:day/:tid/:mid' => 'cf_messages#create', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :post
+    # message urls
+    match '/:year/:mon/:day/:tid/:mid' => 'cf_messages#show', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get, as: 'cf_message'
+    match '/:year/:mon/:day/:tid/:mid/edit' => 'cf_messages#edit', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :put, as: 'edit_cf_message'
+    match '/:year/:mon/:day/:tid/:mid' => 'cf_messages#update', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :put
+    match '/:year/:mon/:day/:tid/:mid' => 'cf_messages#destroy', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :delete
 
-  resources :users
+    match '/:year/:mon/:day/:tid/:mid/new' => 'cf_messages#new', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :get, as: 'new_cf_message'
+    match '/:year/:mon/:day/:tid/:mid' => 'cf_messages#create', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :post
 
-  match '/login' => 'application#login_from_http_basic'
+    resources :users
 
-  root to: 'cf_threads#index'
+    match '/login' => 'application#login_from_http_basic'
+  end
+
+  resources :cf_forums, path: ''
+  root to: 'cf_forums#index'
 
 
   # The priority is based upon order of creation:
