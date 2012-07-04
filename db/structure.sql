@@ -399,6 +399,13 @@ CREATE INDEX "index_cforum.threads_on_archived" ON threads USING btree (archived
 
 
 --
+-- Name: index_cforum.threads_on_created_at; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX "index_cforum.threads_on_created_at" ON threads USING btree (created_at);
+
+
+--
 -- Name: index_cforum.threads_on_slug; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -507,3 +514,5 @@ INSERT INTO schema_migrations (version) VALUES ('5');
 INSERT INTO schema_migrations (version) VALUES ('6');
 
 INSERT INTO schema_migrations (version) VALUES ('7');
+
+INSERT INTO schema_migrations (version) VALUES ('8');
