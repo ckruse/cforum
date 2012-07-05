@@ -20,15 +20,15 @@ class CfThread < ActiveRecord::Base
   attr_accessor :message
 
   def gen_tree
-    self.message = messages[0]
-    map = {}
-
     messages.sort! do |a,b|
       ret = a.created_at <=> b.created_at
       ret = a.message_id <=> b.message_id if ret == 0
 
       ret
     end
+
+    self.message = messages[0]
+    map = {}
 
     messages.each do |msg|
       map[msg.message_id] = msg
