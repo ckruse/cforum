@@ -13,6 +13,10 @@ class CfUser < ActiveRecord::Base
   attr_accessible :username, :email, :crypted_password, :salt, :created_at, :updated_at, :last_login_at, :last_logout_at
 
   has_many :settings, class_name: 'CfSetting'
+
+  def to_param
+    username
+  end
 end
 
 # eof

@@ -3,6 +3,12 @@ Cforum::Application.routes.draw do
   resources :users
   match '/login' => 'application#login_from_http_basic'
 
+  namespace 'admin' do
+    resources :cf_users, :cf_forums
+
+    root to: "cf_users#index"
+  end
+
   scope ":curr_forum" do
     get '/' => 'cf_threads#index', as: 'cf_threads'
 

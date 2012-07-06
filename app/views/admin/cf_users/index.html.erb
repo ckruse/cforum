@@ -1,0 +1,62 @@
+<h1>Benutzer-Verwaltung</h1>
+
+<%= form_tag do |t| %>
+
+<% end %>
+
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Benutzername</th>
+      <th>E-Mail</th>
+      <th>Letztes Login</th>
+      <th> </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+    <tr>
+      <td><%= link_to user.username, admin_cf_user_path(user) %></td>
+      <td><%= user.email %></td>
+      <td><%== user.last_login_at ? l(user.last_login_at) : '<em>never</em>' %></td>
+      <td>
+        <a href="<%= admin_cf_user_path(user, :method => :delete) %>" class="icon icon-trash" title="Benutzer löschen"> </a>
+        <a href="<%= edit_admin_cf_user_path(user) %>" class="icon icon-edit" title="Benutzer bearbeiten"> </a>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="pagination pagination-centered">
+  <ul>
+    <%
+    start_page = @page - 5
+    end_page = @page + 5
+
+    last_possible_page = (@all_users_count / 50).floor
+    start_page = 0 if start_page < 0
+    end_page = last_possible_page if end_page > last_possible_page
+
+    prev_page = @page - 1 < 0 ? 0 : @page - 1
+    next_page = @page + 1 > last_possible_page ? last_possible_page : @page + 1
+
+    %>
+
+    <li<% if @page == 0 %> class="disabled"<% end %>><a href="<%= admin_cf_users_path %>">««</a></li>
+    <li<% if @page == 0 %> class="disabled"<% end %>><a href="<%= admin_cf_users_path(p: prev_page) %>">«</a></li>
+
+    <% if start_page != 0 %><li class="disabled"><a href="#">…</a></li><% end %>
+
+    <% (start_page..end_page).each do |i| %>
+    <li<% if @page == i %> class="active"<% end %>><a href="<%= admin_cf_users_path(p: i) %>"><%= i+1 %></a></li>
+    <% end %>
+
+    <% if end_page != last_possible_page %><li class="disabled"><a href="#">…</a></li><% end %>
+
+    <li><a href="<%= admin_cf_users_path(p: next_page) %>">»</a></li>
+    <li><a href="<%= admin_cf_users_path(p: last_possible_page) %>">»»</a></li>
+
+  </ul>
+</div>
