@@ -36,6 +36,36 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: access; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE access (
+    user_id bigint,
+    forum_id bigint,
+    access_id bigint NOT NULL
+);
+
+
+--
+-- Name: access_access_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE access_access_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: access_access_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE access_access_id_seq OWNED BY access.access_id;
+
+
+--
 -- Name: forums; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -46,7 +76,8 @@ CREATE TABLE forums (
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    forum_id bigint NOT NULL
+    forum_id bigint NOT NULL,
+    public boolean
 );
 
 
@@ -144,6 +175,36 @@ ALTER SEQUENCE messages_message_id_seq OWNED BY messages.message_id;
 
 
 --
+-- Name: moderators; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE moderators (
+    user_id bigint,
+    forum_id bigint,
+    moderator_id bigint NOT NULL
+);
+
+
+--
+-- Name: moderators_moderator_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE moderators_moderator_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: moderators_moderator_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE moderators_moderator_id_seq OWNED BY moderators.moderator_id;
+
+
+--
 -- Name: settings; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -223,7 +284,9 @@ CREATE TABLE users (
     updated_at timestamp without time zone NOT NULL,
     last_login_at timestamp without time zone,
     last_logout_at timestamp without time zone,
-    user_id bigint NOT NULL
+    user_id bigint NOT NULL,
+    admin character varying(255),
+    active boolean
 );
 
 
@@ -260,6 +323,13 @@ CREATE TABLE schema_migrations (
 SET search_path = cforum, pg_catalog;
 
 --
+-- Name: access_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY access ALTER COLUMN access_id SET DEFAULT nextval('access_access_id_seq'::regclass);
+
+
+--
 -- Name: forum_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -278,6 +348,13 @@ ALTER TABLE ONLY message_flags ALTER COLUMN flag_id SET DEFAULT nextval('message
 --
 
 ALTER TABLE ONLY messages ALTER COLUMN message_id SET DEFAULT nextval('messages_message_id_seq'::regclass);
+
+
+--
+-- Name: moderator_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY moderators ALTER COLUMN moderator_id SET DEFAULT nextval('moderators_moderator_id_seq'::regclass);
 
 
 --
@@ -302,6 +379,14 @@ ALTER TABLE ONLY users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_s
 
 
 --
+-- Name: access_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY access
+    ADD CONSTRAINT access_pkey PRIMARY KEY (access_id);
+
+
+--
 -- Name: forums_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -323,6 +408,14 @@ ALTER TABLE ONLY message_flags
 
 ALTER TABLE ONLY messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (message_id);
+
+
+--
+-- Name: moderators_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY moderators
+    ADD CONSTRAINT moderators_pkey PRIMARY KEY (moderator_id);
 
 
 --
@@ -446,6 +539,22 @@ ALTER TABLE ONLY settings
 
 
 --
+-- Name: forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY moderators
+    ADD CONSTRAINT forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY access
+    ADD CONSTRAINT forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -494,6 +603,22 @@ ALTER TABLE ONLY settings
 
 
 --
+-- Name: user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY moderators
+    ADD CONSTRAINT user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY access
+    ADD CONSTRAINT user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -516,3 +641,5 @@ INSERT INTO schema_migrations (version) VALUES ('6');
 INSERT INTO schema_migrations (version) VALUES ('7');
 
 INSERT INTO schema_migrations (version) VALUES ('8');
+
+INSERT INTO schema_migrations (version) VALUES ('9');
