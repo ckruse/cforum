@@ -21,6 +21,17 @@
 </div>
 
 <div class="control-group">
+  <%= f.label :admin, :class => 'control-label' %>
+  <div class="controls"><%= f.check_box :admin %></div>
+</div>
+
+<div class="control-group">
+  <%= f.label :active, :class => 'control-label' %>
+  <div class="controls"><%= f.check_box :active %></div>
+</div>
+
+
+<div class="control-group">
   <%= f.label :password, :class => 'control-label' %>
   <div class="controls"><%= f.password_field :password %></div>
 </div>
