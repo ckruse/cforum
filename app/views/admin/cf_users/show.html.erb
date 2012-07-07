@@ -2,5 +2,9 @@
 
 <p>
   E-Mail: <%= @user.email %><br>
-  Postings: <%= @postings_count %>
+  Postings: <%= @postings_count %><br>
+  Letzter Login: <%== @user.last_login_at.blank? ? '<em>never</em>' : l(@user.last_login_at) %><br>
+  Letzter Logout: <%== @user.last_logout_at.blank? ? '<em>never</em>' : l(@user.last_logout_at.blank?) %>
 </p>
+
+<a href="<%= edit_admin_cf_user_path(@user) %>" class="btn btn-primary">Edit</a>

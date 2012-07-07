@@ -10,9 +10,14 @@ class CfUser < ActiveRecord::Base
   validates_presence_of :username
   validates_uniqueness_of :username
 
-  attr_accessible :username, :email, :crypted_password, :salt, :created_at, :updated_at, :last_login_at, :last_logout_at
+  attr_accessible :username, :email, :crypted_password, :salt,
+    :password, :password_confirmation,
+    :created_at, :updated_at, :last_login_at, :last_logout_at
 
   has_many :settings, class_name: 'CfSetting'
+
+  validates_confirmation_of :password, :if => :password
+  validates_length_of :password, :minimum => 3, :if => :password
 
   def to_param
     username

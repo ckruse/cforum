@@ -1,7 +1,8 @@
 <h1>Benutzer-Verwaltung</h1>
 
-<%= form_tag do |t| %>
-
+<%= form_tag admin_cf_users_path, :method => :get, :class => 'form-search' do |t| %>
+  <input type="text" class="input-medium search-query" name="s">
+  <input type="submit" class="btn" value="Search">
 <% end %>
 
 <table class="table table-striped table-bordered">
