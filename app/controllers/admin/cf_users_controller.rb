@@ -39,9 +39,20 @@ class Admin::CfUsersController < ApplicationController
   end
 
   def create
+    @user = CfUser.new(params[:cf_user])
+
+    if @user.save
+      redirect_to admin_cf_user_url(@user), notice: 'User created' # TODO: localization
+    else
+      render :new
+    end
   end
 
   def destroy
+    @user = CfUser.find_by_username(params[:id])
+    @user.destroy
+
+    redirect_to admin_cf_users_url, notice: 'User successfully deleted' # TODO: localization
   end
 end
 
