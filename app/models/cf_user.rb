@@ -18,6 +18,8 @@ class CfUser < ActiveRecord::Base
     :created_at, :updated_at, :last_login_at, :last_logout_at
 
   has_many :settings, class_name: 'CfSetting'
+  has_many :forum_mods, class_name: 'CfModerator', :foreign_key => :user_id
+  has_many :forums, class_name: 'CfForum', :through => :forum_mods
 
   def to_param
     username

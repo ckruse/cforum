@@ -4,6 +4,9 @@ class CfForum < ActiveRecord::Base
 
   has_many :threads, class_name: 'CfThread'
 
+  has_many :forum_mods, class_name: 'CfModerator', :foreign_key => :forum_id
+  has_many :moderators, class_name: 'CfUser', :through => :forum_mods, :source => :user
+
   attr_accessible :forum_id, :slug, :name, :short_name, :description, :updated_at, :created_at
 
   def to_param
