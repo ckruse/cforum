@@ -1,28 +1,5 @@
 <%= form_for @user, url: admin_cf_user_path(@user), html: {:class => 'form-horizontal'} do |f| %>
 
-<div class="control-group">
-  <%= f.label :username, :class => 'control-label' %>
-  <div class="controls"><%= f.text_field :username %></div>
-</div>
-
-<div class="control-group">
-  <%= f.label :password, :class => 'control-label' %>
-  <div class="controls"><%= f.password_field :password %></div>
-</div>
-
-<div class="control-group">
-  <%= f.label :password_confirm, :class => 'control-label' %>
-  <div class="controls"><%= f.password_field :password_confirmation %></div>
-</div>
-
-<div class="control-group">
-  <%= f.label :email, :class => 'control-label' %>
-  <div class="controls"><%= f.email_field :email %></div>
-</div>
-
-<div class="form-actions">
-  <input type="submit" value="Save" class="btn btn-primary">
-  <a href="<%= admin_cf_users_path %>" class="btn">Cancel</a>
-</div>
+<%= render '_form', f: f %>
 
 <% end %>

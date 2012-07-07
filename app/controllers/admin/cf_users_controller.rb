@@ -35,6 +35,7 @@ class Admin::CfUsersController < ApplicationController
   end
 
   def new
+    @user = CfUser.new
   end
 
   def create
