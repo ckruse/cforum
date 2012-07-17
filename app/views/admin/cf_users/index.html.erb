@@ -22,8 +22,8 @@
       <td><%= user.email %></td>
       <td><%== user.last_login_at ? l(user.last_login_at) : '<em>never</em>' %></td>
       <td>
-        <a href="<%= edit_admin_cf_user_path(user) %>" class="icon icon-edit" title="Benutzer bearbeiten"> </a>
         <%= link_to '', admin_cf_user_path(user), data: {confirm: 'Are you sure?'}, :method => :delete, :class => 'icon icon-trash' %>
+        <%= link_to '', edit_admin_cf_user_path(user), :class => "icon icon-edit" %>
       </td>
     </tr>
     <% end %>
