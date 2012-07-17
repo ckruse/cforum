@@ -1,0 +1,15 @@
+<h1><%= @cf_forum.name %></h1>
+
+<p>
+  Name: <%= @cf_forum.name %><br>
+  Short name: <%= @cf_forum.short_name %><br>
+  Slug: <%= @cf_forum.slug %><br>
+  Created: <%= t(@cf_forum.created_at) %><br>
+  Updated: <%= t(@cf_forum.updated_at) %><br>
+  Description: <%= @cf_forum.description %>
+</p>
+
+<p class="form-actions">
+  <%= link_to 'Edit', edit_admin_cf_forum_path(@cf_forum.forum_id), :class => "btn btn-primary" %>
+  <%= link_to 'Delete', admin_cf_forum_path(@cf_forum.forum_id), :confirm => 'Are you sure?', :method => :delete, :class => 'btn' %>
+</p>
