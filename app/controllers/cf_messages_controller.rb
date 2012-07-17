@@ -1,4 +1,6 @@
 class CfMessagesController < ApplicationController
+  load_and_authorize_resource
+
   def show
     @id = CfThread.make_id(params)
     @thread = CfThread.find_by_slug(@id)

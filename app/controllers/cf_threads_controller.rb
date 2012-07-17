@@ -1,6 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 class CfThreadsController < ApplicationController
+  load_and_authorize_resource
+
   before_filter :require_login, :only => [:edit, :destroy]
 
   SHOW_THREADLIST = "show_threadlist"

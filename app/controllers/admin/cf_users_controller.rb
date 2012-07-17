@@ -1,6 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 class Admin::CfUsersController < ApplicationController
+  load_and_authorize_resource
+
   def index
     @page = params[:p].to_i || 0
     @page = 0 if @page < 0

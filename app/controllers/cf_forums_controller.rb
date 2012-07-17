@@ -1,6 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 class CfForumsController < ApplicationController
+  load_and_authorize_resource
+
   def index
     @forums = CfForum.order('name ASC').find(:all)
     results = CfThread.select('forum_id, COUNT(thread_id) AS cnt').group('forum_id')
