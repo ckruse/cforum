@@ -21,7 +21,7 @@ module UrlHelpers
   end
 
   def cf_thread_url(thread)
-    root_url + thread.slug
+    root_url + thread.slug[1..-1]
   end
 
   def cf_message_url(thread, message)
