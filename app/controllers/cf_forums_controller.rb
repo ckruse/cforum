@@ -4,12 +4,33 @@ class CfForumsController < ApplicationController
   load_and_authorize_resource
 
   def index
+    if params[:t] || params[:m]
+      thread = CfThread.find_by_tid(params[:t].to_i)
+      if thread
+        if params[:m] and message = thread.find_message(params[:m].to_i)
+          redirect_to cf_message_url(thread, message), status: 301
+        else
+          redirect_to cf_thread_url(thread), status: 301
+        end
+      end
+    end
+
+
     @forums = CfForum.order('name ASC').find(:all)
     results = CfThread.select('forum_id, COUNT(thread_id) AS cnt').group('forum_id')
 
     @counts = {}
     results.each do |r|
       @counts[r.forum_id] = r.cnt.to_i
+    end
+  end
+
+  def redirect_archive
+    thread = CfThread.find_by_tid(params[:tid][1..-1].to_i)
+    if thread
+      redirect_to cf_thread_url(thread), status: 301
+    else
+      # TODO: raise 404
     end
   end
 end

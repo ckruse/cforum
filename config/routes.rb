@@ -28,6 +28,7 @@ Cforum::Application.routes.draw do
     match '/:year/:mon/:day/:tid/:mid' => 'cf_messages#create', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, :via => :post
   end
 
+  get '/archiv/:year/:mon/:tid' => 'cf_forums#redirect_archive'
   root to: 'cf_forums#index'
 
 
