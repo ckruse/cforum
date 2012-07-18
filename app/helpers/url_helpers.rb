@@ -20,8 +20,12 @@ module UrlHelpers
     cf_message_path(thread, message) + "/new"
   end
 
+  def cf_forum_url(forum)
+    return root_url + forum.slug
+  end
+
   def cf_thread_url(thread)
-    root_url + thread.slug[1..-1]
+    cf_forum_url(thread.forum) + thread.slug
   end
 
   def cf_message_url(thread, message)
