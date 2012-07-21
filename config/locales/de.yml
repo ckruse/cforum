@@ -12,6 +12,7 @@ de:
 
   users:
     signed_up: Benutzer erfolgreich erstellt!
+    logged_in: Der Login war erfolgreich.
 
     new:
       form_invalid: Das Formular ist fehlerhaft!

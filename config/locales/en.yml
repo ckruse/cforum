@@ -15,6 +15,7 @@ en:
 
   users:
     signed_up: Signed up!
+    logged_in: Login from basic auth successful!
 
     new:
       form_invalid: The Form is invalid!

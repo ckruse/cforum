@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   end
 
   def login_from_http_basic
-    redirect_to root_url, :notice => 'Login from basic auth successful'
+    redirect_to root_url, :notice => I18n.t('users.logged_in')
   end
 
   def set(name, value)
