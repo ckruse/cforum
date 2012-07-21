@@ -89,7 +89,7 @@ def handle_doc(doc, opts = {})
 
   forum = CfForum.find_by_slug(forum_slug)
   unless forum
-    forum = CfForum.create(
+    forum = CfForum.create!(
       name: forum_name,
       short_name: forum_name,
       slug: forum_slug,
