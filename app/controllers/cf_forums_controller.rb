@@ -23,6 +23,12 @@ class CfForumsController < ApplicationController
     results.each do |r|
       @counts[r.forum_id] = r.cnt.to_i
     end
+
+    results = CfForum.select("forum_id, (SELECT updated_at FROM cforum.messages WHERE cforum.messages.forum_id = cforum.forums.forum_id AND invisible = false AND deleted = false ORDER BY updated_at DESC LIMIT 1) AS updated_at")
+    @activities = {}
+    results.each do |row|
+      @activities[row.forum_id] = row.updated_at
+    end
   end
 
   def redirect_archive

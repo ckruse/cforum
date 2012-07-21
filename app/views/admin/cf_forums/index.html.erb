@@ -14,7 +14,7 @@
     <tr>
       <td><%= link_to forum.name, admin_cf_forum_path(forum.forum_id) %></td>
       <td><%= @counts[forum.forum_id] %></td>
-      <td> TODO </td>
+      <td><%= l(@activities[forum.forum_id]) %></td>
       <td>
         <%= link_to '', edit_admin_cf_forum_path(forum), :class => "icon icon-edit" %>
         <%= link_to '', admin_cf_forum_path(forum.forum_id), data: {confirm: 'Are you sure?'}, :method => :delete, :class => 'icon icon-trash' %>

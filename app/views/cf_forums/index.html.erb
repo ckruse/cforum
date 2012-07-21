@@ -13,7 +13,7 @@
     <tr>
       <td><%= link_to forum.name, forum %></td>
       <td><%= @counts[forum.forum_id] %></td>
-      <td> TODO </td>
+      <td><%= l(@activities[forum.forum_id]) %></td>
     </tr>
     <% end %>
   </tbody>
