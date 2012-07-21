@@ -16,7 +16,7 @@ class CfThreadsController < ApplicationController
     conditions[:forum_id] = forum.forum_id if forum
     conditions[:archived] = false if ConfigManager.setting('use_archive')
 
-    @threads = CfThread.preload(:messages).where(conditions).order('cforum.threads.created_at DESC').limit(ConfigManager.setting('pagination', 150))
+    @threads = CfThread.preload(:messages, :forum).where(conditions).order('cforum.threads.created_at DESC').limit(ConfigManager.setting('pagination', 150))
 
     @threads.each do |t|
       t.gen_tree
