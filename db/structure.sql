@@ -145,7 +145,6 @@ CREATE TABLE messages (
     homepage text,
     upvotes integer DEFAULT 0 NOT NULL,
     downvotes integer DEFAULT 0 NOT NULL,
-    invisible boolean DEFAULT false NOT NULL,
     user_id bigint,
     parent_id bigint,
     deleted boolean DEFAULT false,
@@ -645,6 +644,8 @@ SET search_path = public, pg_catalog;
 INSERT INTO schema_migrations (version) VALUES ('1');
 
 INSERT INTO schema_migrations (version) VALUES ('10');
+
+INSERT INTO schema_migrations (version) VALUES ('11');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 

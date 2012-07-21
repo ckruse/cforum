@@ -4,7 +4,7 @@ class Ability
   def initialize(user)
     #if user.nil? || !user
       can [:show, :index, :redirect_archive], CfForum
-      can [:create, :show, :index], CfMessage, :invisible => false
+      can [:create, :show, :index], CfMessage, :deleted => false
       can [:create, :show, :index], CfThread
 
     return unless user
