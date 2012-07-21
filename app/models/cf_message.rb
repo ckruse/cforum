@@ -20,6 +20,17 @@ class CfMessage < ActiveRecord::Base
   validates :content, presence: true, length: { :in => 10..12288 }
 
   validates :email, email: true
+
+  def self.view_all
+    @@view_all
+  end
+  def self.view_all=(val)
+    @@view_all = val
+  end
+  self.view_all = false
+  default_scope do
+    self.view_all ? nil : where("deleted = false")
+  end
 end
 
 # eof

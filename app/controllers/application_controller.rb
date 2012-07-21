@@ -8,8 +8,17 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   before_filter :require_login_from_http_basic, :only => [:login_from_http_basic]
+  before_filter :check_admin_access
 
   attr_reader :notification_center
+
+  def check_admin_access
+    cu = current_user
+    if cu and cu.admin and (session[:view_all] || params[:view_all])
+      CfThread.view_all = true
+      CfMessage.view_all = true
+    end
+  end
 
   def initialize(*args)
     @notification_center = NotificationCenter.new

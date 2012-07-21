@@ -13,6 +13,9 @@ directory = ARGV[0] if ARGV.length >= 1
 $ids = {}
 $coder = HTMLEntities.new
 
+CfThread.view_all = true
+CfMessage.view_all = true
+
 def convert_content(txt)
   txt = txt.gsub(/<br ?\/?>/,"\n")
   txt = $coder.decode(txt)
