@@ -151,7 +151,8 @@ CREATE TABLE messages (
     deleted boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    message_id bigint NOT NULL
+    message_id bigint NOT NULL,
+    forum_id bigint NOT NULL
 );
 
 
@@ -450,6 +451,13 @@ CREATE UNIQUE INDEX "index_cforum.forums_on_slug" ON forums USING btree (slug);
 
 
 --
+-- Name: index_cforum.messages_on_forum_id_and_updated_at; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX "index_cforum.messages_on_forum_id_and_updated_at" ON messages USING btree (forum_id, updated_at);
+
+
+--
 -- Name: index_cforum.messages_on_mid; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -555,6 +563,14 @@ ALTER TABLE ONLY access
 
 
 --
+-- Name: forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -627,6 +643,8 @@ ALTER TABLE ONLY access
 SET search_path = public, pg_catalog;
 
 INSERT INTO schema_migrations (version) VALUES ('1');
+
+INSERT INTO schema_migrations (version) VALUES ('10');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 
