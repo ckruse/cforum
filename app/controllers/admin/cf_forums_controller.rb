@@ -17,6 +17,8 @@ class Admin::CfForumsController < CfForumsController
     results.each do |row|
       @activities[row.forum_id] = row.updated_at
     end
+
+    notification_center.notify(SHOW_FORUMLIST, @threads, true)
   end
 
   def show
