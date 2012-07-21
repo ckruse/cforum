@@ -2,6 +2,12 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  admin:
+    forums:
+      updated: Forum successfully changed
+      created: Forum successfully created
+      destroyed: Forum successfully deleted
+
   users:
     signed_up: Signed up!
 

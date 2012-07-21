@@ -1,4 +1,10 @@
 de:
+  admin:
+    forums:
+      updated: Forum erfolgreich geändert
+      created: Forum erfolgreich erstellt
+      destroyed: Forum erfolgreich gelöscht
+
   users:
     signed_up: Benutzer erfolgreich erstellt!
 
@@ -26,3 +32,6 @@ de:
 
   messages:
     by: von
+
+    new:
+      created: Nachricht wurde erfolgreich erstellt!

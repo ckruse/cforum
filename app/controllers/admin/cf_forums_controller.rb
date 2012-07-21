@@ -29,7 +29,7 @@ class Admin::CfForumsController < CfForumsController
 
   def update
     if @cf_forum.update_attributes(params[:cf_user])
-      redirect_to edit_admin_cf_forum_url(@cf_forum.forum_id), notice: 'Forum successfully changed' # TODO: localization
+      redirect_to edit_admin_cf_forum_url(@cf_forum.forum_id), notice: I18n.t("admin.forums.updated")
     else
       render :edit
     end
@@ -43,7 +43,7 @@ class Admin::CfForumsController < CfForumsController
     @cf_forum = CfForum.new(params[:cf_forum])
 
     if @cf_forum.save
-      redirect_to admin_cf_forum_url(@cf_forum.forum_id), notice: 'Forum created' # TODO: localization
+      redirect_to admin_cf_forum_url(@cf_forum.forum_id), notice: I18n.t("admin.forums.created")
     else
       render :new
     end
@@ -52,6 +52,6 @@ class Admin::CfForumsController < CfForumsController
   def destroy
     @cf_forum.destroy
 
-    redirect_to admin_cf_forums_url, notice: 'Forum successfully deleted' # TODO: localization
+    redirect_to admin_cf_forums_url, notice: I18n.t("admin.forums.destroyed")
   end
 end
