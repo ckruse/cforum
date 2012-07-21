@@ -21,6 +21,8 @@ de:
       title: Classic Forum
 
   threads:
+    created: Der Thread wurde erfolgreich erstellt.
+
     new:
       new_thread: New Thread
       subject: Betreff

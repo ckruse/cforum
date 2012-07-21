@@ -24,6 +24,8 @@ en:
       title: Classic Forum
 
   threads:
+    created: Thread was successfully created.
+
     new:
       new_thread: New Thread
       subject: Subject
