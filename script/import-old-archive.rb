@@ -104,7 +104,8 @@ def handle_doc(doc, opts = {})
       short_name: forum_name,
       slug: forum_slug,
       created_at: the_date,
-      updated_at: the_date
+      updated_at: the_date,
+      :public => true
     )
   end
 
