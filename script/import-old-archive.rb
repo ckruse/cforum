@@ -84,6 +84,12 @@ def handle_doc(doc, opts = {})
   forum_name = "Default-Forum" if forum_name.blank?
   forum_slug = forum_name.downcase.gsub /\s+/, '-'
 
+  forum_slug.gsub! /[^a-zA-Z0-9_-]/, '-'
+  forum_slug.gsub! /-{2,}/, '-'
+
+  forum_slug = 'default-forum' if forum_slug.empty? or forum_slug.length < 3
+  forum_slug = forum_slug[0..19] if forum_slug.length > 20
+
   the_date = Time.at(x_thread.find_first('./Message/Header/Date')['longSec'].force_encoding('utf-8').to_i)
   subject = x_thread.find_first('./Message/Header/Subject').content.force_encoding('utf-8')
 
