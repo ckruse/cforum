@@ -37,6 +37,4 @@ en:
 
   messages:
     by: "by"
-
-    new:
-      created: Message has been created!
+    created: Message has been created!
