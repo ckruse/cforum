@@ -1,7 +1,7 @@
 Cforum::Application.routes.draw do
+  match '/login' => 'application#login_from_http_basic'
 
   resources :users
-  match '/login' => 'application#login_from_http_basic'
 
   namespace 'admin' do
     resources :cf_users, :cf_forums
