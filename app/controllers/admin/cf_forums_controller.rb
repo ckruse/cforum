@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class Admin::CfForumsController < ApplicationController
+class Admin::CfForumsController < CfForumsController
   load_and_authorize_resource
 
   def index
