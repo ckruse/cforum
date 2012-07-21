@@ -18,6 +18,7 @@
       <td>
         <%= link_to '', edit_admin_cf_forum_path(forum), :class => "icon icon-edit" %>
         <%= link_to '', admin_cf_forum_path(forum.forum_id), data: {confirm: 'Are you sure?'}, :method => :delete, :class => 'icon icon-trash' %>
+        <%= link_to '', admin_cf_forums_merge_path(forum.forum_id), :class => 'icon icon-share' %>
       </td>
     </tr>
     <% end %>

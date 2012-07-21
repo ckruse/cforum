@@ -54,4 +54,21 @@ class Admin::CfForumsController < CfForumsController
 
     redirect_to admin_cf_forums_url, notice: I18n.t("admin.forums.destroyed")
   end
+
+  def merge
+    @forums = CfForum.find :all
+    @merge_with = params[:merge_with]
+  end
+
+  def do_merge
+    CfForum.transaction do
+      CfForum.connection.execute 'UPDATE cforum.threads SET forum_id = ' + params[:merge_with].to_i.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
+      CfMessage.connection.execute 'UPDATE cforum.messages SET forum_id = ' + params[:merge_with].to_i.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
+      CfModerator.connection.execute 'UPDATE cforum.moderators SET forum_id = ' + params[:merge_with].to_i.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
+
+      @cf_forum.destroy
+    end
+
+    redirect_to admin_cf_forums_url, notice: I18n.t('admin.forums.merged')
+  end
 end

@@ -4,6 +4,7 @@ de:
       updated: Forum erfolgreich geändert
       created: Forum erfolgreich erstellt
       destroyed: Forum erfolgreich gelöscht
+      merged: Das Forum wurde erfolgreich zusammengeführt
 
     users:
       updated: Benutzer erfolgreich geändert.

@@ -5,6 +5,8 @@ Cforum::Application.routes.draw do
 
   namespace 'admin' do
     resources :cf_users, :cf_forums
+    get '/cf_forums/:id/merge' => 'cf_forums#merge', as: 'cf_forums_merge'
+    post '/cf_forums/:id/merge' => 'cf_forums#do_merge', as: 'cf_forums_do_merge'
 
     root to: "cf_users#index"
   end
