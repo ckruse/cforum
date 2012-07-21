@@ -40,7 +40,8 @@ def handle_messages(old_msg, x_msg, thread)
 
     content: convert_content(x_msg.find_first('./MessageContent').content.force_encoding('utf-8')),
     parent_id: old_msg ? old_msg.message_id : nil,
-    thread_id: thread.thread_id
+    thread_id: thread.thread_id,
+    forum_id: thread.forum_id
   )
 
   # cat      = x_msg.find_first('./Header/Category').content.force_encoding('utf-8')
