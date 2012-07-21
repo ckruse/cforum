@@ -1,6 +1,6 @@
 module UrlHelpers
   def cf_forum_path(forum)
-    return forum.slug
+    return '/' + forum.slug
   end
 
   def cf_thread_path(thread)
