@@ -56,7 +56,7 @@ class Admin::CfForumsController < CfForumsController
   end
 
   def merge
-    @forums = CfForum.find :all
+    @forums = CfForum.order(:name).find :all
     @merge_with = params[:merge_with]
   end
 
