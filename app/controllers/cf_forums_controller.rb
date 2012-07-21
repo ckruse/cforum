@@ -3,6 +3,8 @@
 class CfForumsController < ApplicationController
   load_and_authorize_resource
 
+  SHOW_FORUMLIST = "show_forumlist"
+
   def index
     if params[:t] || params[:m]
       thread = CfThread.find_by_tid(params[:t].to_i)
@@ -29,6 +31,8 @@ class CfForumsController < ApplicationController
     results.each do |row|
       @activities[row.forum_id] = row.updated_at
     end
+
+    notification_center.notify(SHOW_FORUMLIST, @threads, false)
   end
 
   def redirect_archive
