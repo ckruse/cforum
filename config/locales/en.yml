@@ -8,6 +8,11 @@ en:
       created: Forum successfully created
       destroyed: Forum successfully deleted
 
+    users:
+      updated: User was successfully changed!
+      created: User was successfully created!
+      deleted: User successfully deleted!
+
   users:
     signed_up: Signed up!
 

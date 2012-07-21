@@ -30,7 +30,7 @@ class Admin::CfUsersController < ApplicationController
     @user = CfUser.find_by_username(params[:id])
 
     if @user.update_attributes(params[:cf_user])
-      redirect_to edit_admin_cf_user_url(@user), notice: 'User successfully changed' # TODO: localization
+      redirect_to edit_admin_cf_user_url(@user), notice: I18n.t('admin.users.updated')
     else
       render :edit
     end
@@ -44,7 +44,7 @@ class Admin::CfUsersController < ApplicationController
     @user = CfUser.new(params[:cf_user])
 
     if @user.save
-      redirect_to admin_cf_user_url(@user), notice: 'User created' # TODO: localization
+      redirect_to admin_cf_user_url(@user), notice: I18n.t('admin.users.created')
     else
       render :new
     end
@@ -54,7 +54,7 @@ class Admin::CfUsersController < ApplicationController
     @user = CfUser.find_by_username(params[:id])
     @user.destroy
 
-    redirect_to admin_cf_users_url, notice: 'User successfully deleted' # TODO: localization
+    redirect_to admin_cf_users_url, notice: I18n.t('admin.users.deleted')
   end
 end
 

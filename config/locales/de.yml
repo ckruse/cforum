@@ -5,6 +5,11 @@ de:
       created: Forum erfolgreich erstellt
       destroyed: Forum erfolgreich gelöscht
 
+    users:
+      updated: Benutzer erfolgreich geändert.
+      created: Benutzer erfolgreich erstellt.
+      deleted: Benutzer erfolgreich gelöscht.
+
   users:
     signed_up: Benutzer erfolgreich erstellt!
 
