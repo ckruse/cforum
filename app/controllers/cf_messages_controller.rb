@@ -46,7 +46,6 @@ class CfMessagesController < ApplicationController
     if @thread.save
       redirect_to cf_message_path(@thread, @message), :notice => I18n.t('messages.created')
     else
-      @categories = ConfigManager.setting('categories', [])
       render :new
     end
   end
