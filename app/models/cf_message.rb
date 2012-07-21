@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 class CfMessage < ActiveRecord::Base
   self.primary_key = 'message_id'
   self.table_name  = 'cforum.messages'

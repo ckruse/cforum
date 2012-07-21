@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 class CfUser < ActiveRecord::Base
   authenticates_with_sorcery!
 

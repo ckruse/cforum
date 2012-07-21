@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 class CfFlag < ActiveRecord::Base
   self.primary_key = 'flag_id'
   self.table_name  = 'cforum.message_flags'

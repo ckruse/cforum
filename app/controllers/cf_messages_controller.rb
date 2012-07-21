@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 class CfMessagesController < ApplicationController
   load_and_authorize_resource
 

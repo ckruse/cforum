@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 class CfForum < ActiveRecord::Base
   self.primary_key = 'forum_id'
   self.table_name  = 'cforum.forums'

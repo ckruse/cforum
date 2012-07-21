@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 class CfModerator < ActiveRecord::Base
   self.primary_key = 'moderator_id'
   self.table_name  = 'cforum.moderators'

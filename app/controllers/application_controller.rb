@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 require Rails.root + 'lib/notification_center'
 require Rails.root + 'lib/plugin'
 
