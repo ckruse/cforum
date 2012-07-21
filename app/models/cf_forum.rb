@@ -18,6 +18,8 @@ class CfForum < ActiveRecord::Base
   def to_param
     slug
   end
+
+  default_scope where('public = true')
 end
 
 # eof

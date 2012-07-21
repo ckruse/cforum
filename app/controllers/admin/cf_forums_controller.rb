@@ -1,10 +1,13 @@
 # -*- encoding: utf-8 -*-
 
-class Admin::CfForumsController < CfForumsController
-  load_and_authorize_resource
+class Admin::CfForumsController < ApplicationController #< CfForumsController
+  before_filter :load_forum
+  authorize_resource
+
+  SHOW_FORUMLIST = "show_forumlist"
 
   def index
-    @forums = CfForum.order('name ASC').find(:all)
+    @forums = CfForum.unscoped.order('name ASC').find(:all)
     results = CfThread.select('forum_id, COUNT(thread_id) AS cnt').group('forum_id')
 
     @counts = {}
@@ -12,7 +15,7 @@ class Admin::CfForumsController < CfForumsController
       @counts[r.forum_id] = r.cnt.to_i
     end
 
-    results = CfForum.select("forum_id, (SELECT updated_at FROM cforum.messages WHERE cforum.messages.forum_id = cforum.forums.forum_id AND deleted = false ORDER BY updated_at DESC LIMIT 1) AS updated_at")
+    results = CfForum.unscoped.select("forum_id, (SELECT updated_at FROM cforum.messages WHERE cforum.messages.forum_id = cforum.forums.forum_id AND deleted = false ORDER BY updated_at DESC LIMIT 1) AS updated_at")
     @activities = {}
     results.each do |row|
       @activities[row.forum_id] = row.updated_at
@@ -28,7 +31,7 @@ class Admin::CfForumsController < CfForumsController
   end
 
   def update
-    if @cf_forum.update_attributes(params[:cf_user])
+    if @cf_forum.update_attributes(params[:cf_forum])
       redirect_to edit_admin_cf_forum_url(@cf_forum.forum_id), notice: I18n.t("admin.forums.updated")
     else
       render :edit
@@ -70,5 +73,10 @@ class Admin::CfForumsController < CfForumsController
     end
 
     redirect_to admin_cf_forums_url, notice: I18n.t('admin.forums.merged')
+  end
+
+  private
+  def load_forum
+    @cf_forum = CfForum.unscoped.find params[:id] if params[:id]
   end
 end
