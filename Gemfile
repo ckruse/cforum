@@ -5,7 +5,7 @@ gem 'pg'
 
 gem 'therubyracer'
 
-gem 'sorcery'
+gem 'sorcery', '>= 0.7.13'
 gem "bcrypt-ruby", :require => "bcrypt"
 
 gem 'jquery-rails'
