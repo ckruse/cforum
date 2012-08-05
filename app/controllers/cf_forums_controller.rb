@@ -19,11 +19,11 @@ class CfForumsController < ApplicationController
 
 
     @forums = CfForum.order('name ASC').find(:all)
-    results = CfThread.select('forum_id, COUNT(thread_id) AS cnt').group('forum_id')
+    results = CfForum.connection.execute("SELECT group_crit, SUM(difference) AS diff FROM cforum.counter_table WHERE table_name = 'threads' GROUP BY group_crit")
 
     @counts = {}
     results.each do |r|
-      @counts[r.forum_id] = r.cnt.to_i
+      @counts[r['group_crit'].to_i] = r['diff']
     end
 
     results = CfForum.select("forum_id, (SELECT updated_at FROM cforum.messages WHERE cforum.messages.forum_id = cforum.forums.forum_id AND deleted = false ORDER BY updated_at DESC LIMIT 1) AS updated_at")
