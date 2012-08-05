@@ -42,7 +42,7 @@ BEGIN
       RAISE NOTICE 'table_count: summing counter';
 
       FOR v_cur_id, v_cur_difference IN
-        SELECT id, difference
+        SELECT count_id, difference
         FROM
           cforum.counter_table
         WHERE
@@ -58,13 +58,13 @@ BEGIN
         v_new_sum := v_new_sum + v_cur_difference;
 
         IF array_length(v_delete_ids, 1) > 100 THEN
-          DELETE FROM cforum.counter_table WHERE id = ANY(v_delete_ids);
+          DELETE FROM cforum.counter_table WHERE count_id = ANY(v_delete_ids);
           v_delete_ids = '{}';
         END IF;
 
       END LOOP;
 
-      DELETE FROM cforum.counter_table WHERE id = ANY(v_delete_ids);
+      DELETE FROM cforum.counter_table WHERE count_id = ANY(v_delete_ids);
       INSERT INTO cforum.counter_table(table_name, group_crit, difference) VALUES(v_table_name, v_group_crit, v_new_sum);
 
     EXCEPTION
