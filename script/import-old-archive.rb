@@ -70,7 +70,7 @@ def handle_messages(old_msg, x_msg, thread)
       msg.user_id = usr.id
       msg.save
     else
-      CfFlag.create!(message_id: msg.message_id, flag: f['name'], value: f.content.force_encoding('utf-8'))
+      msg.flags[f['name']] = f.content.force_encoding('utf-8')
     end
   end
 

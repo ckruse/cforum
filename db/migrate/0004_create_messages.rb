@@ -1,5 +1,6 @@
 class CreateMessages < ActiveRecord::Migration
   def up
+    execute "CREATE EXTENSION hstore"
     execute "DO $$BEGIN CREATE SCHEMA cforum; EXCEPTION WHEN duplicate_schema THEN RAISE NOTICE 'already exists'; END;$$;"
 
     create_table 'cforum.messages', id: false do |t|
@@ -22,6 +23,8 @@ class CreateMessages < ActiveRecord::Migration
       t.integer :parent_id, limit: 8
 
       t.boolean :deleted, default: false
+
+      t.hstore :flags
 
       t.timestamps
     end

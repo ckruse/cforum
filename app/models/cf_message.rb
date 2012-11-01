@@ -4,14 +4,15 @@ class CfMessage < ActiveRecord::Base
   self.primary_key = 'message_id'
   self.table_name  = 'cforum.messages'
 
+  serialize :flags, ActiveRecord::Coders::Hstore
+
   has_one :owner, class_name: 'CfUser', :foreign_key => :user_id
-  has_many :flags, class_name: 'CfFlag'
 
   belongs_to :thread, class_name: 'CfThread', :foreign_key => :thread_id
 
   attr_accessible :message_id, :mid, :thread_id, :subject, :content,
     :author, :email, :homepage, :deleted, :user_id, :parent_id,
-    :updated_at, :created_at, :upvotes, :downvotes, :forum_id
+    :updated_at, :created_at, :upvotes, :downvotes, :forum_id, :flags
 
   attr_accessor :messages
 
@@ -20,6 +21,10 @@ class CfMessage < ActiveRecord::Base
   validates :content, presence: true, length: { :in => 10..12288 }
 
   validates :email, email: true
+
+  after_initialize do
+    self.flags ||= {} if attributes.has_key? 'flags'
+  end
 
   def self.view_all
     @@view_all
