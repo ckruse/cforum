@@ -78,6 +78,7 @@ $body$;
 CREATE TRIGGER threads__count_insert_forum_trigger
   AFTER INSERT
   ON cforum.forums
+  FOR EACH ROW
   EXECUTE PROCEDURE cforum.count_threads_insert_forum_trigger();
 
 -- eof
