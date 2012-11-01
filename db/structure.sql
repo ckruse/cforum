@@ -981,9 +981,9 @@ INSERT INTO schema_migrations (version) VALUES ('3');
 
 INSERT INTO schema_migrations (version) VALUES ('4');
 
-INSERT INTO schema_migrations (version) VALUES ('6');
+INSERT INTO schema_migrations (version) VALUES ('5');
 
-INSERT INTO schema_migrations (version) VALUES ('7');
+INSERT INTO schema_migrations (version) VALUES ('6');
 
 INSERT INTO schema_migrations (version) VALUES ('8');
 
