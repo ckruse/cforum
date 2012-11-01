@@ -16,6 +16,8 @@ class CreateThreads < ActiveRecord::Migration
     execute "ALTER TABLE cforum.threads ADD COLUMN thread_id BIGSERIAL NOT NULL"
     execute "ALTER TABLE cforum.threads ADD PRIMARY KEY (thread_id)"
 
+    execute "ALTER TABLE cforum.threads ADD CONSTRAINT forum_id_fkey FOREIGN KEY (forum_id) REFERENCES cforum.forums(forum_id) ON DELETE CASCADE ON UPDATE CASCADE"
+
     add_index 'cforum.threads', :slug, :unique => true
   end
 
