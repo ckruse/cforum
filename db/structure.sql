@@ -29,6 +29,20 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION hstore; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
+
+
 SET search_path = cforum, pg_catalog;
 
 --
@@ -367,37 +381,6 @@ ALTER SEQUENCE forums_forum_id_seq OWNED BY forums.forum_id;
 
 
 --
--- Name: message_flags; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE TABLE message_flags (
-    message_id bigint,
-    flag character varying(255) NOT NULL,
-    value character varying(255),
-    flag_id bigint NOT NULL
-);
-
-
---
--- Name: message_flags_flag_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
---
-
-CREATE SEQUENCE message_flags_flag_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: message_flags_flag_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
---
-
-ALTER SEQUENCE message_flags_flag_id_seq OWNED BY message_flags.flag_id;
-
-
---
 -- Name: messages; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -414,6 +397,7 @@ CREATE TABLE messages (
     user_id bigint,
     parent_id bigint,
     deleted boolean DEFAULT false,
+    flags public.hstore,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     message_id bigint NOT NULL,
@@ -610,13 +594,6 @@ ALTER TABLE ONLY forums ALTER COLUMN forum_id SET DEFAULT nextval('forums_forum_
 
 
 --
--- Name: flag_id; Type: DEFAULT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY message_flags ALTER COLUMN flag_id SET DEFAULT nextval('message_flags_flag_id_seq'::regclass);
-
-
---
 -- Name: message_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -673,14 +650,6 @@ ALTER TABLE ONLY counter_table
 
 ALTER TABLE ONLY forums
     ADD CONSTRAINT forums_pkey PRIMARY KEY (forum_id);
-
-
---
--- Name: message_flags_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY message_flags
-    ADD CONSTRAINT message_flags_pkey PRIMARY KEY (flag_id);
 
 
 --
@@ -843,7 +812,7 @@ CREATE TRIGGER messages__count_delete_trigger AFTER DELETE ON messages FOR EACH 
 -- Name: messages__count_insert_forum_trigger; Type: TRIGGER; Schema: cforum; Owner: -
 --
 
-CREATE TRIGGER messages__count_insert_forum_trigger AFTER INSERT ON forums FOR EACH STATEMENT EXECUTE PROCEDURE count_messages_insert_forum_trigger();
+CREATE TRIGGER messages__count_insert_forum_trigger AFTER INSERT ON forums FOR EACH ROW EXECUTE PROCEDURE count_messages_insert_forum_trigger();
 
 
 --
@@ -871,7 +840,7 @@ CREATE TRIGGER threads__count_delete_trigger AFTER DELETE ON threads FOR EACH RO
 -- Name: threads__count_insert_forum_trigger; Type: TRIGGER; Schema: cforum; Owner: -
 --
 
-CREATE TRIGGER threads__count_insert_forum_trigger AFTER INSERT ON forums FOR EACH STATEMENT EXECUTE PROCEDURE count_threads_insert_forum_trigger();
+CREATE TRIGGER threads__count_insert_forum_trigger AFTER INSERT ON forums FOR EACH ROW EXECUTE PROCEDURE count_threads_insert_forum_trigger();
 
 
 --
@@ -933,14 +902,6 @@ ALTER TABLE ONLY messages
 --
 
 ALTER TABLE ONLY threads
-    ADD CONSTRAINT message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY message_flags
     ADD CONSTRAINT message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
@@ -1019,8 +980,6 @@ INSERT INTO schema_migrations (version) VALUES ('2');
 INSERT INTO schema_migrations (version) VALUES ('3');
 
 INSERT INTO schema_migrations (version) VALUES ('4');
-
-INSERT INTO schema_migrations (version) VALUES ('5');
 
 INSERT INTO schema_migrations (version) VALUES ('6');
 
