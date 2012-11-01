@@ -32,19 +32,73 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 SET search_path = cforum, pg_catalog;
 
 --
--- Name: count_threads_delete_forum_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: count_messages_delete_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
 --
 
-CREATE FUNCTION count_threads_delete_forum_trigger() RETURNS trigger
+CREATE FUNCTION count_messages_delete_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  INSERT INTO
+    cforum.counter_table (table_name, difference, group_crit)
+  VALUES
+    ('messages', -1, OLD.forum_id);
+
+  RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: count_messages_insert_forum_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION count_messages_insert_forum_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  INSERT INTO
+    cforum.counter_table (table_name, group_crit, difference)
+    VALUES ('messages', NEW.forum_id, 0);
+
+  RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: count_messages_insert_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION count_messages_insert_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  INSERT INTO
+    cforum.counter_table (table_name, difference, group_crit)
+  VALUES
+    ('messages', +1, NEW.forum_id);
+
+  RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: count_messages_truncate_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION count_messages_truncate_trigger() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
   DELETE FROM
     cforum.counter_table
   WHERE
-      table_name = 'threads'
-    AND
-      group_crit = OLD.forum_id;
+    table_name = 'messages';
+
+  INSERT INTO cforum.counter_table (table_name, difference, group_crit)
+    SELECT 'messages', 0, forum_id FROM cforum.forums;
 
   RETURN NULL;
 END;
@@ -58,12 +112,28 @@ $$;
 CREATE FUNCTION count_threads_delete_trigger() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
-DECLARE field_val_v BIGINT;
 BEGIN
   INSERT INTO
     cforum.counter_table (table_name, difference, group_crit)
   VALUES
     (TG_TABLE_NAME, -1, OLD.forum_id);
+
+  RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: count_threads_insert_forum_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION count_threads_insert_forum_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  INSERT INTO
+    cforum.counter_table (table_name, group_crit, difference)
+    VALUES ('threads', NEW.forum_id, 0);
 
   RETURN NULL;
 END;
@@ -82,24 +152,6 @@ BEGIN
     cforum.counter_table (table_name, difference, group_crit)
   VALUES
     (TG_TABLE_NAME, +1, NEW.forum_id);
-
-  RETURN NULL;
-END;
-$$;
-
-
---
--- Name: count_threads_truncate_forum_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
---
-
-CREATE FUNCTION count_threads_truncate_forum_trigger() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$
-BEGIN
-  DELETE FROM
-    cforum.counter_table
-  WHERE
-    table_name = 'threads';
 
   RETURN NULL;
 END;
@@ -168,7 +220,7 @@ BEGIN
       RAISE NOTICE 'table_count: summing counter';
 
       FOR v_cur_id, v_cur_difference IN
-        SELECT id, difference
+        SELECT count_id, difference
         FROM
           cforum.counter_table
         WHERE
@@ -184,13 +236,13 @@ BEGIN
         v_new_sum := v_new_sum + v_cur_difference;
 
         IF array_length(v_delete_ids, 1) > 100 THEN
-          DELETE FROM cforum.counter_table WHERE id = ANY(v_delete_ids);
+          DELETE FROM cforum.counter_table WHERE count_id = ANY(v_delete_ids);
           v_delete_ids = '{}';
         END IF;
 
       END LOOP;
 
-      DELETE FROM cforum.counter_table WHERE id = ANY(v_delete_ids);
+      DELETE FROM cforum.counter_table WHERE count_id = ANY(v_delete_ids);
       INSERT INTO cforum.counter_table(table_name, group_crit, difference) VALUES(v_table_name, v_group_crit, v_new_sum);
 
     EXCEPTION
@@ -781,10 +833,31 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 SET search_path = cforum, pg_catalog;
 
 --
--- Name: threads__count_delete_forum_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: messages__count_delete_trigger; Type: TRIGGER; Schema: cforum; Owner: -
 --
 
-CREATE TRIGGER threads__count_delete_forum_trigger AFTER DELETE ON forums FOR EACH ROW EXECUTE PROCEDURE count_threads_delete_forum_trigger();
+CREATE TRIGGER messages__count_delete_trigger AFTER DELETE ON messages FOR EACH ROW EXECUTE PROCEDURE count_messages_delete_trigger();
+
+
+--
+-- Name: messages__count_insert_forum_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER messages__count_insert_forum_trigger AFTER INSERT ON forums FOR EACH STATEMENT EXECUTE PROCEDURE count_messages_insert_forum_trigger();
+
+
+--
+-- Name: messages__count_insert_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER messages__count_insert_trigger AFTER INSERT ON messages FOR EACH ROW EXECUTE PROCEDURE count_messages_insert_trigger();
+
+
+--
+-- Name: messages__count_truncate_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER messages__count_truncate_trigger AFTER TRUNCATE ON messages FOR EACH STATEMENT EXECUTE PROCEDURE count_messages_truncate_trigger();
 
 
 --
@@ -795,6 +868,13 @@ CREATE TRIGGER threads__count_delete_trigger AFTER DELETE ON threads FOR EACH RO
 
 
 --
+-- Name: threads__count_insert_forum_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER threads__count_insert_forum_trigger AFTER INSERT ON forums FOR EACH STATEMENT EXECUTE PROCEDURE count_threads_insert_forum_trigger();
+
+
+--
 -- Name: threads__count_insert_trigger; Type: TRIGGER; Schema: cforum; Owner: -
 --
 
@@ -802,17 +882,18 @@ CREATE TRIGGER threads__count_insert_trigger AFTER INSERT ON threads FOR EACH RO
 
 
 --
--- Name: threads__count_truncate_forum_trigger; Type: TRIGGER; Schema: cforum; Owner: -
---
-
-CREATE TRIGGER threads__count_truncate_forum_trigger AFTER TRUNCATE ON forums FOR EACH STATEMENT EXECUTE PROCEDURE count_threads_truncate_forum_trigger();
-
-
---
 -- Name: threads__count_truncate_trigger; Type: TRIGGER; Schema: cforum; Owner: -
 --
 
 CREATE TRIGGER threads__count_truncate_trigger AFTER TRUNCATE ON threads FOR EACH STATEMENT EXECUTE PROCEDURE count_threads_truncate_trigger();
+
+
+--
+-- Name: forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY threads
+    ADD CONSTRAINT forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -930,6 +1011,8 @@ INSERT INTO schema_migrations (version) VALUES ('12');
 INSERT INTO schema_migrations (version) VALUES ('13');
 
 INSERT INTO schema_migrations (version) VALUES ('14');
+
+INSERT INTO schema_migrations (version) VALUES ('15');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 
