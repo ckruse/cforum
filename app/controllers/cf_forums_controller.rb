@@ -19,11 +19,12 @@ class CfForumsController < ApplicationController
 
 
     @forums = CfForum.order('name ASC').find(:all)
-    results = CfForum.connection.execute("SELECT group_crit, SUM(difference) AS diff FROM cforum.counter_table WHERE table_name = 'threads' GROUP BY group_crit")
+    results = CfForum.connection.execute("SELECT table_name, group_crit, SUM(difference) AS diff FROM cforum.counter_table WHERE table_name = 'threads' OR table_name = 'messages' GROUP BY table_name, group_crit")
 
     @counts = {}
     results.each do |r|
-      @counts[r['group_crit'].to_i] = r['diff']
+      @counts[r['group_crit'].to_i] ||= {threads: 0, messages: 0}
+      @counts[r['group_crit'].to_i][r['table_name'].to_sym] = r['diff']
     end
 
     results = CfForum.select("forum_id, (SELECT updated_at FROM cforum.messages WHERE cforum.messages.forum_id = cforum.forums.forum_id AND deleted = false ORDER BY updated_at DESC LIMIT 1) AS updated_at")
@@ -40,7 +41,7 @@ class CfForumsController < ApplicationController
     if thread
       redirect_to cf_thread_url(thread), status: 301
     else
-      # TODO: raise 404
+      raise NotFoundException.new # TODO: add message
     end
   end
 end

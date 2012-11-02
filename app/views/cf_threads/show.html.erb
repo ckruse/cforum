@@ -4,8 +4,8 @@
     <li>
       <%= render :partial => 'cf_messages/message_header', :locals => {thread: thread, message: m, first: false} %>
 
-      <div class="content">
-        <%= m.content %>
+      <div class="posting-content">
+        <%= message_to_html(m.content) %>
       </div>
 
       <% unless m.messages.blank?
@@ -19,8 +19,8 @@
 <article class="thread">
   <%= render :partial => 'cf_messages/message_header', :locals => {thread: @thread, message: @thread.message, :first => true} %>
 
-  <div class="content">
-    <%= @thread.message.content %>
+  <div class="posting-content">
+    <%= message_to_html(@thread.message.content) %>
   </div>
 
   <% unless @thread.message.messages.blank? %>

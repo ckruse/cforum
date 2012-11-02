@@ -5,6 +5,7 @@
     <tr>
       <th>Forum</th>
       <th>Threads</th>
+      <th>Nachrichten</th>
       <th>Last Change</th>
     </tr>
   </thead>
@@ -12,7 +13,8 @@
     <% @forums.each do |forum| %>
     <tr>
       <td><%= link_to forum.name, forum %></td>
-      <td><%= @counts[forum.forum_id] %></td>
+      <td><%= @counts[forum.forum_id][:threads] %></td>
+      <td><%= @counts[forum.forum_id][:messages] %></td>
       <td><%= l(@activities[forum.forum_id]) %></td>
     </tr>
     <% end %>

@@ -5,7 +5,7 @@
       <h3><%= link_to message.subject, cf_message_path(thread, message) %></h3>
     <% end %>
 
-    <details>
+    <details open>
       <%= t("messages.by") %>
       <%= message.user_id ? link_to(message.author, users_path + '/' + message.user_id.to_s) : message.author %>,
       <time datetime="<%= message.created_at.to_s %>"><%= I18n.l(message.created_at) %></time>

@@ -22,3 +22,19 @@ body[data-controller="messages"][data-action="new"] {
     margin-left:10em;
   }
 }
+
+.posting-content {
+  font-family: 'Sourcecode Pro', 'Courier New', monospace;
+  color: #0000C0;
+
+  .q {
+    color: #333;
+  }
+
+  .signature {
+    color: #999;
+  }
+}
+
+
+/* eof */
