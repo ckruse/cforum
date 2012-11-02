@@ -1,43 +1,43 @@
 class CreateMessages < ActiveRecord::Migration
   def up
-    execute "CREATE EXTENSION hstore"
-    execute "DO $$BEGIN CREATE SCHEMA cforum; EXCEPTION WHEN duplicate_schema THEN RAISE NOTICE 'already exists'; END;$$;"
+    execute %q{
+      CREATE EXTENSION hstore;
+      DO $$BEGIN CREATE SCHEMA cforum; EXCEPTION WHEN duplicate_schema THEN RAISE NOTICE 'already exists'; END;$$;
 
-    create_table 'cforum.messages', id: false do |t|
-      t.integer :thread_id, null: false, limit: 8
+      CREATE TABLE cforum.messages (
+        message_id BIGSERIAL NOT NULL PRIMARY KEY,
+        thread_id BIGINT NOT NULL REFERENCES cforum.threads(thread_id) ON DELETE CASCADE ON UPDATE CASCADE,
+        forum_id BIGINT NOT NULL REFERENCES cforum.forums(forum_id) ON DELETE CASCADE ON UPDATE CASCADE,
 
-      t.integer :mid, limit: 8
+        upvotes INTEGER NOT NULL DEFAULT 0,
+        downvotes INTEGER NOT NULL DEFAULT 0,
+        deleted BOOLEAN NOT NULL DEFAULT false,
 
-      t.text :subject, null: false
-      t.text :content, null: false
+        created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+        updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 
-      t.text :author, null: false
-      t.text :email
-      t.text :homepage
+        mid BIGINT,
 
-      t.integer :upvotes, null: false, default: 0
-      t.integer :downvotes, null: false, default: 0
-      t.boolean :invisible, null: false, default: false
+        user_id BIGINT REFERENCES cforum.users (user_id) ON DELETE SET NULL ON UPDATE CASCADE,
+        parent_id BIGINT REFERENCES cforum.messages (message_id) ON DELETE RESTRICT ON UPDATE CASCADE,
 
-      t.integer :user_id, limit: 8
-      t.integer :parent_id, limit: 8
+        author CHARACTER VARYING NOT NULL,
+        email CHARACTER VARYING,
+        homepage CHARACTER VARYING,
 
-      t.boolean :deleted, default: false
+        subject CHARACTER VARYING NOT NULL,
+        content CHARACTER VARYING NOT NULL,
 
-      t.hstore :flags
+        flags HSTORE
+      );
 
-      t.timestamps
-    end
+      ALTER TABLE cforum.threads ADD COLUMN message_id BIGINT REFERENCES cforum.messages (message_id) ON DELETE SET NULL ON UPDATE CASCADE;
 
-    execute "ALTER TABLE cforum.messages ADD COLUMN message_id BIGSERIAL NOT NULL"
-    execute "ALTER TABLE cforum.messages ADD PRIMARY KEY (message_id)"
+      CREATE INDEX messages_thread_id_idx ON cforum.messages (thread_id);
+      CREATE INDEX messages_mid_idx ON cforum.messages (mid);
 
-    execute "ALTER TABLE cforum.messages ADD CONSTRAINT thread_id_fkey FOREIGN KEY (thread_id) REFERENCES cforum.threads(thread_id) ON DELETE CASCADE ON UPDATE CASCADE"
-    execute "ALTER TABLE cforum.messages ADD CONSTRAINT parent_id_fkey FOREIGN KEY (parent_id) REFERENCES cforum.messages(message_id) ON DELETE CASCADE ON UPDATE CASCADE"
-    execute "ALTER TABLE cforum.messages ADD CONSTRAINT user_id_fkey FOREIGN KEY (user_id) REFERENCES cforum.users(user_id) ON DELETE CASCADE ON UPDATE CASCADE"
-
-    add_column 'cforum.threads', :message_id, :integer
-    execute "ALTER TABLE cforum.threads ADD CONSTRAINT message_id_fkey FOREIGN KEY (message_id) REFERENCES cforum.messages(message_id) ON DELETE CASCADE ON UPDATE CASCADE"
+      CREATE INDEX messages_forum_id_updated_at_idx ON cforum.messages (forum_id, updated_at);
+    }
   end
 
   def down

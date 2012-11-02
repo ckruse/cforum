@@ -1,24 +1,27 @@
 class CreateUsers < ActiveRecord::Migration
   def up
-    execute "DO $$BEGIN CREATE SCHEMA cforum; EXCEPTION WHEN duplicate_schema THEN RAISE NOTICE 'already exists'; END;$$;"
+    execute %q{
+      DO $$BEGIN CREATE SCHEMA cforum; EXCEPTION WHEN duplicate_schema THEN RAISE NOTICE 'already exists'; END;$$;
 
-    create_table 'cforum.users', id: false do |t|
-      t.string :username, null: false
-      t.string :email
+      CREATE TABLE cforum.users (
+        user_id BIGSERIAL NOT NULL PRIMARY KEY,
+        username CHARACTER VARYING(255) NOT NULL,
+        email CHARACTER VARYING(255),
 
-      t.string :crypted_password
-      t.string :salt
+        admin CHARACTER VARYING(255),
+        active BOOLEAN NOT NULL DEFAULT true,
 
-      t.timestamps
+        crypted_password CHARACTER VARYING(255),
+        salt CHARACTER VARYING(255),
 
-      t.timestamp :last_login_at
-      t.timestamp :last_logout_at
-    end
+        created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+        updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+        last_login_at TIMESTAMP WITHOUT TIME ZONE,
+        last_logout_at TIMESTAMP WITHOUT TIME ZONE
+      );
 
-    execute "ALTER TABLE cforum.users ADD COLUMN user_id BIGSERIAL NOT NULL"
-    execute "ALTER TABLE cforum.users ADD PRIMARY KEY (user_id)"
-
-    add_index 'cforum.users', :username, :unique => true
+      CREATE UNIQUE INDEX users_username_idx ON cforum.users (username);
+    }
   end
 
   def down

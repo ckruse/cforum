@@ -289,9 +289,9 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE access (
-    user_id bigint,
-    forum_id bigint,
-    access_id bigint NOT NULL
+    access_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    forum_id bigint NOT NULL
 );
 
 
@@ -350,14 +350,14 @@ ALTER SEQUENCE counter_table_count_id_seq OWNED BY counter_table.count_id;
 --
 
 CREATE TABLE forums (
+    forum_id bigint NOT NULL,
     slug character varying(255) NOT NULL,
-    name character varying(255),
-    short_name character varying(255),
-    description text,
+    short_name character varying(255) NOT NULL,
+    public boolean DEFAULT true NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    forum_id bigint NOT NULL,
-    public boolean
+    name character varying NOT NULL,
+    description character varying
 );
 
 
@@ -385,23 +385,23 @@ ALTER SEQUENCE forums_forum_id_seq OWNED BY forums.forum_id;
 --
 
 CREATE TABLE messages (
+    message_id bigint NOT NULL,
     thread_id bigint NOT NULL,
-    mid bigint,
-    subject text NOT NULL,
-    content text NOT NULL,
-    author text NOT NULL,
-    email text,
-    homepage text,
+    forum_id bigint NOT NULL,
     upvotes integer DEFAULT 0 NOT NULL,
     downvotes integer DEFAULT 0 NOT NULL,
-    user_id bigint,
-    parent_id bigint,
-    deleted boolean DEFAULT false,
-    flags public.hstore,
+    deleted boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    message_id bigint NOT NULL,
-    forum_id bigint NOT NULL
+    mid bigint,
+    user_id bigint,
+    parent_id bigint,
+    author character varying NOT NULL,
+    email character varying,
+    homepage character varying,
+    subject character varying NOT NULL,
+    content character varying NOT NULL,
+    flags public.hstore
 );
 
 
@@ -429,9 +429,9 @@ ALTER SEQUENCE messages_message_id_seq OWNED BY messages.message_id;
 --
 
 CREATE TABLE moderators (
-    user_id bigint,
-    forum_id bigint,
-    moderator_id bigint NOT NULL
+    moderator_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    forum_id bigint NOT NULL
 );
 
 
@@ -459,11 +459,10 @@ ALTER SEQUENCE moderators_moderator_id_seq OWNED BY moderators.moderator_id;
 --
 
 CREATE TABLE settings (
+    setting_id bigint NOT NULL,
     forum_id bigint,
     user_id bigint,
-    name character varying(255) NOT NULL,
-    value character varying(255),
-    setting_id bigint NOT NULL
+    options public.hstore
 );
 
 
@@ -491,14 +490,14 @@ ALTER SEQUENCE settings_setting_id_seq OWNED BY settings.setting_id;
 --
 
 CREATE TABLE threads (
+    thread_id bigint NOT NULL,
     slug character varying(255) NOT NULL,
     forum_id bigint NOT NULL,
-    tid bigint,
     archived boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    thread_id bigint NOT NULL,
-    message_id integer
+    tid bigint,
+    message_id bigint
 );
 
 
@@ -526,17 +525,17 @@ ALTER SEQUENCE threads_thread_id_seq OWNED BY threads.thread_id;
 --
 
 CREATE TABLE users (
+    user_id bigint NOT NULL,
     username character varying(255) NOT NULL,
     email character varying(255),
+    admin character varying(255),
+    active boolean DEFAULT true NOT NULL,
     crypted_password character varying(255),
     salt character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     last_login_at timestamp without time zone,
-    last_logout_at timestamp without time zone,
-    user_id bigint NOT NULL,
-    admin character varying(255),
-    active boolean
+    last_logout_at timestamp without time zone
 );
 
 
@@ -700,94 +699,87 @@ CREATE INDEX counter_table_table_name_group_crit_idx ON counter_table USING btre
 
 
 --
--- Name: index_cforum.forums_on_slug; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: forums_slug_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX "index_cforum.forums_on_slug" ON forums USING btree (slug);
-
-
---
--- Name: index_cforum.messages_on_forum_id_and_updated_at; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE INDEX "index_cforum.messages_on_forum_id_and_updated_at" ON messages USING btree (forum_id, updated_at);
+CREATE UNIQUE INDEX forums_slug_idx ON forums USING btree (slug);
 
 
 --
--- Name: index_cforum.messages_on_mid; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages_forum_id_updated_at_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE INDEX "index_cforum.messages_on_mid" ON messages USING btree (mid);
-
-
---
--- Name: index_cforum.messages_on_thread_id; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE INDEX "index_cforum.messages_on_thread_id" ON messages USING btree (thread_id);
+CREATE INDEX messages_forum_id_updated_at_idx ON messages USING btree (forum_id, updated_at);
 
 
 --
--- Name: index_cforum.settings_on_forum_id; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages_mid_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE INDEX "index_cforum.settings_on_forum_id" ON settings USING btree (forum_id);
-
-
---
--- Name: index_cforum.settings_on_name; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE INDEX "index_cforum.settings_on_name" ON settings USING btree (name);
+CREATE INDEX messages_mid_idx ON messages USING btree (mid);
 
 
 --
--- Name: index_cforum.settings_on_user_id; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages_thread_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE INDEX "index_cforum.settings_on_user_id" ON settings USING btree (user_id);
-
-
---
--- Name: index_cforum.threads_on_archived; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE INDEX "index_cforum.threads_on_archived" ON threads USING btree (archived);
+CREATE INDEX messages_thread_id_idx ON messages USING btree (thread_id);
 
 
 --
--- Name: index_cforum.threads_on_created_at; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: settings_forum_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE INDEX "index_cforum.threads_on_created_at" ON threads USING btree (created_at);
-
-
---
--- Name: index_cforum.threads_on_forum_id; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE INDEX "index_cforum.threads_on_forum_id" ON threads USING btree (forum_id);
+CREATE INDEX settings_forum_id_idx ON settings USING btree (forum_id);
 
 
 --
--- Name: index_cforum.threads_on_slug; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: settings_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX "index_cforum.threads_on_slug" ON threads USING btree (slug);
-
-
---
--- Name: index_cforum.threads_on_tid; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE INDEX "index_cforum.threads_on_tid" ON threads USING btree (tid);
+CREATE INDEX settings_user_id_idx ON settings USING btree (user_id);
 
 
 --
--- Name: index_cforum.users_on_username; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: threads_archived_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX "index_cforum.users_on_username" ON users USING btree (username);
+CREATE INDEX threads_archived_idx ON threads USING btree (archived);
+
+
+--
+-- Name: threads_created_at_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX threads_created_at_idx ON threads USING btree (created_at);
+
+
+--
+-- Name: threads_forum_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX threads_forum_id_idx ON threads USING btree (forum_id);
+
+
+--
+-- Name: threads_slug_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX threads_slug_idx ON threads USING btree (slug);
+
+
+--
+-- Name: threads_tid_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX threads_tid_idx ON threads USING btree (tid);
+
+
+--
+-- Name: users_username_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX users_username_idx ON users USING btree (username);
 
 
 SET search_path = public, pg_catalog;
@@ -858,99 +850,99 @@ CREATE TRIGGER threads__count_truncate_trigger AFTER TRUNCATE ON threads FOR EAC
 
 
 --
--- Name: forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY threads
-    ADD CONSTRAINT forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY settings
-    ADD CONSTRAINT forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY moderators
-    ADD CONSTRAINT forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: access_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
 ALTER TABLE ONLY access
-    ADD CONSTRAINT forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT access_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- Name: forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY messages
-    ADD CONSTRAINT forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY threads
-    ADD CONSTRAINT message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: parent_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY messages
-    ADD CONSTRAINT parent_id_fkey FOREIGN KEY (parent_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: thread_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY messages
-    ADD CONSTRAINT thread_id_fkey FOREIGN KEY (thread_id) REFERENCES threads(thread_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY messages
-    ADD CONSTRAINT user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY settings
-    ADD CONSTRAINT user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY moderators
-    ADD CONSTRAINT user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: access_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
 ALTER TABLE ONLY access
-    ADD CONSTRAINT user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT access_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: messages_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: messages_parent_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: messages_thread_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_thread_id_fkey FOREIGN KEY (thread_id) REFERENCES threads(thread_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: messages_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: moderators_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY moderators
+    ADD CONSTRAINT moderators_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: moderators_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY moderators
+    ADD CONSTRAINT moderators_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: settings_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY settings
+    ADD CONSTRAINT settings_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: settings_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY settings
+    ADD CONSTRAINT settings_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: threads_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY threads
+    ADD CONSTRAINT threads_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: threads_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY threads
+    ADD CONSTRAINT threads_message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 --
@@ -962,12 +954,6 @@ ALTER TABLE ONLY access
 SET search_path = public, pg_catalog;
 
 INSERT INTO schema_migrations (version) VALUES ('1');
-
-INSERT INTO schema_migrations (version) VALUES ('10');
-
-INSERT INTO schema_migrations (version) VALUES ('11');
-
-INSERT INTO schema_migrations (version) VALUES ('12');
 
 INSERT INTO schema_migrations (version) VALUES ('13');
 
@@ -982,9 +968,5 @@ INSERT INTO schema_migrations (version) VALUES ('3');
 INSERT INTO schema_migrations (version) VALUES ('4');
 
 INSERT INTO schema_migrations (version) VALUES ('5');
-
-INSERT INTO schema_migrations (version) VALUES ('6');
-
-INSERT INTO schema_migrations (version) VALUES ('8');
 
 INSERT INTO schema_migrations (version) VALUES ('9');

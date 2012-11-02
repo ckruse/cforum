@@ -1,20 +1,18 @@
 class CreateSettings < ActiveRecord::Migration
   def up
-    execute "DO $$BEGIN CREATE SCHEMA cforum; EXCEPTION WHEN duplicate_schema THEN RAISE NOTICE 'already exists'; END;$$;"
+    execute %q{
+      DO $$BEGIN CREATE SCHEMA cforum; EXCEPTION WHEN duplicate_schema THEN RAISE NOTICE 'already exists'; END;$$;
 
-    create_table 'cforum.settings', id: false do |t|
-      t.integer :forum_id, limit: 8
-      t.integer :user_id, limit: 8
+      CREATE TABLE cforum.settings (
+        setting_id BIGSERIAL NOT NULL PRIMARY KEY,
+        forum_id BIGINT REFERENCES cforum.forums(forum_id) ON DELETE CASCADE ON UPDATE CASCADE,
+        user_id BIGINT REFERENCES cforum.users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+        options HSTORE
+      );
 
-      t.string :name, null: false
-      t.string :value
-    end
-
-    execute "ALTER TABLE cforum.settings ADD COLUMN setting_id BIGSERIAL NOT NULL"
-    execute "ALTER TABLE cforum.settings ADD PRIMARY KEY (setting_id)"
-
-    execute "ALTER TABLE cforum.settings ADD CONSTRAINT forum_id_fkey FOREIGN KEY (forum_id) REFERENCES cforum.forums(forum_id) ON DELETE CASCADE ON UPDATE CASCADE"
-    execute "ALTER TABLE cforum.settings ADD CONSTRAINT user_id_fkey FOREIGN KEY (user_id) REFERENCES cforum.users(user_id) ON DELETE CASCADE ON UPDATE CASCADE"
+      CREATE INDEX settings_forum_id_idx ON cforum.settings (forum_id);
+      CREATE INDEX settings_user_id_idx ON cforum.settings (user_id);
+    }
   end
 
   def down

@@ -1,22 +1,24 @@
 class CreateForums < ActiveRecord::Migration
   def up
-    execute "DO $$BEGIN CREATE SCHEMA cforum; EXCEPTION WHEN duplicate_schema THEN RAISE NOTICE 'already exists'; END;$$;"
+    execute %q{
+      DO $$BEGIN CREATE SCHEMA cforum; EXCEPTION WHEN duplicate_schema THEN RAISE NOTICE 'already exists'; END;$$;
 
-    create_table 'cforum.forums', id: false do |t|
-      t.string :slug, :null => false
+      CREATE TABLE cforum.forums (
+        forum_id BIGSERIAL PRIMARY KEY NOT NULL,
+        slug CHARACTER VARYING(255) NOT NULL,
+        short_name CHARACTER VARYING(255) NOT NULL,
 
-      t.string :name
-      t.string :short_name
+        public BOOLEAN NOT NULL DEFAULT true,
 
-      t.text :description
+        created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+        updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 
-      t.timestamps
-    end
+        name CHARACTER VARYING NOT NULL,
+        description CHARACTER VARYING
+      );
 
-    execute "ALTER TABLE cforum.forums ADD COLUMN forum_id BIGSERIAL NOT NULL"
-    execute "ALTER TABLE cforum.forums ADD PRIMARY KEY (forum_id)"
-
-    add_index 'cforum.forums', :slug, :unique => true
+      CREATE UNIQUE INDEX forums_slug_idx ON cforum.forums (slug);
+    }
   end
 
   def down
