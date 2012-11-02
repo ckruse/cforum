@@ -7,6 +7,8 @@ require 'htmlentities'
 require File.join(File.dirname(__FILE__), "..", "config", "boot")
 require File.join(File.dirname(__FILE__), "..", "config", "environment")
 
+ActiveRecord::Base.record_timestamps = false
+
 directory = "/home/ckruse/dev/archiv/archiv/"
 directory = ARGV[0] if ARGV.length >= 1
 
@@ -27,6 +29,7 @@ end
 
 def handle_messages(old_msg, x_msg, thread)
   the_date = Time.at(x_msg.find_first('./Header/Date')['longSec'].force_encoding('utf-8').to_i)
+  the_date = DateTime.parse("1970-01-01 00:00:00").to_time if the_date.blank?
 
   msg = CfMessage.new(
     mid: x_msg['id'].gsub(/^m/, ''),
@@ -63,7 +66,7 @@ def handle_messages(old_msg, x_msg, thread)
 
       usr = CfUser.find_by_username(uname)
       if !usr then
-        usr = CfUser.new(:username => uname)
+        usr = CfUser.new(:username => uname, created_at: the_date, updated_at: the_date)
         usr.save!(validate: false)
       end
 
@@ -97,6 +100,8 @@ def handle_doc(doc, opts = {})
   the_date = Time.at(x_thread.find_first('./Message/Header/Date')['longSec'].force_encoding('utf-8').to_i)
   subject = x_thread.find_first('./Message/Header/Subject').content.force_encoding('utf-8')
 
+  the_date = DateTime.parse("1970-01-01 00:00:00").to_time if the_date.blank?
+
   forum = CfForum.find_by_slug(forum_slug)
   unless forum
     forum = CfForum.create!(
@@ -113,7 +118,9 @@ def handle_doc(doc, opts = {})
     tid: x_thread['id'].force_encoding('utf-8')[1..-1],
     archived: opts[:archived],
     forum_id: forum.forum_id,
-    slug: thread_id(the_date, subject)
+    slug: thread_id(the_date, subject),
+    created_at: the_date,
+    updated_at: the_date
   )
 
   msg = nil
