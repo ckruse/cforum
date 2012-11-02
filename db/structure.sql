@@ -955,12 +955,6 @@ SET search_path = public, pg_catalog;
 
 INSERT INTO schema_migrations (version) VALUES ('1');
 
-INSERT INTO schema_migrations (version) VALUES ('13');
-
-INSERT INTO schema_migrations (version) VALUES ('14');
-
-INSERT INTO schema_migrations (version) VALUES ('15');
-
 INSERT INTO schema_migrations (version) VALUES ('2');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
@@ -968,5 +962,11 @@ INSERT INTO schema_migrations (version) VALUES ('3');
 INSERT INTO schema_migrations (version) VALUES ('4');
 
 INSERT INTO schema_migrations (version) VALUES ('5');
+
+INSERT INTO schema_migrations (version) VALUES ('6');
+
+INSERT INTO schema_migrations (version) VALUES ('7');
+
+INSERT INTO schema_migrations (version) VALUES ('8');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
