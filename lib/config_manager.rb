@@ -8,12 +8,12 @@ class ConfigManager
 
   def self.setting(user = nil, forum = nil)
     unless user.blank?
-      user = CfUser.find_by_username(user.to_s) if not user.is_a?(CfUser) or not user.is_a?(Integer)
+      user = CfUser.find_by_username(user.to_s) if not user.is_a?(CfUser) and not user.is_a?(Integer)
       user = user.user_id if user.is_a?(CfUser)
     end
 
     unless forum.blank?
-      forum = CfForum.find_by_slug forum.to_s if not forum.is_a?(CfForum) or not forum.is_a?(Integer)
+      forum = CfForum.find_by_slug forum.to_s if not forum.is_a?(CfForum) and not forum.is_a?(Integer)
       forum = forum.forum_id if forum.is_a?(CfForum)
     end
 
@@ -25,15 +25,52 @@ class ConfigManager
     # - fourth, check if settings entry with forum_id = nil and user_id = nil exists (aka global config object)
     # - return default value if nothing helps
 
-    settings = nil
-    settings = CfSetting.where(user_id: user, forum_id: forum).first if not forum.blank?
-    settings = CfSetting.where(user_id: user).first if settings.blank?
-    settings = CfSetting.where(forum_id: forum).first if settings.blank? and not forum.blank?
-    settings = CfSetting.where(forum_id: nil, user_id: nil).first if settings.blank?
+    settings = CfSetting.
+      where('(user_id = ? OR user_id IS NULL) AND (forum_id = ? OR forum_id IS NULL)', forum, user).
+      order('user_id, forum_id').
+      limit(1).
+      first
 
-
-    settings.blank? ? {} : settings
+    return {} if settings.blank?
+    settings.options
   end
+
+  def self.get(name, user = nil, forum = nil, default = nil)
+    settings = setting(user, forum)
+    if settings.has_key?(name)
+      return settings[name].nil? ? default : settings[name]
+    end
+
+    # if user is nil we had this case in the above statements
+    if user
+      settings = setting(user)
+
+      if settings.has_key?(name)
+        return settings[name].nil? ? default : settings[name]
+      end
+    end
+
+    # if forum is nil we covered this case in the above statements
+    if forum
+      settings = setting(nil, forum)
+
+      if settings.has_key?(name)
+        return settings[name].nil? ? default : settings[name]
+      end
+    end
+
+    # if one of them is set, we covered this case in the above statements
+    if user or forum
+      settings = setting()
+
+      if settings.has_key?(name)
+        return settings[name].nil? ? default : settings[name]
+      end
+    end
+
+    default
+  end
+
 end
 
 # eof
