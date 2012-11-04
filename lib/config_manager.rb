@@ -35,7 +35,7 @@ class ConfigManager
     settings.options
   end
 
-  def self.get(name, user = nil, forum = nil, default = nil)
+  def self.get(name, default = nil, user = nil, forum = nil)
     settings = setting(user, forum)
     if settings.has_key?(name)
       return settings[name].nil? ? default : settings[name]
