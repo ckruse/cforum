@@ -53,7 +53,11 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
   end
 
   def destroy
-    @cf_forum.destroy
+    CfForum.transaction do
+      CfForum.connection.execute "DELETE FROM cforum.messages WHERE forum_id = " + @cf_forum.forum_id.to_s
+      CfForum.connection.execute "DELETE FROM cforum.threads WHERE forum_id = " + @cf_forum.forum_id.to_s
+      @cf_forum.destroy
+    end
 
     redirect_to admin_forums_url, notice: I18n.t("admin.forums.destroyed")
   end
