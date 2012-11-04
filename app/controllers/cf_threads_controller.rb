@@ -3,7 +3,7 @@
 class CfThreadsController < ApplicationController
   load_and_authorize_resource
 
-  before_filter :require_login, :only => [:edit, :destroy]
+  before_filter :require_login, :only => [:edit, :update, :destroy]
 
   SHOW_THREADLIST = "show_threadlist"
   SHOW_THREAD = "show_thread"
