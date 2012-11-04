@@ -19,7 +19,7 @@ class CreateMessages < ActiveRecord::Migration
         mid BIGINT,
 
         user_id BIGINT REFERENCES cforum.users (user_id) ON DELETE SET NULL ON UPDATE CASCADE,
-        parent_id BIGINT REFERENCES cforum.messages (message_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+        parent_id BIGINT REFERENCES cforum.messages (message_id) ON DELETE SET NULL ON UPDATE CASCADE,
 
         author CHARACTER VARYING NOT NULL,
         email CHARACTER VARYING,
@@ -35,6 +35,8 @@ class CreateMessages < ActiveRecord::Migration
 
       CREATE INDEX messages_thread_id_idx ON cforum.messages (thread_id);
       CREATE INDEX messages_mid_idx ON cforum.messages (mid);
+
+      CREATE INDEX messages_parent_id_idx ON cforum.messages (parent_id); -- FK index
 
       CREATE INDEX messages_forum_id_updated_at_idx ON cforum.messages (forum_id, updated_at);
     }

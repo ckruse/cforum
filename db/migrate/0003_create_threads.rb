@@ -20,6 +20,7 @@ class CreateThreads < ActiveRecord::Migration
       CREATE INDEX threads_archived_idx ON cforum.threads (archived);
       CREATE INDEX threads_created_at_idx ON cforum.threads (created_at);
       CREATE INDEX threads_forum_id_idx ON cforum.threads (forum_id);
+      CREATE INDEX threads_message_id_idx on cforum.threads (message_id); -- used for the FKs
     }
   end
 
