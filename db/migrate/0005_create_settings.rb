@@ -12,6 +12,9 @@ class CreateSettings < ActiveRecord::Migration
 
       CREATE INDEX settings_forum_id_idx ON cforum.settings (forum_id);
       CREATE INDEX settings_user_id_idx ON cforum.settings (user_id);
+
+      -- constraint to ensure that there is only one user settings object per user and forum
+      CREATE UNIQUE INDEX settings_forum_id_user_id_idx ON cforum.settings (forum_id, user_id);
     }
   end
 
