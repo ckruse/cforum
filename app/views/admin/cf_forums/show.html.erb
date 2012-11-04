@@ -10,6 +10,6 @@
 </p>
 
 <p class="form-actions">
-  <%= link_to 'Edit', edit_admin_cf_forum_path(@cf_forum.forum_id), :class => "btn btn-primary" %>
-  <%= link_to 'Delete', admin_cf_forum_path(@cf_forum.forum_id), :confirm => 'Are you sure?', :method => :delete, :class => 'btn' %>
+  <%= link_to 'Edit', edit_admin_forum_path(@cf_forum.forum_id), :class => "btn btn-primary" %>
+  <%= link_to 'Delete', admin_forum_path(@cf_forum.forum_id), :confirm => 'Are you sure?', :method => :delete, :class => 'btn' %>
 </p>
