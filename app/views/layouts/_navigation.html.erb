@@ -8,14 +8,19 @@
 
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="<%= root_url %>">Home</a></li>
+              <li<% if controller_path == 'cf_forums' %> class="active"<% end %>><a href="<%= root_url %>">Home</a></li>
+              <% if current_user and current_user.admin %>
+              <li<% if controller_path =~ /^admin/ %> class="active"<% end %>><%= link_to 'Administration', admin_users_path %></li>
+              <% end %>
+
               <% if current_forum %>
-              <li><%= link_to current_forum.name, current_forum %></li>
+              <li<% if controller_path == 'cf_threads' or controller_path == 'cf_messages' %> class="active"<% end %>><%= link_to current_forum.name, current_forum %></li>
               <li><%= link_to t(".new_thread"), new_cf_thread_path %></li><% end %>
               <% unless current_user %><li><%= link_to t(".register"), root_path %></li><% end %>
             </ul>
             <ul class="nav pull-right">
               <% if current_user %>
+                <li<% if controller_path == 'users' %> class="active"<% end %>><%= link_to 'User ' + current_user.username, user_path(current_user) %></li>
                 <li><%= link_to('Logout', root_url, :method => :delete) %></li>
               <% else %>
                 <li><%= link_to('Login', '/login') %></li>
