@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Caches the settings which are often used
 # When you use many workers the Rails.cache gets messed upp
 # therefor we use some manual timeout.
