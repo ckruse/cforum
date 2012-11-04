@@ -2,7 +2,7 @@
 forum_opts = @forums.map { |f| [f.name, f.forum_id] }
 %><h1>Merge forum <%= @cf_forum.name %></h1>
 
-<%= form_for @cf_forum, url: admin_cf_forums_do_merge_path(@cf_forum.forum_id), method: 'post', html: {:class => 'form-horizontal'} do |f| %>
+<%= form_for @cf_forum, url: admin_forums_do_merge_path(@cf_forum.forum_id), method: 'post', html: {:class => 'form-horizontal'} do |f| %>
 
 Merge forum with:
 <%= select_tag :merge_with, options_for_select(forum_opts, @merge_with) %>
