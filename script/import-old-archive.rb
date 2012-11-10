@@ -8,6 +8,8 @@ require File.join(File.dirname(__FILE__), "..", "config", "boot")
 require File.join(File.dirname(__FILE__), "..", "config", "environment")
 
 ActiveRecord::Base.record_timestamps = false
+Rails.logger = Logger.new('log/archive_import.log')
+ActiveRecord::Base.logger = Rails.logger
 
 directory = "/home/ckruse/dev/archiv/archiv/"
 directory = ARGV[0] if ARGV.length >= 1
