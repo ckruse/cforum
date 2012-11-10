@@ -3,7 +3,7 @@
 class CfThreadsController < ApplicationController
   load_and_authorize_resource
 
-  before_filter :require_login, :only => [:edit, :destroy]
+  before_filter :require_login, :only => [:edit, :update, :destroy]
 
   SHOW_THREADLIST = "show_threadlist"
   SHOW_THREAD = "show_thread"
@@ -14,9 +14,13 @@ class CfThreadsController < ApplicationController
 
     conditions = {}
     conditions[:forum_id] = forum.forum_id if forum
-    conditions[:archived] = false if ConfigManager.setting('use_archive')
+    conditions[:archived] = false if conf('use_archive')
 
-    @threads = CfThread.preload(:messages, :forum).where(conditions).order('cforum.threads.created_at DESC').limit(ConfigManager.setting('pagination', 150))
+    @threads = CfThread.
+      preload(:messages, :forum).
+      where(conditions).
+      order('cforum.threads.created_at DESC').
+      limit(uconf('pagination', 150))
 
     @threads.each do |t|
       t.gen_tree

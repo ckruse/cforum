@@ -32,7 +32,7 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
 
   def update
     if @cf_forum.update_attributes(params[:cf_forum])
-      redirect_to edit_admin_cf_forum_url(@cf_forum.forum_id), notice: I18n.t("admin.forums.updated")
+      redirect_to edit_admin_forum_url(@cf_forum.forum_id), notice: I18n.t("admin.forums.updated")
     else
       render :edit
     end
@@ -46,16 +46,20 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
     @cf_forum = CfForum.new(params[:cf_forum])
 
     if @cf_forum.save
-      redirect_to admin_cf_forum_url(@cf_forum.forum_id), notice: I18n.t("admin.forums.created")
+      redirect_to admin_forum_url(@cf_forum.forum_id), notice: I18n.t("admin.forums.created")
     else
       render :new
     end
   end
 
   def destroy
-    @cf_forum.destroy
+    CfForum.transaction do
+      CfForum.connection.execute "DELETE FROM cforum.messages WHERE forum_id = " + @cf_forum.forum_id.to_s
+      CfForum.connection.execute "DELETE FROM cforum.threads WHERE forum_id = " + @cf_forum.forum_id.to_s
+      @cf_forum.destroy
+    end
 
-    redirect_to admin_cf_forums_url, notice: I18n.t("admin.forums.destroyed")
+    redirect_to admin_forums_url, notice: I18n.t("admin.forums.destroyed")
   end
 
   def merge
@@ -72,7 +76,7 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
       @cf_forum.destroy
     end
 
-    redirect_to admin_cf_forums_url, notice: I18n.t('admin.forums.merged')
+    redirect_to admin_forums_url, notice: I18n.t('admin.forums.merged')
   end
 
   private

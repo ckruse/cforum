@@ -1,6 +1,6 @@
 <h1>Benutzer-Verwaltung</h1>
 
-<%= form_tag admin_cf_users_path, :method => :get, :class => 'form-search' do |t| %>
+<%= form_tag admin_users_path, :method => :get, :class => 'form-search' do |t| %>
   <input type="text" class="input-medium search-query" name="s">
   <input type="submit" class="btn" value="Search">
 <% end %>
@@ -18,12 +18,12 @@
   <tbody>
     <% @users.each do |user| %>
     <tr>
-      <td><%= link_to user.username, admin_cf_user_path(user) %></td>
+      <td><%= link_to user.username, admin_user_path(user) %></td>
       <td><%= user.email %></td>
       <td><%== user.last_login_at ? l(user.last_login_at) : '<em>never</em>' %></td>
       <td>
-        <%= link_to '', admin_cf_user_path(user), data: {confirm: 'Are you sure?'}, :method => :delete, :class => 'icon icon-trash' %>
-        <%= link_to '', edit_admin_cf_user_path(user), :class => "icon icon-edit" %>
+        <%= link_to '', admin_user_path(user), data: {confirm: 'Are you sure?'}, :method => :delete, :class => 'icon icon-trash' %>
+        <%= link_to '', edit_admin_user_path(user), :class => "icon icon-edit" %>
       </td>
     </tr>
     <% end %>
@@ -45,19 +45,19 @@
 
     %>
 
-    <li<% if @page == 0 %> class="disabled"<% end %>><a href="<%= admin_cf_users_path %>">««</a></li>
-    <li<% if @page == 0 %> class="disabled"<% end %>><a href="<%= admin_cf_users_path(p: prev_page) %>">«</a></li>
+    <li<% if @page == 0 %> class="disabled"<% end %>><a href="<%= admin_users_path %>">««</a></li>
+    <li<% if @page == 0 %> class="disabled"<% end %>><a href="<%= admin_users_path(p: prev_page) %>">«</a></li>
 
     <% if start_page != 0 %><li class="disabled"><a href="#">…</a></li><% end %>
 
     <% (start_page..end_page).each do |i| %>
-    <li<% if @page == i %> class="active"<% end %>><a href="<%= admin_cf_users_path(p: i) %>"><%= i+1 %></a></li>
+    <li<% if @page == i %> class="active"<% end %>><a href="<%= admin_users_path(p: i) %>"><%= i+1 %></a></li>
     <% end %>
 
     <% if end_page != last_possible_page %><li class="disabled"><a href="#">…</a></li><% end %>
 
-    <li><a href="<%= admin_cf_users_path(p: next_page) %>">»</a></li>
-    <li><a href="<%= admin_cf_users_path(p: last_possible_page) %>">»»</a></li>
+    <li><a href="<%= admin_users_path(p: next_page) %>">»</a></li>
+    <li><a href="<%= admin_users_path(p: last_possible_page) %>">»»</a></li>
 
   </ul>
 </div>

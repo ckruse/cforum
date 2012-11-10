@@ -1,12 +1,12 @@
 <h1>Edit <%= @cf_forum.name %></h1>
 
-<%= form_for @cf_forum, url: admin_cf_forum_path(@cf_forum.forum_id), html: {:class => 'form-horizontal'} do |f| %>
+<%= form_for @cf_forum, url: admin_forum_path(@cf_forum.forum_id), html: {:class => 'form-horizontal'} do |f| %>
 
 <%= render 'form', f: f %>
 
 <p class="form-actions">
   <input type="submit" value="Save" class="btn btn-primary">
-  <a href="<%= admin_cf_forums_path %>" class="btn">Cancel</a>
+  <a href="<%= admin_forums_path %>" class="btn">Cancel</a>
 </p>
 
 <% end %>

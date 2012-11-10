@@ -39,4 +39,12 @@ class ApplicationController < ActionController::Base
     instance_variable_get('@' + name)
   end
 
+  def uconf(name, default = nil)
+    ConfigManager.get(name, default, current_user, current_forum)
+  end
+
+  def conf(name, default = nil)
+    ConfigManager.get(name, default, nil, nil)
+  end
+
 end
