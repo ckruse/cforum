@@ -6,7 +6,7 @@ gem 'activerecord-postgres-hstore', git: 'git://github.com/softa/activerecord-po
 
 gem 'therubyracer'
 
-gem 'sorcery', '>= 0.7.13'
+gem 'devise'
 gem "bcrypt-ruby", :require => "bcrypt"
 
 gem 'jquery-rails'

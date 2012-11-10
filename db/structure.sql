@@ -528,14 +528,19 @@ CREATE TABLE users (
     user_id bigint NOT NULL,
     username character varying(255) NOT NULL,
     email character varying(255),
+    unconfirmed_email character varying(255),
     admin character varying(255),
     active boolean DEFAULT true NOT NULL,
-    crypted_password character varying(255),
-    salt character varying(255),
+    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
+    remember_created_at timestamp without time zone,
+    reset_password_token character varying(255),
+    reset_password_sent_at timestamp without time zone,
+    confirmation_token character varying(255),
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    last_login_at timestamp without time zone,
-    last_logout_at timestamp without time zone
+    authentication_token character varying(255)
 );
 
 
@@ -773,6 +778,34 @@ CREATE UNIQUE INDEX threads_slug_idx ON threads USING btree (slug);
 --
 
 CREATE INDEX threads_tid_idx ON threads USING btree (tid);
+
+
+--
+-- Name: users_authentication_token_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX users_authentication_token_idx ON users USING btree (authentication_token);
+
+
+--
+-- Name: users_confirmation_token_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX users_confirmation_token_idx ON users USING btree (confirmation_token);
+
+
+--
+-- Name: users_email_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX users_email_idx ON users USING btree (email);
+
+
+--
+-- Name: users_reset_password_token_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX users_reset_password_token_idx ON users USING btree (reset_password_token);
 
 
 --

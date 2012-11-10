@@ -4,11 +4,10 @@ require Rails.root + 'lib/notification_center'
 require Rails.root + 'lib/plugin'
 
 class ApplicationController < ActionController::Base
-  protect_from_forgery
   include ApplicationHelper
 
-  before_filter :require_login_from_http_basic, :only => [:login_from_http_basic]
   before_filter :check_admin_access
+  protect_from_forgery
 
   attr_reader :notification_center
 
@@ -30,10 +29,6 @@ class ApplicationController < ActionController::Base
     end
 
     super(*args)
-  end
-
-  def login_from_http_basic
-    redirect_to root_url, :notice => I18n.t('users.logged_in')
   end
 
   def set(name, value)

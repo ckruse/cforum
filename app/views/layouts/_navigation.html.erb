@@ -15,10 +15,11 @@
               <% unless current_user %><li><%= link_to t(".register"), root_path %></li><% end %>
             </ul>
             <ul class="nav pull-right">
-              <% if current_user %>
-                <li><%= link_to('Logout', root_url, :method => :delete) %></li>
+              <% if user_signed_in? %>
+                <li><%= link_to(current_user.username, user_path(current_user)) %></li>
+                <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
               <% else %>
-                <li><%= link_to('Login', '/login') %></li>
+                <li><%= link_to('Login', new_user_session_path) %></li>
               <% end %>
             </ul>
           </div><!--/.nav-collapse -->

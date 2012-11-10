@@ -7,20 +7,33 @@ class CreateUsers < ActiveRecord::Migration
         user_id BIGSERIAL NOT NULL PRIMARY KEY,
         username CHARACTER VARYING(255) NOT NULL,
         email CHARACTER VARYING(255),
+        unconfirmed_email CHARACTER VARYING(255),
 
         admin CHARACTER VARYING(255),
         active BOOLEAN NOT NULL DEFAULT true,
 
-        crypted_password CHARACTER VARYING(255),
-        salt CHARACTER VARYING(255),
+        encrypted_password CHARACTER VARYING(255) NOT NULL DEFAULT '',
+
+        remember_created_at TIMESTAMP WITHOUT TIME ZONE,
+
+        reset_password_token CHARACTER VARYING(255),
+        reset_password_sent_at TIMESTAMP WITHOUT TIME ZONE,
+
+        confirmation_token CHARACTER VARYING(255),
+        confirmed_at TIMESTAMP WITHOUT TIME ZONE,
+        confirmation_sent_at TIMESTAMP WITHOUT TIME ZONE,
 
         created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
         updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-        last_login_at TIMESTAMP WITHOUT TIME ZONE,
-        last_logout_at TIMESTAMP WITHOUT TIME ZONE
+
+        authentication_token CHARACTER VARYING(255)
       );
 
       CREATE UNIQUE INDEX users_username_idx ON cforum.users (username);
+      CREATE UNIQUE INDEX users_email_idx ON cforum.users (email);
+      CREATE UNIQUE INDEX users_reset_password_token_idx ON cforum.users (reset_password_token);
+      CREATE UNIQUE INDEX users_confirmation_token_idx ON cforum.users (confirmation_token);
+      CREATE UNIQUE INDEX users_authentication_token_idx ON cforum.users (authentication_token);
     }
   end
 
