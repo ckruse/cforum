@@ -725,6 +725,13 @@ CREATE INDEX messages_mid_idx ON messages USING btree (mid);
 
 
 --
+-- Name: messages_parent_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX messages_parent_id_idx ON messages USING btree (parent_id);
+
+
+--
 -- Name: messages_thread_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -736,6 +743,13 @@ CREATE INDEX messages_thread_id_idx ON messages USING btree (thread_id);
 --
 
 CREATE INDEX settings_forum_id_idx ON settings USING btree (forum_id);
+
+
+--
+-- Name: settings_forum_id_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX settings_forum_id_user_id_idx ON settings USING btree (forum_id, user_id);
 
 
 --
@@ -764,6 +778,13 @@ CREATE INDEX threads_created_at_idx ON threads USING btree (created_at);
 --
 
 CREATE INDEX threads_forum_id_idx ON threads USING btree (forum_id);
+
+
+--
+-- Name: threads_message_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX threads_message_id_idx ON threads USING btree (message_id);
 
 
 --
@@ -911,7 +932,7 @@ ALTER TABLE ONLY messages
 --
 
 ALTER TABLE ONLY messages
-    ADD CONSTRAINT messages_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE RESTRICT;
+    ADD CONSTRAINT messages_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 --

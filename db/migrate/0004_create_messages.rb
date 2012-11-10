@@ -32,6 +32,7 @@ class CreateMessages < ActiveRecord::Migration
       );
 
       ALTER TABLE cforum.threads ADD COLUMN message_id BIGINT REFERENCES cforum.messages (message_id) ON DELETE SET NULL ON UPDATE CASCADE;
+      CREATE INDEX threads_message_id_idx on cforum.threads (message_id); -- used for the FKs
 
       CREATE INDEX messages_thread_id_idx ON cforum.messages (thread_id);
       CREATE INDEX messages_mid_idx ON cforum.messages (mid);
