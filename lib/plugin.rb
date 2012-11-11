@@ -23,4 +23,8 @@ class Plugin
     @app_controller.current_user
   end
 
+  def current_forum
+    @app_controller.current_forum
+  end
+
 end
