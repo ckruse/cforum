@@ -8,11 +8,12 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
 
   def index
     @forums = CfForum.unscoped.order('name ASC').find(:all)
-    results = CfThread.select('forum_id, COUNT(thread_id) AS cnt').group('forum_id')
+    results = CfForum.connection.execute("SELECT table_name, group_crit, SUM(difference) AS diff FROM cforum.counter_table WHERE table_name = 'threads' OR table_name = 'messages' GROUP BY table_name, group_crit")
 
     @counts = {}
     results.each do |r|
-      @counts[r.forum_id] = r.cnt.to_i
+      @counts[r['group_crit'].to_i] ||= {threads: 0, messages: 0}
+      @counts[r['group_crit'].to_i][r['table_name'].to_sym] = r['diff']
     end
 
     results = CfForum.unscoped.select("forum_id, (SELECT updated_at FROM cforum.messages WHERE cforum.messages.forum_id = cforum.forums.forum_id AND deleted = false ORDER BY updated_at DESC LIMIT 1) AS updated_at")
