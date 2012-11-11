@@ -54,7 +54,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if saved
-        format.html { redirect_to user_path(@user), notice: 'User has successfully been edited' }
+        format.html { redirect_to user_path(@user), notice: I18n.t('users.updated') }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -70,7 +70,7 @@ class UsersController < ApplicationController
     @user.destroy
 
     respond_to do |format|
-      format.html { redirect_to root_url, notice: 'User account has successfully been deleted' }
+      format.html { redirect_to root_url, notice: I18n.t('users.deleted') }
       format.json { head :no_content }
     end
   end

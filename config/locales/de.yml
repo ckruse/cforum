@@ -14,10 +14,8 @@ de:
   users:
     signed_up: Benutzer erfolgreich erstellt!
     logged_in: Der Login war erfolgreich.
-
-    new:
-      form_invalid: Das Formular ist fehlerhaft!
-      passwords_do_not_match: Die Passwörter stimmen nicht überein!
+    updated: Benutzer erfolgreich geändert.
+    deleted: Benutzer erfolgreich gelöscht.
 
   layouts:
     application:
