@@ -1,7 +1,7 @@
-<%= form_for @message, :url => cf_message_path(@thread, @parent) do |f| %>
+<%= form_for @message, :url => cf_message_path(@thread, @parent), html: {:class => 'form-horizontal'} do |f| %>
   <% if @message.errors.any? %>
     <div id="error_explanation" class="alert alert-error">
-      <h2><%= pluralize(@message.errors.count, "error") %> prohibited this thread from being saved:</h2>
+      <h4><%= pluralize(@message.errors.count, "error") %> prohibited this thread from being saved:</h4>
 
       <ul>
       <% @message.errors.full_messages.each do |msg| %>

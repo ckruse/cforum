@@ -1,27 +1,30 @@
 <fieldset>
   <legend><%= t ".meta_information" %></legend>
-  <p>
-    <%= f.label :subject %>
-    <%= f.text_field :subject %>
-  </p>
+  <div class="control-group">
+    <%= f.label :subject, :class => 'control-label' %>
+    <div class="controls"><%= f.text_field :subject, :placeholder => 'Subject' %></div>
+  </div>
 
-  <p>
-    <%= f.label :author %>
-    <%= f.text_field :author %>
-  </p>
-  <p>
-    <%= f.label :email %>
-    <%= f.email_field :email %>
-  </p>
-  <p>
-    <%= f.label :homepage %>
-    <%= f.text_field :homepage %>
-    <%= f.hidden_field :user_id %>
-  </p>
+  <div class="control-group">
+    <%= f.label :author, :class => 'control-label' %>
+    <div class="controls"><%= f.text_field :author, :placeholder => 'Author' %></div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :email, :class => 'control-label' %>
+    <div class="controls"><%= f.email_field :email, :placeholder => 'e mail' %></div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :homepage, :class => 'control-label' %>
+    <div class="controls"><%= f.text_field :homepage, :placeholder => 'Homepage' %></div>
+  </div>
 </fieldset>
 
 <fieldset>
   <legend><%= t ".content" %></legend>
-  <%= f.text_area :content %>
-</fieldset>
 
+  <div class="control-group">
+    <%= f.text_area :content, :class => 'span5' %>
+  </div>
+</fieldset>

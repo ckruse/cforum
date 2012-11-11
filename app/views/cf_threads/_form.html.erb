@@ -1,7 +1,7 @@
-<%= form_for @thread do |f| %>
+<%= form_for @thread, html: {:class => 'form-horizontal'} do |f| %>
   <% if @thread.message.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@thread.message.errors.count, "error") %> prohibited this thread from being saved:</h2>
+    <div id="error_explanation" class="alert alert-error">
+      <h4><%= pluralize(@thread.message.errors.count, "error") %> prohibited this thread from being saved:</h4>
 
       <ul>
       <% @thread.message.errors.full_messages.each do |msg| %>
