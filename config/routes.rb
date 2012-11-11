@@ -11,6 +11,8 @@ Cforum::Application.routes.draw do
     root to: "cf_users#index"
   end
 
+  get '/all' => 'cf_threads#index'
+
   scope ":curr_forum" do
     get '/' => 'cf_threads#index', as: 'cf_threads'
 
