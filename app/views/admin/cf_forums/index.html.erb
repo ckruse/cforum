@@ -5,6 +5,7 @@
     <tr>
       <th>Forum</th>
       <th>Threads</th>
+      <th>Messages</th>
       <th>Last Change</th>
       <th> </th>
     </tr>
@@ -13,7 +14,8 @@
     <% @forums.each do |forum| %>
     <tr>
       <td><%= link_to forum.name, admin_forum_path(forum.forum_id) %></td>
-      <td><%= @counts[forum.forum_id] %></td>
+      <td><%= @counts[forum.forum_id][:threads] %></td>
+      <td><%= @counts[forum.forum_id][:messages] %></td>
       <td><%= @activities[forum.forum_id] ? l(@activities[forum.forum_id]) : '<em>(nie)</em>'.html_safe %></td>
       <td>
         <%= link_to '', edit_admin_forum_path(forum.forum_id), :class => "icon icon-edit" %>
