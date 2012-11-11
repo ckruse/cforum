@@ -19,5 +19,9 @@ body {
   padding-bottom: 40px;
 }
 
+summary::-webkit-details-marker {
+  display:none;
+}
+
 
 /* eof */
