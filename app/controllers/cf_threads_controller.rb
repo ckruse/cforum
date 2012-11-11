@@ -10,7 +10,10 @@ class CfThreadsController < ApplicationController
   SHOW_NEW_THREAD = "show_new_thread"
 
   def index
-    forum = current_forum
+    forum  = current_forum
+    @page  = params[:p].to_i
+    @limit = uconf('pagination', 150)
+    @page  = 0 if @page < 0
 
     conditions = {}
     conditions[:forum_id] = forum.forum_id if forum
@@ -20,7 +23,13 @@ class CfThreadsController < ApplicationController
       preload(:messages, :forum).
       where(conditions).
       order('cforum.threads.created_at DESC').
-      limit(uconf('pagination', 150))
+      limit(@limit).
+      offset(@limit * @page)
+
+    rslt = CfForum.connection.execute("SELECT cforum.counter_table_get_count('threads', " +
+      current_forum.forum_id.to_s +
+      ") AS cnt")
+    @all_threads_count = rslt[0]['cnt'].to_i
 
     @threads.each do |t|
       t.gen_tree

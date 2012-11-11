@@ -1,0 +1,22 @@
+<%
+all_pages_count = (@all_threads_count / @limit).ceil
+start_page = @page - 5
+end_page = @page + 5
+
+if start_page <= 0
+  end_page += -start_page
+  start_page = 1
+end
+
+end_page = all_pages_count if end_page > all_pages_count
+%><div class="pagination pagination-centered">
+  <ul>
+    <li<% if @page == 0 %> class="disabled"<% end %>><%= link_to '«', cf_forum_path(current_forum) %></li>
+
+    <% (start_page..end_page+1).each do |i| %>
+    <li<% if i - 1 == @page %> class="active disabled"<% end %>><%= link_to i, cf_forum_path(current_forum, p: i-1) %></li>
+    <% end %>
+
+    <li<% if @page == all_pages_count %> class="disabled"<% end %>><%= link_to '»', cf_forum_path(current_forum, p: all_pages_count) %></li>
+  </ul>
+</div>
