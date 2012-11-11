@@ -1,0 +1,23 @@
+<h1>User <%= @user.username %></h1>
+
+<p>
+  User has been created at <%= l(@user.created_at) %>. He created <%= @messages_count %> messages. User
+  is <% unless @user.admin %><strong>not</strong><% end %> an admin. User is <% unless @user.active %><strong>not</strong><% end %>
+  active.
+</p>
+
+<% unless @user.forums.blank? %><p>
+  User is moderator in the followoing forums: <%= (@user.forums.map {|f| f.name }).join(", ") %>
+</p><% end %>
+
+<%= form_for @user, url: user_path(@user), html: {:class => 'form-horizontal'} do |f| %>
+
+  <%= render 'form', f: f %>
+  <%= render 'settings' %>
+
+  <p class="form-actions">
+    <%= f.submit :class => 'btn btn-primary' %>
+    <%= link_to 'Back', users_path, :class => 'btn' %>
+  </p>
+
+<% end %>

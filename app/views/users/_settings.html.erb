@@ -1,0 +1,27 @@
+<% ro ||= false %><h3>Settings</h3>
+
+<fieldset>
+  <legend>Personal Information</legend>
+
+  <div class="control-group">
+    <label class="control-label" for="settings_name">Name</label>
+    <div class="controls">
+      <input type="text" value="<%= @user.conf('name') %>" name="settings[name]" id="settings_name"<% if ro %> disabled="disabled"<% end %>>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="settings_email">E-Mail</label>
+    <div class="controls">
+      <input type="text" value="<%= @user.conf('email') %>" name="settings[email]" id="settings_email"<% if ro %> disabled="disabled"<% end %>>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="settings_url">URL</label>
+    <div class="controls">
+      <input type="text" value="<%= @user.conf('url') %>" name="settings[url]" id="settings_url"<% if ro %> disabled="disabled"<% end %>>
+    </div>
+  </div>
+</fieldset>
+

@@ -1,0 +1,32 @@
+<h1>Users</h1>
+
+<form class="form-search">
+<input name="s" value="<%= @search_term %>" type="text" placeholder="username" class="input-medium search-query">
+</form>
+
+<table class="table table-condensed table-striped">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Admin</th>
+      <th>Active</th>
+      <th>Created</th>
+      <th>Modified</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |u| %>
+    <tr>
+      <td><%= link_to u.username, user_path(u) %></td>
+      <td><%= u.admin ? 'Yes' : 'No' %></td>
+      <td><%= u.active ? 'Yes' : 'No' %></td>
+      <td><%= l(u.created_at) %></td>
+      <td><%= l(u.updated_at) %></td>
+    </tr>
+    <% end %>
+  </tbody>
+
+</table>
+
+<%= render 'pages' %>
