@@ -6,7 +6,7 @@ class CfMessage < ActiveRecord::Base
 
   serialize :flags, ActiveRecord::Coders::Hstore
 
-  has_one :owner, class_name: 'CfUser', :foreign_key => :user_id
+  belongs_to :owner, class_name: 'CfUser', :foreign_key => :user_id
 
   belongs_to :thread, class_name: 'CfThread', :foreign_key => :thread_id
 

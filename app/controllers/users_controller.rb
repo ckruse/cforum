@@ -16,25 +16,25 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = CfUser.find(params[:id])
+    @user = CfUser.find_by_username!(params[:id])
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
   end
 
   def edit
-    raise CForum::ForbiddenException.new if current_user.blank? or params[:id].to_i != current_user.user_id
+    raise CForum::ForbiddenException.new if current_user.blank? or params[:id] != current_user.username
 
-    @user = CfUser.find(params[:id])
+    @user = CfUser.find_by_username!(params[:id])
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
   end
 
   def update
-    raise CForum::ForbiddenException.new if current_user.blank? or params[:id].to_i != current_user.user_id
+    raise CForum::ForbiddenException.new if current_user.blank? or params[:id] != current_user.username
 
     attrs = params[:cf_user]
     attrs.delete :active
     attrs.delete :admin
 
-    @user = CfUser.find(params[:id])
+    @user = CfUser.find_by_username!(params[:id])
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
 
     saved = false
@@ -64,16 +64,15 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    raise CForum::ForbiddenException.new if current_user.blank? or params[:id].to_i != current_user.user_id
+    raise CForum::ForbiddenException.new if current_user.blank? or params[:id] != current_user.username
 
-    @user = CfUser.find(params[:id])
+    @user = CfUser.find_by_username!(params[:id])
     @user.destroy
 
     respond_to do |format|
       format.html { redirect_to root_url, notice: 'User account has successfully been deleted' }
       format.json { head :no_content }
     end
-
   end
 
 end

@@ -14,7 +14,7 @@ module ViewHelpers
   <details open>
     <summary>
       } + t("messages.by") + %q{
-      } + (message.user_id ? link_to(message.author, user_path(message.user_id)) : encode_entities(message.author)) + %q{,
+      } + (message.user_id ? link_to(message.author, user_path(message.owner)) : encode_entities(message.author)) + %q{,
       <time datetime="} + message.created_at.to_s + '">' + encode_entities(l(message.created_at)) + %q{</time>
     </summary>
   </details>
