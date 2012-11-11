@@ -40,6 +40,7 @@ class CreateMessages < ActiveRecord::Migration
       CREATE INDEX messages_parent_id_idx ON cforum.messages (parent_id); -- FK index
 
       CREATE INDEX messages_forum_id_updated_at_idx ON cforum.messages (forum_id, updated_at);
+      CREATE INDEX messages_user_id_idx on cforum.messages (user_id);
     }
   end
 
