@@ -5,10 +5,12 @@
       <header>
         <h3><%= link_to message.subject, cf_message_path(thread, message) %></h3>
 
-        <details>
-          <%= t("messages.by") %>
-          <%= message.user_id ? link_to(message.author, users_path + "/" + message.user_id.to_s) : message.author %>,
-          <time datetime="<%= message.created_at.to_s %>"><%= I18n.l(message.created_at) %></time>
+        <details open>
+          <summary>
+            <%= t("messages.by") %>
+            <%= message.user_id ? link_to(message.author, user_path(message.user_id)) : message.author %>,
+            <time datetime="<%= message.created_at.to_s %>"><%= I18n.l(message.created_at) %></time>
+          </summary>
         </details>
       </header>
 
@@ -21,14 +23,16 @@
 <% end %>
 
 <% @threads.each do |thread| %>
-<article class="thread-tree">
+<article class="thread threadlist">
   <header>
     <h2><%= link_to thread.message.subject, cf_message_path(thread, thread.message) %></h2>
 
-    <details>
-      <%= t("messages.by") %>
-      <%= thread.message.user_id ? link_to(thread.message.author, users_path + thread.message.user_id.to_s) : thread.message.author %>,
-      <time datetime="<%= thread.message.created_at.to_s %>"><%= I18n.l(thread.message.created_at) %></time>
+    <details open>
+      <summary>
+        <%= t("messages.by") %>
+        <%= thread.message.user_id ? link_to(thread.message.author, user_path(thread.message.user_id)) : thread.message.author %>,
+        <time datetime="<%= thread.message.created_at.to_s %>"><%= I18n.l(thread.message.created_at) %></time>
+      </summary>
     </details>
   </header>
 

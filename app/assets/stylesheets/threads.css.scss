@@ -1,0 +1,19 @@
+.thread {
+  ol {
+    list-style-type:none;
+  }
+
+  h2, h3, details, details summary {
+    font-size:1em;
+    display:inline;
+  }
+
+  h2, h3 {
+    margin-bottom:0;
+    line-height:inherit;
+  }
+
+  margin-bottom:2em;
+}
+
+/* eof */
