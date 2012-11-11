@@ -1,0 +1,5 @@
+<ul class="nav nav-list">
+  <li class="nav-header">Administration</li>
+  <li<% if controller_name == 'cf_users' and action_name != 'new' %> class="active"<% end %>><%= link_to 'Users', admin_users_path %></li>
+  <li<% if controller_name == 'cf_forums' and action_name != 'new' %> class="active"<% end %>><%= link_to 'Forums', admin_forums_path %></li>
+</ul>
