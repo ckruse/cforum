@@ -10,7 +10,8 @@
     <tr>
       <th>Benutzername</th>
       <th>E-Mail</th>
-      <th>Letztes Login</th>
+      <th>Erstellt</th>
+      <th>Bearbeitet</th>
       <th> </th>
     </tr>
   </thead>
@@ -20,7 +21,8 @@
     <tr>
       <td><%= link_to user.username, admin_user_path(user) %></td>
       <td><%= user.email %></td>
-      <td><%== user.last_login_at ? l(user.last_login_at) : '<em>never</em>' %></td>
+      <td><%== l(user.created_at) %></td>
+      <td><%== l(user.updated_at) %></td>
       <td>
         <%= link_to '', admin_user_path(user), data: {confirm: 'Are you sure?'}, :method => :delete, :class => 'icon icon-trash' %>
         <%= link_to '', edit_admin_user_path(user), :class => "icon icon-edit" %>
