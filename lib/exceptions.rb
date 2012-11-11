@@ -11,4 +11,11 @@ module CForum
       super(status, msg)
     end
   end
+
+  class ForbiddenException < Exception
+    def initialize(status = 403, msg = "Forbidden")
+      super(status, msg)
+    end
+  end
+
 end
