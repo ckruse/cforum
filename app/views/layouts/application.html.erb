@@ -36,6 +36,9 @@
 
     <div class="container-fluid">
       <div class="row-fluid">
+        <%= render 'layouts/sidebar' %>
+
+        <% if @has_subnav %><div class="span10"><% end %>
 
         <div id="alerts-container">
         <% flash.each do |name,msg| %>
@@ -46,8 +49,9 @@
         <% end %>
         </div>
 
-
         <%= yield %>
+
+        <% if @has_subnav %></div><% end %>
       </div>
     </div>
 
