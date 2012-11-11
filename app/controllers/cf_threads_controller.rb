@@ -22,7 +22,7 @@ class CfThreadsController < ApplicationController
     conditions[:archived] = false if conf('use_archive')
 
     @threads = CfThread.
-      preload(:messages, :forum).
+      preload(:forum, :messages => :owner).
       where(conditions).
       order('cforum.threads.created_at DESC').
       limit(@limit).
