@@ -7,5 +7,7 @@
 
   <p><%= link_to t(".new_message"), new_cf_message_path(@thread, @message) %></p>
 
-  <%= render :partial => 'cf_threads/thread_tree', :locals => {thread: @thread, messages: [@thread.message] } %>
+  <article class="thread posting">
+    <%= message_tree(@thread, @thread.message.messages) %>
+  </article>
 </article>
