@@ -26,9 +26,14 @@ class CfThreadsController < ApplicationController
       limit(@limit).
       offset(@limit * @page)
 
-    rslt = CfForum.connection.execute("SELECT cforum.counter_table_get_count('threads', " +
-      current_forum.forum_id.to_s +
-      ") AS cnt")
+    if forum
+      rslt = CfForum.connection.execute("SELECT cforum.counter_table_get_count('threads', " +
+        current_forum.forum_id.to_s +
+        ") AS cnt")
+    else
+      rslt = CfForum.connection.execute("SELECT SUM(difference) AS cnt FROM cforum.counter_table WHERE table_name = 'threads'")
+    end
+
     @all_threads_count = rslt[0]['cnt'].to_i
 
     @threads.each do |t|
