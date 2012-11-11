@@ -3,6 +3,8 @@
 class CfMessagesController < ApplicationController
   load_and_authorize_resource
 
+  SHOW_NEW_MESSAGE = "show_new_message"
+
   def show
     @id = CfThread.make_id(params)
     @thread = CfThread.find_by_slug(@id)
@@ -28,6 +30,8 @@ class CfMessagesController < ApplicationController
 
     # inherit message and subject from previous post
     @message.subject = @parent.subject
+
+    notification_center.notify(SHOW_NEW_MESSAGE, @thread, @message)
   end
 
   def create
