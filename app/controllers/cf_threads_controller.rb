@@ -5,9 +5,11 @@ class CfThreadsController < ApplicationController
 
   before_filter :require_login, :only => [:edit, :update, :destroy]
 
-  SHOW_THREADLIST = "show_threadlist"
-  SHOW_THREAD = "show_thread"
-  SHOW_NEW_THREAD = "show_new_thread"
+  SHOW_THREADLIST  = "show_threadlist"
+  SHOW_THREAD      = "show_thread"
+  SHOW_NEW_THREAD  = "show_new_thread"
+  NEW_THREAD       = "new_thread"
+  NEW_THREAD_SAVED = "new_thread_saved"
 
   def index
     forum  = current_forum
@@ -74,16 +76,20 @@ class CfThreadsController < ApplicationController
 
     @forum = current_forum
 
-    @thread = CfThread.new()
+    @thread  = CfThread.new()
     @message = CfMessage.new(params[:cf_thread][:message])
     @thread.messages << @message
-    @thread.message = @message
+    @thread.message  =  @message
 
     @thread.forum_id  = @forum.forum_id
     @message.forum_id = @forum.forum_id
 
+    notification_center.notify(NEW_THREAD, @thread, @message)
+
     respond_to do |format|
       if @thread.save
+        notification_center.notify(NEW_THREAD_SAVED, @thread, @message)
+
         format.html { redirect_to cf_message_url(@thread, @message), notice: I18n.t("threads.created") }
         format.json { render json: @thread, status: :created, location: @thread }
       else
