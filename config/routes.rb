@@ -1,8 +1,5 @@
 Cforum::Application.routes.draw do
-  devise_for :cf_users
-
   devise_for :users, class_name: 'CfUser', path_names: {sign_in: 'login', sign_out: 'logout'}
-
   resources :users
 
   namespace 'admin' do
