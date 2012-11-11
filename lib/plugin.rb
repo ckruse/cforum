@@ -27,4 +27,8 @@ class Plugin
     @app_controller.current_forum
   end
 
+  def params
+    @app_controller.params
+  end
+
 end

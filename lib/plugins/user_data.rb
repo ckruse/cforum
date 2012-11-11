@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
 class UserData < Plugin
-  def show_new_thread(thread, params)
-    set_vars(thread.message, params)
+  def show_new_thread(thread)
+    set_vars(thread.message)
   end
 
-  def show_new_message(thread, message, params)
-    set_vars(message, params)
+  def show_new_message(thread, message)
+    set_vars(message)
   end
 
-  def set_vars(msg, params)
+  def set_vars(msg)
     if user = current_user
       settings = ConfigManager.setting(user, current_forum)
 
