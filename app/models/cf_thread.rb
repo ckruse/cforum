@@ -78,6 +78,10 @@ class CfThread < ActiveRecord::Base
   default_scope do
     self.view_all ? nil : where('EXISTS (SELECT thread_id FROM cforum.messages WHERE thread_id = cforum.threads.thread_id AND deleted = false)')
   end
+
+  before_create do |t|
+    t.slug = CfThread.gen_id(t) if t.slug.blank?
+  end
 end
 
 # eof
