@@ -76,8 +76,8 @@ class CfThread < ActiveRecord::Base
   end
   self.view_all = false
   default_scope do
-   self.view_all ? nil : where('EXISTS (SELECT thread_id FROM cforum.messages WHERE thread_id = cforum.threads.thread_id AND deleted = false)')
- end
+    self.view_all ? nil : where('EXISTS (SELECT thread_id FROM cforum.messages WHERE thread_id = cforum.threads.thread_id AND deleted = false)')
+  end
 end
 
 # eof
