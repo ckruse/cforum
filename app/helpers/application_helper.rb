@@ -1,6 +1,7 @@
 module ApplicationHelper
   include UrlHelpers
   include ParserHelper
+  include ViewHelpers
 
   def encode_entities(txt)
     map = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;'}

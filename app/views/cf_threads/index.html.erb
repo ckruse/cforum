@@ -1,49 +1,12 @@
-<% def message_tree(thread, messages) %>
-  <ol>
-    <% messages.each do |message| %>
-    <li>
-      <header>
-        <% unless current_forum %><details open><summary><%= link_to thread.forum.short_name, thread.forum %></summary></details><% end %>
 
-        <h3><%= link_to message.subject, cf_message_path(thread, message) %></h3>
-
-        <details open>
-          <summary>
-            <%= t("messages.by") %>
-            <%= message.user_id ? link_to(message.author, user_path(message.user_id)) : message.author %>,
-            <time datetime="<%= message.created_at.to_s %>"><%= I18n.l(message.created_at) %></time>
-          </summary>
-        </details>
-      </header>
-
-      <% unless message.messages.blank?
-        message_tree(thread, message.messages)
-      end %>
-    </li>
-    <% end %>
-  </ol>
-<% end %>
 
 <% @threads.each do |thread| %>
 <article class="thread threadlist">
-  <header>
-    <% unless current_forum %><details open><summary><%= link_to thread.forum.short_name, thread.forum %></summary></details><% end %>
+  <%= message_header(thread, thread.message, true) %>
 
-    <h2><%= link_to thread.message.subject, cf_message_path(thread, thread.message) %></h2>
-
-    <details open>
-      <summary>
-        <%= t("messages.by") %>
-        <%= thread.message.user_id ? link_to(thread.message.author, user_path(thread.message.user_id)) : thread.message.author %>,
-        <time datetime="<%= thread.message.created_at.to_s %>"><%= I18n.l(thread.message.created_at) %></time>
-      </summary>
-    </details>
-  </header>
-
-  <%
-  unless thread.message.messages.blank?
-    message_tree(thread, thread.message.messages)
-  end %>
+  <% unless thread.message.messages.blank? %>
+  <%= message_tree(thread, thread.message.messages) %>
+  <% end %>
 </article>
 <% end %>
 

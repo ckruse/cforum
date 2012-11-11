@@ -2,16 +2,16 @@
   <ol>
     <% messages.each do |message| %>
     <li>
-      <%= render :partial => 'cf_messages/message_header', :locals => {thread: thread, message: message, first: false} %>
+      <%= message_header(thread, message) %>
 
-      <% unless message.messages.blank?
-        message_tree(thread, message.messages)
-      end %>
+      <% unless message.messages.blank? %>
+      <%= message_tree(thread, message.messages) %>
+      <% end %>
     </li>
     <% end %>
   </ol>
 <% end %>
 
 <article class="thread posting">
-  <% message_tree(thread, messages) %>
+  <%= message_tree(thread, messages) %>
 </article>

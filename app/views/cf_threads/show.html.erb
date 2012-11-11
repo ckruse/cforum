@@ -2,7 +2,7 @@
   <ol class="answers">
     <% messages.each do |m| %>
     <li>
-      <%= render :partial => 'cf_messages/message_header', :locals => {thread: thread, message: m, first: false} %>
+      <%= message_header(thread, m) %>
 
       <div class="posting-content">
         <%= message_to_html(m.content) %>
@@ -17,7 +17,7 @@
 <% end %>
 
 <article class="thread">
-  <%= render :partial => 'cf_messages/message_header', :locals => {thread: @thread, message: @thread.message, :first => true} %>
+  <%= message_header(@thread, @thread.message, true) %>
 
   <div class="posting-content">
     <%= message_to_html(@thread.message.content) %>

@@ -1,5 +1,5 @@
 <article class="message">
-  <%= render :partial => 'message_header', :locals => {thread: @thread, message: @message, :first => true} %>
+  <%= message_header(@thread, @message, true) %>
 
   <div class="posting-content">
     <%= message_to_html(@message.content) %>
