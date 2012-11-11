@@ -39,7 +39,8 @@
 
         <div id="alerts-container">
         <% flash.each do |name,msg| %>
-          <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+          <div class="alert alert-<%= name == :notice ? "success" : "error" %> fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
             <%= msg %>
           </div>
         <% end %>
