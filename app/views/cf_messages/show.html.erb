@@ -8,6 +8,6 @@
   <p><%= link_to t(".new_message"), new_cf_message_path(@thread, @message) %></p>
 
   <article class="thread posting">
-    <%= message_tree(@thread, @thread.message.messages) %>
+    <%= message_tree(@thread, [@thread.message]) %>
   </article>
 </article>
