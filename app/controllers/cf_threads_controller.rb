@@ -72,15 +72,15 @@ class CfThreadsController < ApplicationController
   def create
     now = Time.now
 
-    @forum = CfForum.find_by_slug('default-forum')
+    @forum = current_forum
 
     @thread = CfThread.new()
     @message = CfMessage.new(params[:cf_thread][:message])
     @thread.messages << @message
     @thread.message = @message
 
-    @thread.forum_id = @forum.forum_id
-    @thread.slug = CfThread.gen_id(@thread)
+    @thread.forum_id  = @forum.forum_id
+    @message.forum_id = @forum.forum_id
 
     respond_to do |format|
       if @thread.save

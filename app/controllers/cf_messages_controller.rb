@@ -46,6 +46,7 @@ class CfMessagesController < ApplicationController
 
     @message = CfMessage.new(params[:cf_message])
     @message.parent_id = @parent.message_id
+    @message.forum_id  = current_forum.forum_id
 
     @thread.messages.push @message
 
