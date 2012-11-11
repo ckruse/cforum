@@ -29,6 +29,13 @@ class CfUser < ActiveRecord::Base
   has_many :forum_mods, class_name: 'CfModerator', :foreign_key => :user_id
   has_many :forums, class_name: 'CfForum', :through => :forum_mods
 
+  def conf(nam, default = nil)
+    vals = settings.options unless settings.blank?
+    vals ||= {}
+
+    vals[nam.to_s] || default
+  end
+
   def self.find_first_by_auth_conditions(conditions = {})
     conditions = conditions.dup
     conditions[:active] = true

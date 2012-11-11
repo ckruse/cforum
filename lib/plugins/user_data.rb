@@ -11,11 +11,9 @@ class UserData < Plugin
 
   def set_vars(msg)
     if user = current_user
-      settings = ConfigManager.setting(user, current_forum)
-
-      msg.author   ||= settings['name']
-      msg.email    ||= settings['email']
-      msg.homepage ||= settings['homepage']
+      msg.author   ||= user.conf('name')
+      msg.email    ||= user.conf('email')
+      msg.homepage ||= user.conf('url')
     end
   end
 end
