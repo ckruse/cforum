@@ -63,6 +63,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    raise CForum::ForbiddenException.new if current_user.blank? or params[:id].to_i != current_user.user_id
+
+    @user = CfUser.find(params[:id])
+    @user.destroy
+
+    respond_to do |format|
+      format.html { redirect_to root_url, notice: 'User account has successfully been deleted' }
+      format.json { head :no_content }
+    end
+
+  end
+
 end
 
 # eof
