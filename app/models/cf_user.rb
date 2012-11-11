@@ -25,7 +25,7 @@ class CfUser < ActiveRecord::Base
 
   attr_accessor :login
 
-  has_many :settings, class_name: 'CfSetting'
+  has_one :settings, class_name: 'CfSetting', :foreign_key => :user_id, :dependent => :destroy
   has_many :forum_mods, class_name: 'CfModerator', :foreign_key => :user_id
   has_many :forums, class_name: 'CfForum', :through => :forum_mods
 
