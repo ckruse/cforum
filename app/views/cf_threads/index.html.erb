@@ -3,6 +3,8 @@
     <% messages.each do |message| %>
     <li>
       <header>
+        <% unless current_forum %><details open><summary><%= link_to thread.forum.short_name, thread.forum %></summary></details><% end %>
+
         <h3><%= link_to message.subject, cf_message_path(thread, message) %></h3>
 
         <details open>
@@ -25,6 +27,8 @@
 <% @threads.each do |thread| %>
 <article class="thread threadlist">
   <header>
+    <% unless current_forum %><details open><summary><%= link_to thread.forum.short_name, thread.forum %></summary></details><% end %>
+
     <h2><%= link_to thread.message.subject, cf_message_path(thread, thread.message) %></h2>
 
     <details open>
