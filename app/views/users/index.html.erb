@@ -7,11 +7,11 @@
 <table class="table table-condensed table-striped">
   <thead>
     <tr>
-      <th>Username</th>
-      <th>Admin</th>
-      <th>Active</th>
-      <th>Created</th>
-      <th>Modified</th>
+      <th><%= t('activerecord.attributes.cf_user.username') %></th>
+      <th><%= t('activerecord.attributes.cf_user.admin') %></th>
+      <th><%= t('activerecord.attributes.cf_user.active') %></th>
+      <th><%= t('activerecord.attributes.cf_user.created_at') %></th>
+      <th><%= t('activerecord.attributes.cf_user.updated_at') %></th>
     </tr>
   </thead>
 
@@ -19,8 +19,8 @@
     <% @users.each do |u| %>
     <tr>
       <td><%= link_to u.username, user_path(u) %></td>
-      <td><%= u.admin ? 'Yes' : 'No' %></td>
-      <td><%= u.active ? 'Yes' : 'No' %></td>
+      <td><%= u.admin ? t('views.yes') : t('views.no') %></td>
+      <td><%= u.active ? t('views.yes') : t('views.no') %></td>
       <td><%= l(u.created_at) %></td>
       <td><%= l(u.updated_at) %></td>
     </tr>
