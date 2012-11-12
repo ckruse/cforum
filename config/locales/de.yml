@@ -93,6 +93,8 @@ de:
     forum_name: Classic Forum
     title: Classic Forum
     logout: Ausloggen
+    error: Fehler
+    errors: Fehler
 
   date:
     abbr_day_names:

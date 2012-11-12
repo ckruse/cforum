@@ -1,6 +1,6 @@
   <% if @user.errors.any? %>
     <div id="error_explanation">
-      <h2><% t('admin.users.error_message', :error => pluralize(@user.errors.count, "error")) %>:</h2>
+      <h2><% t('admin.users.error_message', :error => pluralize(@user.errors.count, t("views.error"), t('views.errors'))) %>:</h2>
 
       <ul>
       <% @user.errors.full_messages.each do |msg| %>

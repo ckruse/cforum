@@ -1,6 +1,6 @@
   <% if @cf_forum.errors.any? %>
     <div id="error_explanation">
-      <h2><%= t('admin.forums.error_message', :errors_count => pluralize(@cf_forum.errors.count, "error")) %></h2>
+      <h2><%= t('admin.forums.error_message', :errors_count => pluralize(@cf_forum.errors.count, t("views.error"), t('views.errors'))) %></h2>
 
       <ul>
         <% @cf_forum.errors.full_messages.each do |msg| %>
