@@ -300,6 +300,7 @@ de:
       cf_message: Nachricht
       cf_thread: Thread
       cf_user: Benutzer
+      cf_forum: Forum
 
     attributes:
       cf_message:
@@ -308,6 +309,13 @@ de:
         author: Name
         email: E-Mail
         homepage: Homepage
+
+      cf_forum:
+        name: Name
+        short_name:  Kurzname
+        slug: Slug
+        public: Öffentlich
+        description: Beschreibung
 
 
 
