@@ -52,8 +52,6 @@ en:
       passwords_do_not_match: Password and its confirmation do not match!
 
   threads:
-    meta_information: Meta information
-
     created: Thread was successfully created.
 
     new:
@@ -110,6 +108,7 @@ en:
     author: Author
     homepage: Homepage
     content: Content
+    meta_information: Meta information
 
   activerecord:
     models:
