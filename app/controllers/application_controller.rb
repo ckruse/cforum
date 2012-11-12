@@ -6,7 +6,7 @@ require Rails.root + 'lib/plugin'
 class ApplicationController < ActionController::Base
   include ApplicationHelper
 
-  before_filter :check_admin_access
+  before_filter :check_admin_access, :check_forum_access
   protect_from_forgery
 
   attr_reader :notification_center
@@ -47,4 +47,20 @@ class ApplicationController < ActionController::Base
     ConfigManager.get(name, default, nil, nil)
   end
 
+  def check_forum_access
+    forum = current_forum
+    user = current_user
+
+    return if forum.blank?
+    return if forum.public
+    return if user and user.admin
+
+    unless user.blank?
+      user.rights.each do |r|
+        return if r.forum_id == forum.forum_id
+      end
+    end
+
+    raise CForum::ForbiddenException.new
+  end
 end

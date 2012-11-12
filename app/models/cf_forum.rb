@@ -19,7 +19,7 @@ class CfForum < ActiveRecord::Base
     slug
   end
 
-  default_scope where('public = true')
+  #default_scope where('public = true')
 end
 
 # eof
