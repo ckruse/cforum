@@ -42,6 +42,7 @@ de:
     user: Benutzer
     users: Benutzer
     username: Benutzer-Name
+    name: Name
     email: E-Mail
     save: Speichern
     cancel: Abbrechen
@@ -74,6 +75,9 @@ de:
     errors: Fehler
     meta_information: Meta-Informationen
     content: Inhalt
+    personal_information: Persönliche Informationen
+    settings: Einstellungen
+    user_information: Benutzer-Informationen
 
   date:
     abbr_day_names:

@@ -1,4 +1,4 @@
-<h1>User <%= @user.username %></h1>
+<h1><%= t('views.user') %> <%= @user.username %></h1>
 
 <p>
   User has been created at <%= l(@user.created_at) %>. He created <%= @messages_count %> messages. User
