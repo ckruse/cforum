@@ -2,7 +2,7 @@
   <%= render 'admin/admin_subnav' %>
 
   <ul class="nav nav-list">
-    <li class="nav-header">Users</li>
-    <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to 'New User', new_admin_user_path %></li>
+    <li class="nav-header"><%= t('views.users') %></li>
+    <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('admin.users.new_user'), new_admin_user_path %></li>
   </ul>
 </div>

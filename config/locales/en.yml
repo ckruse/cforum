@@ -9,10 +9,37 @@ en:
       destroyed: Forum successfully deleted
       merged: Forum has successfully been merged
 
+      error_message: "%{errors_count} prohibited this forum from being saved:"
+      new_forum: New Forum
+      edit: "Edit forum %{name}"
+      merge_forum: "Merge forum %{forum}"
+
+      fields:
+        name: Name
+        short_name: Short Name
+        slug: Slug
+        public: Public
+        description: Description
+        created_at: Created
+        updated_at: Updated
+
     users:
       updated: User was successfully changed!
       created: User was successfully created!
       deleted: User successfully deleted!
+
+      error_message: "%{errors_count} prohibited this user from being saved:"
+      new_user: New User
+      edit_user: "Edit user %{username}"
+      user_administration: User administration
+
+      fields:
+        username: Username
+        email: Email
+        admin: Administrator
+        active: Active
+        password: Password
+        password_confirmation: Passwort-Bestätigung
 
   users:
     signed_up: Signed up!
@@ -47,3 +74,33 @@ en:
   messages:
     by: "by"
     created: Message has been created!
+
+  views:
+    forum: Forum
+    forums: Forums
+    user: User
+    users: Users
+    username: Username
+    email: Email
+    save: Save
+    cancel: Cancel
+    edit: Edit
+    delete: Delete
+    administration: Administration
+    administrator: Administrator
+    threads: Threads
+    messages: Messages
+    last_change: Last Change
+    never: never
+    are_you_sure: Are you sure?
+    merge_forum_with: Merge forum with
+    merge_forum: Merge forum
+    back: Back
+    created: Created
+    updated: Updated
+    active: Active
+    yes: Ja
+    no: Nein
+
+
+

@@ -1,6 +1,6 @@
   <% if @user.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this thread from being saved:</h2>
+      <h2><% t('admin.users.error_message', :error => pluralize(@user.errors.count, "error")) %>:</h2>
 
       <ul>
       <% @user.errors.full_messages.each do |msg| %>
@@ -11,37 +11,37 @@
   <% end %>
 
 <div class="control-group">
-  <%= f.label :username, :class => 'control-label' %>
+  <%= f.label :username, t('admin.users.fields.username'), :class => 'control-label' %>
   <div class="controls"><%= f.text_field :username %></div>
 </div>
 
 <div class="control-group">
-  <%= f.label :email, :class => 'control-label' %>
+  <%= f.label :email, t('admin.users.fields.email'), :class => 'control-label' %>
   <div class="controls"><%= f.email_field :email %></div>
 </div>
 
 <div class="control-group">
-  <%= f.label :admin, :class => 'control-label' %>
+  <%= f.label :admin, t('admin.users.fields.admin'), :class => 'control-label' %>
   <div class="controls"><%= f.check_box :admin %></div>
 </div>
 
 <div class="control-group">
-  <%= f.label :active, :class => 'control-label' %>
+  <%= f.label :active, t('admin.users.fields.active'), :class => 'control-label' %>
   <div class="controls"><%= f.check_box :active %></div>
 </div>
 
 
 <div class="control-group">
-  <%= f.label :password, :class => 'control-label' %>
+  <%= f.label :password, t('admin.users.fields.password'), :class => 'control-label' %>
   <div class="controls"><%= f.password_field :password %></div>
 </div>
 
 <div class="control-group">
-  <%= f.label :password_confirm, :class => 'control-label' %>
+  <%= f.label :password_confirmation, t('admin.users.fields.password_confirmation'), :class => 'control-label' %>
   <div class="controls"><%= f.password_field :password_confirmation %></div>
 </div>
 
 <div class="form-actions">
-  <input type="submit" value="Save" class="btn btn-primary">
-  <a href="<%= admin_users_path %>" class="btn">Cancel</a>
+  <%= f.submit t('views.save'), :class => 'btn btn-primary' %>
+  <%= link_to t('views.cancel'), admin_users_path, :class => 'btn' %>
 </div>

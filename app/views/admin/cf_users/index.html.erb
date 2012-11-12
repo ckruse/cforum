@@ -1,17 +1,16 @@
-<h1>Benutzer-Verwaltung</h1>
+<h1><%= t('admin.users.user_administration') %></h1>
 
 <%= form_tag admin_users_path, :method => :get, :class => 'form-search' do |t| %>
   <input type="text" class="input-medium search-query" name="s">
-  <input type="submit" class="btn" value="Search">
 <% end %>
 
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th>Benutzername</th>
-      <th>E-Mail</th>
-      <th>Erstellt</th>
-      <th>Bearbeitet</th>
+      <th><%= t('views.username') %></th>
+      <th><%= t('views.email') %></th>
+      <th><%= t('views.created') %></th>
+      <th><%= t('views.updated') %></th>
       <th> </th>
     </tr>
   </thead>
@@ -24,7 +23,7 @@
       <td><%== l(user.created_at) %></td>
       <td><%== l(user.updated_at) %></td>
       <td>
-        <%= link_to '', admin_user_path(user), data: {confirm: 'Are you sure?'}, :method => :delete, :class => 'icon icon-trash' %>
+        <%= link_to '', admin_user_path(user), data: {confirm: t('views.are_you_sure')}, :method => :delete, :class => 'icon icon-trash' %>
         <%= link_to '', edit_admin_user_path(user), :class => "icon icon-edit" %>
       </td>
     </tr>
