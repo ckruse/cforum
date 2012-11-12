@@ -16,7 +16,7 @@
     <![endif]-->
 
     <script>
-    <% if current_user %>current_user = <%== current_user.to_json(:except => [:crypted_password, :salt]) %>;<% end %>
+    <% if current_user %>current_user = <%== current_user.to_json(:except => [:encrypted_password]) %>;<% end %>
     </script>
 
     <%= yield(:head) %>
