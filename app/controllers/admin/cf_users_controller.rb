@@ -1,7 +1,12 @@
 # -*- encoding: utf-8 -*-
 
 class Admin::CfUsersController < ApplicationController
-  load_and_authorize_resource
+  before_filter :load_resource
+  authorize_resource
+
+  def load_resource
+    @user = CfUser.find_by_username('ckruse') if params[:id]
+  end
 
   def index
     @page = params[:p].to_i || 0
@@ -18,17 +23,13 @@ class Admin::CfUsersController < ApplicationController
   end
 
   def show
-    @user = CfUser.find_by_username(params[:id])
     @postings_count = CfMessage.where(user_id: @user.user_id).count()
   end
 
   def edit
-    @user = CfUser.find_by_username(params[:id])
   end
 
   def update
-    @user = CfUser.find_by_username(params[:id])
-
     if @user.update_attributes(params[:cf_user])
       redirect_to edit_admin_user_url(@user), notice: I18n.t('admin.users.updated')
     else
@@ -51,7 +52,6 @@ class Admin::CfUsersController < ApplicationController
   end
 
   def destroy
-    @user = CfUser.find_by_username(params[:id])
     @user.destroy
 
     redirect_to admin_users_url, notice: I18n.t('admin.users.deleted')
