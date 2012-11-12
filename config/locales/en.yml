@@ -51,14 +51,6 @@ en:
       form_invalid: The Form is invalid!
       passwords_do_not_match: Password and its confirmation do not match!
 
-  layouts:
-    application:
-      new_thread: New thread
-      register: Register
-      welcome_message: Welcome to our new forum.
-      forum_name: Classic Forum
-      title: Classic Forum
-
   threads:
     created: Thread was successfully created.
 
@@ -101,6 +93,13 @@ en:
     active: Active
     yes: Ja
     no: Nein
+    home: Home
+    new_thread: New thread
+    register: Register
+    welcome_message: Welcome to our new forum.
+    forum_name: Classic Forum
+    title: Classic Forum
+    logout: Logout
 
 
 

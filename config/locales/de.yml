@@ -44,14 +44,6 @@ de:
     updated: Benutzer erfolgreich geändert.
     deleted: Benutzer erfolgreich gelöscht.
 
-  layouts:
-    application:
-      new_thread: Neuer Thread
-      register: Registrieren
-      welcome_message: Willkommen im neuen Forum
-      forum_name: Classic Forum
-      title: Classic Forum
-
   threads:
     created: Der Thread wurde erfolgreich erstellt.
 
@@ -94,6 +86,13 @@ de:
     active: Aktiv
     yes: Ja
     no: Nein
+    home: Hauptseite
+    new_thread: Neuer Thread
+    register: Registrieren
+    welcome_message: Willkommen im neuen Forum
+    forum_name: Classic Forum
+    title: Classic Forum
+    logout: Ausloggen
 
   date:
     abbr_day_names:
