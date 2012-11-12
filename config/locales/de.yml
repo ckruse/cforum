@@ -11,15 +11,6 @@ de:
       edit: "Forum %{name} bearbeiten"
       merge_forum: "Forum %{forum} zusammenführen"
 
-      fields:
-        name: Name
-        short_name: Kurzname
-        slug: Slug
-        public: Öffentlich
-        description: Beschreibung
-        created_at: Erstellt
-        updated_at: Geändert
-
     users:
       updated: Benutzer erfolgreich geändert.
       created: Benutzer erfolgreich erstellt.
@@ -29,14 +20,6 @@ de:
       new_user: Neuer Benutzer
       edit_user: "Benutzer %{username} bearbeiten"
       user_administration: Benutzer-Verwaltung
-
-      fields:
-        username: Benutzername
-        email: E-Mail
-        admin: Administrator
-        active: Aktiv
-        password: Passwort
-        password_confirmation: Passwort-Bestätigung
 
   users:
     signed_up: Benutzer erfolgreich erstellt!
@@ -317,5 +300,12 @@ de:
         public: Öffentlich
         description: Beschreibung
 
+      cf_user:
+        username: Benutzer-Name
+        email: E-Mail
+        admin: Administrator
+        active: Aktiv
+        password: Passwort
+        password_confirmation: Passwort-Bestätigung
 
 
