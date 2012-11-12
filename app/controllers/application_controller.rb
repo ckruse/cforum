@@ -57,7 +57,13 @@ class ApplicationController < ActionController::Base
 
     unless user.blank?
       user.rights.each do |r|
-        return if r.forum_id == forum.forum_id
+        if r.forum_id == forum.forum_id
+          if %w{new edit create update destroy}.include?(action_name)
+            return if %w{moderator write}.include?(r.permission)
+          else
+            return if %w{moderator read write}.include?(r.permission)
+          end
+        end
       end
     end
 
