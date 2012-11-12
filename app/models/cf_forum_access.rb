@@ -11,7 +11,8 @@ class CfForumAccess < ActiveRecord::Base
   belongs_to :user, class_name: 'CfUser'
   belongs_to :forum, class_name: 'CfForum'
 
-  attr_accessible :forum_access_id, :user_id, :forum_id
+  attr_accessible :forum_access_id, :user_id, :forum_id,
+    :permission
 end
 
 
