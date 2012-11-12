@@ -1,7 +1,7 @@
 <%= form_for @message, :url => cf_message_path(@thread, @parent), html: {:class => 'form-horizontal'} do |f| %>
   <% if @message.errors.any? %>
     <div id="error_explanation" class="alert alert-error">
-      <h4><%= pluralize(@message.errors.count, "error") %> prohibited this thread from being saved:</h4>
+      <h4><%= t('messages.error_message', :errors_count => pluralize(@message.errors.count, t("views.error"), t('views.errors'))) %></h4>
 
       <ul>
       <% @message.errors.full_messages.each do |msg| %>
@@ -14,6 +14,7 @@
   <%= render "form", f: f %>
 
   <p>
-    <%= f.submit %>
+    <%= f.submit t('views.save'), :class => 'btn btn-primary' %>
+    <%= link_to t('views.cancel'), @parent ? cf_message_path(@thread, @parent) : cf_forum_path(current_forum), :class => 'btn' %>
   </p>
 <% end %>

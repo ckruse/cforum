@@ -47,18 +47,11 @@ de:
   threads:
     created: Der Thread wurde erfolgreich erstellt.
 
-    new:
-      new_thread: New Thread
-      subject: Betreff
-      category: Kategorie
-      name: Name
-      email: Email
-      homepage: Homepage
-      content: Inhalt
 
   messages:
     by: von
     created: Nachricht wurde erfolgreich erstellt!
+    error_message: "%{errors_count} verhinderten, dass diese Nachricht gespeichert werden konnte:"
 
   views:
     forum: Forum
@@ -88,6 +81,7 @@ de:
     no: Nein
     home: Hauptseite
     new_thread: Neuer Thread
+    new_message: Neue Nachricht
     register: Registrieren
     welcome_message: Willkommen im neuen Forum
     forum_name: Classic Forum
@@ -95,6 +89,7 @@ de:
     logout: Ausloggen
     error: Fehler
     errors: Fehler
+    meta_information: Meta-Informationen
 
   date:
     abbr_day_names:
@@ -153,26 +148,26 @@ de:
     distance_in_words:
       about_x_hours:
         one: etwa eine Stunde
-        other: etwa %{count} Stunden
+        other: "etwa %{count} Stunden"
       about_x_months:
         one: etwa ein Monat
-        other: etwa %{count} Monate
+        other: "etwa %{count} Monate"
       about_x_years:
         one: etwa ein Jahr
-        other: etwa %{count} Jahre
+        other: "etwa %{count} Jahre"
       almost_x_years:
         one: fast ein Jahr
-        other: fast %{count} Jahre
+        other: "fast %{count} Jahre"
       half_a_minute: eine halbe Minute
       less_than_x_minutes:
         one: weniger als eine Minute
-        other: weniger als %{count} Minuten
+        other: "weniger als %{count} Minuten"
       less_than_x_seconds:
         one: weniger als eine Sekunde
-        other: weniger als %{count} Sekunden
+        other: "weniger als %{count} Sekunden"
       over_x_years:
         one: mehr als ein Jahr
-        other: mehr als %{count} Jahre
+        other: "mehr als %{count} Jahre"
       x_days:
         one: ein Tag
         other: ! '%{count} Tage'
@@ -292,9 +287,26 @@ de:
       short: ! '%d. %B, %H:%M Uhr'
     pm: nachmittags
   # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
+
   activemodel:
     errors:
       <<: *errors
+
   activerecord:
     errors:
       <<: *errors
+    models:
+      cf_message: Nachricht
+      cf_thread: Thread
+      cf_user: Benutzer
+
+    attributes:
+      cf_message:
+        subject: Betreff
+        content: Inhalt
+        author: Name
+        email: E-Mail
+        homepage: Homepage
+
+
+

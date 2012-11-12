@@ -1,5 +1,6 @@
 <fieldset>
-  <legend><%= t ".meta_information" %></legend>
+  <legend><%= t "threads.meta_information" %></legend>
+
   <div class="control-group">
     <%= f.label :subject, :class => 'control-label' %>
     <div class="controls"><%= f.text_field :subject, :placeholder => 'Subject' %></div>
@@ -22,7 +23,7 @@
 </fieldset>
 
 <fieldset>
-  <legend><%= t ".content" %></legend>
+  <legend><%= t "views.content" %></legend>
 
   <div class="control-group">
     <%= f.text_area :content, :class => 'span5' %>
