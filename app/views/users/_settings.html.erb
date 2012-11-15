@@ -26,5 +26,15 @@ disabled = ' disabled="disabled"' if ro
       <input type="text" value="<%= @user.conf('url') %>" name="settings[url]" id="settings_url"<%= disabled %>>
     </div>
   </div>
+
+  <div class="control-group">
+    <label class="control-label"><%= t('views.quote_char') %></label>
+    <div class="controls">
+      <label class="radio"><input type="radio" value="> " name="settings[quote_char]"<%= disabled %><% if @user.conf('quote_char') == '> ' or @user.conf('quote_char').blank? %> checked="checked"<% end %>> &gt; </label>
+      <label class="radio"><input type="radio" value="; " name="settings[quote_char]"<%= disabled %><% if @user.conf('quote_char') == '; ' %> checked="checked"<% end %>> ; </label>
+      <label class="radio"><input type="radio" value=": " name="settings[quote_char]"<%= disabled %><% if @user.conf('quote_char') == ': ' %> checked="checked"<% end %>> : </label>
+    </div>
+  </div>
+
 </fieldset>
 
