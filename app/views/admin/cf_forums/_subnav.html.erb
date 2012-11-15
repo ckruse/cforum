@@ -4,7 +4,7 @@
   <ul class="nav nav-list">
     <li class="nav-header"><%= t('views.forums') %></li>
     <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('admin.forums.new_forum'), new_admin_forum_path %></li>
-    <% if @cf_forum %>
+    <% if @cf_forum and @cf_forum.forum_id %>
     <li><%= link_to t('views.permissions'), admin_forum_permissions_path(@cf_forum.forum_id) %></li>
     <% end %>
   </ul>
