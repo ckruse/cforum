@@ -67,17 +67,9 @@ class CfThread < ActiveRecord::Base
     end
   end
 
-
-  def self.view_all
-    @@view_all
-  end
-  def self.view_all=(val)
-    @@view_all = val
-  end
-  self.view_all = false
-  default_scope do
-    self.view_all ? nil : where('EXISTS (SELECT thread_id FROM cforum.messages WHERE thread_id = cforum.threads.thread_id AND deleted = false)')
-  end
+  # default_scope do
+  #   where('EXISTS (SELECT thread_id FROM cforum.messages WHERE thread_id = cforum.threads.thread_id AND deleted = false)')
+  # end
 
   before_create do |t|
     t.slug = CfThread.gen_id(t) if t.slug.blank?

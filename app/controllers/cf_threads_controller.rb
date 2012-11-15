@@ -19,9 +19,11 @@ class CfThreadsController < ApplicationController
     conditions = {}
     conditions[:forum_id] = forum.forum_id if forum
     conditions[:archived] = false if conf('use_archive')
+    conditions[:messages] = {deleted: false} unless params.has_key?(:view_all)
 
     @threads = CfThread.
-      preload(:forum, :messages => :owner).
+      preload(:forum).
+      includes(:messages => :owner).
       where(conditions).
       order('cforum.threads.created_at DESC').
       limit(@limit).

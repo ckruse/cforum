@@ -25,16 +25,9 @@ class CfMessage < ActiveRecord::Base
     self.flags ||= {} if attributes.has_key? 'flags'
   end
 
-  def self.view_all
-    @@view_all
-  end
-  def self.view_all=(val)
-    @@view_all = val
-  end
-  self.view_all = false
-  default_scope do
-    self.view_all ? nil : where("deleted = false")
-  end
+  # default_scope do
+  #   where("deleted = false")
+  # end
 
   def delete_with_subtree
     update_attributes(:deleted => true)
