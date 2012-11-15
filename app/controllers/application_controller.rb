@@ -6,18 +6,10 @@ require Rails.root + 'lib/plugin'
 class ApplicationController < ActionController::Base
   include ApplicationHelper
 
-  before_filter :check_admin_access, :check_forum_access
+  before_filter :check_forum_access
   protect_from_forgery
 
   attr_reader :notification_center
-
-  def check_admin_access
-    cu = current_user
-    if cu and cu.admin and (session[:view_all] || params[:view_all])
-      CfThread.view_all = true
-      CfMessage.view_all = true
-    end
-  end
 
   def initialize(*args)
     @notification_center = NotificationCenter.new
