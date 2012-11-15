@@ -36,8 +36,12 @@ module ViewHelpers
   def message_tree(thread, messages)
     html = "<ol>\n"
     messages.each do |message|
+      classes = []
+      classes << 'deleted' if message.deleted?
+      classes << 'active' if @message and @message.message_id == message.message_id
+
       html << "<li"
-      html << " class=\"deleted\"" if message.deleted?
+      html << " class=\"" + classes.join(" ") + "\"" unless classes.blank?
       html << ">"
       html << message_header(thread, message)
       html << message_tree(thread, message.messages) unless message.messages.blank?

@@ -17,6 +17,10 @@
     color:inherit;
   }
 
+  .active li a {
+    color:#0088cc;
+  }
+
   li.deleted {
     text-decoration:line-through;
   }
