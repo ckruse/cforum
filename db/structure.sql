@@ -120,6 +120,33 @@ $$;
 
 
 --
+-- Name: count_messages_update_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION count_messages_update_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  IF OLD.deleted = false AND new.deleted = true THEN
+    INSERT INTO
+      cforum.counter_table (table_name, difference, group_crit)
+    VALUES
+      ('messages', -1, NEW.forum_id);
+  END IF;
+
+  IF OLD.deleted = true AND new.deleted = false THEN
+    INSERT INTO
+      cforum.counter_table (table_name, difference, group_crit)
+    VALUES
+      ('messages', +1, NEW.forum_id);
+  END IF;
+
+  RETURN NULL;
+END;
+$$;
+
+
+--
 -- Name: count_threads_delete_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
 --
 
@@ -860,6 +887,13 @@ CREATE TRIGGER messages__count_truncate_trigger AFTER TRUNCATE ON messages FOR E
 
 
 --
+-- Name: messages__count_update_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER messages__count_update_trigger AFTER UPDATE ON messages FOR EACH ROW EXECUTE PROCEDURE count_messages_update_trigger();
+
+
+--
 -- Name: threads__count_delete_trigger; Type: TRIGGER; Schema: cforum; Owner: -
 --
 
@@ -976,6 +1010,8 @@ ALTER TABLE ONLY threads
 SET search_path = public, pg_catalog;
 
 INSERT INTO schema_migrations (version) VALUES ('1');
+
+INSERT INTO schema_migrations (version) VALUES ('10');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 
