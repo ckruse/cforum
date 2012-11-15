@@ -83,9 +83,6 @@ class CfMessagesController < ApplicationController
   end
 
   def restore
-    CfThread.view_all = true
-    CfMessage.view_all = true
-
     @id     = CfThread.make_id(params)
     @thread = CfThread.includes(:forum).find_by_slug!(@id)
 
