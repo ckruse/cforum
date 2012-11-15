@@ -40,26 +40,6 @@ module ParserHelper
   end
 
   def message_to_html(txt)
-    # txt = txt.strip
-
-    # txt.gsub! /&/, '&amp;'
-    # txt.gsub! /</, '&lt;'
-    # txt.gsub! />/, '&gt;'
-    # txt.gsub! /"/, '&quot;'
-
-    # # replace every quote sign
-    # while txt.gsub! /\u{ECF0}(.*?)\n/, "<span class=\"q\">&gt; \\1</span>\n"
-    # end
-
-    # # replace links
-    # while txt.gsub! /\[link:([^\]]+)@title=([^\]]+)\]/, '<a href="\1">\2</a>'
-    # end
-    # while txt.gsub! /\[link:([^\]]+)\]/, '<a href="\1">\1</a>'
-    # end
-
-    # txt.gsub! /\n/, "<br>\n"
-
-    # txt.html_safe
 
     html = ""
     quotes = 0
