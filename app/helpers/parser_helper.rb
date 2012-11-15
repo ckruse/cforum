@@ -116,7 +116,10 @@ module ParserHelper
   end
 
   def content_to_internal(msg, quote_char)
-    msg = msg.gsub Regexp.new('^' + quote_char, Regexp::MULTILINE), CfMessage::QUOTE_CHAR
+    msg = msg.gsub Regexp.new('^(' + quote_char + ')+', Regexp::MULTILINE) do |data|
+      CfMessage::QUOTE_CHAR * (data.length / quote_char.length)
+    end
+
     msg.gsub! /\r\n|\n|\r/, "\n"
     msg
   end
