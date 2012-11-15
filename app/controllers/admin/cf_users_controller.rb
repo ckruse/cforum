@@ -5,7 +5,7 @@ class Admin::CfUsersController < ApplicationController
   authorize_resource
 
   def load_resource
-    @user = CfUser.find_by_username('ckruse') if params[:id]
+    @user = CfUser.find_by_username(params[:id]) if params[:id]
   end
 
   def index
