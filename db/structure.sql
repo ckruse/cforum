@@ -285,36 +285,6 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: access; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE TABLE access (
-    access_id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    forum_id bigint NOT NULL
-);
-
-
---
--- Name: access_access_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
---
-
-CREATE SEQUENCE access_access_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: access_access_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
---
-
-ALTER SEQUENCE access_access_id_seq OWNED BY access.access_id;
-
-
---
 -- Name: counter_table; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -343,6 +313,37 @@ CREATE SEQUENCE counter_table_count_id_seq
 --
 
 ALTER SEQUENCE counter_table_count_id_seq OWNED BY counter_table.count_id;
+
+
+--
+-- Name: forum_permissions; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE forum_permissions (
+    forum_permission_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    forum_id bigint NOT NULL,
+    permission character varying(255) DEFAULT 'read'::character varying NOT NULL
+);
+
+
+--
+-- Name: forum_permissions_forum_permission_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE forum_permissions_forum_permission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: forum_permissions_forum_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE forum_permissions_forum_permission_id_seq OWNED BY forum_permissions.forum_permission_id;
 
 
 --
@@ -422,36 +423,6 @@ CREATE SEQUENCE messages_message_id_seq
 --
 
 ALTER SEQUENCE messages_message_id_seq OWNED BY messages.message_id;
-
-
---
--- Name: moderators; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE TABLE moderators (
-    moderator_id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    forum_id bigint NOT NULL
-);
-
-
---
--- Name: moderators_moderator_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
---
-
-CREATE SEQUENCE moderators_moderator_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: moderators_moderator_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
---
-
-ALTER SEQUENCE moderators_moderator_id_seq OWNED BY moderators.moderator_id;
 
 
 --
@@ -577,17 +548,17 @@ CREATE TABLE schema_migrations (
 SET search_path = cforum, pg_catalog;
 
 --
--- Name: access_id; Type: DEFAULT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY access ALTER COLUMN access_id SET DEFAULT nextval('access_access_id_seq'::regclass);
-
-
---
 -- Name: count_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
 ALTER TABLE ONLY counter_table ALTER COLUMN count_id SET DEFAULT nextval('counter_table_count_id_seq'::regclass);
+
+
+--
+-- Name: forum_permission_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY forum_permissions ALTER COLUMN forum_permission_id SET DEFAULT nextval('forum_permissions_forum_permission_id_seq'::regclass);
 
 
 --
@@ -602,13 +573,6 @@ ALTER TABLE ONLY forums ALTER COLUMN forum_id SET DEFAULT nextval('forums_forum_
 --
 
 ALTER TABLE ONLY messages ALTER COLUMN message_id SET DEFAULT nextval('messages_message_id_seq'::regclass);
-
-
---
--- Name: moderator_id; Type: DEFAULT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY moderators ALTER COLUMN moderator_id SET DEFAULT nextval('moderators_moderator_id_seq'::regclass);
 
 
 --
@@ -633,19 +597,19 @@ ALTER TABLE ONLY users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_s
 
 
 --
--- Name: access_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY access
-    ADD CONSTRAINT access_pkey PRIMARY KEY (access_id);
-
-
---
 -- Name: counter_table_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY counter_table
     ADD CONSTRAINT counter_table_pkey PRIMARY KEY (count_id);
+
+
+--
+-- Name: forum_permissions_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY forum_permissions
+    ADD CONSTRAINT forum_permissions_pkey PRIMARY KEY (forum_permission_id);
 
 
 --
@@ -662,14 +626,6 @@ ALTER TABLE ONLY forums
 
 ALTER TABLE ONLY messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (message_id);
-
-
---
--- Name: moderators_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY moderators
-    ADD CONSTRAINT moderators_pkey PRIMARY KEY (moderator_id);
 
 
 --
@@ -701,6 +657,27 @@ ALTER TABLE ONLY users
 --
 
 CREATE INDEX counter_table_table_name_group_crit_idx ON counter_table USING btree (table_name, group_crit);
+
+
+--
+-- Name: forum_permissions_forum_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX forum_permissions_forum_id_idx ON forum_permissions USING btree (user_id);
+
+
+--
+-- Name: forum_permissions_user_id_forum_id_permission_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX forum_permissions_user_id_forum_id_permission_idx ON forum_permissions USING btree (user_id, forum_id, permission);
+
+
+--
+-- Name: forum_permissions_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX forum_permissions_user_id_idx ON forum_permissions USING btree (user_id);
 
 
 --
@@ -904,19 +881,19 @@ CREATE TRIGGER threads__count_truncate_trigger AFTER TRUNCATE ON threads FOR EAC
 
 
 --
--- Name: access_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: forum_permissions_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
-ALTER TABLE ONLY access
-    ADD CONSTRAINT access_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY forum_permissions
+    ADD CONSTRAINT forum_permissions_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- Name: access_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: forum_permissions_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
-ALTER TABLE ONLY access
-    ADD CONSTRAINT access_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY forum_permissions
+    ADD CONSTRAINT forum_permissions_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -949,22 +926,6 @@ ALTER TABLE ONLY messages
 
 ALTER TABLE ONLY messages
     ADD CONSTRAINT messages_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE SET NULL;
-
-
---
--- Name: moderators_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY moderators
-    ADD CONSTRAINT moderators_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: moderators_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY moderators
-    ADD CONSTRAINT moderators_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
