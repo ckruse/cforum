@@ -56,4 +56,25 @@ class CfMessagesController < ApplicationController
       render :new
     end
   end
+
+  def destroy
+    @id     = CfThread.make_id(params)
+    @thread = CfThread.includes(:forum).find_by_slug!(@id)
+
+    @thread.gen_tree
+    @thread.sort_tree
+
+    @message = @thread.find_message(params[:mid].to_i) if @thread
+    raise CForum::NotFoundException.new if @message.blank?
+
+    CfMessage.transaction do
+      @message.delete_with_subtree
+    end
+
+    respond_to do |format|
+      format.html { redirect_to cf_message_url(@thread, @message), notice: I18n.t('messages.destroyed') }
+      format.json { head :no_content }
+    end
+  end
+
 end

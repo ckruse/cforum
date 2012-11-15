@@ -15,7 +15,13 @@ module ViewHelpers
     <summary>
       } + t("messages.by") + %q{
       } + (message.user_id ? link_to(message.author, user_path(message.owner)) : encode_entities(message.author)) + %q{,
-      <time datetime="} + message.created_at.to_s + '">' + encode_entities(l(message.created_at)) + %q{</time>
+      <time datetime="} + message.created_at.to_s + '">' + encode_entities(l(message.created_at))
+
+    if current_user.admin? or current_user.moderate?(current_forum)
+      html << " " + link_to('', cf_message_path(thread, message), data: {confirm: t('views.are_you_sure')}, :method => :delete, :class => 'icon icon-trash')
+    end
+
+    html << %q{</time>
     </summary>
   </details>
 </header>}

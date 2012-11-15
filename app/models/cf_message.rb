@@ -7,7 +7,6 @@ class CfMessage < ActiveRecord::Base
   serialize :flags, ActiveRecord::Coders::Hstore
 
   belongs_to :owner, class_name: 'CfUser', :foreign_key => :user_id
-
   belongs_to :thread, class_name: 'CfThread', :foreign_key => :thread_id
 
   attr_accessible :message_id, :mid, :thread_id, :subject, :content,
@@ -35,6 +34,14 @@ class CfMessage < ActiveRecord::Base
   self.view_all = false
   default_scope do
     self.view_all ? nil : where("deleted = false")
+  end
+
+  def delete_with_subtree
+    update_attributes(:deleted => true)
+
+    messages.each do |m|
+      m.delete_with_subtree
+    end
   end
 end
 
