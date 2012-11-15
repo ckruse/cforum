@@ -30,6 +30,9 @@ module UrlHelpers
   def new_cf_message_path(thread, message, args = {})
     cf_message_path(thread, message) + "/new" + query_string(args)
   end
+  def restore_cf_message_path(thread, message, args = {})
+    cf_message_path(thread, message) + "/restore" + query_string(args)
+  end
 
   def cf_forum_url(forum, args = {})
     forum = forum.slug unless forum.is_a?(String)

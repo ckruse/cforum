@@ -41,6 +41,7 @@ de:
     by: von
     created: Nachricht wurde erfolgreich erstellt!
     destroyed: Nachricht wurde erfolgreich gelöscht!
+    restored: Nacht wurde erfolgreich wieder hergestellt!
     error_message: "%{errors_count} verhinderten, dass diese Nachricht gespeichert werden konnte:"
 
   views:

@@ -64,6 +64,7 @@ en:
     by: "by"
     created: Message was successfully created!
     destroyed: Message was successfully destroyed!
+    restored: Message was successfully restored!
     error_message: "%{errors_count} prohibited this thread from being saved:"
 
   views:

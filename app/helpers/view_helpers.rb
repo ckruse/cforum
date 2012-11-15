@@ -18,7 +18,11 @@ module ViewHelpers
       <time datetime="} + message.created_at.to_s + '">' + encode_entities(l(message.created_at))
 
     if current_user.admin? or current_user.moderate?(current_forum)
-      html << " " + link_to('', cf_message_path(thread, message), data: {confirm: t('views.are_you_sure')}, :method => :delete, :class => 'icon icon-trash')
+      if message.deleted?
+        html << " " + link_to('', restore_cf_message_path(thread, message), :method => :post, :class => 'icon icon-check')
+      else
+        html << " " + link_to('', cf_message_path(thread, message), data: {confirm: t('views.are_you_sure')}, :method => :delete, :class => 'icon icon-trash')
+      end
     end
 
     html << %q{</time>
@@ -32,7 +36,9 @@ module ViewHelpers
   def message_tree(thread, messages)
     html = "<ol>\n"
     messages.each do |message|
-      html << "<li>"
+      html << "<li"
+      html << " class=\"deleted\"" if message.deleted?
+      html << ">"
       html << message_header(thread, message)
       html << message_tree(thread, message.messages) unless message.messages.blank?
       html << "</li>"

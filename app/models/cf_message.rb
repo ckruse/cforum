@@ -43,6 +43,14 @@ class CfMessage < ActiveRecord::Base
       m.delete_with_subtree
     end
   end
+
+  def restore_with_subtree
+    update_attributes(:deleted => false)
+
+    messages.each do |m|
+      m.restore_with_subtree
+    end
+  end
 end
 
 # eof
