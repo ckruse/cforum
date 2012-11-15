@@ -17,7 +17,7 @@ module ViewHelpers
       } + (message.user_id ? link_to(message.author, user_path(message.owner)) : encode_entities(message.author)) + %q{,
       <time datetime="} + message.created_at.to_s + '">' + encode_entities(l(message.created_at))
 
-    if current_user.admin? or current_user.moderate?(current_forum)
+    if not current_user.blank? and (current_user.admin? or current_user.moderate?(current_forum))
       if message.deleted?
         html << " " + link_to('', restore_cf_message_path(thread, message), :method => :post, :class => 'icon icon-check')
       else

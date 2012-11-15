@@ -1,9 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 class CfThreadsController < ApplicationController
-  load_and_authorize_resource
-
-  before_filter :require_login, :only => [:edit, :update, :destroy]
+  load_resource
+  before_filter :authorize!
 
   SHOW_THREADLIST  = "show_threadlist"
   SHOW_THREAD      = "show_thread"
@@ -101,6 +100,8 @@ class CfThreadsController < ApplicationController
 
   def destroy
   end
+
+  include AuthorizeForum
 end
 
 # eof

@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 class CfMessagesController < ApplicationController
-  load_and_authorize_resource
+  load_resource
+  before_filter :authorize!
 
   SHOW_NEW_MESSAGE = "show_new_message"
 
@@ -100,4 +101,7 @@ class CfMessagesController < ApplicationController
     end
   end
 
+  include AuthorizeForum
 end
+
+# eof

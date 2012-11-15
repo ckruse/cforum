@@ -20,6 +20,7 @@ class CfForum < ActiveRecord::Base
   end
 
   def moderator?(user)
+    return false if user.blank?
     return true if user.admin?
 
     forum_permissions.each do |p|
@@ -31,6 +32,7 @@ class CfForum < ActiveRecord::Base
 
   def write?(user)
     return true if public?
+    return false if user.blank?
     return true if user.admin?
 
     forum_permissions.each do |p|
@@ -42,6 +44,7 @@ class CfForum < ActiveRecord::Base
 
   def read?(user)
     return true if public?
+    return false if user.blank?
     return true if user.admin?
 
     forum_permissions.each do |p|
