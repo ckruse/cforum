@@ -28,7 +28,7 @@ class ConfigManager
     # - return default value if nothing helps
 
     settings = CfSetting.
-      where('(user_id = ? OR user_id IS NULL) AND (forum_id = ? OR forum_id IS NULL)', forum, user).
+      where('(user_id = ? OR user_id IS NULL) AND (forum_id = ? OR forum_id IS NULL)', user, forum).
       order('user_id, forum_id').
       limit(1).
       first
