@@ -4,6 +4,8 @@ module AuthorizeForum
   def authorize!
     forum = current_forum
 
+    return if forum.blank?
+
     if params.has_key?(:view_all)
       raise CForum::ForbiddenException.new unless forum.moderator?(current_user)
     end
