@@ -84,6 +84,7 @@ class CfThreadsController < ApplicationController
 
     @thread.forum_id  = @forum.forum_id
     @message.forum_id = @forum.forum_id
+    @message.user_id  = current_user.user_id unless current_user.blank?
 
     notification_center.notify(NEW_THREAD, @thread, @message)
 
