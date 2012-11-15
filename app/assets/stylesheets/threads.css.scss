@@ -17,6 +17,10 @@
     color:inherit;
   }
 
+  li.deleted {
+    text-decoration:line-through;
+  }
+
   margin-bottom:2em;
 }
 

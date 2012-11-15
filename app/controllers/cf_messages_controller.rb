@@ -72,7 +72,7 @@ class CfMessagesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to cf_message_url(@thread, @message), notice: I18n.t('messages.destroyed') }
+      format.html { redirect_to cf_message_url(@thread, @message, :view_all => true), notice: I18n.t('messages.destroyed') }
       format.json { head :no_content }
     end
   end
