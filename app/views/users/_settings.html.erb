@@ -1,4 +1,7 @@
-<% ro ||= false %><h3><%= t('views.settings') %></h3>
+<% ro ||= false
+disabled = ""
+disabled = ' disabled="disabled"' if ro
+%><h3><%= t('views.settings') %></h3>
 
 <fieldset>
   <legend><%= t('views.personal_information') %></legend>
@@ -6,21 +9,21 @@
   <div class="control-group">
     <label class="control-label" for="settings_name"><%= t('views.name') %></label>
     <div class="controls">
-      <input type="text" value="<%= @user.conf('name') %>" name="settings[name]" id="settings_name"<% if ro %> disabled="disabled"<% end %>>
+      <input type="text" value="<%= @user.conf('name') %>" name="settings[name]" id="settings_name"<%= disabled %>>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="settings_email"><%= t('views.email') %></label>
     <div class="controls">
-      <input type="text" value="<%= @user.conf('email') %>" name="settings[email]" id="settings_email"<% if ro %> disabled="disabled"<% end %>>
+      <input type="text" value="<%= @user.conf('email') %>" name="settings[email]" id="settings_email"<%= disabled %>>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="settings_url"><%= t('views.homepage') %></label>
     <div class="controls">
-      <input type="text" value="<%= @user.conf('url') %>" name="settings[url]" id="settings_url"<% if ro %> disabled="disabled"<% end %>>
+      <input type="text" value="<%= @user.conf('url') %>" name="settings[url]" id="settings_url"<%= disabled %>>
     </div>
   </div>
 </fieldset>
