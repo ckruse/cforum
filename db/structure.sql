@@ -716,6 +716,13 @@ CREATE INDEX messages_thread_id_idx ON messages USING btree (thread_id);
 
 
 --
+-- Name: messages_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX messages_user_id_idx ON messages USING btree (user_id);
+
+
+--
 -- Name: settings_forum_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
