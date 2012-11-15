@@ -11,6 +11,12 @@ de:
       edit: "Forum %{name} bearbeiten"
       merge_forum: "Forum %{forum} zusammenführen"
 
+      permissions:
+        new_permission: Neues Zugriffsrecht
+        updated: Zugriffsrecht erfolgreich geändert
+        created: Zugriffsrecht erfolgreich erstellt
+        destroyed: Zugriffsrecht erfolgreich gelöscht
+
     users:
       updated: Benutzer erfolgreich geändert.
       created: Benutzer erfolgreich erstellt.
@@ -78,6 +84,12 @@ de:
     personal_information: Persönliche Informationen
     settings: Einstellungen
     user_information: Benutzer-Informationen
+    permissions: Zugriffsrechte
+
+  permissions:
+    read: Lesen
+    write: Schreiben
+    moderate: Moderieren
 
   date:
     abbr_day_names:
@@ -313,5 +325,8 @@ de:
         password_confirmation: Passwort-Bestätigung
         created_at: Erstellt
         updated_at: Geändert
+
+      cf_forum_access:
+        permission: Zugriffsrecht
 
 

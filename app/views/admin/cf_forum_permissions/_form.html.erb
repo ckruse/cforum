@@ -1,0 +1,13 @@
+<div class="control-group">
+  <%= f.label :permission, :class => 'control-label' %>
+  <div class="controls">
+    <%= f.select :permission, options_for_select(
+      [
+        [t('permissions.read'), 'read'],
+        [t('permissions.write'), 'write'],
+        [t('permissions.moderate'), 'moderate']
+      ],
+      @permission.permission
+    ) %>
+  </div>
+</div>

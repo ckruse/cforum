@@ -1,0 +1,8 @@
+<%= render 'admin/cf_forums/subnav' %>
+
+<div class="well sidebar-nav">
+  <ul class="nav nav-list">
+    <li class="nav-header"><%= t('views.permissions') %></li>
+    <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('admin.forums.permissions.new_permission'), new_admin_forum_permission_path(@cf_forum.forum_id) %></li>
+  </ul>
+</div>

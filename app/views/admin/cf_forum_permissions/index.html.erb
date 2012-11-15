@@ -1,0 +1,24 @@
+<h1>Forum-Zugriffsrechte</h1>
+
+<table class="table table-condensed table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Benutzer</th>
+      <th>Zugriffsrecht</th>
+      <th> </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @permissions.each do |a| %>
+    <tr>
+      <td><%= a.user.username %></td>
+      <td><%= t('permissions.' + a.permission) %></td>
+      <td>
+        <%= link_to '', admin_forum_permission_path(a.forum.forum_id, a), :data => {:confirm => 'Sind sie sicher?'}, :method => :delete, :class => 'icon icon-trash' %>
+        <%= link_to '', edit_admin_forum_permission_path(a.forum.forum_id, a), :class => 'icon icon-edit' %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

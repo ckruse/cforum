@@ -14,14 +14,11 @@ en:
       edit: "Edit forum %{name}"
       merge_forum: "Merge forum %{forum}"
 
-      fields:
-        name: Name
-        short_name: Short Name
-        slug: Slug
-        public: Public
-        description: Description
-        created_at: Created
-        updated_at: Updated
+      permissions:
+        new_permission: New Permission
+        updated: Permission successfully updated
+        created: Permission successfully created
+        destroyed: Permission successfully destroyed
 
     users:
       updated: User was successfully changed!
@@ -112,6 +109,11 @@ en:
     personal_information: Personal Information
     settings: Settings
     user_information: User Information
+
+  permissions:
+    read: Read
+    write: Write
+    moderate: Moderate
 
   activerecord:
     models:
