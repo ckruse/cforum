@@ -35,6 +35,7 @@ class CfMessagesController < ApplicationController
 
     # inherit message and subject from previous post
     @message.subject = @parent.subject
+    @message.content = quote_content(@parent.content, uconf('quote_char', '> ')) if uconf('quote_old_message', true)
 
     notification_center.notify(SHOW_NEW_MESSAGE, @thread, @message)
   end
@@ -53,6 +54,8 @@ class CfMessagesController < ApplicationController
     @message.parent_id = @parent.message_id
     @message.forum_id  = current_forum.forum_id
     @message.user_id   = current_user.user_id unless current_user.blank?
+
+    @message.content   = content_to_internal(@message.content, uconf('quote_char', '> '))
 
     @thread.messages.push @message
 

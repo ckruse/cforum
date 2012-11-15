@@ -109,6 +109,17 @@ module ParserHelper
 
     html.html_safe
   end
+
+  def quote_content(msg, quote_char)
+    msg = quote_char + msg.gsub(/\n/, "\n#{quote_char}")
+  end
+
+  def content_to_internal(msg, quote_char)
+    msg = msg.gsub Regexp.new('^' + quote_char, Regexp::MULTILINE), CfMessage::QUOTE_CHAR
+    msg.gsub! /\r\n|\n|\r/, "\n"
+    msg
+  end
+
 end
 
 # eof

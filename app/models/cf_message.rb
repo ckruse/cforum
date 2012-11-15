@@ -1,6 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 class CfMessage < ActiveRecord::Base
+  QUOTE_CHAR = "\u{ECF0}"
+
   self.primary_key = 'message_id'
   self.table_name  = 'cforum.messages'
 
