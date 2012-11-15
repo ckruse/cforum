@@ -50,6 +50,38 @@ class CfUser < ActiveRecord::Base
       where(conditions).first
     end
   end
+
+  def moderate?(forum)
+    return true if admin?
+
+    rights.each do |r|
+      return true if f.forum_id == forum.forum_id and r.permission == 'moderate'
+    end
+
+    return false
+  end
+
+  def write?(forum)
+    return true if forum.public?
+    return true if admin?
+
+    rights.each do |r|
+      return true if f.forum_id == forum.forum_id and (r.permission == 'write' or r.permission == 'moderate')
+    end
+
+    return false
+  end
+
+  def read?(forum)
+    return true if forum.public?
+    return true if admin?
+
+    rights.each do |r|
+      return true if f.forum_id == forum.forum_id
+    end
+
+    return false
+  end
 end
 
 # eof

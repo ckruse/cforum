@@ -19,6 +19,38 @@ class CfForum < ActiveRecord::Base
     slug
   end
 
+  def moderator?(user)
+    return true if user.admin?
+
+    forum_permissions.each do |p|
+      return true if p.user_id == user.user_id and p.permission == 'moderate'
+    end
+
+    return false
+  end
+
+  def write?(user)
+    return true if public?
+    return true if user.admin?
+
+    forum_permissions.each do |p|
+      return true if p.user_id == user.user_id and (p.permission == 'write' or p.permission == 'moderate')
+    end
+
+    return false
+  end
+
+  def read?(user)
+    return true if public?
+    return true if user.admin?
+
+    forum_permissions.each do |p|
+      return true if p.user_id == user.user_id
+    end
+
+    return false
+  end
+
   #default_scope where('public = true')
 end
 
