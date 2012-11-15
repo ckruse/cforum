@@ -31,10 +31,12 @@ class ApplicationController < ActionController::Base
     instance_variable_get('@' + name)
   end
 
+  helper_method :uconf
   def uconf(name, default = nil)
     ConfigManager.get(name, default, current_user, current_forum)
   end
 
+  helper_method :conf
   def conf(name, default = nil)
     ConfigManager.get(name, default, nil, nil)
   end

@@ -40,6 +40,7 @@ module ParserHelper
   end
 
   def message_to_html(txt)
+    quote_char = encode_entities(uconf('quote_char', '> '))
 
     html = ""
     quotes = 0
@@ -63,7 +64,7 @@ module ParserHelper
         quotes = 0
         html << "<br>\n"
       when "\u{ECF0}"
-        html << '<span class="q">&gt; '
+        html << '<span class="q"> ' + quote_char
         quotes += 1
       else
         if txt[i..(i+"[link:".length-1)] == '[link:'
