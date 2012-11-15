@@ -77,7 +77,11 @@ class CfThreadsController < ApplicationController
 
   def show
     @id = CfThread.make_id(params)
-    @thread = CfThread.find_by_slug(@id)
+
+    conditions = {slug: @id}
+    conditions[:messages] = {deleted: false} unless params[:view_all]
+
+    @thread = CfThread.includes(:messages => :owner).where(conditions).first
 
     @thread.gen_tree
     @thread.sort_tree
