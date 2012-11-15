@@ -111,6 +111,7 @@ module ParserHelper
   end
 
   def quote_content(msg, quote_char)
+    msg = msg.gsub Regexp.new(CfMessage::QUOTE_CHAR), quote_char
     msg = quote_char + msg.gsub(/\n/, "\n#{quote_char}")
   end
 
