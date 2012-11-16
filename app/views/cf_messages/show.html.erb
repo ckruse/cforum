@@ -1,3 +1,7 @@
+<%
+render 'cf_messages/message_header'
+render 'cf_threads/thread_tree'
+%>
 <article class="message">
   <%= message_header(@thread, @message, true) %>
 

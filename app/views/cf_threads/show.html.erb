@@ -1,3 +1,8 @@
+<%
+render 'cf_messages/message_header'
+render 'cf_threads/thread_tree'
+%>
+
 <% def whole_thread(thread, messages) %>
   <ol class="answers">
     <% messages.each do |m| %>
