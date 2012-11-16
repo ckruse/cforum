@@ -1,14 +1,6 @@
 # -*- coding: utf-8 -*-
 
 FactoryGirl.define do
-  sequence :email do |n|
-    "person#{n}@example.com"
-  end
-
-  sequence :username do |n|
-    "user#{n}"
-  end
-
   factory :cf_user do
     username
     email
