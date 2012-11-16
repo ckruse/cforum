@@ -2,6 +2,8 @@
 
 ParserHelper.parser_modules['link'] = {
   html: Proc.new do |tag_name, arg, html|
+    return '[link:]' if arg.strip.empty?
+
     url   = ""
     title = ""
 
@@ -23,6 +25,8 @@ ParserHelper.parser_modules['link'] = {
 
 ParserHelper.parser_modules['image'] = {
   html: Proc.new do |tag_name, arg, html|
+    return '[image:]' if arg.strip.empty?
+
     url   = ""
     title = nil
 
