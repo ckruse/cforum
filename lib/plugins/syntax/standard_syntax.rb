@@ -2,20 +2,22 @@
 
 ParserHelper.parser_modules['link'] = {
   html: Proc.new do |tag_name, arg, html|
-    return '[link:]' if arg.strip.empty?
-
-    url   = ""
-    title = ""
-
-    if idx = arg.index("@title=")
-      url = arg[0..idx]
-      title = arg[(idx + 7)..-1]
+    if arg.strip.empty?
+      html << '[link:]'
     else
-      url   = arg
-      title = arg
-    end
+      url   = ""
+      title = ""
 
-    html << '<a href="' + CForum::Tools.encode_entities(url.strip) + '">' + CForum::Tools.encode_entities(title.strip) + '</a>'
+      if idx = arg.index("@title=")
+        url = arg[0..idx]
+        title = arg[(idx + 7)..-1]
+      else
+        url   = arg
+        title = arg
+      end
+
+      html << '<a href="' + CForum::Tools.encode_entities(url.strip) + '">' + CForum::Tools.encode_entities(title.strip) + '</a>'
+    end
   end,
 
   txt: Proc.new do |tag_name, arg, txt|
@@ -25,28 +27,30 @@ ParserHelper.parser_modules['link'] = {
 
 ParserHelper.parser_modules['image'] = {
   html: Proc.new do |tag_name, arg, html|
-    return '[image:]' if arg.strip.empty?
-
-    url   = ""
-    title = nil
-
-    if idx = arg.index("@alt=")
-      url = arg[0..idx]
-      title = arg[(idx + 7)..-1]
+    if arg.strip.empty?
+      html << '[image:]'
     else
-      url   = arg
+      url   = ""
+      title = nil
+
+      if idx = arg.index("@alt=")
+        url = arg[0..idx]
+        title = arg[(idx + 7)..-1]
+      else
+        url   = arg
+      end
+
+      img = '<img src="' + CForum::Tools.encode_entities(url.strip) + '"'
+
+      if title
+        title = CForum::Tools.encode_entities(title.strip)
+        img << ' alt="' + title + '" title="' + title + '"'
+      end
+
+      img << '>'
+
+      html << img
     end
-
-    img = '<img src="' + CForum::Tools.encode_entities(url.strip) + '"'
-
-    if title
-      title = CForum::Tools.encode_entities(title.strip)
-      img << ' alt="' + title + '" title="' + title + '"'
-    end
-
-    img << '>'
-
-    html << img
   end,
 
   txt: Proc.new do |tag_name, arg, txt|
