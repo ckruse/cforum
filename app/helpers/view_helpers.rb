@@ -4,6 +4,10 @@ module ViewHelpers
   def message_header(thread, message, first = false)
     html = "<header>"
 
+    if current_forum.blank?
+      html << "  " + link_to(thread.forum.short_name, cf_forum_path(thread.forum), :class => 'label label-info') + "\n"
+    end
+
     if first
       html << "  <h2>" + link_to(message.subject, cf_message_path(thread, message)) + "</h2>"
     else
