@@ -36,6 +36,14 @@ disabled = ' disabled="disabled"' if ro
   </div>
 
   <div class="control-group">
+    <label class="control-label"><%= t('views.quote_signature') %></label>
+    <div class="controls">
+      <label class="radio"><input type="radio" value="yes" name="settings[quote_signature]"<%= disabled %><% if @user.conf('quote_signature') == 'yes' %> checked="checked"<% end %>> Ja</label>
+      <label class="radio"><input type="radio" value="no" name="settings[quote_signature]"<%= disabled %><% if @user.conf('quote_signature') == 'no' or @user.conf('quote_signature').blank? %> checked="checked"<% end %>> Nein</label>
+    </div>
+  </div>
+
+  <div class="control-group">
     <label class="control-label"><%= t('views.quote_char') %></label>
     <div class="controls">
       <label class="radio"><input type="radio" value="> " name="settings[quote_char]"<%= disabled %><% if @user.conf('quote_char') == '> ' or @user.conf('quote_char').blank? %> checked="checked"<% end %>> &gt; </label>

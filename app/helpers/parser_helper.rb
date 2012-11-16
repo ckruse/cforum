@@ -92,6 +92,11 @@ module ParserHelper
   end
 
   def quote_content(msg, quote_char)
+    if uconf('quote_signature', 'no') != 'yes'
+      sig_pos = msg.rindex("\n-- \n")
+      msg = msg[0..(sig_pos-1)] unless sig_pos.nil?
+    end
+
     msg = msg.gsub Regexp.new(CfMessage::QUOTE_CHAR), quote_char
     msg = quote_char + msg.gsub(/\n/, "\n#{quote_char}")
   end
