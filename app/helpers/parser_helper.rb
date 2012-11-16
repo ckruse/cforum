@@ -1,51 +1,19 @@
 # -*- coding: utf-8 -*-
 
 module ParserHelper
-  def parse_link(txt, pos, html, max_len)
-    i = starts = pos + "[link:".length
+  @@parser_modules = {}
 
-    url = nil
-    title = nil
-
-    is_title = false
-
-    while i < max_len
-      if txt[i] == '@' and txt[i .. (i + "@title=".length - 1)] == '@title='
-        url = txt[starts .. (i-1)]
-        is_title = true
-
-        starts = i =  i + "@title=".length
-        next
-
-      elsif txt[i] == ']'
-        if is_title
-          title = txt[starts .. (i-1)]
-        else
-          url = title = txt[starts .. (i-1)]
-        end
-
-        break
-      end
-
-      i += 1
-    end
-
-    if txt[i] != ']'
-      html << '['
-      return pos + 1
-    end
-
-    html << '<a href="' + encode_entities(url) + '">' + title + '</a>'
-    i + 1
+  def self.parser_modules
+    @@parser_modules
   end
 
   def message_to_html(txt)
     quote_char = encode_entities(uconf('quote_char', '> '))
 
-    html = ""
-    quotes = 0
+    html    = ""
+    quotes  = 0
     max_len = txt.length
-    i = 0
+    i       = 0
 
     while i < max_len
       c = txt[i]
@@ -63,15 +31,55 @@ module ParserHelper
         quotes.times { html << '</span>' }
         quotes = 0
         html << "<br>\n"
-      when "\u{ECF0}"
+      when CfMessage::QUOTE_CHAR
         html << '<span class="q"> ' + quote_char
         quotes += 1
-      else
-        if txt[i..(i+"[link:".length-1)] == '[link:'
-          i = parse_link(txt, i, html, max_len)
+
+      # possible that we got a tag, check for it
+      when '['
+        j = i
+
+        tag_name = ""
+        arg      = ""
+
+        while j < max_len and txt[j] != ':' and txt[j] != ']'
+          j += 1
+        end
+
+        tag_name = txt[(i+1)..(j-1)] if txt[j] == ':' or txt[j] == ']'
+
+        if txt[j] == ':'
+          old = j
+          while j < max_len and txt[j] != ']'
+            j += 1
+          end
+
+          if txt[j] != ']'
+            html << '['
+            next
+          end
+
+          arg = txt[(old+1)..(j-1)]
+
+        elsif txt[j] == ']'
+          tag_name = txt[(i+1)..(j-1)]
+
+        else
+          html << '['
           next
         end
 
+        tag_name.strip!
+        tag_name.downcase!
+
+        if @@parser_modules[tag_name]
+          @@parser_modules[tag_name][:html].call(tag_name, arg, html)
+          i = j
+        else
+          html << '['
+        end
+
+      else
         html << c
       end
 
@@ -91,14 +99,84 @@ module ParserHelper
     html.html_safe
   end
 
+  def message_to_txt(msg)
+    quote_char = uconf('quote_char', '> ')
+
+    txt     = ""
+    quotes  = 0
+    max_len = msg.length
+    i       = 0
+
+    while i < max_len
+      c = msg[i]
+
+      case c
+      when CfMessage::QUOTE_CHAR
+        txt << quote_char
+
+      # possible that we got a tag, check for it
+      when '['
+        j = i
+
+        tag_name = ""
+        arg      = ""
+
+        while j < max_len and msg[j] != ':' and msg[j] != ']'
+          j += 1
+        end
+
+        tag_name = msg[(i+1)..(j-1)] if msg[j] == ':' or msg[j] == ']'
+
+        if msg[j] == ':'
+          old = j
+          while j < max_len and msg[j] != ']'
+            j += 1
+          end
+
+          if msg[j] != ']'
+            txt << '['
+            next
+          end
+
+          arg = msg[(old+1)..(j-1)]
+
+        elsif msg[j] == ']'
+          tag_name = msg[(i+1)..(j-1)]
+
+        else
+          txt << '['
+          next
+        end
+
+        tag_name.strip!
+        tag_name.downcase!
+
+        if @@parser_modules[tag_name]
+          @@parser_modules[tag_name][:txt].call(tag_name, arg, txt)
+          i = j
+        else
+          txt << '['
+        end
+
+      else
+        txt << c
+      end
+
+      i += 1
+    end
+
+    txt
+  end
+
   def quote_content(msg, quote_char)
+    msg = quote_char + message_to_txt(msg).gsub(/\n/, "\n" + quote_char)
+
     if uconf('quote_signature', 'no') != 'yes'
       sig_pos = msg.rindex("\n-- \n")
       msg = msg[0..(sig_pos-1)] unless sig_pos.nil?
     end
 
-    msg = msg.gsub Regexp.new(CfMessage::QUOTE_CHAR), quote_char
-    msg = quote_char + msg.gsub(/\n/, "\n#{quote_char}")
+    msg
   end
 
   def content_to_internal(msg, quote_char)
@@ -110,6 +188,13 @@ module ParserHelper
     msg
   end
 
+end
+
+# read syntax plugins
+plugin_dir = Rails.root + 'lib/plugins/syntax'
+Dir.open(plugin_dir).each do |p|
+  next unless File.file?(plugin_dir + p)
+  require 'plugins/syntax/' + p
 end
 
 # eof
