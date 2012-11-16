@@ -82,6 +82,7 @@ class CfThreadsController < ApplicationController
     conditions[:messages] = {deleted: false} unless params[:view_all]
 
     @thread = CfThread.includes(:messages => :owner).where(conditions).first
+    raise CForum::NotFoundException.new if @thread.blank?
 
     @thread.gen_tree
     @thread.sort_tree
