@@ -43,7 +43,7 @@ ParserHelper.parser_modules['image'] = {
 
       if idx = arg.index("@alt=")
         url = arg[0..idx]
-        title = arg[(idx + 7)..-1]
+        title = arg[(idx + 5)..-1]
       else
         url   = arg
       end
