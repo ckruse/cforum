@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   def initialize(*args)
     @notification_center = NotificationCenter.new
 
-    plugin_dir = Rails.root + 'lib/plugins'
+    plugin_dir = Rails.root + 'lib/plugins/controllers'
     Dir.open(plugin_dir).each do |p|
       next if p[0] == '.'
       eval(IO.read(plugin_dir + p))
