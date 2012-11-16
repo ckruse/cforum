@@ -19,6 +19,19 @@ $coder = HTMLEntities.new
 
 def convert_content(txt)
   txt = txt.gsub(/<br ?\/?>/,"\n")
+
+  txt = txt.gsub /<img([^>]+)>/ do |data|
+    alt = ""
+    src = ""
+
+    src = $1 if data =~ /src="([^"]+)"/
+    alt = $1 if data =~ /alt="([^"]+)"/
+
+    img = "[image:" + $coder.decode(src)
+    img << "@alt=" + $coder.decode(alt) unless alt.blank?
+    img + "]"
+  end
+
   txt = $coder.decode(txt)
   txt.gsub!(/\u007F/,"\u{ECF0}")
 
