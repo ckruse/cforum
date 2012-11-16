@@ -1,13 +1,7 @@
 module ApplicationHelper
   include UrlHelpers
   include ParserHelper
-
-  def encode_entities(txt)
-    map = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;'}
-    x = txt.gsub /([&<>"])/ do |r|
-      map[r]
-    end
-  end
+  include CForum::Tools
 
   def current_forum
     unless params[:curr_forum].blank?
