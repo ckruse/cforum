@@ -9,7 +9,7 @@ render 'cf_threads/thread_tree'
     <li>
       <%= message_header(thread, m) %>
 
-      <div class="posting-content">
+      <div class="posting-content well">
         <%= message_to_html(m.content) %>
       </div>
 
@@ -24,7 +24,7 @@ render 'cf_threads/thread_tree'
 <article class="thread">
   <%= message_header(@thread, @thread.message, true) %>
 
-  <div class="posting-content">
+  <div class="posting-content well">
     <%= message_to_html(@thread.message.content) %>
   </div>
 
