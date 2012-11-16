@@ -24,7 +24,7 @@ class CfMessagesController < ApplicationController
 
   def new
     @id = CfThread.make_id(params)
-    @thread = CfThread.find_by_slug(@id)
+    @thread = CfThread.find_by_slug!(@id)
     @thread.gen_tree
     @thread.sort_tree
 
@@ -43,7 +43,7 @@ class CfMessagesController < ApplicationController
 
   def create
     @id = CfThread.make_id(params)
-    @thread = CfThread.find_by_slug(@id)
+    @thread = CfThread.find_by_slug!(@id)
     @thread.gen_tree
     @thread.sort_tree
 
