@@ -55,6 +55,7 @@ module ParserHelper
           end
 
           if txt[j] != ']'
+            i += 1
             html << '['
             next
           end
@@ -65,6 +66,7 @@ module ParserHelper
           tag_name = txt[(i+1)..(j-1)]
 
         else
+          i += 1
           html << '['
           next
         end
@@ -134,6 +136,7 @@ module ParserHelper
           end
 
           if msg[j] != ']'
+            i += 1
             txt << '['
             next
           end
@@ -144,6 +147,7 @@ module ParserHelper
           tag_name = msg[(i+1)..(j-1)]
 
         else
+          i += 1
           txt << '['
           next
         end
