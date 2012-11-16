@@ -1,4 +1,4 @@
-<h1>User <%= @user.username %></h1>
+<h1><%= t('views.user') + ' ' + @user.username %></h1>
 
 <p>
   User has been created at <%= l(@user.created_at) %>. He created <%= @messages_count %> messages. User
@@ -18,9 +18,9 @@
 
 <p class="form-actions">
   <% if not current_user.blank? and @user.user_id == current_user.user_id %>
-  <%= link_to 'Edit', edit_user_path(@user), :class => 'btn' %>
-  <%= link_to 'Delete account', user_path(@user), confirm: 'Are you sure that you want to delete your account?', :method => :delete, :class => 'btn' %>
+  <%= link_to t('views.edit'), edit_user_path(@user), :class => 'btn' %>
+  <%= link_to t('views.delete_account'), user_path(@user), confirm: 'Are you sure that you want to delete your account?', :method => :delete, :class => 'btn' %>
   <% end %>
 
-  <%= link_to 'Back', users_path, :class => 'btn' %>
+  <%= link_to t('views.back'), users_path, :class => 'btn' %>
 </p>

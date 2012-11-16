@@ -87,6 +87,10 @@ de:
     settings: Einstellungen
     user_information: Benutzer-Informationen
     permissions: Zugriffsrechte
+    delete_account: Account löschen
+    quote_char: Zitat-Zeichen
+    quote_signature: Signatur zitieren
+    quote_old_message: Alte Nachricht zitieren
 
   permissions:
     read: Lesen
