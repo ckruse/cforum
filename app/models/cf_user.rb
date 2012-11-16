@@ -13,8 +13,8 @@ class CfUser < ActiveRecord::Base
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
 
-  validates_presence_of :username
-  validates_uniqueness_of :username
+  validates_presence_of :username, :email
+  validates_uniqueness_of :username, :email
 
   validates_confirmation_of :password, :if => :password
   validates_length_of :password, :minimum => 3, :if => :password, :allow_blank => true
@@ -55,7 +55,7 @@ class CfUser < ActiveRecord::Base
     return true if admin?
 
     rights.each do |r|
-      return true if f.forum_id == forum.forum_id and r.permission == 'moderate'
+      return true if r.forum_id == forum.forum_id and r.permission == 'moderate'
     end
 
     return false
@@ -66,7 +66,7 @@ class CfUser < ActiveRecord::Base
     return true if admin?
 
     rights.each do |r|
-      return true if f.forum_id == forum.forum_id and (r.permission == 'write' or r.permission == 'moderate')
+      return true if r.forum_id == forum.forum_id and (r.permission == 'write' or r.permission == 'moderate')
     end
 
     return false
@@ -77,7 +77,7 @@ class CfUser < ActiveRecord::Base
     return true if admin?
 
     rights.each do |r|
-      return true if f.forum_id == forum.forum_id
+      return true if r.forum_id == forum.forum_id
     end
 
     return false
