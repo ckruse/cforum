@@ -23,6 +23,20 @@ class CfThread < ActiveRecord::Base
     m
   end
 
+  def find_by_mid(mid)
+    messages.each do |m|
+      return m if m.mid == mid
+    end
+
+    nil
+  end
+
+  def find_by_mid!(mid)
+    m = find_by_mid(mid)
+    raise CForum::NotFoundException.new if m.blank?
+    m
+  end
+
   attr_accessor :message
 
   def gen_tree
