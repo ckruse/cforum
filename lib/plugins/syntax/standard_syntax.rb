@@ -11,7 +11,7 @@ ParserHelper.parser_modules['link'] = {
       title = ""
 
       if idx = arg.index("@title=")
-        url = arg[0..idx]
+        url = arg[0..(idx-1)]
         title = arg[(idx + 7)..-1]
       else
         url   = arg
@@ -42,8 +42,8 @@ ParserHelper.parser_modules['image'] = {
       title = nil
 
       if idx = arg.index("@alt=")
-        url = arg[0..idx]
-        title = arg[(idx + 7)..-1]
+        url = arg[0..(idx-1)]
+        title = arg[(idx + 5)..-1]
       else
         url   = arg
       end
