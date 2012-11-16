@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+require 'uri'
+
 ParserHelper.parser_modules['link'] = {
   html: Proc.new do |tag_name, arg, html|
     if arg.strip.empty?
@@ -16,7 +18,13 @@ ParserHelper.parser_modules['link'] = {
         title = arg
       end
 
-      html << '<a href="' + CForum::Tools.encode_entities(url.strip) + '">' + CForum::Tools.encode_entities(title.strip) + '</a>'
+      begin
+        u = URI.parse(url)
+        html << '<a href="' + CForum::Tools.encode_entities(url.strip) + '">' + CForum::Tools.encode_entities(title.strip) + '</a>'
+      rescue
+        html << "[link:" + CForum::Tools.encode_entities(arg.strip) + "]"
+      end
+
     end
   end,
 
@@ -40,16 +48,22 @@ ParserHelper.parser_modules['image'] = {
         url   = arg
       end
 
-      img = '<img src="' + CForum::Tools.encode_entities(url.strip) + '"'
+      begin
+        URI.parse(url)
+        img = '<img src="' + CForum::Tools.encode_entities(url.strip) + '"'
 
-      if title
-        title = CForum::Tools.encode_entities(title.strip)
-        img << ' alt="' + title + '" title="' + title + '"'
+        if title
+          title = CForum::Tools.encode_entities(title.strip)
+          img << ' alt="' + title + '" title="' + title + '"'
+        end
+
+        img << '>'
+
+        html << img
+      rescue
+        html << '[image:' + CForum::Tools.encode_entities(arg.strip) + ']'
       end
 
-      img << '>'
-
-      html << img
     end
   end,
 
