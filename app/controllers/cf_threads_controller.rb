@@ -21,41 +21,45 @@ class CfThreadsController < ApplicationController
     conditions[:archived] = false if conf('use_archive')
     conditions[:messages] = {deleted: false} unless params.has_key?(:view_all)
 
-    if forum
-      @threads = CfThread.
-        preload(:forum).
-        includes(:messages => :owner).
-        where(conditions).
-        order('cforum.threads.created_at DESC').
-        limit(@limit).
-        offset(@limit * @page)
-    else
-      # the „no forum” case is much more complex; we have to do it partly manually
-      # to avoid DISTINCT
-      sql = "SELECT thread_id FROM cforum.threads WHERE "
-      crits = []
+    # the „no forum” case is much more complex; we have to do it partly manually
+    # to avoid DISTINCT
+    sql = "SELECT thread_id FROM cforum.threads WHERE "
+    crits = []
 
+    if forum
+      crits << "forum_id = " + forum.forum_id.to_s
+
+      unless params[:view_all]
+        crits << "EXISTS(SELECT message_id FROM cforum.messages WHERE thread_id = threads.thread_id AND deleted = false)"
+      end
+    else
       crits << "forum_id IN (SELECT forum_id FROM cforum.forum_permissions WHERE user_id = " + current_user.user_id.to_s + ")" if current_user
       crits << "forum_id IN (SELECT forum_id FROM cforum.forums WHERE public = true)"
-      sql << crits.join(" OR ")
-      sql << " ORDER BY threads.created_at DESC LIMIT #{@limit} OFFSET #{@limit * @page}"
 
-      result = CfThread.connection.execute(sql)
+      crits = ["(" + crits.join(" OR ") + ")"]
 
-      ids = []
-      result.each do |row|
-        ids << row['thread_id'].to_i
+      unless params[:view_all]
+        crits << "EXISTS(SELECT message_id FROM cforum.messages WHERE thread_id = threads.thread_id AND deleted = false)"
       end
-
-      @threads = CfThread.
-        preload(:forum).
-        includes(:messages => :owner).
-        where(conditions).
-        where(thread_id: ids).
-        order('cforum.threads.created_at DESC').
-        limit(@limit).
-        offset(@limit * @page)
     end
+    sql << crits.join(" AND ")
+    sql << " ORDER BY threads.created_at DESC LIMIT #{@limit} OFFSET #{@limit * @page}"
+
+    result = CfThread.connection.execute(sql)
+
+    ids = []
+    result.each do |row|
+      ids << row['thread_id'].to_i
+    end
+
+    @threads = CfThread.
+      preload(:forum).
+      includes(:messages => :owner).
+      where(conditions).
+      where(thread_id: ids).
+      order('cforum.threads.created_at DESC').
+      limit(@limit).
+      offset(@limit * @page)
 
     if forum
       rslt = CfForum.connection.execute("SELECT cforum.counter_table_get_count('threads', " +
