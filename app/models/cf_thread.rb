@@ -17,6 +17,12 @@ class CfThread < ActiveRecord::Base
     nil
   end
 
+  def find_message!(mid)
+    m = find_message(mid)
+    raise CForum::NotFoundException.new if m.blank?
+    m
+  end
+
   attr_accessor :message
 
   def gen_tree
