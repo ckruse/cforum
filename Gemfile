@@ -14,6 +14,12 @@ gem 'anjlab-bootstrap-rails', '>= 2.0', :require => 'bootstrap-rails'
 
 gem "cancan"
 
+group :development, :test do
+  gem 'factory_girl_rails'
+  gem 'quiet_assets'
+  gem 'simplecov', :require => false
+end
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -27,6 +33,5 @@ group :assets do
 end
 
 gem 'email'
-gem 'quiet_assets', :group => :development
 
 # eof
