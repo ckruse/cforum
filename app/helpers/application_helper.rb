@@ -1,5 +1,4 @@
 module ApplicationHelper
-  include UrlHelpers
   include ParserHelper
   include CForum::Tools
 

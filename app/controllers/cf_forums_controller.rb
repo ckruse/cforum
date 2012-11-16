@@ -9,7 +9,7 @@ class CfForumsController < ApplicationController
     if params[:t] || params[:m]
       thread = CfThread.find_by_tid(params[:t].to_i)
       if thread
-        if params[:m] and message = thread.find_message(params[:m].to_i)
+        if params[:m] and message = thread.find_by_mid(params[:m].to_i)
           redirect_to cf_message_url(thread, message), status: 301
         else
           redirect_to cf_thread_url(thread), status: 301
