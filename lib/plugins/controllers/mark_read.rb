@@ -4,8 +4,12 @@ class MarkRead < Plugin
   def initialize(*args)
     super(*args)
 
-    register_plugin_api :mark_read { |message| mark_read(message) }
-    register_plugin_api :is_read { |message| is_read(message) }
+    register_plugin_api :mark_read do |message|
+      mark_read(message)
+    end
+    register_plugin_api :is_read do |message|
+      is_read(message)
+    end
   end
 
   def is_read(message)
