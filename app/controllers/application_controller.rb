@@ -21,6 +21,8 @@ class ApplicationController < ActionController::Base
       eval(IO.read(plugin_dir + p))
     end
 
+    read_syntax_plugins
+
     super(*args)
   end
 

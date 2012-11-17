@@ -20,9 +20,9 @@ ParserHelper.parser_modules['link'] = {
 
       begin
         u = URI.parse(url)
-        html << '<a href="' + CForum::Tools.encode_entities(url.strip) + '">' + CForum::Tools.encode_entities(title.strip) + '</a>'
+        html << '<a href="' + encode_entities(url.strip) + '">' + encode_entities(title.strip) + '</a>'
       rescue
-        html << "[link:" + CForum::Tools.encode_entities(arg.strip) + "]"
+        html << "[link:" + encode_entities(arg.strip) + "]"
       end
 
     end

@@ -192,13 +192,15 @@ module ParserHelper
     msg
   end
 
-end
-
-# read syntax plugins
-plugin_dir = Rails.root + 'lib/plugins/syntax'
-Dir.open(plugin_dir).each do |p|
-  next unless File.file?(plugin_dir + p)
-  require 'plugins/syntax/' + p
+  # TODO: better method to load plugins, eval()ing them every time sucks
+  def read_syntax_plugins
+    # read syntax plugins
+    plugin_dir = Rails.root + 'lib/plugins/syntax'
+    Dir.open(plugin_dir).each do |p|
+      next unless File.file?(plugin_dir + p)
+      eval(IO.read(Rails.root + 'lib/plugins/syntax/' + p))
+    end
+  end
 end
 
 # eof

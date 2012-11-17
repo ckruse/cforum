@@ -19,10 +19,10 @@ ParserHelper.parser_modules['image'] = {
 
       begin
         URI.parse(url)
-        img = '<img src="' + CForum::Tools.encode_entities(url.strip) + '"'
+        img = '<img src="' + encode_entities(url.strip) + '"'
 
         if title
-          title = CForum::Tools.encode_entities(title.strip)
+          title = encode_entities(title.strip)
           img << ' alt="' + title + '" title="' + title + '"'
         end
 
@@ -30,7 +30,7 @@ ParserHelper.parser_modules['image'] = {
 
         html << img
       rescue
-        html << '[image:' + CForum::Tools.encode_entities(arg.strip) + ']'
+        html << '[image:' + encode_entities(arg.strip) + ']'
       end
 
     end
