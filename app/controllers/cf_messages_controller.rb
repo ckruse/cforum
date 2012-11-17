@@ -5,6 +5,7 @@ class CfMessagesController < ApplicationController
   before_filter :authorize!
 
   SHOW_NEW_MESSAGE = "show_new_message"
+  SHOW_MESSAGE = "show_message"
 
   def show
     @id = CfThread.make_id(params)
@@ -20,6 +21,8 @@ class CfMessagesController < ApplicationController
 
     @message = @thread.find_message(params[:mid].to_i) if @thread
     raise CForum::NotFoundException.new if @thread.nil? or @message.nil?
+
+    notification_center.notify(SHOW_MESSAGE, @thread, @message)
   end
 
   def new
