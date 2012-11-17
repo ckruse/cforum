@@ -10,10 +10,11 @@ class ApplicationController < ActionController::Base
   before_filter :check_forum_access
   protect_from_forgery
 
-  attr_reader :notification_center
+  attr_reader :notification_center, :plugin_apis
 
   def initialize(*args)
     @notification_center = NotificationCenter.new
+    @plugin_apis = {}
 
     plugin_dir = Rails.root + 'lib/plugins/controllers'
     Dir.open(plugin_dir).each do |p|
@@ -24,6 +25,14 @@ class ApplicationController < ActionController::Base
     read_syntax_plugins
 
     super(*args)
+  end
+
+  def register_plugin_api(name, &block)
+    @plugin_apis[name] = block
+  end
+
+  def get_plugin_api(name)
+    @plugin_apis[name]
   end
 
   def set(name, value)
