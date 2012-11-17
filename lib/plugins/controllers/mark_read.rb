@@ -1,7 +1,41 @@
 # -*- coding: utf-8 -*-
 
 class MarkRead < Plugin
-  def  show_threadlist(threads)
+  def initialize(*args)
+    super(*args)
+
+    register_plugin_api :mark_read { |message| mark_read(message) }
+    register_plugin_api :is_read { |message| is_read(message) }
+  end
+
+  def is_read(message)
+    return unless current_user
+    message = [message] unless message.is_a?(Array)
+    message = message.map {|m| m.is_a?(CfMessage) ? m.message_id : m.to_i}
+
+    read_messages = []
+
+    result = CfMessage.connection.execute("SELECT message_id FROM cforum.read_messages WHERE message_id IN (" + message.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+    result.reach do |row|
+      read_messages << row['message_id'].to_i
+    end
+  end
+
+  def mark_read(message)
+    return unless current_user
+    message = [message] unless message.is_a?(Array)
+
+    sql = "INSERT INTO cforum.read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", "
+
+    message.each do |m|
+      begin
+        CfMessage.connection.execute(sql + m.message_id.to_s + ")")
+      rescue ActiveRecord::RecordNotUnique
+      end
+    end
+  end
+
+  def show_threadlist(threads)
     return unless current_user
 
     ids = []
@@ -62,8 +96,10 @@ class MarkRead < Plugin
   end
 end
 
-notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, MarkRead.new(self))
-notification_center.register_hook(CfThreadsController::SHOW_THREAD, MarkRead.new(self))
-notification_center.register_hook(CfMessagesController::SHOW_MESSAGE, MarkRead.new(self))
+mr = MarkRead.new(self)
+
+notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, mr)
+notification_center.register_hook(CfThreadsController::SHOW_THREAD, mr)
+notification_center.register_hook(CfMessagesController::SHOW_MESSAGE, mr)
 
 # eof
