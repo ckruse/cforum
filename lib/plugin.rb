@@ -38,4 +38,12 @@ class Plugin
   def uconf(name, default = nil)
     @app_controller.uconf(name, default)
   end
+
+  def register_plugin_api(name, &block)
+    @app_controller.register_plugin_api(name, &block)
+  end
+
+  def get_plugin_api(name)
+    @app_controller.get_plugin_api(name)
+  end
 end
