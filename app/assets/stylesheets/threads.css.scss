@@ -21,6 +21,11 @@
     color:#0088cc;
   }
 
+  .visited, .visited a {
+    color:#93a1a1;
+    font-weight:normal;
+  }
+
   li.deleted {
     text-decoration:line-through;
   }

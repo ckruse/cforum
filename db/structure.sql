@@ -453,6 +453,36 @@ ALTER SEQUENCE messages_message_id_seq OWNED BY messages.message_id;
 
 
 --
+-- Name: read_messages; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE read_messages (
+    read_message_id bigint NOT NULL,
+    user_id integer NOT NULL,
+    message_id bigint NOT NULL
+);
+
+
+--
+-- Name: read_messages_read_message_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE read_messages_read_message_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: read_messages_read_message_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE read_messages_read_message_id_seq OWNED BY read_messages.read_message_id;
+
+
+--
 -- Name: settings; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -603,6 +633,13 @@ ALTER TABLE ONLY messages ALTER COLUMN message_id SET DEFAULT nextval('messages_
 
 
 --
+-- Name: read_message_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY read_messages ALTER COLUMN read_message_id SET DEFAULT nextval('read_messages_read_message_id_seq'::regclass);
+
+
+--
 -- Name: setting_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -653,6 +690,14 @@ ALTER TABLE ONLY forums
 
 ALTER TABLE ONLY messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (message_id);
+
+
+--
+-- Name: read_messages_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY read_messages
+    ADD CONSTRAINT read_messages_pkey PRIMARY KEY (read_message_id);
 
 
 --
@@ -747,6 +792,13 @@ CREATE INDEX messages_thread_id_idx ON messages USING btree (thread_id);
 --
 
 CREATE INDEX messages_user_id_idx ON messages USING btree (user_id);
+
+
+--
+-- Name: read_messages_message_id_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX read_messages_message_id_user_id_idx ON read_messages USING btree (message_id, user_id);
 
 
 --
@@ -970,6 +1022,22 @@ ALTER TABLE ONLY messages
 
 
 --
+-- Name: read_messages_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY read_messages
+    ADD CONSTRAINT read_messages_message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: read_messages_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY read_messages
+    ADD CONSTRAINT read_messages_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: settings_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -1012,6 +1080,8 @@ SET search_path = public, pg_catalog;
 INSERT INTO schema_migrations (version) VALUES ('1');
 
 INSERT INTO schema_migrations (version) VALUES ('10');
+
+INSERT INTO schema_migrations (version) VALUES ('11');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 
