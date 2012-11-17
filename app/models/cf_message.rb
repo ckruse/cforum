@@ -15,7 +15,7 @@ class CfMessage < ActiveRecord::Base
     :author, :email, :homepage, :deleted, :user_id, :parent_id,
     :updated_at, :created_at, :upvotes, :downvotes, :forum_id, :flags
 
-  attr_accessor :messages
+  attr_accessor :messages, :attribs
 
   validates :author, presence: true, length: { :in => 2..60 }
   validates :subject, presence: true, length: { :in => 4..64 }
@@ -25,6 +25,7 @@ class CfMessage < ActiveRecord::Base
 
   after_initialize do
     self.flags ||= {} if attributes.has_key? 'flags'
+    self.attribs ||= {}
   end
 
   # default_scope do
