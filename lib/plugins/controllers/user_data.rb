@@ -14,6 +14,14 @@ class UserData < Plugin
       msg.author   ||= user.conf('name')
       msg.email    ||= user.conf('email')
       msg.homepage ||= user.conf('url')
+
+      greeting  = user.conf('greeting')
+      farewell  = user.conf('farewell')
+      signature = user.conf('signature')
+
+      msg.content = greeting + "\n" + msg.content if greeting
+      msg.content = msg.content + "\n" + farewell if farewell
+      msg.content = msg.content + "\n-- \n" + signature if signature
     end
   end
 end

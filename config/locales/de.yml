@@ -91,6 +91,9 @@ de:
     quote_char: Zitat-Zeichen
     quote_signature: Signatur zitieren
     quote_old_message: Alte Nachricht zitieren
+    signature: Signatur
+    farewell: Verabschiedung
+    greeting: Begrüßung
 
   permissions:
     read: Lesen
