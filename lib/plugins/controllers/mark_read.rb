@@ -26,7 +26,11 @@ class MarkRead < Plugin
     sql = "INSERT INTO cforum.read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", "
     thread.messages.each do |m|
       m.attribs['visited'] = true
-      CfMessage.connection.execute(sql + m.message_id.to_s + ")")
+
+      begin
+        CfMessage.connection.execute(sql + m.message_id.to_s + ")")
+      rescue ActiveRecord::RecordNotUnique
+      end
     end
   end
 
