@@ -11,7 +11,7 @@ ParserHelper.parser_modules['link'] = {
       title = ""
 
       if idx = arg.index("@title=")
-        url = arg[0..idx]
+        url = arg[0..(idx-1)]
         title = arg[(idx + 7)..-1]
       else
         url   = arg
