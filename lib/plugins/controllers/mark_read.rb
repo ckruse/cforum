@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class MarkRead < Plugin
+class MarkReadPlugin < Plugin
   def initialize(*args)
     super(*args)
 
@@ -104,10 +104,10 @@ class MarkRead < Plugin
   end
 end
 
-mr = MarkRead.new(self)
+mr_plugin = MarkReadPlugin.new(self)
 
-notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, mr)
-notification_center.register_hook(CfThreadsController::SHOW_THREAD, mr)
-notification_center.register_hook(CfMessagesController::SHOW_MESSAGE, mr)
+notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, mr_plugin)
+notification_center.register_hook(CfThreadsController::SHOW_THREAD, mr_plugin)
+notification_center.register_hook(CfMessagesController::SHOW_MESSAGE, mr_plugin)
 
 # eof

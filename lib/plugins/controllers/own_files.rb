@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class OwnFiles < Plugin
+class OwnFilesPlugin < Plugin
   def before_handler
     return unless current_user
 
@@ -19,7 +19,7 @@ class OwnFiles < Plugin
 
 end
 
-of = OwnFiles.new(self)
-notification_center.register_hook(ApplicationController::BEFORE_HANDLER, of)
+of_plugin = OwnFilesPlugin.new(self)
+notification_center.register_hook(ApplicationController::BEFORE_HANDLER, of_plugin)
 
 # eof

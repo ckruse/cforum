@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class OpenCloseThread < Plugin
+class OpenCloseThreadPlugin < Plugin
   def show_threadlist(threads)
     return unless current_user
 
@@ -78,7 +78,7 @@ class OpenCloseThread < Plugin
   end # def check_existance_and_delete_or_set
 end
 
-oc = OpenCloseThread.new(self)
-notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, oc)
+oc_plugin = OpenCloseThreadPlugin.new(self)
+notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, oc_plugin)
 
 # eof

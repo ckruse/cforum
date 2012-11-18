@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class UserData < Plugin
+class UserDataPlugin < Plugin
   def show_new_thread(thread)
     set_vars(thread.message)
   end
@@ -28,7 +28,8 @@ class UserData < Plugin
   end
 end
 
-notification_center.register_hook(CfThreadsController::SHOW_NEW_THREAD, UserData.new(self))
-notification_center.register_hook(CfMessagesController::SHOW_NEW_MESSAGE, UserData.new(self))
+ud_plugin = UserDataPlugin.new(self)
+notification_center.register_hook(CfThreadsController::SHOW_NEW_THREAD, ud_plugin)
+notification_center.register_hook(CfMessagesController::SHOW_NEW_MESSAGE, ud_plugin)
 
 # eof
