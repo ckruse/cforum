@@ -20,9 +20,11 @@ class MarkRead < Plugin
     read_messages = []
 
     result = CfMessage.connection.execute("SELECT message_id FROM cforum.read_messages WHERE message_id IN (" + message.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
-    result.reach do |row|
+    result.each do |row|
       read_messages << row['message_id'].to_i
     end
+
+    read_messages
   end
 
   def mark_read(message)
@@ -37,6 +39,8 @@ class MarkRead < Plugin
       rescue ActiveRecord::RecordNotUnique
       end
     end
+
+    message
   end
 
   def show_threadlist(threads)
