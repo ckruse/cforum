@@ -19,9 +19,9 @@ class UserData < Plugin
       farewell  = user.conf('farewell')
       signature = user.conf('signature')
 
-      msg.content = greeting + "\n" + msg.content if greeting
-      msg.content = msg.content + "\n" + farewell if farewell
-      msg.content = msg.content + "\n-- \n" + signature if signature
+      msg.content = greeting + "\n" + msg.content unless greeting.blank?
+      msg.content = msg.content + "\n" + farewell unless farewell.blank?
+      msg.content = msg.content + "\n-- \n" + signature unless signature.blank?
     end
   end
 end
