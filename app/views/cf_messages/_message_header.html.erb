@@ -1,8 +1,7 @@
 <%
   def message_header(thread, message, first = false)
     classes = []
-    classes << 'visited' if message.attribs['visited']
-    classes << 'closed' if thread.attribs['open_state'] == 'closed' and first
+    classes += message.attribs['classes']
 
     html = "<header"
     html << ' class="' + classes.join(" ") + '"' unless classes.blank?

@@ -96,7 +96,7 @@ class CfThread < ActiveRecord::Base
   end
 
   after_initialize do
-    self.attribs ||= {}
+    self.attribs ||= {'classes' => []}
   end
 end
 

@@ -27,6 +27,8 @@ class OpenCloseThreadPlugin < Plugin
 
         t.attribs['open_state'] = 'closed' if not rslt.blank? and rslt.length == mids.length
       end
+
+      t.message.attribs['classes'] << t.attribs['open_state']
     end
 
     result = CfThread.connection.execute("SELECT thread_id, state FROM cforum.opened_closed_threads WHERE thread_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)

@@ -25,7 +25,7 @@ class CfMessage < ActiveRecord::Base
 
   after_initialize do
     self.flags ||= {} if attributes.has_key? 'flags'
-    self.attribs ||= {}
+    self.attribs ||= {'classes' => []}
   end
 
   # default_scope do
