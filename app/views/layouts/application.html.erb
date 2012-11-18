@@ -20,6 +20,17 @@
     </script>
 
     <%= yield(:head) %>
+
+    <% if @own_css_file %><link href="<%= @own_css_file %>" rel="stylesheet" media="all"><% end %>
+    <% if @own_js_file %><script src="<%= @own_js_file %>"></script><% end %>
+
+    <% if @own_css %><style>
+    <%= @own_css %>
+    </style><% end %>
+
+    <% if @own_js %><style>
+    <%= @own_js %>
+    </style><% end %>
   </head>
 
   <body data-controller="<%= controller_path %>" data-action="<%= action_name %>"<%= " id='#{yield(:body_id)}'" if content_for? :body_id %>>

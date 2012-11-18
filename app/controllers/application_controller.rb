@@ -7,10 +7,22 @@ require Rails.root + 'lib/tools'
 class ApplicationController < ActionController::Base
   include ApplicationHelper
 
-  before_filter :check_forum_access
+  before_filter :check_forum_access, :run_before_handler
+  after_filter :run_after_handler
   protect_from_forgery
 
   attr_reader :notification_center, :plugin_apis
+
+  BEFORE_HANDLER = "before_handler"
+  AFTER_HANDLER  = "after_handler"
+
+  def run_before_handler
+    notification_center.notify(BEFORE_HANDLER)
+  end
+
+  def run_after_handler
+    notification_center.notify(AFTER_HANDLER)
+  end
 
   def initialize(*args)
     @notification_center = NotificationCenter.new

@@ -98,6 +98,10 @@ de:
     open: geöffnet
     closed: geschlossen
     close_threads_when_read: Threads schliessen wenn gelesen
+    own_js_file: Eigene JS-Datei
+    own_css_file: Eigene CSS-Datei
+    own_js: Eigenes Inline-JavaScript
+    own_css: Eigenes Inline-CSS
 
   permissions:
     read: Lesen

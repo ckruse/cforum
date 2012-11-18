@@ -94,4 +94,32 @@ disabled = ' disabled="disabled"' if ro
       <label class="checkbox"><input type="checkbox" value="yes" name="settings[open_close_close_when_read]"<%= disabled %><% if @user.conf('open_close_close_when_read') == 'yes' %> checked="checked"<% end %>> <%= t('views.yes') %></label>
     </div>
   </div>
+
+  <div class="control-group">
+    <label class="control-label" for="settings_own_css_file"><%= t('views.own_css_file') %></label>
+    <div class="controls">
+      <input type="text" value="<%= @user.conf('own_css_file') %>" name="settings[own_css_file]" id="settings_own_css_file"<%= disabled %>>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="settings_own_js_file"><%= t('views.own_js_file') %></label>
+    <div class="controls">
+      <input type="text" value="<%= @user.conf('own_js_file') %>" name="settings[own_js_file]" id="settings_own_js_file"<%= disabled %>>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="settings_own_css"><%= t('views.own_css') %></label>
+    <div class="controls">
+      <textarea name="settings[own_css]" id="settings_own_css"<%= disabled %>><%= @user.conf('own_css') %></textarea>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="settings_own_js"><%= t('views.own_js') %></label>
+    <div class="controls">
+      <textarea name="settings[own_js]" id="settings_own_js"<%= disabled %>><%= @user.conf('own_js') %></textarea>
+    </div>
+  </div>
 </fieldset>
