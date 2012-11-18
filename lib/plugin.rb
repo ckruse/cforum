@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class Plugin
   def initialize(app_controller)
     @app_controller = app_controller
@@ -47,3 +49,5 @@ class Plugin
     @app_controller.get_plugin_api(name)
   end
 end
+
+# eof
