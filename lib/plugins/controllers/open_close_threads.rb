@@ -6,7 +6,7 @@ class OpenCloseThread < Plugin
 
     # default state is setable via user config
     default_state   = uconf('open_close_default', 'open')
-    close_when_read = uconf('open_close_close_when_read', 'yes') == 'yes'
+    close_when_read = uconf('open_close_close_when_read', 'no') == 'yes'
 
     is_read = get_plugin_api :is_read
 
