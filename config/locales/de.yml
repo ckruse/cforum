@@ -94,6 +94,10 @@ de:
     signature: Signatur
     farewell: Verabschiedung
     greeting: Begrüßung
+    threads: Threads per default
+    open: geöffnet
+    closed: geschlossen
+    close_threads_when_read: Threads schliessen wenn gelesen
 
   permissions:
     read: Lesen

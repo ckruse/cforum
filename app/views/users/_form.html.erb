@@ -1,24 +1,11 @@
-<fieldset>
-  <legend><%= t('views.user_information') %></legend>
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#user-data" data-toggle="tab"><%= t('views.user_information') %></a></li>
+  <li><a href="#personal_information" data-toggle="tab"><%= t('views.personal_information') %></a></li>
+  <li><a href="#comfort" data-toggle="tab">Komfort</a></li>
+  <li><a href="#adoption" data-toggle="tab">Personalisierung</a></li>
+</ul>
 
-  <div class="control-group">
-    <%= f.label :username, :class => 'control-label' %>
-    <div class="controls"><%= f.text_field :username %></div>
-  </div>
-
-  <div class="control-group">
-    <%= f.label :email, :class => 'control-label' %>
-    <div class="controls"><%= f.email_field :email %></div>
-  </div>
-
-  <div class="control-group">
-    <%= f.label :password, :class => 'control-label' %>
-    <div class="controls"><%= f.password_field :password %></div>
-  </div>
-
-  <div class="control-group">
-    <%= f.label :password_confirmation, :class => 'control-label' %>
-    <div class="controls"><%= f.password_field :password_confirmation %></div>
-  </div>
-
-</fieldset>
+<div class="tab-content">
+  <%= render 'user_information', f: f %>
+  <%= render 'settings', f: f %>
+</div>

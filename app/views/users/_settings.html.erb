@@ -1,9 +1,8 @@
 <% ro ||= false
 disabled = ""
 disabled = ' disabled="disabled"' if ro
-%><h3><%= t('views.settings') %></h3>
-
-<fieldset>
+%>
+<fieldset class="tab-pane" id="personal_information">
   <legend><%= t('views.personal_information') %></legend>
 
   <div class="control-group">
@@ -26,6 +25,10 @@ disabled = ' disabled="disabled"' if ro
       <input type="text" value="<%= @user.conf('url') %>" name="settings[url]" id="settings_url"<%= disabled %>>
     </div>
   </div>
+</fieldset>
+
+<fieldset class="tab-pane" id="comfort">
+  <legend>Komfort</legend>
 
   <div class="control-group">
     <label class="control-label" for="settings_greeting"><%= t('views.greeting') %></label>
@@ -63,6 +66,10 @@ disabled = ' disabled="disabled"' if ro
       <label class="radio"><input type="radio" value="no" name="settings[quote_signature]"<%= disabled %><% if @user.conf('quote_signature') == 'no' or @user.conf('quote_signature').blank? %> checked="checked"<% end %>> Nein</label>
     </div>
   </div>
+</fieldset>
+
+<fieldset class="tab-pane" id="adoption">
+  <legend>Personalisierung</legend>
 
   <div class="control-group">
     <label class="control-label"><%= t('views.quote_char') %></label>
@@ -73,7 +80,18 @@ disabled = ' disabled="disabled"' if ro
     </div>
   </div>
 
+  <div class="control-group">
+    <label class="control-label"><%= t('views.threads_by_default') %></label>
+    <div class="controls">
+      <label class="radio"><input type="radio" value="> " name="settings[open_close_default]"<%= disabled %><% if @user.conf('open_close_default') == 'open' or @user.conf('open_close_default').blank? %> checked="checked"<% end %>> <%= t("views.open") %></label>
+      <label class="radio"><input type="radio" value="; " name="settings[open_close_default]"<%= disabled %><% if @user.conf('open_close_default') == 'closed' %> checked="checked"<% end %>> <%= t("views.closed") %></label>
+    </div>
+  </div>
 
-
+  <div class="control-group">
+    <label class="control-label"><%= t('views.close_threads_when_read') %></label>
+    <div class="controls">
+      <label class="checkbox"><input type="checkbox" value="yes" name="settings[open_close_close_when_read]"<%= disabled %><% if @user.conf('open_close_close_when_read') == 'yes' %> checked="checked"<% end %>> <%= t('views.yes') %></label>
+    </div>
+  </div>
 </fieldset>
-
