@@ -102,6 +102,7 @@ de:
     own_css_file: Eigene CSS-Datei
     own_js: Eigenes Inline-JavaScript
     own_css: Eigenes Inline-CSS
+    highlighted_users: Hervorgehobene Benutzer
 
   permissions:
     read: Lesen

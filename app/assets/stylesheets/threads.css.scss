@@ -26,6 +26,10 @@
     font-weight:normal;
   }
 
+  header.highlighted-user {
+    color:#f00; /* TODO: choose a nicer style */
+  }
+
   li.deleted {
     text-decoration:line-through;
   }

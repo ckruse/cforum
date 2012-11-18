@@ -83,8 +83,8 @@ disabled = ' disabled="disabled"' if ro
   <div class="control-group">
     <label class="control-label"><%= t('views.threads_by_default') %></label>
     <div class="controls">
-      <label class="radio"><input type="radio" value="> " name="settings[open_close_default]"<%= disabled %><% if @user.conf('open_close_default') == 'open' or @user.conf('open_close_default').blank? %> checked="checked"<% end %>> <%= t("views.open") %></label>
-      <label class="radio"><input type="radio" value="; " name="settings[open_close_default]"<%= disabled %><% if @user.conf('open_close_default') == 'closed' %> checked="checked"<% end %>> <%= t("views.closed") %></label>
+      <label class="radio"><input type="radio" value="open" name="settings[open_close_default]"<%= disabled %><% if @user.conf('open_close_default') == 'open' or @user.conf('open_close_default').blank? %> checked="checked"<% end %>> <%= t("views.open") %></label>
+      <label class="radio"><input type="radio" value="closed" name="settings[open_close_default]"<%= disabled %><% if @user.conf('open_close_default') == 'closed' %> checked="checked"<% end %>> <%= t("views.closed") %></label>
     </div>
   </div>
 
@@ -123,3 +123,15 @@ disabled = ' disabled="disabled"' if ro
     </div>
   </div>
 </fieldset>
+
+<fieldset class="tab-pane" id="readability">
+  <legend>Lesbarkeit/Übersicht</legend>
+
+  <div class="control-group">
+    <label class="control-label" for="settings_highlighted_users"><%= t('views.highlighted_users') %></label>
+    <div class="controls">
+      <input type="text" value="<%= @user.conf('highlighted_users') %>" name="settings[highlighted_users]" id="settings_highlighted_users"<%= disabled %>> (Komma-separierte Liste)
+    </div>
+  </div>
+</fieldset>
+
