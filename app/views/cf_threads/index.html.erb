@@ -7,7 +7,7 @@ render 'cf_threads/thread_tree'
 <article class="thread threadlist">
   <%= message_header(thread, thread.message, true) %>
 
-  <% unless thread.message.messages.blank? %>
+  <% if not thread.message.messages.blank? and thread.attribs['open_state'] != 'closed' %>
   <%= message_tree(thread, thread.message.messages) %>
   <% end %>
 </article>

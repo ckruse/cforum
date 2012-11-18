@@ -453,6 +453,37 @@ ALTER SEQUENCE messages_message_id_seq OWNED BY messages.message_id;
 
 
 --
+-- Name: opened_closed_threads; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE opened_closed_threads (
+    opened_closed_thread_id bigint NOT NULL,
+    user_id integer NOT NULL,
+    thread_id bigint NOT NULL,
+    state character varying(10) NOT NULL
+);
+
+
+--
+-- Name: opened_closed_threads_opened_closed_thread_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE opened_closed_threads_opened_closed_thread_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: opened_closed_threads_opened_closed_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE opened_closed_threads_opened_closed_thread_id_seq OWNED BY opened_closed_threads.opened_closed_thread_id;
+
+
+--
 -- Name: read_messages; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -633,6 +664,13 @@ ALTER TABLE ONLY messages ALTER COLUMN message_id SET DEFAULT nextval('messages_
 
 
 --
+-- Name: opened_closed_thread_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY opened_closed_threads ALTER COLUMN opened_closed_thread_id SET DEFAULT nextval('opened_closed_threads_opened_closed_thread_id_seq'::regclass);
+
+
+--
 -- Name: read_message_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -690,6 +728,14 @@ ALTER TABLE ONLY forums
 
 ALTER TABLE ONLY messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (message_id);
+
+
+--
+-- Name: opened_closed_threads_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY opened_closed_threads
+    ADD CONSTRAINT opened_closed_threads_pkey PRIMARY KEY (opened_closed_thread_id);
 
 
 --
@@ -792,6 +838,13 @@ CREATE INDEX messages_thread_id_idx ON messages USING btree (thread_id);
 --
 
 CREATE INDEX messages_user_id_idx ON messages USING btree (user_id);
+
+
+--
+-- Name: opened_closed_threads_thread_id_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX opened_closed_threads_thread_id_user_id_idx ON opened_closed_threads USING btree (thread_id, user_id);
 
 
 --
@@ -1022,6 +1075,22 @@ ALTER TABLE ONLY messages
 
 
 --
+-- Name: opened_closed_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY opened_closed_threads
+    ADD CONSTRAINT opened_closed_threads_thread_id_fkey FOREIGN KEY (thread_id) REFERENCES threads(thread_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: opened_closed_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY opened_closed_threads
+    ADD CONSTRAINT opened_closed_threads_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: read_messages_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -1082,6 +1151,8 @@ INSERT INTO schema_migrations (version) VALUES ('1');
 INSERT INTO schema_migrations (version) VALUES ('10');
 
 INSERT INTO schema_migrations (version) VALUES ('11');
+
+INSERT INTO schema_migrations (version) VALUES ('12');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 
