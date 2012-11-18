@@ -37,7 +37,7 @@ class CfThread < ActiveRecord::Base
     m
   end
 
-  attr_accessor :message
+  attr_accessor :message, :attribs
 
   def gen_tree
     messages.sort! do |a,b|
@@ -93,6 +93,10 @@ class CfThread < ActiveRecord::Base
 
   before_create do |t|
     t.slug = CfThread.gen_id(t) if t.slug.blank?
+  end
+
+  after_initialize do
+    self.attribs ||= {}
   end
 end
 
