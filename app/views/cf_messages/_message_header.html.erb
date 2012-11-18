@@ -11,9 +11,9 @@
     if first and current_user
       html << '  <a class="icon icon-'
       if thread.attribs['open_state'] == 'closed'
-        html << 'folder-close" href="' + cf_forum_path(current_forum, :open => thread.thread_id)
+        html << 'folder-close" href="' + cf_forum_path(current_forum || 'all', :open => thread.thread_id)
       else
-        html << 'folder-open" href="' + cf_forum_path(current_forum, :close => thread.thread_id)
+        html << 'folder-open" href="' + cf_forum_path(current_forum || 'all', :close => thread.thread_id)
       end
       html << '"> </a>'
     end
