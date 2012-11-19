@@ -1,6 +1,9 @@
 # -*- encoding: utf-8 -*-
 
 class UsersController < ApplicationController
+  SAVING_SETTINGS = "saving_settings"
+  SAVED_SETTINGS  = "saved_settings"
+
   def index
     @page = params[:p].to_i
     @page = 0 if @page < 0
@@ -40,17 +43,20 @@ class UsersController < ApplicationController
     saved = false
     CfUser.transaction do
       if @user.update_attributes!(attrs)
-        settings = @user.settings
-        settings = CfSetting.new if settings.blank?
+        @settings = @user.settings
+        @settings = CfSetting.new if @settings.blank?
 
-        settings.user_id = @user.user_id
-        settings.options = params[:settings] || {}
+        @settings.user_id = @user.user_id
+        @settings.options = params[:settings] || {}
 
-        settings.save!
+        notification_center.notify(SAVING_SETTINGS, @user, @settings)
+        @settings.save!
 
         saved = true
       end
     end
+
+    notification_center.notify(SAVED_SETTINGS, @user, @settings)
 
     respond_to do |format|
       if saved
