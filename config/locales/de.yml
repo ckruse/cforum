@@ -103,6 +103,7 @@ de:
     own_js: Eigenes Inline-JavaScript
     own_css: Eigenes Inline-CSS
     highlighted_users: Hervorgehobene Benutzer
+    preview: Vorschau
 
   permissions:
     read: Lesen

@@ -3,7 +3,13 @@
   <div class="posting-content well">
     <%= message_to_html(@parent.content) %>
   </div>
-<% end %>
+<% elsif @preview %>
+  <div class="posting-content well">
+    <%= message_to_html(@message.content) %>
+  </div>
+<%
+  @message.content = message_to_txt(@message.content)
+end %>
 
 <%= form_for @message, :url => cf_message_path(@thread, @parent), html: {:class => 'form-horizontal'} do |f| %>
   <% if @message.errors.any? %>
@@ -22,6 +28,7 @@
 
   <p>
     <%= f.submit t('views.save'), :class => 'btn btn-primary' %>
+    <%= f.submit t('views.preview'), :class => 'btn', name: 'preview' %>
     <%= link_to t('views.cancel'), @parent ? cf_message_path(@thread, @parent) : cf_forum_path(current_forum), :class => 'btn' %>
   </p>
 <% end %>
