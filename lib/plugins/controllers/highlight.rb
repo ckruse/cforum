@@ -21,7 +21,9 @@ class HighlightPlugin < Plugin
 
 end
 
-hl_plugin = HighlightPlugin.new(self)
-notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, hl_plugin)
+ApplicationController.init_hooks << Proc.new do |app_controller|
+  hl_plugin = HighlightPlugin.new(app_controller)
+  app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, hl_plugin)
+end
 
 # eof

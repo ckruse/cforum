@@ -19,7 +19,9 @@ class OwnFilesPlugin < Plugin
 
 end
 
-of_plugin = OwnFilesPlugin.new(self)
-notification_center.register_hook(ApplicationController::BEFORE_HANDLER, of_plugin)
+ApplicationController.init_hooks << Proc.new do |app_controller|
+  of_plugin = OwnFilesPlugin.new(app_controller)
+  app_controller.notification_center.register_hook(ApplicationController::BEFORE_HANDLER, of_plugin)
+end
 
 # eof

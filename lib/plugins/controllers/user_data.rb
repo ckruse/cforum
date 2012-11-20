@@ -28,8 +28,10 @@ class UserDataPlugin < Plugin
   end
 end
 
-ud_plugin = UserDataPlugin.new(self)
-notification_center.register_hook(CfThreadsController::SHOW_NEW_THREAD, ud_plugin)
-notification_center.register_hook(CfMessagesController::SHOW_NEW_MESSAGE, ud_plugin)
+ApplicationController.init_hooks << Proc.new do |app_controller|
+  ud_plugin = UserDataPlugin.new(app_controller)
+  app_controller.notification_center.register_hook(CfThreadsController::SHOW_NEW_THREAD, ud_plugin)
+  app_controller.notification_center.register_hook(CfMessagesController::SHOW_NEW_MESSAGE, ud_plugin)
+end
 
 # eof

@@ -80,7 +80,9 @@ class OpenCloseThreadPlugin < Plugin
   end # def check_existance_and_delete_or_set
 end
 
-oc_plugin = OpenCloseThreadPlugin.new(self)
-notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, oc_plugin)
+ApplicationController.init_hooks << Proc.new do |app_controller|
+  oc_plugin = OpenCloseThreadPlugin.new(app_controller)
+  app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, oc_plugin)
+end
 
 # eof

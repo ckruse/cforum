@@ -104,10 +104,12 @@ class MarkReadPlugin < Plugin
   end
 end
 
-mr_plugin = MarkReadPlugin.new(self)
+ApplicationController.init_hooks << Proc.new do |app_controller|
+  mr_plugin = MarkReadPlugin.new(app_controller)
 
-notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, mr_plugin)
-notification_center.register_hook(CfThreadsController::SHOW_THREAD, mr_plugin)
-notification_center.register_hook(CfMessagesController::SHOW_MESSAGE, mr_plugin)
+  app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, mr_plugin)
+  app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREAD, mr_plugin)
+  app_controller.notification_center.register_hook(CfMessagesController::SHOW_MESSAGE, mr_plugin)
+end
 
 # eof
