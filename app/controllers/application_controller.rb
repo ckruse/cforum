@@ -16,6 +16,16 @@ class ApplicationController < ActionController::Base
   BEFORE_HANDLER = "before_handler"
   AFTER_HANDLER  = "after_handler"
 
+  #
+  # Plugins
+  #
+
+  @@init_hooks = []
+  @@loaded_plugins = false
+  def self.init_hooks
+    @@init_hooks
+  end
+
   def run_before_handler
     notification_center.notify(BEFORE_HANDLER)
   end
@@ -24,19 +34,26 @@ class ApplicationController < ActionController::Base
     notification_center.notify(AFTER_HANDLER)
   end
 
-  def initialize(*args)
-    @notification_center = NotificationCenter.new
+  def load_and_init_plugins
     @plugin_apis = {}
 
-    plugin_dir = Rails.root + 'lib/plugins/controllers'
-    Dir.open(plugin_dir).each do |p|
-      next if p[0] == '.'
-      eval(IO.read(plugin_dir + p))
+    if @@loaded_plugins.blank? or Rails.env != 'production'
+      @@init_hooks = []
+
+      plugin_dir = Rails.root + 'lib/plugins/controllers'
+      Dir.open(plugin_dir).each do |p|
+        next if p[0] == '.' or not File.file?(plugin_dir + p)
+        load plugin_dir + p
+      end
+
+      read_syntax_plugins
+
+      @@loaded_plugins = true
     end
 
-    read_syntax_plugins
-
-    super(*args)
+    @@init_hooks.each do |hook|
+      hook.call(self)
+    end
   end
 
   def register_plugin_api(name, &block)
@@ -53,6 +70,16 @@ class ApplicationController < ActionController::Base
 
   def get(name)
     instance_variable_get('@' + name)
+  end
+
+  #
+  # normal stuff
+  #
+
+  def initialize(*args)
+    @notification_center = NotificationCenter.new
+    load_and_init_plugins
+    super(*args)
   end
 
   helper_method :uconf
