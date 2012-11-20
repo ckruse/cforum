@@ -60,7 +60,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if saved
-        format.html { redirect_to user_path(@user), notice: I18n.t('users.updated') }
+        format.html { redirect_to edit_user_path(@user), notice: I18n.t('users.updated') }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
