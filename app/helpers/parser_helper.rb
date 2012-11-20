@@ -75,7 +75,7 @@ module ParserHelper
         tag_name.downcase!
 
         if @@parser_modules[tag_name]
-          @@parser_modules[tag_name][:html].call(tag_name, arg, html)
+          instance_exec tag_name, arg, html, &@@parser_modules[tag_name][:html]
           i = j
         else
           html << '['
