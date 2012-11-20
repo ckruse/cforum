@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 require Rails.root + 'lib/notification_center'
-require Rails.root + 'lib/plugin'
 require Rails.root + 'lib/tools'
+require Rails.root + 'lib/plugin'
 
 class ApplicationController < ActionController::Base
   include ApplicationHelper

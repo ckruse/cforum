@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 class Plugin
+  include CForum::Tools
   def initialize(app_controller)
     @app_controller = app_controller
   end
@@ -47,6 +48,18 @@ class Plugin
 
   def get_plugin_api(name)
     @app_controller.get_plugin_api(name)
+  end
+
+  def root_path
+    @app_controller.root_path
+  end
+
+  def root_url
+    @app_controller.root_url
+  end
+
+  def redirect_to(*args)
+    @app_controller.redirect_to(*args)
   end
 end
 
