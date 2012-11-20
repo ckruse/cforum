@@ -545,6 +545,65 @@ ALTER SEQUENCE settings_setting_id_seq OWNED BY settings.setting_id;
 
 
 --
+-- Name: tags; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE tags (
+    tag_id bigint NOT NULL,
+    tag_name character varying(250) NOT NULL
+);
+
+
+--
+-- Name: tags_tag_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE tags_tag_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tags_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE tags_tag_id_seq OWNED BY tags.tag_id;
+
+
+--
+-- Name: tags_threads; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE tags_threads (
+    tag_thread_id bigint NOT NULL,
+    tag_id bigint NOT NULL,
+    thread_id bigint NOT NULL
+);
+
+
+--
+-- Name: tags_threads_tag_thread_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE tags_threads_tag_thread_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tags_threads_tag_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE tags_threads_tag_thread_id_seq OWNED BY tags_threads.tag_thread_id;
+
+
+--
 -- Name: threads; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -685,6 +744,20 @@ ALTER TABLE ONLY settings ALTER COLUMN setting_id SET DEFAULT nextval('settings_
 
 
 --
+-- Name: tag_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY tags ALTER COLUMN tag_id SET DEFAULT nextval('tags_tag_id_seq'::regclass);
+
+
+--
+-- Name: tag_thread_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY tags_threads ALTER COLUMN tag_thread_id SET DEFAULT nextval('tags_threads_tag_thread_id_seq'::regclass);
+
+
+--
 -- Name: thread_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -752,6 +825,14 @@ ALTER TABLE ONLY read_messages
 
 ALTER TABLE ONLY settings
     ADD CONSTRAINT settings_pkey PRIMARY KEY (setting_id);
+
+
+--
+-- Name: tags_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (tag_id);
 
 
 --
@@ -873,6 +954,13 @@ CREATE UNIQUE INDEX settings_forum_id_user_id_idx ON settings USING btree (forum
 --
 
 CREATE INDEX settings_user_id_idx ON settings USING btree (user_id);
+
+
+--
+-- Name: tags_tag_name_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX tags_tag_name_idx ON tags USING btree (tag_name);
 
 
 --
@@ -1123,6 +1211,22 @@ ALTER TABLE ONLY settings
 
 
 --
+-- Name: tags_threads_tag_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY tags_threads
+    ADD CONSTRAINT tags_threads_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES tags(tag_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: tags_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY tags_threads
+    ADD CONSTRAINT tags_threads_thread_id_fkey FOREIGN KEY (thread_id) REFERENCES threads(thread_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: threads_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -1153,6 +1257,8 @@ INSERT INTO schema_migrations (version) VALUES ('10');
 INSERT INTO schema_migrations (version) VALUES ('11');
 
 INSERT INTO schema_migrations (version) VALUES ('12');
+
+INSERT INTO schema_migrations (version) VALUES ('13');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 

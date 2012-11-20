@@ -14,6 +14,17 @@ ActiveRecord::Base.logger = Rails.logger
 directory = "/home/ckruse/dev/archiv/archiv/"
 directory = ARGV[0] if ARGV.length >= 1
 
+if ARGV[1] != 'forums'
+  $forum = CfForum.find_by_slug 'default-forum'
+  $forum = CfForum.create!(
+    :name => 'Default-Forum',
+    :short_name => 'Default-Forum',
+    :slug => 'default',
+    :created_at => DateTime.now,
+    :updated_at => DateTime.now
+  ) if $forum.blank?
+end
+
 $ids = {}
 $coder = HTMLEntities.new
 
@@ -100,30 +111,37 @@ def handle_doc(doc, opts = {})
   x_thread = doc.find_first('/Forum/Thread')
 
   forum_name = x_thread.find_first("./Message/Header/Category").content.force_encoding('utf-8')
-  forum_name = "Default-Forum" if forum_name.blank?
-  forum_slug = forum_name.downcase.gsub /\s+/, '-'
 
-  forum_slug.gsub! /[^a-zA-Z0-9_-]/, '-'
-  forum_slug.gsub! /-{2,}/, '-'
+  if ARGV[1] == 'forums'
+    forum_name = "Default-Forum" if forum_name.blank?
+    forum_slug = forum_name.downcase.gsub /\s+/, '-'
 
-  forum_slug = 'default-forum' if forum_slug.empty? or forum_slug.length < 3
-  forum_slug = forum_slug[0..19] if forum_slug.length > 20
+    forum_slug.gsub! /[^a-zA-Z0-9_-]/, '-'
+    forum_slug.gsub! /-{2,}/, '-'
+
+    forum_slug = 'default-forum' if forum_slug.empty? or forum_slug.length < 3
+    forum_slug = forum_slug[0..19] if forum_slug.length > 20
+  end
 
   the_date = Time.at(x_thread.find_first('./Message/Header/Date')['longSec'].force_encoding('utf-8').to_i)
   subject = x_thread.find_first('./Message/Header/Subject').content.force_encoding('utf-8')
 
   the_date = DateTime.parse("1970-01-01 00:00:00").to_time if the_date.blank?
 
-  forum = CfForum.find_by_slug(forum_slug)
-  unless forum
-    forum = CfForum.create!(
-      name: forum_name,
-      short_name: forum_name,
-      slug: forum_slug,
-      created_at: the_date,
-      updated_at: the_date,
-      :public => true
-    )
+  if ARGV[1] == 'forums'
+    forum = CfForum.find_by_slug(forum_slug)
+    unless forum
+      forum = CfForum.create!(
+        name: forum_name,
+        short_name: forum_name,
+        slug: forum_slug,
+        created_at: the_date,
+        updated_at: the_date,
+        :public => true
+      )
+    end
+  else
+    forum = $forum
   end
 
   thread = CfThread.create!(
@@ -134,6 +152,16 @@ def handle_doc(doc, opts = {})
     created_at: the_date,
     updated_at: the_date
   )
+
+  if ARGV[1] != 'forums' and not forum_name.blank?
+    t = CfTag.find_by_tag_name forum_name
+    t = CfTag.create!(:tag_name => forum_name) if t.blank?
+
+    CfTagThread.create!(
+      tag_id: t.tag_id,
+      thread_id: thread.thread_id
+    )
+  end
 
   msg = nil
   x_thread.find('./Message').each do |m|

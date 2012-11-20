@@ -7,6 +7,9 @@ class CfThread < ActiveRecord::Base
   belongs_to :forum, class_name: 'CfForum', :foreign_key => :forum_id
   has_many :messages, class_name: 'CfMessage', :foreign_key => :thread_id
 
+  has_many :tags_threads, class_name: 'CfTagThread', :foreign_key => :thread_id
+  has_many :tags, class_name: 'CfTag', :through => :tags_threads
+
   attr_accessible :thread_id, :tid, :slug, :forum_id, :archived, :created_at, :updated_at
 
   def find_message(mid)
