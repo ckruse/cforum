@@ -198,7 +198,7 @@ module ParserHelper
     plugin_dir = Rails.root + 'lib/plugins/syntax'
     Dir.open(plugin_dir).each do |p|
       next unless File.file?(plugin_dir + p)
-      eval(IO.read(Rails.root + 'lib/plugins/syntax/' + p))
+      load Rails.root + 'lib/plugins/syntax/' + p
     end
   end
 end
