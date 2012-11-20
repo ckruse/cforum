@@ -1,3 +1,10 @@
+<article class="message">
+<% if @parent and not @preview %>
+  <div class="posting-content well">
+    <%= message_to_html(@parent.content) %>
+  </div>
+<% end %>
+
 <%= form_for @message, :url => cf_message_path(@thread, @parent), html: {:class => 'form-horizontal'} do |f| %>
   <% if @message.errors.any? %>
     <div id="error_explanation" class="alert alert-error">
@@ -18,3 +25,5 @@
     <%= link_to t('views.cancel'), @parent ? cf_message_path(@thread, @parent) : cf_forum_path(current_forum), :class => 'btn' %>
   </p>
 <% end %>
+
+</article>
