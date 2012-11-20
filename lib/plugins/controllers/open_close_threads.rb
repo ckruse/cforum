@@ -58,7 +58,7 @@ class OpenCloseThreadPlugin < Plugin
       )
 
       if rslt.ntuples == 0
-        if uconf('open_close_default', 'open') != state
+        if uconf('open_close_default', 'open') != state || uconf('open_close_close_when_read', 'no') == 'yes'
           CfThread.connection.execute("INSERT INTO cforum.opened_closed_threads (user_id, thread_id, state) VALUES (" +
             current_user.user_id.to_s +
             ", " +
