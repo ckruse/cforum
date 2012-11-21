@@ -173,14 +173,14 @@ module ParserHelper
   end
 
   def quote_content(msg, quote_char)
-    msg = quote_char + message_to_txt(msg).gsub(/\n/, "\n" + quote_char)
+    msg = message_to_txt(msg)
 
     if uconf('quote_signature', 'no') != 'yes'
       sig_pos = msg.rindex("\n-- \n")
       msg = msg[0..(sig_pos-1)] unless sig_pos.nil?
     end
 
-    msg
+    quote_char + msg.gsub(/\n/, "\n" + quote_char)
   end
 
   def content_to_internal(msg, quote_char)
