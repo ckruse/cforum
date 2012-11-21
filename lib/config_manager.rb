@@ -5,10 +5,23 @@
 # therefor we use some manual timeout.
 
 class ConfigManager
+  def initialize
+    @value_cache = {:users => {}, :forums => {}, :global => nil}
+  end
 
-  @@value_cache = {}
+  def read_settings(user = nil, forum = nil)
+    if not user.blank? and @value_cache[:users][user].blank?
+      @value_cache[:users][user] = CfSetting.find_by_user_id(user)
+    end
 
-  def self.setting(user = nil, forum = nil)
+    if not forum.blank? and @value_cache[:forums][forum].blank?
+      @value_cache[:forums][forum] = CfSetting.find_by_forum_id(forum)
+    end
+
+    @value_cache[:global] = CfSetting.where('user_id IS NULL and forum_id IS NULL').first
+  end
+
+  def get(name, default = nil, user = nil, forum = nil)
     unless user.blank?
       user = CfUser.find_by_username(user.to_s) if not user.is_a?(CfUser) and not user.is_a?(Integer)
       user = user.user_id if user.is_a?(CfUser)
@@ -19,55 +32,18 @@ class ConfigManager
       forum = forum.forum_id if forum.is_a?(CfForum)
     end
 
+    read_settings(user, forum)
 
-    # settings hierarchy:
-    # - first, check if settings entry with user_id = user and forum_id = forum exists if forum is not empty
-    # - second, check if settings entry with user_id = user exists
-    # - third, check if settings entry with forum_id = forum exists if forum is not empty
-    # - fourth, check if settings entry with forum_id = nil and user_id = nil exists (aka global config object)
-    # - return default value if nothing helps
-
-    settings = CfSetting.
-      where('(user_id = ? OR user_id IS NULL) AND (forum_id = ? OR forum_id IS NULL)', user, forum).
-      order('user_id, forum_id').
-      limit(1).
-      first
-
-    return {} if settings.blank?
-    settings.options
-  end
-
-  def self.get(name, default = nil, user = nil, forum = nil)
-    settings = setting(user, forum)
-    if settings.has_key?(name)
-      return settings[name].nil? ? default : settings[name]
+    if not @value_cache[:users][user].blank? and @value_cache[:users][user].settings.has_key?(name)
+      return @value_cache[:users][user].settings[name].nil? ? default : @value_cache[:users][user].settings[name]
     end
 
-    # if user is nil we had this case in the above statements
-    if user
-      settings = setting(user)
-
-      if settings.has_key?(name)
-        return settings[name].nil? ? default : settings[name]
-      end
+    if not @value_cache[:forums][forum].blank? and @value_cache[:forums][forum].settings.has_key?(name)
+      return @value_cache[:forums][forum].settings[name].nil? ? default : @value_cache[:forums][forum].settings[name]
     end
 
-    # if forum is nil we covered this case in the above statements
-    if forum
-      settings = setting(nil, forum)
-
-      if settings.has_key?(name)
-        return settings[name].nil? ? default : settings[name]
-      end
-    end
-
-    # if one of them is set, we covered this case in the above statements
-    if user or forum
-      settings = setting()
-
-      if settings.has_key?(name)
-        return settings[name].nil? ? default : settings[name]
-      end
+    if @value_cache[:global] and @value_cache[:global].settings.has_key?(name)
+      return @value_cache[:global].settings[name].nil? ? default : @value_cache[:global].settings[name]
     end
 
     default

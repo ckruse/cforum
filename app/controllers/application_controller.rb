@@ -78,18 +78,20 @@ class ApplicationController < ActionController::Base
 
   def initialize(*args)
     @notification_center = NotificationCenter.new
+    @config_manager      = ConfigManager.new
+
     load_and_init_plugins
     super(*args)
   end
 
   helper_method :uconf
   def uconf(name, default = nil)
-    ConfigManager.get(name, default, current_user, current_forum)
+    @config_manager.get(name, default, current_user, current_forum)
   end
 
   helper_method :conf
   def conf(name, default = nil)
-    ConfigManager.get(name, default, nil, nil)
+    @config_manager.get(name, default, nil, nil)
   end
 
   def check_forum_access
