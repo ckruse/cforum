@@ -34,16 +34,16 @@ class ConfigManager
 
     read_settings(user, forum)
 
-    if not @value_cache[:users][user].blank? and @value_cache[:users][user].settings.has_key?(name)
-      return @value_cache[:users][user].settings[name].nil? ? default : @value_cache[:users][user].settings[name]
+    if not @value_cache[:users][user].blank? and @value_cache[:users][user].options.has_key?(name)
+      return @value_cache[:users][user].options[name].nil? ? default : @value_cache[:users][user].options[name]
     end
 
-    if not @value_cache[:forums][forum].blank? and @value_cache[:forums][forum].settings.has_key?(name)
-      return @value_cache[:forums][forum].settings[name].nil? ? default : @value_cache[:forums][forum].settings[name]
+    if not @value_cache[:forums][forum].blank? and @value_cache[:forums][forum].options.has_key?(name)
+      return @value_cache[:forums][forum].options[name].nil? ? default : @value_cache[:forums][forum].options[name]
     end
 
-    if @value_cache[:global] and @value_cache[:global].settings.has_key?(name)
-      return @value_cache[:global].settings[name].nil? ? default : @value_cache[:global].settings[name]
+    if @value_cache[:global] and @value_cache[:global].options.has_key?(name)
+      return @value_cache[:global].options[name].nil? ? default : @value_cache[:global].options[name]
     end
 
     default
