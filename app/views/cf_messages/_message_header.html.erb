@@ -43,7 +43,24 @@
     end
 
     html << %q{</time>
-    </summary>
+    </summary>}
+
+    if first and not thread.tags.blank?
+      html << %q{
+
+    <p class="tags">}
+
+      tag_links = []
+      thread.tags.each do |t|
+        tag_links << "<a href=\"\">" + encode_entities(t.tag_name) + "</a>"
+      end
+
+      html << tag_links.join(", ")
+
+      html << "</p>"
+    end
+
+    html << %q{
   </details>
 </header>}
 

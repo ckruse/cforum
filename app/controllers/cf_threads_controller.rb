@@ -53,7 +53,7 @@ class CfThreadsController < ApplicationController
     end
 
     @threads = CfThread.
-      preload(:forum).
+      preload(:forum, :tags).
       includes(:messages => :owner).
       where(conditions).
       where(thread_id: ids).
