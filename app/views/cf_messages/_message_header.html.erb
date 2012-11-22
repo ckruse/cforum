@@ -7,7 +7,7 @@
     html << ' class="' + classes.join(" ") + '"' unless classes.blank?
     html << ">\n"
 
-    if first and current_user
+    if first and current_user and controller_path == 'cf_threads'
       html << '  <a class="icon icon-'
       if thread.attribs['open_state'] == 'closed'
         html << 'folder-close" href="' + cf_forum_path(current_forum || 'all', :open => thread.thread_id)
