@@ -26,6 +26,7 @@ body[data-controller="messages"][data-action="new"] {
 .posting-content {
   font-family: 'Sourcecode Pro', 'Courier New', monospace;
   color: #0000C0;
+  max-width:1300px;
 
   .q {
     color: #333;
