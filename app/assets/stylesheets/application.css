@@ -23,4 +23,8 @@ summary::-webkit-details-marker {
   cursor:pointer;
 }
 
+input:-moz-placeholder {
+  color: #999;
+}
+
 /* eof */
