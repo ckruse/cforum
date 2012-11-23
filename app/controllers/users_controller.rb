@@ -16,6 +16,11 @@ class UsersController < ApplicationController
       @all_users_count = CfUser.where('LOWER(username) LIKE ?', params[:s].strip + '%').count()
       @search_term = params[:s]
     end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @users }
+    end
   end
 
   def show
