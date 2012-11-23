@@ -31,6 +31,11 @@
     <% if @own_js %><style>
     <%= @own_js %>
     </style><% end %>
+
+    <script>
+      cforum.currentUser = <%= current_user.to_json.html_safe %>;
+      cforum.baseUrl = <%= root_url.to_json.html_safe %>;
+    </script>
   </head>
 
   <body data-controller="<%= controller_path %>" data-action="<%= action_name %>"<%= " id='#{yield(:body_id)}'" if content_for? :body_id %>>
