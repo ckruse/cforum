@@ -127,12 +127,10 @@ disabled = ' disabled="disabled"' if ro
 <fieldset class="tab-pane" id="readability">
   <legend>Lesbarkeit/Übersicht</legend>
 
-  <!-- div class="control-group">
+  <div class="control-group">
     <label class="control-label" for="settings_highlighted_users"><%= t('views.highlighted_users') %></label>
     <div class="controls">
       <input type="text" value="<%= @user.conf('highlighted_users') %>" name="settings[highlighted_users]" id="settings_highlighted_users"<%= disabled %>> (Komma-separierte Liste)
     </div>
-  </div -->
-  <%= render 'widgets/users_selector', users: @user.conf('highlighted_users'), name: 'settings[highlighted_users]', id: 'settings_highlighted_users' %>
+  </div>
 </fieldset>
-
