@@ -1,5 +1,5 @@
 <%
-def message_tree(thread, messages)
+def message_tree(thread, messages, prev_deleted = false)
   html = "<ol>\n"
   messages.each do |message|
     classes = []
@@ -9,8 +9,8 @@ def message_tree(thread, messages)
     html << "<li"
     html << " class=\"" + classes.join(" ") + "\"" unless classes.blank?
     html << ">"
-    html << message_header(thread, message)
-    html << message_tree(thread, message.messages) unless message.messages.blank?
+    html << message_header(thread, message, false, prev_deleted)
+    html << message_tree(thread, message.messages, message.deleted?) unless message.messages.blank?
     html << "</li>"
   end
 
