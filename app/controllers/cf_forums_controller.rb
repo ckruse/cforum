@@ -35,10 +35,27 @@ class CfForumsController < ApplicationController
       @counts[r['group_crit'].to_i][r['table_name'].to_sym] = r['diff']
     end
 
-    results = CfForum.select("forum_id, (SELECT updated_at FROM cforum.messages WHERE cforum.messages.forum_id = cforum.forums.forum_id AND deleted = false ORDER BY updated_at DESC LIMIT 1) AS updated_at")
+    msgs = CfMessage.includes(:owner, :thread => :forum).where("
+      messages.message_id IN (
+        SELECT (
+          SELECT
+            message_id
+          FROM
+            cforum.messages
+          WHERE
+              cforum.messages.forum_id = cforum.forums.forum_id
+            AND
+              deleted = false
+          ORDER BY
+            updated_at DESC
+          LIMIT 1
+        )
+        FROM cforum.forums
+      )").all
+
     @activities = {}
-    results.each do |row|
-      @activities[row.forum_id] = row.updated_at
+    msgs.each do |msg|
+      @activities[msg.forum_id] = msg
     end
 
     notification_center.notify(SHOW_FORUMLIST, @threads, false)

@@ -15,7 +15,14 @@
       <td><%= link_to forum.name, forum %></td>
       <td><%= @counts[forum.forum_id][:threads] %></td>
       <td><%= @counts[forum.forum_id][:messages] %></td>
-      <td><%= @activities[forum.forum_id] ? l(@activities[forum.forum_id]) : ('<em>(' + t("views.never") + ')</em>').html_safe %></td>
+      <td><%
+        if @activities[forum.forum_id]
+          msg = @activities[forum.forum_id] %>
+          <%= l(msg.updated_at) %> von <%= msg.user_id ? link_to(msg.author, user_path(msg.owner)) : msg.author %>: <%= link_to msg.subject, cf_message_path(msg.thread, msg) %>
+        <% else %>
+          <em>(<%= t("views.never") %></em>
+        <% end %>
+      </td>
     </tr>
     <% end %>
   </tbody>
