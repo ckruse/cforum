@@ -4,7 +4,7 @@ users ||= []
 id ||= name
 
 %><div class="users-selector">
-  <div class="users" data-name="<%= name %>">
+  <div class="users" data-name="<%= name %>" data-id="<%= id %>">
     <% users.each do |u| %>
     <label class="checkbox">
       <input type="checkbox" checked="checked" value="<%= u.user_id %>" name="<%= name %>" id="<%= id %>_<%= u.user_id %>"<% if disabled %> disabled="disabled"<% end %>>
@@ -39,4 +39,3 @@ id ||= name
   </div>
 
 </div>
-

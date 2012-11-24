@@ -75,7 +75,7 @@ cforum.common.usersSelector.select = function(event) {
     $sel.append(
       Mustache.render(
         cforum.common.usersSelector.views.userLine,
-        {user: {user_id: $this.attr("data-user-id"), username: $this.attr("data-username")}, name: $this.attr("data-name"), id: $this.attr("data-id")}
+        {user: {user_id: $this.attr("data-user-id"), username: $this.attr("data-username")}, name: $sel.attr("data-name"), id: $sel.attr("data-id")}
       )
     );
   });
