@@ -126,15 +126,17 @@ $$;
 CREATE FUNCTION count_messages_update_trigger() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
+DECLARE
+  is_del_thread BOOLEAN;
 BEGIN
-  IF OLD.deleted = false AND new.deleted = true THEN
+  IF OLD.deleted = false AND NEW.deleted = true THEN
     INSERT INTO
       cforum.counter_table (table_name, difference, group_crit)
     VALUES
       ('messages', -1, NEW.forum_id);
   END IF;
 
-  IF OLD.deleted = true AND new.deleted = false THEN
+  IF OLD.deleted = true AND NEW.deleted = false THEN
     INSERT INTO
       cforum.counter_table (table_name, difference, group_crit)
     VALUES
@@ -151,6 +153,13 @@ BEGIN
       cforum.counter_table (table_name, difference, group_crit)
     VALUES
       ('messages', +1, NEW.forum_id);
+  END IF;
+
+  SELECT EXISTS(SELECT message_id FROM cforum.messages WHERE thread_id = NEW.thread_id AND deleted = false) INTO is_del_thread;
+  IF is_del_thread THEN
+    UPDATE cforum.threads SET deleted = false WHERE thread_id = NEW.thread_id;
+  ELSE
+    UPDATE cforum.threads SET deleted = true WHERE thread_id = NEW.thread_id;
   END IF;
 
   RETURN NULL;
@@ -240,6 +249,20 @@ CREATE FUNCTION count_threads_update_trigger() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
+  IF OLD.deleted = false AND NEW.deleted = true THEN
+    INSERT INTO
+      cforum.counter_table (table_name, difference, group_crit)
+    VALUES
+      ('threads', -1, NEW.forum_id);
+  END IF;
+
+  IF OLD.deleted = true AND NEW.deleted = false THEN
+    INSERT INTO
+      cforum.counter_table (table_name, difference, group_crit)
+    VALUES
+      ('threads', +1, NEW.forum_id);
+  END IF;
+
   IF OLD.forum_id != NEW.forum_id THEN
     INSERT INTO
       cforum.counter_table (table_name, difference, group_crit)
@@ -652,7 +675,8 @@ CREATE TABLE threads (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tid bigint,
-    message_id bigint
+    message_id bigint,
+    deleted boolean DEFAULT false NOT NULL
 );
 
 
@@ -1307,6 +1331,8 @@ INSERT INTO schema_migrations (version) VALUES ('13');
 INSERT INTO schema_migrations (version) VALUES ('14');
 
 INSERT INTO schema_migrations (version) VALUES ('15');
+
+INSERT INTO schema_migrations (version) VALUES ('16');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 
