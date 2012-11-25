@@ -42,8 +42,8 @@ class ApplicationController < ActionController::Base
 
       plugin_dir = Rails.root + 'lib/plugins/controllers'
       Dir.open(plugin_dir).each do |p|
-        next if p[0] == '.' or not File.file?(plugin_dir + p)
-        load plugin_dir + p
+        next if p[0] == '.' or not File.directory?(plugin_dir + p)
+        load plugin_dir + p + "#{p}.rb"
       end
 
       read_syntax_plugins
@@ -72,6 +72,16 @@ class ApplicationController < ActionController::Base
     instance_variable_get('@' + name)
   end
 
+  def mod_view_paths
+    paths = [Rails.root + "lib/plugins/controllers/"]
+
+    rest = view_paths[0..-1]
+    paths += rest if rest
+
+    ActionMailer::Base.prepend_view_path(Rails.root + "lib/plugins/controllers/")
+    lookup_context.view_paths = view_paths = ActionView::PathSet.new(paths)
+  end
+
   #
   # normal stuff
   #
@@ -80,7 +90,9 @@ class ApplicationController < ActionController::Base
     @notification_center = NotificationCenter.new
     @config_manager      = ConfigManager.new
 
+    mod_view_paths
     load_and_init_plugins
+
     super(*args)
   end
 
