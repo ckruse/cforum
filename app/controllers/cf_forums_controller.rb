@@ -47,7 +47,7 @@ class CfForumsController < ApplicationController
             AND
               deleted = false
           ORDER BY
-            updated_at DESC
+            created_at DESC
           LIMIT 1
         )
         FROM cforum.forums

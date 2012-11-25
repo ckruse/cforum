@@ -887,10 +887,10 @@ CREATE UNIQUE INDEX forums_slug_idx ON forums USING btree (slug);
 
 
 --
--- Name: messages_forum_id_updated_at_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages_forum_id_created_at_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE INDEX messages_forum_id_updated_at_idx ON messages USING btree (forum_id, updated_at);
+CREATE INDEX messages_forum_id_created_at_idx ON messages USING btree (forum_id, created_at);
 
 
 --
@@ -1259,6 +1259,8 @@ INSERT INTO schema_migrations (version) VALUES ('11');
 INSERT INTO schema_migrations (version) VALUES ('12');
 
 INSERT INTO schema_migrations (version) VALUES ('13');
+
+INSERT INTO schema_migrations (version) VALUES ('14');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 
