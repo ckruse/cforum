@@ -126,8 +126,10 @@ class CfThreadsController < ApplicationController
 
     notification_center.notify(NEW_THREAD, @thread, @message)
 
+    @preview = true if params[:preview]
+
     respond_to do |format|
-      if @thread.save
+      if not @preview and @thread.save
         notification_center.notify(NEW_THREAD_SAVED, @thread, @message)
 
         format.html { redirect_to cf_message_url(@thread, @message), notice: I18n.t("threads.created") }

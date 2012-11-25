@@ -1,3 +1,18 @@
 <h2><%= t "views.new_thread" %></h2>
 
+<article class="message">
+<% if @parent and not @preview %>
+  <div class="posting-content well">
+    <%= message_to_html(@parent.content) %>
+  </div>
+<% elsif @preview %>
+  <div class="posting-content well">
+    <%= message_to_html(@message.content) %>
+  </div>
+<%
+  @message.content = message_to_txt(@message.content)
+end %>
+
 <%= render 'form' %>
+
+</article>
