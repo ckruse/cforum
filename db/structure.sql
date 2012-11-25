@@ -141,6 +141,18 @@ BEGIN
       ('messages', +1, NEW.forum_id);
   END IF;
 
+  IF OLD.forum_id != NEW.forum_id THEN
+    INSERT INTO
+      cforum.counter_table (table_name, difference, group_crit)
+    VALUES
+      ('messages', -1, OLD.forum_id);
+
+    INSERT INTO
+      cforum.counter_table (table_name, difference, group_crit)
+    VALUES
+      ('messages', +1, NEW.forum_id);
+  END IF;
+
   RETURN NULL;
 END;
 $$;
@@ -214,6 +226,31 @@ BEGIN
 
   INSERT INTO cforum.counter_table (table_name, difference, group_crit)
     SELECT 'threads', 0, forum_id FROM cforum.forums;
+
+  RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: count_threads_update_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION count_threads_update_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  IF OLD.forum_id != NEW.forum_id THEN
+    INSERT INTO
+      cforum.counter_table (table_name, difference, group_crit)
+    VALUES
+      ('threads', -1, OLD.forum_id);
+
+    INSERT INTO
+      cforum.counter_table (table_name, difference, group_crit)
+    VALUES
+      ('threads', +1, NEW.forum_id);
+  END IF;
 
   RETURN NULL;
 END;
@@ -1115,6 +1152,13 @@ CREATE TRIGGER threads__count_truncate_trigger AFTER TRUNCATE ON threads FOR EAC
 
 
 --
+-- Name: threads__count_update_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER threads__count_update_trigger AFTER UPDATE ON threads FOR EACH ROW EXECUTE PROCEDURE count_threads_update_trigger();
+
+
+--
 -- Name: forum_permissions_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -1261,6 +1305,8 @@ INSERT INTO schema_migrations (version) VALUES ('12');
 INSERT INTO schema_migrations (version) VALUES ('13');
 
 INSERT INTO schema_migrations (version) VALUES ('14');
+
+INSERT INTO schema_migrations (version) VALUES ('15');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 
