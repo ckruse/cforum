@@ -32,6 +32,10 @@ module CForum
       cf_thread_path(thread) + '/edit' + query_string(args)
     end
 
+    def move_cf_thread_path(thread, args = {})
+      cf_thread_path(thread) + "/move" + query_string(args)
+    end
+
     def cf_message_path(thread, message, args = {})
       cf_thread_path(thread) + "/" + message.id.to_s + query_string(args)
     end

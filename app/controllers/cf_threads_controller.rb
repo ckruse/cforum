@@ -144,6 +144,49 @@ class CfThreadsController < ApplicationController
   def destroy
   end
 
+  def moving
+    @id     = CfThread.make_id(params)
+    @thread = CfThread.includes(:forum).find_by_slug!(@id)
+
+    @thread.gen_tree
+    @thread.sort_tree
+
+    if current_user.admin
+      @forums = CfForum.order('name ASC').find :all
+    else
+      @forums = CfForum.where("public = true OR forum_id IN (SELECT forum_id FROM cforum.forum_permissions WHERE user_id = ?)", current_user.user_id).order('name ASC')
+    end
+  end
+
+  def move
+    moving
+
+    @move_to = CfForum.find params[:move_to]
+    raise CForum::ForbiddenException unless @forums.include?(@move_to)
+
+    saved = false
+
+    CfThread.transaction do
+      @thread.forum_id = @move_to.forum_id
+      @thread.save
+
+      @thread.messages.each do |m|
+        m.forum_id = @move_to.forum_id
+        m.save
+      end
+
+      saved = true
+    end
+
+    respond_to do |format|
+      if saved
+        format.html { redirect_to cf_message_url(@thread, @thread.message) }
+      else
+        format.html { render :moving }
+      end
+    end
+  end
+
   include AuthorizeForum
 end
 
