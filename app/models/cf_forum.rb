@@ -11,9 +11,9 @@ class CfForum < ActiveRecord::Base
 
   attr_accessible :forum_id, :slug, :name, :short_name, :description, :updated_at, :created_at, :public
 
-  validates :slug, presence: true, uniqueness: true, length: {:in => 3..20}, allow_blank: false, format: {with: /^[a-z0-9_-]+$/}
-  validates :name, presence: true, length: {:minimum => 3}, allow_blank: false
-  validates :short_name, presence: true, length: {:in => 3..50}
+  validates :slug, uniqueness: true, length: {:in => 1..20}, allow_blank: false, format: {with: /^[a-z0-9_-]+$/}
+  validates :name, length: {:minimum => 3}, allow_blank: false
+  validates :short_name, length: {:in => 1..50}
 
   def to_param
     slug
