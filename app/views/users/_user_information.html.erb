@@ -1,3 +1,14 @@
+  <% if @user.errors.any? %>
+    <div id="error_explanation" class="alert alert-error">
+      <h4><%= t('messages.error_message', :errors_count => pluralize(@user.errors.count, t("views.error"), t('views.errors'))) %></h4>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <fieldset class="tab-pane active" id="user-data">
     <legend><%= t('views.user_information') %></legend>

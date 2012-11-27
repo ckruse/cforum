@@ -47,7 +47,7 @@ class UsersController < ApplicationController
 
     saved = false
     CfUser.transaction do
-      if @user.update_attributes!(attrs)
+      if @user.update_attributes(attrs)
         @settings = @user.settings
         @settings = CfSetting.new if @settings.blank?
 
