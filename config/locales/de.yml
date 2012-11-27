@@ -104,6 +104,7 @@ de:
     own_css: Eigenes Inline-CSS
     highlighted_users: Hervorgehobene Benutzer
     preview: Vorschau
+    confirm_first: Sie müssen Ihren Benutzer-Account erst verifizieren!
 
   permissions:
     read: Lesen

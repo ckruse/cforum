@@ -111,7 +111,8 @@ en:
     personal_information: Personal Information
     settings: Settings
     user_information: User Information
-    preview: Vorschau
+    preview: Preview
+    confirm_first: You have to confirm your registration first!
 
   permissions:
     read: Read
