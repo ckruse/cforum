@@ -610,7 +610,8 @@ ALTER SEQUENCE settings_setting_id_seq OWNED BY settings.setting_id;
 
 CREATE TABLE tags (
     tag_id bigint NOT NULL,
-    tag_name character varying(250) NOT NULL
+    tag_name character varying(250) NOT NULL,
+    forum_id bigint NOT NULL
 );
 
 
@@ -1018,10 +1019,10 @@ CREATE INDEX settings_user_id_idx ON settings USING btree (user_id);
 
 
 --
--- Name: tags_tag_name_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: tags_forum_id_tag_name_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX tags_tag_name_idx ON tags USING btree (tag_name);
+CREATE UNIQUE INDEX tags_forum_id_tag_name_idx ON tags USING btree (forum_id, tag_name);
 
 
 --
@@ -1279,6 +1280,14 @@ ALTER TABLE ONLY settings
 
 
 --
+-- Name: tags_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY tags
+    ADD CONSTRAINT tags_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: tags_threads_tag_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -1333,6 +1342,8 @@ INSERT INTO schema_migrations (version) VALUES ('14');
 INSERT INTO schema_migrations (version) VALUES ('15');
 
 INSERT INTO schema_migrations (version) VALUES ('16');
+
+INSERT INTO schema_migrations (version) VALUES ('17');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 

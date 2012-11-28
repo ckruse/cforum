@@ -154,8 +154,8 @@ def handle_doc(doc, opts = {})
   )
 
   if ARGV[1] != 'forums' and not forum_name.blank?
-    t = CfTag.find_by_tag_name forum_name
-    t = CfTag.create!(:tag_name => forum_name) if t.blank?
+    t = CfTag.find_by_forum_id_and_tag_name forum.forum_id, forum_name
+    t = CfTag.create!(:tag_name => forum_name, forum_id: forum.forum_id) if t.blank?
 
     CfTagThread.create!(
       tag_id: t.tag_id,

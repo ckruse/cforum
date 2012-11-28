@@ -4,10 +4,11 @@ class CfTag < ActiveRecord::Base
   self.primary_key = 'tag_id'
   self.table_name  = 'cforum.tags'
 
-  has_many :tags_forums
-  has_many :forums, class_name: 'CfForum', :through => :tags_forums
+  has_many :tags_threads
+  has_many :threads, class_name: 'CfThread', :through => :tags_threads
+  belongs_to :forum, class_name: 'CfForum'
 
-  attr_accessible :tag_id, :tag_name
+  attr_accessible :tag_id, :tag_name, :forum_id
 end
 
 # eof
