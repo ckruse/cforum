@@ -63,8 +63,6 @@ class CfMessagesController < ApplicationController
 
     @preview = true if params[:preview]
 
-    @thread.messages.push @message
-
     if not @preview
       saved = false
 
