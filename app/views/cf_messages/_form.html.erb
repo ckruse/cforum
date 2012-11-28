@@ -1,27 +1,27 @@
 <fieldset>
   <div class="control-group">
     <%= f.label :subject, :class => 'control-label' %>
-    <div class="controls"><%= f.text_field :subject, :placeholder => 'Subject' %></div>
+    <div class="controls"><%= f.text_field :subject, :placeholder => 'Subject', maxlength: 250 %></div>
   </div>
 
   <div class="control-group">
     <%= f.label :author, :class => 'control-label' %>
-    <div class="controls"><%= f.text_field :author, :placeholder => 'Author' %></div>
+    <div class="controls"><%= f.text_field :author, :placeholder => 'Author', maxlength: 60 %></div>
   </div>
 
   <div class="control-group">
     <%= f.label :email, :class => 'control-label' %>
-    <div class="controls"><%= f.email_field :email, :placeholder => 'e mail' %></div>
+    <div class="controls"><%= f.email_field :email, :placeholder => 'e mail', maxlength: 60 %></div>
   </div>
 
   <div class="control-group">
     <%= f.label :homepage, :class => 'control-label' %>
-    <div class="controls"><%= f.text_field :homepage, :placeholder => 'Homepage' %></div>
+    <div class="controls"><%= f.text_field :homepage, :placeholder => 'Homepage', maxlength: 250 %></div>
   </div>
 </fieldset>
 
 <fieldset>
   <div class="control-group">
-    <%= f.text_area :content, :class => 'span5' %>
+    <%= f.text_area :content, :class => 'span5', maxlength: 12288 %>
   </div>
 </fieldset>
