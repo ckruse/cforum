@@ -33,7 +33,7 @@
     </style><% end %>
 
     <script>
-      cforum.currentUser = <%= current_user.to_json.html_safe %>;
+      <% if current_user %>cforum.currentUser = <%= current_user.to_json.html_safe %>;<% end %>
       cforum.baseUrl = <%= root_url.to_json.html_safe %>;
     </script>
   </head>
