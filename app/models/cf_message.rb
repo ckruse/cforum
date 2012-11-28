@@ -18,7 +18,7 @@ class CfMessage < ActiveRecord::Base
   attr_accessor :messages, :attribs
 
   validates :author, length: { :in => 2..60 }
-  validates :subject, length: { :in => 4..64 }
+  validates :subject, length: { :in => 4..250 }
   validates :content, length: { :in => 10..12288 }
 
   validates :email, email: true
