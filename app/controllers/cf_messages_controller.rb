@@ -63,17 +63,19 @@ class CfMessagesController < ApplicationController
 
     @preview = true if params[:preview]
 
+    @thread.messages.push @message
+
     if not @preview
       saved = false
 
       CfThread.transaction do
-        saved = @thread.save!
-        @thread.messages.push @message
+        saved = @message.save
       end
 
       if saved
         redirect_to cf_message_path(@thread, @message), :notice => I18n.t('messages.created')
       else
+        @message.content = message_to_txt(@message.content)
         render :new
       end
     else

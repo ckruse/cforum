@@ -58,7 +58,7 @@
 
         <div id="alerts-container">
         <% flash.each do |name,msg|
-          next unless msg.is_a?(String) # needed because there seem to be messages like „true“ %>
+          next if not msg.is_a?(String) or name == :timedout # needed because there seem to be messages like „true“ %>
           <div class="alert alert-<%= name == :notice ? "success" : "error" %> fade in">
             <button type="button" class="close" data-dismiss="alert">×</button>
             <%= msg %>

@@ -26,12 +26,21 @@ class UsersController < ApplicationController
   def show
     @user = CfUser.find_by_username!(params[:id])
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
+
+    if @user.confirmed_at.blank? or not @user.unconfirmed_email.blank?
+      flash[:error] = I18n.t('views.confirm_first')
+    end
   end
 
   def edit
     raise CForum::ForbiddenException.new if current_user.blank? or params[:id] != current_user.username
-
     @user = CfUser.find_by_username!(params[:id])
+
+    if @user.confirmed_at.blank? or not @user.unconfirmed_email.blank?
+      redirect_to user_url(@user), flash: {error: I18n.t('views.confirm_first')}
+      return
+    end
+
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
   end
 
@@ -47,7 +56,7 @@ class UsersController < ApplicationController
 
     saved = false
     CfUser.transaction do
-      if @user.update_attributes!(attrs)
+      if @user.update_attributes(attrs)
         @settings = @user.settings
         @settings = CfSetting.new if @settings.blank?
 

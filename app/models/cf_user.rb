@@ -10,14 +10,11 @@ class CfUser < ActiveRecord::Base
   self.primary_key = 'user_id'
   self.table_name  = 'cforum.users'
 
-  validates_confirmation_of :password
+
   validates_presence_of :password, :on => :create
-
-  validates_presence_of :username, :email
-  validates_uniqueness_of :username, :email
-
-  validates_confirmation_of :password, :if => :password
-  validates_length_of :password, :minimum => 3, :if => :password, :allow_blank => true
+  validates :password, length: {:minimum => 3}, confirmation: true, :if => :password, allow_blank: true
+  validates :username, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true, email: true
 
   attr_accessible :username, :email, :password, :password_confirmation,
     :admin, :active, :created_at,

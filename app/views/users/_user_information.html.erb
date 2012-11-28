@@ -1,3 +1,14 @@
+  <% if @user.errors.any? %>
+    <div id="error_explanation" class="alert alert-error">
+      <h4><%= t('messages.error_message', :errors_count => pluralize(@user.errors.count, t("views.error"), t('views.errors'))) %></h4>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <fieldset class="tab-pane active" id="user-data">
     <legend><%= t('views.user_information') %></legend>
@@ -14,12 +25,12 @@
 
     <div class="control-group">
       <%= f.label :password, :class => 'control-label' %>
-      <div class="controls"><%= f.password_field :password %></div>
+      <div class="controls"><%= f.password_field :password, autocomplete: 'off' %></div>
     </div>
 
     <div class="control-group">
       <%= f.label :password_confirmation, :class => 'control-label' %>
-      <div class="controls"><%= f.password_field :password_confirmation %></div>
+      <div class="controls"><%= f.password_field :password_confirmation, autocomplete: 'off' %></div>
     </div>
 
   </fieldset>
