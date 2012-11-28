@@ -58,6 +58,7 @@ class CfMessagesController < ApplicationController
     @message.parent_id = @parent.message_id
     @message.forum_id  = current_forum.forum_id
     @message.user_id   = current_user.user_id unless current_user.blank?
+    @message.thread_id = @thread.thread_id
 
     @message.content   = content_to_internal(@message.content, uconf('quote_char', '> '))
 
