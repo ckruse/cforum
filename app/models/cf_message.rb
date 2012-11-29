@@ -21,8 +21,8 @@ class CfMessage < ActiveRecord::Base
   validates :subject, length: { :in => 4..250 }
   validates :content, length: { :in => 10..12288 }
 
-  validates :email, length: {:in => 2..60 }, email: true
-  validates :homepage, length: {:in => 2..250 }
+  validates :email, length: {:in => 2..60 }, email: true, allow_blank: true
+  validates :homepage, length: {:in => 2..250 }, allow_blank: true
 
   after_initialize do
     self.flags ||= {} if attributes.has_key? 'flags'
