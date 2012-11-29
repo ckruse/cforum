@@ -16,9 +16,6 @@ class CfMessagesController < ApplicationController
     @thread = CfThread.includes(:messages => :owner).where(conditions).first
     raise CForum::NotFoundException.new if @thread.blank?
 
-    @thread.gen_tree
-    @thread.sort_tree
-
     @message = @thread.find_message(params[:mid].to_i) if @thread
     raise CForum::NotFoundException.new if @thread.nil? or @message.nil?
 
@@ -27,9 +24,7 @@ class CfMessagesController < ApplicationController
 
   def new
     @id = CfThread.make_id(params)
-    @thread = CfThread.find_by_slug!(@id)
-    @thread.gen_tree
-    @thread.sort_tree
+    @thread = CfThread.includes(:messages).find_by_slug!(@id)
 
     @parent = @thread.find_message(params[:mid].to_i) if @thread
 
@@ -46,9 +41,7 @@ class CfMessagesController < ApplicationController
 
   def create
     @id = CfThread.make_id(params)
-    @thread = CfThread.find_by_slug!(@id)
-    @thread.gen_tree
-    @thread.sort_tree
+    @thread = CfThread.includes(:messages).find_by_slug!(@id)
 
     @parent = @thread.find_message(params[:mid].to_i) if @thread
 
@@ -84,10 +77,7 @@ class CfMessagesController < ApplicationController
 
   def destroy
     @id     = CfThread.make_id(params)
-    @thread = CfThread.includes(:forum).find_by_slug!(@id)
-
-    @thread.gen_tree
-    @thread.sort_tree
+    @thread = CfThread.includes(:messages, :forum).find_by_slug!(@id)
 
     @message = @thread.find_message(params[:mid].to_i) if @thread
     raise CForum::NotFoundException.new if @message.blank?
@@ -104,10 +94,7 @@ class CfMessagesController < ApplicationController
 
   def restore
     @id     = CfThread.make_id(params)
-    @thread = CfThread.includes(:forum).find_by_slug!(@id)
-
-    @thread.gen_tree
-    @thread.sort_tree
+    @thread = CfThread.includes(:messaegs, :forum).find_by_slug!(@id)
 
     @message = @thread.find_message(params[:mid].to_i) if @thread
     raise CForum::NotFoundException.new if @message.blank?

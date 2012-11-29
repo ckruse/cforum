@@ -100,6 +100,11 @@ class CfThread < ActiveRecord::Base
 
   after_initialize do
     self.attribs ||= {'classes' => []}
+
+    if messages.loaded?
+      gen_tree
+      sort_tree
+    end
   end
 end
 

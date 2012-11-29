@@ -71,11 +71,6 @@ class CfThreadsController < ApplicationController
 
     @all_threads_count = rslt[0]['cnt'].to_i
 
-    @threads.each do |t|
-      t.gen_tree
-      t.sort_tree
-    end
-
     notification_center.notify(SHOW_THREADLIST, @threads)
   end
 
@@ -88,18 +83,12 @@ class CfThreadsController < ApplicationController
     @thread = CfThread.includes(:messages => :owner).where(conditions).first
     raise CForum::NotFoundException.new if @thread.blank?
 
-    @thread.gen_tree
-    @thread.sort_tree
-
     notification_center.notify(SHOW_THREAD, @thread)
   end
 
   def edit
     @id = CfThread.make_id(params)
-    @thread = CfThread.find_by_slug!(@id)
-
-    @thread.gen_tree
-    @thread.sort_tree
+    @thread = CfThread.includes(:messages).find_by_slug!(@id)
   end
 
   def new
@@ -147,9 +136,6 @@ class CfThreadsController < ApplicationController
   def moving
     @id     = CfThread.make_id(params)
     @thread = CfThread.includes(:forum).find_by_slug!(@id)
-
-    @thread.gen_tree
-    @thread.sort_tree
 
     if current_user.admin
       @forums = CfForum.order('name ASC').find :all
