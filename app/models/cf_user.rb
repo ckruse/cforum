@@ -5,7 +5,7 @@ class CfUser < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable,
-    :rememberable, :timeoutable, :confirmable
+    :rememberable, :confirmable
 
   self.primary_key = 'user_id'
   self.table_name  = 'cforum.users'
