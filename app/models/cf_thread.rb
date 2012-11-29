@@ -100,11 +100,19 @@ class CfThread < ActiveRecord::Base
 
   after_initialize do
     self.attribs ||= {'classes' => []}
+  end
 
-    if messages.loaded?
+  alias_method :messages_orig, :messages
+  def messages
+    ret = messages_orig
+
+    unless @generated
+      @generated = true
       gen_tree
       sort_tree
     end
+
+    ret
   end
 end
 
