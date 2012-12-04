@@ -106,7 +106,7 @@ class CfThread < ActiveRecord::Base
   def messages
     ret = messages_orig
 
-    unless @generated
+    if not @generated and not ret.blank?
       @generated = true
       gen_tree
       sort_tree
