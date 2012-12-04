@@ -27,4 +27,8 @@ input:-moz-placeholder {
   color: #999;
 }
 
+.icon * {
+  display:none;
+}
+
 /* eof */

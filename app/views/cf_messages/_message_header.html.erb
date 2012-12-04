@@ -54,7 +54,15 @@
   <details open>
     <summary>
       } + t("messages.by") + %q{
-      } + (message.user_id ? link_to(message.author, user_path(message.owner)) : encode_entities(message.author)) + %q{,
+      }
+
+    if message.user_id
+      html << "<span class=\"registered-user\">" + link_to('<em>Benutzer-Profil</em>'.html_safe, user_path(message.owner), :class => 'icon icon-share') + " "
+    end
+    html << encode_entities(message.author)
+    html << '</span>' if message.user_id
+
+    html << %q{,
       <time datetime="} + message.created_at.to_s + '">' + encode_entities(l(message.created_at)) + %q{</time>
     </summary>}
 
