@@ -108,10 +108,13 @@ class CfThreadsController < ApplicationController
     @thread.messages << @message
     @thread.message  =  @message
 
-    @thread.forum_id  = @forum.forum_id
-    @message.forum_id = @forum.forum_id
-    @message.user_id  = current_user.user_id unless current_user.blank?
-    @message.content  = content_to_internal(@message.content, uconf('quote_char', '> '))
+    @thread.forum_id    = @forum.forum_id
+    @message.forum_id   = @forum.forum_id
+    @message.user_id    = current_user.user_id unless current_user.blank?
+    @message.content    = content_to_internal(@message.content, uconf('quote_char', '> '))
+
+    @message.created_at = DateTime.now
+    @message.updated_at = DateTime.now
 
     notification_center.notify(NEW_THREAD, @thread, @message)
 

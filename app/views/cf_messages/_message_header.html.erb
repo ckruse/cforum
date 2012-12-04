@@ -47,7 +47,11 @@
 
       html << "  <h2>" + link_to(message.subject, cf_message_path(thread, message)) + "</h2>"
     else
-      html << "  <h3>" + link_to(message.subject, cf_message_path(thread, message)) + "</h3>"
+      if thread.thread_id and message.message_id
+        html << "  <h3>" + link_to(message.subject, cf_message_path(thread, message)) + "</h3>"
+      else
+        html << "  <h3>" + message.subject + "</h3>"
+      end
     end
 
     html << %q{

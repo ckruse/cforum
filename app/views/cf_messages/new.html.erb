@@ -4,6 +4,10 @@
     <%= message_to_html(@parent.content) %>
   </div>
 <% elsif @preview %>
+  <% render 'message_header' %>
+
+  <%= message_header(@thread, @message) %>
+
   <div class="posting-content well">
     <%= message_to_html(@message.content) %>
   </div>
