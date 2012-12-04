@@ -69,16 +69,16 @@
     if first and not thread.tags.blank?
       html << %q{
 
-    <p class="tags">}
+    in <ul class="tags">}
 
-      tag_links = []
+      # tag_links = []
       thread.tags.each do |t|
-        tag_links << "<a href=\"\">" + encode_entities(t.tag_name) + "</a>"
+        html << "<li><a href=\"\">" + encode_entities(t.tag_name) + "</a></li>"
       end
 
-      html << tag_links.join(", ")
+      # html << tag_links.join(", ")
 
-      html << "</p>"
+      html << "</ul>"
     end
 
     html << %q{

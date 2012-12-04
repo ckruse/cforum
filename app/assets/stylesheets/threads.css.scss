@@ -13,10 +13,19 @@
     line-height:inherit;
   }
 
-  header p, header details {
+  header details, header summary, header ul, header li {
+    display:inline;
+  }
+
+  header details, header ul, header li {
+    list-style-type:none;
     margin-bottom:0;
     line-height:1em;
     font-style:italic;
+    margin-left:0;
+  }
+
+  header details {
     font-size:0.9em;
   }
 
