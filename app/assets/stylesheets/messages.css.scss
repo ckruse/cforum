@@ -37,5 +37,15 @@ body[data-controller="messages"][data-action="new"] {
   }
 }
 
+.message header details summary, .message header ul, .message header li {
+  list-style-type:none;
+  display:inline;
+  margin-left:0;
+}
+
+.message header details {
+  font-style:italic;
+  font-size:0.9em;
+}
 
 /* eof */
