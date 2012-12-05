@@ -112,6 +112,28 @@ class CfUserTest < ActiveSupport::TestCase
     assert_equal u.conf('blub'), 'blah'
   end
 
+  test "should find first by auth condition" do
+    u = FactoryGirl.create(:cf_user)
+    u1 = CfUser.find_first_by_auth_conditions(login: u.username)
+
+    assert_not_nil u1
+    assert_equal u.user_id, u1.user_id
+
+    u1 = CfUser.find_first_by_auth_conditions(email: u.email)
+    assert_not_nil u1
+    assert_equal u.user_id, u1.user_id
+  end
+
+  test "should not find first by auth condition" do
+    u = FactoryGirl.create(:cf_user)
+
+    u1 = CfUser.find_first_by_auth_conditions(login: u.username + "-lala")
+    assert_nil u1
+
+    u1 = CfUser.find_first_by_auth_conditions(email: u.email + "-lala")
+    assert_nil u1
+  end
+
 end
 
 
