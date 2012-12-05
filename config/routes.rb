@@ -1,5 +1,7 @@
 Cforum::Application.routes.draw do
-  devise_for :users, class_name: 'CfUser', path_names: {sign_in: 'login', sign_out: 'logout'}, :skip => :registration do
+  devise_for :users, class_name: 'CfUser', path_names: {sign_in: 'login', sign_out: 'logout'}, :skip => :registration
+
+  devise_scope :user do
     get '/users/registration/cancel' => 'devise/registrations#cancel', :as => :cancel_user_registration
     post '/users/registration' => 'devise/registrations#create', :as => :user_registration
     get '/users/registration' => 'devise/registrations#new', :as => :new_user_registration
