@@ -17,6 +17,21 @@ class CfSettingTest < ActiveSupport::TestCase
     assert_equal 'val', s1.options['nam']
   end
 
+  test "should count setting" do
+    FactoryGirl.create(:cf_setting)
+    FactoryGirl.create(:cf_setting)
+
+    assert_equal 2, CfSetting.count()
+  end
+
+  test "should create and destroy" do
+    s = FactoryGirl.create(:cf_setting)
+    assert_not_nil CfSetting.find_by_setting_id(s.setting_id)
+
+    s.destroy
+    assert_nil CfSetting.find_by_setting_id(s.setting_id)
+  end
+
   test "should create user setting" do
     u = FactoryGirl.create(:cf_user)
     s = CfSetting.create(
@@ -129,6 +144,50 @@ class CfSettingTest < ActiveSupport::TestCase
 
     assert_not_nil s.user
     assert_not_nil s.forum
+  end
+
+  test "user_id and forum_id combination should be unique" do
+    u = FactoryGirl.create(:cf_user)
+    f = FactoryGirl.create(:cf_forum)
+
+    s = CfSetting.create(user_id: u.user_id, forum_id: f.forum_id)
+    assert_not_nil s
+
+    saved = false
+    begin
+      s1 = CfSetting.create(user_id: u.user_id, forum_id: f.forum_id)
+      saved = true
+    rescue ActiveRecord::RecordNotUnique
+    end
+
+    assert !saved
+
+    s.forum_id = nil
+    s.save
+
+    saved = false
+    begin
+      s1 = CfSetting.create(user_id: u.user_id)
+      saved = true
+    rescue ActiveRecord::StatementInvalid => e
+      raise e unless e.message =~ /Uniqueness violation on column id/
+    end
+
+    assert !saved
+
+    s.forum_id = f.forum_id
+    s.user_id = nil
+    s.save
+
+    saved = false
+    begin
+      s1 = CfSetting.create(forum_id: f.forum_id)
+      saved = true
+    rescue ActiveRecord::StatementInvalid => e
+      raise e unless e.message =~ /Uniqueness violation on column id/
+    end
+
+    assert !saved
   end
 
 end
