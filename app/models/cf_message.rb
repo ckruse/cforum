@@ -10,6 +10,7 @@ class CfMessage < ActiveRecord::Base
 
   belongs_to :owner, class_name: 'CfUser', :foreign_key => :user_id
   belongs_to :thread, class_name: 'CfThread', :foreign_key => :thread_id
+  belongs_to :forum, class_name: 'CfForum', :foreign_key => :forum_id
 
   attr_accessible :message_id, :mid, :thread_id, :subject, :content,
     :author, :email, :homepage, :deleted, :user_id, :parent_id,

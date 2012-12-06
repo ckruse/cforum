@@ -12,6 +12,9 @@ class CfThread < ActiveRecord::Base
 
   attr_accessible :thread_id, :tid, :slug, :forum_id, :archived, :created_at, :updated_at
 
+  validates :slug, uniqueness: true, allow_blank: false, format: {with: /^[a-z0-9_\/-]+$/}
+  validates_presence_of :forum_id
+
   def find_message(mid)
     messages.each do |m|
       return m if m.message_id == mid
