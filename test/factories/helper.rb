@@ -17,6 +17,10 @@ FactoryGirl.define do
     "user#{n}"
   end
 
+  sequence(:thread_slug) do |n|
+    "thread-#{n}"
+  end
+
 end
 
 # eof

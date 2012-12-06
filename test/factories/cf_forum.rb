@@ -6,6 +6,7 @@ FactoryGirl.define do
     short_name { name }
     slug { name.downcase.gsub(/ /, '-') }
     description { generate(:forum_name) }
+    public true
   end
 end
 
