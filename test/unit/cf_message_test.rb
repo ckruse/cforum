@@ -53,6 +53,21 @@ class CfMessageTest < ActiveSupport::TestCase
     m.homepage = 'http://heise.de/'
     assert m.save
   end
+
+  test "thread association" do
+    m = FactoryGirl.create(:cf_message)
+    assert_not_nil m.thread
+  end
+
+  test "forum association" do
+    m = FactoryGirl.create(:cf_message)
+    assert_not_nil m.forum
+  end
+
+  test "owner association" do
+    m = FactoryGirl.create(:cf_message)
+    assert_not_nil m.owner
+  end
 end
 
 
