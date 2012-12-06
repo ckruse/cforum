@@ -18,6 +18,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'quiet_assets'
   gem 'simplecov', :require => false
+  gem 'faker'
 end
 
 # Gems used only for assets and not required
