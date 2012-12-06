@@ -6,7 +6,7 @@ FactoryGirl.define do
   end
 
   sequence(:random_string) do |n|
-    LoremIpsum.generate
+    Faker::Lorem.paragraphs.join("\n\n")
   end
 
   sequence :email do |n|
@@ -20,7 +20,6 @@ FactoryGirl.define do
   sequence(:thread_slug) do |n|
     "thread-#{n}"
   end
-
 end
 
 # eof
