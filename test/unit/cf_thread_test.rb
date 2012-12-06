@@ -79,6 +79,31 @@ class CfThreadTest < ActiveSupport::TestCase
     assert not_found
   end
 
+  test "tags associations" do
+    t = FactoryGirl.create(:cf_thread)
+    tag = CfTag.create!(tag_name: 'death star', forum_id: t.forum_id)
+
+    assert_equal 0, t.tags_threads.count()
+    assert_equal 0, t.tags.count()
+
+    ctt = CfTagThread.create!(tag_id: tag.tag_id, thread_id: t.thread_id)
+    assert_equal 1, t.tags_threads.count()
+    assert_equal 1, t.tags.count()
+  end
+
+  test "make_id" do
+    assert_equal '/2012/12/1/death-star', CfThread.make_id(year: '2012', mon: '12', day: '1', tid: 'death-star')
+    assert_equal '/2012/12/1/death-star', CfThread.make_id('2012', '12', '1', 'death-star')
+  end
+
+  test "gen_id" do
+    t = FactoryGirl.create(:cf_thread)
+    m = FactoryGirl.create(:cf_message, subject: 'Death Star', forum: t.forum)
+    t.message = m
+
+
+    assert_equal DateTime.now.strftime("/%Y/%b/%d/").downcase + 'death-star', CfThread.gen_id(t)
+  end
 end
 
 
