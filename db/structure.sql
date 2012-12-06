@@ -367,6 +367,35 @@ END;
 $$;
 
 
+--
+-- Name: settings_unique_check(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION settings_unique_check() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL THEN
+    IF NEW.user_id IN (
+        SELECT user_id FROM cforum.settings WHERE user_id = NEW.user_id AND forum_id IS NULL
+      ) THEN
+      RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+    END IF;
+  END IF;
+
+  IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL THEN
+    IF NEW.forum_id IN (
+        SELECT forum_id FROM cforum.settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
+      ) THEN
+      RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+    END IF;
+  END IF;
+
+  RETURN NEW;
+END;
+$$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -1149,6 +1178,13 @@ CREATE TRIGGER messages__count_update_trigger AFTER UPDATE ON messages FOR EACH 
 
 
 --
+-- Name: settings_unique_check; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER settings_unique_check BEFORE INSERT OR UPDATE ON settings FOR EACH ROW EXECUTE PROCEDURE settings_unique_check();
+
+
+--
 -- Name: threads__count_delete_trigger; Type: TRIGGER; Schema: cforum; Owner: -
 --
 
@@ -1344,6 +1380,8 @@ INSERT INTO schema_migrations (version) VALUES ('15');
 INSERT INTO schema_migrations (version) VALUES ('16');
 
 INSERT INTO schema_migrations (version) VALUES ('17');
+
+INSERT INTO schema_migrations (version) VALUES ('18');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 
