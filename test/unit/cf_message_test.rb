@@ -68,6 +68,29 @@ class CfMessageTest < ActiveSupport::TestCase
     m = FactoryGirl.create(:cf_message)
     assert_not_nil m.owner
   end
+
+  test "delete and restore" do
+    m = FactoryGirl.create(:cf_message)
+    m1 = FactoryGirl.create(:cf_message, forum: m.forum, thread: m.thread, parent_id: m.message_id)
+
+    t = CfThread.preload(:messages).find(m.thread.thread_id)
+
+    t.messages[0].delete_with_subtree
+    assert m.reload.deleted
+    assert m1.reload.deleted
+
+    t.messages[0].restore_with_subtree
+    assert !m.reload.deleted
+    assert !m.reload.deleted
+
+    t.messages[1].delete_with_subtree
+    assert !m.reload.deleted
+    assert m1.reload.deleted
+
+    t.messages[1].restore_with_subtree
+    assert !m.reload.deleted
+    assert !m.reload.deleted
+  end
 end
 
 
