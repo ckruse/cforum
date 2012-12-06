@@ -4,7 +4,7 @@ class CfForum < ActiveRecord::Base
   self.primary_key = 'forum_id'
   self.table_name  = 'cforum.forums'
 
-  has_many :threads, class_name: 'CfThread'
+  has_many :threads, class_name: 'CfThread', :foreign_key => :forum_id
 
   has_many :forum_permissions, class_name: 'CfForumPermission', :foreign_key => :forum_id
   has_many :users, class_name: 'CfUser', :through => :forum_permissions
@@ -25,7 +25,7 @@ class CfForum < ActiveRecord::Base
     return true if user.admin?
 
     forum_permissions.each do |p|
-      return true if p.user_id == user.user_id and p.permission == 'moderate'
+      return true if p.user_id == user.user_id and p.permission == CfForumPermission::ACCESS_MODERATOR
     end
 
     return false
@@ -37,7 +37,7 @@ class CfForum < ActiveRecord::Base
     return true if user.admin?
 
     forum_permissions.each do |p|
-      return true if p.user_id == user.user_id and (p.permission == 'write' or p.permission == 'moderate')
+      return true if p.user_id == user.user_id and (p.permission == CfForumPermission::ACCESS_WRITE or p.permission == CfForumPermission::ACCESS_MODERATOR)
     end
 
     return false
