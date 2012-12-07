@@ -52,7 +52,7 @@ class CfUser < ActiveRecord::Base
     return true if admin?
 
     rights.each do |r|
-      return true if r.forum_id == forum.forum_id and r.permission == 'moderate'
+      return true if r.forum_id == forum.forum_id and r.permission == CfForumPermission::ACCESS_MODERATOR
     end
 
     return false
@@ -63,7 +63,7 @@ class CfUser < ActiveRecord::Base
     return true if admin?
 
     rights.each do |r|
-      return true if r.forum_id == forum.forum_id and (r.permission == 'write' or r.permission == 'moderate')
+      return true if r.forum_id == forum.forum_id and (r.permission == CfForumPermission::ACCESS_WRITE or r.permission == CfForumPermission::ACCESS_MODERATOR)
     end
 
     return false
