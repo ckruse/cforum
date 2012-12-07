@@ -12,6 +12,9 @@ class CfForumPermission < ActiveRecord::Base
   belongs_to :forum, class_name: 'CfForum'
 
   attr_accessible :forum_permission_id, :user_id, :forum_id, :permission
+
+  validates_presence_of :user_id, :forum_id, :permission
+  validates :permission, :inclusion => { :in => %w(read write moderator) }
 end
 
 
