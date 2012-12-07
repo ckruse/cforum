@@ -8,6 +8,8 @@ class CfTagThread < ActiveRecord::Base
   belongs_to :tag, class_name: 'CfTag', :foreign_key => :tag_id
 
   attr_accessible :tag_thread_id, :tag_id, :thread_id
+
+  validates_presence_of :tag_id, :thread_id
 end
 
 # eof
