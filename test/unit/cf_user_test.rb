@@ -61,11 +61,11 @@ class CfUserTest < ActiveSupport::TestCase
 
     assert !u.read?(f)
 
-    p = CfForumPermission.create!(forum_id: f.forum_id, user_id: u.user_id, permission: 'read')
+    p = CfForumPermission.create!(forum_id: f.forum_id, user_id: u.user_id, permission: CfForumPermission::ACCESS_READ)
     u.rights.reload
 
     assert_equal u.rights.length, 1
-    assert_equal u.rights[0].permission, 'read'
+    assert_equal u.rights[0].permission, CfForumPermission::ACCESS_READ
     assert_equal u.rights[0].forum_id, f.forum_id
     assert_equal u.rights[0].user_id, u.user_id
 
@@ -73,7 +73,7 @@ class CfUserTest < ActiveSupport::TestCase
     assert !u.write?(f)
     assert u.read?(f)
 
-    p.permission = 'write'
+    p.permission = CfForumPermission::ACCESS_WRITE
     p.save
     u.rights.reload
 
@@ -81,7 +81,7 @@ class CfUserTest < ActiveSupport::TestCase
     assert u.write?(f)
     assert u.read?(f)
 
-    p.permission = 'moderate'
+    p.permission = CfForumPermission::ACCESS_MODERATOR
     p.save
     u.rights.reload
 
