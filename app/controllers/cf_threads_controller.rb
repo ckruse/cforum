@@ -19,7 +19,7 @@ class CfThreadsController < ApplicationController
     conditions = {}
     conditions[:forum_id] = forum.forum_id if forum
     conditions[:archived] = false if conf('use_archive')
-    conditions[:messages] = {deleted: false} unless params.has_key?(:view_all)
+    conditions[:messages] = {deleted: false} unless @view_all
 
     # the „no forum” case is much more complex; we have to do it partly manually
     # to avoid DISTINCT
@@ -29,7 +29,7 @@ class CfThreadsController < ApplicationController
     if forum
       crits << "forum_id = " + forum.forum_id.to_s
 
-      unless params[:view_all]
+      unless @view_all
         crits << "EXISTS(SELECT message_id FROM cforum.messages WHERE thread_id = threads.thread_id AND deleted = false)"
       end
     else
@@ -38,7 +38,7 @@ class CfThreadsController < ApplicationController
 
       crits = ["(" + crits.join(" OR ") + ")"]
 
-      unless params[:view_all]
+      unless @view_all
         crits << "EXISTS(SELECT message_id FROM cforum.messages WHERE thread_id = threads.thread_id AND deleted = false)"
       end
     end
@@ -78,7 +78,7 @@ class CfThreadsController < ApplicationController
     @id = CfThread.make_id(params)
 
     conditions = {slug: @id}
-    conditions[:messages] = {deleted: false} unless params[:view_all]
+    conditions[:messages] = {deleted: false} unless @view_all
 
     @thread = CfThread.includes(:messages => :owner).where(conditions).first
     raise CForum::NotFoundException.new if @thread.blank?

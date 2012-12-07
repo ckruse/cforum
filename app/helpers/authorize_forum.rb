@@ -4,11 +4,15 @@ module AuthorizeForum
   def authorize!
     forum = current_forum
 
-    return if forum.blank?
-
     if params.has_key?(:view_all)
-      raise CForum::ForbiddenException.new unless forum.moderator?(current_user)
+      if forum.blank?
+        @view_all = true if not current_user.blank? and current_user.admin?
+      else
+        @view_all = forum.moderator?(current_user)
+      end
     end
+
+    return if forum.blank?
 
     return if forum.public? and %w{show index new create}.include?(action_name)
     return if %w{show index}.include?(action_name) and forum.read?(current_user)
