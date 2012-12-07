@@ -31,7 +31,7 @@ namespace :db do
 
       args = "-sxO"
       args << ' -h ' + config['host'] unless config['host'].blank?
-      args << ' -U ' + config['user'] unless config['user'].blank?
+      args << ' -U ' + config['username'] unless config['username'].blank?
 
       system "pg_dump #{args} #{config['database']} > db/structure.sql"
       File.open("#{Rails.root}/db/structure.sql", "a") do |f|

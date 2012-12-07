@@ -8,7 +8,7 @@ development:
   database: cforum_development
   pool: 5
   timeout: 5000
-  user: ckruse
+  username: ckruse
   password:
   host: localhost
 
@@ -20,7 +20,7 @@ test:
   database: cforum_test
   pool: 5
   timeout: 5000
-  user: ckruse
+  username: ckruse
   password:
   host: localhost
 
@@ -29,6 +29,6 @@ production:
   database: cforum
   pool: 5
   timeout: 5000
-  user: ckruse
+  username: ckruse
   password:
   host: localhost
