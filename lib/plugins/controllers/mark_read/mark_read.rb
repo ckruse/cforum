@@ -61,11 +61,13 @@ class MarkReadPlugin < Plugin
       t.attribs[:msgs] = {all: num_msgs, unread: num_msgs}
     end
 
-    result = CfMessage.connection.execute("SELECT message_id FROM cforum.read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
-    result.each do |row|
-      if msgs[row['message_id']]
-        msgs[row['message_id']][0].attribs['classes'] << 'visited'
-        msgs[row['message_id']][1].attribs[:msgs][:unread] -= 1
+    if not ids.blank?
+      result = CfMessage.connection.execute("SELECT message_id FROM cforum.read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+      result.each do |row|
+        if msgs[row['message_id']]
+          msgs[row['message_id']][0].attribs['classes'] << 'visited'
+          msgs[row['message_id']][1].attribs[:msgs][:unread] -= 1
+        end
       end
     end
   end
