@@ -3,7 +3,7 @@
 require 'test_helper'
 
 class CfThreadsControllerTest < ActionController::TestCase
-  test "index: should work with empty list" do
+  test "index: should work with empty list on public and empty forum" do
     forum = FactoryGirl.create(:cf_forum)
     user  = FactoryGirl.create(:cf_user)
 
@@ -11,13 +11,23 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:threads)
     assert_equal 0, assigns(:threads).length
+  end
 
+  test "index: should work with empty list on public forum and empty thread" do
+    forum = FactoryGirl.create(:cf_forum)
+    user  = FactoryGirl.create(:cf_user)
     thread = FactoryGirl.create(:cf_thread, forum: forum)
+
     get :index, {curr_forum: forum.slug}
     assert_response :success
     assert_not_nil assigns(:threads)
     assert_equal 0, assigns(:threads).length
+  end
 
+  test "index: should work with empty list on public forum and deleted thread" do
+    forum = FactoryGirl.create(:cf_forum)
+    user  = FactoryGirl.create(:cf_user)
+    thread = FactoryGirl.create(:cf_thread, forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     message.deleted = true
     message.save
@@ -50,25 +60,50 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:threads)
     assert_equal 1, assigns(:threads).length
+  end
 
-    user.admin = false
-    user.save
+  test "index: should show index in private forum because of read permission" do
+    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    user    = FactoryGirl.create(:cf_user, admin: false)
+
     cpp = CfForumPermission.create!(:forum_id => forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
 
-    get :index, {curr_forum: forum.slug}
-    assert_response :success
-    assert_not_nil assigns(:threads)
-    assert_equal 1, assigns(:threads).length
-
-    cpp.permission = CfForumPermission::ACCESS_WRITE
-    cpp.save
+    sign_in user
 
     get :index, {curr_forum: forum.slug}
     assert_response :success
     assert_not_nil assigns(:threads)
     assert_equal 1, assigns(:threads).length
+  end
 
-    cpp.permission = CfForumPermission::ACCESS_MODERATOR
+  test "index: should show index in private forum because of write permission" do
+    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    user    = FactoryGirl.create(:cf_user, admin: false)
+
+    cpp = CfForumPermission.create!(:forum_id => forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+
+    sign_in user
+
+    get :index, {curr_forum: forum.slug}
+    assert_response :success
+    assert_not_nil assigns(:threads)
+    assert_equal 1, assigns(:threads).length
+  end
+
+  test "index: should should index in private forum because of moderator permission" do
+    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    user    = FactoryGirl.create(:cf_user, admin: false)
+
+    cpp = CfForumPermission.create!(:forum_id => forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+
+    sign_in user
+
     get :index, {curr_forum: forum.slug}
     assert_response :success
     assert_not_nil assigns(:threads)
@@ -83,14 +118,21 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:threads)
     assert_equal 2, assigns(:threads).length
+  end
 
-    msg1.deleted = true
-    msg1.save
+  test "index: should show list of all threads w/o deleted" do
+    msg = FactoryGirl.create(:cf_message)
+    msg1 = FactoryGirl.create(:cf_message, deleted: true)
 
     get :index
     assert_response :success
     assert_not_nil assigns(:threads)
     assert_equal 1, assigns(:threads).length
+  end
+
+  test "index: should show list of all threads w/o deleted even w view_all" do
+    msg = FactoryGirl.create(:cf_message)
+    msg1 = FactoryGirl.create(:cf_message, deleted: true)
 
     get :index, {view_all: true}
     assert_response :success
@@ -98,15 +140,12 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_equal 1, assigns(:threads).length
   end
 
-  test "index: permissions" do
+  test "index: permissions with access read" do
     forum   = FactoryGirl.create(:cf_forum)
     user    = FactoryGirl.create(:cf_user, admin: false)
     cpp     = CfForumPermission.create(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
     thread  = FactoryGirl.create(:cf_thread, forum: forum)
-    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
-
-    message.deleted = true
-    message.save
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
 
     sign_in user
 
@@ -114,18 +153,46 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:threads)
     assert_equal 0, assigns(:threads).length
+  end
 
-    cpp.update_attributes(permission: CfForumPermission::ACCESS_WRITE)
+  test "index: permissions with access write" do
+    forum   = FactoryGirl.create(:cf_forum)
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    cpp     = CfForumPermission.create(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
+
+    sign_in user
+
     get :index, {curr_forum: forum.slug, view_all: true}
     assert_response :success
     assert_not_nil assigns(:threads)
     assert_equal 0, assigns(:threads).length
+  end
 
-    cpp.update_attributes(permission: CfForumPermission::ACCESS_MODERATOR)
+  test "index: permissions with access moderator and view_all" do
+    forum   = FactoryGirl.create(:cf_forum)
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    cpp     = CfForumPermission.create(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
+
+    sign_in user
+
     get :index, {curr_forum: forum.slug, view_all: true}
     assert_response :success
     assert_not_nil assigns(:threads)
     assert_equal 1, assigns(:threads).length
+  end
+
+  test "index: permissions with access moderator" do
+    forum   = FactoryGirl.create(:cf_forum)
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    cpp     = CfForumPermission.create(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
+
+    sign_in user
 
     get :index, {curr_forum: forum.slug}
     assert_response :success
@@ -136,7 +203,6 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "index: should fail with forbidden" do
     forum = FactoryGirl.create(:cf_forum, :public => false)
     thread = FactoryGirl.create(:cf_thread, forum: forum)
-    user = FactoryGirl.create(:cf_user)
 
     catched = false
     begin
@@ -145,6 +211,12 @@ class CfThreadsControllerTest < ActionController::TestCase
       catched = true
     end
     assert catched
+  end
+
+  test "index: should fail with forbidden even with user" do
+    forum  = FactoryGirl.create(:cf_forum, :public => false)
+    thread = FactoryGirl.create(:cf_thread, forum: forum)
+    user   = FactoryGirl.create(:cf_user, admin: false)
 
     sign_in user
 

@@ -48,7 +48,7 @@ class CfForumsControllerTest < ActionController::TestCase
     assert assigns(:forums).include?(forum_public)
   end
 
-  test "should show index of forums w private because of permissions" do
+  test "should show index of forums w private because of read permissions" do
     forum_public = FactoryGirl.create(:cf_forum)
     forum_priv   = FactoryGirl.create(:cf_forum, :public => false)
     user         = FactoryGirl.create(:cf_user, admin: false)
@@ -62,18 +62,32 @@ class CfForumsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:forums)
     assert assigns(:forums).include?(forum_priv)
     assert assigns(:forums).include?(forum_public)
+  end
 
-    cfp.permission = CfForumPermission::ACCESS_WRITE
-    cfp.save
+  test "should show index of forums w private because of write permissions" do
+    forum_public = FactoryGirl.create(:cf_forum)
+    forum_priv   = FactoryGirl.create(:cf_forum, :public => false)
+    user         = FactoryGirl.create(:cf_user, admin: false)
+
+    cfp = CfForumPermission.create!(forum_id: forum_priv.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+
+    sign_in user
 
     get :index
     assert_response :success
     assert_not_nil assigns(:forums)
     assert assigns(:forums).include?(forum_priv)
     assert assigns(:forums).include?(forum_public)
+  end
 
-    cfp.permission = CfForumPermission::ACCESS_MODERATOR
-    cfp.save
+  test "should show index of forums w private because of moderator permissions" do
+    forum_public = FactoryGirl.create(:cf_forum)
+    forum_priv   = FactoryGirl.create(:cf_forum, :public => false)
+    user         = FactoryGirl.create(:cf_user, admin: false)
+
+    cfp = CfForumPermission.create!(forum_id: forum_priv.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+
+    sign_in user
 
     get :index
     assert_response :success
