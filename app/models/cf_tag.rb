@@ -9,6 +9,9 @@ class CfTag < ActiveRecord::Base
   belongs_to :forum, class_name: 'CfForum', :foreign_key => :forum_id
 
   attr_accessible :tag_id, :tag_name, :forum_id
+
+  validates_presence_of :tag_name, :forum_id
+  validates :tag_name, length: {:in => 2..50}
 end
 
 # eof
