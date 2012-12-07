@@ -7,7 +7,7 @@ require Rails.root + 'lib/plugin'
 class ApplicationController < ActionController::Base
   include ApplicationHelper
 
-  before_filter :check_forum_access, :run_before_handler
+  before_filter :do_init, :check_forum_access, :run_before_handler
   after_filter :run_after_handler
   protect_from_forgery
 
@@ -86,14 +86,14 @@ class ApplicationController < ActionController::Base
   # normal stuff
   #
 
-  def initialize(*args)
+  def do_init
     @notification_center = NotificationCenter.new
     @config_manager      = ConfigManager.new
+    @view_all            = false
+    @_current_forum      = nil
 
     mod_view_paths
     load_and_init_plugins
-
-    super(*args)
   end
 
   helper_method :uconf
