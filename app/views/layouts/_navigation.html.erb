@@ -15,7 +15,7 @@
 
               <% if current_forum %>
               <li<% if controller_path == 'cf_threads' or controller_path == 'cf_messages' %> class="active"<% end %>><%= link_to current_forum.name, current_forum %></li>
-              <li><%= link_to t("views.new_thread"), new_cf_thread_path %></li><% end %>
+              <li><%= link_to t("views.new_thread"), new_cf_thread_path(current_forum.slug) %></li><% end %>
             </ul>
             <ul class="nav pull-right">
               <% if user_signed_in? %>
