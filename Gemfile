@@ -4,7 +4,7 @@ gem 'rails', '< 3.3'
 gem 'pg'
 gem 'activerecord-postgres-hstore'
 
-gem 'therubyracer'
+gem 'therubyracer', '< 0.11'
 
 gem 'devise'
 gem "bcrypt-ruby", :require => "bcrypt"
