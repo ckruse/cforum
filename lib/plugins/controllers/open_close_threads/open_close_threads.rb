@@ -38,9 +38,11 @@ class OpenCloseThreadPlugin < Plugin
       t.message.attribs['classes'] << t.attribs['open_state']
     end
 
-    result = CfThread.connection.execute("SELECT thread_id, state FROM cforum.opened_closed_threads WHERE thread_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
-    result.each do |row|
-      thread_map[row['thread_id']].attribs['open_state'] = row['state'] if thread_map[row['thread_id']]
+    if not ids.blank?
+      result = CfThread.connection.execute("SELECT thread_id, state FROM cforum.opened_closed_threads WHERE thread_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+      result.each do |row|
+        thread_map[row['thread_id']].attribs['open_state'] = row['state'] if thread_map[row['thread_id']]
+      end
     end
   end
 
