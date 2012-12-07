@@ -156,6 +156,35 @@ class CfThreadsControllerTest < ActionController::TestCase
     end
     assert catched
   end
+
+  test "show: should show thread" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+
+    get :show, {curr_forum: forum.slug, year: thread.created_at.strftime("%Y"), mon: thread.created_at.strftime("%b").downcase, day: thread.created_at.strftime("%d"), tid: 'blub'}
+    assert_response :success
+    assert_not_nil assigns(:thread)
+    assert_nil assigns(:message)
+    assert_equal message.thread.thread_id, assigns(:thread).thread_id
+  end
+
+  test "show: should not find thread" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+
+    message.update_attributes(deleted: true)
+
+    catched = false
+    begin
+      get :show, {curr_forum: forum.slug, year: thread.created_at.strftime("%Y"), mon: thread.created_at.strftime("%b").downcase, day: thread.created_at.strftime("%d"), tid: 'blub'}
+    rescue CForum::NotFoundException
+      catched = true
+    end
+
+    assert catched
+  end
 end
 
 # eof
