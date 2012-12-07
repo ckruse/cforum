@@ -66,7 +66,7 @@ class CfForumsController < ApplicationController
     if thread
       redirect_to cf_thread_url(thread), status: 301
     else
-      raise NotFoundException.new # TODO: add message
+      raise CForum::NotFoundException.new # TODO: add message
     end
   end
 end
