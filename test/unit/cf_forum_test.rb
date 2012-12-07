@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class CfSettingTest < ActiveSupport::TestCase
+class CfForumTest < ActiveSupport::TestCase
   test "should not save forum" do
     f = CfForum.new()
     assert !f.save
@@ -42,6 +42,9 @@ class CfSettingTest < ActiveSupport::TestCase
     t = FactoryGirl.create(:cf_thread, forum: f)
 
     assert_equal 1, f.threads.count()
+
+    assert f.threads.clear
+    assert_equal 0, f.threads.count()
   end
 
   test "permissions with not admin and private forum" do
@@ -74,6 +77,9 @@ class CfSettingTest < ActiveSupport::TestCase
     assert f.moderator?(u)
     assert f.write?(u)
     assert f.read?(u)
+
+    assert f.forum_permissions.clear
+    assert_equal 0, f.forum_permissions.count()
   end
 
   test "permissions with admin and private forum" do
@@ -180,6 +186,10 @@ class CfSettingTest < ActiveSupport::TestCase
     f = CfForum.find f.forum_id
 
     assert_equal 1, f.users.length
+
+    assert f.users.clear
+    assert_equal 0, f.users.count()
+    assert_not_nil CfUser.find_by_user_id u.user_id
   end
 
   test "tags relation" do
@@ -189,6 +199,9 @@ class CfSettingTest < ActiveSupport::TestCase
     f = CfForum.find f.forum_id
 
     assert_equal 1, f.tags.length
+
+    assert f.tags.clear
+    assert_equal 0, f.tags.count()
   end
 
   test "to_param" do

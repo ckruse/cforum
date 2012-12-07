@@ -77,6 +77,9 @@ class CfThreadTest < ActiveSupport::TestCase
     end
 
     assert not_found
+
+    assert t.messages.clear
+    assert_equal 0, t.messages.count()
   end
 
   test "tags associations" do
@@ -89,6 +92,11 @@ class CfThreadTest < ActiveSupport::TestCase
     ctt = CfTagThread.create!(tag_id: tag.tag_id, thread_id: t.thread_id)
     assert_equal 1, t.tags_threads.count()
     assert_equal 1, t.tags.count()
+
+    assert t.tags.clear
+    assert_equal 0, t.tags.count()
+    assert_equal 0, t.tags_threads.count()
+    assert_not_nil CfTag.find_by_tag_id tag.tag_id
   end
 
   test "make_id" do

@@ -88,6 +88,9 @@ class CfUserTest < ActiveSupport::TestCase
     assert u.moderate?(f)
     assert u.write?(f)
     assert u.read?(f)
+
+    assert u.rights.clear
+    assert_equal u.rights.count(), 0
   end
 
   test "test to_param" do

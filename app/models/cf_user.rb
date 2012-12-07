@@ -23,7 +23,7 @@ class CfUser < ActiveRecord::Base
   attr_accessor :login
 
   has_one :settings, class_name: 'CfSetting', :foreign_key => :user_id, :dependent => :destroy
-  has_many :rights, class_name: 'CfForumPermission', :foreign_key => :user_id
+  has_many :rights, class_name: 'CfForumPermission', :foreign_key => :user_id, :dependent => :destroy
   has_many :forums, class_name: 'CfForum', :through => :rights
 
   def conf(nam, default = nil)
