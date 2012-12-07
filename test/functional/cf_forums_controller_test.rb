@@ -3,6 +3,13 @@
 require 'test_helper'
 
 class CfForumsControllerTest < ActionController::TestCase
+  test "should work with empty list" do
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:forums)
+    assert_equal [], assigns(:forums)
+  end
+
   test "should show index of forums w/o private" do
     forum_public = FactoryGirl.create(:cf_forum)
     forum_priv   = FactoryGirl.create(:cf_forum, :public => false)
