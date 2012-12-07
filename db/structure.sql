@@ -738,7 +738,7 @@ CREATE TABLE users (
     username character varying(255) NOT NULL,
     email character varying(255),
     unconfirmed_email character varying(255),
-    admin character varying(255),
+    admin boolean,
     active boolean DEFAULT true NOT NULL,
     encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
     remember_created_at timestamp without time zone,
@@ -1382,6 +1382,8 @@ INSERT INTO schema_migrations (version) VALUES ('16');
 INSERT INTO schema_migrations (version) VALUES ('17');
 
 INSERT INTO schema_migrations (version) VALUES ('18');
+
+INSERT INTO schema_migrations (version) VALUES ('19');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 
