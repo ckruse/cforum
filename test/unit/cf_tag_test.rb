@@ -54,6 +54,10 @@ class CfTagTest < ActiveSupport::TestCase
 
     assert !tag.tags_threads.empty?
     assert_equal tag.tags_threads.length, 1
+
+    assert tag.tags_threads.clear
+    assert_equal tag.threads.count(), 0
+    assert_equal tag.tags_threads.count(), 0
   end
 
 end
