@@ -257,6 +257,69 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     assert catched
   end
+
+  test "show: failing to access with anonymous access" do
+    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    user    = FactoryGirl.create(:cf_user, admin: true)
+
+    catched = false
+    begin
+      get :show, {curr_forum: forum.slug, year: thread.created_at.strftime("%Y"), mon: thread.created_at.strftime("%b").downcase, day: thread.created_at.strftime("%d"), tid: 'blub'}
+    rescue CForum::ForbiddenException
+      catched = true
+    end
+    assert catched
+  end
+
+  test "show: permissions with admin access to private forum" do
+    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    user    = FactoryGirl.create(:cf_user, admin: true)
+
+    sign_in user
+    get :show, {curr_forum: forum.slug, year: thread.created_at.strftime("%Y"), mon: thread.created_at.strftime("%b").downcase, day: thread.created_at.strftime("%d"), tid: 'blub'}
+    assert_response :success
+  end
+
+  test "show: permissions with read access to private forum" do
+    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    user    = FactoryGirl.create(:cf_user, admin: false)
+
+    sign_in user
+    cpp = CfForumPermission.create!(user_id: user.user_id, forum_id: forum.forum_id, permission: CfForumPermission::ACCESS_READ)
+    get :show, {curr_forum: forum.slug, year: thread.created_at.strftime("%Y"), mon: thread.created_at.strftime("%b").downcase, day: thread.created_at.strftime("%d"), tid: 'blub', view_all: true}
+    assert_response :success
+  end
+
+  test "show: permissions with write access to private forum" do
+    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    user    = FactoryGirl.create(:cf_user, admin: false)
+
+    sign_in user
+    cpp = CfForumPermission.create!(user_id: user.user_id, forum_id: forum.forum_id, permission: CfForumPermission::ACCESS_WRITE)
+    get :show, {curr_forum: forum.slug, year: thread.created_at.strftime("%Y"), mon: thread.created_at.strftime("%b").downcase, day: thread.created_at.strftime("%d"), tid: 'blub', view_all: true}
+    assert_response :success
+  end
+
+  test "show: permissions with moderator access to private forum" do
+    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    user    = FactoryGirl.create(:cf_user, admin: false)
+
+    sign_in user
+    cpp = CfForumPermission.create!(user_id: user.user_id, forum_id: forum.forum_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    get :show, {curr_forum: forum.slug, year: thread.created_at.strftime("%Y"), mon: thread.created_at.strftime("%b").downcase, day: thread.created_at.strftime("%d"), tid: 'blub', view_all: true}
+    assert_response :success
+  end
+
 end
 
 # eof
