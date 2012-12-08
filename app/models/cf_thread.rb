@@ -43,7 +43,16 @@ class CfThread < ActiveRecord::Base
     m
   end
 
-  attr_accessor :message, :attribs
+  attr_accessor :attribs
+
+  def message=(msg)
+    @message = msg
+  end
+
+  def message
+    @message = messages[0] if @message.blank?
+    @message
+  end
 
   def gen_tree
     messages.sort! do |a,b|
@@ -53,7 +62,6 @@ class CfThread < ActiveRecord::Base
       ret
     end
 
-    self.message = messages[0]
     map = {}
 
     messages.each do |msg|
