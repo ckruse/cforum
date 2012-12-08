@@ -320,6 +320,77 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "new: should show form" do
+    forum   = FactoryGirl.create(:cf_forum)
+
+    get :new, {curr_forum: forum.slug}
+    assert_response :success
+    assert_not_nil assigns(:thread)
+    assert_not_nil assigns(:thread).message
+  end
+
+  test "new: should fail because of permissions on private forum" do
+    forum   = FactoryGirl.create(:cf_forum, :public => false)
+
+    catched = false
+    begin
+      get :new, {curr_forum: forum.slug}
+    rescue CForum::ForbiddenException
+      catched = true
+    end
+    assert catched
+  end
+
+  test "new: should show form in private forum because of admin" do
+    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    user    = FactoryGirl.create(:cf_user, admin: true)
+
+    sign_in user
+    get :new, {curr_forum: forum.slug}
+    assert_response :success
+    assert_not_nil assigns(:thread)
+    assert_not_nil assigns(:thread).message
+  end
+
+  test "new: should fail because of private forum and only read access" do
+    forum = FactoryGirl.create(:cf_forum, :public => false)
+    user  = FactoryGirl.create(:cf_user, admin: false)
+    cpp   = CfForumPermission.create!(user_id: user.user_id, forum_id: forum.forum_id, permission: CfForumPermission::ACCESS_READ)
+
+    sign_in user
+
+    catched = false
+    begin
+      get :new, {curr_forum: forum.slug}
+    rescue CForum::ForbiddenException
+      catched = true
+    end
+    assert catched
+  end
+
+  test "new: should show form in private forum because of write access" do
+    forum = FactoryGirl.create(:cf_forum, :public => false)
+    user  = FactoryGirl.create(:cf_user, admin: false)
+    cpp   = CfForumPermission.create!(user_id: user.user_id, forum_id: forum.forum_id, permission: CfForumPermission::ACCESS_WRITE)
+
+    sign_in user
+    get :new, {curr_forum: forum.slug}
+    assert_response :success
+    assert_not_nil assigns(:thread)
+    assert_not_nil assigns(:thread).message
+  end
+
+  test "new: should show form in private forum because of moderator access" do
+    forum = FactoryGirl.create(:cf_forum, :public => false)
+    user  = FactoryGirl.create(:cf_user, admin: false)
+    cpp   = CfForumPermission.create!(user_id: user.user_id, forum_id: forum.forum_id, permission: CfForumPermission::ACCESS_MODERATOR)
+
+    sign_in user
+    get :new, {curr_forum: forum.slug}
+    assert_response :success
+    assert_not_nil assigns(:thread)
+    assert_not_nil assigns(:thread).message
+  end
 end
 
 # eof
