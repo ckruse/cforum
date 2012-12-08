@@ -50,6 +50,7 @@ en:
 
   threads:
     created: Thread was successfully created.
+    moved: Thread was successfully moved.
 
     new:
       new_thread: New Thread

@@ -184,7 +184,7 @@ class CfThreadsController < ApplicationController
 
     respond_to do |format|
       if saved
-        format.html { redirect_to cf_message_url(@thread, @thread.message) }
+        format.html { redirect_to cf_message_url(@thread, @thread.message), notice: t('threads.moved') } # TODO: I18n
       else
         format.html { render :moving }
       end
