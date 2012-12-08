@@ -106,8 +106,8 @@ class CfThreadsController < ApplicationController
 
     @thread  = CfThread.new()
     @message = CfMessage.new(params[:cf_thread][:message])
-    @thread.messages << @message
     @thread.message  =  @message
+    @thread.slug     = CfThread.gen_id(@thread)
 
     @thread.forum_id    = @forum.forum_id
     @message.forum_id   = @forum.forum_id
@@ -121,8 +121,21 @@ class CfThreadsController < ApplicationController
 
     @preview = true if params[:preview]
 
+    saved = false
+    if not @preview
+      CfThread.transaction do
+        @thread.save
+        @message.thread_id = @thread.thread_id
+        @message.save
+
+        @thread.messages << @message
+
+        saved = true
+      end
+    end
+
     respond_to do |format|
-      if not @preview and @thread.save
+      if not @preview and saved
         notification_center.notify(NEW_THREAD_SAVED, @thread, @message)
 
         format.html { redirect_to cf_message_url(@thread, @message), notice: I18n.t("threads.created") }
