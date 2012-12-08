@@ -86,10 +86,11 @@ class CfThreadsController < ApplicationController
     notification_center.notify(SHOW_THREAD, @thread)
   end
 
-  def edit
-    @id = CfThread.make_id(params)
-    @thread = CfThread.includes(:messages).find_by_slug!(@id)
-  end
+  # TODO: implement editing
+  # def edit
+  #   @id = CfThread.make_id(params)
+  #   @thread = CfThread.includes(:messages).find_by_slug!(@id)
+  # end
 
   def new
     @thread = CfThread.new
@@ -133,8 +134,9 @@ class CfThreadsController < ApplicationController
     end
   end
 
-  def destroy
-  end
+  # TODO: implement
+  # def destroy
+  # end
 
   def moving
     @id     = CfThread.make_id(params)
