@@ -96,13 +96,21 @@ class CfForumsControllerTest < ActionController::TestCase
     assert assigns(:forums).include?(forum_public)
   end
 
-  test 'should ignore t= and m=' do
+  test 'should ignore t and m' do
     get :index, {t: 1, m: 1}
     assert_response :success
     assert_not_nil assigns(:forums)
+  end
 
+  test "should ignore t" do
     get :index, {t: 1}
 
+    assert_response :success
+    assert_not_nil assigns(:forums)
+  end
+
+
+  test "should ignore t and m with existing message but wrong tid and mid" do
     message = FactoryGirl.create(:cf_message)
     message.thread.tid = 1
     message.thread.save
@@ -112,13 +120,21 @@ class CfForumsControllerTest < ActionController::TestCase
     get :index, {t: 2, m: 3}
     assert_response :success
     assert_not_nil assigns(:forums)
+  end
+
+  test "should ignore t with existing thread but wrong tid" do
+    message = FactoryGirl.create(:cf_message)
+    message.thread.tid = 1
+    message.thread.save
+    message.mid = 2
+    message.save
 
     get :index, {t: 2}
     assert_response :success
     assert_not_nil assigns(:forums)
   end
 
-  test 'should redirect to new uri' do
+  test 'should redirect to new uri with t' do
     message = FactoryGirl.create(:cf_message)
     message.thread.tid = 1
     message.thread.save
@@ -127,6 +143,14 @@ class CfForumsControllerTest < ActionController::TestCase
 
     get :index, {t: 1}
     assert_redirected_to cf_thread_path(message.thread)
+  end
+
+  test 'should redirect to new uri with t and m' do
+    message = FactoryGirl.create(:cf_message)
+    message.thread.tid = 1
+    message.thread.save
+    message.mid = 1
+    message.save
 
     get :index, {t: 1, m: 1}
     assert_redirected_to cf_message_path(message.thread, message)
@@ -141,6 +165,14 @@ class CfForumsControllerTest < ActionController::TestCase
 
     get :redirect_archive, {year: message.created_at.strftime("%Y"), mon: message.created_at.strftime("%m"), tid: 't' + message.thread.tid.to_s}
     assert_redirected_to cf_thread_path(message.thread)
+  end
+
+  test 'old archive uri with non-existant uri' do
+    message = FactoryGirl.create(:cf_message)
+    message.thread.tid = 1
+    message.thread.save
+    message.mid = 1
+    message.save
 
     got_it = false
     begin
