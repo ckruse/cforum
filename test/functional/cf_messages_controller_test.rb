@@ -318,19 +318,21 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
-    post :create, {
-      curr_forum: forum.slug,
-      year: '2012',
-      mon: 'dec',
-      day: '6',
-      tid: 'obi-wan-kenobi',
-      mid: message.message_id.to_s,
-      cf_message: {
-        subject: '',
-        author: 'Anaken Skywalker',
-        content: 'Long live the imperator! Down with the rebellion!'
+    assert_no_difference 'CfMessage.count' do
+      post :create, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s,
+        cf_message: {
+          subject: '',
+          author: 'Anaken Skywalker',
+          content: 'Long live the imperator! Down with the rebellion!'
+        }
       }
-    }
+    end
 
     assert_response :success
     assert_not_nil assigns(:message)
