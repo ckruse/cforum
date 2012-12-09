@@ -56,23 +56,12 @@ class CfMessagesController < ApplicationController
     @message.created_at = DateTime.now
     @message.updated_at = DateTime.now
 
-    @message.content   = content_to_internal(@message.content, uconf('quote_char', '> '))
+    @message.content    = content_to_internal(@message.content, uconf('quote_char', '> '))
 
     @preview = true if params[:preview]
 
-    if not @preview
-      saved = false
-
-      CfThread.transaction do
-        saved = @message.save
-      end
-
-      if saved
-        redirect_to cf_message_path(@thread, @message), :notice => I18n.t('messages.created')
-      else
-        @message.content = message_to_txt(@message.content)
-        render :new
-      end
+    if @message.save
+      redirect_to cf_message_path(@thread, @message), :notice => I18n.t('messages.created')
     else
       render :new
     end

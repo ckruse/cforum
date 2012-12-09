@@ -1,19 +1,19 @@
-<article class="message">
+<% render 'message_header' %><article class="message">
+
 <% if @parent and not @preview %>
+  <%= message_header(@thread, @parent) %>
+
   <div class="posting-content well">
     <%= message_to_html(@parent.content) %>
   </div>
-<% elsif @preview %>
-  <% render 'message_header' %>
 
+<% elsif @preview %>
   <%= message_header(@thread, @message) %>
 
   <div class="posting-content well">
     <%= message_to_html(@message.content) %>
   </div>
-<%
-  @message.content = message_to_txt(@message.content)
-end %>
+<% end %>
 
 <%= form_for @message, :url => cf_message_path(@thread, @parent), html: {:class => 'form-horizontal'} do |f| %>
   <% if @message.errors.any? %>

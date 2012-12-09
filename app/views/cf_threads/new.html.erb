@@ -1,7 +1,7 @@
 <article class="message">
-<% if @parent and not @preview %>
   <h2><%= t "views.new_thread" %></h2>
 
+<% if @parent and not @preview %>
   <div class="posting-content well">
     <%= message_to_html(@parent.content) %>
   </div>
@@ -13,9 +13,7 @@
   <div class="posting-content well">
     <%= message_to_html(@message.content) %>
   </div>
-<%
-  @message.content = message_to_txt(@message.content)
-end %>
+<% end %>
 
 <%= render 'form' %>
 
