@@ -124,9 +124,10 @@ class CfThreadsController < ApplicationController
     saved = false
     if not @preview
       CfThread.transaction do
-        @thread.save
-        @message.thread_id = @thread.thread_id
-        @message.save
+        if @thread.save
+          @message.thread_id = @thread.thread_id
+          raise raise ActiveRecord::Rollback unless @message.save
+        end
 
         @thread.messages << @message
 
