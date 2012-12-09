@@ -60,7 +60,7 @@ class CfMessagesController < ApplicationController
 
     @preview = true if params[:preview]
 
-    if @message.save
+    if not @preview and @message.save
       redirect_to cf_message_path(@thread, @message), :notice => I18n.t('messages.created')
     else
       render :new
