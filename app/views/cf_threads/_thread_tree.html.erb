@@ -1,5 +1,7 @@
 <%
-def message_tree(thread, messages, prev_deleted = false)
+def message_tree(thread, messages, opts = {})
+  opts = {prev_deleted: false, show_icons: false}.merge(opts)
+
   html = "<ol>\n"
   messages.each do |message|
     classes = []
@@ -9,8 +11,8 @@ def message_tree(thread, messages, prev_deleted = false)
     html << "<li"
     html << " class=\"" + classes.join(" ") + "\"" unless classes.blank?
     html << ">"
-    html << message_header(thread, message, first: false, prev_deleted: prev_deleted)
-    html << message_tree(thread, message.messages, message.deleted?) unless message.messages.blank?
+    html << message_header(thread, message, first: false, prev_deleted: opts[:prev_deleted], show_icons: opts[:show_icons])
+    html << message_tree(thread, message.messages, first: false, prev_deleted: message.deleted?, show_icons: opts[:show_icons]) unless message.messages.blank?
     html << "</li>"
   end
 
