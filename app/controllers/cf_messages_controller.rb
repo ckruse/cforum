@@ -86,7 +86,7 @@ class CfMessagesController < ApplicationController
 
   def restore
     @id     = CfThread.make_id(params)
-    @thread = CfThread.includes(:messaegs, :forum).find_by_slug!(@id)
+    @thread = CfThread.includes(:messages, :forum).find_by_slug!(@id)
 
     @message = @thread.find_message(params[:mid].to_i) if @thread
     raise CForum::NotFoundException.new if @message.blank?
