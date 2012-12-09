@@ -204,13 +204,9 @@ class CfThreadsControllerTest < ActionController::TestCase
     forum = FactoryGirl.create(:cf_forum, :public => false)
     thread = FactoryGirl.create(:cf_thread, forum: forum)
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       get :index, {curr_forum: forum.slug}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "index: should fail with forbidden even with user" do
@@ -220,13 +216,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     sign_in user
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       get :index, {curr_forum: forum.slug}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "show: should show thread" do
@@ -248,14 +240,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     message.update_attributes(deleted: true)
 
-    catched = false
-    begin
+    assert_raise(CForum::NotFoundException) do
       get :show, {curr_forum: forum.slug, year: thread.created_at.strftime("%Y"), mon: thread.created_at.strftime("%b").downcase, day: thread.created_at.strftime("%d"), tid: 'blub'}
-    rescue CForum::NotFoundException
-      catched = true
     end
-
-    assert catched
   end
 
   test "show: failing to access with anonymous access" do
@@ -264,13 +251,9 @@ class CfThreadsControllerTest < ActionController::TestCase
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: true)
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       get :show, {curr_forum: forum.slug, year: thread.created_at.strftime("%Y"), mon: thread.created_at.strftime("%b").downcase, day: thread.created_at.strftime("%d"), tid: 'blub'}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "show: permissions with admin access to private forum" do
@@ -332,13 +315,9 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "new: should fail because of permissions on private forum" do
     forum   = FactoryGirl.create(:cf_forum, :public => false)
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       get :new, {curr_forum: forum.slug}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "new: should show form in private forum because of admin" do
@@ -359,13 +338,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     sign_in user
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       get :new, {curr_forum: forum.slug}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "new: should show form in private forum because of write access" do
@@ -425,25 +400,17 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "create: should not generate a preview in non-public forum" do
     forum = FactoryGirl.create(:cf_forum, :public => false)
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       post :create, {preview: true, curr_forum: forum.slug, cf_thread: { message: {subject: 'Long live the imperator!', author: 'Anaken Skywalker', content: 'Long live the imperator! Down with the rebellion!'}}}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "create: should not create a thread in non-public forum" do
     forum = FactoryGirl.create(:cf_forum, :public => false)
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       post :create, {curr_forum: forum.slug, cf_thread: { message: {subject: 'Long live the imperator!', author: 'Anaken Skywalker', content: 'Long live the imperator! Down with the rebellion!'}}}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "create: should generate a preview in non-public forum because of admin" do
@@ -488,13 +455,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     sign_in user
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       post :create, {preview: true, curr_forum: forum.slug, cf_thread: { message: {subject: 'Long live the imperator!', author: 'Anaken Skywalker', content: 'Long live the imperator! Down with the rebellion!'}}}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "create: should not create new thread in non-public forum because of read permission" do
@@ -504,13 +467,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     sign_in user
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       post :create, {curr_forum: forum.slug, cf_thread: { message: {subject: 'Long live the imperator!', author: 'Anaken Skywalker', content: 'Long live the imperator! Down with the rebellion!'}}}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "create: should generate a preview in non-public forum because of write permission" do
@@ -592,13 +551,9 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       get :moving, {year: '2012', mon: 'dec', day: '6', tid: 'star-wars', curr_forum: thread.forum.slug}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "moving: should not show form because of permissions" do
@@ -609,13 +564,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     sign_in user
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       get :moving, {year: '2012', mon: 'dec', day: '6', tid: 'star-wars', curr_forum: thread.forum.slug}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "moving: should not show form because of read permissions" do
@@ -627,13 +578,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     sign_in user
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       get :moving, {year: '2012', mon: 'dec', day: '6', tid: 'star-wars', curr_forum: thread.forum.slug}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "moving: should not show form because of write permissions" do
@@ -645,13 +592,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     sign_in user
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       get :moving, {year: '2012', mon: 'dec', day: '6', tid: 'star-wars', curr_forum: thread.forum.slug}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "moving: should show form because of admin" do
@@ -693,13 +636,9 @@ class CfThreadsControllerTest < ActionController::TestCase
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       post :move, {year: '2012', mon: 'dec', day: '6', tid: 'star-wars', curr_forum: thread.forum.slug, move_to: forum1.forum_id}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "move: should not move because of authorization" do
@@ -711,13 +650,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     sign_in user
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       get :move, {year: '2012', mon: 'dec', day: '6', tid: 'star-wars', curr_forum: thread.forum.slug, move_to: forum1.forum_id}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "move: should not move because of read permission only in forum" do
@@ -731,13 +666,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     sign_in user
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       get :move, {year: '2012', mon: 'dec', day: '6', tid: 'star-wars', curr_forum: thread.forum.slug, move_to: forum1.forum_id}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "move: should not move because of read permissions" do
@@ -752,13 +683,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     sign_in user
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       get :move, {year: '2012', mon: 'dec', day: '6', tid: 'star-wars', curr_forum: thread.forum.slug, move_to: forum1.forum_id}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "move: should not move because of write permission only in forum" do
@@ -772,13 +699,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     sign_in user
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       get :move, {year: '2012', mon: 'dec', day: '6', tid: 'star-wars', curr_forum: thread.forum.slug, move_to: forum1.forum_id}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "move: should not move because of write permissions" do
@@ -793,13 +716,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     sign_in user
 
-    catched = false
-    begin
+    assert_raise(CForum::ForbiddenException) do
       get :move, {year: '2012', mon: 'dec', day: '6', tid: 'star-wars', curr_forum: thread.forum.slug, move_to: forum1.forum_id}
-    rescue CForum::ForbiddenException
-      catched = true
     end
-    assert catched
   end
 
   test "move: should move because of admin" do

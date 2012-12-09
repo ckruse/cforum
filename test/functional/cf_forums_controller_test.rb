@@ -174,14 +174,9 @@ class CfForumsControllerTest < ActionController::TestCase
     message.mid = 1
     message.save
 
-    got_it = false
-    begin
+    assert_raise(CForum::NotFoundException) do
       get :redirect_archive, {year: message.created_at.strftime("%Y"), mon: message.created_at.strftime("%m"), tid: 't333' + message.thread.tid.to_s}
-    rescue CForum::NotFoundException
-      got_it = true
     end
-
-    assert got_it
   end
 
 end
