@@ -88,7 +88,7 @@ class CfMessagesController < ApplicationController
     @id     = CfThread.make_id(params)
     @thread = CfThread.includes(:messages, :forum).find_by_slug!(@id)
 
-    @message = @thread.find_message(params[:mid].to_i) if @thread
+    @message = @thread.find_message(params[:mid].to_i)
     raise CForum::NotFoundException.new if @message.blank?
 
     CfMessage.transaction do
