@@ -3,7 +3,7 @@ render 'cf_messages/message_header'
 render 'cf_threads/thread_tree'
 %>
 <article class="message">
-  <%= message_header(@thread, @message, true) %>
+  <%= message_header(@thread, @message, first: true) %>
 
   <div class="posting-content well">
     <%= message_to_html(@message.content) %>

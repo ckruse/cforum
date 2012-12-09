@@ -9,7 +9,7 @@ def message_tree(thread, messages, prev_deleted = false)
     html << "<li"
     html << " class=\"" + classes.join(" ") + "\"" unless classes.blank?
     html << ">"
-    html << message_header(thread, message, false, prev_deleted)
+    html << message_header(thread, message, first: false, prev_deleted: prev_deleted)
     html << message_tree(thread, message.messages, message.deleted?) unless message.messages.blank?
     html << "</li>"
   end

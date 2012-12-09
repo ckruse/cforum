@@ -1,14 +1,16 @@
 <%
-  def message_header(thread, message, first = false, prev_deleted = false)
+  def message_header(thread, message, opts = {})
+    opts.merge!({first: false, prev_deleted: false})
+
     classes = []
     classes += message.attribs['classes']
-    classes << 'first' if first
+    classes << 'first' if opts[:first]
 
     html = "<header"
     html << ' class="' + classes.join(" ") + '"' unless classes.blank?
     html << ">\n"
 
-    if first and current_user and controller_path == 'cf_threads'
+    if opts[:first] and current_user and controller_path == 'cf_threads'
       html << '  <a class="icon icon-'
       if thread.attribs['open_state'] == 'closed'
         html << 'folder-close" href="' + cf_forum_path(current_forum || 'all', :open => thread.thread_id)
@@ -19,11 +21,11 @@
     end
 
     if not current_user.blank? and (current_user.admin? or current_user.moderate?(current_forum))
-      if first
+      if opts[:first]
         html << " " + link_to('', move_cf_thread_path(thread), :class => 'icon icon-move')
       end
 
-      if not prev_deleted
+      if not opts[:prev_deleted]
         if message.deleted?
           html << " " + link_to('', restore_cf_message_path(thread, message), :method => :post, :class => 'icon icon-check')
         else
@@ -36,7 +38,7 @@
       html << "  " + link_to(thread.forum.short_name, cf_forum_path(thread.forum), :class => 'label label-info') + "\n"
     end
 
-    if first
+    if opts[:first]
       if thread.attribs[:msgs]
         html << " <span class=\"msg-num\">(<span class=\"all\">" +
           thread.attribs[:msgs][:all].to_s +
@@ -70,7 +72,7 @@
       <time datetime="} + message.created_at.to_s + '">' + encode_entities(l(message.created_at)) + %q{</time>
     </summary>}
 
-    if first and not thread.tags.blank?
+    if opts[:first] and not thread.tags.blank?
       html << %q{
 
     in <ul class="tags">}

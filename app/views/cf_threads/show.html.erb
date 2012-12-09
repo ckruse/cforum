@@ -22,7 +22,7 @@ render 'cf_threads/thread_tree'
 <% end %>
 
 <article class="thread">
-  <%= message_header(@thread, @thread.message, true) %>
+  <%= message_header(@thread, @thread.message, first: true) %>
 
   <div class="posting-content well">
     <%= message_to_html(@thread.message.content) %>
