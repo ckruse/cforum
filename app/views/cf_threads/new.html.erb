@@ -1,13 +1,8 @@
+<% render 'cf_messages/message_header' %>
 <article class="message">
   <h2><%= t "views.new_thread" %></h2>
 
-<% if @parent and not @preview %>
-  <div class="posting-content well">
-    <%= message_to_html(@parent.content) %>
-  </div>
-<% elsif @preview %>
-  <% render 'cf_messages/message_header' %>
-
+<% if @preview %>
   <%= message_header(@thread, @message) %>
 
   <div class="posting-content well">
