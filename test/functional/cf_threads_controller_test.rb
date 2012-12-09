@@ -367,6 +367,43 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:thread).message
   end
 
+  test "create: should not create a new thread in public forum because of invalid subject" do
+    forum = FactoryGirl.create(:cf_forum, :public => true)
+
+    assert_no_difference 'CfThread.count' do
+      post :create, {curr_forum: forum.slug, cf_thread: { message: {subject: '', author: 'Anaken Skywalker', content: 'Long live the imperator! Down with the rebellion!'}}}
+    end
+
+    assert_response :success
+    assert_not_nil assigns(:message)
+    assert_not_nil assigns(:thread)
+    assert !assigns(:message).valid?
+  end
+  test "create: should not create a new thread in public forum because of invalid author" do
+    forum = FactoryGirl.create(:cf_forum, :public => true)
+
+    assert_no_difference 'CfThread.count' do
+      post :create, {curr_forum: forum.slug, cf_thread: { message: {subject: 'Long live the imperator!', author: '', content: 'Long live the imperator! Down with the rebellion!'}}}
+    end
+
+    assert_response :success
+    assert_not_nil assigns(:message)
+    assert_not_nil assigns(:thread)
+    assert !assigns(:message).valid?
+  end
+  test "create: should not create a new thread in public forum because of invalid content" do
+    forum = FactoryGirl.create(:cf_forum, :public => true)
+
+    assert_no_difference 'CfThread.count' do
+      post :create, {curr_forum: forum.slug, cf_thread: { message: {subject: 'Long live the imperator!', author: 'Anaken Skywalker', content: ''}}}
+    end
+
+    assert_response :success
+    assert_not_nil assigns(:message)
+    assert_not_nil assigns(:thread)
+    assert !assigns(:message).valid?
+  end
+
   test "create: should generate a preview in public forum" do
     forum = FactoryGirl.create(:cf_forum, :public => true)
 
