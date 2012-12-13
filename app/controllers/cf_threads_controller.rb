@@ -117,6 +117,14 @@ class CfThreadsController < ApplicationController
     @message.created_at = DateTime.now
     @message.updated_at = DateTime.now
 
+    tags = []
+    if not params[:tags].blank?
+      tags = (params[:tags].map {|s| s.strip.downcase}).uniq
+    # non-js variant for conservative people
+    elsif not params[:tag_list].blank?
+      tags = (params[:tag_list].split(',').map {|s| s.strip.downcase}).uniq
+    end
+
     notification_center.notify(NEW_THREAD, @thread, @message)
 
     @preview = true if params[:preview]
@@ -127,6 +135,25 @@ class CfThreadsController < ApplicationController
         if @thread.save
           @message.thread_id = @thread.thread_id
           raise raise ActiveRecord::Rollback unless @message.save
+
+          # first check if all tags are present
+          unless tags.empty?
+            tag_objs = CfTag.where('forum_id = ? AND LOWER(tag_name) IN (?)', current_forum.forum_id, tags).all
+            tags.each do |t|
+              tag_obj = tag_objs.find {|to| to.tag_name.downcase == t}
+
+              # create a savepoint (rails implements savepoints as nested transactions)
+              CfTag.transaction do
+                tag_obj = CfTag.create!(forum_id: current_forum.forum_id, tag_name: t)
+                tag_objs << tag_obj
+              end if tag_obj.blank?
+            end
+
+            # then create the tag/thread connections
+            tag_objs.each do |to|
+              CfTagThread.create!(tag_id: to.tag_id, thread_id: @thread.thread_id)
+            end
+          end
         end
 
         @thread.messages << @message

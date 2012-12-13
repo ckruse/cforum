@@ -4,7 +4,11 @@ class TagsController < ApplicationController
   # GET /collections
   # GET /collections.json
   def index
-    @tags = Tag.all
+    unless params[:s].blank?
+      @tags = CfTag.where("forum_id = ? AND UPPER(tag_name) LIKE UPPER(?)", current_forum.forum_id, params[:s].strip + '%').order('num_threads DESC').all
+    else
+      @tags = CfTag.order('tag_name ASC').find_all_by_forum_id current_forum.forum_id
+    end
 
     respond_to do |format|
       format.html # index.html.erb
