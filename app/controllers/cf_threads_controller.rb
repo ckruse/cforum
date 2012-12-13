@@ -134,7 +134,7 @@ class CfThreadsController < ApplicationController
       CfThread.transaction do
         if @thread.save
           @message.thread_id = @thread.thread_id
-          raise raise ActiveRecord::Rollback unless @message.save
+          raise ActiveRecord::Rollback unless @message.save
 
           # first check if all tags are present
           unless tags.empty?
