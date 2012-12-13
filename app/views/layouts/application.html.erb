@@ -15,10 +15,6 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <script>
-    <% if current_user %>current_user = <%== current_user.to_json(:except => [:encrypted_password]) %>;<% end %>
-    </script>
-
     <%= yield(:head) %>
 
     <% if @own_css_file %><link href="<%= @own_css_file %>" rel="stylesheet" media="all"><% end %>
