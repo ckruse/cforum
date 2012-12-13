@@ -221,6 +221,34 @@ $$;
 
 
 --
+-- Name: count_threads_tag_delete_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION count_threads_tag_delete_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE cforum.tags SET num_threads = num_threads - 1 WHERE tag_id = OLD.tag_id;
+  RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: count_threads_tag_insert_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION count_threads_tag_insert_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE cforum.tags SET num_threads = num_threads + 1 WHERE tag_id = NEW.tag_id;
+  RETURN NEW;
+END;
+$$;
+
+
+--
 -- Name: count_threads_truncate_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
 --
 
@@ -640,7 +668,8 @@ ALTER SEQUENCE settings_setting_id_seq OWNED BY settings.setting_id;
 CREATE TABLE tags (
     tag_id bigint NOT NULL,
     tag_name character varying(250) NOT NULL,
-    forum_id bigint NOT NULL
+    forum_id bigint NOT NULL,
+    num_threads bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -1185,6 +1214,20 @@ CREATE TRIGGER settings_unique_check BEFORE INSERT OR UPDATE ON settings FOR EAC
 
 
 --
+-- Name: tags_threads__count_delete_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER tags_threads__count_delete_trigger AFTER DELETE ON tags_threads FOR EACH ROW EXECUTE PROCEDURE count_threads_tag_delete_trigger();
+
+
+--
+-- Name: tags_threads__count_insert_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER tags_threads__count_insert_trigger AFTER INSERT ON tags_threads FOR EACH ROW EXECUTE PROCEDURE count_threads_tag_insert_trigger();
+
+
+--
 -- Name: threads__count_delete_trigger; Type: TRIGGER; Schema: cforum; Owner: -
 --
 
@@ -1386,6 +1429,8 @@ INSERT INTO schema_migrations (version) VALUES ('18');
 INSERT INTO schema_migrations (version) VALUES ('19');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
+
+INSERT INTO schema_migrations (version) VALUES ('20');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
 
