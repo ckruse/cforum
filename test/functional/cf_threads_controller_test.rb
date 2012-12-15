@@ -418,6 +418,43 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:thread)
   end
 
+  test "create: should create a new thread with different slug" do
+    forum = FactoryGirl.create(:cf_forum, :public => true)
+    post_data = {
+      curr_forum: forum.slug,
+      cf_thread: {
+        message: {
+          subject: 'Long live the imperator!',
+          author: 'Anaken Skywalker',
+          content: 'Long live the imperator! Down with the rebellion!'
+        }
+      }
+    }
+
+    assert_difference('CfThread.count') do
+      assert_difference('CfMessage.count') do
+        post :create, post_data
+      end
+    end
+
+    assert_not_nil flash[:notice]
+    assert_not_nil assigns(:message)
+    assert_not_nil assigns(:thread)
+
+    assert_redirected_to cf_message_url(assigns(:thread), assigns(:message))
+
+    t = assigns(:thread)
+
+    post :create, post_data
+    assert_not_nil flash[:notice]
+    assert_not_nil assigns(:message)
+    assert_not_nil assigns(:thread)
+
+    assert_not_equal t.slug, assigns(:thread).slug
+
+    assert_redirected_to cf_message_url(assigns(:thread), assigns(:message))
+  end
+
   test "create: should create new thread in public forum" do
     forum = FactoryGirl.create(:cf_forum, :public => true)
 

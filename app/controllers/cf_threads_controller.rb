@@ -132,29 +132,26 @@ class CfThreadsController < ApplicationController
     saved = false
     if not @preview
       CfThread.transaction do
-        if @thread.save
-          @message.thread_id = @thread.thread_id
-          raise ActiveRecord::Rollback unless @message.save
+        num = 1
 
-          # first check if all tags are present
-          unless tags.empty?
-            tag_objs = CfTag.where('forum_id = ? AND LOWER(tag_name) IN (?)', current_forum.forum_id, tags).all
-            tags.each do |t|
-              tag_obj = tag_objs.find {|to| to.tag_name.downcase == t}
-
-              # create a savepoint (rails implements savepoints as nested transactions)
-              CfTag.transaction do
-                tag_obj = CfTag.create!(forum_id: current_forum.forum_id, tag_name: t)
-                tag_objs << tag_obj
-              end if tag_obj.blank?
-            end
-
-            # then create the tag/thread connections
-            tag_objs.each do |to|
-              CfTagThread.create!(tag_id: to.tag_id, thread_id: @thread.thread_id)
-            end
+        begin
+          CfThread.transaction do
+            @thread.save!
           end
+        rescue ActiveRecord::RecordInvalid => e
+          if @thread.errors.keys == [:slug]
+            @thread.slug = CfThread.gen_id(@thread, num)
+            num += 1
+            retry
+          end
+
+          raise ActiveRecord::Rollback
         end
+
+        @message.thread_id = @thread.thread_id
+        raise ActiveRecord::Rollback unless @message.save
+
+        save_tags(@thread, tags)
 
         @thread.messages << @message
 
@@ -220,6 +217,39 @@ class CfThreadsController < ApplicationController
   end
 
   include AuthorizeForum
+
+  private
+  def save_tags(thread, tags)
+    tag_objs = []
+
+    # first check if all tags are present
+    unless tags.empty?
+      tag_objs = CfTag.where('forum_id = ? AND LOWER(tag_name) IN (?)', current_forum.forum_id, tags).all
+      tags.each do |t|
+        tag_obj = tag_objs.find {|to| to.tag_name.downcase == t}
+
+        # create a savepoint (rails implements savepoints as nested transactions)
+        CfTag.transaction do
+          tag_obj = CfTag.create(forum_id: current_forum.forum_id, tag_name: t)
+
+          if tag_obj.tag_id.blank?
+            saved = false
+            flash_message :error, 'Tag is invalid' # TODO: i18n/l10n
+            raise ActiveRecord::Rollback.new
+          end
+
+          tag_objs << tag_obj
+        end if tag_obj.blank?
+      end
+
+      # then create the tag/thread connections
+      tag_objs.each do |to|
+        CfTagThread.create!(tag_id: to.tag_id, thread_id: thread.thread_id)
+      end
+    end
+
+    tag_objs
+  end # save_tags
 end
 
 # eof
