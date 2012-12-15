@@ -86,11 +86,13 @@ class CfThread < ActiveRecord::Base
     end
   end
 
-  def self.gen_id(thread)
+  def self.gen_id(thread, num = nil)
     now = thread.message.created_at
     now = Time.now if now.nil?
 
-    now.strftime("/%Y/%b/%d/").downcase + thread.message.subject.parameterize
+    s = now.strftime("/%Y/%b/%d/").downcase
+    s << num.to_s unless num.blank?
+    s + thread.message.subject.parameterize
   end
 
   def self.make_id(year, mon = nil, day = nil, tid = nil)
