@@ -467,8 +467,100 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_not_nil flash[:notice]
     assert_not_nil assigns(:message)
     assert_not_nil assigns(:thread)
+    assert_blank assigns(:thread).tags
 
     assert_redirected_to cf_message_url(assigns(:thread), assigns(:message))
+  end
+
+  test "create: should create new thread in public forum with tags" do
+    forum = FactoryGirl.create(:cf_forum, :public => true)
+
+    assert_difference('CfThread.count') do
+      assert_difference('CfMessage.count') do
+        post :create, {
+          tags: %w{test1 test2 test3},
+          curr_forum: forum.slug,
+          cf_thread: {
+            message: {
+              subject: 'Long live the imperator!',
+              author: 'Anaken Skywalker',
+              content: 'Long live the imperator! Down with the rebellion!'
+            }
+          }
+        }
+      end
+    end
+
+    assert_not_nil flash[:notice]
+    assert_not_nil assigns(:message)
+    assert_not_nil assigns(:thread)
+
+    t = assigns(:thread)
+    assert_equal 3, t.tags.length
+    assert_not_nil t.tags.find {|tag| tag.tag_name == 'test1'}
+    assert_not_nil t.tags.find {|tag| tag.tag_name == 'test2'}
+    assert_not_nil t.tags.find {|tag| tag.tag_name == 'test3'}
+
+    assert_redirected_to cf_message_url(assigns(:thread), assigns(:message))
+  end
+
+  test "create: should create new thread in public forum with tag list" do
+    forum = FactoryGirl.create(:cf_forum, :public => true)
+
+    assert_difference('CfThread.count') do
+      assert_difference('CfMessage.count') do
+        post :create, {
+          tag_list: "test1, test2, test3",
+          curr_forum: forum.slug,
+          cf_thread: {
+            message: {
+              subject: 'Long live the imperator!',
+              author: 'Anaken Skywalker',
+              content: 'Long live the imperator! Down with the rebellion!'
+            }
+          }
+        }
+      end
+    end
+
+    assert_not_nil flash[:notice]
+    assert_not_nil assigns(:message)
+    assert_not_nil assigns(:thread)
+
+    t = assigns(:thread)
+    assert_equal 3, t.tags.length
+    assert_not_nil t.tags.find {|tag| tag.tag_name == 'test1'}
+    assert_not_nil t.tags.find {|tag| tag.tag_name == 'test2'}
+    assert_not_nil t.tags.find {|tag| tag.tag_name == 'test3'}
+
+    assert_redirected_to cf_message_url(assigns(:thread), assigns(:message))
+  end
+
+  test "create: should not create new thread in public forum because of invalid tag" do
+    forum = FactoryGirl.create(:cf_forum, :public => true)
+
+    assert_no_difference('CfThread.count') do
+      assert_no_difference('CfMessage.count') do
+        post :create, {
+          tags: %w{t},
+          curr_forum: forum.slug,
+          cf_thread: {
+            message: {
+              subject: 'Long live the imperator!',
+              author: 'Anaken Skywalker',
+              content: 'Long live the imperator! Down with the rebellion!'
+            }
+          }
+        }
+      end
+    end
+
+    assert_not_nil flash[:error]
+    assert_not_nil assigns(:message)
+    assert_not_nil assigns(:thread)
+    assert_not_nil assigns(:thread).tags
+
+    assert_response :success
   end
 
   test "create: should not generate a preview in non-public forum" do
