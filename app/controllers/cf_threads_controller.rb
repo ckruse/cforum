@@ -228,18 +228,18 @@ class CfThreadsController < ApplicationController
       tags.each do |t|
         tag_obj = tag_objs.find {|to| to.tag_name.downcase == t}
 
-        # create a savepoint (rails implements savepoints as nested transactions)
-        CfTag.transaction do
+        if tag_obj.blank?
+          # create a savepoint (rails implements savepoints as nested transactions)
           tag_obj = CfTag.create(forum_id: current_forum.forum_id, tag_name: t)
 
           if tag_obj.tag_id.blank?
             saved = false
-            flash_message :error, 'Tag is invalid' # TODO: i18n/l10n
+            flash[:error] = 'Tag is invalid' # TODO: i18n/l10n
             raise ActiveRecord::Rollback.new
           end
 
           tag_objs << tag_obj
-        end if tag_obj.blank?
+        end
       end
 
       # then create the tag/thread connections
@@ -248,6 +248,7 @@ class CfThreadsController < ApplicationController
       end
     end
 
+    thread.tags = tag_objs
     tag_objs
   end # save_tags
 end
