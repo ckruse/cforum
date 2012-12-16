@@ -88,7 +88,7 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
     CfForum.transaction do
       CfForum.connection.execute 'UPDATE cforum.threads SET forum_id = ' + params[:merge_with].to_i.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
       CfMessage.connection.execute 'UPDATE cforum.messages SET forum_id = ' + params[:merge_with].to_i.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
-      CfModerator.connection.execute 'UPDATE cforum.moderators SET forum_id = ' + params[:merge_with].to_i.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
+      CfForumPermission.connection.execute 'UPDATE cforum.forum_permissions SET forum_id = ' + params[:merge_with].to_i.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
 
       @cf_forum.destroy
     end
