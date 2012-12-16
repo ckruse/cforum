@@ -18,7 +18,7 @@
       <label class="control-label">Tags</label>
       <div class="controls" id="tags-group">
         <ul id="tags-list"></ul>
-        <input type="text" name="tag_list" id="tags-input"><noscript> <em>Komma-separierte Liste</em></noscript>
+        <input type="text" name="tag_list" value="<%= @tags.join(", ") %>" id="tags-input"><noscript> <em>Komma-separierte Liste</em></noscript>
       </div>
     </div>
   <% end %>

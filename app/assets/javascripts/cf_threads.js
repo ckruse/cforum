@@ -1,6 +1,13 @@
 cforum.cf_threads = {
+  views: {
+    tags: {
+      tag: "<li class=\"tag label label-info\" style=\"display:none\"><input name=\"tags[]\" type=\"hidden\" value=\"{{tag}}\"><i class=\"icon icon-trash del-tag\"> </i> {{tag}}</li>"
+    }
+  },
+
   tags: {
     autocomplete_timeout: null,
+
     autocomplete: function() {
       cforum.cf_threads.tags.autocomplete_timeout = null;
 
@@ -37,11 +44,8 @@ cforum.cf_threads = {
       var $this = $(this);
 
       if($.trim($this.val()) && $this.val() != ',') {
-        var list = $("#tags-list");
         var val = $.trim($this.val().replace(/,.*/, '').toLowerCase());
-
-        list.append("<li class=\"tag btn\" style=\"display:none\"><input name=\"tags[]\" type=\"hidden\" value=\"" + val + "\"><i class=\"icon icon-trash del-tag\"> </i>" + val + "</li>");
-        list.find(".tag").last().fadeIn('fast');
+        cforum.cf_threads.tags.appendTag(val);
 
         v = $this.val();
         $this.val(v.indexOf(",") == -1 ? '' : v.replace(/.*,?/, ''));
@@ -53,6 +57,12 @@ cforum.cf_threads = {
 
     },
 
+    appendTag: function(tag) {
+      var list = $("#tags-list");
+      list.append(Mustache.render(cforum.cf_threads.views.tags.tag, {tag: tag}));
+      list.find(".tag").last().fadeIn('fast');
+    },
+
     removeTag: function(ev) {
       var $this = $(ev.target);
 
@@ -60,6 +70,22 @@ cforum.cf_threads = {
         ev.preventDefault();
         $this.closest("li.tag").fadeOut('fast', function() { $(this).remove(); });
       }
+    },
+
+    initTags: function() {
+      tags = $("#tags-input").val().split(",").map(function(x) {return $.trim(x);}).filter(function(x) {
+        if(x) {
+          return true;
+        }
+
+        return false;
+      });
+
+      for(var i = 0; i < tags.length; ++i) {
+        cforum.cf_threads.tags.appendTag(tags[i]);
+      }
+
+      $("#tags-input").val("");
     },
 
     handleKeyUp: function(ev) {
@@ -79,10 +105,15 @@ cforum.cf_threads = {
       $("#tags-input").on('keyup', cforum.cf_threads.tags.handleKeyUp);
       $("#tags-input").on('focusout', cforum.cf_threads.tags.addTag);
       $("#tags-list").click(cforum.cf_threads.tags.removeTag);
+
+      cforum.cf_threads.tags.initTags();
     }
   },
 
   new: function() {
+    cforum.cf_threads.tags.init();
+  },
+  create: function() {
     cforum.cf_threads.tags.init();
   }
 };

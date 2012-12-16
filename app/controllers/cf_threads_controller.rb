@@ -95,6 +95,7 @@ class CfThreadsController < ApplicationController
   def new
     @thread = CfThread.new
     @thread.message = CfMessage.new
+    @tags = []
 
     notification_center.notify(SHOW_NEW_THREAD, @thread)
   end
@@ -117,15 +118,15 @@ class CfThreadsController < ApplicationController
     @message.created_at = DateTime.now
     @message.updated_at = DateTime.now
 
-    tags = []
+    @tags = []
     if not params[:tags].blank?
-      tags = (params[:tags].map {|s| s.strip.downcase}).uniq
+      @tags = (params[:tags].map {|s| s.strip.downcase}).uniq
     # non-js variant for conservative people
     elsif not params[:tag_list].blank?
-      tags = (params[:tag_list].split(',').map {|s| s.strip.downcase}).uniq
+      @tags = (params[:tag_list].split(',').map {|s| s.strip.downcase}).uniq
     end
 
-    notification_center.notify(NEW_THREAD, @thread, @message)
+    notification_center.notify(NEW_THREAD, @thread, @message, @tags)
 
     @preview = true if params[:preview]
 
@@ -151,7 +152,7 @@ class CfThreadsController < ApplicationController
         @message.thread_id = @thread.thread_id
         raise ActiveRecord::Rollback unless @message.save
 
-        save_tags(@thread, tags)
+        save_tags(@thread, @tags)
 
         @thread.messages << @message
 
