@@ -13,14 +13,8 @@ class Admin::CfUsersController < ApplicationController
     @page = params[:p].to_i || 0
     @page = 0 if @page < 0
 
-    unless params[:s].blank?
-      args = ["UPPER(username) LIKE UPPER(?) OR UPPER(email) LIKE UPPER(?)", params[:s].to_s + '%', params[:s].to_s + '%']
-      @all_users_count = CfUser.where(args).count()
-      @users = CfUser.where(args).order('username ASC').limit(50).offset(@page * 50)
-    else
-      @all_users_count = CfUser.count()
-      @users = CfUser.order('username ASC').limit(50).offset(@page * 50).find(:all)
-    end
+    @all_users_count = CfUser.count()
+    @users = CfUser.order('username ASC').limit(50).offset(@page * 50).find(:all)
   end
 
   def edit
