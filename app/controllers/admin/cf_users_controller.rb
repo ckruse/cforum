@@ -1,8 +1,9 @@
 # -*- encoding: utf-8 -*-
 
 class Admin::CfUsersController < ApplicationController
-  before_filter :load_resource
-  authorize_resource
+  before_filter :authorize!, :load_resource
+
+  include Admin::AuthorizeHelper
 
   def load_resource
     @user = CfUser.find_by_username(params[:id]) if params[:id]

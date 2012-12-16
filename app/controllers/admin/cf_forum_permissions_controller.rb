@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 class Admin::CfForumPermissionsController < ApplicationController
-  before_filter :load_forum
-  authorize_resource
+  before_filter :authorize!, :load_forum
+
+  include Admin::AuthorizeHelper
 
   # GET /collections
   # GET /collections.json
