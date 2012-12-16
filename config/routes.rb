@@ -11,7 +11,7 @@ Cforum::Application.routes.draw do
 
   namespace 'admin' do
     resources :users, :controller => :cf_users
-    resources :forums, :controller => :cf_forums do
+    resources :forums, :controller => :cf_forums, :except => :show do
       resources :permissions, :controller => :cf_forum_permissions
     end
 

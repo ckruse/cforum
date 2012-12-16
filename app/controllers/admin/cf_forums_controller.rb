@@ -44,9 +44,6 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
     notification_center.notify(SHOW_FORUMLIST, @threads, true)
   end
 
-  def show
-  end
-
   def edit
   end
 
@@ -66,7 +63,7 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
     @cf_forum = CfForum.new(params[:cf_forum])
 
     if @cf_forum.save
-      redirect_to admin_forum_url(@cf_forum.forum_id), notice: I18n.t("admin.forums.created")
+      redirect_to edit_admin_forum_url(@cf_forum.forum_id), notice: I18n.t("admin.forums.created")
     else
       render :new
     end
