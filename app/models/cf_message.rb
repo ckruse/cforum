@@ -23,7 +23,7 @@ class CfMessage < ActiveRecord::Base
   validates :content, length: { :in => 10..12288 }
 
   validates :email, length: {:in => 2..60 }, email: true, allow_blank: true
-  validates :homepage, length: {:in => 2..250 }, allow_blank: true # TODO: write validator for HTTP uri
+  validates :homepage, length: {:in => 2..250 }, allow_blank: true, http_url: true
 
   validates_presence_of :forum_id, :thread_id
 
