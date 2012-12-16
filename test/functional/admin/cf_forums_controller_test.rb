@@ -299,6 +299,34 @@ class Admin::CfForumsControllerTest < ActionController::TestCase
     assert_redirected_to admin_forums_url
   end
 
+  test "do_merge: should not merge because of invalid merge_with param" do
+    f1 = FactoryGirl.create(:cf_forum)
+    usr = FactoryGirl.create(:cf_user, admin: true)
+    sign_in usr
+
+    assert_no_difference 'CfForum.count' do
+      post :do_merge, id: f1.forum_id, merge_with: 33333
+    end
+
+    assert_not_nil assigns(:cf_forum)
+    assert_not_nil assigns(:merge_with)
+    assert_response :success
+  end
+
+  test "do_merge: should not merge because of missing merge_with param" do
+    f1 = FactoryGirl.create(:cf_forum)
+    usr = FactoryGirl.create(:cf_user, admin: true)
+    sign_in usr
+
+    assert_no_difference 'CfForum.count' do
+      post :do_merge, id: f1.forum_id
+    end
+
+    assert_not_nil assigns(:cf_forum)
+    assert_not_nil assigns(:merge_with)
+    assert_response :success
+  end
+
 end
 
 # eof
