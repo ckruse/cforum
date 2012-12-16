@@ -98,7 +98,7 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
 
       redirect_to admin_forums_url, notice: I18n.t('admin.forums.merged')
     else
-      flash[:error] = 'Forum to merge with not found!'
+      flash[:error] = 'Forum to merge with not found!' # TODO: i18n/l10n
       @forums = CfForum.order(:name).find :all
       @merge_with = params[:merge_with]
 
