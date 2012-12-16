@@ -23,10 +23,6 @@ class Admin::CfUsersController < ApplicationController
     end
   end
 
-  def show
-    @postings_count = CfMessage.where(user_id: @user.user_id).count()
-  end
-
   def edit
   end
 
@@ -46,7 +42,7 @@ class Admin::CfUsersController < ApplicationController
     @user = CfUser.new(params[:cf_user])
 
     if @user.save
-      redirect_to admin_user_url(@user), notice: I18n.t('admin.users.created')
+      redirect_to edit_admin_user_url(@user), notice: I18n.t('admin.users.created')
     else
       render :new
     end

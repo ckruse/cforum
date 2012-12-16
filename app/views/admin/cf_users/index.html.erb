@@ -18,7 +18,7 @@
   <tbody>
     <% @users.each do |user| %>
     <tr>
-      <td><%= link_to user.username, admin_user_path(user) %></td>
+      <td><%= link_to user.username, edit_admin_user_path(user) %></td>
       <td><%= user.email %></td>
       <td><%== l(user.created_at) %></td>
       <td><%== l(user.updated_at) %></td>
