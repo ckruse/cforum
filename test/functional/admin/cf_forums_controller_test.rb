@@ -323,7 +323,6 @@ class Admin::CfForumsControllerTest < ActionController::TestCase
     end
 
     assert_not_nil assigns(:cf_forum)
-    assert_not_nil assigns(:merge_with)
     assert_response :success
   end
 
