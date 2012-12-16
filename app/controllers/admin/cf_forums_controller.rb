@@ -85,15 +85,25 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
   end
 
   def do_merge
-    CfForum.transaction do
-      CfForum.connection.execute 'UPDATE cforum.threads SET forum_id = ' + params[:merge_with].to_i.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
-      CfMessage.connection.execute 'UPDATE cforum.messages SET forum_id = ' + params[:merge_with].to_i.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
-      CfForumPermission.connection.execute 'UPDATE cforum.forum_permissions SET forum_id = ' + params[:merge_with].to_i.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
+    @merge_forum = CfForum.find_by_forum_id params[:merge_with]
 
-      @cf_forum.destroy
+    if @merge_forum
+      CfForum.transaction do
+        CfForum.connection.execute 'UPDATE cforum.threads SET forum_id = ' + @merge_forum.forum_id.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
+        CfMessage.connection.execute 'UPDATE cforum.messages SET forum_id = ' + @merge_forum.forum_id.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
+        CfForumPermission.connection.execute 'UPDATE cforum.forum_permissions SET forum_id = ' + @merge_forum.forum_id.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
+
+        @cf_forum.destroy
+      end
+
+      redirect_to admin_forums_url, notice: I18n.t('admin.forums.merged')
+    else
+      flash[:error] = 'Forum to merge with not found!'
+      @forums = CfForum.order(:name).find :all
+      @merge_with = params[:merge_with]
+
+      render :merge
     end
-
-    redirect_to admin_forums_url, notice: I18n.t('admin.forums.merged')
   end
 
   private
