@@ -12,8 +12,6 @@ gem "bcrypt-ruby", :require => "bcrypt"
 gem 'jquery-rails'
 gem 'anjlab-bootstrap-rails', '>= 2.0', :require => 'bootstrap-rails'
 
-gem "cancan"
-
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'quiet_assets'

@@ -1,8 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 class CfForumsController < ApplicationController
-  load_and_authorize_resource
-
   SHOW_FORUMLIST = "show_forumlist"
 
   def index

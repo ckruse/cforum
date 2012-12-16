@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 class CfMessagesController < ApplicationController
-  load_resource
   before_filter :authorize!
 
   SHOW_NEW_MESSAGE = "show_new_message"

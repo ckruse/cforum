@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 class CfThreadsController < ApplicationController
-  load_resource
   before_filter :authorize!
 
   SHOW_THREADLIST  = "show_threadlist"
