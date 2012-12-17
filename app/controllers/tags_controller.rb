@@ -11,7 +11,15 @@ class TagsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {
+        @max_count = 0
+        @min_count = -1
+
+        @tags.each do |t|
+          @max_count = t.num_threads if t.num_threads > @max_count
+          @min_count = t.num_threads if t.num_threads < @min_count or @min_count == -1
+        end
+      }
       format.json { render json: @tags }
     end
   end
