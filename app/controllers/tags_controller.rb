@@ -27,16 +27,16 @@ class TagsController < ApplicationController
   # GET /collections/1
   # GET /collections/1.json
   def show
-    per_page = 100
+    @limit = uconf('pagination', 100)
     @tag = CfTag.where('tags.forum_id = ? AND slug = ?', current_forum.forum_id, params[:id]).first
 
-    page = params[:p].to_i
-    page = 0 if page < 0
-    page = (@tag.num_threads / per_page).ceil if page > (@tag.num_threads / per_page).ceil
+    @page = params[:p].to_i
+    @page = 0 if @page < 0
+    @page = (@tag.num_threads / @limit).ceil if @page > (@tag.num_threads / @limit).ceil
 
-    offset = page * per_page
+    offset = @page * @limit
 
-    @threads = CfThread.preload(:forum, :messages => :owner).includes(:tags_threads).where('tags_threads.tag_id' => @tag.tag_id, deleted: false).order('threads.created_at DESC').limit(per_page).offset(offset).all
+    @threads = CfThread.preload(:forum, :messages => :owner).includes(:tags_threads).where('tags_threads.tag_id' => @tag.tag_id, deleted: false).order('threads.created_at DESC').limit(@limit).offset(offset).all
 
     respond_to do |format|
       format.html # show.html.erb
