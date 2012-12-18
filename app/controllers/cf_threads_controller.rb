@@ -12,7 +12,7 @@ class CfThreadsController < ApplicationController
   def index
     forum  = current_forum
     @page  = params[:p].to_i
-    @limit = uconf('pagination', 50)
+    @limit = uconf('pagination', 50).to_i
     @page  = 0 if @page < 0
 
     conditions = {}
