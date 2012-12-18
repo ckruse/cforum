@@ -36,7 +36,7 @@ class TagsController < ApplicationController
 
     offset = page * per_page
 
-    @threads = CfThread.preload(:messages => :owner).includes(:tags_threads).where('tags_threads.tag_id' => @tag.tag_id, deleted: false).order('threads.created_at DESC').limit(per_page).offset(offset).all
+    @threads = CfThread.preload(:forum, :messages => :owner).includes(:tags_threads).where('tags_threads.tag_id' => @tag.tag_id, deleted: false).order('threads.created_at DESC').limit(per_page).offset(offset).all
 
     respond_to do |format|
       format.html # show.html.erb
