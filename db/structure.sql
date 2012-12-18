@@ -669,7 +669,8 @@ CREATE TABLE tags (
     tag_id bigint NOT NULL,
     tag_name character varying(250) NOT NULL,
     forum_id bigint NOT NULL,
-    num_threads bigint DEFAULT 0 NOT NULL
+    num_threads bigint DEFAULT 0 NOT NULL,
+    slug character varying(250) NOT NULL
 );
 
 
@@ -1077,6 +1078,13 @@ CREATE INDEX settings_user_id_idx ON settings USING btree (user_id);
 
 
 --
+-- Name: tags_forum_id_slug_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX tags_forum_id_slug_idx ON tags USING btree (forum_id, slug);
+
+
+--
 -- Name: tags_forum_id_tag_name_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -1447,6 +1455,8 @@ INSERT INTO schema_migrations (version) VALUES ('2');
 INSERT INTO schema_migrations (version) VALUES ('20');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
+
+INSERT INTO schema_migrations (version) VALUES ('22');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
 
