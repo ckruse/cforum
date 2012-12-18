@@ -1,0 +1,37 @@
+
+<fieldset class="tab-pane active" id="core">
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :short_name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :short_name %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :slug, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :slug %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :public, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :public %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :description, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description %>
+    </div>
+  </div>
+</fieldset>

@@ -45,10 +45,22 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
   end
 
   def edit
+    @settings = CfSetting.find_by_forum_id(@cf_forum.forum_id) || CfSetting.new
   end
 
   def update
-    if @cf_forum.update_attributes(params[:cf_forum])
+    saved = false
+    @settings = CfSetting.find_by_forum_id(@cf_forum.forum_id) || CfSetting.new
+    @settings.options  = params[:settings] || {}
+    @settings.forum_id = @cf_forum.forum_id
+
+    CfForum.transaction do
+      if @cf_forum.update_attributes(params[:cf_forum])
+        raise ActiveRecord::Rollback.new unless saved = @settings.save
+      end
+    end
+
+    if saved
       redirect_to edit_admin_forum_url(@cf_forum.forum_id), notice: I18n.t("admin.forums.updated")
     else
       render :edit
@@ -57,12 +69,23 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
 
   def new
     @cf_forum = CfForum.new
+    @settings = CfSetting.new
   end
 
   def create
     @cf_forum = CfForum.new(params[:cf_forum])
+    @settings = CfSetting.new
+    @settings.options  = params[:settings] || {}
+    @settings.forum_id = @cf_forum.forum_id
 
-    if @cf_forum.save
+    saved = false
+    CfForum.transaction do
+      if @cf_forum.save
+        raise ActiveRecord::Rollback.new unless saved = @settings.save
+      end
+    end
+
+    if saved
       redirect_to edit_admin_forum_url(@cf_forum.forum_id), notice: I18n.t("admin.forums.created")
     else
       render :new
