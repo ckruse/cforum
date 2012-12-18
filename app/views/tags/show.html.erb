@@ -1,0 +1,25 @@
+<h1><%= current_forum.name %>: <%= @tag.tag_name %></h1>
+
+<table class="table table-condensed table-striped table-hover">
+  <thead>
+    <th>
+      <tr>
+        <th>Betrifft</th>
+        <th>Autor</th>
+        <th>Datum</th>
+      </tr>
+    </th>
+  </thead>
+
+  <tbody>
+  <% @threads.each do |t| %>
+    <tr>
+      <td><%= link_to t.message.subject, cf_message_path(t, t.message) %></td>
+      <td><% if t.message.owner %><%= link_to '<em>'.html_safe + t.message.owner.username + '</em>'.html_safe, user_path(t.message.owner), :class => 'icon icon-share' %><% end %><%= t.message.author %></td>
+      <td><%= l(t.created_at) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+
+</table>
+

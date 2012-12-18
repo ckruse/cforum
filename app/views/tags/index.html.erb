@@ -1,5 +1,5 @@
 <%
-@f_max = 3
+@f_max = 4
 @f_min = 1
 
 def get_size(count)
@@ -13,6 +13,6 @@ end
 
 <p>
   <% @tags.each do |t| %>
-  <span style="font-size:<%= get_size(t.num_threads) %>em;"><%= t.tag_name %></span>
+  <%= link_to t.tag_name, tag_path(current_forum.slug, t), style: 'font-size:' + get_size(t.num_threads).to_s + 'em' %>
   <% end %>
 </p>
