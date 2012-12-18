@@ -396,10 +396,10 @@ $$;
 
 
 --
--- Name: settings_unique_check(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: settings_unique_check__insert(); Type: FUNCTION; Schema: cforum; Owner: -
 --
 
-CREATE FUNCTION settings_unique_check() RETURNS trigger
+CREATE FUNCTION settings_unique_check__insert() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -412,6 +412,35 @@ BEGIN
   END IF;
 
   IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL THEN
+    IF NEW.forum_id IN (
+        SELECT forum_id FROM cforum.settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
+      ) THEN
+      RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+    END IF;
+  END IF;
+
+  RETURN NEW;
+END;
+$$;
+
+
+--
+-- Name: settings_unique_check__update(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION settings_unique_check__update() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL AND NEW.user_id != OLD.user_id THEN
+    IF NEW.user_id IN (
+        SELECT user_id FROM cforum.settings WHERE user_id = NEW.user_id AND forum_id IS NULL
+      ) THEN
+      RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+    END IF;
+  END IF;
+
+  IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL AND NEW.forum_id != OLD.forum_id THEN
     IF NEW.forum_id IN (
         SELECT forum_id FROM cforum.settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
       ) THEN
@@ -1229,10 +1258,17 @@ CREATE TRIGGER messages__count_update_trigger AFTER UPDATE ON messages FOR EACH 
 
 
 --
--- Name: settings_unique_check; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: settings_unique_check_insert; Type: TRIGGER; Schema: cforum; Owner: -
 --
 
-CREATE TRIGGER settings_unique_check BEFORE INSERT OR UPDATE ON settings FOR EACH ROW EXECUTE PROCEDURE settings_unique_check();
+CREATE TRIGGER settings_unique_check_insert BEFORE INSERT ON settings FOR EACH ROW EXECUTE PROCEDURE settings_unique_check__insert();
+
+
+--
+-- Name: settings_unique_check_update; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER settings_unique_check_update BEFORE UPDATE ON settings FOR EACH ROW EXECUTE PROCEDURE settings_unique_check__update();
 
 
 --
@@ -1457,6 +1493,8 @@ INSERT INTO schema_migrations (version) VALUES ('20');
 INSERT INTO schema_migrations (version) VALUES ('21');
 
 INSERT INTO schema_migrations (version) VALUES ('22');
+
+INSERT INTO schema_migrations (version) VALUES ('23');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
 
