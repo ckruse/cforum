@@ -1080,7 +1080,21 @@ CREATE INDEX settings_user_id_idx ON settings USING btree (user_id);
 -- Name: tags_forum_id_tag_name_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX tags_forum_id_tag_name_idx ON tags USING btree (forum_id, tag_name);
+CREATE UNIQUE INDEX tags_forum_id_tag_name_idx ON tags USING btree (forum_id, upper((tag_name)::text));
+
+
+--
+-- Name: tags_threads_tag_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX tags_threads_tag_id_idx ON tags_threads USING btree (tag_id);
+
+
+--
+-- Name: tags_threads_thread_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX tags_threads_thread_id_idx ON tags_threads USING btree (thread_id);
 
 
 --
@@ -1431,6 +1445,8 @@ INSERT INTO schema_migrations (version) VALUES ('19');
 INSERT INTO schema_migrations (version) VALUES ('2');
 
 INSERT INTO schema_migrations (version) VALUES ('20');
+
+INSERT INTO schema_migrations (version) VALUES ('21');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
 
