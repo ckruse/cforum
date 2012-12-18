@@ -112,6 +112,8 @@ en:
     user_information: User Information
     preview: Preview
     confirm_first: You have to confirm your registration first!
+    items_per_page: Items per page
+    use_archive: Use archive
 
   permissions:
     read: Read
@@ -127,8 +129,3 @@ en:
 
     attributes:
       cf_message:
-
-
-
-
-

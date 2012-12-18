@@ -104,6 +104,8 @@ de:
     highlighted_users: Hervorgehobene Benutzer
     preview: Vorschau
     confirm_first: Sie müssen Ihren Benutzer-Account erst verifizieren!
+    items_per_page: Einträge pro Seite
+    use_archive: Archiv benutzen
 
   permissions:
     read: Lesen
@@ -347,5 +349,3 @@ de:
 
       cf_forum_access:
         permission: Zugriffsrecht
-
-

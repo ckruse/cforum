@@ -1,14 +1,14 @@
 <fieldset class="tab-pane" id="settings">
 
   <div class="control-group">
-    <label class="control-label" for="settings-pagination">Items per page</label>
+    <label class="control-label" for="settings-pagination"><%= t('views.items_per_page') %></label>
     <div class="controls">
       <%= text_field_tag 'settings[pagination]', @settings.options['pagination'], :id => 'settings-pagination' %>
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="settings-use_archive">Use archive</label>
+    <label class="control-label" for="settings-use_archive"><%= t('views.use_archive') %></label>
     <div class="controls">
       <input type="hidden" name="settings[use_archive]" value="no">
       <%= check_box_tag 'settings[use_archive]', 'yes', @settings.options['use_archive'] == 'yes', :id => 'settings-use_archive' %>
@@ -16,14 +16,14 @@
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="settings-quote_char">Quote character</label>
+    <label class="control-label" for="settings-quote_char"><%= t('views.quote_char') %></label>
     <div class="controls">
       <%= text_field_tag 'settings[quote_char]', @settings.options['quote_char'], :id => 'settings-quote_char' %>
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="settings-quote_old_message">Quote old message</label>
+    <label class="control-label" for="settings-quote_old_message"><%= t('views.quote_old_message') %></label>
     <div class="controls">
       <input type="hidden" name="settings[quote_old_message]" value="no">
       <%= check_box_tag 'settings[quote_old_message]', 'yes', @settings.options['quote_old_message'] == 'yes', :id => 'settings-quote_old_message' %>
