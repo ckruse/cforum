@@ -79,7 +79,7 @@
 
       # tag_links = []
       thread.tags.each do |t|
-        html << "<li><a href=\"\">" + encode_entities(t.tag_name) + "</a></li>"
+        html << "<li>" + link_to(t.tag_name, tag_path(current_forum.slug, t)) + "</li>"
       end
 
       # html << tag_links.join(", ")
