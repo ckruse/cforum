@@ -1182,10 +1182,24 @@ CREATE UNIQUE INDEX opened_closed_threads_thread_id_user_id_idx ON opened_closed
 
 
 --
+-- Name: priv_messages_owner_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX priv_messages_owner_id_idx ON priv_messages USING btree (owner_id);
+
+
+--
 -- Name: priv_messages_recipient_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
 CREATE INDEX priv_messages_recipient_id_idx ON priv_messages USING btree (recipient_id);
+
+
+--
+-- Name: priv_messages_sender_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX priv_messages_sender_id_idx ON priv_messages USING btree (sender_id);
 
 
 --

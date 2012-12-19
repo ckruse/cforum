@@ -16,6 +16,8 @@ CREATE TABLE priv_messages (
 );
 
 CREATE INDEX priv_messages_recipient_id_idx ON priv_messages (recipient_id);
+CREATE INDEX priv_messages_sender_id_idx ON priv_messages (sender_id);
+CREATE INDEX priv_messages_owner_id_idx ON priv_messages (owner_id);
     }
   end
 
