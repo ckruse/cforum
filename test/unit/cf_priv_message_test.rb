@@ -21,6 +21,9 @@ class CfPrivMessageTest < ActiveSupport::TestCase
     assert !p.save
 
     p.recipient_id = u.user_id
+    assert !p.save
+
+    p.owner_id = u.user_id
     assert p.save
   end
 

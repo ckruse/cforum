@@ -671,6 +671,7 @@ CREATE TABLE priv_messages (
     priv_message_id bigint NOT NULL,
     sender_id bigint NOT NULL,
     recipient_id bigint,
+    owner_id bigint,
     is_read boolean DEFAULT false NOT NULL,
     subject character varying(250) NOT NULL,
     body text NOT NULL,
@@ -1498,11 +1499,19 @@ ALTER TABLE ONLY opened_closed_threads
 
 
 --
+-- Name: priv_messages_owner_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY priv_messages
+    ADD CONSTRAINT priv_messages_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: priv_messages_recipient_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
 ALTER TABLE ONLY priv_messages
-    ADD CONSTRAINT priv_messages_recipient_id_fkey FOREIGN KEY (recipient_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT priv_messages_recipient_id_fkey FOREIGN KEY (recipient_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 --
@@ -1510,7 +1519,7 @@ ALTER TABLE ONLY priv_messages
 --
 
 ALTER TABLE ONLY priv_messages
-    ADD CONSTRAINT priv_messages_sender_id_fkey FOREIGN KEY (sender_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT priv_messages_sender_id_fkey FOREIGN KEY (sender_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 --

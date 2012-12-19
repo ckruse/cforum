@@ -8,6 +8,7 @@ FactoryGirl.define do
 
     association :sender, :factory => :cf_user
     association :recipient, :factory => :cf_user
+    association :owner, :factory => :cf_user
   end
 end
 
