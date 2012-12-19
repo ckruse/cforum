@@ -21,11 +21,11 @@ class CfForumsController < ApplicationController
     elsif current_user and current_user.admin
       @forums = CfForum.order('name ASC').find :all
     else
-      @forums = CfForum.where("public = true OR forum_id IN (SELECT forum_id FROM cforum.forum_permissions WHERE user_id = ?)", current_user.user_id).order('name ASC')
+      @forums = CfForum.where("public = true OR forum_id IN (SELECT forum_id FROM forum_permissions WHERE user_id = ?)", current_user.user_id).order('name ASC')
     end
 
     # TODO: check only for selected forums
-    results = CfForum.connection.execute("SELECT table_name, group_crit, SUM(difference) AS diff FROM cforum.counter_table WHERE table_name = 'threads' OR table_name = 'messages' GROUP BY table_name, group_crit")
+    results = CfForum.connection.execute("SELECT table_name, group_crit, SUM(difference) AS diff FROM counter_table WHERE table_name = 'threads' OR table_name = 'messages' GROUP BY table_name, group_crit")
 
     @counts = {}
     results.each do |r|
@@ -39,16 +39,16 @@ class CfForumsController < ApplicationController
           SELECT
             message_id
           FROM
-            cforum.messages
+            messages
           WHERE
-              cforum.messages.forum_id = cforum.forums.forum_id
+              messages.forum_id = forums.forum_id
             AND
               deleted = false
           ORDER BY
             created_at DESC
           LIMIT 1
         )
-        FROM cforum.forums
+        FROM forums
       )").all
 
     @activities = {}

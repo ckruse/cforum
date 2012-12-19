@@ -4,7 +4,7 @@ class CfMessage < ActiveRecord::Base
   QUOTE_CHAR = "\u{ECF0}"
 
   self.primary_key = 'message_id'
-  self.table_name  = 'cforum.messages'
+  self.table_name  = 'messages'
 
   serialize :flags, ActiveRecord::Coders::Hstore
 

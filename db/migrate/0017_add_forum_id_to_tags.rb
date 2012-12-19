@@ -3,9 +3,9 @@
 class AddForumIdToTags < ActiveRecord::Migration
   def up
     execute %q{
-ALTER TABLE cforum.tags ADD COLUMN forum_id BIGINT REFERENCES cforum.forums (forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
-DROP INDEX cforum.tags_tag_name_idx;
-CREATE UNIQUE INDEX tags_forum_id_tag_name_idx ON cforum.tags (forum_id, tag_name);
+ALTER TABLE tags ADD COLUMN forum_id BIGINT REFERENCES forums (forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
+DROP INDEX tags_tag_name_idx;
+CREATE UNIQUE INDEX tags_forum_id_tag_name_idx ON tags (forum_id, tag_name);
     }
 
     tag_threads = CfTagThread.includes(:thread).all
@@ -28,14 +28,14 @@ CREATE UNIQUE INDEX tags_forum_id_tag_name_idx ON cforum.tags (forum_id, tag_nam
       end
     end
 
-    execute "ALTER TABLE cforum.tags ALTER COLUMN forum_id SET NOT NULL;"
+    execute "ALTER TABLE tags ALTER COLUMN forum_id SET NOT NULL;"
   end
 
   def down
     execute %q{
-DROP INDEX cforum.tags_forum_id_tag_name_idx;
-CREATE UNIQUE INDEX tags_tag_name_idx ON cforum.tags (tag_name);
-ALTER TABLE cforum.tags DROP COLUMN forum_id;
+DROP INDEX tags_forum_id_tag_name_idx;
+CREATE UNIQUE INDEX tags_tag_name_idx ON tags (tag_name);
+ALTER TABLE tags DROP COLUMN forum_id;
     }
   end
 end

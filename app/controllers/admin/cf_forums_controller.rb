@@ -10,7 +10,7 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
   def index
     @forums = CfForum.order('name ASC').find :all
 
-    results = CfForum.connection.execute("SELECT table_name, group_crit, SUM(difference) AS diff FROM cforum.counter_table WHERE table_name = 'threads' OR table_name = 'messages' GROUP BY table_name, group_crit")
+    results = CfForum.connection.execute("SELECT table_name, group_crit, SUM(difference) AS diff FROM counter_table WHERE table_name = 'threads' OR table_name = 'messages' GROUP BY table_name, group_crit")
 
     @counts = {}
     results.each do |r|
@@ -24,16 +24,16 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
           SELECT
             message_id
           FROM
-            cforum.messages
+            messages
           WHERE
-              cforum.messages.forum_id = cforum.forums.forum_id
+              messages.forum_id = forums.forum_id
             AND
               deleted = false
           ORDER BY
             created_at DESC
           LIMIT 1
         )
-        FROM cforum.forums
+        FROM forums
       )").all
 
     @activities = {}
@@ -94,8 +94,8 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
 
   def destroy
     CfForum.transaction do
-      CfForum.connection.execute "DELETE FROM cforum.messages WHERE forum_id = " + @cf_forum.forum_id.to_s
-      CfForum.connection.execute "DELETE FROM cforum.threads WHERE forum_id = " + @cf_forum.forum_id.to_s
+      CfForum.connection.execute "DELETE FROM messages WHERE forum_id = " + @cf_forum.forum_id.to_s
+      CfForum.connection.execute "DELETE FROM threads WHERE forum_id = " + @cf_forum.forum_id.to_s
       @cf_forum.destroy
     end
 
@@ -112,9 +112,9 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
 
     if @merge_forum
       CfForum.transaction do
-        CfForum.connection.execute 'UPDATE cforum.threads SET forum_id = ' + @merge_forum.forum_id.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
-        CfMessage.connection.execute 'UPDATE cforum.messages SET forum_id = ' + @merge_forum.forum_id.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
-        CfForumPermission.connection.execute 'UPDATE cforum.forum_permissions SET forum_id = ' + @merge_forum.forum_id.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
+        CfForum.connection.execute 'UPDATE threads SET forum_id = ' + @merge_forum.forum_id.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
+        CfMessage.connection.execute 'UPDATE messages SET forum_id = ' + @merge_forum.forum_id.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
+        CfForumPermission.connection.execute 'UPDATE forum_permissions SET forum_id = ' + @merge_forum.forum_id.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
 
         @cf_forum.destroy
       end

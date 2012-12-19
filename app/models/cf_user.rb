@@ -8,7 +8,7 @@ class CfUser < ActiveRecord::Base
     :rememberable, :confirmable
 
   self.primary_key = 'user_id'
-  self.table_name  = 'cforum.users'
+  self.table_name  = 'users'
 
 
   validates_presence_of :password, :on => :create

@@ -4,10 +4,10 @@ class CreateMessages < ActiveRecord::Migration
       CREATE EXTENSION hstore;
       DO $$BEGIN CREATE SCHEMA cforum; EXCEPTION WHEN duplicate_schema THEN RAISE NOTICE 'already exists'; END;$$;
 
-      CREATE TABLE cforum.messages (
+      CREATE TABLE messages (
         message_id BIGSERIAL NOT NULL PRIMARY KEY,
-        thread_id BIGINT NOT NULL REFERENCES cforum.threads(thread_id) ON DELETE CASCADE ON UPDATE CASCADE,
-        forum_id BIGINT NOT NULL REFERENCES cforum.forums(forum_id) ON DELETE CASCADE ON UPDATE CASCADE,
+        thread_id BIGINT NOT NULL REFERENCES threads(thread_id) ON DELETE CASCADE ON UPDATE CASCADE,
+        forum_id BIGINT NOT NULL REFERENCES forums(forum_id) ON DELETE CASCADE ON UPDATE CASCADE,
 
         upvotes INTEGER NOT NULL DEFAULT 0,
         downvotes INTEGER NOT NULL DEFAULT 0,
@@ -18,8 +18,8 @@ class CreateMessages < ActiveRecord::Migration
 
         mid BIGINT,
 
-        user_id BIGINT REFERENCES cforum.users (user_id) ON DELETE SET NULL ON UPDATE CASCADE,
-        parent_id BIGINT REFERENCES cforum.messages (message_id) ON DELETE SET NULL ON UPDATE CASCADE,
+        user_id BIGINT REFERENCES users (user_id) ON DELETE SET NULL ON UPDATE CASCADE,
+        parent_id BIGINT REFERENCES messages (message_id) ON DELETE SET NULL ON UPDATE CASCADE,
 
         author CHARACTER VARYING NOT NULL,
         email CHARACTER VARYING,
@@ -31,22 +31,22 @@ class CreateMessages < ActiveRecord::Migration
         flags HSTORE
       );
 
-      ALTER TABLE cforum.threads ADD COLUMN message_id BIGINT REFERENCES cforum.messages (message_id) ON DELETE SET NULL ON UPDATE CASCADE;
-      CREATE INDEX threads_message_id_idx on cforum.threads (message_id); -- used for the FKs
+      ALTER TABLE threads ADD COLUMN message_id BIGINT REFERENCES messages (message_id) ON DELETE SET NULL ON UPDATE CASCADE;
+      CREATE INDEX threads_message_id_idx on threads (message_id); -- used for the FKs
 
-      CREATE INDEX messages_thread_id_idx ON cforum.messages (thread_id);
-      CREATE INDEX messages_mid_idx ON cforum.messages (mid);
+      CREATE INDEX messages_thread_id_idx ON messages (thread_id);
+      CREATE INDEX messages_mid_idx ON messages (mid);
 
-      CREATE INDEX messages_parent_id_idx ON cforum.messages (parent_id); -- FK index
+      CREATE INDEX messages_parent_id_idx ON messages (parent_id); -- FK index
 
-      CREATE INDEX messages_forum_id_updated_at_idx ON cforum.messages (forum_id, updated_at);
-      CREATE INDEX messages_user_id_idx on cforum.messages (user_id);
+      CREATE INDEX messages_forum_id_updated_at_idx ON messages (forum_id, updated_at);
+      CREATE INDEX messages_user_id_idx on messages (user_id);
     }
   end
 
   def down
-    remove_column 'cforum.threads', :message_id
-    drop_table 'cforum.messages'
+    remove_column 'threads', :message_id
+    drop_table 'messages'
     execute "DO $$BEGIN DROP SCHEMA system; EXCEPTION WHEN dependent_objects_still_exist THEN RAISE NOTICE 'not removing schema system'; END;$$;"
   end
 end

@@ -2,7 +2,7 @@
 
 class CfTagThread < ActiveRecord::Base
   self.primary_key = 'tag_thread_id'
-  self.table_name  = 'cforum.tags_threads'
+  self.table_name  = 'tags_threads'
 
   belongs_to :thread, class_name: 'CfThread', :foreign_key => :thread_id
   belongs_to :tag, class_name: 'CfTag', :foreign_key => :tag_id

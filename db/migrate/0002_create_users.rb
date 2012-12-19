@@ -3,7 +3,7 @@ class CreateUsers < ActiveRecord::Migration
     execute %q{
       DO $$BEGIN CREATE SCHEMA cforum; EXCEPTION WHEN duplicate_schema THEN RAISE NOTICE 'already exists'; END;$$;
 
-      CREATE TABLE cforum.users (
+      CREATE TABLE users (
         user_id BIGSERIAL NOT NULL PRIMARY KEY,
         username CHARACTER VARYING(255) NOT NULL,
         email CHARACTER VARYING(255),
@@ -29,16 +29,16 @@ class CreateUsers < ActiveRecord::Migration
         authentication_token CHARACTER VARYING(255)
       );
 
-      CREATE UNIQUE INDEX users_username_idx ON cforum.users (username);
-      CREATE UNIQUE INDEX users_email_idx ON cforum.users (email);
-      CREATE UNIQUE INDEX users_reset_password_token_idx ON cforum.users (reset_password_token);
-      CREATE UNIQUE INDEX users_confirmation_token_idx ON cforum.users (confirmation_token);
-      CREATE UNIQUE INDEX users_authentication_token_idx ON cforum.users (authentication_token);
+      CREATE UNIQUE INDEX users_username_idx ON users (username);
+      CREATE UNIQUE INDEX users_email_idx ON users (email);
+      CREATE UNIQUE INDEX users_reset_password_token_idx ON users (reset_password_token);
+      CREATE UNIQUE INDEX users_confirmation_token_idx ON users (confirmation_token);
+      CREATE UNIQUE INDEX users_authentication_token_idx ON users (authentication_token);
     }
   end
 
   def down
-    drop_table 'cforum.users'
+    drop_table 'users'
     execute "DO $$BEGIN DROP SCHEMA cforum; EXCEPTION WHEN dependent_objects_still_exist THEN RAISE NOTICE 'not removing schema cforum'; END;$$;"
   end
 end

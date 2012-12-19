@@ -22,23 +22,23 @@ class CfThreadsController < ApplicationController
 
     # the „no forum” case is much more complex; we have to do it partly manually
     # to avoid DISTINCT
-    sql = "SELECT thread_id FROM cforum.threads WHERE "
+    sql = "SELECT thread_id FROM threads WHERE "
     crits = []
 
     if forum
       crits << "forum_id = " + forum.forum_id.to_s
 
       unless @view_all
-        crits << "EXISTS(SELECT message_id FROM cforum.messages WHERE thread_id = threads.thread_id AND deleted = false)"
+        crits << "EXISTS(SELECT message_id FROM messages WHERE thread_id = threads.thread_id AND deleted = false)"
       end
     else
-      crits << "forum_id IN (SELECT forum_id FROM cforum.forum_permissions WHERE user_id = " + current_user.user_id.to_s + ")" if current_user
-      crits << "forum_id IN (SELECT forum_id FROM cforum.forums WHERE public = true)"
+      crits << "forum_id IN (SELECT forum_id FROM forum_permissions WHERE user_id = " + current_user.user_id.to_s + ")" if current_user
+      crits << "forum_id IN (SELECT forum_id FROM forums WHERE public = true)"
 
       crits = ["(" + crits.join(" OR ") + ")"]
 
       unless @view_all
-        crits << "EXISTS(SELECT message_id FROM cforum.messages WHERE thread_id = threads.thread_id AND deleted = false)"
+        crits << "EXISTS(SELECT message_id FROM messages WHERE thread_id = threads.thread_id AND deleted = false)"
       end
     end
     sql << crits.join(" AND ")
@@ -56,16 +56,16 @@ class CfThreadsController < ApplicationController
       includes(:messages => :owner).
       where(conditions).
       where(thread_id: ids).
-      order('cforum.threads.created_at DESC').
+      order('threads.created_at DESC').
       limit(@limit).
       offset(@limit * @page)
 
     if forum
-      rslt = CfForum.connection.execute("SELECT cforum.counter_table_get_count('threads', " +
+      rslt = CfForum.connection.execute("SELECT counter_table_get_count('threads', " +
         current_forum.forum_id.to_s +
         ") AS cnt")
     else
-      rslt = CfForum.connection.execute("SELECT SUM(difference) AS cnt FROM cforum.counter_table WHERE table_name = 'threads'")
+      rslt = CfForum.connection.execute("SELECT SUM(difference) AS cnt FROM counter_table WHERE table_name = 'threads'")
     end
 
     @all_threads_count = rslt[0]['cnt'].to_i
@@ -183,7 +183,7 @@ class CfThreadsController < ApplicationController
     if current_user.admin
       @forums = CfForum.order('name ASC').find :all
     else
-      @forums = CfForum.where("public = true OR forum_id IN (SELECT forum_id FROM cforum.forum_permissions WHERE user_id = ?)", current_user.user_id).order('name ASC')
+      @forums = CfForum.where("public = true OR forum_id IN (SELECT forum_id FROM forum_permissions WHERE user_id = ?)", current_user.user_id).order('name ASC')
     end
   end
 

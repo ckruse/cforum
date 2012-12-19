@@ -2,7 +2,7 @@
 
 class CfForum < ActiveRecord::Base
   self.primary_key = 'forum_id'
-  self.table_name  = 'cforum.forums'
+  self.table_name  = 'forums'
 
   has_many :threads, class_name: 'CfThread', :foreign_key => :forum_id, :dependent => :destroy
 

@@ -11,6 +11,7 @@ development:
   username: ckruse
   password:
   host: localhost
+  schema_search_path: cforum
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -23,6 +24,7 @@ test:
   username: ckruse
   password:
   host: localhost
+  schema_search_path: cforum
 
 production:
   adapter: postgresql
@@ -32,3 +34,4 @@ production:
   username: ckruse
   password:
   host: localhost
+  schema_search_path: cforum

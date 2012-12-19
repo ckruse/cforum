@@ -6,7 +6,7 @@ class CfForumPermission < ActiveRecord::Base
   ACCESS_MODERATOR = 'moderator'
 
   self.primary_key = 'forum_permission_id'
-  self.table_name  = 'cforum.forum_permissions'
+  self.table_name  = 'forum_permissions'
 
   belongs_to :user, class_name: 'CfUser'
   belongs_to :forum, class_name: 'CfForum'

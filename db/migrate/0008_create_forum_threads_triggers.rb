@@ -7,10 +7,10 @@ class CreateForumThreadsTriggers  < ActiveRecord::Migration
   end
 
   def down
-    execute 'DROP FUNCTION cforum.count_threads_insert_trigger() CASCADE'
-    execute 'DROP FUNCTION cforum.count_threads_delete_trigger() CASCADE'
-    execute 'DROP FUNCTION cforum.count_threads_truncate_trigger() CASCADE'
-    execute 'DROP FUNCTION cforum.count_threads_insert_forum_trigger() CASCADE'
+    execute 'DROP FUNCTION count_threads_insert_trigger() CASCADE'
+    execute 'DROP FUNCTION count_threads_delete_trigger() CASCADE'
+    execute 'DROP FUNCTION count_threads_truncate_trigger() CASCADE'
+    execute 'DROP FUNCTION count_threads_insert_forum_trigger() CASCADE'
   end
 end
 

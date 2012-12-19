@@ -1,13 +1,13 @@
-CREATE TABLE cforum.counter_table (
+CREATE TABLE counter_table (
   count_id BIGSERIAL NOT NULL PRIMARY KEY,
   table_name NAME NOT NULL,
   group_crit BIGINT,
   difference BIGINT NOT NULL
 );
 
-CREATE INDEX ON cforum.counter_table (table_name, group_crit);
+CREATE INDEX ON counter_table (table_name, group_crit);
 
-CREATE OR REPLACE FUNCTION cforum.counter_table_get_count(v_table_name NAME, v_group_crit BIGINT) RETURNS BIGINT LANGUAGE plpgsql AS $body$
+CREATE OR REPLACE FUNCTION counter_table_get_count(v_table_name NAME, v_group_crit BIGINT) RETURNS BIGINT LANGUAGE plpgsql AS $body$
 DECLARE
   v_table_n NAME := quote_ident(v_table_name);
   v_sum BIGINT;
@@ -16,7 +16,7 @@ BEGIN
   SELECT
     COUNT(*), SUM(difference)
   FROM
-    cforum.counter_table
+    counter_table
   WHERE
       table_name = v_table_name
     AND
@@ -44,7 +44,7 @@ BEGIN
       FOR v_cur_id, v_cur_difference IN
         SELECT count_id, difference
         FROM
-          cforum.counter_table
+          counter_table
         WHERE
             table_name = v_table_name
           AND
@@ -58,14 +58,14 @@ BEGIN
         v_new_sum := v_new_sum + v_cur_difference;
 
         IF array_length(v_delete_ids, 1) > 100 THEN
-          DELETE FROM cforum.counter_table WHERE count_id = ANY(v_delete_ids);
+          DELETE FROM counter_table WHERE count_id = ANY(v_delete_ids);
           v_delete_ids = '{}';
         END IF;
 
       END LOOP;
 
-      DELETE FROM cforum.counter_table WHERE count_id = ANY(v_delete_ids);
-      INSERT INTO cforum.counter_table(table_name, group_crit, difference) VALUES(v_table_name, v_group_crit, v_new_sum);
+      DELETE FROM counter_table WHERE count_id = ANY(v_delete_ids);
+      INSERT INTO counter_table(table_name, group_crit, difference) VALUES(v_table_name, v_group_crit, v_new_sum);
 
     EXCEPTION
       --if somebody else summed up in a transaction which was open at the
@@ -88,4 +88,3 @@ END;
 $body$;
 
 -- eof
-
