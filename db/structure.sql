@@ -33,7 +33,7 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 -- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
 --
 
-CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA cforum;
+CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
 
 
 --
@@ -54,7 +54,7 @@ CREATE FUNCTION count_messages_delete_trigger() RETURNS trigger
     AS $$
 BEGIN
   INSERT INTO
-    counter_table (table_name, difference, group_crit)
+    cforum.counter_table (table_name, difference, group_crit)
   VALUES
     ('messages', -1, OLD.forum_id);
 
@@ -72,7 +72,7 @@ CREATE FUNCTION count_messages_insert_forum_trigger() RETURNS trigger
     AS $$
 BEGIN
   INSERT INTO
-    counter_table (table_name, group_crit, difference)
+    cforum.counter_table (table_name, group_crit, difference)
     VALUES ('messages', NEW.forum_id, 0);
 
   RETURN NULL;
@@ -89,7 +89,7 @@ CREATE FUNCTION count_messages_insert_trigger() RETURNS trigger
     AS $$
 BEGIN
   INSERT INTO
-    counter_table (table_name, difference, group_crit)
+    cforum.counter_table (table_name, difference, group_crit)
   VALUES
     ('messages', +1, NEW.forum_id);
 
@@ -107,12 +107,12 @@ CREATE FUNCTION count_messages_truncate_trigger() RETURNS trigger
     AS $$
 BEGIN
   DELETE FROM
-    counter_table
+    cforum.counter_table
   WHERE
     table_name = 'messages';
 
-  INSERT INTO counter_table (table_name, difference, group_crit)
-    SELECT 'messages', 0, forum_id FROM forums;
+  INSERT INTO cforum.counter_table (table_name, difference, group_crit)
+    SELECT 'messages', 0, forum_id FROM cforum.forums;
 
   RETURN NULL;
 END;
@@ -131,35 +131,35 @@ DECLARE
 BEGIN
   IF OLD.deleted = false AND NEW.deleted = true THEN
     INSERT INTO
-      counter_table (table_name, difference, group_crit)
+      cforum.counter_table (table_name, difference, group_crit)
     VALUES
       ('messages', -1, NEW.forum_id);
   END IF;
 
   IF OLD.deleted = true AND NEW.deleted = false THEN
     INSERT INTO
-      counter_table (table_name, difference, group_crit)
+      cforum.counter_table (table_name, difference, group_crit)
     VALUES
       ('messages', +1, NEW.forum_id);
   END IF;
 
   IF OLD.forum_id != NEW.forum_id THEN
     INSERT INTO
-      counter_table (table_name, difference, group_crit)
+      cforum.counter_table (table_name, difference, group_crit)
     VALUES
       ('messages', -1, OLD.forum_id);
 
     INSERT INTO
-      counter_table (table_name, difference, group_crit)
+      cforum.counter_table (table_name, difference, group_crit)
     VALUES
       ('messages', +1, NEW.forum_id);
   END IF;
 
-  SELECT EXISTS(SELECT message_id FROM messages WHERE thread_id = NEW.thread_id AND deleted = false) INTO is_del_thread;
+  SELECT EXISTS(SELECT message_id FROM cforum.messages WHERE thread_id = NEW.thread_id AND deleted = false) INTO is_del_thread;
   IF is_del_thread THEN
-    UPDATE threads SET deleted = false WHERE thread_id = NEW.thread_id;
+    UPDATE cforum.threads SET deleted = false WHERE thread_id = NEW.thread_id;
   ELSE
-    UPDATE threads SET deleted = true WHERE thread_id = NEW.thread_id;
+    UPDATE cforum.threads SET deleted = true WHERE thread_id = NEW.thread_id;
   END IF;
 
   RETURN NULL;
@@ -176,7 +176,7 @@ CREATE FUNCTION count_threads_delete_trigger() RETURNS trigger
     AS $$
 BEGIN
   INSERT INTO
-    counter_table (table_name, difference, group_crit)
+    cforum.counter_table (table_name, difference, group_crit)
   VALUES
     (TG_TABLE_NAME, -1, OLD.forum_id);
 
@@ -194,7 +194,7 @@ CREATE FUNCTION count_threads_insert_forum_trigger() RETURNS trigger
     AS $$
 BEGIN
   INSERT INTO
-    counter_table (table_name, group_crit, difference)
+    cforum.counter_table (table_name, group_crit, difference)
     VALUES ('threads', NEW.forum_id, 0);
 
   RETURN NULL;
@@ -211,7 +211,7 @@ CREATE FUNCTION count_threads_insert_trigger() RETURNS trigger
     AS $$
 BEGIN
   INSERT INTO
-    counter_table (table_name, difference, group_crit)
+    cforum.counter_table (table_name, difference, group_crit)
   VALUES
     (TG_TABLE_NAME, +1, NEW.forum_id);
 
@@ -228,7 +228,7 @@ CREATE FUNCTION count_threads_tag_delete_trigger() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-  UPDATE tags SET num_threads = num_threads - 1 WHERE tag_id = OLD.tag_id;
+  UPDATE cforum.tags SET num_threads = num_threads - 1 WHERE tag_id = OLD.tag_id;
   RETURN NULL;
 END;
 $$;
@@ -242,7 +242,7 @@ CREATE FUNCTION count_threads_tag_insert_trigger() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-  UPDATE tags SET num_threads = num_threads + 1 WHERE tag_id = NEW.tag_id;
+  UPDATE cforum.tags SET num_threads = num_threads + 1 WHERE tag_id = NEW.tag_id;
   RETURN NEW;
 END;
 $$;
@@ -257,12 +257,12 @@ CREATE FUNCTION count_threads_truncate_trigger() RETURNS trigger
     AS $$
 BEGIN
   DELETE FROM
-    counter_table
+    cforum.counter_table
   WHERE
     table_name = 'threads';
 
-  INSERT INTO counter_table (table_name, difference, group_crit)
-    SELECT 'threads', 0, forum_id FROM forums;
+  INSERT INTO cforum.counter_table (table_name, difference, group_crit)
+    SELECT 'threads', 0, forum_id FROM cforum.forums;
 
   RETURN NULL;
 END;
@@ -279,26 +279,26 @@ CREATE FUNCTION count_threads_update_trigger() RETURNS trigger
 BEGIN
   IF OLD.deleted = false AND NEW.deleted = true THEN
     INSERT INTO
-      counter_table (table_name, difference, group_crit)
+      cforum.counter_table (table_name, difference, group_crit)
     VALUES
       ('threads', -1, NEW.forum_id);
   END IF;
 
   IF OLD.deleted = true AND NEW.deleted = false THEN
     INSERT INTO
-      counter_table (table_name, difference, group_crit)
+      cforum.counter_table (table_name, difference, group_crit)
     VALUES
       ('threads', +1, NEW.forum_id);
   END IF;
 
   IF OLD.forum_id != NEW.forum_id THEN
     INSERT INTO
-      counter_table (table_name, difference, group_crit)
+      cforum.counter_table (table_name, difference, group_crit)
     VALUES
       ('threads', -1, OLD.forum_id);
 
     INSERT INTO
-      counter_table (table_name, difference, group_crit)
+      cforum.counter_table (table_name, difference, group_crit)
     VALUES
       ('threads', +1, NEW.forum_id);
   END IF;
@@ -323,7 +323,7 @@ BEGIN
   SELECT
     COUNT(*), SUM(difference)
   FROM
-    counter_table
+    cforum.counter_table
   WHERE
       table_name = v_table_name
     AND
@@ -351,7 +351,7 @@ BEGIN
       FOR v_cur_id, v_cur_difference IN
         SELECT count_id, difference
         FROM
-          counter_table
+          cforum.counter_table
         WHERE
             table_name = v_table_name
           AND
@@ -365,14 +365,14 @@ BEGIN
         v_new_sum := v_new_sum + v_cur_difference;
 
         IF array_length(v_delete_ids, 1) > 100 THEN
-          DELETE FROM counter_table WHERE count_id = ANY(v_delete_ids);
+          DELETE FROM cforum.counter_table WHERE count_id = ANY(v_delete_ids);
           v_delete_ids = '{}';
         END IF;
 
       END LOOP;
 
-      DELETE FROM counter_table WHERE count_id = ANY(v_delete_ids);
-      INSERT INTO counter_table(table_name, group_crit, difference) VALUES(v_table_name, v_group_crit, v_new_sum);
+      DELETE FROM cforum.counter_table WHERE count_id = ANY(v_delete_ids);
+      INSERT INTO cforum.counter_table(table_name, group_crit, difference) VALUES(v_table_name, v_group_crit, v_new_sum);
 
     EXCEPTION
       --if somebody else summed up in a transaction which was open at the
@@ -405,7 +405,7 @@ CREATE FUNCTION settings_unique_check__insert() RETURNS trigger
 BEGIN
   IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL THEN
     IF NEW.user_id IN (
-        SELECT user_id FROM settings WHERE user_id = NEW.user_id AND forum_id IS NULL
+        SELECT user_id FROM cforum.settings WHERE user_id = NEW.user_id AND forum_id IS NULL
       ) THEN
       RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
     END IF;
@@ -413,7 +413,7 @@ BEGIN
 
   IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL THEN
     IF NEW.forum_id IN (
-        SELECT forum_id FROM settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
+        SELECT forum_id FROM cforum.settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
       ) THEN
       RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
     END IF;
@@ -434,7 +434,7 @@ CREATE FUNCTION settings_unique_check__update() RETURNS trigger
 BEGIN
   IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL AND NEW.user_id != OLD.user_id THEN
     IF NEW.user_id IN (
-        SELECT user_id FROM settings WHERE user_id = NEW.user_id AND forum_id IS NULL
+        SELECT user_id FROM cforum.settings WHERE user_id = NEW.user_id AND forum_id IS NULL
       ) THEN
       RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
     END IF;
@@ -442,7 +442,7 @@ BEGIN
 
   IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL AND NEW.forum_id != OLD.forum_id THEN
     IF NEW.forum_id IN (
-        SELECT forum_id FROM settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
+        SELECT forum_id FROM cforum.settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
       ) THEN
       RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
     END IF;
@@ -575,7 +575,7 @@ CREATE TABLE messages (
     homepage character varying,
     subject character varying NOT NULL,
     content character varying NOT NULL,
-    flags hstore
+    flags public.hstore
 );
 
 
@@ -596,6 +596,40 @@ CREATE SEQUENCE messages_message_id_seq
 --
 
 ALTER SEQUENCE messages_message_id_seq OWNED BY messages.message_id;
+
+
+--
+-- Name: notifications; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE notifications (
+    notification_id bigint NOT NULL,
+    recipient_id bigint NOT NULL,
+    is_read boolean DEFAULT false NOT NULL,
+    subject character varying(250) NOT NULL,
+    body text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: notifications_notification_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE notifications_notification_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: notifications_notification_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE notifications_notification_id_seq OWNED BY notifications.notification_id;
 
 
 --
@@ -627,6 +661,41 @@ CREATE SEQUENCE opened_closed_threads_opened_closed_thread_id_seq
 --
 
 ALTER SEQUENCE opened_closed_threads_opened_closed_thread_id_seq OWNED BY opened_closed_threads.opened_closed_thread_id;
+
+
+--
+-- Name: priv_messages; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE priv_messages (
+    priv_message_id bigint NOT NULL,
+    sender_id bigint NOT NULL,
+    recipient_id bigint,
+    is_read boolean DEFAULT false NOT NULL,
+    subject character varying(250) NOT NULL,
+    body text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: priv_messages_priv_message_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE priv_messages_priv_message_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: priv_messages_priv_message_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE priv_messages_priv_message_id_seq OWNED BY priv_messages.priv_message_id;
 
 
 --
@@ -676,7 +745,7 @@ CREATE TABLE settings (
     setting_id bigint NOT NULL,
     forum_id bigint,
     user_id bigint,
-    options hstore
+    options public.hstore
 );
 
 
@@ -869,10 +938,24 @@ ALTER TABLE ONLY messages ALTER COLUMN message_id SET DEFAULT nextval('messages_
 
 
 --
+-- Name: notification_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY notifications ALTER COLUMN notification_id SET DEFAULT nextval('notifications_notification_id_seq'::regclass);
+
+
+--
 -- Name: opened_closed_thread_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
 ALTER TABLE ONLY opened_closed_threads ALTER COLUMN opened_closed_thread_id SET DEFAULT nextval('opened_closed_threads_opened_closed_thread_id_seq'::regclass);
+
+
+--
+-- Name: priv_message_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY priv_messages ALTER COLUMN priv_message_id SET DEFAULT nextval('priv_messages_priv_message_id_seq'::regclass);
 
 
 --
@@ -950,11 +1033,27 @@ ALTER TABLE ONLY messages
 
 
 --
+-- Name: notifications_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY notifications
+    ADD CONSTRAINT notifications_pkey PRIMARY KEY (notification_id);
+
+
+--
 -- Name: opened_closed_threads_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY opened_closed_threads
     ADD CONSTRAINT opened_closed_threads_pkey PRIMARY KEY (opened_closed_thread_id);
+
+
+--
+-- Name: priv_messages_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY priv_messages
+    ADD CONSTRAINT priv_messages_pkey PRIMARY KEY (priv_message_id);
 
 
 --
@@ -1068,10 +1167,24 @@ CREATE INDEX messages_user_id_idx ON messages USING btree (user_id);
 
 
 --
+-- Name: notifications_owner_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX notifications_owner_idx ON notifications USING btree (recipient_id);
+
+
+--
 -- Name: opened_closed_threads_thread_id_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX opened_closed_threads_thread_id_user_id_idx ON opened_closed_threads USING btree (thread_id, user_id);
+
+
+--
+-- Name: priv_messages_recipient_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX priv_messages_recipient_id_idx ON priv_messages USING btree (recipient_id);
 
 
 --
@@ -1361,6 +1474,14 @@ ALTER TABLE ONLY messages
 
 
 --
+-- Name: notifications_recipient_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY notifications
+    ADD CONSTRAINT notifications_recipient_id_fkey FOREIGN KEY (recipient_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: opened_closed_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -1374,6 +1495,22 @@ ALTER TABLE ONLY opened_closed_threads
 
 ALTER TABLE ONLY opened_closed_threads
     ADD CONSTRAINT opened_closed_threads_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: priv_messages_recipient_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY priv_messages
+    ADD CONSTRAINT priv_messages_recipient_id_fkey FOREIGN KEY (recipient_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: priv_messages_sender_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY priv_messages
+    ADD CONSTRAINT priv_messages_sender_id_fkey FOREIGN KEY (sender_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -1483,6 +1620,10 @@ INSERT INTO schema_migrations (version) VALUES ('21');
 INSERT INTO schema_migrations (version) VALUES ('22');
 
 INSERT INTO schema_migrations (version) VALUES ('23');
+
+INSERT INTO schema_migrations (version) VALUES ('24');
+
+INSERT INTO schema_migrations (version) VALUES ('25');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
 
