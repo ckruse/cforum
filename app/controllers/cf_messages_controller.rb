@@ -103,4 +103,6 @@ class CfMessagesController < ApplicationController
   include AuthorizeForum
 end
 
+SettingValidator.validators['quote_old_message'] = lambda { |nam, val| %w{yes no}.include?(val) }
+
 # eof

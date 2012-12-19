@@ -11,6 +11,8 @@ class CfSetting < ActiveRecord::Base
 
   attr_accessible :setting_id, :forum_id, :user_id, :options
 
+  validates :options, setting: true
+
   after_initialize do
     self.options ||= {} if attributes.has_key? 'options'
   end
