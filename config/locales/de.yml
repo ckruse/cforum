@@ -6,7 +6,7 @@ de:
       destroyed: Forum erfolgreich gelöscht
       merged: Das Forum wurde erfolgreich zusammengeführt
 
-      error_message: "%{errors_count} verhinderten, dass dieses Forum gespeichert werden konnte:"
+      error_message: "Dieses Forum konnte nicht gespeichert werden:"
       new_forum: Neues Forum
       edit: "Forum %{name} bearbeiten"
       merge_forum: "Forum %{forum} zusammenführen"
@@ -106,6 +106,13 @@ de:
     confirm_first: Sie müssen Ihren Benutzer-Account erst verifizieren!
     items_per_page: Einträge pro Seite
     use_archive: Archiv benutzen
+
+  options:
+    errors:
+      pagination: Die Option „Anzahl der Einträge pro Seite” muss aus Ziffern bestehen!
+      use_archive: Die Option „Archiv benutzen” muss entweder bejaht oder verneint werden!
+      quote_char: Das Zitat-Zeichen ist fehlerhaft!
+      quote_old_message: Die Option „alte Nachricht zitieren” muss entweder bejaht oder verneint werden!
 
   permissions:
     read: Lesen

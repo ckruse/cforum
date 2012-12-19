@@ -9,7 +9,7 @@ en:
       destroyed: Forum successfully deleted
       merged: Forum has successfully been merged
 
-      error_message: "%{errors_count} prohibited this forum from being saved:"
+      error_message: "This forum could not be saved:"
       new_forum: New Forum
       edit: "Edit forum %{name}"
       merge_forum: "Merge forum %{forum}"
@@ -114,6 +114,13 @@ en:
     confirm_first: You have to confirm your registration first!
     items_per_page: Items per page
     use_archive: Use archive
+
+  options:
+    errors:
+      pagination: The option „Items per page” has to consist of numbers!
+      use_archive: The option „Use archive” has to be either yes or no!
+      quote_char: The quoting character is invalid!
+      quote_old_message: The Option „quote old message” has to be either yes or no!
 
   permissions:
     read: Read
