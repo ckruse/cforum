@@ -17,7 +17,7 @@ class CfThreadsController < ApplicationController
 
     conditions = {}
     conditions[:forum_id] = forum.forum_id if forum
-    conditions[:archived] = false if conf('use_archive')
+    conditions[:archived] = false if conf('use_archive') == 'yes'
     conditions[:messages] = {deleted: false} unless @view_all
 
     # the „no forum” case is much more complex; we have to do it partly manually
