@@ -1,0 +1,12 @@
+<h1>New Mail</h1>
+
+<%= form_for @mail, url: mails_path, html: {:class => 'form-horizontal'} do |t| %>
+
+<%= render 'form', t: t %>
+
+<p class="form-actions">
+  <%= t.submit t("views.save"), :class => 'btn btn-primary' %>
+  <%= link_to t("views.cancel"), mails_path, :class => 'btn' %>
+</p>
+
+<% end %>

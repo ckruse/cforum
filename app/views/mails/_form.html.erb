@@ -1,0 +1,17 @@
+<div class="control-group">
+  <%= t.label :recipient_id, :class => 'control-label' %>
+  <div class="controls">
+    <%= t.collection_select :recipient_id, CfUser.order(:username).all, :user_id, :username %>
+  </div>
+</div>
+
+<div class="control-group">
+  <%= t.label :subject, :class => 'control-label' %>
+  <div class="controls">
+    <%= t.text_field :subject %>
+  </div>
+</div>
+
+<div class="control-group">
+  <%= t.text_area :body, :class => 'span5', maxlength: 12288, value: message_to_txt(t.object.body.to_s) %>
+</div>

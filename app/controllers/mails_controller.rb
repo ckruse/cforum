@@ -53,13 +53,32 @@ class MailsController < ApplicationController
   end
 
   def create
-    # @user = CfUser.new(params[:cf_user])
+    @mail           = CfPrivMessage.new(params[:cf_priv_message])
+    @mail.sender_id = current_user.sender_id
+    @mail.owner     = current_user.user_id
 
-    # if @user.save
-    #   redirect_to edit_admin_user_url(@user), notice: I18n.t('admin.users.created')
-    # else
-    #   render :new
-    # end
+    recipient = CfUser.find(@mail.recipient_id)
+
+    @mail_recipient           = CfPrivMessage.new(params[:cf_priv_message])
+    @mail_recipient.sender_id = current_user.sender_id
+    @mail_recipient.owner     = recipient.user_id
+
+    saved = false
+    CfPrivMessage.transaction do
+      if @mail.save
+        save = @mail_recipient.save
+      end
+
+      raise ActiveRecord::Rollback.new unless save
+    end
+
+    if saved
+      format.html { redirect_to user_mail_path(recipient.username, @mail), notice: t('mails.sent') }
+      format.json { render json: @mail, status: :created }
+    else
+      format.html { render action: "new" }
+      format.json { render json: @mail.errors, status: :unprocessable_entity }
+    end
   end
 
   def destroy
