@@ -115,7 +115,11 @@ en:
     items_per_page: Items per page
     use_archive: Use archive
     reply: Reply
-    post_from: Message from %{name}
+    post_from: Mail from %{name}
+    post: Mail
+    author: Author
+    recipient: Recipient
+    subject: Subject
 
   options:
     errors:

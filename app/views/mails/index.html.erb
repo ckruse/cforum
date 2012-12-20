@@ -1,13 +1,13 @@
-<h1>Post<% if @user %> von <%= @user.username %><% end %></h1>
+<h1><% if @user %><%= t('views.post_from', name: @user.username) %><% else %><%= t('views.post') %><% end %></h1>
 
 <table class="table table-condensed table-striped table-hover">
   <thead>
     <tr>
       <th> </th>
-      <th>Autor</th>
-      <th>Empfänger</th>
-      <th>Betrifft</th>
-      <th>Erstellt</th>
+      <th><%= t('views.author') %></th>
+      <th><%= t('views.recipient') %></th>
+      <th><%= t('views.subject') %></th>
+      <th><%= t('views.created') %></th>
       <th> </th>
     </tr>
   </thead>

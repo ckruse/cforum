@@ -108,6 +108,10 @@ de:
     use_archive: Archiv benutzen
     reply: Antworten
     post_from: Post von %{name}
+    post: Post
+    author: Autor
+    recipient: Empfänger
+    subject: Betreff
 
   options:
     errors:
