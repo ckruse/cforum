@@ -114,6 +114,8 @@ en:
     confirm_first: You have to confirm your registration first!
     items_per_page: Items per page
     use_archive: Use archive
+    reply: Reply
+    post_from: Message from %{name}
 
   options:
     errors:
