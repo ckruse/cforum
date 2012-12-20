@@ -13,9 +13,7 @@ Cforum::Application.routes.draw do
   post '/mails' => 'mails#create'
   get '/mails/new' => 'mails#new', :as => :new_mail
   get '/mails/:user' => 'mails#index', :as => :user_mails
-  get '/mails/:user/:id/reply' => 'mails#reply', :as => :reply_mail
   get '/mails/:user/:id' => 'mails#show', :as => :mail
-  put '/mails/:user/:id' => 'mails#do_reply'
   delete '/mails/:user/:id' => 'mails#destroy'
 
 

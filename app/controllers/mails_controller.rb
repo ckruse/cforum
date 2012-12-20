@@ -62,12 +62,6 @@ class MailsController < ApplicationController
     # end
   end
 
-  def reply
-  end
-
-  def do_reply
-  end
-
   def destroy
     # @user.destroy
 
