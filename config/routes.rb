@@ -7,6 +7,18 @@ Cforum::Application.routes.draw do
     get '/users/registration' => 'devise/registrations#new', :as => :new_user_registration
   end
 
+
+  # we use a custom url style for mails to achieve grouping
+  get '/mails' => 'mails#index', :as => :mails
+  post '/mails' => 'mails#create'
+  get '/mails/new' => 'mails#new', :as => :new_mail
+  get '/mails/:user' => 'mails#index', :as => :user_mails
+  get '/mails/:user/:id/reply' => 'mails#reply', :as => :reply_mail
+  get '/mails/:user/:id' => 'mails#show', :as => :mail
+  put '/mails/:user/:id' => 'mails#do_reply'
+  delete '/mails/:user/:id' => 'mails#destroy'
+
+
   resources :users
 
   namespace 'admin' do

@@ -1,0 +1,26 @@
+ul.inbox-list {
+  display:inline-block;
+  list-style-type:none;
+  margin-left:1em;
+
+  li {
+    clear:both;
+
+    a {
+      width:100%;
+      text-align:left;
+
+      span.unread-batches {
+        float:right;
+      }
+
+    }
+
+  }
+}
+
+.unread-mark {
+  width:1em;
+}
+
+/* eof */

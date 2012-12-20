@@ -1,0 +1,31 @@
+<h1>Post<% if @user %> von <%= @user.username %><% end %></h1>
+
+<table class="table table-condensed table-striped table-hover">
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Autor</th>
+      <th>Empfänger</th>
+      <th>Betrifft</th>
+      <th>Erstellt</th>
+      <th> </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @mails.each do |m| %>
+    <tr>
+      <td class="unread-mark"><% unless m.is_read? %><span class="badge badge-info">&nbsp;</span><% end %></td>
+      <td><%= link_to m.sender.username, mail_path(m.sender.username, m) %></td>
+      <td><%= link_to m.recipient.username, mail_path(m.sender.username, m) %></td>
+      <td><%= link_to m.subject, mail_path(m.sender.username, m) %></td>
+      <td><%= l(m.created_at) %></td>
+      <td>
+        <%= link_to '', mail_path(m.sender.username, m), :method => :delete, data: {confirm: t('views.are_you_sure')}, :class => 'icon icon-trash' %>
+        <%= link_to '', reply_mail_path(m.sender.username, m), :class => 'icon icon-share' %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+
+</table>
