@@ -11,6 +11,11 @@ module NotifyHelper
       icon: icon
     )
   end
+
+  def notifications
+    @new_notifications = CfNotification.find_all_by_recipient_id_and_is_read(current_user.user_id, false)
+  end
+
 end
 
 # eof

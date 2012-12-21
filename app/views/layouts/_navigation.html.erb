@@ -19,6 +19,7 @@
             </ul>
             <ul class="nav pull-right">
               <% if user_signed_in? %>
+                <li><%= link_to notifications_path do %><span class="badge<% if @new_notifications.length > 0 %> badge-info<% end %>"><%= @new_notifications.length %></span></a><% end %></li>
                 <li<% if controller_path == 'users' %> class="active"<% end %>><%= link_to(current_user.username, edit_user_path(current_user)) %></li>
                 <li><%= link_to(t('views.logout'), destroy_user_session_path, :method => :delete) %></li>
               <% else %>
