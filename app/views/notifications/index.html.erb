@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th> </th>
+      <th> </th>
       <th>Betrifft</th>
       <th>Erstellt</th>
       <th> </th>
@@ -13,12 +14,12 @@
   <tbody>
     <% @notifications.each do |n| %>
     <tr>
-      <td><% unless n.icon.blank? %><i class="icon <%= n.icon %>"> </i><% end %></td>
+      <td><% unless n.is_read? %><span class="badge badge-info">&nbsp;</span><% end %></td>
+      <td><% unless n.icon.blank? %><%= link_to '', n.path, :class => 'icon ' + n.icon %><% end %></td>
       <td><a href="<%= n.path %>"><%= n.subject %></a></td>
       <td><%= l(n.created_at) %></td>
       <td>
         <%= link_to '', notification_path(n), :method => :delete, data: {confirm: t('views.are_you_sure')}, :class => 'icon icon-trash' %>
-        <%# link_to '', notification_path(n), :method => :delete, data: {confirm: t('views.are_you_sure')}, :class => 'icon icon-trash' %>
       </td>
     </tr>
     <% end %>

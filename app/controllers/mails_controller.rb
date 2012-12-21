@@ -48,8 +48,15 @@ class MailsController < ApplicationController
     @mail = CfPrivMessage.includes(:sender, :recipient).find_by_owner_id_and_priv_message_id!(current_user.user_id, params[:id])
 
     unless @mail.is_read
-      @mail.is_read = true
-      @mail.save
+      CfPrivMessage.transaction do
+        @mail.is_read = true
+        @mail.save!
+
+        if n = CfNotification.find_by_oid_and_otype(@mail.priv_message_id, 'mails:create')
+          n.is_read = true
+          n.save!
+        end
+      end
     end
   end
 
@@ -75,15 +82,19 @@ class MailsController < ApplicationController
         saved = @mail_recipient.save
       end
 
-      notify_user(
-        recipient,
-        'notify_on_new_mail',
-        t('notifications.new_mail',
-          user: current_user.username,
-          subject: @mail.subject),
-        mail_path(current_user.username, @mail),
-        'icon-envelope'
-      )
+      if saved
+        notify_user(
+          recipient,
+          'notify_on_new_mail',
+          t('notifications.new_mail',
+            user: current_user.username,
+            subject: @mail.subject),
+          mail_path(current_user.username, @mail_recipient),
+          @mail_recipient.priv_message_id,
+          'mails:create',
+          'icon-envelope'
+          )
+      end
 
       raise ActiveRecord::Rollback.new unless saved
     end
