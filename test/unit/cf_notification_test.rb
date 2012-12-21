@@ -5,7 +5,7 @@ require 'test_helper'
 class CfNotificationTest < ActiveSupport::TestCase
   # Replace this with your real tests.
 
-  test "notification should not save without subject, body and recipient_id" do
+  test "notification should not save without subject, path and recipient_id" do
     u = FactoryGirl.create(:cf_user)
 
     n = CfNotification.new()
@@ -14,7 +14,7 @@ class CfNotificationTest < ActiveSupport::TestCase
     n.subject = 'Just some text'
     assert !n.save
 
-    n.body = "Lorem ipsum"
+    n.path = "/some/path"
     assert !n.save
 
     n.recipient_id = u.user_id
@@ -43,13 +43,13 @@ class CfNotificationTest < ActiveSupport::TestCase
     assert !n.save
   end
 
-  test "minimum and maximum length of body" do
+  test "minimum and maximum length of path" do
     n = FactoryGirl.build(:cf_notification)
 
-    n.body = n.body * 12288
+    n.path = n.path * 250
     assert !n.save
 
-    n.body = 'l'
+    n.path = 'l'
     assert !n.save
   end
 end

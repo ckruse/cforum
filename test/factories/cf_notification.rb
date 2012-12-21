@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :cf_notification do
     subject "Use the force!"
-    body { generate(:random_string) }
+    path '/some/path'
     is_read false
 
     association :recipient, :factory => :cf_user

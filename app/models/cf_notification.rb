@@ -11,7 +11,7 @@ class CfNotification < ActiveRecord::Base
   belongs_to :recipient, class_name: 'CfUser', :foreign_key => :recipient_id
 
   validates :subject, presence: true, length: {in: 2..250}
-  validates :body, presence: true, length: {in: 5..12288}
+  validates :path, presence: true, length: {in: 5..250}
 
   validates :recipient_id, presence: true
 end
