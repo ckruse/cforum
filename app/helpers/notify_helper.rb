@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 module NotifyHelper
-  def notify_user(user, hook, subject, template, vars, default = 'yes')
+  def notify_user(user, hook, subject, template, default = 'yes')
     return unless @config_manager.get(hook, default, user) == 'yes'
 
     str = render_to_string action: template, layout: false
