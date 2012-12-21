@@ -54,7 +54,7 @@ class MailsController < ApplicationController
   end
 
   def new
-    @mail = CfPrivMessage.new
+    @mail = CfPrivMessage.new(params[:cf_priv_message])
   end
 
   def create
