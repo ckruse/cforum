@@ -45,6 +45,11 @@ de:
     restored: Nachricht wurde erfolgreich wieder hergestellt!
     error_message: "%{errors_count} verhinderten, dass diese Nachricht gespeichert werden konnte:"
 
+  mails:
+    destroyed: Die Nachricht wurde erfolgreich gelöscht.
+    sent: Die Nachricht wurde erfolgreich verschickt.
+    error_message: "Fehler verhinderten, dass diese Nachricht gespeichert werden konnte:"
+
   views:
     forum: Forum
     forums: Foren

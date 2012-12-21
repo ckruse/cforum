@@ -6,6 +6,6 @@
 <p><%= message_to_html(@mail.body) %></p>
 
 <div class="form-actions">
-  <%= link_to t('views.reply'), reply_mail_path(@mail.sender.username, @mail), :class => 'btn' %>
+  <%= link_to t('views.reply'), new_mail_path('cf_priv_message[recipient_id]' => @mail.sender_id), :class => 'btn' %>
   <%= link_to t('views.delete'), mail_path(@mail.sender.username, @mail), :method => :delete, data: {confirm: t('views.are_you_sure')}, :class => 'btn' %>
 </div>

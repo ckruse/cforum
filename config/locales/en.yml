@@ -68,6 +68,11 @@ en:
     restored: Message was successfully restored!
     error_message: "%{errors_count} prohibited this thread from being saved:"
 
+  mails:
+    destroyed: The message has successfully been destroyed.
+    sent: The message has successfully been sent.
+    error_message: "Errors prohibited this message from being saved:"
+
   views:
     forum: Forum
     forums: Forums
