@@ -607,7 +607,7 @@ CREATE TABLE notifications (
     recipient_id bigint NOT NULL,
     is_read boolean DEFAULT false NOT NULL,
     subject character varying(250) NOT NULL,
-    body text,
+    path character varying(250) NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );

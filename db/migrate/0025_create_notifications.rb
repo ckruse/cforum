@@ -8,10 +8,11 @@ CREATE TABLE notifications (
   recipient_id BIGINT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   is_read BOOLEAN NOT NULL DEFAULT false,
   subject CHARACTER VARYING(250) NOT NULL,
-  body TEXT,
+  path CHARACTER VARYING(250) NOT NULL,
   created_at TIMESTAMP WITHOUT TIME ZONE,
   updated_at TIMESTAMP WITHOUT TIME ZONE
 );
+
 CREATE INDEX notifications_owner_idx ON notifications (recipient_id);
     }
   end

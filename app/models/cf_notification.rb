@@ -5,7 +5,7 @@ class CfNotification < ActiveRecord::Base
   self.table_name  = 'notifications'
 
   attr_accessible :notification_id, :recipient_id, :is_read,
-    :subject, :body, :created_at,
+    :path, :subject, :created_at,
     :updated_at
 
   belongs_to :recipient, class_name: 'CfUser', :foreign_key => :recipient_id
