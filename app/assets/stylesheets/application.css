@@ -9,7 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require twitter/bootstrap
- *= require fuid.boostrap.css.scss
+ *= require fluid.boostrap.css.scss
  *= require twitter/bootstrap-responsive
  *= require 'font-awesome'
  *= require_self
