@@ -10,11 +10,13 @@ CREATE TABLE notifications (
   subject CHARACTER VARYING(250) NOT NULL,
   path CHARACTER VARYING(250) NOT NULL,
   icon CHARACTER VARYING(250),
+  oid BIGINT NOT NULL,
+  otype CHARACTER VARYING(100) NOT NULL,
   created_at TIMESTAMP WITHOUT TIME ZONE,
   updated_at TIMESTAMP WITHOUT TIME ZONE
 );
 
-CREATE INDEX notifications_owner_idx ON notifications (recipient_id);
+CREATE INDEX notifications_recipient_id_oid_idx ON notifications (recipient_id, oid);
     }
   end
 

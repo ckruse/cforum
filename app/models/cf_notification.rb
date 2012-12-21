@@ -6,7 +6,7 @@ class CfNotification < ActiveRecord::Base
 
   attr_accessible :notification_id, :recipient_id, :is_read,
     :path, :subject, :icon, :created_at,
-    :updated_at
+    :updated_at, :oid, :otype
 
   belongs_to :recipient, class_name: 'CfUser', :foreign_key => :recipient_id
 
@@ -14,6 +14,8 @@ class CfNotification < ActiveRecord::Base
   validates :path, presence: true, length: {in: 5..250}
 
   validates :recipient_id, presence: true
+  validates :oid, presence: true
+  validates :otype, presence: true
 end
 
 # eof

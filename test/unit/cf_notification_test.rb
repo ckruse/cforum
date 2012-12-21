@@ -17,6 +17,12 @@ class CfNotificationTest < ActiveSupport::TestCase
     n.path = "/some/path"
     assert !n.save
 
+    n.oid = 1
+    assert !n.save
+
+    n.otype = "mail"
+    assert !n.save
+
     n.recipient_id = u.user_id
     assert n.save
   end

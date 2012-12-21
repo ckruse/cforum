@@ -609,6 +609,8 @@ CREATE TABLE notifications (
     subject character varying(250) NOT NULL,
     path character varying(250) NOT NULL,
     icon character varying(250),
+    oid bigint NOT NULL,
+    otype character varying(100) NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -1169,10 +1171,10 @@ CREATE INDEX messages_user_id_idx ON messages USING btree (user_id);
 
 
 --
--- Name: notifications_owner_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: notifications_recipient_id_oid_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE INDEX notifications_owner_idx ON notifications USING btree (recipient_id);
+CREATE INDEX notifications_recipient_id_oid_idx ON notifications USING btree (recipient_id, oid);
 
 
 --
