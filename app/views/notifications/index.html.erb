@@ -1,0 +1,27 @@
+<h1>Benachrichtigungen</h1>
+
+<table class="table table-condensed table-striped table-hover">
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Betrifft</th>
+      <th>Erstellt</th>
+      <th> </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @notifications.each do |n| %>
+    <tr>
+      <td><% unless n.icon.blank? %><i class="icon <%= n.icon %>"> </i><% end %></td>
+      <td><a href="<%= n.path %>"><%= n.subject %></a></td>
+      <td><%= l(n.created_at) %></td>
+      <td>
+        <%= link_to '', notification_path(n), :method => :delete, data: {confirm: t('views.are_you_sure')}, :class => 'icon icon-trash' %>
+        <%# link_to '', notification_path(n), :method => :delete, data: {confirm: t('views.are_you_sure')}, :class => 'icon icon-trash' %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+
+</table>

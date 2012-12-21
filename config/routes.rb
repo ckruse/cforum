@@ -18,6 +18,7 @@ Cforum::Application.routes.draw do
 
 
   resources :users
+  resources :notifications, except: [:show, :edit, :new, :update, :create]
 
   namespace 'admin' do
     resources :users, :controller => :cf_users, :except => :show
