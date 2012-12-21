@@ -7,6 +7,7 @@ require Rails.root + 'lib/plugin'
 class ApplicationController < ActionController::Base
   include ApplicationHelper
   include PluginHelper
+  include NotifyHelper
   include AuthorizeStd
 
   before_filter :do_init, :check_forum_access, :run_before_handler
