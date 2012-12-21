@@ -608,6 +608,7 @@ CREATE TABLE notifications (
     is_read boolean DEFAULT false NOT NULL,
     subject character varying(250) NOT NULL,
     path character varying(250) NOT NULL,
+    icon character varying(250),
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );

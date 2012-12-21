@@ -81,7 +81,8 @@ class MailsController < ApplicationController
         t('notifications.new_mail',
           user: current_user.username,
           subject: @mail.subject),
-        mail_path(current_user.username, @mail)
+        mail_path(current_user.username, @mail),
+        'icon-envelope'
       )
 
       raise ActiveRecord::Rollback.new unless saved
