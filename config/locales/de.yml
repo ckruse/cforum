@@ -50,6 +50,9 @@ de:
     sent: Die Nachricht wurde erfolgreich verschickt.
     error_message: "Fehler verhinderten, dass diese Nachricht gespeichert werden konnte:"
 
+  notifications:
+    new_mail: "Neue Nachricht von %{user}: %{subject}"
+
   views:
     forum: Forum
     forums: Foren

@@ -73,6 +73,9 @@ en:
     sent: The message has successfully been sent.
     error_message: "Errors prohibited this message from being saved:"
 
+  notifications:
+    new_mail: "New Mail from %{user}: %{subject}"
+
   views:
     forum: Forum
     forums: Forums

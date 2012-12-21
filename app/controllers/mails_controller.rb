@@ -75,6 +75,15 @@ class MailsController < ApplicationController
         saved = @mail_recipient.save
       end
 
+      notify_user(
+        recipient,
+        'notify_on_new_mail',
+        t('notifications.new_mail',
+          user: current_user.username,
+          subject: @mail.subject),
+        mail_path(current_user.username, @mail)
+      )
+
       raise ActiveRecord::Rollback.new unless saved
     end
 
