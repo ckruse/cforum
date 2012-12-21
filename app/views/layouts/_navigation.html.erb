@@ -9,6 +9,7 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li<% if controller_path == 'cf_forums' %> class="active"<% end %>><a href="<%= root_url %>"><%= t('views.home') %></a></li>
+              <li<% if controller_path == 'mails' %> class="active"<% end %>><a href="<%= mails_path %>"><%= t('views.mail') %></a></li>
               <% if current_user and current_user.admin %>
               <li<% if controller_path =~ /^admin/ %> class="active"<% end %>><%= link_to t('views.administration'), admin_users_path %></li>
               <% end %>

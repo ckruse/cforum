@@ -120,6 +120,7 @@ de:
     author: Autor
     recipient: Empfänger
     subject: Betreff
+    mail: Post
 
   options:
     errors:
