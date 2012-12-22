@@ -12,7 +12,6 @@ gem "bcrypt-ruby", :require => "bcrypt"
 gem 'jquery-rails'
 gem 'anjlab-bootstrap-rails', '>= 2.0', :require => 'bootstrap-rails'
 
-gem 'delayed_job_active_record'
 gem 'daemons'
 
 group :development, :test do

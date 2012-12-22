@@ -489,45 +489,6 @@ ALTER SEQUENCE counter_table_count_id_seq OWNED BY counter_table.count_id;
 
 
 --
--- Name: delayed_jobs; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE TABLE delayed_jobs (
-    id integer NOT NULL,
-    priority integer DEFAULT 0,
-    attempts integer DEFAULT 0,
-    handler text,
-    last_error text,
-    run_at timestamp without time zone,
-    locked_at timestamp without time zone,
-    failed_at timestamp without time zone,
-    locked_by character varying(255),
-    queue character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: delayed_jobs_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
---
-
-CREATE SEQUENCE delayed_jobs_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: delayed_jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
---
-
-ALTER SEQUENCE delayed_jobs_id_seq OWNED BY delayed_jobs.id;
-
-
---
 -- Name: forum_permissions; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -960,13 +921,6 @@ ALTER TABLE ONLY counter_table ALTER COLUMN count_id SET DEFAULT nextval('counte
 
 
 --
--- Name: id; Type: DEFAULT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY delayed_jobs ALTER COLUMN id SET DEFAULT nextval('delayed_jobs_id_seq'::regclass);
-
-
---
 -- Name: forum_permission_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -1056,14 +1010,6 @@ ALTER TABLE ONLY users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_s
 
 ALTER TABLE ONLY counter_table
     ADD CONSTRAINT counter_table_pkey PRIMARY KEY (count_id);
-
-
---
--- Name: delayed_jobs_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY delayed_jobs
-    ADD CONSTRAINT delayed_jobs_pkey PRIMARY KEY (id);
 
 
 --
@@ -1159,13 +1105,6 @@ ALTER TABLE ONLY users
 --
 
 CREATE INDEX counter_table_table_name_group_crit_idx ON counter_table USING btree (table_name, group_crit);
-
-
---
--- Name: delayed_jobs_priority; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE INDEX delayed_jobs_priority ON delayed_jobs USING btree (priority, run_at);
 
 
 --
@@ -1711,8 +1650,6 @@ INSERT INTO schema_migrations (version) VALUES ('23');
 INSERT INTO schema_migrations (version) VALUES ('24');
 
 INSERT INTO schema_migrations (version) VALUES ('25');
-
-INSERT INTO schema_migrations (version) VALUES ('26');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
 
