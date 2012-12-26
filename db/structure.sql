@@ -405,7 +405,7 @@ CREATE FUNCTION settings_unique_check__insert() RETURNS trigger
 BEGIN
   IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL THEN
     IF NEW.user_id IN (
-        SELECT user_id FROM cforum.settings WHERE user_id = NEW.user_id AND forum_id IS NULL
+        SELECT user_id FROM settings WHERE user_id = NEW.user_id AND forum_id IS NULL
       ) THEN
       RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
     END IF;
@@ -413,7 +413,7 @@ BEGIN
 
   IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL THEN
     IF NEW.forum_id IN (
-        SELECT forum_id FROM cforum.settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
+        SELECT forum_id FROM settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
       ) THEN
       RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
     END IF;
@@ -434,7 +434,7 @@ CREATE FUNCTION settings_unique_check__update() RETURNS trigger
 BEGIN
   IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL AND NEW.user_id != OLD.user_id THEN
     IF NEW.user_id IN (
-        SELECT user_id FROM cforum.settings WHERE user_id = NEW.user_id AND forum_id IS NULL
+        SELECT user_id FROM settings WHERE user_id = NEW.user_id AND forum_id IS NULL
       ) THEN
       RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
     END IF;
@@ -442,7 +442,7 @@ BEGIN
 
   IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL AND NEW.forum_id != OLD.forum_id THEN
     IF NEW.forum_id IN (
-        SELECT forum_id FROM cforum.settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
+        SELECT forum_id FROM settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
       ) THEN
       RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
     END IF;
@@ -607,10 +607,7 @@ CREATE TABLE notifications (
     recipient_id bigint NOT NULL,
     is_read boolean DEFAULT false NOT NULL,
     subject character varying(250) NOT NULL,
-    path character varying(250) NOT NULL,
-    icon character varying(250),
-    oid bigint NOT NULL,
-    otype character varying(100) NOT NULL,
+    body text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -664,6 +661,42 @@ CREATE SEQUENCE opened_closed_threads_opened_closed_thread_id_seq
 --
 
 ALTER SEQUENCE opened_closed_threads_opened_closed_thread_id_seq OWNED BY opened_closed_threads.opened_closed_thread_id;
+
+
+--
+-- Name: peon_jobs; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE peon_jobs (
+    peon_id bigint NOT NULL,
+    queue_name character varying(255) NOT NULL,
+    max_tries integer DEFAULT 0 NOT NULL,
+    tries integer DEFAULT 0 NOT NULL,
+    work_done boolean DEFAULT false NOT NULL,
+    class_name character varying(250) NOT NULL,
+    arguments character varying NOT NULL,
+    errstr character varying,
+    stacktrace character varying
+);
+
+
+--
+-- Name: peon_jobs_peon_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE peon_jobs_peon_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: peon_jobs_peon_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE peon_jobs_peon_id_seq OWNED BY peon_jobs.peon_id;
 
 
 --
@@ -956,6 +989,13 @@ ALTER TABLE ONLY opened_closed_threads ALTER COLUMN opened_closed_thread_id SET 
 
 
 --
+-- Name: peon_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY peon_jobs ALTER COLUMN peon_id SET DEFAULT nextval('peon_jobs_peon_id_seq'::regclass);
+
+
+--
 -- Name: priv_message_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -1050,6 +1090,14 @@ ALTER TABLE ONLY notifications
 
 ALTER TABLE ONLY opened_closed_threads
     ADD CONSTRAINT opened_closed_threads_pkey PRIMARY KEY (opened_closed_thread_id);
+
+
+--
+-- Name: peon_jobs_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY peon_jobs
+    ADD CONSTRAINT peon_jobs_pkey PRIMARY KEY (peon_id);
 
 
 --
@@ -1171,10 +1219,10 @@ CREATE INDEX messages_user_id_idx ON messages USING btree (user_id);
 
 
 --
--- Name: notifications_recipient_id_oid_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: notifications_owner_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE INDEX notifications_recipient_id_oid_idx ON notifications USING btree (recipient_id, oid);
+CREATE INDEX notifications_owner_idx ON notifications USING btree (recipient_id);
 
 
 --
@@ -1182,6 +1230,13 @@ CREATE INDEX notifications_recipient_id_oid_idx ON notifications USING btree (re
 --
 
 CREATE UNIQUE INDEX opened_closed_threads_thread_id_user_id_idx ON opened_closed_threads USING btree (thread_id, user_id);
+
+
+--
+-- Name: peon_jobs_work_done_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX peon_jobs_work_done_idx ON peon_jobs USING btree (work_done);
 
 
 --
@@ -1650,6 +1705,8 @@ INSERT INTO schema_migrations (version) VALUES ('23');
 INSERT INTO schema_migrations (version) VALUES ('24');
 
 INSERT INTO schema_migrations (version) VALUES ('25');
+
+INSERT INTO schema_migrations (version) VALUES ('26');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
 

@@ -3,6 +3,7 @@
 require Rails.root + 'lib/notification_center'
 require Rails.root + 'lib/tools'
 require Rails.root + 'lib/plugin'
+require Rails.root + 'lib/peon'
 
 class ApplicationController < ActionController::Base
   include ApplicationHelper

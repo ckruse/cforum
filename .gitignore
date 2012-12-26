@@ -15,3 +15,5 @@
 /tmp
 
 coverage
+
+*.pid
