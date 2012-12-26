@@ -228,7 +228,7 @@ CREATE FUNCTION count_threads_tag_delete_trigger() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-  UPDATE cforum.tags SET num_threads = num_threads - 1 WHERE tag_id = OLD.tag_id;
+  UPDATE tags SET num_threads = num_threads - 1 WHERE tag_id = OLD.tag_id;
   RETURN NULL;
 END;
 $$;
@@ -242,7 +242,7 @@ CREATE FUNCTION count_threads_tag_insert_trigger() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-  UPDATE cforum.tags SET num_threads = num_threads + 1 WHERE tag_id = NEW.tag_id;
+  UPDATE tags SET num_threads = num_threads + 1 WHERE tag_id = NEW.tag_id;
   RETURN NEW;
 END;
 $$;
@@ -607,7 +607,10 @@ CREATE TABLE notifications (
     recipient_id bigint NOT NULL,
     is_read boolean DEFAULT false NOT NULL,
     subject character varying(250) NOT NULL,
-    body text,
+    path character varying(250) NOT NULL,
+    icon character varying(250),
+    oid bigint NOT NULL,
+    otype character varying(100) NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -1219,10 +1222,10 @@ CREATE INDEX messages_user_id_idx ON messages USING btree (user_id);
 
 
 --
--- Name: notifications_owner_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: notifications_recipient_id_oid_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE INDEX notifications_owner_idx ON notifications USING btree (recipient_id);
+CREATE INDEX notifications_recipient_id_oid_idx ON notifications USING btree (recipient_id, oid);
 
 
 --
