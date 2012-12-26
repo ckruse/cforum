@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class ArchiveRunner
+class ArchiveRunnerTask
   def initialize(cmanager)
     @config_manager = cmanager
   end
@@ -48,6 +48,6 @@ class ArchiveRunner
 end
 
 grunt = Peon::Grunt.instance
-grunt.periodical(ArchiveRunner.new(grunt.config_manager), 120)
+grunt.periodical(ArchiveRunnerTask.new(grunt.config_manager), 120)
 
 # eof
