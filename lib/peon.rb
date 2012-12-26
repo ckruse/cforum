@@ -17,7 +17,7 @@ module Peon
 end
 
 class Object
-  def peon(task_name, args = {})
+  def peon(args = {})
     args = {max_tries: 0, work_done: false, arguments: [], queue_name: 'peon'}.merge(args)
     j = CfPeonJob.create!(args)
   end
