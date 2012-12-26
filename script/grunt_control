@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
+require 'daemons'
+
+Daemons.run(File.join(File.dirname(__FILE__), 'grunt.rb'))
+
+# eof
