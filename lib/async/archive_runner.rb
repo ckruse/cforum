@@ -10,15 +10,17 @@ class ArchiveRunner
   end
 
   def archive_forum(forum)
+    Rails.logger.info "Running archiver for forum #{forum.name}"
+
     max_threads  = conf('max_threads', forum, '150').to_i # max threads per forum
     max_messages = conf('max_messages_per_thread', forum, '50').to_i # max messages per thread
 
     # first: max messages per thread (to avoid monster threads like „Test, bitte ignorieren”)
     CfThread.transaction do
-      threads = CfThread.select('thread_id, COUNT(*) AS cnt').joins(:messages).where(archived: false, forum_id: forum.forum_id).group(:thread_id)
+      threads = CfThread.select('threads.thread_id, COUNT(*) AS cnt').joins(:messages).where(archived: false, forum_id: forum.forum_id).group('threads.thread_id')
 
       threads.each do |t|
-        t.update_attributes(archived: true) if t.cnt > max_messages
+        CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + t.thread_id.to_s if t.cnt.to_i > max_messages
       end
     end
 
@@ -35,7 +37,7 @@ class ArchiveRunner
   end
 
 
-  def perform
+  def work_work(args)
     # run for each forum separately
     forums = CfForum.all
 
@@ -43,8 +45,9 @@ class ArchiveRunner
       archive_forum(f) if conf('use_archive', f, 'no') == 'yes'
     end
   end
-  handle_asynchronously :perform
-
 end
+
+grunt = Peon::Grunt.instance
+grunt.periodical(ArchiveRunner.new(grunt.config_manager), 120)
 
 # eof
