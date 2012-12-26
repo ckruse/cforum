@@ -7,7 +7,16 @@ require File.join(dir, "..", "config", "environment")
 module Peon
   module Tasks
 
-    class Peon
+    class PeonTask
+      def initialize
+        @config_manager = Peon::Grunt.instance.config_manager
+        @notification_center = Peon::Grunt.instance.notification_center
+      end
+
+      def conf(name, forum, default = nil)
+        @config_manager.get(name, default, nil, forum)
+      end
+
       def work_work(args)
       end
     end
