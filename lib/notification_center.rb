@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class NotificationCenter
   def initialize
     @hooks = {}
@@ -25,3 +27,5 @@ class NotificationCenter
     @hooks[name] << (obj || block)
   end
 end
+
+# eof
