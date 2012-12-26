@@ -671,7 +671,7 @@ ALTER SEQUENCE opened_closed_threads_opened_closed_thread_id_seq OWNED BY opened
 --
 
 CREATE TABLE peon_jobs (
-    peon_id bigint NOT NULL,
+    peon_job_id bigint NOT NULL,
     queue_name character varying(255) NOT NULL,
     max_tries integer DEFAULT 0 NOT NULL,
     tries integer DEFAULT 0 NOT NULL,
@@ -684,10 +684,10 @@ CREATE TABLE peon_jobs (
 
 
 --
--- Name: peon_jobs_peon_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: peon_jobs_peon_job_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
 --
 
-CREATE SEQUENCE peon_jobs_peon_id_seq
+CREATE SEQUENCE peon_jobs_peon_job_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -696,10 +696,10 @@ CREATE SEQUENCE peon_jobs_peon_id_seq
 
 
 --
--- Name: peon_jobs_peon_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: peon_jobs_peon_job_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
 --
 
-ALTER SEQUENCE peon_jobs_peon_id_seq OWNED BY peon_jobs.peon_id;
+ALTER SEQUENCE peon_jobs_peon_job_id_seq OWNED BY peon_jobs.peon_job_id;
 
 
 --
@@ -992,10 +992,10 @@ ALTER TABLE ONLY opened_closed_threads ALTER COLUMN opened_closed_thread_id SET 
 
 
 --
--- Name: peon_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: peon_job_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
-ALTER TABLE ONLY peon_jobs ALTER COLUMN peon_id SET DEFAULT nextval('peon_jobs_peon_id_seq'::regclass);
+ALTER TABLE ONLY peon_jobs ALTER COLUMN peon_job_id SET DEFAULT nextval('peon_jobs_peon_job_id_seq'::regclass);
 
 
 --
@@ -1100,7 +1100,7 @@ ALTER TABLE ONLY opened_closed_threads
 --
 
 ALTER TABLE ONLY peon_jobs
-    ADD CONSTRAINT peon_jobs_pkey PRIMARY KEY (peon_id);
+    ADD CONSTRAINT peon_jobs_pkey PRIMARY KEY (peon_job_id);
 
 
 --

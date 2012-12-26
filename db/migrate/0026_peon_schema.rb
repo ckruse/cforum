@@ -4,7 +4,7 @@ class PeonSchema < ActiveRecord::Migration
   def up
     execute %q{
 CREATE TABLE peon_jobs (
-  peon_id BIGSERIAL NOT NULL PRIMARY KEY,
+  peon_job_id BIGSERIAL NOT NULL PRIMARY KEY,
   queue_name CHARACTER VARYING(255) NOT NULL,
   max_tries INTEGER NOT NULL DEFAULT 0,
   tries INTEGER NOT NULL DEFAULT 0,

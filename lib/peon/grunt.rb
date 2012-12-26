@@ -58,7 +58,7 @@ module Peon
       # load tasks
       tasks_dir = File.join(File.dirname(__FILE__), "..", "async")
       Dir.open(tasks_dir).each do |p|
-        next if p[0] == '.' or not File.file?(tasks_dir + "/" + p)
+        next if p[0] == '.' or not File.file?(tasks_dir + "/" + p) or p !~ /_task\.rb$/
         load tasks_dir + "/#{p}"
       end
 
@@ -123,12 +123,12 @@ module Peon
         if job
           begin
             klass = Tasks.const_get(job.class_name)
-            klass.new.work_work(JSON.parse(job.params))
+            klass.new.work_work(JSON.parse(job.arguments))
             job.update_attributes(work_done: true)
           rescue => e
             Rails.logger.error "grunt monitor: queue #{queuename}: #{e.message}\n#{e.backtrace.join("\n")}"
 
-            job.errmsg     = e.message
+            job.errstr     = e.message
             job.stacktrace = e.backtrace.join("\n")
             job.tries     += 1
             job.save
