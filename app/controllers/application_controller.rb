@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
   end
 
   def conf(name, default = nil)
-    @config_manager.get(name, default, nil, nil)
+    @config_manager.get(name, default, nil, current_forum)
   end
 
 end
