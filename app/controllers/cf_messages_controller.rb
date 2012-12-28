@@ -24,9 +24,9 @@ class CfMessagesController < ApplicationController
   def new
     @id = CfThread.make_id(params)
     @thread = CfThread.includes(:messages).find_by_slug!(@id)
+    raise CForum::ForbiddenException.new if @thread.archived and conf('use_archive') == 'yes'
 
     @parent = @thread.find_message(params[:mid].to_i) if @thread
-
     raise CForum::NotFoundException.new if @thread.nil? or @parent.nil?
 
     @message = CfMessage.new
@@ -41,9 +41,9 @@ class CfMessagesController < ApplicationController
   def create
     @id = CfThread.make_id(params)
     @thread = CfThread.includes(:messages).find_by_slug!(@id)
+    raise CForum::ForbiddenException.new if @thread.archived and conf('use_archive') == 'yes'
 
     @parent = @thread.find_message(params[:mid].to_i) if @thread
-
     raise CForum::NotFoundException.new if @thread.nil? or @parent.nil?
 
     @message = CfMessage.new(params[:cf_message])

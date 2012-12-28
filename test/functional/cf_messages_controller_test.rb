@@ -748,6 +748,40 @@ class CfMessagesControllerTest < ActionController::TestCase
     assert_redirected_to cf_message_url(assigns(:thread), assigns(:message), view_all: 'true')
   end
 
+  test 'should not show new form on archived thread' do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    CfSetting.create!(forum_id: forum.forum_id, options: {'use_archive' => 'yes'})
+
+    assert_raise CForum::ForbiddenException do
+      get :new, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id}
+    end
+  end
+
+  test 'should not post do archived thread' do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    CfSetting.create!(forum_id: forum.forum_id, options: {'use_archive' => 'yes'})
+
+    assert_raise CForum::ForbiddenException do
+      post :create, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s,
+        cf_message: {
+          subject: 'Long live the imperator!',
+          author: 'Anaken Skywalker',
+          content: 'Long live the imperator! Down with the rebellion!'
+        }
+      }
+    end
+  end
+
 end
 
 # eof
