@@ -33,7 +33,7 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 -- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
 --
 
-CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
+CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA cforum;
 
 
 --
@@ -54,7 +54,7 @@ CREATE FUNCTION count_messages_delete_trigger() RETURNS trigger
     AS $$
 BEGIN
   INSERT INTO
-    cforum.counter_table (table_name, difference, group_crit)
+    counter_table (table_name, difference, group_crit)
   VALUES
     ('messages', -1, OLD.forum_id);
 
@@ -72,7 +72,7 @@ CREATE FUNCTION count_messages_insert_forum_trigger() RETURNS trigger
     AS $$
 BEGIN
   INSERT INTO
-    cforum.counter_table (table_name, group_crit, difference)
+    counter_table (table_name, group_crit, difference)
     VALUES ('messages', NEW.forum_id, 0);
 
   RETURN NULL;
@@ -89,7 +89,7 @@ CREATE FUNCTION count_messages_insert_trigger() RETURNS trigger
     AS $$
 BEGIN
   INSERT INTO
-    cforum.counter_table (table_name, difference, group_crit)
+    counter_table (table_name, difference, group_crit)
   VALUES
     ('messages', +1, NEW.forum_id);
 
@@ -107,12 +107,12 @@ CREATE FUNCTION count_messages_truncate_trigger() RETURNS trigger
     AS $$
 BEGIN
   DELETE FROM
-    cforum.counter_table
+    counter_table
   WHERE
     table_name = 'messages';
 
-  INSERT INTO cforum.counter_table (table_name, difference, group_crit)
-    SELECT 'messages', 0, forum_id FROM cforum.forums;
+  INSERT INTO counter_table (table_name, difference, group_crit)
+    SELECT 'messages', 0, forum_id FROM forums;
 
   RETURN NULL;
 END;
@@ -131,35 +131,35 @@ DECLARE
 BEGIN
   IF OLD.deleted = false AND NEW.deleted = true THEN
     INSERT INTO
-      cforum.counter_table (table_name, difference, group_crit)
+      counter_table (table_name, difference, group_crit)
     VALUES
       ('messages', -1, NEW.forum_id);
   END IF;
 
   IF OLD.deleted = true AND NEW.deleted = false THEN
     INSERT INTO
-      cforum.counter_table (table_name, difference, group_crit)
+      counter_table (table_name, difference, group_crit)
     VALUES
       ('messages', +1, NEW.forum_id);
   END IF;
 
   IF OLD.forum_id != NEW.forum_id THEN
     INSERT INTO
-      cforum.counter_table (table_name, difference, group_crit)
+      counter_table (table_name, difference, group_crit)
     VALUES
       ('messages', -1, OLD.forum_id);
 
     INSERT INTO
-      cforum.counter_table (table_name, difference, group_crit)
+      counter_table (table_name, difference, group_crit)
     VALUES
       ('messages', +1, NEW.forum_id);
   END IF;
 
-  SELECT EXISTS(SELECT message_id FROM cforum.messages WHERE thread_id = NEW.thread_id AND deleted = false) INTO is_del_thread;
+  SELECT EXISTS(SELECT message_id FROM messages WHERE thread_id = NEW.thread_id AND deleted = false) INTO is_del_thread;
   IF is_del_thread THEN
-    UPDATE cforum.threads SET deleted = false WHERE thread_id = NEW.thread_id;
+    UPDATE threads SET deleted = false WHERE thread_id = NEW.thread_id;
   ELSE
-    UPDATE cforum.threads SET deleted = true WHERE thread_id = NEW.thread_id;
+    UPDATE threads SET deleted = true WHERE thread_id = NEW.thread_id;
   END IF;
 
   RETURN NULL;
@@ -176,7 +176,7 @@ CREATE FUNCTION count_threads_delete_trigger() RETURNS trigger
     AS $$
 BEGIN
   INSERT INTO
-    cforum.counter_table (table_name, difference, group_crit)
+    counter_table (table_name, difference, group_crit)
   VALUES
     (TG_TABLE_NAME, -1, OLD.forum_id);
 
@@ -194,7 +194,7 @@ CREATE FUNCTION count_threads_insert_forum_trigger() RETURNS trigger
     AS $$
 BEGIN
   INSERT INTO
-    cforum.counter_table (table_name, group_crit, difference)
+    counter_table (table_name, group_crit, difference)
     VALUES ('threads', NEW.forum_id, 0);
 
   RETURN NULL;
@@ -211,7 +211,7 @@ CREATE FUNCTION count_threads_insert_trigger() RETURNS trigger
     AS $$
 BEGIN
   INSERT INTO
-    cforum.counter_table (table_name, difference, group_crit)
+    counter_table (table_name, difference, group_crit)
   VALUES
     (TG_TABLE_NAME, +1, NEW.forum_id);
 
@@ -257,12 +257,12 @@ CREATE FUNCTION count_threads_truncate_trigger() RETURNS trigger
     AS $$
 BEGIN
   DELETE FROM
-    cforum.counter_table
+    counter_table
   WHERE
     table_name = 'threads';
 
-  INSERT INTO cforum.counter_table (table_name, difference, group_crit)
-    SELECT 'threads', 0, forum_id FROM cforum.forums;
+  INSERT INTO counter_table (table_name, difference, group_crit)
+    SELECT 'threads', 0, forum_id FROM forums;
 
   RETURN NULL;
 END;
@@ -279,26 +279,26 @@ CREATE FUNCTION count_threads_update_trigger() RETURNS trigger
 BEGIN
   IF OLD.deleted = false AND NEW.deleted = true THEN
     INSERT INTO
-      cforum.counter_table (table_name, difference, group_crit)
+      counter_table (table_name, difference, group_crit)
     VALUES
       ('threads', -1, NEW.forum_id);
   END IF;
 
   IF OLD.deleted = true AND NEW.deleted = false THEN
     INSERT INTO
-      cforum.counter_table (table_name, difference, group_crit)
+      counter_table (table_name, difference, group_crit)
     VALUES
       ('threads', +1, NEW.forum_id);
   END IF;
 
   IF OLD.forum_id != NEW.forum_id THEN
     INSERT INTO
-      cforum.counter_table (table_name, difference, group_crit)
+      counter_table (table_name, difference, group_crit)
     VALUES
       ('threads', -1, OLD.forum_id);
 
     INSERT INTO
-      cforum.counter_table (table_name, difference, group_crit)
+      counter_table (table_name, difference, group_crit)
     VALUES
       ('threads', +1, NEW.forum_id);
   END IF;
@@ -323,7 +323,7 @@ BEGIN
   SELECT
     COUNT(*), SUM(difference)
   FROM
-    cforum.counter_table
+    counter_table
   WHERE
       table_name = v_table_name
     AND
@@ -351,7 +351,7 @@ BEGIN
       FOR v_cur_id, v_cur_difference IN
         SELECT count_id, difference
         FROM
-          cforum.counter_table
+          counter_table
         WHERE
             table_name = v_table_name
           AND
@@ -365,14 +365,14 @@ BEGIN
         v_new_sum := v_new_sum + v_cur_difference;
 
         IF array_length(v_delete_ids, 1) > 100 THEN
-          DELETE FROM cforum.counter_table WHERE count_id = ANY(v_delete_ids);
+          DELETE FROM counter_table WHERE count_id = ANY(v_delete_ids);
           v_delete_ids = '{}';
         END IF;
 
       END LOOP;
 
-      DELETE FROM cforum.counter_table WHERE count_id = ANY(v_delete_ids);
-      INSERT INTO cforum.counter_table(table_name, group_crit, difference) VALUES(v_table_name, v_group_crit, v_new_sum);
+      DELETE FROM counter_table WHERE count_id = ANY(v_delete_ids);
+      INSERT INTO counter_table(table_name, group_crit, difference) VALUES(v_table_name, v_group_crit, v_new_sum);
 
     EXCEPTION
       --if somebody else summed up in a transaction which was open at the
@@ -575,7 +575,7 @@ CREATE TABLE messages (
     homepage character varying,
     subject character varying NOT NULL,
     content character varying NOT NULL,
-    flags public.hstore
+    flags hstore
 );
 
 
@@ -785,7 +785,7 @@ CREATE TABLE settings (
     setting_id bigint NOT NULL,
     forum_id bigint,
     user_id bigint,
-    options public.hstore
+    options hstore
 );
 
 
