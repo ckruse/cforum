@@ -173,7 +173,7 @@ class Admin::CfForumsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:cf_forum)
     assert !assigns(:cf_forum).valid?
-    assert_equal f.attributes, f1.attributes
+    assert_equal f.name, f1.name
     assert_response :success
   end
 
