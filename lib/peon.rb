@@ -27,7 +27,7 @@ end
 
 class Object
   def peon(args = {})
-    args = {max_tries: 0, work_done: false, arguments: [], queue_name: 'peon'}.merge(args)
+    args = {max_tries: 1, work_done: false, arguments: [], queue_name: 'peon'}.merge(args)
 
     args[:arguments] = args[:arguments].to_json
 
