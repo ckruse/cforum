@@ -3,11 +3,18 @@
 dir = File.dirname(__FILE__)
 require File.join(dir, "..", "config", "boot")
 require File.join(dir, "..", "config", "environment")
+require File.join(dir, 'tools.rb')
 
 module Peon
   module Tasks
 
     class PeonTask
+      include CForum::Tools
+
+      def root_path
+        Rails.application.config.action_controller.relative_url_root || '/'
+      end
+
       def initialize
         @config_manager = Peon::Grunt.instance.config_manager
         @notification_center = Peon::Grunt.instance.notification_center
