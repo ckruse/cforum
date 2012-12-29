@@ -20,7 +20,7 @@ class CfMessagesController < ApplicationController
 
     notification_center.notify(SHOW_MESSAGE, @thread, @message)
 
-    if current_user and n = CfNotification.find_by_recipient_id_and_oid_and_otype(current_user.user_id, @message.message_id, 'message:create')
+    if current_user and n = CfNotification.find_by_recipient_id_and_oid_and_otype_and_is_read(current_user.user_id, @message.message_id, 'message:create', false)
       n.is_read = true
       n.save!
     end
