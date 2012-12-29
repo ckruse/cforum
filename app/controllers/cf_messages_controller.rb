@@ -19,6 +19,11 @@ class CfMessagesController < ApplicationController
     raise CForum::NotFoundException.new if @thread.nil? or @message.nil?
 
     notification_center.notify(SHOW_MESSAGE, @thread, @message)
+
+    if current_user and n = CfNotification.find_by_recipient_id_and_oid_and_otype(current_user.user_id, @message.message_id, 'message:create')
+      n.is_read = true
+      n.save!
+    end
   end
 
   def new
@@ -60,6 +65,7 @@ class CfMessagesController < ApplicationController
     @preview = true if params[:preview]
 
     if not @preview and @message.save
+      peon(class_name: 'NotifyNewTask', arguments: {type: 'message', thread: @thread.thread_id, message: @message.message_id})
       redirect_to cf_message_path(@thread, @message), :notice => I18n.t('messages.created')
     else
       render :new
