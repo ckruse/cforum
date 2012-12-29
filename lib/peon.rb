@@ -24,6 +24,25 @@ module Peon
         @config_manager.get(name, default, nil, forum)
       end
 
+      def uconf(name, user, forum, default = nil)
+        @config_manager.get(name, default, user, forum)
+      end
+
+      def notify_user(user, hook, subject, path, oid, otype, icon = nil, default = 'yes')
+        return if not hook.blank? and @config_manager.get(hook, default, user) != 'yes'
+
+        CfNotification.create!(
+          recipient_id: user.user_id,
+          subject: subject,
+          path: path,
+          icon: icon,
+          oid: oid,
+          otype: otype,
+          created_at: DateTime.now,
+          updated_at: DateTime.now
+        )
+      end
+
       def work_work(args)
       end
     end
