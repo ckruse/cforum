@@ -67,7 +67,6 @@ module Peon
       jobs.each do |j|
         @jobs[j.queue_name] << j
       end
-
     end
 
     def periodical(obj, slice = 180)
@@ -83,6 +82,13 @@ module Peon
     end
 
     def run
+      @jobs.keys.each do |k|
+        if @jobs[k].length > 0
+          Rails.logger.debug "Broadcasting on #{k}"
+          @conds[k].broadcast
+        end
+      end
+
       while @running
         @db_conn.wait_for_notify do |event, pid, payload|
           Rails.logger.info "grunt run: event: #{event}, payload: #{payload}"
