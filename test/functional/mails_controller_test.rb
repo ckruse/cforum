@@ -134,12 +134,28 @@ class MailsControllerTest < ActionController::TestCase
   end
 
   test "should not destroy message because of anonymous" do
+    msg = FactoryGirl.create(:cf_priv_message)
+
+    assert_raise CForum::ForbiddenException do
+      delete :destroy, user: msg.recipient.username, id: msg.priv_message_id
+    end
   end
 
   test "should not destroy message because of non-existant message" do
+    usr = FactoryGirl.create(:cf_user)
+    sign_in usr
+
+    assert_raise ActiveRecord::RecordNotFound do
+      delete :destroy, user: 'lulu', id: 2131312312312
+    end
   end
 
   test "should destroy message" do
+    msg = FactoryGirl.create(:cf_priv_message)
+    sign_in msg.owner
+
+    delete :destroy, user: msg.recipient.username, id: msg.priv_message_id
+    assert_redirected_to mails_url
   end
 
 end
