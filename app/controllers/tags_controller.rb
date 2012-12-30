@@ -28,7 +28,7 @@ class TagsController < ApplicationController
   # GET /collections/1.json
   def show
     @limit = uconf('pagination', 100).to_i
-    @tag = CfTag.where('tags.forum_id = ? AND slug = ?', current_forum.forum_id, params[:id]).first
+    @tag = CfTag.where('tags.forum_id = ? AND slug = ?', current_forum.forum_id, params[:id]).first!
 
     @page = params[:p].to_i
     @page = 0 if @page < 0

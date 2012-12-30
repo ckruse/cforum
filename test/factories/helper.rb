@@ -5,6 +5,10 @@ FactoryGirl.define do
     "Forum #{n}"
   end
 
+  sequence :tag_name do |n|
+    "Tag #{n}"
+  end
+
   sequence(:random_string) do |n|
     Faker::Lorem.paragraphs.join("\n\n")
   end
