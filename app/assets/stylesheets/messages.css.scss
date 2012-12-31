@@ -35,6 +35,10 @@ body[data-controller="messages"][data-action="new"] {
   .signature {
     color: #999;
   }
+
+  code {
+    color:inherit;
+  }
 }
 
 .message header details summary, .message header ul, .message header li {
