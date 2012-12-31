@@ -3,6 +3,7 @@
 require 'uri'
 
 ParserHelper.parser_modules['img'] = {
+  type: :after_parsing,
   html: Proc.new do |tag_name, args, content, html|
     if args.empty? and content.empty?
       html << '[img][/img]'
