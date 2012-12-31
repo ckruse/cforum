@@ -9,7 +9,7 @@ ParserHelper.parser_modules['img'] = {
       html << '[img][/img]'
     else
       alt = content
-      url = if args[0].empty?
+      url = if args.empty?
               content
             else
               args[0]
@@ -19,15 +19,16 @@ ParserHelper.parser_modules['img'] = {
         URI.parse(url)
         img = '<img src="' + encode_entities(url.strip) + '"'
 
-        if title
-          title = encode_entities(title.strip)
+        if alt
+          title = encode_entities(alt.strip)
           img << ' alt="' + title + '" title="' + title + '"'
         end
 
         img << '>'
 
         html << img
-      rescue
+      rescue => e
+        raise url + ": " + e.message
         if args.empty?
           html << '[img]' + encode_entities(url.strip) + '[/img]'
         else
@@ -40,7 +41,7 @@ ParserHelper.parser_modules['img'] = {
 
   txt: Proc.new do |tag_name, args, content, txt|
     if args.empty?
-      txt << '[img]' + encode_entities(args[0].strip) + '[/img]'
+      txt << '[img]' + encode_entities(content) + '[/img]'
     else
       txt << '[img=' + encode_entities(args[0].strip) + ']' + encode_entities(content.strip) + '[/img]'
     end
