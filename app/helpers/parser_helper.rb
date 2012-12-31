@@ -92,7 +92,7 @@ module ParserHelper
 
   def parse_tag(txt, html, i, format = :html)
     tag_name = ""
-    args     = nil
+    args     = []
 
     j = parse_tag_name(txt, tag_name, i)
 
@@ -109,6 +109,7 @@ module ParserHelper
       # if end of tag found: seems to be valid enough to do the effort of parsing the args
       if txt[j] == ']' and j > old
         args = parse_args(txt[old..(j-1)])
+        args = [args] unless args.is_a?(Array) or args.is_a?(Hash)
 
       elsif txt[j] != ']'
         html << '['
