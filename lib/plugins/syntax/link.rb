@@ -4,7 +4,7 @@ require 'uri'
 
 ParserHelper.parser_modules['url'] = {
   type: :after_parsing,
-  html: Proc.new do |tag_name, arg, content, html|
+  html: Proc.new do |tag_name, args, content, html|
     if args.empty? and content.empty?
       html << '[url][/url]'
     else
