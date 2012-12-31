@@ -61,6 +61,35 @@ module ParserHelper
     nil
   end
 
+  def sub_block(txt, html, return_on)
+    max_len = txt.length
+    i       = 0
+
+    while i < max_len
+      c = txt[i]
+
+      # possible that we got a tag, check for it
+      if txt[i] == '['
+        if next_is(txt, i, '/')
+          tag_name = ""
+          if j = parse_tag_name(txt, tag_name, i, true) and tag_name == return_on
+            return j
+          else
+            html << '['
+          end
+        else
+          i = parse_tag(txt, html, i, :unparsed)
+        end
+      else
+        html << c
+      end
+
+      i += 1
+    end
+
+    i
+  end
+
   def parse_tag(txt, html, i, format = :html)
     tag_name = ""
     args     = nil
@@ -88,14 +117,30 @@ module ParserHelper
 
       # recursive algorithm: find end
       content = ""
-      if format == :html
-        k = message_to_html_internal(txt[(j+1)..-1], content, tag_name)
+      if (@@parser_modules[tag_name][:type] == :before_parsing and format != :txt) or format == :unparsed
+        k = sub_block(txt[(j+1)..-1], content, tag_name)
       else
-        k = message_to_txt_internal(txt[(j+1)..-1], content, tag_name)
+        if format == :html
+          k = message_to_html_internal(txt[(j+1)..-1], content, tag_name)
+        else
+          k = message_to_txt_internal(txt[(j+1)..-1], content, tag_name)
+        end
       end
 
       if k
-        instance_exec tag_name, args, content, html, &@@parser_modules[tag_name][format == :html ? :html : :txt]
+        if @@parser_modules[tag_name][:type] == :before_parsing  and format != :txt and format != :unparsed
+          output = ""
+          instance_exec tag_name, args, content, output, &@@parser_modules[tag_name][format == :html ? :html : :txt]
+          if format == :html
+            message_to_html_internal(output.html_safe, html, tag_name)
+          else
+            message_to_txt_internal(output.html_safe, html, tag_name)
+          end
+
+        else
+          instance_exec tag_name, args, content, html, &@@parser_modules[tag_name][format == :html ? :html : :txt]
+        end
+
         i = j + k + 1
       end
     else
@@ -120,19 +165,23 @@ module ParserHelper
     while i < max_len
       c = txt[i]
 
+      unless txt.html_safe?
+        case c
+        when '&'
+          html << '&amp;'
+
+        when '<'
+          html << '&lt;'
+
+        when '>'
+          html << '&gt;'
+
+        when '"'
+          html << '&quot;'
+        end
+      end
+
       case c
-      when '&'
-        html << '&amp;'
-
-      when '<'
-        html << '&lt;'
-
-      when '>'
-        html << '&gt;'
-
-      when '"'
-        html << '&quot;'
-
       when "\n"
         html << '</span>' * quotes
         quotes = 0
