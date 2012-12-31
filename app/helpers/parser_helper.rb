@@ -156,6 +156,10 @@ module ParserHelper
     txt.length > i + 1 && c == txt[i + 1]
   end
 
+  def prev_is(txt, i, c)
+    i > 0 && c == txt[i - 1]
+  end
+
   def message_to_html_internal(txt, html, return_on = nil)
     quote_char = encode_entities(uconf('quote_char', '> '))
 
@@ -167,31 +171,39 @@ module ParserHelper
       c = txt[i]
 
       unless txt.html_safe?
-        case c
-        when '&'
-          html << '&amp;'
-
-        when '<'
-          html << '&lt;'
-
-        when '>'
-          html << '&gt;'
-
-        when '"'
-          html << '&quot;'
+        @table = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;'} unless @table
+        if @table[c]
+          html << @table[c]
+          i += 1
+          next
         end
       end
 
       case c
       when "\n"
-        html << '</span>' * quotes
-        quotes = 0
+        unless next_is(txt, i, CfMessage::QUOTE_CHAR)
+          html << '</span>' * quotes
+          quotes = 0
+        end
         #html << "<br>\n"
         html << "\n"
 
       when CfMessage::QUOTE_CHAR
-        html << '<span class="q"> ' + quote_char
-        quotes += 1
+        if prev_is(txt, i, "\n") or i == 0
+          num_quotes = 1
+          j = i
+          while next_is(txt, j, CfMessage::QUOTE_CHAR)
+            num_quotes += 1
+            j += 1
+          end
+
+          if num_quotes > quotes
+            html << '<span class="q">' * (num_quotes - quotes)
+            quotes += num_quotes - quotes
+          end
+        end
+
+        html << quote_char
 
       # possible that we got a tag, check for it
       when '['
@@ -213,16 +225,8 @@ module ParserHelper
       i += 1
     end
 
-    html.gsub! /\n/, "<br>"
-
-    html.gsub! /([[:space:]]{2,})/ do |spaces|
-      '&nbsp;' * spaces.length
-    end
-
-    # search for the last signature
-    sig_pos = html.rindex("<br>\n-- <br>\n")
-    unless sig_pos.nil?
-      html = html[0..(sig_pos-1)] + "<span class=\"signature\">" + html[sig_pos..-1] + "</span>"
+    if quotes > 0
+      html << "</span>" * num_quotes
     end
 
     i
@@ -231,6 +235,23 @@ module ParserHelper
   def message_to_html(txt)
     html = ""
     message_to_html_internal(txt, html)
+
+    html.gsub! /\n/, "<br>"
+
+    html.gsub! /([[:space:]]{2,})/ do |spaces|
+      '&nbsp;' * spaces.length
+    end
+
+    # search for the last signature
+    sig_pos = html.rindex("<br>-- <br>")
+    unless sig_pos.nil?
+      if sig_pos == 0
+        html = "<span class=\"signature\">" + html + "</span>"
+      else
+        html = html[0..(sig_pos-1)] + "<span class=\"signature\">" + html[sig_pos..-1] + "</span>"
+      end
+    end
+
     html.html_safe
   end
 
