@@ -2,34 +2,38 @@
 
 require 'uri'
 
-ParserHelper.parser_modules['link'] = {
-  html: Proc.new do |tag_name, arg, html|
-    if arg.strip.empty?
-      html << '[link:]'
+ParserHelper.parser_modules['url'] = {
+  html: Proc.new do |tag_name, arg, content, html|
+    if args.empty? and content.empty?
+      html << '[url][/url]'
     else
-      url   = ""
-      title = ""
-
-      if idx = arg.index("@title=")
-        url = arg[0..(idx-1)]
-        title = arg[(idx + 7)..-1]
-      else
-        url   = arg
-        title = arg
-      end
+      title = content
+      url   = if args.empty?
+                content
+              else
+                args[0]
+              end
 
       begin
         u = URI.parse(url)
         html << '<a href="' + encode_entities(url.strip) + '">' + encode_entities(title.strip) + '</a>'
       rescue
-        html << "[link:" + encode_entities(arg.strip) + "]"
+        if args.empty?
+          html << "[url]" + encode_entities(content.strip) + "[/url]"
+        else
+          html << "[url=" + encode_entities(args[0].strip) + "]" + encode_entities(content.strip) + "[/url]"
+        end
       end
 
     end
   end,
 
-  txt: Proc.new do |tag_name, arg, txt|
-    txt << '[link:' + arg.strip + ']'
+  txt: Proc.new do |tag_name, args, content, txt|
+    if args.empty?
+      txt << '[url]' + content.strip + '[/url]'
+    else
+      txt << '[url=' + args[0].strip + ']' + content.strip + '[/url]'
+    end
   end
 }
 
