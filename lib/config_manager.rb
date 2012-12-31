@@ -10,15 +10,17 @@ class ConfigManager
   end
 
   def read_settings(user = nil, forum = nil)
-    if not user.blank? and @value_cache[:users][user].blank?
+    if not user.blank? and not @value_cache[:users].has_key?(user)
       @value_cache[:users][user] = CfSetting.find_by_user_id(user)
     end
 
-    if not forum.blank? and @value_cache[:forums][forum].blank?
+    if not forum.blank? and not @value_cache[:forums].has_key?(forum)
       @value_cache[:forums][forum] = CfSetting.find_by_forum_id(forum)
     end
 
-    @value_cache[:global] = CfSetting.where('user_id IS NULL and forum_id IS NULL').first
+    if not @value_cache.has_key?(:global)
+      @value_cache[:global] = CfSetting.where('user_id IS NULL and forum_id IS NULL').first
+    end
   end
 
   def get(name, default = nil, user = nil, forum = nil)
