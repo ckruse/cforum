@@ -61,7 +61,7 @@ module ParserHelper
     nil
   end
 
-  def parse_tag(txt, html, i, format = 'html')
+  def parse_tag(txt, html, i, format = :html)
     tag_name = ""
     args     = nil
 
@@ -87,10 +87,11 @@ module ParserHelper
       end
 
       # recursive algorithm: find end
+      content = ""
       if format == :html
-        k = message_to_html_internal(txt[(j+1)..-1], html, tag_name)
+        k = message_to_html_internal(txt[(j+1)..-1], content, tag_name)
       else
-        k = message_to_txt_internal(txt[(j+1)..-1], html, tag_name)
+        k = message_to_txt_internal(txt[(j+1)..-1], content, tag_name)
       end
 
       if k
@@ -135,7 +136,8 @@ module ParserHelper
       when "\n"
         html << '</span>' * quotes
         quotes = 0
-        html << "<br>\n"
+        #html << "<br>\n"
+        html << "\n"
 
       when CfMessage::QUOTE_CHAR
         html << '<span class="q"> ' + quote_char
@@ -164,6 +166,8 @@ module ParserHelper
     html.gsub! /([[:space:]]{2,})/ do |spaces|
       '&nbsp;' * spaces.length
     end
+
+    html.gsub! /\n/, "<br>"
 
     # search for the last signature
     sig_pos = html.rindex("<br>\n-- <br>\n")
