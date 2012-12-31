@@ -14,6 +14,8 @@ gem 'anjlab-bootstrap-rails', '>= 2.0', :require => 'bootstrap-rails'
 
 gem 'daemons'
 
+gem 'coderay'
+
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'quiet_assets'
