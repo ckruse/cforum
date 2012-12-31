@@ -163,11 +163,11 @@ module ParserHelper
       i += 1
     end
 
+    html.gsub! /\n/, "<br>"
+
     html.gsub! /([[:space:]]{2,})/ do |spaces|
       '&nbsp;' * spaces.length
     end
-
-    html.gsub! /\n/, "<br>"
 
     # search for the last signature
     sig_pos = html.rindex("<br>\n-- <br>\n")
