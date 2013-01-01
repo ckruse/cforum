@@ -9,16 +9,11 @@ ParserHelper.parser_modules['url'] = {
       html << '[url][/url]'
     else
       title = content
-      url   = if args.empty?
-                content
-              else
-                args[0]
-              end
+      url   = args.empty? ? content : args[0]
 
-      begin
-        u = URI.parse(url)
+      if url =~ URI::regexp
         html << '<a href="' + encode_entities(url.strip) + '">' + encode_entities(title.strip) + '</a>'
-      rescue
+      else
         if args.empty?
           html << "[url]" + encode_entities(content.strip) + "[/url]"
         else

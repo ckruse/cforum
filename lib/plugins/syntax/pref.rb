@@ -1,60 +1,69 @@
 # -*- coding: utf-8 -*-
-def parse_pref(pref)
-  url   = nil
-  title = nil
-
-  if idx = pref.index("@title=")
-    url   = pref[0..(idx - 1)]
-    title = pref[(idx + 7)..-1]
-  else
-    url   = pref
-  end
-
-  t, m = url.split ';'
-  t = t[2..-1]
-  m = m[2..-1]
-
-  return t, m, title
-end
 
 ParserHelper.parser_modules['pref'] = {
-  html: Proc.new do |tag_name, arg, html|
-    if arg.strip.empty?
-      html << '[pref:]'
+  html: Proc.new do |tag_name, args, content, html|
+    if args.empty?
+      if content.empty?
+        html << '[pref][/pref]'
+      else
+        html << '[pref]' + encode_entities(content) + '[/pref]'
+      end
     else
-      t, m, title = parse_pref(arg)
+      tid = args['t']
+      mid = args['m']
+      title = content
 
       begin
-        t = CfThread.find_by_tid!(t.to_i)
-        m = t.find_by_mid!(m.to_i)
+        t = CfThread.find_by_tid!(tid)
+        m = t.find_by_mid!(mid.to_i)
 
-        url = cf_message_path(t, m)
+        url = cf_message_url(t, m)
         title = url if title.blank?
 
         html << '<a href="' + encode_entities(url) + '">' + encode_entities(title) + "</a>"
+
       rescue
-        html << '[pref:' + encode_entities(arg.strip) + ']'
+        html << '[pref t=' + tid + ' m=' + mid + ']'
+        html << content unless content.blank?
+        html << '[/pref]'
       end
 
     end
   end,
 
-  txt: Proc.new do |tag_name, arg, txt|
-    t, m, title = parse_pref(arg)
+  txt: Proc.new do |tag_name, args, content, txt|
+    if args.empty?
+      if content.empty?
+        txt << '[pref][/pref]'
+      else
+        txt << '[pref]' + content + '[/pref]'
+      end
+    else
+      tid = args['t']
+      mid = args['m']
+      title = content
 
-    begin
-      t = CfThread.find_by_tid!(t.to_i)
-      m = t.find_by_mid!(m.to_i)
+      begin
+        t = CfThread.find_by_tid!(tid)
+        m = t.find_by_mid!(mid.to_i)
 
-      url = cf_message_url(t, m)
+        url = cf_message_url(t, m)
 
-      lnk = '[link:' + url
-      lnk << "@title=" + title if title
-      lnk << ']'
+        lnk = '[url'
+        if title.blank?
+          lnk << ']' + url
+        else
+          lnk << '=' + url + ']' + title
+        end
 
-      txt << lnk
-    rescue
-      html << '[pref:' + arg.strip + ']'
+        txt << lnk + '[/url]'
+      rescue
+        lnk = '[pref t=' + args['t'] + ' m=' + args['m'] +  ']'
+        lnk << content unless content.blank?
+        lnk << '[/pref]'
+
+        txt << lnk
+      end
     end
   end
 }

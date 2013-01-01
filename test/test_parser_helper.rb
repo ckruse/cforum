@@ -14,6 +14,10 @@ class MockObject
     Rails.application.config.action_controller.relative_url_root || '/'
   end
 
+  def root_url
+    'http://localhost/'
+  end
+
   def uconf(name, default = nil)
     @config_manager.get(name, default, current_user, current_forum)
   end

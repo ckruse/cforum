@@ -9,14 +9,9 @@ ParserHelper.parser_modules['img'] = {
       html << '[img][/img]'
     else
       alt = content
-      url = if args.empty?
-              content
-            else
-              args[0]
-            end
+      url = args.empty? ? content : args[0]
 
-      begin
-        URI.parse(url)
+      if url =~ URI::regexp
         img = '<img src="' + encode_entities(url.strip) + '"'
 
         if alt
@@ -27,8 +22,7 @@ ParserHelper.parser_modules['img'] = {
         img << '>'
 
         html << img
-      rescue => e
-        raise url + ": " + e.message
+      else
         if args.empty?
           html << '[img]' + encode_entities(url.strip) + '[/img]'
         else
