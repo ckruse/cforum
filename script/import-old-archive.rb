@@ -182,7 +182,7 @@ def handle_doc(doc, opts = {})
     forum = $forum
   end
 
-  thread = CfThread.create!(
+  thread = CfThread.new(
     tid: x_thread['id'].force_encoding('utf-8')[1..-1],
     archived: opts[:archived],
     forum_id: forum.forum_id,
@@ -190,6 +190,14 @@ def handle_doc(doc, opts = {})
     created_at: the_date,
     updated_at: the_date
   )
+
+  i = 0
+  while not CfThread.find_by_slug(thread.slug).blank?
+    i += 1
+    thread.slug = thread_id(the_date, subject, i)
+  end
+
+  thread.save
 
   if ARGV[1] != 'forums' and not forum_name.blank?
     t = CfTag.find_by_forum_id_and_tag_name forum.forum_id, forum_name
@@ -207,14 +215,7 @@ def handle_doc(doc, opts = {})
   end
 
   thread.message_id = msg.message_id # a thread can only contain one message
-
-  i = 0
-  while CfThread.find_by_slug(thread.slug).blank?
-    i += 1
-    thread.slug = thread_id(the_date, subject, i)
-  end
-
-  thread.save
+  thread.save!
 
   thread
 end
