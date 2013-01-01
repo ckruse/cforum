@@ -78,7 +78,13 @@ module ParserHelper
             html << '['
           end
         else
-          i = parse_tag(txt, html, i, :unparsed)
+          content = ""
+          if j = parse_tag(txt, content, i, :unparsed)
+            i = j
+            html << content
+          else
+            html << "["
+          end
         end
       else
         html << c
@@ -87,7 +93,7 @@ module ParserHelper
       i += 1
     end
 
-    i
+    return nil
   end
 
   def parse_tag(txt, html, i, format = :html)
@@ -129,17 +135,17 @@ module ParserHelper
       end
 
       if k
+        output = ""
+        instance_exec tag_name, args, content, output, &@@parser_modules[tag_name][format == :html ? :html : :txt]
+
         if @@parser_modules[tag_name][:type] == :before_parsing  and format != :txt and format != :unparsed
-          output = ""
-          instance_exec tag_name, args, content, output, &@@parser_modules[tag_name][format == :html ? :html : :txt]
           if format == :html
             message_to_html_internal(output.html_safe, html, tag_name)
           else
             message_to_txt_internal(output.html_safe, html, tag_name)
           end
-
         else
-          instance_exec tag_name, args, content, html, &@@parser_modules[tag_name][format == :html ? :html : :txt]
+          html << output
         end
 
         i = j + k + 1
@@ -149,6 +155,7 @@ module ParserHelper
       return i
     end
 
+    return nil if txt[i] != ']'
     i
   end
 
@@ -215,7 +222,13 @@ module ParserHelper
             html << '['
           end
         else
-          i = parse_tag(txt, html, i)
+          content = ""
+          if k = parse_tag(txt, content, i)
+            html << content
+            i = k
+          else
+            html << '['
+          end
         end
 
       else
@@ -273,7 +286,7 @@ module ParserHelper
 
       case c
       when CfMessage::QUOTE_CHAR
-        txt << quote_char
+        html << quote_char
 
       # possible that we got a tag, check for it
       when '['
@@ -285,7 +298,13 @@ module ParserHelper
             html << '['
           end
         else
-          i = parse_tag(txt, html, i, :txt)
+          content = ""
+          if j = parse_tag(txt, content, i, :txt)
+            i = j
+            html << content
+          else
+            html << '['
+          end
         end
 
       else
@@ -310,7 +329,7 @@ module ParserHelper
   end
 
   def content_to_internal(msg, quote_char)
-    msg = msg.gsub Regexp.new('^(' + quote_char + ')+', Regexp::MULTILINE) do |data|
+    msg = msg.gsub Regexp.new('^(' + Regexp.escape(quote_char) + ')+', Regexp::MULTILINE) do |data|
       CfMessage::QUOTE_CHAR * (data.length / quote_char.length)
     end
 

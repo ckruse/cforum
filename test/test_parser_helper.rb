@@ -6,6 +6,8 @@ class MockObject
 
   def initialize
     @config_manager = ConfigManager.new
+
+    read_syntax_plugins
   end
 
   def root_path
@@ -27,6 +29,7 @@ class MockObject
   def current_forum
     nil
   end
+
 end
 
 # eof
