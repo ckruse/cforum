@@ -38,9 +38,47 @@ def convert_content(txt)
     src = $1 if data =~ /src="([^"]+)"/
     alt = $1 if data =~ /alt="([^"]+)"/
 
-    img = "[image:" + $coder.decode(src)
-    img << "@alt=" + $coder.decode(alt) unless alt.blank?
-    img + "]"
+    img = "[img"
+    if alt.blank?
+      img << ']' + $coder.decode(src)
+    else
+      img << '=' + $coder.decode(src) + ']' + $coder.decode(alt) unless alt.blank?
+    end
+
+    img + "[/img]"
+  end
+
+  txt = txt.gsub /\[link:([^\]+])\]/ do |data|
+    href  = ""
+    title = ""
+    data  = $1
+
+    href  = data.gsub /@title=.*/, ''
+    title = $1 if data =~ /@title=(.*)/
+
+    lnk = "[url"
+    if title.blank?
+      lnk << ']' + $coder.decode(href)
+    else
+      lnk << '=' + $coder.decode(href) + ']' + $coder.decode(title)
+    end
+
+    lnk + '[/url]'
+  end
+
+  txt = txt.gsub /\[pref:([^\]]+)\]/ do |data|
+    href  = ""
+    title = ""
+    data  = $1
+
+    href  = data.gsub /@title=.*/, ''
+    title = $1 if data =~ /@title=(.*)/
+
+    t, m = href.split ';', 2
+
+    lnk = '[pref t=' + t[1..-1] + " m=" + m[1..-1] + ']'
+    lnk << $coder.decode(title) unless title.blank?
+    lnk + '[/pref]'
   end
 
   txt = $coder.decode(txt)
@@ -169,27 +207,27 @@ def handle_doc(doc, opts = {})
   end
 
   thread.message_id = msg.message_id # a thread can only contain one message
+
+  i = 0
+  while CfThread.find_by_slug(thread.slug).blank?
+    i += 1
+    thread.slug = thread_id(the_date, subject, i)
+  end
+
   thread.save
 
   thread
 end
 
-def thread_id(dt, subject)
-  base_id = dt.strftime("/%Y/") + dt.strftime("%b").downcase + dt.strftime("/%d/")
+def thread_id(dt, subject, num = 0)
+  base_id = dt.strftime("/%Y/") + dt.strftime("%b").downcase + '/' + dt.strftime("%d").to_i.to_s + '/'
   subj = subject.parameterize
-  num = 0
 
-  begin
-    if num > 0 then
-      id = base_id + num.to_s + "-" + subj
-    else
-      id = base_id + subj
-    end
-
-    num += 1
-  end while $ids[id]
-
-  $ids[id] = true
+  if num > 0 then
+    id = base_id + num.to_s + "-" + subj
+  else
+    id = base_id + subj
+  end
 
   id
 end
