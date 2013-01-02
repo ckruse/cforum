@@ -76,7 +76,12 @@ def convert_content(txt)
 
     t, m = href.split ';', 2
 
-    lnk = '[pref t=' + t[1..-1] + " m=" + m[1..-1] + ']'
+    if t.blank? or m.blank?
+      lnk = '[pref]'
+    else
+      lnk = '[pref t=' + t[1..-1] + " m=" + m[1..-1] + ']'
+    end
+
     lnk << $coder.decode(title) unless title.blank?
     lnk + '[/pref]'
   end
