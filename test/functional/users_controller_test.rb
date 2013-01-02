@@ -45,6 +45,34 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
 
+  test "should show user and warning for unconfirmed user" do
+    u = FactoryGirl.create(:cf_user, admin: false, confirmed_at: nil, unconfirmed_email: nil)
+    sign_in u
+
+    get :show, id: u.username
+    assert_response :success
+    assert_not_nil flash[:error]
+  end
+
+  test "should show user and no warning because of other user for unconfirmed user" do
+    u = FactoryGirl.create(:cf_user, admin: false, confirmed_at: nil, unconfirmed_email: nil)
+    u1 = FactoryGirl.create(:cf_user, admin: false)
+    sign_in u1
+
+    get :show, id: u.username
+    assert_response :success
+    assert_nil flash[:error]
+  end
+
+  test "should show user and no warning because of anonymous user for unconfirmed user" do
+    u = FactoryGirl.create(:cf_user, admin: false, confirmed_at: nil, unconfirmed_email: nil)
+
+    get :show, id: u.username
+    assert_response :success
+    assert_nil flash[:error]
+  end
+
+
   test "should not show edit form because of anonymous" do
     u = FactoryGirl.create(:cf_user, admin: false)
 
@@ -88,8 +116,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:user)
   end
-
-
 
   test "should show edit form" do
     u = FactoryGirl.create(:cf_user, admin: false)
@@ -137,6 +163,64 @@ class UsersControllerTest < ActionController::TestCase
     post :update, id: u.username, cf_user: {username: 'lulu'}
     assert_redirected_to edit_user_path(u.reload)
   end
+
+  test "should update because of right user" do
+    u = FactoryGirl.create(:cf_user, admin: false)
+    sign_in u
+
+    post :update, id: u.username, cf_user: {username: 'lulu'}
+    assert_redirected_to edit_user_path(u.reload)
+  end
+
+  test "should not update because of invalid" do
+    u = FactoryGirl.create(:cf_user, admin: false)
+    sign_in u
+
+    post :update, id: u.username, cf_user: {password: 'l'}
+    assert_response :success
+    assert_not_nil assigns(:user)
+  end
+
+
+  test "should not destroy because of anonymous" do
+    u = FactoryGirl.create(:cf_user, admin: false)
+
+    assert_raise CForum::ForbiddenException do
+      delete :destroy, id: u.username
+    end
+  end
+
+  test "should not destroy because of wrong user" do
+    u = FactoryGirl.create(:cf_user, admin: false)
+    u1 = FactoryGirl.create(:cf_user, admin: false)
+    sign_in u1
+
+    assert_raise CForum::ForbiddenException do
+      delete :destroy, id: u.username
+    end
+  end
+
+  test "should destroy because of right user" do
+    u = FactoryGirl.create(:cf_user, admin: false)
+    sign_in u
+
+    assert_difference 'CfUser.count', -1 do
+      delete :destroy, id: u.username
+    end
+    assert_redirected_to root_url()
+  end
+
+  test "should destroy because of admin" do
+    u = FactoryGirl.create(:cf_user, admin: false)
+    u1 = FactoryGirl.create(:cf_user)
+    sign_in u1
+
+    assert_difference 'CfUser.count', -1 do
+      delete :destroy, id: u.username
+    end
+    assert_redirected_to root_url()
+  end
+
 end
 
 # eof
