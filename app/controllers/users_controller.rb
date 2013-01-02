@@ -1,8 +1,13 @@
 # -*- encoding: utf-8 -*-
 
 class UsersController < ApplicationController
+  before_filter :authorize!
+
   SAVING_SETTINGS = "saving_settings"
   SAVED_SETTINGS  = "saved_settings"
+
+  DESTROYING_USER = "destroying_user"
+  DESTROYED_USER  = "destroyed_user"
 
   def index
     @page = params[:p].to_i
@@ -33,10 +38,9 @@ class UsersController < ApplicationController
   end
 
   def edit
-    raise CForum::ForbiddenException.new if current_user.blank? or params[:id] != current_user.username
     @user = CfUser.find_by_username!(params[:id])
 
-    if @user.confirmed_at.blank? or not @user.unconfirmed_email.blank?
+    if (@user.confirmed_at.blank? or not @user.unconfirmed_email.blank?) and (not current_user.admin? or current_user.username == @user.username)
       redirect_to user_url(@user), flash: {error: I18n.t('views.confirm_first')}
       return
     end
@@ -45,8 +49,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    raise CForum::ForbiddenException.new if current_user.blank? or params[:id] != current_user.username
-
     attrs = params[:cf_user]
     attrs.delete :active
     attrs.delete :admin
@@ -84,15 +86,23 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    raise CForum::ForbiddenException.new if current_user.blank? or params[:id] != current_user.username
-
     @user = CfUser.find_by_username!(params[:id])
+
+    notification_center.notify(DESTROYING_USER, @user, @settings)
     @user.destroy
+    notification_center.notify(DESTROYED_USER, @user, @settings)
 
     respond_to do |format|
       format.html { redirect_to root_url, notice: I18n.t('users.deleted') }
       format.json { head :no_content }
     end
+  end
+
+  def authorize!
+    return unless %w{edit update destroy}.include?(action_name)
+    return if not current_user.blank? and (current_user.admin? or current_user.username == params[:id])
+
+    raise CForum::ForbiddenException.new
   end
 
 end
