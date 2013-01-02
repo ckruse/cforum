@@ -4,10 +4,15 @@ class MockObject
   include CForum::Tools
   include ParserHelper
 
+  @@read_plugins = false
+
   def initialize
     @config_manager = ConfigManager.new
 
-    read_syntax_plugins
+    unless @@read_plugins
+      @@read_plugins = true
+      read_syntax_plugins
+    end
   end
 
   def root_path
