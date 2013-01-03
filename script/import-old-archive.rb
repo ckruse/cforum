@@ -15,7 +15,8 @@ directory = "/home/ckruse/dev/archiv/archiv/"
 directory = ARGV[0] if ARGV.length >= 1
 
 if ARGV[1] != 'forums'
-  $forum = CfForum.find_by_slug 'default-forum'
+  $forum = CfForum.find_by_slug 'default'
+
   $forum = CfForum.create!(
     :name => 'Default-Forum',
     :short_name => 'Default-Forum',
