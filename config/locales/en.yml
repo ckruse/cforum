@@ -100,8 +100,8 @@ en:
     created: Created
     updated: Updated
     active: Active
-    yes: Ja
-    no: Nein
+    yeah: Yes
+    nope: No
     home: Home
     new_thread: New thread
     new_message: New message
