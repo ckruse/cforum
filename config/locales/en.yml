@@ -129,6 +129,10 @@ en:
     recipient: Recipient
     subject: Subject
     mail: Mail
+    notifications: Notifications
+    notification_on_activity: Notifications on activity in thread
+    notification_on_answer: Notification on answer
+    via_email: via email
 
   options:
     errors:
