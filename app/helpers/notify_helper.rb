@@ -3,7 +3,9 @@
 module NotifyHelper
   def notify_user(opts = {})
     opts = {icon: nil, default: 'yes', body: nil}.merge(opts)
-    return unless @config_manager.get(opts[:hook], opts[:default], opts[:user]) == 'yes'
+
+    cfg = @config_manager.get(opts[:hook], opts[:default], opts[:user])
+    return if cfg == 'no'
 
     CfNotification.create!(
       recipient_id: opts[:user].user_id,
@@ -13,6 +15,8 @@ module NotifyHelper
       oid: opts[:oid],
       otype: opts[:otype]
     )
+
+    NotificationMailer.new_notification(opts).deliver if cfg == 'email'
   end
 
   def notifications
