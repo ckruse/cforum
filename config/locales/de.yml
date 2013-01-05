@@ -128,6 +128,7 @@ de:
     readability_overview: Lesbarkeit/Übersicht
     comma_seperated_list: Komma-separierte Liste
     personalization: Personalisierung
+    notify_on_new_mail: Benachrichtig bei neuer Post
 
   notifications:
     new_answer: "Eine neue Antwort auf Ihr Posting wurde von %{nick} geschrieben: %{subject}"
