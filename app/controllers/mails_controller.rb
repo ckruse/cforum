@@ -93,7 +93,7 @@ class MailsController < ApplicationController
           @mail_recipient.priv_message_id,
           'mails:create',
           'icon-envelope'
-          )
+        )
       end
 
       raise ActiveRecord::Rollback.new unless saved
