@@ -24,7 +24,12 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     Rails.logger.debug('notify new task: send mail to ' + user.email)
 
     begin
-      NotifyNewMailer.new_message(user, thread, parent, message).deliver
+      if parent.owner and parent.owner.user_id == user.user_id
+        NotifyNewMailer.new_answer(user, thread, parent, message, cf_message_url(thread, message)).deliver
+      else
+        NotifyNewMailer.new_message(user, thread, parent, message, cf_message_url(thread, message)).deliver
+      end
+
       @sent_mails[user.email] = true
 
     rescue => e
@@ -55,8 +60,8 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
           m.owner,
           nil,
           @parent.user_id == m.user_id ?
-                    I18n.t('notifications.new_answer', nick: @message.author, subject: @message.subject) :
-                    I18n.t('notifications.new_message', nick: @message.author, subject: @message.subject),
+            I18n.t('notifications.new_answer', nick: @message.author, subject: @message.subject) :
+            I18n.t('notifications.new_message', nick: @message.author, subject: @message.subject),
           cf_message_path(@thread, @message),
           @message.message_id,
           'message:create',

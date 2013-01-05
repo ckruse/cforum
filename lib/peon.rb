@@ -15,6 +15,10 @@ module Peon
         Rails.application.config.action_controller.relative_url_root || '/'
       end
 
+      def root_url
+        'http://' + ActionMailer::Base.default_url_options[:host] + root_path
+      end
+
       def initialize
         @config_manager = Peon::Grunt.instance.config_manager
         @notification_center = Peon::Grunt.instance.notification_center
