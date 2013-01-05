@@ -133,6 +133,9 @@ en:
     notification_on_activity: Notifications on activity in thread
     notification_on_answer: Notification on answer
     via_email: via email
+    readability_overview: Readability/Overview
+    comma_seperated_list: comma seperated list
+    personalization: Personalization
 
   options:
     errors:

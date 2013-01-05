@@ -125,6 +125,9 @@ de:
     notification_on_activity: Benachrichtigung bei Aktivität in Thread
     notification_on_answer: Benachrichtigung bei Antwort
     via_email: via E-Mail
+    readability_overview: Lesbarkeit/Übersicht
+    comma_seperated_list: Komma-separierte Liste
+    personalization: Personalisierung
 
   notifications:
     new_answer: "Eine neue Antwort auf Ihr Posting wurde von %{nick} geschrieben: %{subject}"
