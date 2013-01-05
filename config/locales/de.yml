@@ -115,7 +115,7 @@ de:
     items_per_page: Einträge pro Seite
     use_archive: Archiv benutzen
     reply: Antworten
-    post_from: Post von %{name}
+    post_from: Kommunikation mit %{name}
     post: Post
     author: Autor
     recipient: Empfänger
