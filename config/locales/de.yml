@@ -78,8 +78,8 @@ de:
     created: Erstellt
     updated: Geändert
     active: Aktiv
-    yes: Ja
-    no: Nein
+    yeah: Ja
+    nope: Nein
     home: Hauptseite
     new_thread: Neuer Thread
     new_message: Neue Nachricht
@@ -121,6 +121,10 @@ de:
     recipient: Empfänger
     subject: Betreff
     mail: Post
+    notifications: Benachrichtigungen
+    notification_on_activity: Benachrichtigung bei Aktivität in Thread
+    notification_on_answer: Benachrichtigung bei Antwort
+    via_email: via E-Mail
 
   notifications:
     new_answer: "Eine neue Antwort auf Ihr Posting wurde von %{nick} geschrieben: %{subject}"

@@ -100,8 +100,8 @@ en:
     created: Created
     updated: Updated
     active: Active
-    yes: Ja
-    no: Nein
+    yeah: Yes
+    nope: No
     home: Home
     new_thread: New thread
     new_message: New message
@@ -129,6 +129,10 @@ en:
     recipient: Recipient
     subject: Subject
     mail: Mail
+    notifications: Notifications
+    notification_on_activity: Notifications on activity in thread
+    notification_on_answer: Notification on answer
+    via_email: via email
 
   options:
     errors:

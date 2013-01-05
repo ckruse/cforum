@@ -19,8 +19,8 @@
     <% @users.each do |u| %>
     <tr>
       <td><%= link_to u.username, user_path(u) %></td>
-      <td><%= u.admin ? t('views.yes') : t('views.no') %></td>
-      <td><%= u.active ? t('views.yes') : t('views.no') %></td>
+      <td><%= u.admin ? t('views.yeah') : t('views.nope') %></td>
+      <td><%= u.active ? t('views.yeah') : t('views.nope') %></td>
       <td><%= l(u.created_at) %></td>
       <td><%= l(u.updated_at) %></td>
     </tr>
