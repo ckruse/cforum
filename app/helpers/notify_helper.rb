@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 
 module NotifyHelper
-  def notify_user(user, hook, subject, path, oid, otype, icon = nil, default = 'yes')
-    return unless @config_manager.get(hook, default, user) == 'yes'
+  def notify_user(opts = {})
+    opts = {icon: nil, default: 'yes', body: nil}.merge(opts)
+    return unless @config_manager.get(opts[:hook], opts[:default], opts[:user]) == 'yes'
 
     CfNotification.create!(
-      recipient_id: user.user_id,
-      subject: subject,
-      path: path,
-      icon: icon,
-      oid: oid,
-      otype: otype
+      recipient_id: opts[:user].user_id,
+      subject: opts[:subject],
+      path: opts[:path],
+      icon: opts[:icon],
+      oid: opts[:oid],
+      otype: opts[:otype]
     )
   end
 

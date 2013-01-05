@@ -84,15 +84,16 @@ class MailsController < ApplicationController
 
       if saved
         notify_user(
-          recipient,
-          'notify_on_new_mail',
-          t('notifications.new_mail',
+          user: recipient,
+          hook: 'notify_on_new_mail',
+          subject: t('notifications.new_mail',
             user: current_user.username,
             subject: @mail.subject),
-          mail_path(current_user.username, @mail_recipient),
-          @mail_recipient.priv_message_id,
-          'mails:create',
-          'icon-envelope'
+          path: mail_path(current_user.username, @mail_recipient),
+          oid: @mail_recipient.priv_message_id,
+          otype: 'mails:create',
+          icon: 'icon-envelope',
+          body: @mail.body
         )
       end
 
