@@ -3,7 +3,7 @@
 class NotificationMailer < ActionMailer::Base
   default from: "cforum@wwwtech.de"
 
-  def new_message(opts)
+  def new_notification(opts)
     @opts = opts
 
     mail(

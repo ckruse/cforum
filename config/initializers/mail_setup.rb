@@ -5,4 +5,8 @@ require File.join(File.dirname(__FILE__), '..', '..', 'lib', 'tools.rb')
 
 ActionMailer::Base.register_interceptor(DevelopmentMailInterceptor) if Rails.env.development?
 
+class ActionMailer::Base
+  include CForum::Tools
+end
+
 # eof

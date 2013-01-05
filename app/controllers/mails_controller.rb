@@ -102,7 +102,7 @@ class MailsController < ApplicationController
           oid: @mail_recipient.priv_message_id,
           otype: 'mails:create',
           icon: 'icon-envelope',
-          body: @mail.body
+          body: message_to_txt(@mail.body)
         )
       end
 
