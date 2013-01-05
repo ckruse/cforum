@@ -62,6 +62,12 @@ class MailsController < ApplicationController
 
   def new
     @mail = CfPrivMessage.new(params[:cf_priv_message])
+
+    if not params[:priv_message_id].blank? and @parent = CfPrivMessage.find_by_owner_id_and_priv_message_id(current_user.user_id, params[:priv_message_id])
+      @mail.recipient_id = @parent.recipient_id == current_user.user_id ? @parent.sender_id : @parent.recipient_id
+      @mail.subject      = @parent.subject =~ /^Re:/i ? @parent.subject : 'Re: ' + @parent.subject
+      @mail.body         = quote_content(@parent.body, uconf('quote_char', '> ')) if uconf('quote_old_message', 'yes') == 'yes'
+    end
   end
 
   def create
@@ -70,11 +76,14 @@ class MailsController < ApplicationController
     @mail.owner_id  = current_user.user_id
     @mail.is_read   = true
 
+    @mail.body      = content_to_internal(@mail.body, uconf('quote_char', '> '))
+
     recipient = CfUser.find(@mail.recipient_id)
 
     @mail_recipient           = CfPrivMessage.new(params[:cf_priv_message])
     @mail_recipient.sender_id = current_user.user_id
     @mail_recipient.owner_id  = recipient.user_id
+    @mail_recipient.body      = content_to_internal(@mail_recipient.body, uconf('quote_char', '> '))
 
     saved = false
     CfPrivMessage.transaction do
