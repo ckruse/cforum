@@ -9,7 +9,7 @@ render 'cf_threads/thread_tree'
     <%= message_to_html(@message.content) %>
   </div>
 
-  <p><%= link_to t("views.new_message"), new_cf_message_path(@thread, @message) %></p>
+  <p><%= link_to t("views.new_answer"), new_cf_message_path(@thread, @message) %></p>
 
   <article class="thread posting">
     <%= message_tree(@thread, [@thread.message]) %>

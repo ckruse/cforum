@@ -140,6 +140,7 @@ en:
     readability_overview: Readability/Overview
     comma_seperated_list: comma seperated list
     personalization: Personalization
+    answer: Answer
 
   options:
     errors:

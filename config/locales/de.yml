@@ -126,6 +126,7 @@ de:
     comma_seperated_list: Komma-separierte Liste
     personalization: Personalisierung
     notify_on_new_mail: Benachrichtig bei neuer Post
+    answer: Antworten
 
   notifications:
     new_mail: "Neue Nachricht von %{user}: %{subject}"
