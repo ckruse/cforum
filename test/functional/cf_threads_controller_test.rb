@@ -120,6 +120,24 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:threads).length
   end
 
+  test "index: should show list of all threads and tags" do
+    msg = FactoryGirl.create(:cf_message)
+    msg1 = FactoryGirl.create(:cf_message)
+
+    tag1 = FactoryGirl.create(:cf_tag)
+    tag2 = FactoryGirl.create(:cf_tag)
+
+    CfTagThread.create!(thread_id: msg.thread_id, tag_id: tag1.tag_id)
+    CfTagThread.create!(thread_id: msg.thread_id, tag_id: tag2.tag_id)
+    CfTagThread.create!(thread_id: msg1.thread_id, tag_id: tag1.tag_id)
+    CfTagThread.create!(thread_id: msg1.thread_id, tag_id: tag2.tag_id)
+
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:threads)
+    assert_equal 2, assigns(:threads).length
+  end
+
   test "index: should show list of all threads w/o deleted" do
     msg = FactoryGirl.create(:cf_message)
     msg1 = FactoryGirl.create(:cf_message, deleted: true)
