@@ -24,11 +24,11 @@ cforum.common.usersSelector.search = function(obj) {
 
     sel.html(the_html);
     sel.find("li").fadeIn('fast');
-  })
+  });
 };
 
 cforum.common.usersSelector.add = function(ev) {
-  var $obj  = $(ev.target);
+  var $obj  = $(ev.target).closest(".found-user-line");
   var $sel  = $obj.closest(".users-selector");
   var found = $sel.find(".found-user-list");
   var uid   = $obj.attr('data-user-id');
@@ -128,7 +128,7 @@ cforum.common.usersSelector.init = function() {
 };
 
 cforum.common.usersSelector.views = {
-  userFoundLine: '<li style="display:none"><i class="icon icon-plus" data-user-id="{{user.user_id}}" data-username="{{user.username}}"> </i> {{user.username}}</li>',
+  userFoundLine: '<li style="display:none" class="found-user-line" data-user-id="{{user.user_id}}" data-username="{{user.username}}"><i class="icon icon-plus"> </i> {{user.username}}</li>',
   userAddLine: '<li style="display:none" data-user-id="{{user.user_id}}" data-username="{{user.username}}"><i class="icon icon-minus"> </i> {{user.username}}</li>',
   userLine: '<label class="checkbox"><input type="checkbox" checked="checked" value="{{user.user_id}}" name="{{name}}" id="{{id}}">{{user.username}}</label>'
 };
