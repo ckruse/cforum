@@ -17,7 +17,7 @@ class UsersController < ApplicationController
       @users = CfUser.order('username').limit(25).offset(@page * 25)
       @all_users_count = CfUser.count()
     else
-      @users = CfUser.where('LOWER(username) LIKE ?', params[:s].strip + '%').order('username').limit(25).offset(@page * 25)
+      @users = CfUser.where('LOWER(username) LIKE ?', '%' + params[:s].strip + '%').order('username').limit(25).offset(@page * 25)
       @all_users_count = CfUser.where('LOWER(username) LIKE ?', params[:s].strip + '%').count()
       @search_term = params[:s]
     end
