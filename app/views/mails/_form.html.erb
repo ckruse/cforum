@@ -17,7 +17,7 @@
   </div>
 </div -->
 
-<%= render 'widgets/users_selector', name: 'cf_priv_message[recipient_id]', id: 'recipient_id', users: @mail.recipient_id, desc: 'Empfänger' %>
+<%= render 'widgets/users_selector', name: 'cf_priv_message[recipient_id]', id: 'recipient_id', users: @mail.recipient, desc: 'Empfänger', single: true %>
 
 <div class="control-group">
   <%= t.label :subject, :class => 'control-label' %>

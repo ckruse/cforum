@@ -11,12 +11,14 @@ desc ||= ""
 
     <div class="controls" data-name="<%= name %>" data-id="<%= id %>"><!-- "> -->
       <div class="users">
-      <% users.each do |u| %>
-      <label class="checkbox">
-        <input type="checkbox" checked="checked" value="<%= u.user_id %>" name="<%= name %>" id="<%= id %>_<%= u.user_id %>"<% if disabled %> disabled="disabled"<% end %>>
-        <%= u.username %>
-      </label>
-      <% end %>
+        <% if users
+          users.each do |u| %>
+        <label class="checkbox">
+          <input type="checkbox" checked="checked" value="<%= u.user_id %>" name="<%= name %>" id="<%= id %>_<%= u.user_id %>"<% if disabled %> disabled="disabled"<% end %>>
+          <%= u.username %>
+        </label>
+        <% end
+        end %>
       </div>
 
       <% unless disabled %><i class="icon icon-plus add-user"> </i><% end %>
