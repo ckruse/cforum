@@ -3,7 +3,7 @@
     <li class="nav-header"><%= t('views.post') %></li>
 
     <% @mail_users.each do |uname, vals| %>
-    <li><a href="<%= user_mails_path(uname) %>" class="btn"><%= uname %> <span class="unread-batches"><span class="badge"><%= vals[:read] || 0 %></span><% if vals[:unread] %><span class="badge badge-info"><%= vals[:unread] %></span><% end %></span></a></li>
+    <li><a href="<%= user_mails_path(uname) %>" class="btn"><%= uname %> <% if vals[:unread] == 0 %><span class="unread-batches"><span class="badge"><%= vals[:read] || 0 %></span><% else %><span class="badge badge-info"><%= vals[:unread] %></span><% end %></span></a></li>
     <% end %>
 
     <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to 'Neue Mail', new_mail_path %></li>

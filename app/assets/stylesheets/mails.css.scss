@@ -19,4 +19,11 @@ ul.inbox-list {
   width:1em;
 }
 
+@media only screen and (max-device-width: 1280px) {
+  ul.inbox-list li a span.unread-batches {
+    float:none;
+    display:inline;
+  }
+}
+
 /* eof */
