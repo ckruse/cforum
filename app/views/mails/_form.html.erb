@@ -10,12 +10,6 @@
     </div>
   <% end %>
 
-<!-- div class="control-group">
-  <%= t.label :recipient_id, :class => 'control-label' %>
-  <div class="controls">
-    <%= t.collection_select :recipient_id, CfUser.order(:username).all, :user_id, :username %>
-  </div>
-</div -->
 
 <%= render 'widgets/users_selector', name: 'cf_priv_message[recipient_id]', id: 'recipient_id', users: @mail.recipient ? [@mail.recipient] : nil, desc: 'Empfänger', single: true %>
 
