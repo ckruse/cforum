@@ -2,17 +2,26 @@
 disabled ||= false
 users ||= []
 id ||= name
+single ||= false
+desc ||= ""
 
-%><div class="users-selector">
-  <div class="users" data-name="<%= name %>" data-id="<%= id %>">
-    <% users.each do |u| %>
-    <label class="checkbox">
-      <input type="checkbox" checked="checked" value="<%= u.user_id %>" name="<%= name %>" id="<%= id %>_<%= u.user_id %>"<% if disabled %> disabled="disabled"<% end %>>
-      <%= u.username %>
-    </label>
-    <% end %>
+%><div class="users-selector<% if single %> single<% end %>"><!-- "> -->
+  <div class="control-group">
+    <% if not desc.blank? %><label class="control-label"><%= desc %></label><% end %>
+
+    <div class="controls" data-name="<%= name %>" data-id="<%= id %>"><!-- "> -->
+      <div class="users">
+      <% users.each do |u| %>
+      <label class="checkbox">
+        <input type="checkbox" checked="checked" value="<%= u.user_id %>" name="<%= name %>" id="<%= id %>_<%= u.user_id %>"<% if disabled %> disabled="disabled"<% end %>>
+        <%= u.username %>
+      </label>
+      <% end %>
+      </div>
+
+      <% unless disabled %><i class="icon icon-plus add-user"> </i><% end %>
+    </div>
   </div>
-  <% unless disabled %><i class="icon icon-plus add-user"> </i><% end %>
 
   <div class="modal fade users-modal">
     <div class="modal-header">

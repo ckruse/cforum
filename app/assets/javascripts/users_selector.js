@@ -17,8 +17,9 @@ cforum.common.usersSelector.search = function(obj) {
     cforum.common.usersSelector.foundUsers = [];
 
     for(var i = 0; i < data.length; ++i) {
+      console.log(data[i])
       cforum.common.usersSelector.foundUsers[data[i].user_id] = data[i];
-      the_html += Mustache.render(cforum.common.usersSelector.views.userFoundLine, data[i]);
+      the_html += Mustache.render(cforum.common.usersSelector.views.userFoundLine, {user: data[i]});
     }
 
     sel.html(the_html);
@@ -127,7 +128,7 @@ cforum.common.usersSelector.init = function() {
 };
 
 cforum.common.usersSelector.views = {
-  userFoundLine: '<li style="display:none"><i class="icon icon-plus" data-user-id="{{cf_user.user_id}}" data-username="{{cf_user.username}}"> </i> {{cf_user.username}}</li>',
+  userFoundLine: '<li style="display:none"><i class="icon icon-plus" data-user-id="{{user.user_id}}" data-username="{{user.username}}"> </i> {{user.username}}</li>',
   userAddLine: '<li style="display:none" data-user-id="{{user.user_id}}" data-username="{{user.username}}"><i class="icon icon-minus"> </i> {{user.username}}</li>',
   userLine: '<label class="checkbox"><input type="checkbox" checked="checked" value="{{user.user_id}}" name="{{name}}" id="{{id}}">{{user.username}}</label>'
 };
