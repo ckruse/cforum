@@ -1,9 +1,18 @@
 <h1><%= t('views.post_from', :name => @mail.sender.username) %></h1>
 
+<article class="message">
+  <header>
+    <h2><%= @mail.subject %></h2>
 
-<h2><%= @mail.subject %></h2>
+    <details open>
+      <summary>Nachricht von <%= @mail.sender.username %> an <%= @mail.recipient.username %> am <time datetime="<%= @mail.created_at.to_s %>"><%= l(@mail.created_at) %></time></summary>
+    </details>
+  </header>
 
-<p><%= message_to_html(@mail.body) %></p>
+  <div class="posting-content well">
+    <%= message_to_html(@mail.body) %>
+  </div>
+</article>
 
 <div class="form-actions">
   <%= link_to t('views.reply'), new_mail_path('priv_message_id' => @mail.priv_message_id), :class => 'btn' %>
