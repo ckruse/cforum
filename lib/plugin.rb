@@ -22,6 +22,10 @@ class Plugin
     @app_controller.get(name)
   end
 
+  def flash
+    @app_controller.flash
+  end
+
   def current_user
     @app_controller.current_user
   end
