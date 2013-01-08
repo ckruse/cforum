@@ -4,7 +4,7 @@
   <div class="control-group">
     <label class="control-label" for="settings_name"><%= t('views.name') %></label>
     <div class="controls">
-      <input type="text" value="<%= @user.conf('name') %>" name="settings[name]" id="settings_name"<%= disabled %>>
+      <input type="text" value="<%= @settings.conf('name') %>" name="settings[name]" id="settings_name"<%= disabled %>>
     </div>
   </div>
 
@@ -12,21 +12,21 @@
     <label class="control-label" for="settings_secured_name"><%= t('views.secured_name') %></label>
     <div class="controls">
         <input type="hidden" name="settings[secured_name]" value="no">
-        <input type="checkbox" id="settings_secured_name" name="settings[secured_name]" value="yes"<% if @user.conf("secured_name") == 'yes' %> checked="checked"<% end %><%= disabled %>>
+        <input type="checkbox" id="settings_secured_name" name="settings[secured_name]" value="yes"<% if @settings.conf("secured_name") == 'yes' %> checked="checked"<% end %><%= disabled %>>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="settings_email"><%= t('views.email') %></label>
     <div class="controls">
-      <input type="text" value="<%= @user.conf('email') %>" name="settings[email]" id="settings_email"<%= disabled %>>
+      <input type="text" value="<%= @settings.conf('email') %>" name="settings[email]" id="settings_email"<%= disabled %>>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="settings_url"><%= t('views.homepage') %></label>
     <div class="controls">
-      <input type="text" value="<%= @user.conf('url') %>" name="settings[url]" id="settings_url"<%= disabled %>>
+      <input type="text" value="<%= @settings.conf('url') %>" name="settings[url]" id="settings_url"<%= disabled %>>
     </div>
   </div>
 </fieldset>

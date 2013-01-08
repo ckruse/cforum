@@ -41,6 +41,8 @@ class UsersController < ApplicationController
 
   def edit
     @user = CfUser.find_by_username!(params[:id])
+    @settings = @user.settings || CfSetting.new
+    @setting.options ||= {}
 
     if (@user.confirmed_at.blank? or not @user.unconfirmed_email.blank?) and (not current_user.admin? or current_user.username == @user.username)
       redirect_to user_url(@user), flash: {error: I18n.t('views.confirm_first')}
@@ -60,15 +62,15 @@ class UsersController < ApplicationController
     @user = CfUser.find_by_username!(params[:id])
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
 
+    @settings = CfSetting.find_by_user_id(@user.user_id)
+    @settings = CfSetting.new if @settings.blank?
+
+    @settings.user_id = @user.user_id
+    @settings.options = params[:settings] || {}
+
     saved = false
     CfUser.transaction do
       if @user.update_attributes(attrs)
-        @settings = @user.settings
-        @settings = CfSetting.new if @settings.blank?
-
-        @settings.user_id = @user.user_id
-        @settings.options = params[:settings] || {}
-
         notification_center.notify(SAVING_SETTINGS, @user, @settings)
         @settings.save!
 

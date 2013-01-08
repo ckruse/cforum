@@ -4,37 +4,37 @@
   <div class="control-group">
     <label class="control-label" for="settings_greeting"><%= t('views.greeting') %></label>
     <div class="controls">
-      <textarea name="settings[greeting]" id="settings_greeting"<%= disabled %>><%= @user.conf('greeting') %></textarea>
+      <textarea name="settings[greeting]" id="settings_greeting"<%= disabled %>><%= @settings.conf('greeting') %></textarea>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="settings_farewell"><%= t('views.farewell') %></label>
     <div class="controls">
-      <textarea name="settings[farewell]" id="settings_farewell"<%= disabled %>><%= @user.conf('farewell') %></textarea>
+      <textarea name="settings[farewell]" id="settings_farewell"<%= disabled %>><%= @settings.conf('farewell') %></textarea>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="settings_signature"><%= t('views.signature') %></label>
     <div class="controls">
-      <textarea name="settings[signature]" id="settings_signature"<%= disabled %>><%= @user.conf('signature') %></textarea>
+      <textarea name="settings[signature]" id="settings_signature"<%= disabled %>><%= @settings.conf('signature') %></textarea>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label"><%= t('views.quote_old_message') %></label>
     <div class="controls">
-      <label class="radio"><input type="radio" value="yes" name="settings[quote_old_message]"<%= disabled %><% if @user.conf('quote_old_message') == 'yes' or @user.conf('quote_old_message').blank? %> checked="checked"<% end %>> Ja</label>
-      <label class="radio"><input type="radio" value="no" name="settings[quote_old_message]"<%= disabled %><% if @user.conf('quote_old_message') == 'no' %> checked="checked"<% end %>> Nein</label>
+      <label class="radio"><input type="radio" value="yes" name="settings[quote_old_message]"<%= disabled %><% if @settings.conf('quote_old_message') == 'yes' or @settings.conf('quote_old_message').blank? %> checked="checked"<% end %>> Ja</label>
+      <label class="radio"><input type="radio" value="no" name="settings[quote_old_message]"<%= disabled %><% if @settings.conf('quote_old_message') == 'no' %> checked="checked"<% end %>> Nein</label>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label"><%= t('views.quote_signature') %></label>
     <div class="controls">
-      <label class="radio"><input type="radio" value="yes" name="settings[quote_signature]"<%= disabled %><% if @user.conf('quote_signature') == 'yes' %> checked="checked"<% end %>> Ja</label>
-      <label class="radio"><input type="radio" value="no" name="settings[quote_signature]"<%= disabled %><% if @user.conf('quote_signature') == 'no' or @user.conf('quote_signature').blank? %> checked="checked"<% end %>> Nein</label>
+      <label class="radio"><input type="radio" value="yes" name="settings[quote_signature]"<%= disabled %><% if @settings.conf('quote_signature') == 'yes' %> checked="checked"<% end %>> Ja</label>
+      <label class="radio"><input type="radio" value="no" name="settings[quote_signature]"<%= disabled %><% if @settings.conf('quote_signature') == 'no' or @settings.conf('quote_signature').blank? %> checked="checked"<% end %>> Nein</label>
     </div>
   </div>
 </fieldset>

@@ -16,6 +16,14 @@ class CfSetting < ActiveRecord::Base
   after_initialize do
     self.options ||= {} if attributes.has_key? 'options'
   end
+
+  def conf(nam, default = nil)
+    vals = options
+    vals ||= {}
+
+    vals[nam.to_s] || default
+  end
+
 end
 
 # eof
