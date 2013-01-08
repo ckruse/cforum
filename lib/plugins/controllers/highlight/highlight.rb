@@ -25,8 +25,10 @@ class HighlightPlugin < Plugin
   end
 
   def saving_settings(user, settings)
-    users = CfUser.find_all_by_user_id(settings.options["highlighted_users"])
-    settings.options["highlighted_users"] = (users.map {|u| u.username}).join(",")
+    unless settings.options["highlighted_users"].blank?
+      users = CfUser.find_all_by_user_id(settings.options["highlighted_users"])
+      settings.options["highlighted_users"] = (users.map {|u| u.username}).join(",")
+    end
   end
 
 end
