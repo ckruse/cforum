@@ -14,12 +14,6 @@ en:
       edit: "Edit forum %{name}"
       merge_forum: "Merge forum %{forum}"
 
-      permissions:
-        new_permission: New Permission
-        updated: Permission successfully updated
-        created: Permission successfully created
-        destroyed: Permission successfully destroyed
-
     users:
       updated: User was successfully changed!
       created: User was successfully created!
@@ -30,13 +24,13 @@ en:
       edit_user: "Edit user %{username}"
       user_administration: User administration
 
-      fields:
-        username: Username
-        email: Email
-        admin: Administrator
-        active: Active
-        password: Password
-        password_confirmation: Passwort-Bestätigung
+    groups:
+      updated: User was successfully changed!
+      created: User was successfully created!
+      deleted: User successfully deleted!
+
+      error_message: "Errors prohibited this group from being saved:"
+
 
   users:
     signed_up: Signed up!
@@ -141,6 +135,8 @@ en:
     comma_seperated_list: comma seperated list
     personalization: Personalization
     answer: Answer
+    group: Group
+    groups: Groups
 
   options:
     errors:

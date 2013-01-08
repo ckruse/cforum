@@ -1,0 +1,8 @@
+<div class="well sidebar-nav">
+  <%= render 'admin/admin_subnav' %>
+
+  <ul class="nav nav-list">
+    <li class="nav-header"><%= t('views.groups') %></li>
+    <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('admin.groups.new_group'), new_admin_group_path %></li>
+  </ul>
+</div>

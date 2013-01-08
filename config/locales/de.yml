@@ -11,12 +11,6 @@ de:
       edit: "Forum %{name} bearbeiten"
       merge_forum: "Forum %{forum} zusammenführen"
 
-      permissions:
-        new_permission: Neues Zugriffsrecht
-        updated: Zugriffsrecht erfolgreich geändert
-        created: Zugriffsrecht erfolgreich erstellt
-        destroyed: Zugriffsrecht erfolgreich gelöscht
-
     users:
       updated: Benutzer erfolgreich geändert.
       created: Benutzer erfolgreich erstellt.
@@ -26,6 +20,16 @@ de:
       new_user: Neuer Benutzer
       edit_user: "Benutzer %{username} bearbeiten"
       user_administration: Benutzer-Verwaltung
+
+    groups:
+      updated: Gruppe erfolgreich geändert.
+      created: Gruppe erfolgreich erstellt.
+      deleted: Gruppe erfolgreich gelöscht.
+
+      error_message: "Fehler verhinderten, dass diese Gruppe gespeichert werden konnte:"
+      new_group: Neue Gruppe
+      edit_group: Gruppe bearbeiten
+
 
   users:
     signed_up: Benutzer erfolgreich erstellt!
@@ -127,6 +131,8 @@ de:
     personalization: Personalisierung
     notify_on_new_mail: Benachrichtig bei neuer Post
     answer: Antworten
+    group: Gruppe
+    groups: Gruppen
 
   notifications:
     new_mail: "Neue Nachricht von %{user}: %{subject}"

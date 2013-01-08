@@ -1,0 +1,12 @@
+<h1><%= t("admin.groups.edit_group") %>: <%= @group.name %></h1>
+
+<%= form_for @group, url: admin_group_path(@group), html: {class: 'form-horizontal'} do |t| %>
+
+<%= render 'form', t: t %>
+
+<p class="form-actions">
+  <input type="submit" value="<%= t('views.save') %>" class="btn btn-primary"><!-- "> -->
+  <%= link_to t('views.cancel'), admin_groups_path, class: 'btn' %>
+</p>
+
+<% end %>

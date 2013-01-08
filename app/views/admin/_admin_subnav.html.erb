@@ -2,4 +2,5 @@
   <li class="nav-header"><%= t('views.administration') %></li>
   <li<% if controller_name == 'cf_users' and action_name != 'new' %> class="active"<% end %>><%= link_to t('views.users'), admin_users_path %></li>
   <li<% if controller_name == 'cf_forums' and action_name != 'new' %> class="active"<% end %>><%= link_to t('views.forums'), admin_forums_path %></li>
+  <li<% if controller_name == 'cf_groups' and action_name != 'new' %> class="active"<% end %>><%= link_to t('views.groups'), admin_groups_path %></li>
 </ul>

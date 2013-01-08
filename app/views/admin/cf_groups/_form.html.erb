@@ -1,0 +1,19 @@
+<% if @group.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= t('admin.groups.error_message') %></h2>
+
+    <ul>
+      <% @group.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
+<div class="control-group">
+  <%= t.label :name, class: 'control-label' %>
+  <div class="controls"><%= t.text_field :name %></div>
+</div>
+
+<%= render 'widgets/users_selector', id: 'users', name: 'users[]', desc: 'Benutzer', users: @group.users || [] %>

@@ -22,9 +22,8 @@ Cforum::Application.routes.draw do
 
   namespace 'admin' do
     resources :users, :controller => :cf_users, :except => :show
-    resources :forums, :controller => :cf_forums, :except => :show do
-      resources :permissions, :controller => :cf_forum_permissions
-    end
+    resources :groups, :controller => :cf_groups, :except => :show
+    resources :forums, :controller => :cf_forums, :except => :show
 
     get '/forums/:id/merge' => 'cf_forums#merge', as: 'forums_merge'
     post '/forums/:id/merge' => 'cf_forums#do_merge', as: 'forums_do_merge'

@@ -26,6 +26,9 @@ class CfUser < ActiveRecord::Base
   has_many :rights, class_name: 'CfForumPermission', :foreign_key => :user_id, :dependent => :destroy
   has_many :forums, class_name: 'CfForum', :through => :rights
 
+  has_many :groups_users, class_name: 'CfGroupUser', :foreign_key => :user_id
+  has_many :groups, class_name: 'CfGroup', :through => :groups_users
+
   def conf(nam, default = nil)
     vals = settings.options unless settings.blank?
     vals ||= {}

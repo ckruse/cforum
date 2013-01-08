@@ -489,37 +489,6 @@ ALTER SEQUENCE counter_table_count_id_seq OWNED BY counter_table.count_id;
 
 
 --
--- Name: forum_permissions; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE TABLE forum_permissions (
-    forum_permission_id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    forum_id bigint NOT NULL,
-    permission character varying(255) DEFAULT 'read'::character varying NOT NULL
-);
-
-
---
--- Name: forum_permissions_forum_permission_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
---
-
-CREATE SEQUENCE forum_permissions_forum_permission_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: forum_permissions_forum_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
---
-
-ALTER SEQUENCE forum_permissions_forum_permission_id_seq OWNED BY forum_permissions.forum_permission_id;
-
-
---
 -- Name: forums; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -552,6 +521,98 @@ CREATE SEQUENCE forums_forum_id_seq
 --
 
 ALTER SEQUENCE forums_forum_id_seq OWNED BY forums.forum_id;
+
+
+--
+-- Name: forums_groups_permissions; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE forums_groups_permissions (
+    forum_group_permission_id bigint NOT NULL,
+    permission character varying(50) NOT NULL,
+    group_id bigint NOT NULL,
+    forum_id bigint NOT NULL
+);
+
+
+--
+-- Name: forums_groups_permissions_forum_group_permission_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE forums_groups_permissions_forum_group_permission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: forums_groups_permissions_forum_group_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE forums_groups_permissions_forum_group_permission_id_seq OWNED BY forums_groups_permissions.forum_group_permission_id;
+
+
+--
+-- Name: groups; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE groups (
+    group_id bigint NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: groups_group_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE groups_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: groups_group_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE groups_group_id_seq OWNED BY groups.group_id;
+
+
+--
+-- Name: groups_users; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE groups_users (
+    group_user_id bigint NOT NULL,
+    group_id bigint NOT NULL,
+    user_id bigint NOT NULL
+);
+
+
+--
+-- Name: groups_users_group_user_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE groups_users_group_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: groups_users_group_user_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE groups_users_group_user_id_seq OWNED BY groups_users.group_user_id;
 
 
 --
@@ -967,17 +1028,31 @@ ALTER TABLE ONLY counter_table ALTER COLUMN count_id SET DEFAULT nextval('counte
 
 
 --
--- Name: forum_permission_id; Type: DEFAULT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY forum_permissions ALTER COLUMN forum_permission_id SET DEFAULT nextval('forum_permissions_forum_permission_id_seq'::regclass);
-
-
---
 -- Name: forum_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
 ALTER TABLE ONLY forums ALTER COLUMN forum_id SET DEFAULT nextval('forums_forum_id_seq'::regclass);
+
+
+--
+-- Name: forum_group_permission_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY forums_groups_permissions ALTER COLUMN forum_group_permission_id SET DEFAULT nextval('forums_groups_permissions_forum_group_permission_id_seq'::regclass);
+
+
+--
+-- Name: group_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY groups ALTER COLUMN group_id SET DEFAULT nextval('groups_group_id_seq'::regclass);
+
+
+--
+-- Name: group_user_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY groups_users ALTER COLUMN group_user_id SET DEFAULT nextval('groups_users_group_user_id_seq'::regclass);
 
 
 --
@@ -1066,11 +1141,11 @@ ALTER TABLE ONLY counter_table
 
 
 --
--- Name: forum_permissions_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: forums_groups_permissions_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY forum_permissions
-    ADD CONSTRAINT forum_permissions_pkey PRIMARY KEY (forum_permission_id);
+ALTER TABLE ONLY forums_groups_permissions
+    ADD CONSTRAINT forums_groups_permissions_pkey PRIMARY KEY (forum_group_permission_id);
 
 
 --
@@ -1079,6 +1154,30 @@ ALTER TABLE ONLY forum_permissions
 
 ALTER TABLE ONLY forums
     ADD CONSTRAINT forums_pkey PRIMARY KEY (forum_id);
+
+
+--
+-- Name: groups_name_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY groups
+    ADD CONSTRAINT groups_name_key UNIQUE (name);
+
+
+--
+-- Name: groups_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY groups
+    ADD CONSTRAINT groups_pkey PRIMARY KEY (group_id);
+
+
+--
+-- Name: groups_users_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY groups_users
+    ADD CONSTRAINT groups_users_pkey PRIMARY KEY (group_user_id);
 
 
 --
@@ -1174,27 +1273,6 @@ ALTER TABLE ONLY users
 --
 
 CREATE INDEX counter_table_table_name_group_crit_idx ON counter_table USING btree (table_name, group_crit);
-
-
---
--- Name: forum_permissions_forum_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE INDEX forum_permissions_forum_id_idx ON forum_permissions USING btree (user_id);
-
-
---
--- Name: forum_permissions_user_id_forum_id_permission_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX forum_permissions_user_id_forum_id_permission_idx ON forum_permissions USING btree (user_id, forum_id, permission);
-
-
---
--- Name: forum_permissions_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE INDEX forum_permissions_user_id_idx ON forum_permissions USING btree (user_id);
 
 
 --
@@ -1527,19 +1605,35 @@ CREATE TRIGGER threads__count_update_trigger AFTER UPDATE ON threads FOR EACH RO
 
 
 --
--- Name: forum_permissions_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: forums_groups_permissions_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
-ALTER TABLE ONLY forum_permissions
-    ADD CONSTRAINT forum_permissions_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY forums_groups_permissions
+    ADD CONSTRAINT forums_groups_permissions_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- Name: forum_permissions_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: forums_groups_permissions_group_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
-ALTER TABLE ONLY forum_permissions
-    ADD CONSTRAINT forum_permissions_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY forums_groups_permissions
+    ADD CONSTRAINT forums_groups_permissions_group_id_fkey FOREIGN KEY (group_id) REFERENCES groups(group_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: groups_users_group_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY groups_users
+    ADD CONSTRAINT groups_users_group_id_fkey FOREIGN KEY (group_id) REFERENCES groups(group_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: groups_users_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY groups_users
+    ADD CONSTRAINT groups_users_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -1745,6 +1839,8 @@ INSERT INTO schema_migrations (version) VALUES ('25');
 INSERT INTO schema_migrations (version) VALUES ('26');
 
 INSERT INTO schema_migrations (version) VALUES ('27');
+
+INSERT INTO schema_migrations (version) VALUES ('28');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
 

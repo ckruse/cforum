@@ -1,0 +1,28 @@
+<h1><%= t("views.groups") %></h1>
+
+<table class="table table-condensed table-striped table-hover table-striped">
+  <thead>
+    <tr>
+      <th>Gruppe</th>
+      <th>Mitglieder</th>
+      <th>Erstellt</th>
+      <th>Geändert</th>
+      <th> </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @groups.each do |g| %>
+    <tr>
+      <td><%= link_to g.name, edit_admin_group_path(g) %></td>
+      <td><%= g.users.count %></td>
+      <td><%= l(g.created_at) %></td>
+      <td><%= l(g.updated_at) %></td>
+      <td>
+        <%= link_to '', admin_group_path(g), :method => :delete, data: {confirm: t('views.are_you_sure')}, class: 'icon icon-trash' %>
+        <%= link_to '', edit_admin_group_path(g), class: 'icon icon-edit' %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
