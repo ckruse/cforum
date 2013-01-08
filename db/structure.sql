@@ -782,29 +782,9 @@ CREATE TABLE schema_migrations (
 --
 
 CREATE TABLE secured_names (
-    secured_name_id bigint NOT NULL,
     user_id integer NOT NULL,
     name character varying NOT NULL
 );
-
-
---
--- Name: secured_names_secured_name_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
---
-
-CREATE SEQUENCE secured_names_secured_name_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: secured_names_secured_name_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
---
-
-ALTER SEQUENCE secured_names_secured_name_id_seq OWNED BY secured_names.secured_name_id;
 
 
 --
@@ -1043,13 +1023,6 @@ ALTER TABLE ONLY read_messages ALTER COLUMN read_message_id SET DEFAULT nextval(
 
 
 --
--- Name: secured_name_id; Type: DEFAULT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY secured_names ALTER COLUMN secured_name_id SET DEFAULT nextval('secured_names_secured_name_id_seq'::regclass);
-
-
---
 -- Name: setting_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -1161,7 +1134,7 @@ ALTER TABLE ONLY read_messages
 --
 
 ALTER TABLE ONLY secured_names
-    ADD CONSTRAINT secured_names_pkey PRIMARY KEY (secured_name_id);
+    ADD CONSTRAINT secured_names_pkey PRIMARY KEY (user_id);
 
 
 --
@@ -1320,13 +1293,6 @@ CREATE UNIQUE INDEX read_messages_message_id_user_id_idx ON read_messages USING 
 --
 
 CREATE UNIQUE INDEX secured_names_lower_name_idx ON secured_names USING btree (lower((name)::text));
-
-
---
--- Name: secured_names_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX secured_names_user_id_idx ON secured_names USING btree (user_id);
 
 
 --
