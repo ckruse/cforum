@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+require File.join(File.dirname(__FILE__), 'secured_name.rb')
+
 class UserDataPlugin < Plugin
   def show_new_thread(thread)
     set_vars(thread.message)
@@ -28,26 +30,37 @@ class UserDataPlugin < Plugin
   end
 
   def saving_settings(user, settings)
-    if user.conf('secured_name', 'no') == 'no' and settings.options['secured_name'] == 'yes'
-      sn = SecuredName.find_by_name settings.options['name']
-      existing = Settings.find_by_user_id user.user_id
+    if settings.options['secured_name'] == 'yes' and not settings.options['name'].blank?
+      nam = settings.options['name'].strip.downcase
+
+      sn = SecuredName.where('name = LOWER(?)', nam).first
+      existing = SecuredName.find_by_user_id user.user_id
 
       if sn.blank?
         SecuredName.transaction do
           if existing
-            existing.name = settings.options['name']
+            existing.name = nam
             existing.save
           else
-            SecuredName.create!(:user_id => user.user_id, name: settings.options['name'])
+            SecuredName.create!(:user_id => user.user_id, name: nam)
           end
         end
 
         return
+
       elsif sn.user_id == user.user_id
         return
+
+      else
+        flash[:error] = 'Error: nick name already taken!'
       end
 
       raise ActiveRecord::Rollback.new
+
+    elsif user.conf('secured_name') == 'yes'
+      sn = SecuredName.find_by_user_id user.user_id
+      sn.destroy unless sn.blank?
+
     end
 
   end
