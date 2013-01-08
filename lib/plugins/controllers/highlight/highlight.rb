@@ -19,11 +19,24 @@ class HighlightPlugin < Plugin
     end
   end
 
+  def showing_settings(user)
+    users = CfUser.find_all_by_username(user.conf('highlighted_users', '').split(/\s*,\s*/))
+    set('highlighted_users_list', users)
+  end
+
+  def saving_settings(user, settings)
+    users = CfUser.find_all_by_user_id(settings.options["highlighted_users"])
+    settings.options["highlighted_users"] = (users.map {|u| u.username}).join(",")
+  end
+
 end
 
 ApplicationController.init_hooks << Proc.new do |app_controller|
   hl_plugin = HighlightPlugin.new(app_controller)
   app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, hl_plugin)
+
+  app_controller.notification_center.register_hook(UsersController::SHOWING_SETTINGS, hl_plugin)
+  app_controller.notification_center.register_hook(UsersController::SAVING_SETTINGS, hl_plugin)
 end
 
 # eof
