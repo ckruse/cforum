@@ -154,6 +154,10 @@ en:
     write: Write
     moderate: Moderate
 
+  plugins:
+    user_data:
+      nick_is_secured: The chosen nick is already in use!
+
   activerecord:
     models:
       cf_message: Message
