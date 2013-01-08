@@ -52,7 +52,7 @@ class UserDataPlugin < Plugin
         return
 
       else
-        flash[:error] = 'Error: nick name already taken!'
+        flash[:error] = I18n.t('plugins.user_data.nick_is_secured')
       end
 
       raise ActiveRecord::Rollback.new
@@ -64,6 +64,23 @@ class UserDataPlugin < Plugin
     end
 
   end
+
+  def creating_new_message(thread, parent, message)
+    unless message.author.blank?
+      if sn = SecuredName.where('name = LOWER(?)', message.author).first
+        return true if current_user and sn.user_id == current_user.user_id
+
+        flash[:error] = I18n.t('plugins.user_data.nick_is_secured')
+        return false
+      end
+
+    end
+  end
+
+  def new_thread(thread, message, tags)
+    creating_new_message(thread, nil, message)
+  end
+
 end
 
 ApplicationController.init_hooks << Proc.new do |app_controller|
@@ -71,8 +88,10 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
   app_controller.notification_center.register_hook(CfThreadsController::SHOW_NEW_THREAD, ud_plugin)
   app_controller.notification_center.register_hook(CfMessagesController::SHOW_NEW_MESSAGE, ud_plugin)
 
-  #app_controller.notification_center.register_hook(UsersController::SHOWING_SETTINGS, ud_plugin)
   app_controller.notification_center.register_hook(UsersController::SAVING_SETTINGS, ud_plugin)
+
+  app_controller.notification_center.register_hook(CfMessagesController::CREATING_NEW_MESSAGE, ud_plugin)
+  app_controller.notification_center.register_hook(CfThreadsController::NEW_THREAD, ud_plugin)
 end
 
 # eof

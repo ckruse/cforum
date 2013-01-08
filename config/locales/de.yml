@@ -146,6 +146,11 @@ de:
     write: Schreiben
     moderate: Moderieren
 
+
+  plugins:
+    user_data:
+      nick_is_secured: Der gewählte Name ist bereits vergeben!
+
   date:
     abbr_day_names:
     - So

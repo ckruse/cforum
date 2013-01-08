@@ -125,12 +125,12 @@ class CfThreadsController < ApplicationController
       @tags = (params[:tag_list].split(',').map {|s| s.strip.downcase}).uniq
     end
 
-    notification_center.notify(NEW_THREAD, @thread, @message, @tags)
+    retvals = notification_center.notify(NEW_THREAD, @thread, @message, @tags)
 
     @preview = true if params[:preview]
 
     saved = false
-    if not @preview
+    if not @preview and not retvals.include?(false)
       CfThread.transaction do
         num = 1
 

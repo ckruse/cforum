@@ -3,8 +3,10 @@
 class CfMessagesController < ApplicationController
   before_filter :authorize!
 
-  SHOW_NEW_MESSAGE = "show_new_message"
-  SHOW_MESSAGE = "show_message"
+  SHOW_NEW_MESSAGE     = "show_new_message"
+  SHOW_MESSAGE         = "show_message"
+  CREATING_NEW_MESSAGE = "creating_new_message"
+  CREATED_NEW_MESSAGE  = "created_new_message"
 
   def show
     @id = CfThread.make_id(params)
@@ -64,8 +66,12 @@ class CfMessagesController < ApplicationController
 
     @preview = true if params[:preview]
 
-    if not @preview and @message.save
+    retvals = notification_center.notify(CREATING_NEW_MESSAGE, @thread, @parent, @message)
+
+    if not retvals.include?(false) and not @preview and @message.save
+      notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message)
       peon(class_name: 'NotifyNewTask', arguments: {type: 'message', thread: @thread.thread_id, message: @message.message_id})
+
       redirect_to cf_message_path(@thread, @message), :notice => I18n.t('messages.created')
     else
       render :new
