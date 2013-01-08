@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   def edit
     @user = CfUser.find_by_username!(params[:id])
     @settings = @user.settings || CfSetting.new
-    @setting.options ||= {}
+    @settings.options ||= {}
 
     if (@user.confirmed_at.blank? or not @user.unconfirmed_email.blank?) and (not current_user.admin? or current_user.username == @user.username)
       redirect_to user_url(@user), flash: {error: I18n.t('views.confirm_first')}
