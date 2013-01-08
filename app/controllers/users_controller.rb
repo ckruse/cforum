@@ -3,8 +3,9 @@
 class UsersController < ApplicationController
   before_filter :authorize!
 
-  SAVING_SETTINGS = "saving_settings"
-  SAVED_SETTINGS  = "saved_settings"
+  SAVING_SETTINGS  = "saving_settings"
+  SAVED_SETTINGS   = "saved_settings"
+  SHOWING_SETTINGS = "showing_settings"
 
   DESTROYING_USER = "destroying_user"
   DESTROYED_USER  = "destroyed_user"
@@ -45,6 +46,8 @@ class UsersController < ApplicationController
       redirect_to user_url(@user), flash: {error: I18n.t('views.confirm_first')}
       return
     end
+
+    notification_center.notify(SHOWING_SETTINGS, @user)
 
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
   end
