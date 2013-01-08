@@ -1,10 +1,13 @@
 <fieldset class="tab-pane" id="readability">
   <legend><%= t("views.readability_overview") %></legend>
 
-  <div class="control-group">
+  <!-- div class="control-group">
     <label class="control-label" for="settings_highlighted_users"><%= t('views.highlighted_users') %></label>
     <div class="controls">
       <input type="text" value="<%= @user.conf('highlighted_users') %>" name="settings[highlighted_users]" id="settings_highlighted_users"<%= disabled %>> (<%= t('views.comma_seperated_list') %>)
     </div>
-  </div>
+  </div -->
+
+  <%= render 'widgets/users_selector', desc: t('views.highlighted_users'), name: "settings[highlighted_users][]", id: "settings_highlighted_users", users: @highlighted_users_list %>
+
 </fieldset>

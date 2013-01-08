@@ -26,12 +26,40 @@ class UserDataPlugin < Plugin
       msg.content = msg.content + "\n-- \n" + signature unless signature.blank?
     end
   end
+
+  def saving_settings(user, settings)
+    if user.conf('secured_name', 'no') == 'no' and settings.options['secured_name'] == 'yes'
+      sn = SecuredName.find_by_name settings.options['name']
+      existing = Settings.find_by_user_id user.user_id
+
+      if sn.blank?
+        SecuredName.transaction do
+          if existing
+            existing.name = settings.options['name']
+            existing.save
+          else
+            SecuredName.create!(:user_id => user.user_id, name: settings.options['name'])
+          end
+        end
+
+        return
+      elsif sn.user_id == user.user_id
+        return
+      end
+
+      raise ActiveRecord::Rollback.new
+    end
+
+  end
 end
 
 ApplicationController.init_hooks << Proc.new do |app_controller|
   ud_plugin = UserDataPlugin.new(app_controller)
   app_controller.notification_center.register_hook(CfThreadsController::SHOW_NEW_THREAD, ud_plugin)
   app_controller.notification_center.register_hook(CfMessagesController::SHOW_NEW_MESSAGE, ud_plugin)
+
+  #app_controller.notification_center.register_hook(UsersController::SHOWING_SETTINGS, ud_plugin)
+  app_controller.notification_center.register_hook(UsersController::SAVING_SETTINGS, ud_plugin)
 end
 
 # eof

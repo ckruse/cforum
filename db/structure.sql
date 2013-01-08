@@ -778,6 +778,36 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: secured_names; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE secured_names (
+    secured_name_id bigint NOT NULL,
+    user_id integer NOT NULL,
+    name character varying NOT NULL
+);
+
+
+--
+-- Name: secured_names_secured_name_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE secured_names_secured_name_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: secured_names_secured_name_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE secured_names_secured_name_id_seq OWNED BY secured_names.secured_name_id;
+
+
+--
 -- Name: settings; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -1013,6 +1043,13 @@ ALTER TABLE ONLY read_messages ALTER COLUMN read_message_id SET DEFAULT nextval(
 
 
 --
+-- Name: secured_name_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY secured_names ALTER COLUMN secured_name_id SET DEFAULT nextval('secured_names_secured_name_id_seq'::regclass);
+
+
+--
 -- Name: setting_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -1117,6 +1154,14 @@ ALTER TABLE ONLY priv_messages
 
 ALTER TABLE ONLY read_messages
     ADD CONSTRAINT read_messages_pkey PRIMARY KEY (read_message_id);
+
+
+--
+-- Name: secured_names_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY secured_names
+    ADD CONSTRAINT secured_names_pkey PRIMARY KEY (secured_name_id);
 
 
 --
@@ -1268,6 +1313,20 @@ CREATE INDEX priv_messages_sender_id_idx ON priv_messages USING btree (sender_id
 --
 
 CREATE UNIQUE INDEX read_messages_message_id_user_id_idx ON read_messages USING btree (message_id, user_id);
+
+
+--
+-- Name: secured_names_lower_name_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX secured_names_lower_name_idx ON secured_names USING btree (lower((name)::text));
+
+
+--
+-- Name: secured_names_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX secured_names_user_id_idx ON secured_names USING btree (user_id);
 
 
 --
@@ -1614,6 +1673,14 @@ ALTER TABLE ONLY read_messages
 
 
 --
+-- Name: secured_names_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY secured_names
+    ADD CONSTRAINT secured_names_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: settings_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -1710,6 +1777,8 @@ INSERT INTO schema_migrations (version) VALUES ('24');
 INSERT INTO schema_migrations (version) VALUES ('25');
 
 INSERT INTO schema_migrations (version) VALUES ('26');
+
+INSERT INTO schema_migrations (version) VALUES ('27');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
 

@@ -8,6 +8,14 @@
     </div>
   </div>
 
+  <div class="control-group" id="secure-name">
+    <label class="control-label" for="settings_secured_name"><%= t('views.secured_name') %></label>
+    <div class="controls">
+        <input type="hidden" name="settings[secured_name]" value="no">
+        <input type="checkbox" id="settings_secured_name" name="settings[secured_name]" value="yes"<% if @user.conf("secured_name") == 'yes' %> checked="checked"<% end %><%= disabled %>>
+    </div>
+  </div>
+
   <div class="control-group">
     <label class="control-label" for="settings_email"><%= t('views.email') %></label>
     <div class="controls">
