@@ -8,6 +8,8 @@ class CfGroup < ActiveRecord::Base
   has_many :users, class_name: 'CfUser', :through => :groups_users
 
   attr_accessible :group_id, :name
+
+  validates :name, presence: true, length: {in: 2..255}, uniqueness: true
 end
 
 # eof
