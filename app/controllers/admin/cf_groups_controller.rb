@@ -11,13 +11,29 @@ class Admin::CfGroupsController < ApplicationController
 
   def edit
     @group = CfGroup.find params[:id]
+    @forums_groups_permissions = @group.forums_groups_permissions
+    @users = @group.users
+    @forums = CfForum.all
   end
 
   def update
     @group = CfGroup.find params[:id]
+    @forums = CfForum.all
 
     @users = []
     @users = CfUser.find(params[:users]) unless params[:users].blank?
+
+    @forums_groups_permissions = []
+    if not params[:forums].blank? and not params[:permissions].blank?
+      (params[:forums].length - 1).times do |i|
+        next if params[:forums][i].blank? or params[:permissions][i].blank?
+
+        @forums_groups_permissions << CfForumGroupPermission.new(
+          forum_id: params[:forums][i],
+          permission: params[:permissions][i]
+        )
+      end
+    end
 
     saved = false
     CfGroup.transaction do
@@ -26,6 +42,13 @@ class Admin::CfGroupsController < ApplicationController
       @group.groups_users.clear
       @users.each do |u|
         raise ActiveRecord::Rollback.new unless CfGroupUser.create(group_id: @group.group_id, user_id: u.user_id)
+
+        @group.forums_groups_permissions.clear
+        @forums_groups_permissions.each do |fgp|
+          fgp.group_id = @group.group_id
+          fgp.save!
+        end
+
       end
 
       saved = true
@@ -40,13 +63,29 @@ class Admin::CfGroupsController < ApplicationController
 
   def new
     @group = CfGroup.new
+    @forums = CfForum.all
+    @forums_groups_permissions = []
+    @users = []
   end
 
   def create
     @group = CfGroup.new(params[:cf_group])
+    @forums = CfForum.all
 
     @users = []
     @users = CfUser.find(params[:users]) unless params[:users].blank?
+
+    @forums_groups_permissions = []
+    if not params[:forums].blank? and not params[:permissions].blank?
+      (params[:forums].length - 1).times do |i|
+        next if params[:forums][i].blank? or params[:permissions][i].blank?
+
+        @forums_groups_permissions << CfForumGroupPermission.new(
+          forum_id: params[:forums][i],
+          permission: params[:permissions][i]
+        )
+      end
+    end
 
     saved = false
     CfGroup.transaction do
@@ -54,6 +93,11 @@ class Admin::CfGroupsController < ApplicationController
 
       @users.each do |u|
         raise ActiveRecord::Rollback.new unless CfGroupUser.create(group_id: @group.group_id, user_id: u.user_id)
+
+        @forums_groups_permissions.each do |fgp|
+          fgp.group_id = @group.group_id
+          fgp.save!
+        end
       end
 
       saved = true

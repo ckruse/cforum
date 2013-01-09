@@ -16,4 +16,72 @@
   <div class="controls"><%= t.text_field :name %></div>
 </div>
 
-<%= render 'widgets/users_selector', id: 'users', name: 'users[]', desc: 'Benutzer', users: @group.users || [] %>
+<div class="control-group" id="forums-container">
+  <label class="control-label">Foren</label>
+  <div class="controls">
+    <% @forums_groups_permissions.each do |gup| %>
+    <label>
+      <select name="forums[]">
+        <% @forums.each do |f| %>
+          <option value="<%= f.forum_id %>"<% if gup.forum_id == f.forum_id %> selected="selected"<% end %>><%= f.name %></option>
+        <% end %>
+      </select>
+
+      <select name="permissions[]">
+        <option value="read"<% if gup.permission == 'read' %> selected="selected"<% end %>>Lesen</option>
+        <option value="write"<% if gup.permission == 'write' %> selected="selected"<% end %>>Schreiben</option>
+        <option value="moderate"<% if gup.permission == 'moderate' %> selected="selected"<% end %>>Moderieren</option>
+      </select>
+
+      <i class="icon icon-trash"> </i>
+    </label>
+    <% end %>
+
+    <label class="new">
+      <select name="forums[]">
+        <option> </option>
+
+        <% @forums.each do |f| %>
+        <option value="<%= f.forum_id %>"><%= f.name %></option>
+        <% end %>
+      </select>
+
+      <select name="permissions[]">
+        <option></option>
+        <option value="read">Lesen</option>
+        <option value="write">Schreiben</option>
+        <option value="moderate">Moderieren</option>
+      </select>
+
+      <i class="icon icon-trash"> </i>
+    </label>
+
+  </div>
+</div>
+
+<script>
+  $("#forums-container").change(function(ev) {
+    var $obj = $(ev.target);
+    var lbl  = $obj.closest("label");
+
+    if(lbl.hasClass('new')) {
+      var content = lbl.html();
+      lbl.closest(".controls").append("<label class=\"new\">" + content + "</label>");
+      lbl.removeClass("new");
+    }
+  });
+
+  $("#forums-container").click(function(ev) {
+    var $obj = $(ev.target);
+
+    if($obj.hasClass('icon-trash')) {
+      var lbl = $obj.closest("label");
+      if(!lbl.hasClass("new")) {
+        lbl.fadeOut('fast', function() { $(this).remove(); });
+      }
+    }
+  });
+</script>
+
+<%= render 'widgets/users_selector', id: 'users', name: 'users[]', desc: 'Benutzer', users: @users || [] %>
+

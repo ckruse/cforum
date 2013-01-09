@@ -6,9 +6,9 @@ class CfForum < ActiveRecord::Base
 
   has_many :threads, class_name: 'CfThread', :foreign_key => :forum_id, :dependent => :destroy
 
-  has_many :forum_permissions, class_name: 'CfForumPermission', :foreign_key => :forum_id, :dependent => :destroy
-  has_many :users, class_name: 'CfUser', :through => :forum_permissions
   has_many :tags, class_name: 'CfTag', :foreign_key => :forum_id, :dependent => :destroy
+
+  has_many :forums_groups_permissions, class_name: 'CfForumGroupPermission', :foreign_key => :forum_id, :dependent => :destroy
 
   attr_accessible :forum_id, :slug, :name, :short_name, :description, :updated_at, :created_at, :public
 
