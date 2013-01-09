@@ -15,7 +15,9 @@ class Admin::CfGroupsController < ApplicationController
 
   def update
     @group = CfGroup.find params[:id]
-    @users = CfUser.find(params[:users])
+
+    @users = []
+    @users = CfUser.find(params[:users]) unless params[:users].blank?
 
     saved = false
     CfGroup.transaction do
@@ -42,7 +44,9 @@ class Admin::CfGroupsController < ApplicationController
 
   def create
     @group = CfGroup.new(params[:cf_group])
-    @users = CfUser.find(params[:users])
+
+    @users = []
+    @users = CfUser.find(params[:users]) unless params[:users].blank?
 
     saved = false
     CfGroup.transaction do
