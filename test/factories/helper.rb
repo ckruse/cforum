@@ -24,6 +24,10 @@ FactoryGirl.define do
   sequence(:thread_slug) do |n|
     "thread-#{n}"
   end
+
+  sequence :group_name do |n|
+    "Group #{n}"
+  end
 end
 
 # eof
