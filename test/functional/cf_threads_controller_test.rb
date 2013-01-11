@@ -67,8 +67,11 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    cpp = CfForumPermission.create!(:forum_id => forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -83,8 +86,11 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    cpp = CfForumPermission.create!(:forum_id => forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
 
@@ -99,8 +105,11 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    cpp = CfForumPermission.create!(:forum_id => forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
 
@@ -161,9 +170,13 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "index: permissions with access read" do
     forum   = FactoryGirl.create(:cf_forum)
     user    = FactoryGirl.create(:cf_user, admin: false)
-    cpp     = CfForumPermission.create(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
     thread  = FactoryGirl.create(:cf_thread, forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -176,9 +189,13 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "index: permissions with access write" do
     forum   = FactoryGirl.create(:cf_forum)
     user    = FactoryGirl.create(:cf_user, admin: false)
-    cpp     = CfForumPermission.create(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
     thread  = FactoryGirl.create(:cf_thread, forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
 
@@ -191,9 +208,13 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "index: permissions with access moderator and view_all" do
     forum   = FactoryGirl.create(:cf_forum)
     user    = FactoryGirl.create(:cf_user, admin: false)
-    cpp     = CfForumPermission.create(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
     thread  = FactoryGirl.create(:cf_thread, forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
 
@@ -206,9 +227,13 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "index: permissions with access moderator" do
     forum   = FactoryGirl.create(:cf_forum)
     user    = FactoryGirl.create(:cf_user, admin: false)
-    cpp     = CfForumPermission.create(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
     thread  = FactoryGirl.create(:cf_thread, forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
 
@@ -290,9 +315,14 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
-    cpp = CfForumPermission.create!(user_id: user.user_id, forum_id: forum.forum_id, permission: CfForumPermission::ACCESS_READ)
+
     get :show, {curr_forum: forum.slug, year: thread.created_at.strftime("%Y"), mon: thread.created_at.strftime("%b").downcase, day: thread.created_at.strftime("%d"), tid: 'blub', view_all: true}
     assert_response :success
   end
@@ -302,9 +332,14 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
-    cpp = CfForumPermission.create!(user_id: user.user_id, forum_id: forum.forum_id, permission: CfForumPermission::ACCESS_WRITE)
+
     get :show, {curr_forum: forum.slug, year: thread.created_at.strftime("%Y"), mon: thread.created_at.strftime("%b").downcase, day: thread.created_at.strftime("%d"), tid: 'blub', view_all: true}
     assert_response :success
   end
@@ -314,9 +349,14 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
-    cpp = CfForumPermission.create!(user_id: user.user_id, forum_id: forum.forum_id, permission: CfForumPermission::ACCESS_MODERATOR)
+
     get :show, {curr_forum: forum.slug, year: thread.created_at.strftime("%Y"), mon: thread.created_at.strftime("%b").downcase, day: thread.created_at.strftime("%d"), tid: 'blub', view_all: true}
     assert_response :success
   end
@@ -352,7 +392,11 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "new: should fail because of private forum and only read access" do
     forum = FactoryGirl.create(:cf_forum, :public => false)
     user  = FactoryGirl.create(:cf_user, admin: false)
-    cpp   = CfForumPermission.create!(user_id: user.user_id, forum_id: forum.forum_id, permission: CfForumPermission::ACCESS_READ)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -364,7 +408,11 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "new: should show form in private forum because of write access" do
     forum = FactoryGirl.create(:cf_forum, :public => false)
     user  = FactoryGirl.create(:cf_user, admin: false)
-    cpp   = CfForumPermission.create!(user_id: user.user_id, forum_id: forum.forum_id, permission: CfForumPermission::ACCESS_WRITE)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
     get :new, {curr_forum: forum.slug}
@@ -376,7 +424,11 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "new: should show form in private forum because of moderator access" do
     forum = FactoryGirl.create(:cf_forum, :public => false)
     user  = FactoryGirl.create(:cf_user, admin: false)
-    cpp   = CfForumPermission.create!(user_id: user.user_id, forum_id: forum.forum_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
     get :new, {curr_forum: forum.slug}
@@ -635,7 +687,11 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "create: should not generate a preview in non-public forum because of read permission" do
     forum = FactoryGirl.create(:cf_forum, :public => false)
     user  = FactoryGirl.create(:cf_user, admin: false)
-    cpp   = CfForumPermission.create(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -647,7 +703,11 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "create: should not create new thread in non-public forum because of read permission" do
     forum = FactoryGirl.create(:cf_forum, :public => false)
     user  = FactoryGirl.create(:cf_user, admin: false)
-    cpp   = CfForumPermission.create(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -659,7 +719,11 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "create: should generate a preview in non-public forum because of write permission" do
     forum = FactoryGirl.create(:cf_forum, :public => false)
     user  = FactoryGirl.create(:cf_user, admin: false)
-    cpp   = CfForumPermission.create(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     cnt = CfThread.count
 
@@ -676,7 +740,11 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "create: should create new thread in non-public forum because of write permission" do
     forum = FactoryGirl.create(:cf_forum, :public => true)
     user  = FactoryGirl.create(:cf_user, admin: false)
-    cpp   = CfForumPermission.create(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
 
@@ -696,7 +764,11 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "create: should generate a preview in non-public forum because of moderator permission" do
     forum = FactoryGirl.create(:cf_forum, :public => false)
     user  = FactoryGirl.create(:cf_user, admin: false)
-    cpp   = CfForumPermission.create(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     cnt = CfThread.count
 
@@ -713,7 +785,11 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "create: should create new thread in non-public forum because of moderator permission" do
     forum = FactoryGirl.create(:cf_forum, :public => true)
     user  = FactoryGirl.create(:cf_user, admin: false)
-    cpp   = CfForumPermission.create(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
 
@@ -758,7 +834,11 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
-    cpp     = CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -772,7 +852,11 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
-    cpp     = CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -801,7 +885,11 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
-    cpp     = CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
 
@@ -845,8 +933,11 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
+    group.users << user
+
+    cpp = CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -861,9 +952,12 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
-    CfForumPermission.create!(forum_id: forum1.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
+    group.users << user
+
+    CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
+    CfForumGroupPermission.create!(:forum_id => forum1.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -878,8 +972,11 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+    group.users << user
+
+    CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
 
@@ -894,9 +991,12 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
-    CfForumPermission.create!(forum_id: forum1.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+    group.users << user
+
+    CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
+    CfForumGroupPermission.create!(:forum_id => forum1.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
 
@@ -934,9 +1034,12 @@ class CfThreadsControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: true)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
-    CfForumPermission.create!(forum_id: forum1.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    group.users << user
+
+    CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
+    CfForumGroupPermission.create!(:forum_id => forum1.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     cnt_forum  = forum.threads.count
     cnt_forum1 = forum1.threads.count
