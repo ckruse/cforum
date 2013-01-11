@@ -120,6 +120,17 @@ class Admin::CfGroupsControllerTest < ActionController::TestCase
     assert_redirected_to edit_admin_group_url(g)
   end
 
+  test "should update group with users and forums" do
+    g = FactoryGirl.create(:cf_group)
+    u = FactoryGirl.create(:cf_user, admin: true)
+    f = FactoryGirl.create(:cf_forum)
+
+    sign_in u
+
+    put :update, id: g.group_id, cf_group: {name: 'bububu'}, users: [u.user_id], forums: [f.forum_id, ''], permissions: ['read', '']
+    assert_redirected_to edit_admin_group_url(g)
+  end
+
   test "should not show new form because of anonymous" do
     assert_raise CForum::ForbiddenException do
       get :new
@@ -144,7 +155,7 @@ class Admin::CfGroupsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:group)
   end
 
-  
+
   test "should not create group because of anonymous" do
     assert_raise CForum::ForbiddenException do
       post :create, cf_group: {name: 'blah'}
@@ -188,6 +199,18 @@ class Admin::CfGroupsControllerTest < ActionController::TestCase
 
     assert_difference 'CfGroup.count' do
       post :create, cf_group: {name: 'blahblah'}, users: [u.user_id]
+    end
+
+    assert_redirected_to edit_admin_group_url(assigns(:group))
+  end
+
+  test "should create group with users and forums" do
+    u = FactoryGirl.create(:cf_user, admin: true)
+    f = FactoryGirl.create(:cf_forum)
+    sign_in u
+
+    assert_difference 'CfGroup.count' do
+      post :create, cf_group: {name: 'blahblah'}, users: [u.user_id], users: [u.user_id], forums: [f.forum_id, ''], permissions: ['read', '']
     end
 
     assert_redirected_to edit_admin_group_url(assigns(:group))
