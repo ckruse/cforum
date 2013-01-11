@@ -82,8 +82,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -97,8 +99,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
 
@@ -112,8 +116,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
 
@@ -127,8 +133,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
 
@@ -182,8 +190,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
     get :show, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id}
@@ -198,8 +208,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
     get :show, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id}
@@ -214,8 +226,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
     get :show, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id}
@@ -267,8 +281,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -282,8 +298,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
 
@@ -300,8 +318,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
 
@@ -452,8 +472,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -479,8 +501,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
 
@@ -512,8 +536,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
 
@@ -615,8 +641,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -630,8 +658,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
 
@@ -645,8 +675,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
     delete :destroy, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id}
@@ -704,8 +736,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -719,8 +753,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
 
@@ -734,8 +770,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
     user    = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
 
-    CfForumPermission.create!(forum_id: forum.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
 
