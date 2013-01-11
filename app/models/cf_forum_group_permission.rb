@@ -1,6 +1,10 @@
 # -*- encoding: utf-8 -*-
 
 class CfForumGroupPermission < ActiveRecord::Base
+  ACCESS_MODERATE = 'moderate'
+  ACCESS_WRITE    = 'write'
+  ACCESS_READ     = 'read'
+
   self.primary_key = 'forum_group_permission_id'
   self.table_name  = 'forums_groups_permissions'
 
