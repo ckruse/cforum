@@ -3,6 +3,8 @@
 class CfMessagesController < ApplicationController
   before_filter :authorize!
 
+  include AuthorizeForum
+
   SHOW_NEW_MESSAGE     = "show_new_message"
   SHOW_MESSAGE         = "show_message"
   CREATING_NEW_MESSAGE = "creating_new_message"
@@ -111,8 +113,6 @@ class CfMessagesController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-  include AuthorizeForum
 end
 
 SettingValidator.validators['quote_old_message'] = lambda { |nam, val| %w{yes no}.include?(val) }

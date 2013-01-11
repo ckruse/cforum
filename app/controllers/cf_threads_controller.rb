@@ -3,6 +3,8 @@
 class CfThreadsController < ApplicationController
   before_filter :authorize!
 
+  include AuthorizeForum
+
   SHOW_THREADLIST  = "show_threadlist"
   SHOW_THREAD      = "show_thread"
   SHOW_NEW_THREAD  = "show_new_thread"
@@ -215,8 +217,6 @@ class CfThreadsController < ApplicationController
       end
     end
   end
-
-  include AuthorizeForum
 
   private
   def save_tags(thread, tags)
