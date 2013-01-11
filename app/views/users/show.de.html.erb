@@ -3,9 +3,9 @@
 <p>
   Der Benutzer wurde am <%= l(@user.created_at) %> erstellt. Er hat <%= @messages_count %> Nachrichten geschrieben. Der
   Benutzer ist <% unless @user.admin %><strong>kein</strong><% end %> ein Administrator. Er ist
-  <% unless @user.active %><strong>nicht</strong><% end %> aktiv. Seine letzte Nachricht ist
+  <% unless @user.active %><strong>nicht</strong><% end %> aktiv.<% if @message %> Seine letzte Nachricht ist
   <strong><%= link_to @message.subject, cf_message_path(@message.thread, @message) %></strong> vom
-  <strong><%= l(@message.created_at) %></strong> im Forum <strong><%= @message.forum.name %></strong>.
+  <strong><%= l(@message.created_at) %></strong> im Forum <strong><%= @message.forum.name %></strong>.<% end %>
 </p>
 
 <% unless @user.forums.blank? %><p>
