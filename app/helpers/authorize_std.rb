@@ -11,14 +11,14 @@ module AuthorizeStd
 
     unless user.blank?
       permissions = CfForumGroupPermission
-        .where("group_id IN (SELECT group_id FROM users_groups WHERE user_id = ?) AND forum_id = ?", user.user_id, forum.forum_id)
+        .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user.user_id, forum.forum_id)
         .all
 
       permissions.each do |p|
         if %w{new edit create update destroy}.include?(action_name)
-          return if %w{moderator write}.include?(p.permission)
+          return if [CfForumGroupPermission::ACCESS_MODERATE, CfForumGroupPermission::ACCESS_WRITE].include?(p.permission)
         else
-          return if %w{moderator read write}.include?(p.permission)
+          return if [CfForumGroupPermission::ACCESS_MODERATE, CfForumGroupPermission::ACCESS_WRITE, CfForumGroupPermission::ACCESS_READ].include?(p.permission)
         end
       end
 
