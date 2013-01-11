@@ -8,10 +8,6 @@
   <strong><%= l(@message.created_at) %></strong> im Forum <strong><%= @message.forum.name %></strong>.<% end %>
 </p>
 
-<% unless @user.forums.blank? %><p>
-  Der Benutzer ist Moderator in den folgenden Foren: <%= (@user.forums.map {|f| f.name }).join(", ") %>
-</p><% end %>
-
 <% if not current_user.blank? and @user.user_id == current_user.user_id %>
 <form class="form-horizontal">
 <%= render 'settings', ro: true %>
