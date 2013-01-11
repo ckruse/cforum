@@ -24,8 +24,8 @@ class CfForum < ActiveRecord::Base
     return false if user.blank?
     return true if user.admin?
 
-    permissions = CfForumGroupPermissions
-      .where("group_id IN (SELECT group_id FROM users_groups WHERE user_id = ?) AND forum_id = ?", user.user_id, forum_id)
+    permissions = CfForumGroupPermission
+      .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user.user_id, forum_id)
       .all
 
     permissions.each do |p|
@@ -40,8 +40,8 @@ class CfForum < ActiveRecord::Base
     return false if user.blank?
     return true if user.admin?
 
-    permissions = CfForumGroupPermissions
-      .where("group_id IN (SELECT group_id FROM users_groups WHERE user_id = ?) AND forum_id = ?", user.user_id, forum_id)
+    permissions = CfForumGroupPermission
+      .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user.user_id, forum_id)
       .all
 
     permissions.each do |p|
@@ -56,8 +56,8 @@ class CfForum < ActiveRecord::Base
     return false if user.blank?
     return true if user.admin?
 
-    permissions = CfForumGroupPermissions
-      .where("group_id IN (SELECT group_id FROM users_groups WHERE user_id = ?) AND forum_id = ?", user.user_id, forum_id)
+    permissions = CfForumGroupPermission
+      .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user.user_id, forum_id)
       .all
 
     return true unless permissions.blank?

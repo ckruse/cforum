@@ -50,64 +50,62 @@ class CfForumTest < ActiveSupport::TestCase
   test "permissions with not admin and private forum" do
     f = FactoryGirl.create(:cf_forum, :public => false)
     u = FactoryGirl.create(:cf_user, admin: false)
+    g = FactoryGirl.create(:cf_group)
+
+    g.users << u
 
     assert !f.moderator?(u)
     assert !f.write?(u)
     assert !f.read?(u)
 
-    perm = CfForumPermission.create!(user_id: u.user_id, forum_id: f.forum_id, permission: CfForumPermission::ACCESS_READ)
-    f.forum_permissions.reload
+    perm = CfForumGroupPermission.create!(forum_id: f.forum_id, permission: CfForumGroupPermission::ACCESS_READ, group_id: g.group_id)
 
-    assert_equal 1, f.forum_permissions.count()
+    assert_equal 1, f.forums_groups_permissions.count()
 
     assert !f.moderator?(u)
     assert !f.write?(u)
     assert f.read?(u)
 
-    perm.update_attributes(permission: CfForumPermission::ACCESS_WRITE)
-    f.forum_permissions.reload
+    perm.update_attributes(permission: CfForumGroupPermission::ACCESS_WRITE)
 
     assert !f.moderator?(u)
     assert f.write?(u)
     assert f.read?(u)
 
-    perm.update_attributes(permission: CfForumPermission::ACCESS_MODERATOR)
-    f.forum_permissions.reload
+    perm.update_attributes(permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     assert f.moderator?(u)
     assert f.write?(u)
     assert f.read?(u)
 
-    assert f.forum_permissions.clear
-    assert_equal 0, f.forum_permissions.count()
+    assert f.forums_groups_permissions.clear
+    assert_equal 0, f.forums_groups_permissions.count()
   end
 
   test "permissions with admin and private forum" do
     f = FactoryGirl.create(:cf_forum, :public => false)
     u = FactoryGirl.create(:cf_user, admin: true)
+    g = FactoryGirl.create(:cf_group)
 
     assert f.moderator?(u)
     assert f.write?(u)
     assert f.read?(u)
 
-    perm = CfForumPermission.create!(user_id: u.user_id, forum_id: f.forum_id, permission: CfForumPermission::ACCESS_READ)
-    f.forum_permissions.reload
+    perm = CfForumGroupPermission.create!(forum_id: f.forum_id, permission: CfForumGroupPermission::ACCESS_READ, group_id: g.group_id)
 
-    assert_equal 1, f.forum_permissions.count()
-
-    assert f.moderator?(u)
-    assert f.write?(u)
-    assert f.read?(u)
-
-    perm.update_attributes(permission: CfForumPermission::ACCESS_WRITE)
-    f.forum_permissions.reload
+    assert_equal 1, f.forums_groups_permissions.count()
 
     assert f.moderator?(u)
     assert f.write?(u)
     assert f.read?(u)
 
-    perm.update_attributes(permission: CfForumPermission::ACCESS_MODERATOR)
-    f.forum_permissions.reload
+    perm.update_attributes(permission: CfForumGroupPermission::ACCESS_WRITE)
+
+    assert f.moderator?(u)
+    assert f.write?(u)
+    assert f.read?(u)
+
+    perm.update_attributes(permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     assert f.moderator?(u)
     assert f.write?(u)
@@ -117,29 +115,29 @@ class CfForumTest < ActiveSupport::TestCase
   test "permissions with not admin and public forum" do
     f = FactoryGirl.create(:cf_forum, :public => true)
     u = FactoryGirl.create(:cf_user, admin: false)
+    g = FactoryGirl.create(:cf_group)
+
+    g.users << u
 
     assert !f.moderator?(u)
     assert f.write?(u)
     assert f.read?(u)
 
-    perm = CfForumPermission.create!(user_id: u.user_id, forum_id: f.forum_id, permission: CfForumPermission::ACCESS_READ)
-    f.forum_permissions.reload
+    perm = CfForumGroupPermission.create!(forum_id: f.forum_id, permission: CfForumGroupPermission::ACCESS_READ, group_id: g.group_id)
 
-    assert_equal 1, f.forum_permissions.count()
-
-    assert !f.moderator?(u)
-    assert f.write?(u)
-    assert f.read?(u)
-
-    perm.update_attributes(permission: CfForumPermission::ACCESS_WRITE)
-    f.forum_permissions.reload
+    assert_equal 1, f.forums_groups_permissions.count()
 
     assert !f.moderator?(u)
     assert f.write?(u)
     assert f.read?(u)
 
-    perm.update_attributes(permission: CfForumPermission::ACCESS_MODERATOR)
-    f.forum_permissions.reload
+    perm.update_attributes(permission: CfForumGroupPermission::ACCESS_WRITE)
+
+    assert !f.moderator?(u)
+    assert f.write?(u)
+    assert f.read?(u)
+
+    perm.update_attributes(permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     assert f.moderator?(u)
     assert f.write?(u)
@@ -149,47 +147,45 @@ class CfForumTest < ActiveSupport::TestCase
   test "permissions with admin and public forum" do
     f = FactoryGirl.create(:cf_forum, :public => true)
     u = FactoryGirl.create(:cf_user, admin: true)
+    g = FactoryGirl.create(:cf_group)
 
     assert f.moderator?(u)
     assert f.write?(u)
     assert f.read?(u)
 
-    perm = CfForumPermission.create!(user_id: u.user_id, forum_id: f.forum_id, permission: CfForumPermission::ACCESS_READ)
-    f.forum_permissions.reload
+    perm = CfForumGroupPermission.create!(forum_id: f.forum_id, permission: CfForumGroupPermission::ACCESS_READ, group_id: g.group_id)
 
-    assert_equal 1, f.forum_permissions.count()
-
-    assert f.moderator?(u)
-    assert f.write?(u)
-    assert f.read?(u)
-
-    perm.update_attributes(permission: CfForumPermission::ACCESS_WRITE)
-    f.forum_permissions.reload
+    assert_equal 1, f.forums_groups_permissions.count()
 
     assert f.moderator?(u)
     assert f.write?(u)
     assert f.read?(u)
 
-    perm.update_attributes(permission: CfForumPermission::ACCESS_MODERATOR)
-    f.forum_permissions.reload
+    perm.update_attributes(permission: CfForumGroupPermission::ACCESS_WRITE)
+
+    assert f.moderator?(u)
+    assert f.write?(u)
+    assert f.read?(u)
+
+    perm.update_attributes(permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     assert f.moderator?(u)
     assert f.write?(u)
     assert f.read?(u)
   end
 
-  test "users relation" do
+  test "groups relation" do
     f = FactoryGirl.create(:cf_forum)
-    u = FactoryGirl.create(:cf_user)
+    g = FactoryGirl.create(:cf_group)
 
-    f.users << u
+    f.forums_groups_permissions << CfForumGroupPermission.create!(forum_id: f.forum_id, permission: CfForumGroupPermission::ACCESS_READ, group_id: g.group_id)
     f = CfForum.find f.forum_id
 
-    assert_equal 1, f.users.length
+    assert_equal 1, f.forums_groups_permissions.length
 
-    assert f.users.clear
-    assert_equal 0, f.users.count()
-    assert_not_nil CfUser.find_by_user_id u.user_id
+    assert f.forums_groups_permissions.clear
+    assert_equal 0, f.forums_groups_permissions.count()
+    assert_not_nil CfGroup.find_by_group_id g.group_id
   end
 
   test "tags relation" do
