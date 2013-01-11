@@ -114,7 +114,7 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
       CfForum.transaction do
         CfForum.connection.execute 'UPDATE threads SET forum_id = ' + @merge_forum.forum_id.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
         CfMessage.connection.execute 'UPDATE messages SET forum_id = ' + @merge_forum.forum_id.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
-        CfForumPermission.connection.execute 'UPDATE forum_permissions SET forum_id = ' + @merge_forum.forum_id.to_s + ' WHERE forum_id = ' + @cf_forum.forum_id.to_s
+        CfForumGroupPermission.connection.execute 'DELETE FROM forums_groups_permissions WHERE forum_id = ' + @merge_forum.forum_id.to_s
 
         @cf_forum.destroy
       end
