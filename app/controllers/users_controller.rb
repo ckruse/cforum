@@ -33,6 +33,8 @@ class UsersController < ApplicationController
     @user = CfUser.find_by_username!(params[:id])
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
     @message = CfMessage.includes(:thread).where(user_id: @user.user_id, deleted: false).order('created_at DESC').first
+    @settings = @user.settings || CfSetting.new
+    @settings.options ||= {}
 
     if (@user.confirmed_at.blank? or not @user.unconfirmed_email.blank?) and (not current_user.blank? and current_user.username == @user.username)
       flash[:error] = I18n.t('views.confirm_first')
