@@ -58,39 +58,29 @@ class CfUserTest < ActiveSupport::TestCase
   test "check if permissions work" do
     u = FactoryGirl.create(:cf_user, :admin => false)
     f = FactoryGirl.create(:cf_forum, :public => false)
+    g = FactoryGirl.create(:cf_group)
+
+    g.users << u
 
     assert !u.read?(f)
 
-    p = CfForumPermission.create!(forum_id: f.forum_id, user_id: u.user_id, permission: CfForumPermission::ACCESS_READ)
-    u.rights.reload
-
-    assert_equal u.rights.length, 1
-    assert_equal u.rights[0].permission, CfForumPermission::ACCESS_READ
-    assert_equal u.rights[0].forum_id, f.forum_id
-    assert_equal u.rights[0].user_id, u.user_id
+    p = CfForumGroupPermission.create!(forum_id: f.forum_id, permission: CfForumGroupPermission::ACCESS_READ, group_id: g.group_id)
 
     assert !u.moderate?(f)
     assert !u.write?(f)
     assert u.read?(f)
 
-    p.permission = CfForumPermission::ACCESS_WRITE
-    p.save
-    u.rights.reload
+    p.update_attributes(permission: CfForumGroupPermission::ACCESS_WRITE)
 
     assert !u.moderate?(f)
     assert u.write?(f)
     assert u.read?(f)
 
-    p.permission = CfForumPermission::ACCESS_MODERATOR
-    p.save
-    u.rights.reload
+    p.update_attributes(permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     assert u.moderate?(f)
     assert u.write?(f)
     assert u.read?(f)
-
-    assert u.rights.clear
-    assert_equal u.rights.count(), 0
   end
 
   test "test to_param" do
