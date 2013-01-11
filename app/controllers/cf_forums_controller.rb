@@ -21,7 +21,7 @@ class CfForumsController < ApplicationController
     elsif current_user and current_user.admin
       @forums = CfForum.order('name ASC').find :all
     else
-      @forums = CfForum.where("public = true OR forum_id IN (SELECT forum_id FROM forum_permissions WHERE user_id = ?)", current_user.user_id).order('name ASC')
+      @forums = CfForum.where("public = true OR forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ?)", current_user.user_id).order('name ASC')
     end
 
     # TODO: check only for selected forums

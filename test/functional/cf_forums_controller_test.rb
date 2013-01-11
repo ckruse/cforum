@@ -52,8 +52,10 @@ class CfForumsControllerTest < ActionController::TestCase
     forum_public = FactoryGirl.create(:cf_forum)
     forum_priv   = FactoryGirl.create(:cf_forum, :public => false)
     user         = FactoryGirl.create(:cf_user, admin: false)
+    group        = FactoryGirl.create(:cf_group)
 
-    cfp = CfForumPermission.create!(forum_id: forum_priv.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_READ)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum_priv.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -68,8 +70,10 @@ class CfForumsControllerTest < ActionController::TestCase
     forum_public = FactoryGirl.create(:cf_forum)
     forum_priv   = FactoryGirl.create(:cf_forum, :public => false)
     user         = FactoryGirl.create(:cf_user, admin: false)
+    group        = FactoryGirl.create(:cf_group)
 
-    cfp = CfForumPermission.create!(forum_id: forum_priv.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_WRITE)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum_priv.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
 
@@ -84,8 +88,10 @@ class CfForumsControllerTest < ActionController::TestCase
     forum_public = FactoryGirl.create(:cf_forum)
     forum_priv   = FactoryGirl.create(:cf_forum, :public => false)
     user         = FactoryGirl.create(:cf_user, admin: false)
+    group        = FactoryGirl.create(:cf_group)
 
-    cfp = CfForumPermission.create!(forum_id: forum_priv.forum_id, user_id: user.user_id, permission: CfForumPermission::ACCESS_MODERATOR)
+    group.users << user
+    cfg = CfForumGroupPermission.create!(forum_id: forum_priv.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
 
