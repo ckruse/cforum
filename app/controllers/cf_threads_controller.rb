@@ -59,8 +59,7 @@ class CfThreadsController < ApplicationController
       where(conditions).
       where(thread_id: ids).
       order('threads.created_at DESC').
-      limit(@limit).
-      offset(@limit * @page)
+      all
 
     if forum
       rslt = CfForum.connection.execute("SELECT counter_table_get_count('threads', " +
