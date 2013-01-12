@@ -6,8 +6,17 @@ FactoryGirl.define do
     short_name { name }
     slug { name.downcase.gsub(/ /, '-') }
     description { generate(:forum_name) }
-    public true
+    standard_permission 'private'
   end
+
+  factory :cf_read_forum, :parent => :cf_forum do
+    standard_permission CfForumGroupPermission::ACCESS_READ
+  end
+
+  factory :cf_write_forum, :parent => :cf_forum do
+    standard_permission CfForumGroupPermission::ACCESS_WRITE
+  end
+
 end
 
 

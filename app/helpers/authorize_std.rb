@@ -6,22 +6,13 @@ module AuthorizeStd
     user = current_user
 
     return if forum.blank?
-    return if forum.public
     return if user and user.admin
 
-    unless user.blank?
-      permissions = CfForumGroupPermission
-        .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user.user_id, forum.forum_id)
-        .all
-
-      permissions.each do |p|
-        if %w{new edit create update destroy}.include?(action_name)
-          return if [CfForumGroupPermission::ACCESS_MODERATE, CfForumGroupPermission::ACCESS_WRITE].include?(p.permission)
-        else
-          return if [CfForumGroupPermission::ACCESS_MODERATE, CfForumGroupPermission::ACCESS_WRITE, CfForumGroupPermission::ACCESS_READ].include?(p.permission)
-        end
-      end
-
+    return if forum.read?(user)
+    if %w{new create}.include?(action_name)
+      return if forum.write?(user)
+    elsif %w{edit update destroy}.include?(action_name)
+      return if forum.moderate?(user)
     end
 
     raise CForum::ForbiddenException.new

@@ -11,8 +11,8 @@ class CfForumsControllerTest < ActionController::TestCase
   end
 
   test "should show index of forums w/o private" do
-    forum_public = FactoryGirl.create(:cf_forum)
-    forum_priv   = FactoryGirl.create(:cf_forum, :public => false)
+    forum_public = FactoryGirl.create(:cf_write_forum)
+    forum_priv   = FactoryGirl.create(:cf_forum)
 
     get :index
     assert_response :success
@@ -21,8 +21,8 @@ class CfForumsControllerTest < ActionController::TestCase
   end
 
   test "should show index of forums w/o private also if user signed in" do
-    forum_public = FactoryGirl.create(:cf_forum)
-    forum_priv   = FactoryGirl.create(:cf_forum, :public => false)
+    forum_public = FactoryGirl.create(:cf_write_forum)
+    forum_priv   = FactoryGirl.create(:cf_forum)
     user         = FactoryGirl.create(:cf_user, admin: false)
 
     assert !user.admin
@@ -35,8 +35,8 @@ class CfForumsControllerTest < ActionController::TestCase
   end
 
   test "should show index of forums w private because of admin" do
-    forum_public = FactoryGirl.create(:cf_forum)
-    forum_priv   = FactoryGirl.create(:cf_forum, :public => false)
+    forum_public = FactoryGirl.create(:cf_write_forum)
+    forum_priv   = FactoryGirl.create(:cf_forum)
     user         = FactoryGirl.create(:cf_user, admin: true)
 
     sign_in user
@@ -49,8 +49,8 @@ class CfForumsControllerTest < ActionController::TestCase
   end
 
   test "should show index of forums w private because of read permissions" do
-    forum_public = FactoryGirl.create(:cf_forum)
-    forum_priv   = FactoryGirl.create(:cf_forum, :public => false)
+    forum_public = FactoryGirl.create(:cf_write_forum)
+    forum_priv   = FactoryGirl.create(:cf_forum)
     user         = FactoryGirl.create(:cf_user, admin: false)
     group        = FactoryGirl.create(:cf_group)
 
@@ -67,8 +67,8 @@ class CfForumsControllerTest < ActionController::TestCase
   end
 
   test "should show index of forums w private because of write permissions" do
-    forum_public = FactoryGirl.create(:cf_forum)
-    forum_priv   = FactoryGirl.create(:cf_forum, :public => false)
+    forum_public = FactoryGirl.create(:cf_write_forum)
+    forum_priv   = FactoryGirl.create(:cf_forum)
     user         = FactoryGirl.create(:cf_user, admin: false)
     group        = FactoryGirl.create(:cf_group)
 
@@ -85,8 +85,8 @@ class CfForumsControllerTest < ActionController::TestCase
   end
 
   test "should show index of forums w private because of moderator permissions" do
-    forum_public = FactoryGirl.create(:cf_forum)
-    forum_priv   = FactoryGirl.create(:cf_forum, :public => false)
+    forum_public = FactoryGirl.create(:cf_write_forum)
+    forum_priv   = FactoryGirl.create(:cf_forum)
     user         = FactoryGirl.create(:cf_user, admin: false)
     group        = FactoryGirl.create(:cf_group)
 

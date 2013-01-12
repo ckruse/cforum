@@ -57,7 +57,7 @@ class CfUserTest < ActiveSupport::TestCase
 
   test "check if permissions work" do
     u = FactoryGirl.create(:cf_user, :admin => false)
-    f = FactoryGirl.create(:cf_forum, :public => false)
+    f = FactoryGirl.create(:cf_forum)
     g = FactoryGirl.create(:cf_group)
 
     g.users << u

@@ -17,11 +17,16 @@ class CfForumsController < ApplicationController
 
 
     if not current_user
-      @forums = CfForum.where("public = true").order('name ASC')
+      @forums = CfForum.where("standard_permission = ? OR standard_permission = ?", CfForumGroupPermission::ACCESS_READ, CfForumGroupPermission::ACCESS_WRITE).order('name ASC').all
     elsif current_user and current_user.admin
       @forums = CfForum.order('name ASC').find :all
     else
-      @forums = CfForum.where("public = true OR forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ?)", current_user.user_id).order('name ASC')
+      @forums = CfForum.where(
+        "(standard_permission = ? OR standard_permission = ?) OR forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ?)",
+        CfForumGroupPermission::ACCESS_READ,
+        CfForumGroupPermission::ACCESS_WRITE,
+        current_user.user_id
+      ).order('name ASC')
     end
 
     # TODO: check only for selected forums

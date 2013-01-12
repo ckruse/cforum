@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :cf_thread do
     slug { generate :thread_slug }
-    association :forum, :factory => :cf_forum
+    association :forum, :factory => :cf_write_forum
     archived false
   end
 end

@@ -496,11 +496,11 @@ CREATE TABLE forums (
     forum_id bigint NOT NULL,
     slug character varying(255) NOT NULL,
     short_name character varying(255) NOT NULL,
-    public boolean DEFAULT true NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     name character varying NOT NULL,
-    description character varying
+    description character varying,
+    standard_permission character varying(50) DEFAULT 'private'::character varying NOT NULL
 );
 
 
@@ -1841,6 +1841,8 @@ INSERT INTO schema_migrations (version) VALUES ('26');
 INSERT INTO schema_migrations (version) VALUES ('27');
 
 INSERT INTO schema_migrations (version) VALUES ('28');
+
+INSERT INTO schema_migrations (version) VALUES ('29');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
 

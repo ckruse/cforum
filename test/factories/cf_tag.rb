@@ -5,7 +5,7 @@ FactoryGirl.define do
     tag_name { generate(:tag_name) }
     slug { tag_name.parameterize }
 
-    association :forum, :factory => :cf_forum
+    association :forum, :factory => :cf_write_forum
   end
 end
 

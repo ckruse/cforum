@@ -4,7 +4,7 @@ require 'test_helper'
 
 class CfMessagesControllerTest < ActionController::TestCase
   test "show: should fail because of wrong parameters" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
@@ -14,7 +14,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should show message in public forum" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
@@ -26,7 +26,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should not show deleted message because of anonymous" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
 
@@ -36,7 +36,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should not show deleted message because of permissions" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -49,7 +49,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should not show deleted message because of admin and not view_all" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
     user    = FactoryGirl.create(:cf_user, admin: true)
@@ -62,7 +62,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should show deleted message because of admin and view_all" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
     user    = FactoryGirl.create(:cf_user, admin: true)
@@ -78,7 +78,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should not show deleted message because of read permissions" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -95,7 +95,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should not show deleted message because of write permissions" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -112,7 +112,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should not show deleted message because of moderator permissions and not view_all" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -129,7 +129,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should show deleted message because of moderator permissions" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -149,7 +149,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should fail in private forum because of anonymous" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
@@ -159,7 +159,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should fail in private forum because of permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -172,7 +172,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should show message in private forum because of admin" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: true)
@@ -186,7 +186,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should show message in private forum because of read permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -204,7 +204,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should show message in private forum because of write permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -222,7 +222,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should show message in private forum because of moderator permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -241,7 +241,7 @@ class CfMessagesControllerTest < ActionController::TestCase
 
 
   test "show: should show new in public forum" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
@@ -254,7 +254,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should not show new in private forum because of anonymous" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
@@ -264,7 +264,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should not show new in private forum because of permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -277,7 +277,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should not show new in private forum because of read permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -294,7 +294,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should show new in private forum because of write permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -314,7 +314,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "show: should show new in private forum because of moderator permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -334,7 +334,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "create: should not create new message in public forum because of invalid" do
-    forum = FactoryGirl.create(:cf_forum, :public => true)
+    forum = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
@@ -362,7 +362,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "create: should create new message in public forum" do
-    forum = FactoryGirl.create(:cf_forum, :public => true)
+    forum = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
@@ -390,7 +390,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "create: should not create new message in private forum because of anonymous" do
-    forum = FactoryGirl.create(:cf_forum, :public => false)
+    forum = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
@@ -412,7 +412,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "create: should not create new message in private forum because of permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -437,7 +437,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "create: should create new message in private forum because of admin" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: true)
@@ -468,7 +468,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "create: should not create new message in private forum because of read permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -497,7 +497,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "create: should create new message in private forum because of write permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -532,7 +532,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "create: should create new message in private forum because of moderator permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -567,7 +567,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "create: should show preview" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
@@ -597,7 +597,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "destroy: should not destroy because of anonymous" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
@@ -607,7 +607,7 @@ class CfMessagesControllerTest < ActionController::TestCase
   end
 
   test "destroy: should not destroy because of permissions" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)

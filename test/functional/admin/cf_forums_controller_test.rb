@@ -29,8 +29,8 @@ class Admin::CfForumsControllerTest < ActionController::TestCase
   end
 
   test "index: should answer with non-empty list" do
-    forum = FactoryGirl.create(:cf_forum)
-    forum1 = FactoryGirl.create(:cf_forum, :public => false)
+    forum = FactoryGirl.create(:cf_write_forum)
+    forum1 = FactoryGirl.create(:cf_forum)
     usr = FactoryGirl.create(:cf_user, admin: true)
     sign_in usr
 

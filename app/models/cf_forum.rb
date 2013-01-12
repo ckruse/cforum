@@ -10,7 +10,7 @@ class CfForum < ActiveRecord::Base
 
   has_many :forums_groups_permissions, class_name: 'CfForumGroupPermission', :foreign_key => :forum_id, :dependent => :destroy
 
-  attr_accessible :forum_id, :slug, :name, :short_name, :description, :updated_at, :created_at, :public
+  attr_accessible :forum_id, :slug, :name, :short_name, :description, :updated_at, :created_at, :standard_permission
 
   validates :slug, uniqueness: true, length: {:in => 1..20}, allow_blank: false, format: {with: /^[a-z0-9_-]+$/}
   validates :name, length: {:minimum => 3}, allow_blank: false
@@ -36,7 +36,7 @@ class CfForum < ActiveRecord::Base
   end
 
   def write?(user)
-    return true if public?
+    return true if standard_permission == CfForumGroupPermission::ACCESS_WRITE
     return false if user.blank?
     return true if user.admin?
 
@@ -52,7 +52,7 @@ class CfForum < ActiveRecord::Base
   end
 
   def read?(user)
-    return true if public?
+    return true if standard_permission == CfForumGroupPermission::ACCESS_READ or standard_permission == CfForumGroupPermission::ACCESS_WRITE
     return false if user.blank?
     return true if user.admin?
 

@@ -48,7 +48,7 @@ class CfForumTest < ActiveSupport::TestCase
   end
 
   test "permissions with not admin and private forum" do
-    f = FactoryGirl.create(:cf_forum, :public => false)
+    f = FactoryGirl.create(:cf_forum, standard_permission: 'private')
     u = FactoryGirl.create(:cf_user, admin: false)
     g = FactoryGirl.create(:cf_group)
 
@@ -83,7 +83,7 @@ class CfForumTest < ActiveSupport::TestCase
   end
 
   test "permissions with admin and private forum" do
-    f = FactoryGirl.create(:cf_forum, :public => false)
+    f = FactoryGirl.create(:cf_forum, standard_permission: 'private')
     u = FactoryGirl.create(:cf_user, admin: true)
     g = FactoryGirl.create(:cf_group)
 
@@ -113,7 +113,7 @@ class CfForumTest < ActiveSupport::TestCase
   end
 
   test "permissions with not admin and public forum" do
-    f = FactoryGirl.create(:cf_forum, :public => true)
+    f = FactoryGirl.create(:cf_forum, standard_permission: CfForumGroupPermission::ACCESS_WRITE)
     u = FactoryGirl.create(:cf_user, admin: false)
     g = FactoryGirl.create(:cf_group)
 
@@ -145,7 +145,7 @@ class CfForumTest < ActiveSupport::TestCase
   end
 
   test "permissions with admin and public forum" do
-    f = FactoryGirl.create(:cf_forum, :public => true)
+    f = FactoryGirl.create(:cf_forum, standard_permission: CfForumGroupPermission::ACCESS_WRITE)
     u = FactoryGirl.create(:cf_user, admin: true)
     g = FactoryGirl.create(:cf_group)
 

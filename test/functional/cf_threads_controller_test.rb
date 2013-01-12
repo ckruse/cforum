@@ -4,7 +4,7 @@ require 'test_helper'
 
 class CfThreadsControllerTest < ActionController::TestCase
   test "index: should work with empty list on public and empty forum" do
-    forum = FactoryGirl.create(:cf_forum)
+    forum = FactoryGirl.create(:cf_write_forum)
     user  = FactoryGirl.create(:cf_user)
 
     get :index, {curr_forum: forum.slug}
@@ -14,7 +14,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "index: should work with empty list on public forum and empty thread" do
-    forum = FactoryGirl.create(:cf_forum)
+    forum = FactoryGirl.create(:cf_write_forum)
     user  = FactoryGirl.create(:cf_user)
     thread = FactoryGirl.create(:cf_thread, forum: forum)
 
@@ -25,7 +25,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "index: should work with empty list on public forum and deleted thread" do
-    forum = FactoryGirl.create(:cf_forum)
+    forum = FactoryGirl.create(:cf_write_forum)
     user  = FactoryGirl.create(:cf_user)
     thread = FactoryGirl.create(:cf_thread, forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
@@ -49,7 +49,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "index: should show index in pviate forum" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: true)
@@ -63,7 +63,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "index: should show index in private forum because of read permission" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -82,7 +82,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "index: should show index in private forum because of write permission" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -101,7 +101,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "index: should should index in private forum because of moderator permission" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -244,7 +244,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "index: should fail with forbidden" do
-    forum = FactoryGirl.create(:cf_forum, :public => false)
+    forum = FactoryGirl.create(:cf_forum)
     thread = FactoryGirl.create(:cf_thread, forum: forum)
 
     assert_raise(CForum::ForbiddenException) do
@@ -253,7 +253,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "index: should fail with forbidden even with user" do
-    forum  = FactoryGirl.create(:cf_forum, :public => false)
+    forum  = FactoryGirl.create(:cf_forum)
     thread = FactoryGirl.create(:cf_thread, forum: forum)
     user   = FactoryGirl.create(:cf_user, admin: false)
 
@@ -265,7 +265,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "show: should show thread" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_forum, standard_permission: CfForumGroupPermission::ACCESS_WRITE)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
@@ -277,7 +277,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "show: should not find thread" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_forum, standard_permission: CfForumGroupPermission::ACCESS_WRITE)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
@@ -289,7 +289,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "show: failing to access with anonymous access" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: true)
@@ -300,7 +300,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "show: permissions with admin access to private forum" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: true)
@@ -311,7 +311,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "show: permissions with read access to private forum" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -328,7 +328,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "show: permissions with write access to private forum" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -345,7 +345,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "show: permissions with moderator access to private forum" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: DateTime.now.strftime("/%Y/%b/%d").downcase + '/blub')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -362,7 +362,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "new: should show form" do
-    forum   = FactoryGirl.create(:cf_forum)
+    forum   = FactoryGirl.create(:cf_write_forum)
 
     get :new, {curr_forum: forum.slug}
     assert_response :success
@@ -371,7 +371,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "new: should fail because of permissions on private forum" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
 
     assert_raise(CForum::ForbiddenException) do
       get :new, {curr_forum: forum.slug}
@@ -379,7 +379,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "new: should show form in private forum because of admin" do
-    forum   = FactoryGirl.create(:cf_forum, :public => false)
+    forum   = FactoryGirl.create(:cf_forum)
     user    = FactoryGirl.create(:cf_user, admin: true)
 
     sign_in user
@@ -390,7 +390,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "new: should fail because of private forum and only read access" do
-    forum = FactoryGirl.create(:cf_forum, :public => false)
+    forum = FactoryGirl.create(:cf_forum)
     user  = FactoryGirl.create(:cf_user, admin: false)
     group   = FactoryGirl.create(:cf_group)
 
@@ -406,7 +406,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "new: should show form in private forum because of write access" do
-    forum = FactoryGirl.create(:cf_forum, :public => false)
+    forum = FactoryGirl.create(:cf_forum)
     user  = FactoryGirl.create(:cf_user, admin: false)
     group   = FactoryGirl.create(:cf_group)
 
@@ -422,7 +422,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "new: should show form in private forum because of moderator access" do
-    forum = FactoryGirl.create(:cf_forum, :public => false)
+    forum = FactoryGirl.create(:cf_forum)
     user  = FactoryGirl.create(:cf_user, admin: false)
     group   = FactoryGirl.create(:cf_group)
 
@@ -438,7 +438,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should not create a new thread in public forum because of invalid subject" do
-    forum = FactoryGirl.create(:cf_forum, :public => true)
+    forum = FactoryGirl.create(:cf_write_forum)
 
     assert_no_difference 'CfThread.count' do
       post :create, {curr_forum: forum.slug, cf_thread: { message: {subject: '', author: 'Anaken Skywalker', content: 'Long live the imperator! Down with the rebellion!'}}}
@@ -450,7 +450,7 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert !assigns(:message).valid?
   end
   test "create: should not create a new thread in public forum because of invalid author" do
-    forum = FactoryGirl.create(:cf_forum, :public => true)
+    forum = FactoryGirl.create(:cf_write_forum)
 
     assert_no_difference 'CfThread.count' do
       post :create, {curr_forum: forum.slug, cf_thread: { message: {subject: 'Long live the imperator!', author: '', content: 'Long live the imperator! Down with the rebellion!'}}}
@@ -462,7 +462,7 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert !assigns(:message).valid?
   end
   test "create: should not create a new thread in public forum because of invalid content" do
-    forum = FactoryGirl.create(:cf_forum, :public => true)
+    forum = FactoryGirl.create(:cf_write_forum)
 
     assert_no_difference 'CfThread.count' do
       post :create, {curr_forum: forum.slug, cf_thread: { message: {subject: 'Long live the imperator!', author: 'Anaken Skywalker', content: ''}}}
@@ -475,7 +475,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should generate a preview in public forum" do
-    forum = FactoryGirl.create(:cf_forum, :public => true)
+    forum = FactoryGirl.create(:cf_write_forum)
 
     cnt = CfThread.count
 
@@ -489,7 +489,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should create a new thread with different slug" do
-    forum = FactoryGirl.create(:cf_forum, :public => true)
+    forum = FactoryGirl.create(:cf_write_forum)
     post_data = {
       curr_forum: forum.slug,
       cf_thread: {
@@ -526,7 +526,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should create new thread in public forum" do
-    forum = FactoryGirl.create(:cf_forum, :public => true)
+    forum = FactoryGirl.create(:cf_write_forum)
 
     assert_difference('CfThread.count') do
       assert_difference('CfMessage.count') do
@@ -543,7 +543,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should create new thread in public forum with tags" do
-    forum = FactoryGirl.create(:cf_forum, :public => true)
+    forum = FactoryGirl.create(:cf_write_forum)
 
     assert_difference('CfThread.count') do
       assert_difference('CfMessage.count') do
@@ -575,7 +575,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should create new thread in public forum with tag list" do
-    forum = FactoryGirl.create(:cf_forum, :public => true)
+    forum = FactoryGirl.create(:cf_write_forum)
 
     assert_difference('CfThread.count') do
       assert_difference('CfMessage.count') do
@@ -607,7 +607,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should not create new thread in public forum because of invalid tag" do
-    forum = FactoryGirl.create(:cf_forum, :public => true)
+    forum = FactoryGirl.create(:cf_write_forum)
 
     assert_no_difference('CfThread.count') do
       assert_no_difference('CfMessage.count') do
@@ -634,7 +634,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should not generate a preview in non-public forum" do
-    forum = FactoryGirl.create(:cf_forum, :public => false)
+    forum = FactoryGirl.create(:cf_forum)
 
     assert_raise(CForum::ForbiddenException) do
       post :create, {preview: true, curr_forum: forum.slug, cf_thread: { message: {subject: 'Long live the imperator!', author: 'Anaken Skywalker', content: 'Long live the imperator! Down with the rebellion!'}}}
@@ -642,7 +642,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should not create a thread in non-public forum" do
-    forum = FactoryGirl.create(:cf_forum, :public => false)
+    forum = FactoryGirl.create(:cf_forum)
 
     assert_raise(CForum::ForbiddenException) do
       post :create, {curr_forum: forum.slug, cf_thread: { message: {subject: 'Long live the imperator!', author: 'Anaken Skywalker', content: 'Long live the imperator! Down with the rebellion!'}}}
@@ -650,7 +650,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should generate a preview in non-public forum because of admin" do
-    forum = FactoryGirl.create(:cf_forum, :public => false)
+    forum = FactoryGirl.create(:cf_forum)
     user = FactoryGirl.create(:cf_user, admin: true)
 
     cnt = CfThread.count
@@ -666,7 +666,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should create new thread in non-public forum because of admin" do
-    forum = FactoryGirl.create(:cf_forum, :public => true)
+    forum = FactoryGirl.create(:cf_write_forum)
     user  = FactoryGirl.create(:cf_user, admin: true)
 
     sign_in user
@@ -685,7 +685,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should not generate a preview in non-public forum because of read permission" do
-    forum = FactoryGirl.create(:cf_forum, :public => false)
+    forum = FactoryGirl.create(:cf_forum)
     user  = FactoryGirl.create(:cf_user, admin: false)
     group   = FactoryGirl.create(:cf_group)
 
@@ -701,7 +701,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should not create new thread in non-public forum because of read permission" do
-    forum = FactoryGirl.create(:cf_forum, :public => false)
+    forum = FactoryGirl.create(:cf_forum)
     user  = FactoryGirl.create(:cf_user, admin: false)
     group   = FactoryGirl.create(:cf_group)
 
@@ -717,7 +717,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should generate a preview in non-public forum because of write permission" do
-    forum = FactoryGirl.create(:cf_forum, :public => false)
+    forum = FactoryGirl.create(:cf_forum)
     user  = FactoryGirl.create(:cf_user, admin: false)
     group   = FactoryGirl.create(:cf_group)
 
@@ -738,7 +738,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should create new thread in non-public forum because of write permission" do
-    forum = FactoryGirl.create(:cf_forum, :public => true)
+    forum = FactoryGirl.create(:cf_write_forum)
     user  = FactoryGirl.create(:cf_user, admin: false)
     group   = FactoryGirl.create(:cf_group)
 
@@ -762,7 +762,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should generate a preview in non-public forum because of moderator permission" do
-    forum = FactoryGirl.create(:cf_forum, :public => false)
+    forum = FactoryGirl.create(:cf_forum)
     user  = FactoryGirl.create(:cf_user, admin: false)
     group   = FactoryGirl.create(:cf_group)
 
@@ -783,7 +783,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "create: should create new thread in non-public forum because of moderator permission" do
-    forum = FactoryGirl.create(:cf_forum, :public => true)
+    forum = FactoryGirl.create(:cf_write_forum)
     user  = FactoryGirl.create(:cf_user, admin: false)
     group   = FactoryGirl.create(:cf_group)
 
@@ -807,7 +807,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "moving: should not show form because of anonymous" do
-    forum   = FactoryGirl.create(:cf_forum, :public => true)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
@@ -817,7 +817,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "moving: should not show form because of permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => true)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -830,7 +830,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "moving: should not show form because of read permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => true)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -848,7 +848,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "moving: should not show form because of write permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => true)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -866,7 +866,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "moving: should show form because of admin" do
-    forum   = FactoryGirl.create(:cf_forum, :public => true)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: true)
@@ -881,7 +881,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "moving: should show form because of moderator permission" do
-    forum   = FactoryGirl.create(:cf_forum, :public => true)
+    forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     user    = FactoryGirl.create(:cf_user, admin: false)
@@ -902,7 +902,7 @@ class CfThreadsControllerTest < ActionController::TestCase
 
 
   test "move: should not move because of anonymous" do
-    forum   = FactoryGirl.create(:cf_forum, :public => true)
+    forum   = FactoryGirl.create(:cf_write_forum)
     forum1  = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
@@ -914,7 +914,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "move: should not move because of authorization" do
-    forum   = FactoryGirl.create(:cf_forum, :public => true)
+    forum   = FactoryGirl.create(:cf_write_forum)
     forum1  = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
@@ -928,7 +928,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "move: should not move because of read permission only in forum" do
-    forum   = FactoryGirl.create(:cf_forum, :public => true)
+    forum   = FactoryGirl.create(:cf_write_forum)
     forum1  = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
@@ -947,7 +947,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "move: should not move because of read permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => true)
+    forum   = FactoryGirl.create(:cf_write_forum)
     forum1  = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
@@ -967,7 +967,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "move: should not move because of write permission only in forum" do
-    forum   = FactoryGirl.create(:cf_forum, :public => true)
+    forum   = FactoryGirl.create(:cf_write_forum)
     forum1  = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
@@ -986,7 +986,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "move: should not move because of write permissions" do
-    forum   = FactoryGirl.create(:cf_forum, :public => true)
+    forum   = FactoryGirl.create(:cf_write_forum)
     forum1  = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
@@ -1006,7 +1006,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "move: should move because of admin" do
-    forum   = FactoryGirl.create(:cf_forum, :public => true)
+    forum   = FactoryGirl.create(:cf_write_forum)
     forum1  = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
@@ -1029,7 +1029,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "move: should move because of moderator" do
-    forum   = FactoryGirl.create(:cf_forum, :public => true)
+    forum   = FactoryGirl.create(:cf_write_forum)
     forum1  = FactoryGirl.create(:cf_forum)
     thread  = FactoryGirl.create(:cf_thread, slug: '/2012/dec/6/star-wars', forum: forum)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
@@ -1082,7 +1082,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
   test "should show /all wo threads of private forum to anonymous" do
-    forum = FactoryGirl.create(:cf_forum, public: false)
+    forum = FactoryGirl.create(:cf_forum)
 
     t = FactoryGirl.create(:cf_thread)
     message = FactoryGirl.create(:cf_message, forum: t.forum, thread: t)
@@ -1098,7 +1098,7 @@ class CfThreadsControllerTest < ActionController::TestCase
 
   test "should show /all wo threads of private forum" do
     user = FactoryGirl.create(:cf_user, admin: false)
-    forum = FactoryGirl.create(:cf_forum, public: false)
+    forum = FactoryGirl.create(:cf_forum)
 
     t = FactoryGirl.create(:cf_thread)
     message = FactoryGirl.create(:cf_message, forum: t.forum, thread: t)
@@ -1117,7 +1117,7 @@ class CfThreadsControllerTest < ActionController::TestCase
   test "should show /all with threads of private forum because of rights" do
     user = FactoryGirl.create(:cf_user, admin: false)
     group = FactoryGirl.create(:cf_group)
-    forum = FactoryGirl.create(:cf_forum, public: false)
+    forum = FactoryGirl.create(:cf_forum)
 
     group.users << user
 
