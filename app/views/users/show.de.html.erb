@@ -1,18 +1,64 @@
+<% render 'cf_messages/message_header' %>
 <h1><%= t('views.user') + ' ' + @user.username %></h1>
 
-<p>
-  Der Benutzer wurde am <%= l(@user.created_at) %> erstellt. Er hat <%= @messages_count %> Nachrichten geschrieben. Der
-  Benutzer ist <% unless @user.admin %><strong>kein</strong><% end %> ein Administrator. Er ist
-  <% unless @user.active %><strong>nicht</strong><% end %> aktiv.<% if @message %> Seine letzte Nachricht ist
-  <strong><%= link_to @message.subject, cf_message_path(@message.thread, @message) %></strong> vom
-  <strong><%= l(@message.created_at) %></strong> im Forum <strong><%= @message.forum.name %></strong>.<% end %>
-</p>
+<table>
+  <tr>
+    <th>Name:</th>
+    <td><%= @settings.conf('name', @user.username) %></td>
+  </tr>
+  <tr>
+    <th>Ort:</th>
+    <td><%= @settings.conf('location') %></td>
+  </tr>
+  <% if current_user == @user %><tr>
+    <th>E-Mail:</th>
+    <td><%= @settings.conf('email') %></td>
+  </tr><% end %>
+  <tr>
+    <th>Registriert seit:</th>
+    <td><%= l(@user.created_at) %></td>
+  </tr>
+</table>
 
-<% if not current_user.blank? and @user.user_id == current_user.user_id %>
-<form class="form-horizontal">
-<%= render 'settings', ro: true %>
-</form>
-<% end %>
+<hr>
+
+<div class="row-fluid">
+  <div class="well span6">
+    <h3>Letzte Nachrichten</h3>
+
+    <% @last_messages.each do |m| %>
+      <article class="thread threadlist">
+        <%= message_header(m.thread, m) %>
+      </article>
+    <% end %>
+  </div>
+
+  <div class="well span6">
+    <h3>Tags</h3>
+
+    <table class="users-tags-list">
+      <% @tags_cnts.each do |t| %>
+        <tr>
+          <th><%= link_to t.tag.tag_name, tag_path(t.tag.forum.slug, t.tag) %></th>
+          <td><%= t.cnt %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>
+
+<div class="row-fluid">
+  <div class="well span6">
+    <% @point_msgs.each do |m| %>
+      <article class="thread threadlist">
+        <%= message_header(m.thread, m) %>
+      </article>
+    <% end %>
+  </div>
+
+</div>
 
 <p class="form-actions">
   <% if not current_user.blank? and @user.user_id == current_user.user_id %>
@@ -22,3 +68,4 @@
 
   <%= link_to t('views.back'), users_path, :class => 'btn' %>
 </p>
+

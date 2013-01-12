@@ -31,10 +31,64 @@ class UsersController < ApplicationController
 
   def show
     @user = CfUser.find_by_username!(params[:id])
-    @messages_count = CfMessage.where(user_id: @user.user_id).count()
-    @message = CfMessage.includes(:thread).where(user_id: @user.user_id, deleted: false).order('created_at DESC').first
     @settings = @user.settings || CfSetting.new
     @settings.options ||= {}
+
+    #@messages_count = CfMessage.where(user_id: @user.user_id).count()
+
+    if current_user
+      sql = "
+      SELECT
+          DISTINCT forums.forum_id
+        FROM
+            forums
+          INNER JOIN
+            forums_groups_permissions USING(forum_id)
+          INNER JOIN
+            groups_users USING(group_id)
+        WHERE
+            (standard_permission = 'read' OR standard_permission = 'write')
+          OR
+            (
+              (
+                  permission = 'read'
+                OR
+                  permission = 'write'
+                OR
+                  permission = 'moderate'
+              )
+              AND
+                user_id = #{current_user.user_id}
+            )
+      "
+    else
+      sql = "SELECT forum_id FROM forums WHERE standard_permission = 'read' OR standard_permission = 'write'"
+    end
+
+
+    @last_messages = CfMessage.
+      preload(:owner, :thread => :forum).
+      where("user_id = ? AND deleted = false AND forum_id IN (#{sql})", @user.user_id).
+      order('created_at DESC').
+      limit(5).
+      all
+
+    @tags_cnts = CfTagThread.
+      preload(:tag => :forum).
+      select("tag_id, COUNT(*) AS cnt").
+      joins("INNER JOIN messages USING(thread_id)").
+      where("deleted = false AND user_id = ? AND forum_id IN (#{sql})", @user.user_id).
+      group("tag_id").
+      order("cnt DESC").
+      limit(10).
+      all
+
+    @point_msgs = CfMessage.
+      preload(:owner, :thread => :forum).
+      where("deleted = false AND upvotes > 0 AND user_id = ? AND forum_id IN (#{sql})", @user.user_id).
+      order('upvotes DESC').
+      limit(10).
+      all
 
     if (@user.confirmed_at.blank? or not @user.unconfirmed_email.blank?) and (not current_user.blank? and current_user.username == @user.username)
       flash[:error] = I18n.t('views.confirm_first')
