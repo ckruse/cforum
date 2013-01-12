@@ -34,7 +34,7 @@ class CfThreadsController < ApplicationController
         crits << "EXISTS(SELECT message_id FROM messages WHERE thread_id = threads.thread_id AND deleted = false)"
       end
     else
-      crits << "forum_id IN (SELECT forum_id FROM forum_permissions WHERE user_id = " + current_user.user_id.to_s + ")" if current_user
+      crits << "forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = " + current_user.user_id.to_s + ")" if current_user
       crits << "forum_id IN (SELECT forum_id FROM forums WHERE public = true)"
 
       crits = ["(" + crits.join(" OR ") + ")"]

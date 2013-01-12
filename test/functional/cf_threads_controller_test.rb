@@ -1057,6 +1057,86 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_redirected_to cf_message_url(assigns(:thread), assigns(:thread).message)
   end
 
+  test "should show /all to anonymous" do
+    user = FactoryGirl.create(:cf_user, admin: false)
+    t = FactoryGirl.create(:cf_thread)
+    message = FactoryGirl.create(:cf_message, forum: t.forum, thread: t)
+
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:threads)
+    assert_equal 1, assigns(:threads).length
+  end
+
+  test "should show /all to user" do
+    user = FactoryGirl.create(:cf_user, admin: false)
+    t = FactoryGirl.create(:cf_thread)
+    message = FactoryGirl.create(:cf_message, forum: t.forum, thread: t)
+
+    sign_in user
+
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:threads)
+    assert_equal 1, assigns(:threads).length
+  end
+
+  test "should show /all wo threads of private forum to anonymous" do
+    forum = FactoryGirl.create(:cf_forum, public: false)
+
+    t = FactoryGirl.create(:cf_thread)
+    message = FactoryGirl.create(:cf_message, forum: t.forum, thread: t)
+
+    t1 = FactoryGirl.create(:cf_thread, forum: forum)
+    message1 = FactoryGirl.create(:cf_message, forum: forum, thread: t1)
+
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:threads)
+    assert_equal 1, assigns(:threads).length
+  end
+
+  test "should show /all wo threads of private forum" do
+    user = FactoryGirl.create(:cf_user, admin: false)
+    forum = FactoryGirl.create(:cf_forum, public: false)
+
+    t = FactoryGirl.create(:cf_thread)
+    message = FactoryGirl.create(:cf_message, forum: t.forum, thread: t)
+
+    t1 = FactoryGirl.create(:cf_thread, forum: forum)
+    message1 = FactoryGirl.create(:cf_message, forum: forum, thread: t1)
+
+    sign_in user
+
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:threads)
+    assert_equal 1, assigns(:threads).length
+  end
+
+  test "should show /all with threads of private forum because of rights" do
+    user = FactoryGirl.create(:cf_user, admin: false)
+    group = FactoryGirl.create(:cf_group)
+    forum = FactoryGirl.create(:cf_forum, public: false)
+
+    group.users << user
+
+    CfForumGroupPermission.create!(:forum_id => forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
+
+    t = FactoryGirl.create(:cf_thread)
+    message = FactoryGirl.create(:cf_message, forum: t.forum, thread: t)
+
+    t1 = FactoryGirl.create(:cf_thread, forum: forum)
+    message1 = FactoryGirl.create(:cf_message, forum: forum, thread: t1)
+
+    sign_in user
+
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:threads)
+    assert_equal 2, assigns(:threads).length
+  end
+
 end
 
 # eof
