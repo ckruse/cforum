@@ -12,7 +12,7 @@
   </tr>
   <% if current_user == @user %><tr>
     <th>E-Mail:</th>
-    <td><%= @settings.conf('email') %></td>
+    <td><%= @user.email %></td>
   </tr><% end %>
   <tr>
     <th>Registriert seit:</th>
