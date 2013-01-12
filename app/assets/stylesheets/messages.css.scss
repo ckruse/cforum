@@ -41,11 +41,18 @@ body[data-controller="messages"][data-action="new"] {
   }
 }
 
-.message header details summary, .message header ul, .message header li {
+.message header details summary, .message header ul, .message header li:first-of-type {
   list-style-type:none;
   display:inline;
   margin-left:0;
 }
+
+.message header li {
+  margin-left:0.5em;
+  list-style-type:none;
+  display:inline;
+}
+
 
 .message header details {
   font-style:italic;
