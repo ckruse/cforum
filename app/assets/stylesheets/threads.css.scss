@@ -17,12 +17,19 @@
     display:inline;
   }
 
-  header details, header ul, header li {
+  header details, header ul, header li:first-of-type {
     list-style-type:none;
     margin-bottom:0;
     line-height:1em;
     font-style:italic;
     margin-left:0;
+  }
+
+  header li {
+    margin-left:0.5em;
+    margin-bottom:0;
+    line-height:1em;
+    font-style:italic;
   }
 
   header details {
