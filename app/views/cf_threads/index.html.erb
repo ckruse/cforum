@@ -7,16 +7,11 @@ render 'cf_threads/thread_tree'
 <article class="thread threadlist">
   <%= message_header(thread, thread.message, first: true, show_icons: true) %>
 
-  <!-- div class="votes">
-    <%= thread.message.upvotes - thread.message.downvotes %>
-  </div -->
-
   <% if not thread.message.messages.blank? and thread.attribs['open_state'] != 'closed' %>
   <%= message_tree(thread, thread.message.messages, show_icons: true) %>
   <% end %>
 </article>
 
-<div style="clear:both;">.</div>
 <% end %>
 
 <%= render 'pages' %>
