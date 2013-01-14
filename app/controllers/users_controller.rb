@@ -13,12 +13,13 @@ class UsersController < ApplicationController
   def index
     @page = params[:p].to_i
     @page = 0 if @page < 0
+    @limit = conf('pagination_users', 50).to_i
 
     if params[:s].blank?
-      @users = CfUser.order('username').limit(25).offset(@page * 25)
+      @users = CfUser.order('username').limit(@limit).offset(@page * @limit)
       @all_users_count = CfUser.count()
     else
-      @users = CfUser.where('LOWER(username) LIKE ?', '%' + params[:s].strip + '%').order('username').limit(25).offset(@page * 25)
+      @users = CfUser.where('LOWER(username) LIKE ?', '%' + params[:s].strip + '%').order('username').limit(@limit).offset(@page * @limit)
       @all_users_count = CfUser.where('LOWER(username) LIKE ?', params[:s].strip + '%').count()
       @search_term = params[:s]
     end

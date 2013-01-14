@@ -1,5 +1,5 @@
 <%
-all_pages_count = (@all_users_count / 25).ceil
+all_pages_count = (@all_users_count / @limit).ceil
 start_page = @page - 5
 end_page = @page + 5
 
