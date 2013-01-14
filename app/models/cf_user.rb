@@ -65,6 +65,7 @@ class CfUser < ActiveRecord::Base
 
   def write?(forum)
     return true if forum.standard_permission == CfForumGroupPermission::ACCESS_WRITE
+    return true if forum.standard_permission == CfForumGroupPermission::ACCESS_KNOWN_WRITE
     return true if admin?
 
     permissions = CfForumGroupPermission
@@ -80,6 +81,7 @@ class CfUser < ActiveRecord::Base
 
   def read?(forum)
     return true if forum.standard_permission == CfForumGroupPermission::ACCESS_READ or forum.standard_permission == CfForumGroupPermission::ACCESS_WRITE
+    return true if forum.standard_permission == CfForumGroupPermission::ACCESS_KNOWN_READ or forum.standard_permission == CfForumGroupPermission::ACCESS_KNOWN_WRITE
     return true if admin?
 
     permissions = CfForumGroupPermission

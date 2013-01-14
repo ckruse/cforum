@@ -5,6 +5,9 @@ class CfForumGroupPermission < ActiveRecord::Base
   ACCESS_WRITE    = 'write'
   ACCESS_READ     = 'read'
 
+  ACCESS_KNOWN_WRITE = 'known-write'
+  ACCESS_KNOWN_READ  = 'known-read'
+
   self.primary_key = 'forum_group_permission_id'
   self.table_name  = 'forums_groups_permissions'
 

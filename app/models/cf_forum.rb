@@ -38,6 +38,7 @@ class CfForum < ActiveRecord::Base
   def write?(user)
     return true if standard_permission == CfForumGroupPermission::ACCESS_WRITE
     return false if user.blank?
+    return true if standard_permission == CfForumGroupPermission::ACCESS_KNOWN_WRITE
     return true if user.admin?
 
     permissions = CfForumGroupPermission
@@ -54,6 +55,7 @@ class CfForum < ActiveRecord::Base
   def read?(user)
     return true if standard_permission == CfForumGroupPermission::ACCESS_READ or standard_permission == CfForumGroupPermission::ACCESS_WRITE
     return false if user.blank?
+    return true if standard_permission == CfForumGroupPermission::ACCESS_KNOWN_READ or standard_permission == CfForumGroupPermission::ACCESS_KNOWN_WRITE
     return true if user.admin?
 
     permissions = CfForumGroupPermission
