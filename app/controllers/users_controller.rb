@@ -166,7 +166,7 @@ class UsersController < ApplicationController
 
   def authorize!
     return unless %w{edit update destroy}.include?(action_name)
-    return if not current_user.blank? and (current_user.admin? or current_user.username == params[:id])
+    return if not current_user.blank? and (current_user.admin? or current_user.user_id.to_s == params[:id])
 
     raise CForum::ForbiddenException.new
   end
