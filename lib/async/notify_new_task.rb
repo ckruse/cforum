@@ -7,7 +7,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
 
     Rails.logger.debug "notify new task: checking on #{usr.username}: notify_on_activity=" + uconf('notify_on_activity', usr, thread.forum, 'no') + ", notify_on_answer=" + uconf('notify_on_answer', usr, thread.forum, 'no')
 
-    return if @sent_mails[usr.email] # do not send duplicate notifications
+    return if @sent_mails[usr.email] or @notified[usr.user_id] # do not send duplicate notifications
     return if usr.user_id == message.user_id # do not notify user about own messages
 
     return true if uconf('notify_on_activity', usr, thread.forum, 'no') != 'no' # do not notify when not wanted
@@ -47,6 +47,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     @message    = @thread.find_message! args['message']
     @parent     = @thread.find_message @message.parent_id
     @sent_mails = {}
+    @notified   = {}
 
     @thread.messages.each do |m|
       Rails.logger.debug "notify new task: perform_message: owner: " + m.owner.inspect
@@ -67,6 +68,8 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
           'message:create',
           'icon-comment-alt'
         )
+
+        @notified[m.owner.user_id] = true
       end
 
     end
