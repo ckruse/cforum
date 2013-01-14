@@ -141,6 +141,7 @@ en:
     preview: Preview
     confirm_first: You have to confirm your registration first!
     items_per_page: Items per page
+    users_per_page: Users per page
     use_archive: Use archive
     reply: Reply
     post_from: Mail from %{name}

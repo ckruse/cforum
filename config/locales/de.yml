@@ -137,6 +137,7 @@ de:
     preview: Vorschau
     confirm_first: Sie müssen Ihren Benutzer-Account erst verifizieren!
     items_per_page: Einträge pro Seite
+    users_per_page: Benutzer pro Seite
     use_archive: Archiv benutzen
     reply: Antworten
     post_from: Kommunikation mit %{name}

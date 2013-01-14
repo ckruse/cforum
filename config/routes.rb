@@ -25,6 +25,9 @@ Cforum::Application.routes.draw do
     resources :groups, :controller => :cf_groups, :except => :show
     resources :forums, :controller => :cf_forums, :except => :show
 
+    get 'settings' => 'cf_settings#edit', as: 'cf_settings'
+    post 'settings' => 'cf_settings#update'
+
     get '/forums/:id/merge' => 'cf_forums#merge', as: 'forums_merge'
     post '/forums/:id/merge' => 'cf_forums#do_merge', as: 'forums_do_merge'
 

@@ -1,0 +1,62 @@
+<h1>Allgemeine und globale Einstellungen</h1>
+
+<%= form_for @settings, method: 'post', url: admin_cf_settings_path, html: {:class => 'form-horizontal'} do |t| %>
+  <div class="control-group">
+    <label class="control-label" for="settings-pagination"><%= t('views.items_per_page') %></label>
+    <div class="controls">
+      <%= text_field_tag 'settings[pagination]', @settings.options['pagination'], :id => 'settings-pagination' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="settings-pagination-users"><%= t('views.users_per_page') %></label>
+    <div class="controls">
+      <%= text_field_tag 'settings[pagination_users]', @settings.options['pagination_users'], :id => 'settings-pagination-users' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="settings-use_archive"><%= t('views.use_archive') %></label>
+    <div class="controls">
+      <input type="hidden" name="settings[use_archive]" value="no">
+      <%= check_box_tag 'settings[use_archive]', 'yes', @settings.options['use_archive'] == 'yes', :id => 'settings-use_archive' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="settings-max_threads"><%= t('views.max_threads') %></label>
+    <div class="controls">
+      <input type="hidden" name="settings[max_threads]" value="no">
+      <%= text_field_tag 'settings[max_threads]', @settings.options['max_threads'], :id => 'settings-max_threads' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="settings-max_messages_per_thread"><%= t('views.max_messages_per_thread') %></label>
+    <div class="controls">
+      <input type="hidden" name="settings[max_messages_per_thread]" value="no">
+      <%= text_field_tag 'settings[max_messages_per_thread]', @settings.options['max_messages_per_thread'], :id => 'settings-max_messages_per_thread' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="settings-quote_char"><%= t('views.quote_char') %></label>
+    <div class="controls">
+      <%= text_field_tag 'settings[quote_char]', @settings.options['quote_char'], :id => 'settings-quote_char' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="settings-quote_old_message"><%= t('views.quote_old_message') %></label>
+    <div class="controls">
+      <input type="hidden" name="settings[quote_old_message]" value="no">
+      <%= check_box_tag 'settings[quote_old_message]', 'yes', @settings.options['quote_old_message'] == 'yes', :id => 'settings-quote_old_message' %>
+    </div>
+  </div>
+
+  <p class="form-actions">
+    <%= t.submit 'Speichern', :class => 'btn btn-primary' %>
+  </p>
+
+<% end %>
+
