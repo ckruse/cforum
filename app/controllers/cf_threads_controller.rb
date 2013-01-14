@@ -54,7 +54,7 @@ class CfThreadsController < ApplicationController
       end
 
       unless @view_all
-        crits << "EXISTS(SELECT message_id FROM messages WHERE thread_id = threads.thread_id AND deleted = false)"
+        crits << 'threads.deleted = false' #"EXISTS(SELECT message_id FROM messages WHERE thread_id = threads.thread_id AND deleted = false)"
       end
     end
     sql << crits.join(" AND ")
