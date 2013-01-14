@@ -24,10 +24,10 @@
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="settings-max_threadsmax_messages_per_thread"><%= t('views.max_threadsmax_messages_per_thread') %></label>
+    <label class="control-label" for="settings-max_messages_per_thread"><%= t('views.max_messages_per_thread') %></label>
     <div class="controls">
-      <input type="hidden" name="settings[max_threadsmax_messages_per_thread]" value="no">
-      <%= text_field_tag 'settings[max_threadsmax_messages_per_thread]', @settings.options['max_threadsmax_messages_per_thread'], :id => 'settings-max_threadsmax_messages_per_thread' %>
+      <input type="hidden" name="settings[max_messages_per_thread]" value="no">
+      <%= text_field_tag 'settings[max_messages_per_thread]', @settings.options['max_messages_per_thread'], :id => 'settings-max_messages_per_thread' %>
     </div>
   </div>
 
