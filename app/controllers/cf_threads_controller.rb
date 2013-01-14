@@ -36,17 +36,22 @@ class CfThreadsController < ApplicationController
         crits << "EXISTS(SELECT message_id FROM messages WHERE thread_id = threads.thread_id AND deleted = false)"
       end
     else
-      crits << "forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = " + current_user.user_id.to_s + ")" if current_user
-      crits << "forum_id IN (SELECT forum_id FROM forums WHERE standard_permission IN ('" +
-        CfForumGroupPermission::ACCESS_READ + "','" +
-        CfForumGroupPermission::ACCESS_WRITE +
-          (current_user ? ("', '" +
-                           CfForumGroupPermission::ACCESS_KNOWN_WRITE + "','" +
-                           CfForumGroupPermission::ACCESS_KNOWN_READ) : ""
-          ) +
-        "'))"
+      unless current_user.admin?
+        crits << "forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = " + current_user.user_id.to_s + ")" if current_user
+        crits << "forum_id IN (SELECT forum_id FROM forums WHERE standard_permission IN ('" +
+          CfForumGroupPermission::ACCESS_READ + "','" +
+          CfForumGroupPermission::ACCESS_WRITE +
+            (current_user ? ("', '" +
+                             CfForumGroupPermission::ACCESS_KNOWN_WRITE + "','" +
+                             CfForumGroupPermission::ACCESS_KNOWN_READ) : ""
+            ) +
+          "'))"
 
-      crits = ["(" + crits.join(" OR ") + ")"]
+        crits = ["(" + crits.join(" OR ") + ")"]
+
+      else
+        crits = []
+      end
 
       unless @view_all
         crits << "EXISTS(SELECT message_id FROM messages WHERE thread_id = threads.thread_id AND deleted = false)"
