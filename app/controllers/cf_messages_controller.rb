@@ -81,6 +81,11 @@ class CfMessagesController < ApplicationController
 
     retvals = notification_center.notify(CREATING_NEW_MESSAGE, @thread, @parent, @message)
 
+    unless current_user
+      cookies[:cforum_user] = request.uuid if cookies[:cforum_user].blank?
+      @message.uuid = cookies[:cforum_user]
+    end
+
     if not invalid and not retvals.include?(false) and not @preview and @message.save
       notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message)
       peon(class_name: 'NotifyNewTask', arguments: {type: 'message', thread: @thread.thread_id, message: @message.message_id})

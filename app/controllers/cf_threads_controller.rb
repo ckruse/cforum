@@ -154,6 +154,11 @@ class CfThreadsController < ApplicationController
 
     @preview = true if params[:preview]
 
+    unless current_user
+      cookies[:cforum_user] = request.uuid if cookies[:cforum_user].blank?
+      @message.uuid = cookies[:cforum_user]
+    end
+
     saved = false
     if not invalid and not @preview and not retvals.include?(false)
       CfThread.transaction do
