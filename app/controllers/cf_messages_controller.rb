@@ -55,11 +55,22 @@ class CfMessagesController < ApplicationController
     @parent = @thread.find_message(params[:mid].to_i) if @thread
     raise CForum::NotFoundException.new if @thread.nil? or @parent.nil?
 
+    invalid = false
+
     @message = CfMessage.new(params[:cf_message])
     @message.parent_id  = @parent.message_id
     @message.forum_id   = current_forum.forum_id
     @message.user_id    = current_user.user_id unless current_user.blank?
     @message.thread_id  = @thread.thread_id
+
+    if current_user
+      @message.author     = current_user.username
+    else
+      unless CfUser.where('LOWER(username) = LOWER(?)', @message.author.strip).first.blank?
+        flash[:error] = I18n.t('errors.name_taken')
+        invalid = true
+      end
+    end
 
     @message.created_at = DateTime.now
     @message.updated_at = DateTime.now
@@ -70,7 +81,7 @@ class CfMessagesController < ApplicationController
 
     retvals = notification_center.notify(CREATING_NEW_MESSAGE, @thread, @parent, @message)
 
-    if not retvals.include?(false) and not @preview and @message.save
+    if not invalid and not retvals.include?(false) and not @preview and @message.save
       notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message)
       peon(class_name: 'NotifyNewTask', arguments: {type: 'message', thread: @thread.thread_id, message: @message.message_id})
 

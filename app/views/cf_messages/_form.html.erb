@@ -4,10 +4,12 @@
     <div class="controls"><%= f.text_field :subject, :placeholder => 'Subject', maxlength: 250 %></div>
   </div>
 
+  <% unless current_user %>
   <div class="control-group">
     <%= f.label :author, :class => 'control-label' %>
     <div class="controls"><%= f.text_field :author, :placeholder => 'Author', maxlength: 60 %></div>
   </div>
+  <% end %>
 
   <div class="control-group">
     <%= f.label :email, :class => 'control-label' %>

@@ -111,6 +111,7 @@ class CfThreadsController < ApplicationController
 
   def create
     now = Time.now
+    invalid = false
 
     @forum = current_forum
 
@@ -127,6 +128,15 @@ class CfThreadsController < ApplicationController
     @message.created_at = DateTime.now
     @message.updated_at = DateTime.now
 
+    if current_user
+      @message.author     = current_user.username
+    else
+      unless CfUser.where('LOWER(username) = LOWER(?)', @message.author.strip).first.blank?
+        flash[:error] = I18n.t('errors.name_taken')
+        invalid = true
+      end
+    end
+
     @tags = []
     if not params[:tags].blank?
       @tags = (params[:tags].map {|s| s.strip.downcase}).uniq
@@ -140,7 +150,7 @@ class CfThreadsController < ApplicationController
     @preview = true if params[:preview]
 
     saved = false
-    if not @preview and not retvals.include?(false)
+    if not invalid and not @preview and not retvals.include?(false)
       CfThread.transaction do
         num = 1
 

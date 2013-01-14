@@ -163,3 +163,7 @@ en:
 
     attributes:
       cf_message:
+
+  errors:
+    name_taken: The name is already taken!
+

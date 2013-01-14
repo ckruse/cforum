@@ -254,6 +254,7 @@ de:
       second: Sekunden
       year: Jahr
   errors: &errors
+    name_taken: Der Name ist bereits vergeben!
     format: ! '%{attribute} %{message}'
     messages:
       accepted: muss akzeptiert werden
