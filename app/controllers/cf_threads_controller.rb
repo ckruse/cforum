@@ -17,6 +17,8 @@ class CfThreadsController < ApplicationController
     @limit = uconf('pagination', 50).to_i
     @page  = 0 if @page < 0
 
+    @limit = 50 if @limit <= 0
+
     conditions = {}
     conditions[:forum_id] = forum.forum_id if forum
     conditions[:archived] = false if conf('use_archive') == 'yes'
