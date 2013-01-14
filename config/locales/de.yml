@@ -56,6 +56,7 @@ de:
     error_message: "Fehler verhinderten, dass diese Nachricht gespeichert werden konnte:"
 
   views:
+    all_forums: Alle Foren
     max_threads: Maximal-Anzahl von Threads
     max_messages_per_thread: Maximal-Anzahl Nachrichten pro Thread
     open_thread: Thread aufklappen

@@ -1,4 +1,16 @@
-<h1><%= t('views.forums') %></h1>
+<%
+
+aggregated = {threads: 0, messages: 0, last_change: nil}
+@forums.each do |f|
+  aggregated[:threads] += @counts[f.forum_id][:threads].to_i
+  aggregated[:messages] += @counts[f.forum_id][:messages].to_i
+
+  if @activities[f.forum_id] and (aggregated[:last_change].blank? or aggregated[:last_change].updated_at < @activities[f.forum_id].updated_at)
+    aggregated[:last_change] = @activities[f.forum_id]
+  end
+end
+
+%><h1><%= t('views.forums') %></h1>
 
 <table class="table table-striped table-bordered">
   <thead>
@@ -9,6 +21,18 @@
       <th><%= t('views.last_change') %></th>
     </tr>
   </thead>
+
+  <tfoot>
+    <tr>
+      <td><%= link_to t('views.all_forums'), cf_forum_path('all') %></td>
+      <td><%= aggregated[:threads] %></td>
+      <td><%= aggregated[:messages] %></td>
+      <td><% if aggregated[:last_change].blank? %><%= ('<em>' + t('views.never') + '</em>').html_safe %><% else
+        msg = aggregated[:last_change] %><%= l(msg.updated_at) %> von <%= msg.user_id ? link_to(msg.author, user_path(msg.owner)) : msg.author %>: <%= link_to msg.subject, cf_message_path(msg.thread, msg) %>
+        <% end %></td>
+    </tr>
+  </tfoot>
+
   <tbody>
     <% @forums.each do |forum| %>
     <tr>
