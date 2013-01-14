@@ -43,7 +43,7 @@ class CfThreadsController < ApplicationController
           (current_user ? ("', '" +
                            CfForumGroupPermission::ACCESS_KNOWN_WRITE + "','" +
                            CfForumGroupPermission::ACCESS_KNOWN_READ) : ""
-          ) + 
+          ) +
         "'))"
 
       crits = ["(" + crits.join(" OR ") + ")"]
@@ -233,7 +233,7 @@ class CfThreadsController < ApplicationController
 
     respond_to do |format|
       if saved
-        format.html { redirect_to cf_message_url(@thread, @thread.message), notice: t('threads.moved') } # TODO: I18n
+        format.html { redirect_to cf_message_url(@thread, @thread.message), notice: t('threads.moved') }
       else
         format.html { render :moving }
       end
@@ -256,7 +256,7 @@ class CfThreadsController < ApplicationController
 
           if tag_obj.tag_id.blank?
             saved = false
-            flash[:error] = 'Tag is invalid' # TODO: i18n/l10n
+            flash[:error] = t('threads.tag_invalid')
             raise ActiveRecord::Rollback.new
           end
 
