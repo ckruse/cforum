@@ -6,7 +6,7 @@ class NotificationsController < ApplicationController
   include AuthorizeUser
 
   def index
-    @notifications = CfNotification.order('created_at ASC').find_all_by_recipient_id(current_user.user_id)
+    @notifications = CfNotification.where(recipient_id: current_user.user_id).order('created_at DESC').limit(10).all
 
     respond_to do |format|
       format.html
