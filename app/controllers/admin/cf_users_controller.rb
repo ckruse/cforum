@@ -12,9 +12,10 @@ class Admin::CfUsersController < ApplicationController
   def index
     @page = params[:p].to_i || 0
     @page = 0 if @page < 0
+    @limit = conf('pagination_users', 50).to_i
 
     @all_users_count = CfUser.count()
-    @users = CfUser.order('username ASC').limit(50).offset(@page * 50).find(:all)
+    @users = CfUser.order('username ASC').limit(@limit).offset(@page * @limit).find(:all)
   end
 
   def edit

@@ -37,7 +37,7 @@
     start_page = @page - 5
     end_page = @page + 5
 
-    last_possible_page = (@all_users_count / 50).floor
+    last_possible_page = (@all_users_count / @limit).floor
     start_page = 0 if start_page < 0
     end_page = last_possible_page if end_page > last_possible_page
 
