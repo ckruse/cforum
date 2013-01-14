@@ -418,6 +418,7 @@ de:
         password_confirmation: Passwort-Bestätigung
         created_at: Erstellt
         updated_at: Geändert
+        remember_me: Login merken
 
       cf_forum_access:
         permission: Zugriffsrecht
