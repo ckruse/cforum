@@ -45,7 +45,7 @@ module Peon
       end
     end
 
-    Peon::Grunt.instance.periodical(ArchiveRunnerTask.new, 120)
+    Peon::Grunt.instance.periodical(ArchiveRunnerTask.new, 600)
   end
 end
 
