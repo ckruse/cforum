@@ -18,7 +18,7 @@ class ConfigManager
       @value_cache[:forums][forum] = CfSetting.find_by_forum_id(forum)
     end
 
-    if not @value_cache.has_key?(:global)
+    if @value_cache[:global].blank?
       @value_cache[:global] = CfSetting.where('user_id IS NULL and forum_id IS NULL').first
     end
   end
