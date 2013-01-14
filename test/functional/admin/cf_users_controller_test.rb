@@ -32,7 +32,7 @@ class Admin::CfUsersControllerTest < ActionController::TestCase
     usr = FactoryGirl.create(:cf_user)
 
     assert_raise CForum::ForbiddenException do
-      get :edit, id: usr.username
+      get :edit, id: usr.user_id
     end
   end
 
@@ -41,7 +41,7 @@ class Admin::CfUsersControllerTest < ActionController::TestCase
     sign_in usr
 
     assert_raise CForum::ForbiddenException do
-      get :edit, id: usr.username
+      get :edit, id: usr.user_id
     end
   end
 
@@ -58,7 +58,7 @@ class Admin::CfUsersControllerTest < ActionController::TestCase
     usr = FactoryGirl.create(:cf_user, admin: true)
     sign_in usr
 
-    get :edit, id: usr.username
+    get :edit, id: usr.user_id
     assert_not_nil assigns(:user)
     assert_response :success
   end
@@ -131,7 +131,7 @@ class Admin::CfUsersControllerTest < ActionController::TestCase
     usr = FactoryGirl.create(:cf_user)
 
     assert_raise CForum::ForbiddenException do
-      post :update, id: usr.username, cf_user: {email: 'abc@example.org'}
+      post :update, id: usr.user_id, cf_user: {email: 'abc@example.org'}
     end
   end
 
@@ -140,7 +140,7 @@ class Admin::CfUsersControllerTest < ActionController::TestCase
     sign_in usr
 
     assert_raise CForum::ForbiddenException do
-      post :update, id: usr.username, cf_user: {email: 'abc@example.org'}
+      post :update, id: usr.user_id, cf_user: {email: 'abc@example.org'}
     end
   end
 
@@ -148,7 +148,7 @@ class Admin::CfUsersControllerTest < ActionController::TestCase
     usr = FactoryGirl.create(:cf_user, admin: true)
     sign_in usr
 
-    post :update, id: usr.username, cf_user: {email: 'lululu'}
+    post :update, id: usr.user_id, cf_user: {email: 'lululu'}
     assert_not_nil assigns(:user)
     assert_response :success
   end
@@ -157,7 +157,7 @@ class Admin::CfUsersControllerTest < ActionController::TestCase
     usr = FactoryGirl.create(:cf_user, admin: true)
     sign_in usr
 
-    post :update, id: usr.username, cf_user: {email: 'abc@example.org'}
+    post :update, id: usr.user_id, cf_user: {email: 'abc@example.org'}
     assert_not_nil assigns(:user)
     assert_redirected_to edit_admin_user_url(assigns(:user))
   end
@@ -167,7 +167,7 @@ class Admin::CfUsersControllerTest < ActionController::TestCase
     usr1 = FactoryGirl.create(:cf_user)
 
     assert_raise CForum::ForbiddenException do
-      delete :destroy, id: usr1.username
+      delete :destroy, id: usr1.user_id
     end
   end
 
@@ -178,7 +178,7 @@ class Admin::CfUsersControllerTest < ActionController::TestCase
     sign_in usr
 
     assert_raise CForum::ForbiddenException do
-      delete :destroy, id: usr1.username
+      delete :destroy, id: usr1.user_id
     end
   end
 
@@ -196,7 +196,7 @@ class Admin::CfUsersControllerTest < ActionController::TestCase
     usr1 = FactoryGirl.create(:cf_user)
     sign_in usr
 
-    delete :destroy, id: usr1.username
+    delete :destroy, id: usr1.user_id
     assert_not_nil assigns(:user)
     assert_redirected_to admin_users_url()
   end

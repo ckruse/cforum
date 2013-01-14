@@ -34,7 +34,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should show user" do
     u = FactoryGirl.create(:cf_user, admin: false)
 
-    get :show, id: u.username
+    get :show, id: u.user_id
     assert_response :success
     assert_not_nil assigns(:user)
   end
@@ -49,7 +49,7 @@ class UsersControllerTest < ActionController::TestCase
     u = FactoryGirl.create(:cf_user, admin: false, confirmed_at: nil, unconfirmed_email: nil)
     sign_in u
 
-    get :show, id: u.username
+    get :show, id: u.user_id
     assert_response :success
     assert_not_nil flash[:error]
   end
@@ -59,7 +59,7 @@ class UsersControllerTest < ActionController::TestCase
     u1 = FactoryGirl.create(:cf_user, admin: false)
     sign_in u1
 
-    get :show, id: u.username
+    get :show, id: u.user_id
     assert_response :success
     assert_nil flash[:error]
   end
@@ -67,7 +67,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should show user and no warning because of anonymous user for unconfirmed user" do
     u = FactoryGirl.create(:cf_user, admin: false, confirmed_at: nil, unconfirmed_email: nil)
 
-    get :show, id: u.username
+    get :show, id: u.user_id
     assert_response :success
     assert_nil flash[:error]
   end
@@ -77,7 +77,7 @@ class UsersControllerTest < ActionController::TestCase
     u = FactoryGirl.create(:cf_user, admin: false)
 
     assert_raise CForum::ForbiddenException do
-      get :edit, id: u.username
+      get :edit, id: u.user_id
     end
   end
 
@@ -87,7 +87,7 @@ class UsersControllerTest < ActionController::TestCase
     sign_in u1
 
     assert_raise CForum::ForbiddenException do
-      get :edit, id: u.username
+      get :edit, id: u.user_id
     end
   end
 
@@ -95,7 +95,7 @@ class UsersControllerTest < ActionController::TestCase
     u = FactoryGirl.create(:cf_user, admin: false, confirmed_at: nil, unconfirmed_email: nil)
     sign_in u
 
-    get :edit, id: u.username
+    get :edit, id: u.user_id
     assert_redirected_to user_url(u)
   end
 
@@ -103,7 +103,7 @@ class UsersControllerTest < ActionController::TestCase
     u = FactoryGirl.create(:cf_user, confirmed_at: nil, unconfirmed_email: nil)
     sign_in u
 
-    get :edit, id: u.username
+    get :edit, id: u.user_id
     assert_redirected_to user_url(u)
   end
 
@@ -112,7 +112,7 @@ class UsersControllerTest < ActionController::TestCase
     u1 = FactoryGirl.create(:cf_user)
     sign_in u1
 
-    get :edit, id: u.username
+    get :edit, id: u.user_id
     assert_response :success
     assert_not_nil assigns(:user)
   end
@@ -121,7 +121,7 @@ class UsersControllerTest < ActionController::TestCase
     u = FactoryGirl.create(:cf_user, admin: false)
     sign_in u
 
-    get :edit, id: u.username
+    get :edit, id: u.user_id
     assert_response :success
     assert_not_nil assigns(:user)
   end
@@ -131,7 +131,7 @@ class UsersControllerTest < ActionController::TestCase
     u1 = FactoryGirl.create(:cf_user)
     sign_in u1
 
-    get :edit, id: u.username
+    get :edit, id: u.user_id
     assert_response :success
     assert_not_nil assigns(:user)
   end
@@ -141,7 +141,7 @@ class UsersControllerTest < ActionController::TestCase
     u = FactoryGirl.create(:cf_user, admin: false)
 
     assert_raise CForum::ForbiddenException do
-      post :update, id: u.username, cf_user: {username: 'lulu'}
+      post :update, id: u.user_id, cf_user: {username: 'lulu'}
     end
   end
 
@@ -151,7 +151,7 @@ class UsersControllerTest < ActionController::TestCase
     sign_in u1
 
     assert_raise CForum::ForbiddenException do
-      post :update, id: u.username, cf_user: {username: 'lulu'}
+      post :update, id: u.user_id, cf_user: {username: 'lulu'}
     end
   end
 
@@ -160,7 +160,7 @@ class UsersControllerTest < ActionController::TestCase
     u1 = FactoryGirl.create(:cf_user, admin: true)
     sign_in u1
 
-    post :update, id: u.username, cf_user: {username: 'lulu'}
+    post :update, id: u.user_id, cf_user: {username: 'lulu'}
     assert_redirected_to edit_user_path(u.reload)
   end
 
@@ -168,7 +168,7 @@ class UsersControllerTest < ActionController::TestCase
     u = FactoryGirl.create(:cf_user, admin: false)
     sign_in u
 
-    post :update, id: u.username, cf_user: {username: 'lulu'}
+    post :update, id: u.user_id, cf_user: {username: 'lulu'}
     assert_redirected_to edit_user_path(u.reload)
   end
 
@@ -176,7 +176,7 @@ class UsersControllerTest < ActionController::TestCase
     u = FactoryGirl.create(:cf_user, admin: false)
     sign_in u
 
-    post :update, id: u.username, cf_user: {password: 'l'}
+    post :update, id: u.user_id, cf_user: {password: 'l'}
     assert_response :success
     assert_not_nil assigns(:user)
   end
@@ -186,7 +186,7 @@ class UsersControllerTest < ActionController::TestCase
     u = FactoryGirl.create(:cf_user, admin: false)
 
     assert_raise CForum::ForbiddenException do
-      delete :destroy, id: u.username
+      delete :destroy, id: u.user_id
     end
   end
 
@@ -196,7 +196,7 @@ class UsersControllerTest < ActionController::TestCase
     sign_in u1
 
     assert_raise CForum::ForbiddenException do
-      delete :destroy, id: u.username
+      delete :destroy, id: u.user_id
     end
   end
 
@@ -205,7 +205,7 @@ class UsersControllerTest < ActionController::TestCase
     sign_in u
 
     assert_difference 'CfUser.count', -1 do
-      delete :destroy, id: u.username
+      delete :destroy, id: u.user_id
     end
     assert_redirected_to root_url()
   end
@@ -216,7 +216,7 @@ class UsersControllerTest < ActionController::TestCase
     sign_in u1
 
     assert_difference 'CfUser.count', -1 do
-      delete :destroy, id: u.username
+      delete :destroy, id: u.user_id
     end
     assert_redirected_to root_url()
   end

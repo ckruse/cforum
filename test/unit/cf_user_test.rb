@@ -85,7 +85,7 @@ class CfUserTest < ActiveSupport::TestCase
 
   test "test to_param" do
     u = FactoryGirl.create(:cf_user)
-    assert_equal u.username, u.to_param
+    assert_equal u.user_id.to_s, u.to_param
   end
 
   test "test conf" do
