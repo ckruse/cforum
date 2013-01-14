@@ -23,8 +23,8 @@
       <td><%== l(user.created_at) %></td>
       <td><%== l(user.updated_at) %></td>
       <td>
-        <%= link_to '', admin_user_path(user), data: {confirm: t('views.are_you_sure')}, :method => :delete, :class => 'icon icon-trash' %>
-        <%= link_to '', edit_admin_user_path(user), :class => "icon icon-edit" %>
+        <%= link_to '', admin_user_path(user), data: {confirm: t('views.are_you_sure')}, :method => :delete, :class => 'icon icon-trash', title: t('views.delete_user') %>
+        <%= link_to '', edit_admin_user_path(user), :class => "icon icon-edit", title: t('views.edit_user') %>
       </td>
     </tr>
     <% end %>

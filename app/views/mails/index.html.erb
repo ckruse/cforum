@@ -21,8 +21,8 @@
       <td><%= link_to m.subject, mail_path(m.sender.username, m) %></td>
       <td><%= l(m.created_at) %></td>
       <td>
-        <%= link_to '', mail_path(m.sender.username, m), :method => :delete, data: {confirm: t('views.are_you_sure')}, :class => 'icon icon-trash' %>
-        <%= link_to '', new_mail_path('priv_message_id' => m.priv_message_id), :class => 'icon icon-share' %>
+        <%= link_to '', mail_path(m.sender.username, m), :method => :delete, data: {confirm: t('views.are_you_sure')}, :class => 'icon icon-trash', title: t('views.delete_mail') %>
+        <%= link_to '', new_mail_path('priv_message_id' => m.priv_message_id), :class => 'icon icon-share', title: t('views.answer_mail') %>
       </td>
     </tr>
     <% end %>

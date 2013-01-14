@@ -55,6 +55,25 @@ de:
     error_message: "Fehler verhinderten, dass diese Nachricht gespeichert werden konnte:"
 
   views:
+    open_thread: Thread aufklappen
+    close_thread: Thread aufklappen
+    move_thread: Thread verschieben
+    restore_message: Nachricht wiederherstellen
+    delete_message: Nachricht löschen
+    user_link: Benutzer %{user}
+    delete_mail: Nachricht löschen
+    answer_mail: Nachricht beantworten
+    edit_userlist: Benutzerliste bearbeiten
+    delete_user: Benutzer löschen
+    edit_user: Benutzer bearbeiten
+    edit_forum: Forum bearbeiten
+    delete_forum: Forum löschen
+    merge_forum: Forum zusammenführen
+    delete_group: Gruppe löschen
+    edit_group: Gruppe bearbeiten
+    delete_notification: Benachrichtigung löschen
+    all_msgs_num: Anzahl aller Nachrichten
+    unread_messages_num: Anzahl ungelesener Nachrichten
     forum: Forum
     forums: Foren
     user: Benutzer

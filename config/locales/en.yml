@@ -75,6 +75,25 @@ en:
 
 
   views:
+    open_thread: Open thread
+    close_thread: Close thread
+    move_thread: Move thread
+    restore_message: Restore message
+    delete_message: Delete message
+    user_link: User %{user}
+    delete_mail: Delete mail
+    answer_mail: Reply mail
+    edit_userlist: Edit user list
+    delete_user: Delete user
+    edit_user: Edit user
+    edit_forum: Edit forum
+    delete_forum: Delete forum
+    merge_forum: Merge forum
+    delete_group: Delete group
+    edit_group: Edit group
+    delete_notification: Delete notification
+    all_msgs_num: Number of all messages
+    unread_messages_num: Number of unread messages
     forum: Forum
     forums: Forums
     user: User

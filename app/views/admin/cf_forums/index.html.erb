@@ -25,9 +25,9 @@
         <% end %>
       </td>
       <td>
-        <%= link_to '', edit_admin_forum_path(forum.forum_id), :class => "icon icon-edit" %>
-        <%= link_to '', admin_forum_path(forum.forum_id), data: {confirm: t('views.are_you_sure')}, :method => :delete, :class => 'icon icon-trash' %>
-        <%= link_to '', admin_forums_merge_path(forum.forum_id), :class => 'icon icon-share' %>
+        <%= link_to '', edit_admin_forum_path(forum.forum_id), :class => "icon icon-edit", title: t('views.edit_forum') %>
+        <%= link_to '', admin_forum_path(forum.forum_id), data: {confirm: t('views.are_you_sure')}, :method => :delete, :class => 'icon icon-trash', title: t('views.delete_forum') %>
+        <%= link_to '', admin_forums_merge_path(forum.forum_id), :class => 'icon icon-share', title: t('views.merge_forum') %>
       </td>
     </tr>
     <% end %>

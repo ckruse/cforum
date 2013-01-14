@@ -19,7 +19,7 @@
       <td><a href="<%= n.path %>"><%= n.subject %></a></td>
       <td><%= l(n.created_at) %></td>
       <td>
-        <%= link_to '', notification_path(n), :method => :delete, data: {confirm: t('views.are_you_sure')}, :class => 'icon icon-trash' %>
+        <%= link_to '', notification_path(n), :method => :delete, data: {confirm: t('views.are_you_sure')}, :class => 'icon icon-trash', title: t('views.delete_notification') %>
       </td>
     </tr>
     <% end %>
