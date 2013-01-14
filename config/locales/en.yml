@@ -156,6 +156,9 @@ en:
     answer: Answer
     group: Group
     groups: Groups
+    forgot_your_password: Forgot your password?
+    instructions: Didn't receive confirmation instructions?
+    unlock_instructions: Didn't receive unlock instructions?
 
   options:
     errors:
