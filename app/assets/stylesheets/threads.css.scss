@@ -36,13 +36,14 @@
     font-size:0.9em;
   }
 
-  .active, .active a {
-    color:inherit;
+  .active>a, .active>header.visited h3 a, .active>header.visited h2 a, .active>header details {
+    background-color:#ddd;
+    color:#000;
   }
 
-  .active li a {
-    color:#0088cc;
-  }
+  // .active li a {
+  //   color:#0088cc;
+  // }
 
   header.visited h3 a, header.visited h2 a {
     color:#93a1a1;
