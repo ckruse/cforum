@@ -34,10 +34,6 @@ class CfUser < ActiveRecord::Base
     vals[nam.to_s] || default
   end
 
-  def to_param
-    username
-  end
-
   def self.find_first_by_auth_conditions(conditions = {})
     conditions = conditions.dup
     conditions[:active] = true

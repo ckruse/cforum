@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = CfUser.find_by_username!(params[:id])
+    @user = CfUser.find(params[:id])
     @settings = @user.settings || CfSetting.new
     @settings.options ||= {}
 
@@ -100,7 +100,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = CfUser.find_by_username!(params[:id])
+    @user = CfUser.find(params[:id])
     @settings = @user.settings || CfSetting.new
     @settings.options ||= {}
 
@@ -119,7 +119,7 @@ class UsersController < ApplicationController
     attrs.delete :active
     attrs.delete :admin
 
-    @user = CfUser.find_by_username!(params[:id])
+    @user = CfUser.find(params[:id])
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
 
     @settings = CfSetting.find_by_user_id(@user.user_id)
@@ -152,7 +152,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = CfUser.find_by_username!(params[:id])
+    @user = CfUser.find(params[:id])
 
     notification_center.notify(DESTROYING_USER, @user, @settings)
     @user.destroy
