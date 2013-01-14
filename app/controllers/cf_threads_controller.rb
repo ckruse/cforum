@@ -37,7 +37,14 @@ class CfThreadsController < ApplicationController
       end
     else
       crits << "forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = " + current_user.user_id.to_s + ")" if current_user
-      crits << "forum_id IN (SELECT forum_id FROM forums WHERE standard_permission = '" + CfForumGroupPermission::ACCESS_READ + "' OR standard_permission = '" + CfForumGroupPermission::ACCESS_WRITE + "')"
+      crits << "forum_id IN (SELECT forum_id FROM forums WHERE standard_permission IN ('" +
+        CfForumGroupPermission::ACCESS_READ + "','" +
+        CfForumGroupPermission::ACCESS_WRITE +
+          (current_user ? ("', '" +
+                           CfForumGroupPermission::ACCESS_KNOWN_WRITE + "','" +
+                           CfForumGroupPermission::ACCESS_KNOWN_READ) : ""
+          ) + 
+        "'))"
 
       crits = ["(" + crits.join(" OR ") + ")"]
 
@@ -187,9 +194,7 @@ class CfThreadsController < ApplicationController
       @forums = CfForum.order('name ASC').find :all
     else
       @forums = CfForum.where(
-        "(standard_permission = ? OR standard_permission = ?) OR forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ? AND permission = ?)",
-        CfForumGroupPermission::ACCESS_READ,
-        CfForumGroupPermission::ACCESS_WRITE,
+        "forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ? AND permission = ?)",
         current_user.user_id,
         CfForumGroupPermission::ACCESS_MODERATE
       ).order('name ASC').all

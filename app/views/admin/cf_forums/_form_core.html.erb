@@ -24,7 +24,13 @@
   <div class="control-group">
     <%= f.label :standard_permissions, :class => 'control-label' %>
     <div class="controls">
-      <%= f.select :standard_permission, [['Kein Zugriff', 'private'], ['Lesen', CfForumGroupPermission::ACCESS_READ], ['Schreiben', CfForumGroupPermission::ACCESS_WRITE]] %>
+      <%= f.select :standard_permission, [
+        ['Kein Zugriff', 'private'],
+        ['Lesen', CfForumGroupPermission::ACCESS_READ],
+        ['Schreiben', CfForumGroupPermission::ACCESS_WRITE],
+        ['Lesen nach Anmeldung', CfForumGroupPermission::ACCESS_KNOWN_READ],
+        ['Schreiben nach Anmeldung', CfForumGroupPermission::ACCESS_KNOWN_WRITE]
+      ] %>
     </div>
   </div>
 
