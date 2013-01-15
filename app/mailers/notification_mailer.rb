@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
 class NotificationMailer < ActionMailer::Base
-  default from: "cforum@wwwtech.de"
-
   def new_notification(opts)
     @opts = opts
 
     mail(
+      from: Rails.application.mail_sender,
       to: opts[:user].email,
       subject: opts[:subject]
     )

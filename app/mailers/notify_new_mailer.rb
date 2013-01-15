@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 class NotifyNewMailer < ActionMailer::Base
-  default from: "cforum@wwwtech.de"
-
   def new_message(user, thread, parent, message, url)
     @user    = user
     @thread  = thread
@@ -11,6 +9,7 @@ class NotifyNewMailer < ActionMailer::Base
     @url     = url
 
     mail(
+      from: Rails.application.mail_sender,
       to: user.email,
       subject: I18n.t(
         'notifications.new_message',
@@ -28,6 +27,7 @@ class NotifyNewMailer < ActionMailer::Base
     @url     = url
 
     mail(
+      from: Rails.application.mail_sender,
       to: user.email,
       subject: I18n.t(
         'notifications.new_answer',

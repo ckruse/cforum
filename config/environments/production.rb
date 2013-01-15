@@ -61,4 +61,6 @@ Cforum::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
+  config.mail_sender = 'cforum@wwwtech.de'
+
 end

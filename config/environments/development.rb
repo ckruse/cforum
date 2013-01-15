@@ -45,5 +45,6 @@ Cforum::Application.configure do
 #    #password: ENV["GMAIL_PASSWORD"]
   }
 
+  config.mail_sender = 'cforum@wwwtech.de'
 
 end
