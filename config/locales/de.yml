@@ -167,6 +167,7 @@ de:
     instructions: Bestätigungs-Mail nicht bekommen?
     unlock_instructions: Entsperr-Instruktionen nicht bekommen?
     send: Senden
+    standard_thread_view: Standard-Ansicht für Threads
 
   notifications:
     new_mail: "Neue Nachricht von %{user}: %{subject}"

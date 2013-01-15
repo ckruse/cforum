@@ -1,6 +1,7 @@
 <%
   def message_header(thread, message, opts = {})
     opts = {first: false, prev_deleted: false, show_icons: false}.merge(opts)
+    nested = uconf('standard_view', 'thread-view') == 'nested-view'
 
     classes = []
     classes += message.attribs['classes']
@@ -8,6 +9,7 @@
 
     html = "<header"
     html << ' class="' + classes.join(" ") + '"' unless classes.blank?
+    html << ' id="m' + message.message_id.to_s + '"' if nested
     html << ">\n"
 
     if opts[:first] and current_user and opts[:show_icons]
@@ -47,10 +49,10 @@
           "</span>)</span>"
       end
 
-      html << "  <h2>" + link_to(message.subject, cf_message_path(thread, message)) + "</h2>"
+      html << "  <h2>" + link_to(message.subject, cf_message_path(thread, message) + '#m' + message.message_id.to_s) + "</h2>"
     else
       if thread.thread_id and message.message_id
-        html << "  <h3>" + link_to(message.subject, cf_message_path(thread, message)) + "</h3>"
+        html << "  <h3>" + link_to(message.subject, cf_message_path(thread, message) + '#m' + message.message_id.to_s) + "</h3>"
       else
         html << "  <h3>" + message.subject + "</h3>"
       end

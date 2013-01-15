@@ -166,6 +166,7 @@ en:
     forgot_your_password: Forgot your password?
     instructions: Didn't receive confirmation instructions?
     unlock_instructions: Didn't receive unlock instructions?
+    standard_thread_view: Standard view for threads
 
   options:
     errors:
