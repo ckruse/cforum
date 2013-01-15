@@ -23,6 +23,11 @@ class UserDataPlugin < Plugin
       msg.content = greeting + "\n" + msg.content unless greeting.blank?
       msg.content = msg.content + "\n" + farewell unless farewell.blank?
       msg.content = msg.content + "\n-- \n" + signature unless signature.blank?
+
+    else
+      msg.author    ||= cookies[:cforum_author]
+      msg.email     ||= cookies[:cforum_email]
+      msg.homepage  ||= cookies[:cforum_homepage]
     end
   end
 

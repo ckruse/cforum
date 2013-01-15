@@ -155,8 +155,12 @@ class CfThreadsController < ApplicationController
     @preview = true if params[:preview]
 
     unless current_user
-      cookies[:cforum_user] = request.uuid if cookies[:cforum_user].blank?
+      cookies[:cforum_user] = {value: request.uuid, expires: 1.year.from_now} if cookies[:cforum_user].blank?
       @message.uuid = cookies[:cforum_user]
+
+      cookies[:cforum_author]   = {value: @message.author, expires: 1.year.from_now}
+      cookies[:cforum_email]    = {value: @message.email, expires: 1.year.from_now}
+      cookies[:cforum_homepage] = {value: @message.homepage, expires: 1.year.from_now}
     end
 
     saved = false

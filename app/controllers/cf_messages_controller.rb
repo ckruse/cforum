@@ -82,8 +82,12 @@ class CfMessagesController < ApplicationController
     retvals = notification_center.notify(CREATING_NEW_MESSAGE, @thread, @parent, @message)
 
     unless current_user
-      cookies[:cforum_user] = request.uuid if cookies[:cforum_user].blank?
+      cookies[:cforum_user] = {value: request.uuid, expires: 1.year.from_now} if cookies[:cforum_user].blank?
       @message.uuid = cookies[:cforum_user]
+
+      cookies[:cforum_author]   = {value: @message.author, expires: 1.year.from_now}
+      cookies[:cforum_email]    = {value: @message.email, expires: 1.year.from_now}
+      cookies[:cforum_homepage] = {value: @message.homepage, expires: 1.year.from_now}
     end
 
     if not invalid and not retvals.include?(false) and not @preview and @message.save
