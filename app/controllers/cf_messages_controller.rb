@@ -32,6 +32,12 @@ class CfMessagesController < ApplicationController
         n.save!
       end
     end
+
+    if uconf('standard_view', 'thread-view') == 'thread-view'
+      render 'show-thread'
+    else
+      render 'show-nested'
+    end
   end
 
   def new
