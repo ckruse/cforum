@@ -82,35 +82,40 @@ class MailsController < ApplicationController
 
     @mail.body      = content_to_internal(@mail.body, uconf('quote_char', '> '))
 
-    recipient = CfUser.find(@mail.recipient_id)
-
-    @mail_recipient           = CfPrivMessage.new(params[:cf_priv_message])
-    @mail_recipient.sender_id = current_user.user_id
-    @mail_recipient.owner_id  = recipient.user_id
-    @mail_recipient.body      = content_to_internal(@mail_recipient.body, uconf('quote_char', '> '))
-
     saved = false
-    CfPrivMessage.transaction do
-      if @mail.save
-        saved = @mail_recipient.save
+    if not @mail.recipient_id.blank?
+      recipient = CfUser.find(@mail.recipient_id)
+
+      @mail_recipient           = CfPrivMessage.new(params[:cf_priv_message])
+      @mail_recipient.sender_id = current_user.user_id
+      @mail_recipient.owner_id  = recipient.user_id
+      @mail_recipient.body      = content_to_internal(@mail_recipient.body, uconf('quote_char', '> '))
+
+      CfPrivMessage.transaction do
+        if @mail.save
+          saved = @mail_recipient.save
+        end
+
+        if saved
+          notify_user(
+            user: recipient,
+            hook: 'notify_on_new_mail',
+            subject: t('notifications.new_mail',
+              user: current_user.username,
+              subject: @mail.subject),
+            path: mail_path(current_user.username, @mail_recipient),
+            oid: @mail_recipient.priv_message_id,
+            otype: 'mails:create',
+            icon: 'icon-envelope',
+            body: message_to_txt(@mail.body)
+          )
+        end
+
+        raise ActiveRecord::Rollback.new unless saved
       end
 
-      if saved
-        notify_user(
-          user: recipient,
-          hook: 'notify_on_new_mail',
-          subject: t('notifications.new_mail',
-            user: current_user.username,
-            subject: @mail.subject),
-          path: mail_path(current_user.username, @mail_recipient),
-          oid: @mail_recipient.priv_message_id,
-          otype: 'mails:create',
-          icon: 'icon-envelope',
-          body: message_to_txt(@mail.body)
-        )
-      end
-
-      raise ActiveRecord::Rollback.new unless saved
+    else
+      flash[:error] = t('mails.define_recipient_please')
     end
 
     respond_to do |format|

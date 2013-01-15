@@ -54,6 +54,7 @@ de:
     destroyed: Die Nachricht wurde erfolgreich gelöscht.
     sent: Die Nachricht wurde erfolgreich verschickt.
     error_message: "Fehler verhinderten, dass diese Nachricht gespeichert werden konnte:"
+    define_recipient_please: Bitte geben Sie einen Empfänger an!
 
   views:
     delete_read_notifications: Gelesene Benachrichtigungen automatisch löschen

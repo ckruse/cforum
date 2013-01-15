@@ -158,6 +158,15 @@ class MailsControllerTest < ActionController::TestCase
     assert_redirected_to mails_url
   end
 
+  test "should not create because of empty recipients" do
+    usr = FactoryGirl.create(:cf_user)
+    sign_in usr
+
+    assert_no_difference 'CfPrivMessage.count' do
+      post :create, cf_priv_message: {subject: 'You are my only hope!', body: 'Help me, Obi-Wan Kenobi! You are my only hope!'}
+    end
+  end
+
 end
 
 # eof

@@ -67,6 +67,7 @@ en:
     destroyed: The message has successfully been destroyed.
     sent: The message has successfully been sent.
     error_message: "Errors prohibited this message from being saved:"
+    define_recipient_please: Please specify an recipient!
 
   notifications:
     new_mail: "New Mail from %{user}: %{subject}"
