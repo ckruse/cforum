@@ -56,6 +56,7 @@ de:
     error_message: "Fehler verhinderten, dass diese Nachricht gespeichert werden konnte:"
 
   views:
+    delete_read_notifications: Gelesene Benachrichtigungen automatisch löschen
     original_poster: Thread-Ersteller
     all_forums: Alle Foren
     max_threads: Maximal-Anzahl von Threads
@@ -154,7 +155,7 @@ de:
     readability_overview: Lesbarkeit/Übersicht
     comma_seperated_list: Komma-separierte Liste
     personalization: Personalisierung
-    notify_on_new_mail: Benachrichtig bei neuer Post
+    notify_on_new_mail: Benachrichtigung bei neuer Post
     answer: Antworten
     group: Gruppe
     groups: Gruppen

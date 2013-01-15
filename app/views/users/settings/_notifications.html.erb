@@ -2,6 +2,14 @@
   <legend><%= t('views.notifications') %></legend>
 
   <div class="control-group">
+    <label class="control-label"><%= t('views.delete_read_notifications') %></label>
+    <div class="controls">
+      <input type="hidden" name="settings[delete_read_notifications]" value="no">
+      <label class="checkbox"><input type="checkbox" value="yes" name="settings[delete_read_notifications]"<%= disabled %><% if @settings.conf('delete_read_notifications') == 'yes' %> checked="checked"<% end %>></label>
+    </div>
+  </div>
+
+  <div class="control-group">
     <label class="control-label"><%= t('views.notify_on_new_mail') %></label>
     <div class="controls">
       <label class="radio"><input type="radio" value="yes" name="settings[notify_on_new_mail]"<%= disabled %><% if @settings.conf('notify_on_new_mail') == 'yes' %> checked="checked"<% end %>> <%= t("views.yeah") %></label>
