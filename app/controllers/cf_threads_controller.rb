@@ -88,18 +88,6 @@ class CfThreadsController < ApplicationController
     notification_center.notify(SHOW_THREADLIST, @threads)
   end
 
-  def show
-    @id = CfThread.make_id(params)
-
-    conditions = {slug: @id}
-    conditions[:messages] = {deleted: false} unless @view_all
-
-    @thread = CfThread.includes(:messages => :owner).where(conditions).first
-    raise CForum::NotFoundException.new if @thread.blank?
-
-    notification_center.notify(SHOW_THREAD, @thread)
-  end
-
   # TODO: implement editing
   # def edit
   #   @id = CfThread.make_id(params)
