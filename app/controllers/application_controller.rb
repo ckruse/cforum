@@ -26,6 +26,9 @@ class ApplicationController < ActionController::Base
   # Plugins
   #
 
+  def get_cookies
+    cookies
+  end
 
   def run_before_handler
     notification_center.notify(BEFORE_HANDLER)

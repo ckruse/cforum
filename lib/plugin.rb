@@ -38,6 +38,10 @@ class Plugin
     @app_controller.params
   end
 
+  def cookies
+    @app_controller.get_cookies
+  end
+
   def conf(name, default = nil)
     @app_controller.conf(name, default)
   end
