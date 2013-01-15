@@ -5,7 +5,7 @@ class NotificationMailer < ActionMailer::Base
     @opts = opts
 
     mail(
-      from: Rails.application.mail_sender,
+      from: Rails.application.config.mail_sender,
       to: opts[:user].email,
       subject: opts[:subject]
     )

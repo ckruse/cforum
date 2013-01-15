@@ -9,7 +9,7 @@ class NotifyNewMailer < ActionMailer::Base
     @url     = url
 
     mail(
-      from: Rails.application.mail_sender,
+      from: Rails.application.config.mail_sender,
       to: user.email,
       subject: I18n.t(
         'notifications.new_message',
@@ -27,7 +27,7 @@ class NotifyNewMailer < ActionMailer::Base
     @url     = url
 
     mail(
-      from: Rails.application.mail_sender,
+      from: Rails.application.config.mail_sender,
       to: user.email,
       subject: I18n.t(
         'notifications.new_answer',
