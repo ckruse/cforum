@@ -64,6 +64,8 @@
 
     if message.user_id
       html << "<span class=\"registered-user\">" + link_to('<em>Benutzer-Profil</em>'.html_safe, user_path(message.owner), :class => 'icon icon-share', title: t('views.user_link', user: message.owner.username)) + " "
+    else
+      html << '<i class="icon-exclamation-sign" title="' + t('views.original_poster') + '"> </i>' if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
     end
     html << encode_entities(message.author)
     html << '</span>' if message.user_id
