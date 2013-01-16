@@ -40,15 +40,11 @@
       html << "  " + link_to(thread.forum.short_name, cf_forum_path(thread.forum), :class => 'label label-info') + "\n"
     end
 
-    if opts[:first]
-      if thread.attribs[:msgs]
-        html << " <span class=\"msg-num\">(<span class=\"all\" title=\"" + t('views.all_msgs_num') + "\">" +
-          thread.attribs[:msgs][:all].to_s +
-          "</span>/<span class\"unread\" title=\"" + t('views.unread_messages_num') + "\">" +
-          thread.attribs[:msgs][:unread].to_s +
-          "</span>)</span>"
-      end
+    if opts[:show_icons]
+      html << ' <span class="votes" title="' + t('views.votes') + '">' + (message.upvotes - message.downvotes).to_s + '</span>'
+    end
 
+    if opts[:first]
       html << "  <h2>" + link_to(message.subject, cf_message_path(thread, message) + '#m' + message.message_id.to_s) + "</h2>"
     else
       if thread.thread_id and message.message_id
@@ -61,7 +57,17 @@
     html << %q{
   <details open>
     <summary>
-      } + t("messages.by") + %q{
+      }
+
+    if opts[:first] and thread.attribs[:msgs]
+      html << " <span class=\"msg-num\">(<span class=\"all\" title=\"" + t('views.all_msgs_num') + "\">" +
+        thread.attribs[:msgs][:all].to_s +
+        "</span>/<span class\"unread\" title=\"" + t('views.unread_messages_num') + "\">" +
+        thread.attribs[:msgs][:unread].to_s +
+        "</span>)</span>"
+    end
+
+    html << " " + t("messages.by") + %q{
       }
 
     if message.user_id
@@ -86,9 +92,17 @@
         html << "<li>" + link_to(t.tag_name, tag_path(thread.forum.slug, t)) + "</li>"
       end
 
-      # html << tag_links.join(", ")
-
       html << "</ul>"
+    end
+
+    unless opts[:show_icons]
+      html << ', <span class="votes" title="' +
+        t('views.votes') +
+        '">' +
+        (message.upvotes - message.downvotes).to_s +
+        ' ' +
+        t('views.votes') +
+        '</span>'
     end
 
     html << %q{

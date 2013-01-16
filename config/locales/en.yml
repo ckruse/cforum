@@ -167,6 +167,7 @@ en:
     instructions: Didn't receive confirmation instructions?
     unlock_instructions: Didn't receive unlock instructions?
     standard_thread_view: Standard view for threads
+    votes: Votes
 
   options:
     errors:

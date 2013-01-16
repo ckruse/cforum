@@ -144,6 +144,10 @@ class CfMessagesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def vote
+  end
+
 end
 
 SettingValidator.validators['quote_old_message'] = lambda { |nam, val| %w{yes no}.include?(val) }
