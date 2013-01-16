@@ -1,6 +1,9 @@
 # -*- encoding: utf-8 -*-
 
 class CfVote < ActiveRecord::Base
+  UPVOTE   = 'upvote'
+  DOWNVOTE = 'downvote'
+
   self.primary_key = 'vote_id'
   self.table_name  = 'votes'
 

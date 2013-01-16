@@ -153,7 +153,7 @@ class CfMessagesController < ApplicationController
     @message = @thread.find_message(params[:mid].to_i)
     raise CForum::NotFoundException.new if @message.blank?
 
-    vtype    = params[:type] == 'up' ? 'upvote' : 'downvote'
+    vtype    = params[:type] == 'up' ? CfVote::UPVOTE : CfVote::DOWNVOTE
 
     if @vote = CfVote.find_by_user_id_and_message_id(current_user.user_id, @message.message_id) and @vote.vtype == vtype
       flash[:error] = t('messages.already_voted')
@@ -165,7 +165,7 @@ class CfMessagesController < ApplicationController
       if @vote
         @vote.update_attributes(vtype: vtype)
 
-        if @vote.vtype == 'upvote'
+        if @vote.vtype == CfVote::UPVOTE
           CfVote.connection.execute "UPDATE messages SET downvotes = downvotes - 1, upvotes = upvotes + 1 WHERE message_id = " + @message.message_id.to_s
         else
           CfVote.connection.execute "UPDATE messages SET upvotes = upvotes - 1, downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
@@ -178,7 +178,7 @@ class CfMessagesController < ApplicationController
           vtype: vtype
         )
 
-        if @vote.vtype == 'upvote'
+        if @vote.vtype == CfVote::UPVOTE
           CfVote.connection.execute "UPDATE messages SET upvotes = upvotes + 1 WHERE message_id = " + @message.message_id.to_s
         else
           CfVote.connection.execute "UPDATE messages SET downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
