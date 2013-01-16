@@ -62,6 +62,8 @@ en:
     destroyed: Message was successfully destroyed!
     restored: Message was successfully restored!
     error_message: "%{errors_count} prohibited this thread from being saved:"
+    successfully_voted: You voted successfully!
+    already_voted: You already voted!
 
   mails:
     destroyed: The message has successfully been destroyed.

@@ -820,6 +820,131 @@ class CfMessagesControllerTest < ActionController::TestCase
     end
   end
 
+  test "should not vote because of anonymous" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+
+    assert_raise CForum::ForbiddenException do
+      post :vote, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s
+      }
+    end
+  end
+
+  test "should upvote" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    usr     = FactoryGirl.create(:cf_user)
+
+    sign_in usr
+
+    assert_difference 'CfVote.count' do
+      post :vote, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s,
+        type: 'up'
+      }
+    end
+
+    assert_redirected_to cf_message_url(thread, message)
+
+    message.reload
+    assert_equal 1, message.upvotes
+  end
+
+  test "should downvote" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    usr     = FactoryGirl.create(:cf_user)
+
+    sign_in usr
+
+    assert_difference 'CfVote.count' do
+      post :vote, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s,
+        type: 'down'
+      }
+    end
+
+    assert_redirected_to cf_message_url(thread, message)
+
+    message.reload
+    assert_equal 1, message.downvotes
+  end
+
+  test "should downchange vote" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, upvotes: 1)
+    usr     = FactoryGirl.create(:cf_user)
+    CfVote.create!(user_id: usr.user_id, message_id: message.message_id, vtype: 'up')
+
+    sign_in usr
+
+    assert_no_difference 'CfVote.count' do
+      post :vote, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s,
+        type: 'down'
+      }
+    end
+
+    assert_redirected_to cf_message_url(thread, message)
+
+    message.reload
+    assert_equal 0, message.upvotes
+    assert_equal 1, message.downvotes
+  end
+
+  test "should upchange vote" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, downvotes: 1)
+    usr     = FactoryGirl.create(:cf_user)
+    CfVote.create!(user_id: usr.user_id, message_id: message.message_id, vtype: 'down')
+
+    sign_in usr
+
+    assert_no_difference 'CfVote.count' do
+      post :vote, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s,
+        type: 'up'
+      }
+    end
+
+    assert_redirected_to cf_message_url(thread, message)
+
+    message.reload
+    assert_equal 1, message.upvotes
+    assert_equal 0, message.downvotes
+  end
+
 end
 
 # eof

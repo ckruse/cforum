@@ -52,6 +52,10 @@ module CForum
       cf_message_path(thread, message) + "/restore" + query_string(args)
     end
 
+    def vote_cf_message_path(thread, message, args = {})
+      cf_message_path(thread, message) + "/vote" + query_string(args)
+    end
+
     def cf_forum_url(forum, args = {})
       forum = forum.slug unless forum.is_a?(String)
       return root_url + forum + query_string(args)

@@ -146,6 +146,49 @@ class CfMessagesController < ApplicationController
   end
 
   def vote
+    raise CForum::ForbiddenException.new if current_user.blank?
+
+    @id      = CfThread.make_id(params)
+    @thread  = CfThread.includes(:messages, :forum).find_by_slug!(@id)
+    @message = @thread.find_message(params[:mid].to_i)
+    raise CForum::NotFoundException.new if @message.blank?
+
+    vtype    = params[:type] == 'up' ? 'upvote' : 'downvote'
+
+    if @vote = CfVote.find_by_user_id_and_message_id(current_user.user_id, @message.message_id) and @vote.vtype == vtype
+      flash[:error] = t('messages.already_voted')
+      redirect_to cf_message_url(@thread, @message)
+      return
+    end
+
+    CfVote.transaction do
+      if @vote
+        @vote.update_attributes(vtype: vtype)
+
+        if @vote.vtype == 'upvote'
+          CfVote.connection.execute "UPDATE messages SET downvotes = downvotes - 1, upvotes = upvotes + 1 WHERE message_id = " + @message.message_id.to_s
+        else
+          CfVote.connection.execute "UPDATE messages SET upvotes = upvotes - 1, downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
+        end
+
+      else
+        @vote = CfVote.create!(
+          user_id: current_user.user_id,
+          message_id: @message.message_id,
+          vtype: vtype
+        )
+
+        if @vote.vtype == 'upvote'
+          CfVote.connection.execute "UPDATE messages SET upvotes = upvotes + 1 WHERE message_id = " + @message.message_id.to_s
+        else
+          CfVote.connection.execute "UPDATE messages SET downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
+        end
+      end
+
+    end
+
+    flash[:notice] = t('messages.successfully_voted')
+    redirect_to cf_message_url(@thread, @message)
   end
 
 end

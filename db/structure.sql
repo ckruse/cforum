@@ -1012,6 +1012,37 @@ ALTER SEQUENCE users_user_id_seq OWNED BY users.user_id;
 
 
 --
+-- Name: votes; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE votes (
+    vote_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    message_id bigint NOT NULL,
+    vtype character varying(50) NOT NULL
+);
+
+
+--
+-- Name: votes_vote_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE votes_vote_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: votes_vote_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE votes_vote_id_seq OWNED BY votes.vote_id;
+
+
+--
 -- Name: count_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -1121,6 +1152,13 @@ ALTER TABLE ONLY threads ALTER COLUMN thread_id SET DEFAULT nextval('threads_thr
 --
 
 ALTER TABLE ONLY users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_seq'::regclass);
+
+
+--
+-- Name: vote_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY votes ALTER COLUMN vote_id SET DEFAULT nextval('votes_vote_id_seq'::regclass);
 
 
 --
@@ -1249,6 +1287,14 @@ ALTER TABLE ONLY threads
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: votes_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY votes
+    ADD CONSTRAINT votes_pkey PRIMARY KEY (vote_id);
 
 
 --
@@ -1480,6 +1526,13 @@ CREATE UNIQUE INDEX users_reset_password_token_idx ON users USING btree (reset_p
 --
 
 CREATE UNIQUE INDEX users_username_idx ON users USING btree (username);
+
+
+--
+-- Name: votes_user_id_message_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX votes_user_id_message_id_idx ON votes USING btree (user_id, message_id);
 
 
 --
@@ -1765,6 +1818,22 @@ ALTER TABLE ONLY threads
 
 
 --
+-- Name: votes_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY votes
+    ADD CONSTRAINT votes_message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: votes_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY votes
+    ADD CONSTRAINT votes_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -1817,6 +1886,8 @@ INSERT INTO schema_migrations (version) VALUES ('3');
 INSERT INTO schema_migrations (version) VALUES ('30');
 
 INSERT INTO schema_migrations (version) VALUES ('31');
+
+INSERT INTO schema_migrations (version) VALUES ('32');
 
 INSERT INTO schema_migrations (version) VALUES ('4');
 
