@@ -167,8 +167,18 @@ class CfMessagesController < ApplicationController
 
         if @vote.vtype == CfVote::UPVOTE
           CfVote.connection.execute "UPDATE messages SET downvotes = downvotes - 1, upvotes = upvotes + 1 WHERE message_id = " + @message.message_id.to_s
+
+          unless @message.user_id.blank?
+            CfScore.delete_all(['user_id = ? AND vote_id = ?', current_user.user_id, @vote.vote_id])
+            CfScore.update_all(['value = ?', Rails.application.config.vote_up_value], ['user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id])
+          end
         else
           CfVote.connection.execute "UPDATE messages SET upvotes = upvotes - 1, downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
+
+          unless @message.user_id.blank?
+            CfScore.update_all(['value = ?', Rails.application.confing.vote_down_value], ['user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id])
+            CfScore.create!(user_id: current_user.user_id, vote_id: @vote.vote_id, value: Rails.application.config.vote_down_value)
+          end
         end
 
       else
@@ -177,6 +187,22 @@ class CfMessagesController < ApplicationController
           message_id: @message.message_id,
           vtype: vtype
         )
+
+        unless @message.user_id.blank?
+          CfScore.create!(
+            user_id: @message.user_id,
+            vote_id: @vote.vote_id,
+            value: vtype == CfVote::UPVOTE ? Rails.application.config.vote_up_value : Rails.application.config.vote_down_value
+          )
+
+          if vtype == CfVote::DOWNVOTE
+            CfScore.create!(
+              user_id: current_user.user_id,
+              vote_id: @vote.vote_id,
+              value: Rails.application.config.vote_down_value
+            )
+          end
+        end
 
         if @vote.vtype == CfVote::UPVOTE
           CfVote.connection.execute "UPDATE messages SET upvotes = upvotes + 1 WHERE message_id = " + @message.message_id.to_s

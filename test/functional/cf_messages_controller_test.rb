@@ -945,6 +945,86 @@ class CfMessagesControllerTest < ActionController::TestCase
     assert_equal 0, message.downvotes
   end
 
+
+  test "vote up should score x points to bevoted user" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, downvotes: 1)
+    usr     = FactoryGirl.create(:cf_user)
+
+    sign_in usr
+
+    assert_difference 'CfScore.count' do
+      post :vote, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s,
+        type: 'up'
+      }
+    end
+
+    s = CfScore.first
+    assert_equal Rails.application.config.vote_up_value, s.value
+  end
+
+  test "vote down should score -x points to bevoted user and voter" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, downvotes: 1)
+    usr     = FactoryGirl.create(:cf_user)
+
+    sign_in usr
+
+    assert_difference 'CfScore.count', 2 do
+      post :vote, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s,
+        type: 'down'
+      }
+    end
+
+    s = CfScore.find_by_user_id! usr.user_id
+    assert_equal Rails.application.config.vote_down_value, s.value
+
+    s = CfScore.find_by_user_id! message.user_id
+    assert_equal Rails.application.config.vote_down_value, s.value
+  end
+
+  test "revote up should score x points to bevoted user and remove -score from voter" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, downvotes: 1)
+    usr     = FactoryGirl.create(:cf_user)
+
+    v = CfVote.create!(user_id: usr.user_id, message_id: message.message_id, vtype: CfVote::DOWNVOTE)
+    CfScore.create!(user_id: usr.user_id, vote_id: v.vote_id, value: Rails.application.config.vote_down_value)
+    CfScore.create!(user_id: message.user_id, vote_id: v.vote_id, value: Rails.application.config.vote_down_value)
+
+    sign_in usr
+
+    assert_difference 'CfScore.count', -1 do
+      post :vote, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s,
+        type: 'up'
+      }
+    end
+
+    s = CfScore.first
+    assert_equal Rails.application.config.vote_up_value, s.value
+  end
+
 end
 
 # eof
