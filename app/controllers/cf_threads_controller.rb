@@ -6,7 +6,6 @@ class CfThreadsController < ApplicationController
   include AuthorizeForum
 
   SHOW_THREADLIST  = "show_threadlist"
-  SHOW_THREAD      = "show_thread"
   SHOW_NEW_THREAD  = "show_new_thread"
   NEW_THREAD       = "new_thread"
   NEW_THREAD_SAVED = "new_thread_saved"

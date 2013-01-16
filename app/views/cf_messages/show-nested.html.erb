@@ -13,6 +13,8 @@ render 'cf_threads/thread_tree'
         <%= message_to_html(m.content) %>
       </div>
 
+      <p><%= link_to t("views.new_answer"), new_cf_message_path(@thread, @message) %></p>
+
       <% unless m.messages.blank?
         whole_thread(thread, m.messages)
       end %>
@@ -27,6 +29,8 @@ render 'cf_threads/thread_tree'
   <div class="posting-content well">
     <%= message_to_html(@thread.message.content) %>
   </div>
+
+  <p><%= link_to t("views.new_answer"), new_cf_message_path(@thread, @message) %></p>
 
   <% unless @thread.message.messages.blank? %>
     <% whole_thread(@thread, @thread.message.messages) %>

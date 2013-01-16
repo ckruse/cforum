@@ -72,7 +72,7 @@ class MarkReadPlugin < Plugin
     end
   end
 
-  def show_thread(thread)
+  def show_thread(thread, message = nil)
     return unless current_user
 
     sql = "INSERT INTO cforum.read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", "
@@ -118,7 +118,7 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
   mr_plugin = MarkReadPlugin.new(app_controller)
 
   app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, mr_plugin)
-  app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREAD, mr_plugin)
+  app_controller.notification_center.register_hook(CfMessagesController::SHOW_THREAD, mr_plugin)
   app_controller.notification_center.register_hook(CfMessagesController::SHOW_MESSAGE, mr_plugin)
 end
 

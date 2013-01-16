@@ -7,6 +7,7 @@ class CfMessagesController < ApplicationController
 
   SHOW_NEW_MESSAGE     = "show_new_message"
   SHOW_MESSAGE         = "show_message"
+  SHOW_THREAD          = "show_thread"
   CREATING_NEW_MESSAGE = "creating_new_message"
   CREATED_NEW_MESSAGE  = "created_new_message"
 
@@ -22,8 +23,6 @@ class CfMessagesController < ApplicationController
     @message = @thread.find_message(params[:mid].to_i) if @thread
     raise CForum::NotFoundException.new if @thread.nil? or @message.nil?
 
-    notification_center.notify(SHOW_MESSAGE, @thread, @message)
-
     if current_user and n = CfNotification.find_by_recipient_id_and_oid_and_otype_and_is_read(current_user.user_id, @message.message_id, 'message:create', false)
       if uconf('delete_read_notifications', 'yes') == 'yes'
         n.destroy
@@ -34,8 +33,10 @@ class CfMessagesController < ApplicationController
     end
 
     if uconf('standard_view', 'thread-view') == 'thread-view'
+      notification_center.notify(SHOW_MESSAGE, @thread, @message)
       render 'show-thread'
     else
+      notification_center.notify(SHOW_THREAD, @thread, @message)
       render 'show-nested'
     end
   end
