@@ -55,7 +55,7 @@ class CfMessagesController < ApplicationController
     @message.subject = @parent.subject
     @message.content = quote_content(@parent.content, uconf('quote_char', '> ')) if uconf('quote_old_message', 'yes') == 'yes'
 
-    notification_center.notify(SHOW_NEW_MESSAGE, @thread, @message)
+    notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
   end
 
   def create
