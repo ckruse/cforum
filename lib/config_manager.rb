@@ -6,7 +6,7 @@
 
 class ConfigManager
   def initialize
-    @value_cache = {:users => {}, :forums => {}, :global => nil}
+    @value_cache = {:users => {}, :forums => {}}
   end
 
   def read_settings(user = nil, forum = nil)
@@ -18,7 +18,7 @@ class ConfigManager
       @value_cache[:forums][forum] = CfSetting.find_by_forum_id(forum)
     end
 
-    if @value_cache[:global].blank?
+    unless @value_cache.has_key?(:global)
       @value_cache[:global] = CfSetting.where('user_id IS NULL and forum_id IS NULL').first
     end
   end
