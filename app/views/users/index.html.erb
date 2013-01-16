@@ -8,6 +8,7 @@
   <thead>
     <tr>
       <th><%= t('activerecord.attributes.cf_user.username') %></th>
+      <th><%= t('views.score') %></td>
       <th><%= t('activerecord.attributes.cf_user.admin') %></th>
       <th><%= t('activerecord.attributes.cf_user.active') %></th>
       <th><%= t('activerecord.attributes.cf_user.created_at') %></th>
@@ -19,6 +20,7 @@
     <% @users.each do |u| %>
     <tr>
       <td><%= link_to u.username, user_path(u) %></td>
+      <td><%= @scores[u.user_id] || 0 %></td>
       <td><%= u.admin ? t('views.yeah') : t('views.nope') %></td>
       <td><%= u.active ? t('views.yeah') : t('views.nope') %></td>
       <td><%= l(u.created_at) %></td>

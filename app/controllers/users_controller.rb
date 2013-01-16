@@ -24,6 +24,12 @@ class UsersController < ApplicationController
       @search_term = params[:s]
     end
 
+    scores = CfScore.select('user_id, SUM(value) AS value').where(user_id: @users.map {|u| u.user_id}).group('user_id')
+    @scores = {}
+    scores.each do |s|
+      @scores[s.user_id] = s.value
+    end
+
     respond_to do |format|
       format.html
       format.json { render json: @users }
@@ -34,6 +40,7 @@ class UsersController < ApplicationController
     @user = CfUser.find(params[:id])
     @settings = @user.settings || CfSetting.new
     @settings.options ||= {}
+    @user_score = CfScore.where(user_id: @user.user_id).sum('value')
 
     #@messages_count = CfMessage.where(user_id: @user.user_id).count()
 

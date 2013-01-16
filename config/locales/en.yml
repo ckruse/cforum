@@ -80,6 +80,7 @@ en:
 
 
   views:
+    score: Score
     delete_read_notifications: Delete read notifications
     original_poster: Original poster
     max_threads: Maximum number of threads
