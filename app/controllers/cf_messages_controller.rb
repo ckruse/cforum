@@ -153,6 +153,12 @@ class CfMessagesController < ApplicationController
     @message = @thread.find_message(params[:mid].to_i)
     raise CForum::NotFoundException.new if @message.blank?
 
+    if @message.user_id == current_user.user_id
+      flash[:error] = t('messages.do_not_vote_yourself')
+      redirect_to cf_message_url(@thread, @message)
+      return
+    end
+
     vtype    = params[:type] == 'up' ? CfVote::UPVOTE : CfVote::DOWNVOTE
 
     if @vote = CfVote.find_by_user_id_and_message_id(current_user.user_id, @message.message_id) and @vote.vtype == vtype
@@ -176,7 +182,7 @@ class CfMessagesController < ApplicationController
           CfVote.connection.execute "UPDATE messages SET upvotes = upvotes - 1, downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
 
           unless @message.user_id.blank?
-            CfScore.update_all(['value = ?', Rails.application.confing.vote_down_value], ['user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id])
+            CfScore.update_all(['value = ?', Rails.application.config.vote_down_value], ['user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id])
             CfScore.create!(user_id: current_user.user_id, vote_id: @vote.vote_id, value: Rails.application.config.vote_down_value)
           end
         end

@@ -51,6 +51,7 @@ de:
     error_message: "%{errors_count} verhinderten, dass diese Nachricht gespeichert werden konnte:"
     successfully_voted: Sie haben erfolgreich gewählt!
     already_voted: Sie haben bereits gewählt!
+    do_not_vote_yourself: Sie dürfen nicht sich selber bewerten!
 
   mails:
     destroyed: Die Nachricht wurde erfolgreich gelöscht.

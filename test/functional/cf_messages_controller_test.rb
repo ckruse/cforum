@@ -1025,6 +1025,63 @@ class CfMessagesControllerTest < ActionController::TestCase
     assert_equal Rails.application.config.vote_up_value, s.value
   end
 
+
+  test "should not upvote oneself" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    usr     = CfUser.find message.user_id
+
+    sign_in usr
+
+    assert_no_difference 'CfVote.count' do
+      assert_no_difference 'CfScore.count' do
+        post :vote, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: message.message_id.to_s,
+          type: 'up'
+        }
+      end
+    end
+
+    assert_redirected_to cf_message_url(thread, message)
+
+    message.reload
+    assert_equal 0, message.upvotes
+  end
+
+  test "should not downvote oneself" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    usr     = CfUser.find message.user_id
+
+    sign_in usr
+
+    assert_no_difference 'CfVote.count' do
+      assert_no_difference 'CfScore.count' do
+        post :vote, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: message.message_id.to_s,
+          type: 'down'
+        }
+      end
+    end
+
+    assert_redirected_to cf_message_url(thread, message)
+
+    message.reload
+    assert_equal 0, message.downvotes
+  end
+
 end
 
 # eof
