@@ -44,11 +44,11 @@ cforum.cf_threads = {
       var $this = $(this);
 
       if($.trim($this.val()) && $this.val() != ',') {
-        var val = $.trim($this.val().replace(/,.*/, '').toLowerCase());
+        var val = $.trim($this.val().replace(/[, ].*/, '').toLowerCase());
         cforum.cf_threads.tags.appendTag(val);
 
         v = $this.val();
-        $this.val(v.indexOf(",") == -1 ? '' : v.replace(/.*,?/, ''));
+        $this.val(v.indexOf(String.fromCharCode(ev.keyCode)) == -1 ? '' : v.replace(/.*[, ]?/, ''));
 
         if(ev.type == 'focusout') {
           $this.focus();
@@ -93,7 +93,7 @@ cforum.cf_threads = {
         window.clearTimeout(cforum.cf_threads.tags.autocomplete_timeout);
       }
 
-      if(ev.keyCode == 188) {
+      if(ev.keyCode == 188 || ev.keyCode == 32) {
         cforum.cf_threads.tags.addTag.call($("#tags-input"), ev);
       }
       else {
