@@ -11,6 +11,7 @@ end
 
 class ActionController::TestCase
   include Devise::TestHelpers
+  include CForum::Tools
 end
 
 # eof
