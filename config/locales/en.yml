@@ -182,7 +182,7 @@ en:
 
   plugins:
     user_data:
-      nick_is_secured: The chosen nick is already in use!
+      all: all
 
   activerecord:
     models:

@@ -2,14 +2,14 @@
 
 class UserDataPlugin < Plugin
   def show_new_thread(thread)
-    set_vars(thread.message)
+    set_vars(thread.message, nil)
   end
 
-  def show_new_message(thread, message)
-    set_vars(message)
+  def show_new_message(thread, parent, message)
+    set_vars(message, parent)
   end
 
-  def set_vars(msg)
+  def set_vars(msg, parent)
     if user = current_user
       msg.email    ||= user.conf('email')
       msg.homepage ||= user.conf('url')
@@ -20,7 +20,18 @@ class UserDataPlugin < Plugin
       farewell  = user.conf('farewell')
       signature = user.conf('signature')
 
-      msg.content = greeting + "\n" + msg.content unless greeting.blank?
+      unless greeting.blank?
+        if parent
+          greeting.gsub! /\{\$name\}/, parent.author
+          greeting.gsub! /\{\$vname\}/, parent.author.gsub(/\s.*/, '')
+        else
+          greeting.gsub! /\{\$name\}/, I18n.t('plugins.user_data.all')
+          greeting.gsub! /\{\$vname\}/, I18n.t('plugins.user_data.all')
+        end
+
+        msg.content = greeting + "\n" + msg.content
+      end
+
       msg.content = msg.content + "\n" + farewell unless farewell.blank?
       msg.content = msg.content + "\n-- \n" + signature unless signature.blank?
 
