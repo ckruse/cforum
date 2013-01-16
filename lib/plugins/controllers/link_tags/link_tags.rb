@@ -2,7 +2,7 @@
 
 class LinkTagsPlugin < Plugin
   def top_link
-    '<link rel="top" href="' + cf_forum_path(current_forum) + '" title="' + encode_entities(current_forum.name) + '">'
+    '<link rel="top" href="' + cf_forum_path(current_forum || '/all') + '" title="' + encode_entities(current_forum ? current_forum.name : 'All Forums') + '">'
   end
 
   def first_link(thread)
