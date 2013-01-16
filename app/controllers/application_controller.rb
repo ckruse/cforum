@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   include NotifyHelper
   include AuthorizeStd
 
-  before_filter :do_init, :check_forum_access, :notifications, :run_before_handler
+  before_filter :do_init, :check_forum_access, :notifications, :scores, :run_before_handler
   after_filter :run_after_handler
   protect_from_forgery
 
@@ -59,6 +59,10 @@ class ApplicationController < ActionController::Base
 
   def conf(name, default = nil)
     @config_manager.get(name, default, nil, current_forum)
+  end
+
+  def scores
+    @score = CfScore.where(user_id: current_user.user_id).sum('value') if current_user
   end
 
 end
