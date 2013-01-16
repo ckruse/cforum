@@ -840,6 +840,38 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: scores; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE scores (
+    score_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    vote_id bigint NOT NULL,
+    value integer NOT NULL,
+    created_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: scores_score_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE scores_score_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: scores_score_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE scores_score_id_seq OWNED BY scores.score_id;
+
+
+--
 -- Name: settings; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -1120,6 +1152,13 @@ ALTER TABLE ONLY read_messages ALTER COLUMN read_message_id SET DEFAULT nextval(
 
 
 --
+-- Name: score_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY scores ALTER COLUMN score_id SET DEFAULT nextval('scores_score_id_seq'::regclass);
+
+
+--
 -- Name: setting_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -1258,6 +1297,14 @@ ALTER TABLE ONLY read_messages
 
 
 --
+-- Name: scores_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY scores
+    ADD CONSTRAINT scores_pkey PRIMARY KEY (score_id);
+
+
+--
 -- Name: settings_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -1393,6 +1440,13 @@ CREATE INDEX priv_messages_sender_id_idx ON priv_messages USING btree (sender_id
 --
 
 CREATE UNIQUE INDEX read_messages_message_id_user_id_idx ON read_messages USING btree (message_id, user_id);
+
+
+--
+-- Name: scores_user_id_vote_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX scores_user_id_vote_id_idx ON scores USING btree (user_id, vote_id);
 
 
 --
@@ -1762,6 +1816,22 @@ ALTER TABLE ONLY read_messages
 
 
 --
+-- Name: scores_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY scores
+    ADD CONSTRAINT scores_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: scores_vote_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY scores
+    ADD CONSTRAINT scores_vote_id_fkey FOREIGN KEY (vote_id) REFERENCES votes(vote_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: settings_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -1888,6 +1958,8 @@ INSERT INTO schema_migrations (version) VALUES ('30');
 INSERT INTO schema_migrations (version) VALUES ('31');
 
 INSERT INTO schema_migrations (version) VALUES ('32');
+
+INSERT INTO schema_migrations (version) VALUES ('33');
 
 INSERT INTO schema_migrations (version) VALUES ('4');
 
