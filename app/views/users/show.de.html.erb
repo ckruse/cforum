@@ -71,6 +71,24 @@
     <% end %>
   </div>
 
+  <div class="well span6">
+    <h3>Bewertungen</h3>
+
+    <% if @score_msgs.blank? %>
+      <p>Bisher keine bewerteten Beiträge.</p>
+
+    <% else %>
+      <table class="score-table">
+        <% @score_msgs.each do |s| %>
+        <tr>
+          <td class="<% if s.value < 0 %>down<% else %>up<% end %>"><%= s.value %></td>
+          <td><article class="threadlist thread"><%= message_header(s.vote.message.thread, s.vote.message) %></article></td>
+        </tr>
+      <% end %>
+    </table
+    <% end %>>
+  </div>
+
 </div>
 
 <p class="form-actions">

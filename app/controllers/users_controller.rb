@@ -102,6 +102,8 @@ class UsersController < ApplicationController
       limit(10).
       all
 
+    @score_msgs = CfScore.preload(:vote => {:message => :thread}).where(:user_id => @user.user_id).limit(10).order('created_at DESC').all
+
     if (@user.confirmed_at.blank? or not @user.unconfirmed_email.blank?) and (not current_user.blank? and current_user.username == @user.username)
       flash[:error] = I18n.t('views.confirm_first')
     end

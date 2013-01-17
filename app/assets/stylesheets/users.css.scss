@@ -5,4 +5,25 @@
   }
 }
 
+.score-table {
+  td {
+    vertical-align:top;
+  }
+
+  td:first-of-type {
+    padding-right:1em;
+    text-align:right;
+  }
+
+  td.down {
+    color:#b94a48;
+    font-weight:bold;
+  }
+
+  td.up {
+    color:#468847;
+    font-weight:bold;
+  }
+}
+
 /* eof */
