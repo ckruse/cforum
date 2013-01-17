@@ -85,6 +85,12 @@ class CfThreadsController < ApplicationController
     @all_threads_count = rslt[0]['cnt'].to_i
 
     notification_center.notify(SHOW_THREADLIST, @threads)
+
+    respond_to do |format|
+      format.html
+      format.rss
+      format.atom
+    end
   end
 
   # TODO: implement editing

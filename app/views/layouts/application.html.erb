@@ -10,6 +10,9 @@
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
 
+    <link rel="alternate" title="Atom Feed" type="application/atom+xml" href="<%= cf_forum_url(current_forum || 'all') %>.atom">
+    <link rel="alternate" title="RSS Feed" type="application/rss+xml" href="<%= cf_forum_url(current_forum || 'all') %>.rss">
+
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
