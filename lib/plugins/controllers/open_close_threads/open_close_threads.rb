@@ -11,13 +11,11 @@ class OpenCloseThreadPlugin < Plugin
     is_read = get_plugin_api :is_read
 
     unless params[:close].blank?
-      close_thread(params[:close])
-      return
+      return close_thread(params[:close])
     end
 
     unless params[:open].blank?
-      open_thread(params[:open])
-      return
+      return open_thread(params[:open])
     end
 
     ids = []
@@ -49,11 +47,13 @@ class OpenCloseThreadPlugin < Plugin
   def open_thread(tid)
     check_existance_and_delete_or_set(tid, 'open')
     redirect_to current_forum ? cf_forum_url(current_forum) : root_url + 'all'
+    return :redirected
   end
 
   def close_thread(tid)
     check_existance_and_delete_or_set(tid, 'closed')
     redirect_to current_forum ? cf_forum_url(current_forum) : root_url + 'all'
+    return :redirected
   end
 
   def check_existance_and_delete_or_set(tid, state)
