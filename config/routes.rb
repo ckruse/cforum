@@ -64,6 +64,10 @@ Cforum::Application.routes.draw do
   get '/archiv/:year/:mon/:tid' => 'cf_forums#redirect_archive'
   root to: 'cf_forums#index'
 
+  if Rails.env == 'production'
+    # default route to catch 404s
+    match '*a', :to => 'application#render_404'
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

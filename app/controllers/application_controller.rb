@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   include PluginHelper
   include NotifyHelper
   include AuthorizeStd
+  include ExceptionHelpers
 
   before_filter :do_init, :check_forum_access, :notifications, :scores, :run_before_handler
   after_filter :run_after_handler
@@ -21,6 +22,14 @@ class ApplicationController < ActionController::Base
 
   BEFORE_HANDLER = "before_handler"
   AFTER_HANDLER  = "after_handler"
+
+
+  if Rails.env == 'production'
+    rescue_from StandardError, :with => :render_500
+
+    rescue_from ActiveRecord::RecordNotFound, AbstractController::ActionNotFound, CForum::NotFoundException, :with => :render_404
+    rescue_from CForum::ForbiddenException, :with => :render_403
+  end
 
   #
   # Plugins

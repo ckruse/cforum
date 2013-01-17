@@ -1,0 +1,7 @@
+<h1>Zugriff verboten!</h1>
+
+<p>Sie haben auf eine Resource zugegriffen, auf die der Zugriff verboten ist.</p>
+
+<% unless current_user %>
+<p>Vielleicht möchten Sie sich erst <%= link_to 'einloggen', new_user_session_path %>?</p>
+<% end %>
