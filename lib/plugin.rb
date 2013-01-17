@@ -69,6 +69,10 @@ class Plugin
   def redirect_to(*args)
     @app_controller.redirect_to(*args)
   end
+
+  def t(*args)
+    I18n.t(*args)
+  end
 end
 
 # eof
