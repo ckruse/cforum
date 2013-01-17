@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 class NotifyNewMailer < ActionMailer::Base
-  def new_message(user, thread, parent, message, url)
+  def new_message(user, thread, parent, message, url, txt_content)
     @user    = user
     @thread  = thread
     @parent  = parent
     @message = message
     @url     = url
+    @txt     = txt_content
 
     mail(
       from: Rails.application.config.mail_sender,
@@ -19,12 +20,13 @@ class NotifyNewMailer < ActionMailer::Base
     )
   end
 
-  def new_answer(user, thread, parent, message, url)
+  def new_answer(user, thread, parent, message, url, txt_content)
     @user    = user
     @thread  = thread
     @parent  = parent
     @message = message
     @url     = url
+    @txt     = txt_content
 
     mail(
       from: Rails.application.config.mail_sender,

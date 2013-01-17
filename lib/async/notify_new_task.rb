@@ -25,9 +25,9 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
 
     begin
       if parent.owner and parent.owner.user_id == user.user_id
-        NotifyNewMailer.new_answer(user, thread, parent, message, cf_message_url(thread, message)).deliver
+        NotifyNewMailer.new_answer(user, thread, parent, message, cf_message_url(thread, message), message_to_txt(message.content, uconf('quote_char', user, thread.forum, '> '))).deliver
       else
-        NotifyNewMailer.new_message(user, thread, parent, message, cf_message_url(thread, message)).deliver
+        NotifyNewMailer.new_message(user, thread, parent, message, cf_message_url(thread, message), message_to_txt(message.content, uconf('quote_char', user, thread.forum, '> '))).deliver
       end
 
       @sent_mails[user.email] = true
