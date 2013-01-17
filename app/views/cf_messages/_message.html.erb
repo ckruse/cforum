@@ -5,6 +5,11 @@
   </div>
 
   <p><%= link_to t("views.new_answer"), new_cf_message_path(@thread, m) %>
-    <%= link_to '', vote_cf_message_path(@thread, m, type: 'up'), :method => :post, :class => 'icon icon-arrow-up vote vote-up' + ((@votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::UPVOTE) ? ' active' : '') %>
-    <%= link_to '', vote_cf_message_path(@thread, m, type: 'down'), :method => :post, :class => 'icon icon-arrow-down vote vote-down' + ((@votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::DOWNVOTE) ? ' active' : '') %>
+
+    <% if current_user %>
+    <%= form_tag vote_cf_message_path(@thread, m), :method => :post do %>
+    <button name="type" value="up"><i class="icon icon-arrow-up vote vote-up<% if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::UPVOTE %> active<% end %>"> </i></button>
+    <button name="type" value="down"><i class="icon icon-arrow-down vote vote-up<% if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::DOWNVOTE %> active<% end %>"> </i></button>
+    <% end
+    end %>
   </p>
