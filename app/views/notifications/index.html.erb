@@ -1,8 +1,11 @@
 <h1>Benachrichtigungen</h1>
 
+<%= form_tag notifications_path, :method => :delete, :class => 'form-horizontal' do %>
+
 <table class="table table-condensed table-striped table-hover">
   <thead>
     <tr>
+      <th><input type="checkbox" id="check-all-box"></th>
       <th> </th>
       <th> </th>
       <th>Betrifft</th>
@@ -14,6 +17,7 @@
   <tbody>
     <% @notifications.each do |n| %>
     <tr>
+      <td><input class="nid-checkbox" type="checkbox" name="ids[]" value="<%= n.notification_id %>"></td>
       <td><% unless n.is_read? %><span class="badge badge-info">&nbsp;</span><% end %></td>
       <td><% unless n.icon.blank? %><%= link_to '', n.path, :class => 'icon ' + n.icon %><% end %></td>
       <td><a href="<%= n.path %>"><%= n.subject %></a></td>
@@ -26,6 +30,12 @@
   </tbody>
 
 </table>
+
+<p class="form-actions">
+  <button class="btn btn-primary" name="delete" value="yes">Löschen</button>
+</p>
+
+<% end %>
 
 <%
 all_pages_count = (@all_notifications_count / @limit).ceil

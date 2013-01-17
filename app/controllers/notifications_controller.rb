@@ -21,6 +21,19 @@ class NotificationsController < ApplicationController
     end
   end
 
+  def batch_destroy
+    unless params[:ids].blank?
+      CfNotification.transaction do
+        @notifications = CfNotification.where(recipient_id: current_user.user_id, notification_id: params[:ids]).all
+        @notifications.each do |n|
+          n.destroy
+        end
+      end
+    end
+
+    redirect_to notifications_url, notice: t('notifications.destroyed')
+  end
+
   def destroy
     @notification = CfNotification.find_by_recipient_id_and_notification_id!(current_user.user_id, params[:id])
     @notification.destroy
