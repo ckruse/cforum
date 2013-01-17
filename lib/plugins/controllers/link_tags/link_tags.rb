@@ -47,11 +47,14 @@ class LinkTagsPlugin < Plugin
   end
 
   def show_thread(thread, message = nil)
+    msgs = []
+    to_shallow([thread.message], msgs)
+
     html = top_link
-    html << "\n" + first_link(thread)
-    html << "\n" + last_link(thread)
-    html << "\n" + next_link(thread, message)
-    html << "\n" + prev_link(thread, message)
+    html << "\n" + first_link(thread, msgs)
+    html << "\n" + last_link(thread, msgs)
+    html << "\n" + next_link(thread, msgs, message)
+    html << "\n" + prev_link(thread, msgs, message)
 
     set('link_tags', html.html_safe)
   end
