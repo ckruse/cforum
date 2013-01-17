@@ -15,6 +15,7 @@ Cforum::Application.routes.draw do
   get '/mails/:user' => 'mails#index', :as => :user_mails
   get '/mails/:user/:id' => 'mails#show', :as => :mail
   delete '/mails/:user/:id' => 'mails#destroy'
+  delete '/mails' => 'mails#batch_destroy'
 
 
   resources :users

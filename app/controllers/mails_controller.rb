@@ -141,6 +141,19 @@ class MailsController < ApplicationController
     end
   end
 
+  def batch_destroy
+    unless params[:ids].blank?
+      CfPrivMessage.transaction do
+        @mails = CfPrivMessage.where(owner_id: current_user.user_id, priv_message_id: params[:ids]).all
+        @mails.each do |m|
+          m.destroy
+        end
+      end
+    end
+
+    redirect_to notifications_url, notice: t('mails.destroyed')
+  end
+
 end
 
 # eof

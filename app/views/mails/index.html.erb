@@ -1,8 +1,11 @@
 <h1><% if @user %><%= t('views.post_from', name: @user.username) %><% else %><%= t('views.post') %><% end %></h1>
 
+<%= form_tag mails_path, :class => 'form-horizontal', :method => :delete do %>
+
 <table class="table table-condensed table-striped table-hover">
   <thead>
     <tr>
+      <th><input type="checkbox" id="check-all-box">
       <th> </th>
       <th><%= t('views.author') %></th>
       <th><%= t('views.recipient') %></th>
@@ -15,6 +18,7 @@
   <tbody>
     <% @mails.each do |m| %>
     <tr>
+      <td><input type="checkbox" name="ids[]" value="<%= m.priv_message_id %>" class="mid-checkbox"></td>
       <td class="unread-mark"><% unless m.is_read? %><span class="badge badge-info">&nbsp;</span><% end %></td>
       <td><%= link_to m.sender.username, mail_path(m.sender.username, m) %></td>
       <td><%= link_to m.recipient.username, mail_path(m.sender.username, m) %></td>
@@ -29,3 +33,9 @@
   </tbody>
 
 </table>
+
+<p class="form-actions">
+  <button class="btn btn-primary">Löschen</button>
+</p>
+
+<% end %>
