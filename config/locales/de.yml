@@ -194,6 +194,12 @@ de:
 
 
   plugins:
+    link_tags:
+      first_msg: Erste Nachricht
+      last_msg: Letzte Nachricht
+      prev_msg: Vorherige Nachricht
+      next_msg: Nächste Nachricht
+
     user_data:
       all: alle
 

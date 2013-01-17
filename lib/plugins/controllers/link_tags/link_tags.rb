@@ -1,29 +1,42 @@
 # -*- coding: utf-8 -*-
 
 class LinkTagsPlugin < Plugin
+  def to_shallow(msgs, ary)
+    msgs.each do |m|
+      ary << m
+      to_shallow(m.messages, ary) unless m.messages.blank?
+    end
+  end
+
   def top_link
     '<link rel="top" href="' + cf_forum_path(current_forum || '/all') + '" title="' + encode_entities(current_forum ? current_forum.name : 'All Forums') + '">'
   end
 
-  def first_link(thread)
-    '<link rel="first" href="' + cf_message_path(thread, thread.message) + '" title="First Message">' # TODO: Localize
+  def first_link(thread, msgs)
+    '<link rel="first" href="' + cf_message_path(thread, msgs[0]) + '" title="' + t('plugins.link_tags.first_msg') + '">'
   end
 
-  def last_link(thread)
-    '<link rel="last" href="' + cf_message_path(thread, thread.messages[-1]) + '" title="Last Message">' # TODO: Localize
+  def last_link(thread, msgs)
+    '<link rel="last" href="' + cf_message_path(thread, msgs[-1]) + '" title="' + t('plugins.link_tags.last_msg') + '">'
   end
 
-  def prev_link(thread, message)
-    thread.messages.each_with_index do |m, i|
-      return '<link rel="next" href="' + cf_message_path(thread, thread.messages[i-1]) + '" title="Previous Message">' if m.message_id == message.message_id and m.message_id != thread.message.message_id # TODO: Localize
+  def prev_link(thread, msgs, message)
+    msgs.each_with_index do |m, i|
+      if m.message_id == message.message_id
+        return '<link rel="prev" href="' + cf_message_path(thread, msgs[i - 1]) + '" title="' + t('plugins.link_tags.prev_msg') + '">' if i > 0
+        return ''
+      end
     end
 
     ''
   end
 
-  def next_link(thread, message)
-    thread.messages.each_with_index do |m, i|
-      return '<link rel="next" href="' + cf_message_path(thread, thread.messages[i+1]) + '" title="Next Message">' if m.message_id == message.message_id and m != thread.messages.last # TODO: Localize
+  def next_link(thread, msgs, message)
+    msgs.each_with_index do |m, i|
+      if m.message_id == message.message_id
+        return '<link rel="next" href="' + cf_message_path(thread, msgs[i + 1]) + '" title="' + t('plugins.link_tags.next_msg') + '">' if msgs[i + 1] # TODO: Localize
+        return ''
+      end
     end
 
     ''
@@ -37,18 +50,21 @@ class LinkTagsPlugin < Plugin
     html = top_link
     html << "\n" + first_link(thread)
     html << "\n" + last_link(thread)
-    html << "\n" + next_link(thread, message) if message.message_id != thread.messages[-1].message_id
-    html << "\n" + prev_link(thread, message) if message.message_id != thread.message.message_id
+    html << "\n" + next_link(thread, message)
+    html << "\n" + prev_link(thread, message)
 
     set('link_tags', html.html_safe)
   end
 
   def show_message(thread, message)
+    msgs = []
+    to_shallow([thread.message], msgs)
+
     html = top_link
-    html << "\n" + first_link(thread)
-    html << "\n" + last_link(thread)
-    html << "\n" + next_link(thread, message) if message.message_id != thread.messages[-1].message_id
-    html << "\n" + prev_link(thread, message) if message.message_id != thread.message.message_id
+    html << "\n" + first_link(thread, msgs)
+    html << "\n" + last_link(thread, msgs)
+    html << "\n" + next_link(thread, msgs, message)
+    html << "\n" + prev_link(thread, msgs, message)
 
     set('link_tags', html.html_safe)
   end
