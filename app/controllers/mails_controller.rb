@@ -151,7 +151,7 @@ class MailsController < ApplicationController
       end
     end
 
-    redirect_to notifications_url, notice: t('mails.destroyed')
+    redirect_to mails_url, notice: t('mails.destroyed')
   end
 
 end
