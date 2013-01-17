@@ -53,6 +53,8 @@ class MailsController < ApplicationController
         @mail.save!
 
         if n = CfNotification.find_by_recipient_id_and_oid_and_otype_and_is_read(current_user.user_id, @mail.priv_message_id, 'mails:create', false)
+          @new_notifications -= [n]
+
           if uconf('delete_read_notifications', 'yes') == 'yes'
             n.destroy
           else

@@ -24,6 +24,8 @@ class CfMessagesController < ApplicationController
     raise CForum::NotFoundException.new if @thread.nil? or @message.nil?
 
     if current_user and n = CfNotification.find_by_recipient_id_and_oid_and_otype_and_is_read(current_user.user_id, @message.message_id, 'message:create', false)
+      @new_notifications -= [n]
+
       if uconf('delete_read_notifications', 'yes') == 'yes'
         n.destroy
       else
