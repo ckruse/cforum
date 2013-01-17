@@ -23,14 +23,24 @@ class CfMessagesController < ApplicationController
     @message = @thread.find_message(params[:mid].to_i) if @thread
     raise CForum::NotFoundException.new if @thread.nil? or @message.nil?
 
-    if current_user and n = CfNotification.find_by_recipient_id_and_oid_and_otype_and_is_read(current_user.user_id, @message.message_id, 'message:create', false)
-      @new_notifications -= [n]
+    if current_user
+      if n = CfNotification.find_by_recipient_id_and_oid_and_otype_and_is_read(current_user.user_id, @message.message_id, 'message:create', false)
+        @new_notifications -= [n]
 
-      if uconf('delete_read_notifications', 'yes') == 'yes'
-        n.destroy
-      else
-        n.is_read = true
-        n.save!
+        if uconf('delete_read_notifications', 'yes') == 'yes'
+          n.destroy
+        else
+          n.is_read = true
+          n.save!
+        end
+      end
+
+      mids = @thread.messages.map {|m| m.message_id}
+      votes = CfVote.where(user_id: current_user.user_id, message_id: mids).all
+      @votes = {}
+
+      votes.each do |v|
+        @votes[v.message_id] = v
       end
     end
 

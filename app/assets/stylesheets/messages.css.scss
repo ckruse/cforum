@@ -59,4 +59,11 @@ body[data-controller="messages"][data-action="new"] {
   font-size:0.9em;
 }
 
+.vote {
+  color:inherit;
+}
+.vote.active {
+  color:#b94a48;
+}
+
 /* eof */
