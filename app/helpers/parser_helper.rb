@@ -96,7 +96,7 @@ module ParserHelper
     return nil
   end
 
-  def parse_tag(txt, html, i, format = :html)
+  def parse_tag(txt, html, i, format = :html, quote_char = nil)
     tag_name = ""
     args     = []
 
@@ -130,7 +130,7 @@ module ParserHelper
         if format == :html
           k = message_to_html_internal(txt[(j+1)..-1], content, tag_name)
         else
-          k = message_to_txt_internal(txt[(j+1)..-1], content, tag_name)
+          k = message_to_txt_internal(txt[(j+1)..-1], content, tag_name, quote_char)
         end
       end
 
@@ -142,7 +142,7 @@ module ParserHelper
           if format == :html
             message_to_html_internal(output.html_safe, html, tag_name)
           else
-            message_to_txt_internal(output.html_safe, html, tag_name)
+            message_to_txt_internal(output.html_safe, html, tag_name, quote_char)
           end
         else
           html << output
@@ -268,14 +268,14 @@ module ParserHelper
     html.html_safe
   end
 
-  def message_to_txt(msg)
+  def message_to_txt(msg, quote_char = nil)
     txt = ""
-    message_to_txt_internal(msg, txt)
+    message_to_txt_internal(msg, txt, nil, quote_char)
     txt
   end
 
-  def message_to_txt_internal(txt, html, return_on = nil)
-    quote_char = uconf('quote_char', '> ')
+  def message_to_txt_internal(txt, html, return_on = nil, quote_char = nil)
+    quote_char = uconf('quote_char', '> ') unless quote_char
 
     quotes  = 0
     max_len = txt.length
@@ -299,7 +299,7 @@ module ParserHelper
           end
         else
           content = ""
-          if j = parse_tag(txt, content, i, :txt)
+          if j = parse_tag(txt, content, i, :txt, quote_char)
             i = j
             html << content
           else
