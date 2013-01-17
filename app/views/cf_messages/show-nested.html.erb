@@ -7,16 +7,7 @@ render 'cf_threads/thread_tree'
   <ol class="answers">
     <% messages.each do |m| %>
     <li>
-      <%= message_header(thread, m) %>
-
-      <div class="posting-content well">
-        <%= message_to_html(m.content) %>
-      </div>
-
-      <p><%= link_to t("views.new_answer"), new_cf_message_path(@thread, m) %>
-        <%= link_to '', vote_cf_message_path(@thread, m, type: 'up'), :method => :post, :class => 'icon icon-arrow-up' %>
-        <%= link_to '', vote_cf_message_path(@thread, m, type: 'down'), :method => :post, :class => 'icon icon-arrow-down' %>
-      </p>
+      <%= render 'message', m: m, first: false %>
 
       <% unless m.messages.blank?
         whole_thread(thread, m.messages)
@@ -27,16 +18,7 @@ render 'cf_threads/thread_tree'
 <% end %>
 
 <article class="thread">
-  <%= message_header(@thread, @thread.message, first: true) %>
-
-  <div class="posting-content well">
-    <%= message_to_html(@thread.message.content) %>
-  </div>
-
-  <p><%= link_to t("views.new_answer"), new_cf_message_path(@thread, @thread.message) %>
-    <%= link_to '', vote_cf_message_path(@thread, @thread.message, type: 'up'), :method => :post, :class => 'icon icon-arrow-up' %>
-    <%= link_to '', vote_cf_message_path(@thread, @thread.message, type: 'down'), :method => :post, :class => 'icon icon-arrow-down' %>
-  </p>
+  <%= render 'message', m: @thread.message, first: true %>
 
   <% unless @thread.message.messages.blank? %>
     <% whole_thread(@thread, @thread.message.messages) %>
