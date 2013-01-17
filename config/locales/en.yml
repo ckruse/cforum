@@ -65,6 +65,7 @@ en:
     successfully_voted: You voted successfully!
     already_voted: You already voted!
     do_not_vote_yourself: You may not vote yourself!
+    vote_removed: Voting has been removed!
 
   mails:
     destroyed: The message has successfully been destroyed.

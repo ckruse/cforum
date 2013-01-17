@@ -52,6 +52,7 @@ de:
     successfully_voted: Sie haben erfolgreich gewählt!
     already_voted: Sie haben bereits gewählt!
     do_not_vote_yourself: Sie dürfen nicht sich selber bewerten!
+    vote_removed: Die Wahl wurde entfernt!
 
   mails:
     destroyed: Die Nachricht wurde erfolgreich gelöscht.
