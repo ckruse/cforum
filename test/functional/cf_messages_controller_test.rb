@@ -991,7 +991,7 @@ class CfMessagesControllerTest < ActionController::TestCase
     end
 
     s = CfScore.find_by_user_id! usr.user_id
-    assert_equal Rails.application.config.vote_down_value, s.value
+    assert_equal -Rails.application.config.vote_down_value, s.value
 
     s = CfScore.find_by_user_id! message.user_id
     assert_equal Rails.application.config.vote_down_value, s.value
