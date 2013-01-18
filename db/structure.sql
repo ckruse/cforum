@@ -221,34 +221,6 @@ $$;
 
 
 --
--- Name: count_threads_tag_delete_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
---
-
-CREATE FUNCTION count_threads_tag_delete_trigger() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$
-BEGIN
-  UPDATE tags SET num_threads = num_threads - 1 WHERE tag_id = OLD.tag_id;
-  RETURN NULL;
-END;
-$$;
-
-
---
--- Name: count_threads_tag_insert_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
---
-
-CREATE FUNCTION count_threads_tag_insert_trigger() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$
-BEGIN
-  UPDATE tags SET num_threads = num_threads + 1 WHERE tag_id = NEW.tag_id;
-  RETURN NEW;
-END;
-$$;
-
-
---
 -- Name: count_threads_truncate_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
 --
 
@@ -661,6 +633,36 @@ ALTER SEQUENCE messages_message_id_seq OWNED BY messages.message_id;
 
 
 --
+-- Name: messages_tags; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE messages_tags (
+    message_tag_id bigint NOT NULL,
+    message_id bigint NOT NULL,
+    tag_id bigint NOT NULL
+);
+
+
+--
+-- Name: messages_tags_message_tag_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE messages_tags_message_tag_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: messages_tags_message_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE messages_tags_message_tag_id_seq OWNED BY messages_tags.message_tag_id;
+
+
+--
 -- Name: notifications; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -908,10 +910,10 @@ ALTER SEQUENCE settings_setting_id_seq OWNED BY settings.setting_id;
 
 CREATE TABLE tags (
     tag_id bigint NOT NULL,
-    tag_name character varying(250) NOT NULL,
+    tag_name character varying NOT NULL,
+    slug character varying NOT NULL,
     forum_id bigint NOT NULL,
-    num_threads bigint DEFAULT 0 NOT NULL,
-    slug character varying(250) NOT NULL
+    num_messages bigint
 );
 
 
@@ -932,36 +934,6 @@ CREATE SEQUENCE tags_tag_id_seq
 --
 
 ALTER SEQUENCE tags_tag_id_seq OWNED BY tags.tag_id;
-
-
---
--- Name: tags_threads; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE TABLE tags_threads (
-    tag_thread_id bigint NOT NULL,
-    tag_id bigint NOT NULL,
-    thread_id bigint NOT NULL
-);
-
-
---
--- Name: tags_threads_tag_thread_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
---
-
-CREATE SEQUENCE tags_threads_tag_thread_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: tags_threads_tag_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
---
-
-ALTER SEQUENCE tags_threads_tag_thread_id_seq OWNED BY tags_threads.tag_thread_id;
 
 
 --
@@ -1117,6 +1089,13 @@ ALTER TABLE ONLY messages ALTER COLUMN message_id SET DEFAULT nextval('messages_
 
 
 --
+-- Name: message_tag_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY messages_tags ALTER COLUMN message_tag_id SET DEFAULT nextval('messages_tags_message_tag_id_seq'::regclass);
+
+
+--
 -- Name: notification_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -1170,13 +1149,6 @@ ALTER TABLE ONLY settings ALTER COLUMN setting_id SET DEFAULT nextval('settings_
 --
 
 ALTER TABLE ONLY tags ALTER COLUMN tag_id SET DEFAULT nextval('tags_tag_id_seq'::regclass);
-
-
---
--- Name: tag_thread_id; Type: DEFAULT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY tags_threads ALTER COLUMN tag_thread_id SET DEFAULT nextval('tags_threads_tag_thread_id_seq'::regclass);
 
 
 --
@@ -1254,6 +1226,14 @@ ALTER TABLE ONLY groups_users
 
 ALTER TABLE ONLY messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (message_id);
+
+
+--
+-- Name: messages_tags_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY messages_tags
+    ADD CONSTRAINT messages_tags_pkey PRIMARY KEY (message_tag_id);
 
 
 --
@@ -1471,31 +1451,17 @@ CREATE INDEX settings_user_id_idx ON settings USING btree (user_id);
 
 
 --
--- Name: tags_forum_id_slug_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: tags_forum_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX tags_forum_id_slug_idx ON tags USING btree (forum_id, slug);
-
-
---
--- Name: tags_forum_id_tag_name_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX tags_forum_id_tag_name_idx ON tags USING btree (forum_id, upper((tag_name)::text));
+CREATE INDEX tags_forum_id_idx ON tags USING btree (forum_id);
 
 
 --
--- Name: tags_threads_tag_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: tags_tag_name_forum_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE INDEX tags_threads_tag_id_idx ON tags_threads USING btree (tag_id);
-
-
---
--- Name: tags_threads_thread_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE INDEX tags_threads_thread_id_idx ON tags_threads USING btree (thread_id);
+CREATE UNIQUE INDEX tags_tag_name_forum_id_idx ON tags USING btree (tag_name, forum_id);
 
 
 --
@@ -1639,20 +1605,6 @@ CREATE TRIGGER settings_unique_check_update BEFORE UPDATE ON settings FOR EACH R
 
 
 --
--- Name: tags_threads__count_delete_trigger; Type: TRIGGER; Schema: cforum; Owner: -
---
-
-CREATE TRIGGER tags_threads__count_delete_trigger AFTER DELETE ON tags_threads FOR EACH ROW EXECUTE PROCEDURE count_threads_tag_delete_trigger();
-
-
---
--- Name: tags_threads__count_insert_trigger; Type: TRIGGER; Schema: cforum; Owner: -
---
-
-CREATE TRIGGER tags_threads__count_insert_trigger AFTER INSERT ON tags_threads FOR EACH ROW EXECUTE PROCEDURE count_threads_tag_insert_trigger();
-
-
---
 -- Name: threads__count_delete_trigger; Type: TRIGGER; Schema: cforum; Owner: -
 --
 
@@ -1733,6 +1685,22 @@ ALTER TABLE ONLY messages
 
 ALTER TABLE ONLY messages
     ADD CONSTRAINT messages_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: messages_tags_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY messages_tags
+    ADD CONSTRAINT messages_tags_message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: messages_tags_tag_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY messages_tags
+    ADD CONSTRAINT messages_tags_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES tags(tag_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -1856,22 +1824,6 @@ ALTER TABLE ONLY tags
 
 
 --
--- Name: tags_threads_tag_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY tags_threads
-    ADD CONSTRAINT tags_threads_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES tags(tag_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: tags_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
---
-
-ALTER TABLE ONLY tags_threads
-    ADD CONSTRAINT tags_threads_thread_id_fkey FOREIGN KEY (thread_id) REFERENCES threads(thread_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
 -- Name: threads_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -1960,6 +1912,8 @@ INSERT INTO schema_migrations (version) VALUES ('31');
 INSERT INTO schema_migrations (version) VALUES ('32');
 
 INSERT INTO schema_migrations (version) VALUES ('33');
+
+INSERT INTO schema_migrations (version) VALUES ('34');
 
 INSERT INTO schema_migrations (version) VALUES ('4');
 
