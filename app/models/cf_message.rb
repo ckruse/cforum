@@ -12,6 +12,9 @@ class CfMessage < ActiveRecord::Base
   belongs_to :thread, class_name: 'CfThread', :foreign_key => :thread_id
   belongs_to :forum, class_name: 'CfForum', :foreign_key => :forum_id
 
+  has_many :messages_tags, class_name: 'CfMessageTag', :foreign_key => :message_id, :dependent => :destroy
+  has_many :tags, class_name: 'CfTag', :through => :messages_tags
+
   attr_accessible :message_id, :mid, :thread_id, :subject, :content,
     :author, :email, :homepage, :deleted, :user_id, :parent_id,
     :updated_at, :created_at, :upvotes, :downvotes, :forum_id, :flags,

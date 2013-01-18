@@ -127,6 +127,22 @@ def handle_messages(old_msg, x_msg, thread)
 
   msg.save(validate: false)
 
+  if ARGV[1] != 'forums'
+    category = x_msg.find_first("./Header/Category").content.force_encoding('utf-8')
+
+    if not category.blank?
+      category = category.downcase.strip
+
+      t = CfTag.find_by_forum_id_and_tag_name thread.forum_id, category
+      t = CfTag.create!(:tag_name => category, forum_id: thread.forum_id) if t.blank?
+
+      CfMessageTag.create!(
+        tag_id: t.tag_id,
+        message_id: msg.message_id
+      )
+    end
+  end
+
   x_msg.find('./Header/Flags/Flag').each do |f|
     if f['name'] == 'UserName' then
       uname = f.content.force_encoding('utf-8')
@@ -204,16 +220,6 @@ def handle_doc(doc, opts = {})
   end
 
   thread.save
-
-  if ARGV[1] != 'forums' and not forum_name.blank?
-    t = CfTag.find_by_forum_id_and_tag_name forum.forum_id, forum_name
-    t = CfTag.create!(:tag_name => forum_name, forum_id: forum.forum_id) if t.blank?
-
-    CfTagThread.create!(
-      tag_id: t.tag_id,
-      thread_id: thread.thread_id
-    )
-  end
 
   msg = nil
   x_thread.find('./Message').each do |m|
