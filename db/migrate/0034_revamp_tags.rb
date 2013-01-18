@@ -25,6 +25,8 @@ CREATE TABLE messages_tags (
   message_id BIGINT NOT NULL REFERENCES messages(message_id) ON DELETE CASCADE ON UPDATE CASCADE,
   tag_id BIGINT NOT NULL REFERENCES tags(tag_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE INDEX messages_tags_message_id_idx ON messages_tags (message_id);
     }
   end
 

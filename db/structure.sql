@@ -1360,6 +1360,13 @@ CREATE INDEX messages_parent_id_idx ON messages USING btree (parent_id);
 
 
 --
+-- Name: messages_tags_message_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX messages_tags_message_id_idx ON messages_tags USING btree (message_id);
+
+
+--
 -- Name: messages_thread_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
