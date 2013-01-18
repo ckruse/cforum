@@ -4,6 +4,7 @@ class CfThreadsController < ApplicationController
   before_filter :authorize!
 
   include AuthorizeForum
+  include TagsHelper
 
   SHOW_THREADLIST  = "show_threadlist"
   SHOW_NEW_THREAD  = "show_new_thread"
@@ -67,8 +68,8 @@ class CfThreadsController < ApplicationController
     end
 
     @threads = CfThread.
-      preload(:forum, :tags).
-      includes(:messages => :owner).
+      preload(:forum).
+      includes(:messages => [:owner, :tags]).
       where(conditions).
       where(thread_id: ids).
       order('threads.created_at DESC').
@@ -129,7 +130,7 @@ class CfThreadsController < ApplicationController
     @message.updated_at = DateTime.now
 
     if current_user
-      @message.author     = current_user.username
+      @message.author   = current_user.username
     else
       unless CfUser.where('LOWER(username) = LOWER(?)', @message.author.strip).first.blank?
         flash[:error] = I18n.t('errors.name_taken')
@@ -137,17 +138,9 @@ class CfThreadsController < ApplicationController
       end
     end
 
-    @tags = []
-    if not params[:tags].blank?
-      @tags = (params[:tags].map {|s| s.strip.downcase}).uniq
-    # non-js variant for conservative people
-    elsif not params[:tag_list].blank?
-      @tags = (params[:tag_list].split(',').map {|s| s.strip.downcase}).uniq
-    end
-
-    retvals = notification_center.notify(NEW_THREAD, @thread, @message, @tags)
-
+    @tags    = parse_tags
     @preview = true if params[:preview]
+    retvals  = notification_center.notify(NEW_THREAD, @thread, @message, @tags)
 
     unless current_user
       cookies[:cforum_user] = {value: request.uuid, expires: 1.year.from_now} if cookies[:cforum_user].blank?
@@ -180,7 +173,7 @@ class CfThreadsController < ApplicationController
         @message.thread_id = @thread.thread_id
         raise ActiveRecord::Rollback unless @message.save
 
-        save_tags(@thread, @tags)
+        save_tags(@message, @tags)
 
         @thread.messages << @message
 
@@ -249,39 +242,6 @@ class CfThreadsController < ApplicationController
     end
   end
 
-  private
-  def save_tags(thread, tags)
-    tag_objs = []
-
-    # first check if all tags are present
-    unless tags.empty?
-      tag_objs = CfTag.where('forum_id = ? AND LOWER(tag_name) IN (?)', current_forum.forum_id, tags).all
-      tags.each do |t|
-        tag_obj = tag_objs.find {|to| to.tag_name.downcase == t}
-
-        if tag_obj.blank?
-          # create a savepoint (rails implements savepoints as nested transactions)
-          tag_obj = CfTag.create(forum_id: current_forum.forum_id, tag_name: t)
-
-          if tag_obj.tag_id.blank?
-            saved = false
-            flash[:error] = t('threads.tag_invalid')
-            raise ActiveRecord::Rollback.new
-          end
-
-          tag_objs << tag_obj
-        end
-      end
-
-      # then create the tag/thread connections
-      tag_objs.each do |to|
-        CfTagThread.create!(tag_id: to.tag_id, thread_id: thread.thread_id)
-      end
-    end
-
-    thread.tags = tag_objs
-    tag_objs
-  end # save_tags
 end
 
 # eof

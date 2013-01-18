@@ -82,13 +82,12 @@
       <time datetime="} + message.created_at.to_s + '">' + encode_entities(l(message.created_at)) + %q{</time>
     </summary>}
 
-    if opts[:first] and not thread.tags.blank?
+    unless message.tags.blank?
       html << %q{
 
     in <ul class="tags">}
 
-      # tag_links = []
-      thread.tags.each do |t|
+      message.tags.each do |t|
         html << "<li>" + link_to(t.tag_name, tag_path(thread.forum.slug, t)) + "</li>"
       end
 

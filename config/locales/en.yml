@@ -45,7 +45,6 @@ en:
   threads:
     created: Thread was successfully created.
     moved: Thread was successfully moved.
-    tags_invalid: Tag is invalid
 
     new:
       new_thread: New Thread
@@ -66,6 +65,7 @@ en:
     already_voted: You already voted!
     do_not_vote_yourself: You may not vote yourself!
     vote_removed: Voting has been removed!
+    tags_invalid: Tag is invalid
 
   mails:
     destroyed: The message has successfully been destroyed.

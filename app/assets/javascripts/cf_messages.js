@@ -1,4 +1,4 @@
-cforum.cf_threads = {
+cforum.cf_messages = {
   new: function() {
     cforum.tags.initTags();
   },

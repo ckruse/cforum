@@ -4,6 +4,7 @@ class CfMessagesController < ApplicationController
   before_filter :authorize!
 
   include AuthorizeForum
+  include TagsHelper
 
   SHOW_NEW_MESSAGE     = "show_new_message"
   SHOW_MESSAGE         = "show_message"
@@ -62,6 +63,7 @@ class CfMessagesController < ApplicationController
     raise CForum::NotFoundException.new if @thread.nil? or @parent.nil?
 
     @message = CfMessage.new
+    @tags    = @parent.tags.map {|t| t.tag_name}
 
     # inherit message and subject from previous post
     @message.subject = @parent.subject
@@ -81,13 +83,19 @@ class CfMessagesController < ApplicationController
     invalid = false
 
     @message = CfMessage.new(params[:cf_message])
+
     @message.parent_id  = @parent.message_id
     @message.forum_id   = current_forum.forum_id
     @message.user_id    = current_user.user_id unless current_user.blank?
     @message.thread_id  = @thread.thread_id
 
+    @message.content    = content_to_internal(@message.content, uconf('quote_char', '> '))
+
+    @message.created_at = DateTime.now
+    @message.updated_at = DateTime.now
+
     if current_user
-      @message.author     = current_user.username
+      @message.author   = current_user.username
     else
       unless CfUser.where('LOWER(username) = LOWER(?)', @message.author.strip).first.blank?
         flash[:error] = I18n.t('errors.name_taken')
@@ -95,14 +103,9 @@ class CfMessagesController < ApplicationController
       end
     end
 
-    @message.created_at = DateTime.now
-    @message.updated_at = DateTime.now
-
-    @message.content    = content_to_internal(@message.content, uconf('quote_char', '> '))
-
+    @tags    = parse_tags
     @preview = true if params[:preview]
-
-    retvals = notification_center.notify(CREATING_NEW_MESSAGE, @thread, @parent, @message)
+    retvals  = notification_center.notify(CREATING_NEW_MESSAGE, @thread, @parent, @message, @tags)
 
     unless current_user
       cookies[:cforum_user] = {value: request.uuid, expires: 1.year.from_now} if cookies[:cforum_user].blank?
@@ -113,8 +116,18 @@ class CfMessagesController < ApplicationController
       cookies[:cforum_homepage] = {value: @message.homepage, expires: 1.year.from_now}
     end
 
-    if not invalid and not retvals.include?(false) and not @preview and @message.save
-      notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message)
+    saved = false
+    if not invalid and not retvals.include?(false) and not @preview
+      CfMessage.transaction do
+        raise ActiveRecord::Rollback unless @message.save
+        save_tags(@message, @tags)
+
+        saved = true
+      end
+    end
+
+    if saved
+      notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message, @tags)
       peon(class_name: 'NotifyNewTask', arguments: {type: 'message', thread: @thread.thread_id, message: @message.message_id})
 
       redirect_to cf_message_path(@thread, @message), :notice => I18n.t('messages.created')
