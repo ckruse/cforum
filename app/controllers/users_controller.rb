@@ -79,16 +79,16 @@ class UsersController < ApplicationController
 
 
     @last_messages = CfMessage.
-      preload(:owner, :thread => :forum).
+      preload(:owner, :tags, :thread => :forum).
       where("user_id = ? AND deleted = false AND forum_id IN (#{sql})", @user.user_id).
       order('created_at DESC').
       limit(5).
       all
 
-    @tags_cnts = CfTagThread.
+    @tags_cnts = CfMessageTag.
       preload(:tag => :forum).
+      joins("INNER JOIN messages USING(message_id)").
       select("tag_id, COUNT(*) AS cnt").
-      joins("INNER JOIN messages USING(thread_id)").
       where("deleted = false AND user_id = ? AND forum_id IN (#{sql})", @user.user_id).
       group("tag_id").
       order("cnt DESC").
@@ -96,13 +96,18 @@ class UsersController < ApplicationController
       all
 
     @point_msgs = CfMessage.
-      preload(:owner, :thread => :forum).
+      preload(:owner, :tags, :thread => :forum).
       where("deleted = false AND upvotes > 0 AND user_id = ? AND forum_id IN (#{sql})", @user.user_id).
       order('upvotes DESC').
       limit(10).
       all
 
-    @score_msgs = CfScore.preload(:vote => {:message => :thread}).where(:user_id => @user.user_id).limit(10).order('created_at DESC').all
+    @score_msgs = CfScore.
+      preload(:vote => {:message => [:thread, :tags]}).
+      where(:user_id => @user.user_id).
+      limit(10).
+      order('created_at DESC').
+      all
 
     if (@user.confirmed_at.blank? or not @user.unconfirmed_email.blank?) and (not current_user.blank? and current_user.username == @user.username)
       flash[:error] = I18n.t('views.confirm_first')
