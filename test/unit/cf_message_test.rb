@@ -91,6 +91,24 @@ class CfMessageTest < ActiveSupport::TestCase
     assert !m.reload.deleted
     assert !m.reload.deleted
   end
+
+  test "tags associations" do
+    msg = FactoryGirl.create(:cf_message)
+    tag = CfTag.create!(tag_name: 'death star', forum_id: msg.forum_id)
+
+    assert_equal 0, msg.messages_tags.count()
+    assert_equal 0, msg.tags.count()
+
+    ctt = CfMessageTag.create!(tag_id: tag.tag_id, message_id: msg.message_id)
+    assert_equal 1, msg.messages_tags.count()
+    assert_equal 1, msg.tags.count()
+
+    assert msg.tags.clear
+    assert_equal 0, msg.tags.count()
+    assert_equal 0, msg.messages_tags.count()
+    assert_not_nil CfTag.find_by_tag_id tag.tag_id
+  end
+
 end
 
 

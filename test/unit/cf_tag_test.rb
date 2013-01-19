@@ -35,29 +35,29 @@ class CfTagTest < ActiveSupport::TestCase
     assert_equal t.forum.forum_id, f.forum_id
   end
 
-  test "tags threads relation" do
-    t = FactoryGirl.create(:cf_thread)
+  test "tags messages relation" do
+    msg = FactoryGirl.create(:cf_message)
     tag = CfTag.new
 
-    assert tag.tags_threads.empty?
-    assert tag.threads.empty?
+    assert tag.messages_tags.empty?
+    assert tag.messages.empty?
 
-    tag.forum_id = t.forum.forum_id
+    tag.forum_id = msg.forum.forum_id
     tag.tag_name = 'Rebellion'
     assert tag.save
 
-    ctt = CfTagThread.create(tag_id: tag.tag_id, thread_id: t.thread_id)
+    cmt = CfMessageTag.create(tag_id: tag.tag_id, message_id: msg.message_id)
 
-    tag.threads.reload
-    assert !tag.threads.empty?
-    assert_equal tag.threads.length, 1
+    tag.messages.reload
+    assert !tag.messages.empty?
+    assert_equal tag.messages.length, 1
 
-    assert !tag.tags_threads.empty?
-    assert_equal tag.tags_threads.length, 1
+    assert !tag.messages_tags.empty?
+    assert_equal tag.messages_tags.length, 1
 
-    assert tag.tags_threads.clear
-    assert_equal tag.threads.count(), 0
-    assert_equal tag.tags_threads.count(), 0
+    assert tag.messages_tags.clear
+    assert_equal tag.messages.count(), 0
+    assert_equal tag.messages_tags.count(), 0
   end
 
 end

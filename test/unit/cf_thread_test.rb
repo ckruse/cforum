@@ -82,23 +82,6 @@ class CfThreadTest < ActiveSupport::TestCase
     assert_equal 0, t.messages.count()
   end
 
-  test "tags associations" do
-    t = FactoryGirl.create(:cf_thread)
-    tag = CfTag.create!(tag_name: 'death star', forum_id: t.forum_id)
-
-    assert_equal 0, t.tags_threads.count()
-    assert_equal 0, t.tags.count()
-
-    ctt = CfTagThread.create!(tag_id: tag.tag_id, thread_id: t.thread_id)
-    assert_equal 1, t.tags_threads.count()
-    assert_equal 1, t.tags.count()
-
-    assert t.tags.clear
-    assert_equal 0, t.tags.count()
-    assert_equal 0, t.tags_threads.count()
-    assert_not_nil CfTag.find_by_tag_id tag.tag_id
-  end
-
   test "make_id" do
     assert_equal '/2012/12/1/death-star', CfThread.make_id(year: '2012', mon: '12', day: '1', tid: 'death-star')
     assert_equal '/2012/12/1/death-star', CfThread.make_id('2012', '12', '1', 'death-star')
