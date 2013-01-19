@@ -99,6 +99,34 @@ $$;
 
 
 --
+-- Name: count_messages_tag_delete_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION count_messages_tag_delete_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE tags SET num_messages = num_messages - 1 WHERE tag_id = OLD.tag_id;
+  RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: count_messages_tag_insert_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION count_messages_tag_insert_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE tags SET num_messages = num_messages + 1 WHERE tag_id = NEW.tag_id;
+  RETURN NEW;
+END;
+$$;
+
+
+--
 -- Name: count_messages_truncate_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
 --
 
@@ -913,7 +941,7 @@ CREATE TABLE tags (
     tag_name character varying NOT NULL,
     slug character varying NOT NULL,
     forum_id bigint NOT NULL,
-    num_messages bigint
+    num_messages bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -1598,6 +1626,20 @@ CREATE TRIGGER messages__count_update_trigger AFTER UPDATE ON messages FOR EACH 
 
 
 --
+-- Name: messages_tags__count_delete_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER messages_tags__count_delete_trigger AFTER DELETE ON messages_tags FOR EACH ROW EXECUTE PROCEDURE count_messages_tag_delete_trigger();
+
+
+--
+-- Name: messages_tags__count_insert_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER messages_tags__count_insert_trigger AFTER INSERT ON messages_tags FOR EACH ROW EXECUTE PROCEDURE count_messages_tag_insert_trigger();
+
+
+--
 -- Name: settings_unique_check_insert; Type: TRIGGER; Schema: cforum; Owner: -
 --
 
@@ -1921,6 +1963,8 @@ INSERT INTO schema_migrations (version) VALUES ('32');
 INSERT INTO schema_migrations (version) VALUES ('33');
 
 INSERT INTO schema_migrations (version) VALUES ('34');
+
+INSERT INTO schema_migrations (version) VALUES ('35');
 
 INSERT INTO schema_migrations (version) VALUES ('4');
 
