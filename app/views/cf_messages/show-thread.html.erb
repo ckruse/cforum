@@ -3,7 +3,7 @@ render 'cf_messages/message_header'
 render 'cf_threads/thread_tree'
 %>
 <article class="message">
-  <%= render 'message', m: @message, first: true %>
+  <%= render 'message', m: @message, first: true, do_parent: true %>
 
   <article class="thread posting">
     <%= message_tree(@thread, [@thread.message]) %>

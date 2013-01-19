@@ -1,6 +1,6 @@
 <%
   def message_header(thread, message, opts = {})
-    opts = {first: false, prev_deleted: false, show_icons: false}.merge(opts)
+    opts = {first: false, prev_deleted: false, show_icons: false, do_parent: false}.merge(opts)
     nested = uconf('standard_view', 'thread-view') == 'nested-view'
 
     classes = []
@@ -102,6 +102,12 @@
         ' ' +
         t('views.votes') +
         '</span>'
+    end
+
+    if opts[:do_parent] and @parent
+      html << "<p>" + t('views.previous_message') + " " + link_to(@parent.subject, cf_message_path(@thread, @parent)) + " " + t("messages.by") + " "
+      html << link_to('', user_path(@parent.author), :class => 'icon icon-share') + " " if @parent.user_id
+      html << @parent.author + '</p>'
     end
 
     html << %q{

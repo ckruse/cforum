@@ -60,6 +60,7 @@ de:
     define_recipient_please: Bitte geben Sie einen Empfänger an!
 
   views:
+    previous_message: "Vorherige Nachricht zum Thema:"
     score: Punkte
     delete_read_notifications: Gelesene Benachrichtigungen automatisch löschen
     original_poster: Thread-Ersteller

@@ -67,6 +67,7 @@ class CfThread < ActiveRecord::Base
 
       if msg.parent_id
         map[msg.parent_id].messages << msg
+        msg.parent_level = map[msg.parent_id]
       end
     end
   end

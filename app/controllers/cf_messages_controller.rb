@@ -21,8 +21,10 @@ class CfMessagesController < ApplicationController
     @thread = CfThread.preload(:messages => [:owner, :tags]).includes(:messages => :owner).where(conditions).first
     raise CForum::NotFoundException.new if @thread.blank?
 
-    @message = @thread.find_message(params[:mid].to_i) if @thread
-    raise CForum::NotFoundException.new if @thread.nil? or @message.nil?
+    @message = @thread.find_message(params[:mid].to_i)
+    raise CForum::NotFoundException.new if @message.nil?
+
+    @parent = @message.parent_level
 
     if current_user
       if n = CfNotification.find_by_recipient_id_and_oid_and_otype_and_is_read(current_user.user_id, @message.message_id, 'message:create', false)

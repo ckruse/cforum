@@ -81,6 +81,7 @@ en:
 
 
   views:
+    previous_message: "Previous message:"
     score: Score
     delete_read_notifications: Delete read notifications
     original_poster: Original poster

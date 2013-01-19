@@ -20,7 +20,7 @@ class CfMessage < ActiveRecord::Base
     :updated_at, :created_at, :upvotes, :downvotes, :forum_id, :flags,
     :uuid
 
-  attr_accessor :messages, :attribs
+  attr_accessor :messages, :attribs, :parent_level
 
   validates :author, length: { :in => 2..60 }
   validates :subject, length: { :in => 4..250 }
