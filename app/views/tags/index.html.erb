@@ -13,6 +13,6 @@ end
 
 <p>
   <% @tags.each do |t| %>
-  <%= link_to t.tag_name, tag_path(current_forum.slug, t), style: 'font-size:' + get_size(t.num_threads).to_s + 'em' %>
+  <%= link_to t.tag_name, tag_path(current_forum.slug, t), style: 'font-size:' + get_size(t.num_messages).to_s + 'em' %>
   <% end %>
 </p>

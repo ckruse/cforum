@@ -6,17 +6,19 @@
       <tr>
         <th>Betrifft</th>
         <th>Autor</th>
+        <th>Tags</th>
         <th>Datum</th>
       </tr>
     </th>
   </thead>
 
   <tbody>
-  <% @threads.each do |t| %>
+  <% @messages.each do |msg| %>
     <tr>
-      <td><%= link_to t.message.subject, cf_message_path(t, t.message) %></td>
-      <td><% if t.message.owner %><%= link_to '<em>'.html_safe + t.message.owner.username + '</em>'.html_safe, user_path(t.message.owner), :class => 'icon icon-share' %><% end %><%= t.message.author %></td>
-      <td><%= l(t.created_at) %></td>
+      <td><%= link_to msg.subject, cf_message_path(msg.thread, msg) %></td>
+      <td><% if msg.owner %><%= link_to '<em>'.html_safe + msg.owner.username + '</em>'.html_safe, user_path(msg.owner), :class => 'icon icon-share' %><% end %><%= msg.author %></td>
+      <td><%= (msg.tags.map {|t| link_to(t.tag_name, tag_path(current_forum.slug, t))}).join(", ").html_safe %></td>
+      <td><%= l(msg.created_at) %></td>
     </tr>
   <% end %>
   </tbody>
@@ -24,7 +26,7 @@
 </table>
 
 <%
-all_pages_count = (@tag.num_threads / @limit).ceil
+all_pages_count = (@tag.num_messages / @limit).ceil
 start_page = @page - 5
 end_page   = @page + 5
 

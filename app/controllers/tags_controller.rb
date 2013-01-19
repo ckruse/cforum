@@ -5,7 +5,7 @@ class TagsController < ApplicationController
   # GET /collections.json
   def index
     unless params[:s].blank?
-      @tags = CfTag.where("forum_id = ? AND UPPER(tag_name) LIKE UPPER(?)", current_forum.forum_id, params[:s].strip + '%').order('num_threads DESC').all
+      @tags = CfTag.where("forum_id = ? AND UPPER(tag_name) LIKE UPPER(?)", current_forum.forum_id, params[:s].strip + '%').order('num_messages DESC').all
     else
       @tags = CfTag.order('tag_name ASC').find_all_by_forum_id current_forum.forum_id
     end
@@ -16,8 +16,10 @@ class TagsController < ApplicationController
         @min_count = -1
 
         @tags.each do |t|
-          @max_count = t.num_threads if t.num_threads > @max_count
-          @min_count = t.num_threads if t.num_threads < @min_count or @min_count == -1
+          t.num_messages ||= 0
+
+          @max_count = t.num_messages if t.num_messages > @max_count
+          @min_count = t.num_messages if t.num_messages < @min_count or @min_count == -1
         end
       }
       format.json { render json: @tags }
@@ -30,13 +32,15 @@ class TagsController < ApplicationController
     @limit = uconf('pagination', 100).to_i
     @tag = CfTag.where('tags.forum_id = ? AND slug = ?', current_forum.forum_id, params[:id]).first!
 
+    @tag.num_messages ||= 0
+
     @page = params[:p].to_i
     @page = 0 if @page < 0
-    @page = (@tag.num_threads / @limit).ceil if @page > (@tag.num_threads / @limit).ceil
+    @page = (@tag.num_messages / @limit).ceil if @page > (@tag.num_messages / @limit).ceil
 
     offset = @page * @limit
 
-    @threads = CfThread.preload(:forum, :messages => :owner).includes(:tags_threads).where('tags_threads.tag_id' => @tag.tag_id, deleted: false).order('threads.created_at DESC').limit(@limit).offset(offset).all
+    @messages = CfMessage.preload(:owner, :tags, :thread => :forum).includes(:messages_tags).where('messages_tags.tag_id' => @tag.tag_id, deleted: false).order('messages.created_at DESC').limit(@limit).offset(offset).all
 
     respond_to do |format|
       format.html # show.html.erb
