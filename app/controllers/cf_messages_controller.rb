@@ -18,7 +18,7 @@ class CfMessagesController < ApplicationController
     conditions = {slug: @id}
     conditions[:messages] = {deleted: false} unless @view_all
 
-    @thread = CfThread.includes(:messages => :owner).where(conditions).first
+    @thread = CfThread.preload(:messages => [:owner, :tags]).includes(:messages => :owner).where(conditions).first
     raise CForum::NotFoundException.new if @thread.blank?
 
     @message = @thread.find_message(params[:mid].to_i) if @thread
@@ -56,7 +56,7 @@ class CfMessagesController < ApplicationController
 
   def new
     @id = CfThread.make_id(params)
-    @thread = CfThread.includes(:messages).find_by_slug!(@id)
+    @thread = CfThread.preload(:messages => [:owner, :tags]).includes(:messages).find_by_slug!(@id)
     raise CForum::ForbiddenException.new if @thread.archived and conf('use_archive') == 'yes'
 
     @parent = @thread.find_message(params[:mid].to_i) if @thread
@@ -74,7 +74,7 @@ class CfMessagesController < ApplicationController
 
   def create
     @id = CfThread.make_id(params)
-    @thread = CfThread.includes(:messages).find_by_slug!(@id)
+    @thread = CfThread.preload(:messages => [:owner, :tags]).includes(:messages).find_by_slug!(@id)
     raise CForum::ForbiddenException.new if @thread.archived and conf('use_archive') == 'yes'
 
     @parent = @thread.find_message(params[:mid].to_i) if @thread

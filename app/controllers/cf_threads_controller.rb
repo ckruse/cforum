@@ -68,8 +68,8 @@ class CfThreadsController < ApplicationController
     end
 
     @threads = CfThread.
-      preload(:forum).
-      includes(:messages => [:owner, :tags]).
+      preload(:forum, :messages => [:owner, :tags]).
+      includes(:messages => :owner).
       where(conditions).
       where(thread_id: ids).
       order('threads.created_at DESC').
