@@ -60,6 +60,11 @@ class CfTagTest < ActiveSupport::TestCase
     assert_equal tag.messages_tags.count(), 0
   end
 
+  test "to_param should be equal to slug" do
+    t = FactoryGirl.create(:cf_tag)
+    assert_equal t.slug, t.to_param
+  end
+
 end
 
 

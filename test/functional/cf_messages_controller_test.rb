@@ -894,7 +894,7 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, upvotes: 1)
     usr     = FactoryGirl.create(:cf_user)
-    CfVote.create!(user_id: usr.user_id, message_id: message.message_id, vtype: 'up')
+    CfVote.create!(user_id: usr.user_id, message_id: message.message_id, vtype: CfVote::UPVOTE)
 
     sign_in usr
 
@@ -922,7 +922,7 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, downvotes: 1)
     usr     = FactoryGirl.create(:cf_user)
-    CfVote.create!(user_id: usr.user_id, message_id: message.message_id, vtype: 'down')
+    CfVote.create!(user_id: usr.user_id, message_id: message.message_id, vtype: CfVote::DOWNVOTE)
 
     sign_in usr
 

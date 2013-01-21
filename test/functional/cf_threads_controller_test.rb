@@ -136,10 +136,10 @@ class CfThreadsControllerTest < ActionController::TestCase
     tag1 = FactoryGirl.create(:cf_tag)
     tag2 = FactoryGirl.create(:cf_tag)
 
-    CfTagThread.create!(thread_id: msg.thread_id, tag_id: tag1.tag_id)
-    CfTagThread.create!(thread_id: msg.thread_id, tag_id: tag2.tag_id)
-    CfTagThread.create!(thread_id: msg1.thread_id, tag_id: tag1.tag_id)
-    CfTagThread.create!(thread_id: msg1.thread_id, tag_id: tag2.tag_id)
+    CfMessageTag.create!(message_id: msg.message_id, tag_id: tag1.tag_id)
+    CfMessageTag.create!(message_id: msg.message_id, tag_id: tag2.tag_id)
+    CfMessageTag.create!(message_id: msg1.message_id, tag_id: tag1.tag_id)
+    CfMessageTag.create!(message_id: msg1.message_id, tag_id: tag2.tag_id)
 
     get :index
     assert_response :success
@@ -441,7 +441,7 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_not_nil flash[:notice]
     assert_not_nil assigns(:message)
     assert_not_nil assigns(:thread)
-    assert_blank assigns(:thread).tags
+    assert_blank assigns(:message).tags
 
     assert_redirected_to cf_message_url(assigns(:thread), assigns(:message))
   end
@@ -469,11 +469,11 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:message)
     assert_not_nil assigns(:thread)
 
-    t = assigns(:thread)
-    assert_equal 3, t.tags.length
-    assert_not_nil t.tags.find {|tag| tag.tag_name == 'test1'}
-    assert_not_nil t.tags.find {|tag| tag.tag_name == 'test2'}
-    assert_not_nil t.tags.find {|tag| tag.tag_name == 'test3'}
+    m = assigns(:message)
+    assert_equal 3, m.tags.length
+    assert_not_nil m.tags.find {|tag| tag.tag_name == 'test1'}
+    assert_not_nil m.tags.find {|tag| tag.tag_name == 'test2'}
+    assert_not_nil m.tags.find {|tag| tag.tag_name == 'test3'}
 
     assert_redirected_to cf_message_url(assigns(:thread), assigns(:message))
   end
@@ -501,11 +501,11 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:message)
     assert_not_nil assigns(:thread)
 
-    t = assigns(:thread)
-    assert_equal 3, t.tags.length
-    assert_not_nil t.tags.find {|tag| tag.tag_name == 'test1'}
-    assert_not_nil t.tags.find {|tag| tag.tag_name == 'test2'}
-    assert_not_nil t.tags.find {|tag| tag.tag_name == 'test3'}
+    m = assigns(:message)
+    assert_equal 3, m.tags.length
+    assert_not_nil m.tags.find {|tag| tag.tag_name == 'test1'}
+    assert_not_nil m.tags.find {|tag| tag.tag_name == 'test2'}
+    assert_not_nil m.tags.find {|tag| tag.tag_name == 'test3'}
 
     assert_redirected_to cf_message_url(assigns(:thread), assigns(:message))
   end
@@ -532,7 +532,7 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_not_nil flash[:error]
     assert_not_nil assigns(:message)
     assert_not_nil assigns(:thread)
-    assert_not_nil assigns(:thread).tags
+    assert_not_nil assigns(:message).tags
 
     assert_response :success
   end
