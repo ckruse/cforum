@@ -17,6 +17,10 @@ class CfForumGroupPermission < ActiveRecord::Base
   attr_accessible :forum_group_permission_id, :permission, :group_id, :forum_id
 
   validates_presence_of :permission, :group_id, :forum_id
+  validates :permission, inclusion: [
+    ACCESS_MODERATE, ACCESS_WRITE, ACCESS_READ,
+    ACCESS_KNOWN_WRITE, ACCESS_KNOWN_READ
+  ]
 end
 
 # eof
