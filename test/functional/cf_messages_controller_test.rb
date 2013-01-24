@@ -1082,6 +1082,192 @@ class CfMessagesControllerTest < ActionController::TestCase
     assert_equal 0, message.downvotes
   end
 
+  test "should remove upvote" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, upvotes: 1)
+    user    = FactoryGirl.create(:cf_user)
+    vote    = CfVote.create!(message_id: message.message_id, user_id: user.user_id, vtype: CfVote::UPVOTE)
+    score   = CfScore.create!(vote_id: vote.vote_id, user_id: message.user_id, value: 10)
+
+    sign_in user
+
+    assert_difference 'CfVote.count', -1 do
+      assert_difference 'CfScore.count', -1 do
+        post :vote, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: message.message_id.to_s,
+          type: 'up'
+        }
+      end
+    end
+
+    assert_redirected_to cf_message_url(thread, message)
+
+    message.reload
+    assert_equal 0, message.upvotes
+  end
+
+  test "should remove downvote" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, downvotes: 1)
+    user    = FactoryGirl.create(:cf_user)
+    vote    = CfVote.create!(message_id: message.message_id, user_id: user.user_id, vtype: CfVote::DOWNVOTE)
+    score   = CfScore.create!(vote_id: vote.vote_id, user_id: message.user_id, value: -1)
+
+    sign_in user
+
+    assert_difference 'CfVote.count', -1 do
+      assert_difference 'CfScore.count', -1 do
+        post :vote, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: message.message_id.to_s,
+          type: 'down'
+        }
+      end
+    end
+
+    assert_redirected_to cf_message_url(thread, message)
+
+    message.reload
+    assert_equal 0, message.downvotes
+  end
+
+  test "should mark notification read and delete it when viewing message because of default" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, downvotes: 1)
+    user    = FactoryGirl.create(:cf_user)
+
+    CfNotification.create!(
+      recipient_id: user.user_id,
+      is_read: false,
+      path: forum.slug + '/2012/dec/6/obi-wan-kenobi',
+      subject: "You're my only hope!",
+      icon: nil,
+      oid: message.message_id,
+      otype: 'message:create'
+    )
+
+    sign_in user
+
+    assert_difference 'CfNotification.count', -1 do
+      get :show, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: message.message_id.to_s
+        }
+    end
+
+    assert_response :success
+    assert_not_nil assigns(:new_notifications)
+    assert_empty assigns(:new_notifications)
+  end
+
+  test "should mark notification read but not delete it when viewing message because of config" do
+    forum   = FactoryGirl.create(:cf_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, downvotes: 1)
+    user    = FactoryGirl.create(:cf_user)
+
+    CfSetting.create!(
+      user_id: user.user_id,
+      options: {'delete_read_notifications' => 'no'}
+    )
+
+    CfNotification.create!(
+      recipient_id: user.user_id,
+      is_read: false,
+      path: forum.slug + '/2012/dec/6/obi-wan-kenobi',
+      subject: "You're my only hope!",
+      icon: nil,
+      oid: message.message_id,
+      otype: 'message:create'
+    )
+
+    sign_in user
+
+    assert_no_difference 'CfNotification.count' do
+      get :show, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s
+      }
+    end
+
+    assert_response :success
+    assert_not_nil assigns(:new_notifications)
+    assert_empty assigns(:new_notifications)
+  end
+
+
+  test "nested-view should work too" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, downvotes: 1)
+    user    = FactoryGirl.create(:cf_user)
+
+    CfSetting.create!(
+      user_id: user.user_id,
+      options: {'standard_view' => 'nested-view'}
+    )
+
+    sign_in user
+
+    get :show, {
+      curr_forum: forum.slug,
+      year: '2012',
+      mon: 'dec',
+      day: '6',
+      tid: 'obi-wan-kenobi',
+      mid: message.message_id.to_s
+    }
+  end
+
+  test "should not post when username is already taken" do
+    forum = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+
+    user = FactoryGirl.create(:cf_user)
+
+    assert_no_difference 'CfMessage.count' do
+      post :create, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s,
+        cf_message: {
+          subject: 'Fighters of the world',
+          author: user.username,
+          content: 'Long live the imperator! Down with the rebellion!'
+        }
+      }
+    end
+
+    assert_response :success
+    assert_not_nil assigns(:message)
+    assert_not_nil assigns(:parent)
+    assert_not_nil assigns(:thread)
+  end
+
 end
 
 # eof

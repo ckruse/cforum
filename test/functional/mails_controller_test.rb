@@ -167,6 +167,112 @@ class MailsControllerTest < ActionController::TestCase
     end
   end
 
+  test "should batch destroy mails" do
+    u = FactoryGirl.create(:cf_user)
+    msg1 = FactoryGirl.create(:cf_priv_message, owner: u)
+    msg2 = FactoryGirl.create(:cf_priv_message, owner: u)
+    msg3 = FactoryGirl.create(:cf_priv_message, owner: u)
+
+    sign_in u
+
+    assert_difference 'CfPrivMessage.count', -3 do
+      post :batch_destroy, ids: [msg1.priv_message_id, msg2.priv_message_id, msg3.priv_message_id]
+    end
+
+    assert_redirected_to mails_url
+  end
+
+  test "should not crash while batch destroying mails" do
+    u = FactoryGirl.create(:cf_user)
+    sign_in u
+
+    post :batch_destroy
+    assert_redirected_to mails_url
+  end
+
+  test "should not batch destroy mails" do
+    u = FactoryGirl.create(:cf_user)
+    msg1 = FactoryGirl.create(:cf_priv_message)
+    msg2 = FactoryGirl.create(:cf_priv_message)
+    msg3 = FactoryGirl.create(:cf_priv_message)
+
+    sign_in u
+
+    assert_no_difference 'CfPrivMessage.count' do
+      post :batch_destroy, ids: [msg1.priv_message_id, msg2.priv_message_id, msg3.priv_message_id]
+    end
+
+    assert_redirected_to mails_url
+  end
+
+  test "test answering" do
+    u = FactoryGirl.create(:cf_user)
+    msg = FactoryGirl.create(:cf_priv_message, owner: u, recipient: u)
+
+    sign_in u
+
+    get :new, priv_message_id: msg.priv_message_id
+    assert_response :success
+    assert_not_nil assigns(:mail)
+    assert_equal msg.sender_id, assigns(:mail).recipient_id
+    assert_equal 'Re: ' + msg.subject, assigns(:mail).subject
+  end
+
+  test "should delete notification" do
+    u = FactoryGirl.create(:cf_user)
+    msg = FactoryGirl.create(:cf_priv_message, owner: u, recipient: u)
+
+    CfNotification.create!(
+      recipient_id: u.user_id,
+      is_read: false,
+      path: 'wefwefewf',
+      subject: "You're my only hope!",
+      icon: nil,
+      oid: msg.priv_message_id,
+      otype: 'mails:create'
+    )
+
+    sign_in u
+
+    assert_difference 'CfNotification.count', -1 do
+      get :show, user: msg.sender.username, id: msg.priv_message_id
+    end
+
+    assert_response :success
+    assert_not_nil assigns(:new_notifications)
+    assert_empty assigns(:new_notifications)
+  end
+
+  test "should not delete notification but mark it read" do
+    u = FactoryGirl.create(:cf_user)
+    msg = FactoryGirl.create(:cf_priv_message, owner: u, recipient: u)
+
+    CfSetting.create!(
+      user_id: u.user_id,
+      options: {'delete_read_notifications' => 'no'}
+    )
+
+    CfNotification.create!(
+      recipient_id: u.user_id,
+      is_read: false,
+      path: 'wefwefewf',
+      subject: "You're my only hope!",
+      icon: nil,
+      oid: msg.priv_message_id,
+      otype: 'mails:create'
+    )
+
+    sign_in u
+
+    assert_no_difference 'CfNotification.count' do
+      get :show, user: msg.sender.username, id: msg.priv_message_id
+    end
+
+    assert_response :success
+    assert_not_nil assigns(:new_notifications)
+    assert_empty assigns(:new_notifications)
+  end
+
 end
 
 # eof

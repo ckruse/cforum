@@ -55,6 +55,46 @@ class NotificationsControllerTest < ActionController::TestCase
     delete :destroy, id: notification.notification_id
     assert_redirected_to notifications_url
   end
+
+  test "should do a batch destroy" do
+    u  = FactoryGirl.create(:cf_user)
+    n1 = FactoryGirl.create(:cf_notification, recipient: u)
+    n2 = FactoryGirl.create(:cf_notification, recipient: u)
+    n3 = FactoryGirl.create(:cf_notification, recipient: u)
+
+    sign_in u
+
+    assert_difference 'CfNotification.count', -3 do
+      post :batch_destroy, ids: [n1.notification_id, n2.notification_id, n3.notification_id]
+    end
+
+    assert_redirected_to notifications_url
+  end
+
+  test "should not crash while batch destroying" do
+    u  = FactoryGirl.create(:cf_user)
+
+    sign_in u
+    post :batch_destroy
+    assert_redirected_to notifications_url
+  end
+
+  test "should not crash while batch destroying with wrong ids" do
+    u  = FactoryGirl.create(:cf_user)
+
+    n1 = FactoryGirl.create(:cf_notification)
+    n2 = FactoryGirl.create(:cf_notification)
+    n3 = FactoryGirl.create(:cf_notification)
+
+    sign_in u
+
+    assert_no_difference 'CfNotification.count' do
+      post :batch_destroy, ids: [n1.notification_id, n2.notification_id, n3.notification_id]
+    end
+
+    assert_redirected_to notifications_url
+  end
+
 end
 
 # eof
