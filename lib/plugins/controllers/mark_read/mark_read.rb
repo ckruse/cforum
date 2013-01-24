@@ -19,7 +19,7 @@ class MarkReadPlugin < Plugin
 
     read_messages = []
 
-    result = CfMessage.connection.execute("SELECT message_id FROM cforum.read_messages WHERE message_id IN (" + message.join(", ") + ") AND user_id = " + user.user_id.to_s)
+    result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + message.join(", ") + ") AND user_id = " + user.user_id.to_s)
     result.each do |row|
       read_messages << row['message_id'].to_i
     end
@@ -31,7 +31,7 @@ class MarkReadPlugin < Plugin
     return if user.blank?
     message = [message] unless message.is_a?(Array)
 
-    sql = "INSERT INTO cforum.read_messages (user_id, message_id) VALUES (" + user.user_id.to_s + ", "
+    sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + user.user_id.to_s + ", "
 
     message.each do |m|
       begin
@@ -62,7 +62,7 @@ class MarkReadPlugin < Plugin
     end
 
     if not ids.blank?
-      result = CfMessage.connection.execute("SELECT message_id FROM cforum.read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+      result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
       result.each do |row|
         if msgs[row['message_id']]
           msgs[row['message_id']][0].attribs['classes'] << 'visited'
@@ -75,7 +75,7 @@ class MarkReadPlugin < Plugin
   def show_thread(thread, message = nil)
     return unless current_user
 
-    sql = "INSERT INTO cforum.read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", "
+    sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", "
     thread.messages.each do |m|
       m.attribs['visited'] = true
 
@@ -90,7 +90,7 @@ class MarkReadPlugin < Plugin
     return unless current_user
 
     begin
-      CfMessage.connection.execute("INSERT INTO cforum.read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", " + message.message_id.to_s + ")")
+      CfMessage.connection.execute("INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", " + message.message_id.to_s + ")")
     rescue ActiveRecord::RecordNotUnique
     end
 
@@ -107,7 +107,7 @@ class MarkReadPlugin < Plugin
       msgs[m.message_id.to_s] = m
     end
 
-    result = CfMessage.connection.execute("SELECT message_id FROM cforum.read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+    result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
     result.each do |row|
       msgs[row['message_id']].attribs['classes'] << 'visited' if msgs[row['message_id']]
     end
