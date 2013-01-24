@@ -84,6 +84,8 @@ class MarkReadPlugin < Plugin
       rescue ActiveRecord::RecordNotUnique
       end
     end
+
+    check_thread(thread)
   end
 
   def show_message(thread, message)
