@@ -20,7 +20,7 @@ module PluginHelper
   def load_and_init_plugins
     @plugin_apis = {}
 
-    if @@loaded_plugins.blank? or Rails.env != 'production'
+    if @@loaded_plugins.blank? or Rails.env == 'development'
       self.class.init_hooks = []
 
       plugin_dir = Rails.root + 'lib/plugins/controllers'
