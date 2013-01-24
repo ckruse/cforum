@@ -9,7 +9,7 @@ FactoryGirl.define do
 
     association :thread, :factory => :cf_thread
     association :owner, :factory => :cf_user
-    association :forum, :factory => :cf_write_forum
+    forum {|m| m.thread.forum}
   end
 end
 
