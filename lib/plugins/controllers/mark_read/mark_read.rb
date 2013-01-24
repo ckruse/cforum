@@ -4,22 +4,22 @@ class MarkReadPlugin < Plugin
   def initialize(*args)
     super(*args)
 
-    register_plugin_api :mark_read do |message|
-      mark_read(message)
+    register_plugin_api :mark_read do |message, user|
+      mark_read(message, user)
     end
-    register_plugin_api :is_read do |message|
-      is_read(message)
+    register_plugin_api :is_read do |message, user|
+      is_read(message, user)
     end
   end
 
-  def is_read(message)
-    return unless current_user
+  def is_read(message, user)
+    return if user.blank?
     message = [message] unless message.is_a?(Array)
     message = message.map {|m| m.is_a?(CfMessage) ? m.message_id : m.to_i}
 
     read_messages = []
 
-    result = CfMessage.connection.execute("SELECT message_id FROM cforum.read_messages WHERE message_id IN (" + message.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+    result = CfMessage.connection.execute("SELECT message_id FROM cforum.read_messages WHERE message_id IN (" + message.join(", ") + ") AND user_id = " + user.user_id.to_s)
     result.each do |row|
       read_messages << row['message_id'].to_i
     end
@@ -27,11 +27,11 @@ class MarkReadPlugin < Plugin
     read_messages
   end
 
-  def mark_read(message)
-    return unless current_user
+  def mark_read(message, user)
+    return if user.blank?
     message = [message] unless message.is_a?(Array)
 
-    sql = "INSERT INTO cforum.read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", "
+    sql = "INSERT INTO cforum.read_messages (user_id, message_id) VALUES (" + user.user_id.to_s + ", "
 
     message.each do |m|
       begin
