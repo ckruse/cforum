@@ -5,6 +5,8 @@
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
+require 'rake/testtask'
+
 class Rake::Task
   def overwrite(&block)
     @full_comment = nil
@@ -53,6 +55,17 @@ Rake::Task['db:create'].enhance do
     end
   end
   #Rake::Task['db:after_create'].invoke
+end
+
+namespace :test do
+  Rake::TestTask.new :plugins do |t|
+    t.libs << 'test'
+    t.pattern = 'test/plugins/**/*_test.rb'
+  end
+end
+
+Rake::Task['test:run'].enhance do
+  Rake::Task['test:plugins'].invoke
 end
 
 # eof
