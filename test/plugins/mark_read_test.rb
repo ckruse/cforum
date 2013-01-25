@@ -7,11 +7,6 @@ class MarkReadTest < ActionController::TestCase
     @controller = CfMessagesController.new
   end
 
-  def to_params_hash(msg)
-    parts = msg.thread.slug.split '/'
-    {curr_forum: msg.forum.slug, year: parts[1], mon: parts[2], day: parts[3], tid: parts[4], mid: msg.message_id}
-  end
-
   test "should not mark read because of anonymous" do
     message = FactoryGirl.create(:cf_message)
 
