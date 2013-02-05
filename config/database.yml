@@ -10,7 +10,6 @@ development:
   timeout: 5000
   username: ckruse
   password:
-  host: localhost
   schema_search_path: cforum
 
 # Warning: The database defined as "test" will be erased and
@@ -23,7 +22,6 @@ test:
   timeout: 5000
   username: ckruse
   password:
-  host: localhost
   schema_search_path: cforum
 
 production:
