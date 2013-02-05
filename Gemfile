@@ -8,6 +8,7 @@ gem 'therubyracer', '< 0.11'
 
 gem 'devise'
 gem "bcrypt-ruby", :require => "bcrypt"
+gem 'kramdown'
 
 gem 'jquery-rails'
 gem 'anjlab-bootstrap-rails', '>= 2.0', :require => 'bootstrap-rails'
