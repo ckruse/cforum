@@ -1,5 +1,4 @@
 module ApplicationHelper
-  include ParserHelper
   include CForum::Tools
 
   def current_forum

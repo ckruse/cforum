@@ -24,7 +24,7 @@
 
 <fieldset>
   <div class="control-group">
-    <%= f.text_area :content, :class => 'span5', maxlength: 12288, value: message_to_txt(f.object.content.to_s) %>
+    <%= f.text_area :content, :class => 'span5', maxlength: 12288, value: f.object.to_txt %>
   </div>
 </fieldset>
 

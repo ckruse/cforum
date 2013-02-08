@@ -82,7 +82,7 @@ class MailsController < ApplicationController
     @mail.owner_id  = current_user.user_id
     @mail.is_read   = true
 
-    @mail.body      = content_to_internal(@mail.body, uconf('quote_char', '> '))
+    @mail.body      = CfPrivMessage.to_internal(@mail.body)
 
     saved = false
     if not @mail.recipient_id.blank?
@@ -91,7 +91,7 @@ class MailsController < ApplicationController
       @mail_recipient           = CfPrivMessage.new(params[:cf_priv_message])
       @mail_recipient.sender_id = current_user.user_id
       @mail_recipient.owner_id  = recipient.user_id
-      @mail_recipient.body      = content_to_internal(@mail_recipient.body, uconf('quote_char', '> '))
+      @mail_recipient.body      = CfPrivMessage.to_internal(@mail_recipient.body)
 
       CfPrivMessage.transaction do
         if @mail.save
@@ -109,7 +109,7 @@ class MailsController < ApplicationController
             oid: @mail_recipient.priv_message_id,
             otype: 'mails:create',
             icon: 'icon-envelope',
-            body: message_to_txt(@mail.body)
+            body: @mail.to_txt
           )
         end
 

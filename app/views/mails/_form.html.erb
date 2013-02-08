@@ -21,5 +21,5 @@
 </div>
 
 <div class="control-group">
-  <%= t.text_area :body, :class => 'span5', maxlength: 12288, value: message_to_txt(t.object.body.to_s) %>
+  <%= t.text_area :body, :class => 'span5', maxlength: 12288, value: t.object.to_txt %>
 </div>

@@ -124,7 +124,7 @@ class CfThreadsController < ApplicationController
     @thread.forum_id    = @forum.forum_id
     @message.forum_id   = @forum.forum_id
     @message.user_id    = current_user.user_id unless current_user.blank?
-    @message.content    = content_to_internal(@message.content, uconf('quote_char', '> '))
+    @message.content    = CfMessage.to_internal(@message.content)
 
     @message.created_at = DateTime.now
     @message.updated_at = DateTime.now

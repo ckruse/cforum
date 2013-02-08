@@ -1,6 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 class CfPrivMessage < ActiveRecord::Base
+  include ParserHelper
+
   self.primary_key = 'priv_message_id'
   self.table_name  = 'priv_messages'
 

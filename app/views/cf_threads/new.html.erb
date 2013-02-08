@@ -6,7 +6,7 @@
   <%= message_header(@thread, @message) %>
 
   <div class="posting-content well">
-    <%= message_to_html(@message.content) %>
+    <%= @message.to_cf_html %>
   </div>
 <% end %>
 

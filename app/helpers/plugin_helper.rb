@@ -29,8 +29,6 @@ module PluginHelper
         load plugin_dir + p + "#{p}.rb"
       end
 
-      read_syntax_plugins
-
       @@loaded_plugins = true
     end
 

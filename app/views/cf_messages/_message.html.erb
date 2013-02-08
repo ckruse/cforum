@@ -2,7 +2,7 @@
   <%= message_header(@thread, m, first: first, do_parent: do_parent) %>
 
   <div class="posting-content well">
-    <%= message_to_html(m.content) %>
+    <%= m.to_html %>
   </div>
 
   <p><%= link_to t("views.new_answer"), new_cf_message_path(@thread, m) %>

@@ -69,7 +69,7 @@ class CfMessagesController < ApplicationController
 
     # inherit message and subject from previous post
     @message.subject = @parent.subject
-    @message.content = quote_content(@parent.content, uconf('quote_char', '> ')) if uconf('quote_old_message', 'yes') == 'yes'
+    @message.content = @parent.to_quote
 
     notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
   end
@@ -91,7 +91,7 @@ class CfMessagesController < ApplicationController
     @message.user_id    = current_user.user_id unless current_user.blank?
     @message.thread_id  = @thread.thread_id
 
-    @message.content    = content_to_internal(@message.content, uconf('quote_char', '> '))
+    @message.content    = CfMessage.to_internal(@message.content)
 
     @message.created_at = DateTime.now
     @message.updated_at = DateTime.now

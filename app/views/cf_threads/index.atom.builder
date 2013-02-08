@@ -5,7 +5,7 @@ atom_feed do |feed|
   @threads.each do |thread|
     feed.entry(thread) do |entry|
       entry.title(thread.message.subject)
-      entry.content(message_to_html(thread.message.content), :type => 'html')
+      entry.content(thread.message.to_cf_html, :type => 'html')
 
       entry.author do |author|
         author.name thread.message.author

@@ -10,7 +10,7 @@
   </header>
 
   <div class="posting-content well">
-    <%= message_to_html(@mail.body) %>
+    <%= @mail.to_cf_html %>
   </div>
 </article>
 

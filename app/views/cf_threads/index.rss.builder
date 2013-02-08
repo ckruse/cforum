@@ -9,7 +9,7 @@ xml.rss :version => '2.0', 'xmlns:atom' => 'http://www.w3.org/2005/Atom' do
     for thread in @threads
       xml.item do
         xml.title thread.message.subject
-        xml.description message_to_html(thread.message.content)
+        xml.description thread.message.to_cf_html
         xml.pubDate thread.created_at.to_s(:rfc822)
         xml.link cf_message_url(thread, thread.message)
         xml.guid cf_message_url(thread, thread.message)
