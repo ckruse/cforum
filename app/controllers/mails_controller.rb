@@ -72,7 +72,7 @@ class MailsController < ApplicationController
     if not params[:priv_message_id].blank? and @parent = CfPrivMessage.find_by_owner_id_and_priv_message_id(current_user.user_id, params[:priv_message_id])
       @mail.recipient_id = @parent.recipient_id == current_user.user_id ? @parent.sender_id : @parent.recipient_id
       @mail.subject      = @parent.subject =~ /^Re:/i ? @parent.subject : 'Re: ' + @parent.subject
-      @mail.body         = quote_content(@parent.body, uconf('quote_char', '> ')) if uconf('quote_old_message', 'yes') == 'yes'
+      @mail.body         = @parent.to_quote if uconf('quote_old_message', 'yes') == 'yes'
     end
   end
 
