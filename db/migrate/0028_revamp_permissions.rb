@@ -35,14 +35,14 @@ DROP TABLE groups;
 
 CREATE TABLE forum_permissions (
   forum_permission_id bigserial NOT NULL PRIMARY KEY,
-  user_id bigint NOT NULL REFERENCES cforum.users (user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  user_id bigint NOT NULL REFERENCES users (user_id) ON UPDATE CASCADE ON DELETE CASCADE,
   forum_id bigint NOT NULL REFERENCES forums (forum_id) ON UPDATE CASCADE ON DELETE CASCADE,
   permission character varying(255) NOT NULL DEFAULT 'read'
 );
 
-CREATE INDEX forum_permissions_forum_id_idx ON cforum.forum_permissions USING btree (forum_id);
-CREATE UNIQUE INDEX forum_permissions_user_id_forum_id_permission_idx ON cforum.forum_permissions USING btree (user_id, forum_id, permission);
-CREATE INDEX forum_permissions_user_id_idx ON cforum.forum_permissions USING btree (user_id);
+CREATE INDEX forum_permissions_forum_id_idx ON forum_permissions USING btree (forum_id);
+CREATE UNIQUE INDEX forum_permissions_user_id_forum_id_permission_idx ON forum_permissions USING btree (user_id, forum_id, permission);
+CREATE INDEX forum_permissions_user_id_idx ON forum_permissions USING btree (user_id);
     }
   end
 end

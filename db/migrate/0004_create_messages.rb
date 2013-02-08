@@ -2,7 +2,6 @@ class CreateMessages < ActiveRecord::Migration
   def up
     execute %q{
       CREATE EXTENSION hstore;
-      DO $$BEGIN CREATE SCHEMA cforum; EXCEPTION WHEN duplicate_schema THEN RAISE NOTICE 'already exists'; END;$$;
 
       CREATE TABLE messages (
         message_id BIGSERIAL NOT NULL PRIMARY KEY,
@@ -47,6 +46,5 @@ class CreateMessages < ActiveRecord::Migration
   def down
     remove_column 'threads', :message_id
     drop_table 'messages'
-    execute "DO $$BEGIN DROP SCHEMA system; EXCEPTION WHEN dependent_objects_still_exist THEN RAISE NOTICE 'not removing schema system'; END;$$;"
   end
 end

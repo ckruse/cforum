@@ -1,8 +1,6 @@
 class CreateUsers < ActiveRecord::Migration
   def up
     execute %q{
-      DO $$BEGIN CREATE SCHEMA cforum; EXCEPTION WHEN duplicate_schema THEN RAISE NOTICE 'already exists'; END;$$;
-
       CREATE TABLE users (
         user_id BIGSERIAL NOT NULL PRIMARY KEY,
         username CHARACTER VARYING(255) NOT NULL,
@@ -39,6 +37,5 @@ class CreateUsers < ActiveRecord::Migration
 
   def down
     drop_table 'users'
-    execute "DO $$BEGIN DROP SCHEMA cforum; EXCEPTION WHEN dependent_objects_still_exist THEN RAISE NOTICE 'not removing schema cforum'; END;$$;"
   end
 end

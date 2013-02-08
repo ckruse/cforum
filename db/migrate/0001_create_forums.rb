@@ -1,8 +1,6 @@
 class CreateForums < ActiveRecord::Migration
   def up
     execute %q{
-      DO $$BEGIN CREATE SCHEMA cforum; EXCEPTION WHEN duplicate_schema THEN RAISE NOTICE 'already exists'; END;$$;
-
       CREATE TABLE forums (
         forum_id BIGSERIAL PRIMARY KEY NOT NULL,
         slug CHARACTER VARYING(255) NOT NULL,
@@ -23,6 +21,5 @@ class CreateForums < ActiveRecord::Migration
 
   def down
     drop_table 'forums'
-    execute "DO $$BEGIN DROP SCHEMA cforum; EXCEPTION WHEN dependent_objects_still_exist THEN RAISE NOTICE 'not removing schema cforum'; END;$$;"
   end
 end
