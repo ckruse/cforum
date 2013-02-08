@@ -69,7 +69,7 @@ class CfMessagesController < ApplicationController
 
     # inherit message and subject from previous post
     @message.subject = @parent.subject
-    @message.content = @parent.to_quote
+    @message.content = @parent.to_quote if uconf('quote_old_message', 'yes') == 'yes'
 
     notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
   end
