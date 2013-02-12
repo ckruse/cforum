@@ -1,0 +1,70 @@
+de:
+  # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
+
+  errors: &errors
+    name_taken: Der Name ist bereits vergeben!
+    format: ! '%{attribute} %{message}'
+    messages:
+      accepted: muss akzeptiert werden
+      blank: muss ausgefüllt werden
+      confirmation: stimmt nicht mit der Bestätigung überein
+      empty: muss ausgefüllt werden
+      equal_to: muss genau %{count} sein
+      even: muss gerade sein
+      exclusion: ist nicht verfügbar
+      greater_than: muss größer als %{count} sein
+      greater_than_or_equal_to: muss größer oder gleich %{count} sein
+      inclusion: ist kein gültiger Wert
+      invalid: ist nicht gültig
+      less_than: muss kleiner als %{count} sein
+      less_than_or_equal_to: muss kleiner oder gleich %{count} sein
+      not_a_number: ist keine Zahl
+      not_an_integer: muss ganzzahlig sein
+      odd: muss ungerade sein
+      record_invalid: ! 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
+      taken: ist bereits vergeben
+      too_long: ist zu lang (nicht mehr als %{count} Zeichen)
+      too_short: ist zu kurz (nicht weniger als %{count} Zeichen)
+      wrong_length: hat die falsche Länge (muss genau %{count} Zeichen haben)
+
+  activemodel:
+    errors:
+      <<: *errors
+
+  activerecord:
+    errors:
+      <<: *errors
+    models:
+      cf_message: Nachricht
+      cf_thread: Thread
+      cf_user: Benutzer
+      cf_forum: Forum
+
+    attributes:
+      cf_message:
+        subject: Betreff
+        content: Inhalt
+        author: Name
+        email: E-Mail
+        homepage: Homepage
+
+      cf_forum:
+        name: Name
+        short_name:  Kurzname
+        slug: Slug
+        public: Öffentlich
+        description: Beschreibung
+
+      cf_user:
+        username: Benutzer-Name
+        email: E-Mail
+        admin: Administrator
+        active: Aktiv
+        password: Passwort
+        password_confirmation: Passwort-Bestätigung
+        created_at: Erstellt
+        updated_at: Geändert
+        remember_me: Login merken
+
+      cf_forum_access:
+        permission: Zugriffsrecht

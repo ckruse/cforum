@@ -1,64 +1,4 @@
 de:
-  admin:
-    forums:
-      updated: Forum erfolgreich geändert
-      created: Forum erfolgreich erstellt
-      destroyed: Forum erfolgreich gelöscht
-      merged: Das Forum wurde erfolgreich zusammengeführt
-
-      error_message: "Dieses Forum konnte nicht gespeichert werden:"
-      new_forum: Neues Forum
-      edit: "Forum %{name} bearbeiten"
-      merge_forum: "Forum %{forum} zusammenführen"
-
-    users:
-      updated: Benutzer erfolgreich geändert.
-      created: Benutzer erfolgreich erstellt.
-      deleted: Benutzer erfolgreich gelöscht.
-
-      error_message: "%{errors_count} verhinderten, dass dieser Benutzer gespeichert werden konnte:"
-      new_user: Neuer Benutzer
-      edit_user: "Benutzer %{username} bearbeiten"
-      user_administration: Benutzer-Verwaltung
-
-    groups:
-      updated: Gruppe erfolgreich geändert.
-      created: Gruppe erfolgreich erstellt.
-      deleted: Gruppe erfolgreich gelöscht.
-
-      error_message: "Fehler verhinderten, dass diese Gruppe gespeichert werden konnte:"
-      new_group: Neue Gruppe
-      edit_group: Gruppe bearbeiten
-
-
-  users:
-    signed_up: Benutzer erfolgreich erstellt!
-    logged_in: Der Login war erfolgreich.
-    updated: Benutzer erfolgreich geändert.
-    deleted: Benutzer erfolgreich gelöscht.
-
-  threads:
-    created: Der Thread wurde erfolgreich erstellt.
-    moved: Der Thread wurde erfolgreich verschoben!
-
-  messages:
-    by: von
-    created: Nachricht wurde erfolgreich erstellt!
-    destroyed: Nachricht wurde erfolgreich gelöscht!
-    restored: Nachricht wurde erfolgreich wieder hergestellt!
-    error_message: "%{errors_count} verhinderten, dass diese Nachricht gespeichert werden konnte:"
-    successfully_voted: Sie haben erfolgreich gewählt!
-    already_voted: Sie haben bereits gewählt!
-    do_not_vote_yourself: Sie dürfen nicht sich selber bewerten!
-    vote_removed: Die Wahl wurde entfernt!
-    tags_invalid: Der Tag ist fehlerhaft!
-
-  mails:
-    destroyed: Die Nachricht wurde erfolgreich gelöscht.
-    sent: Die Nachricht wurde erfolgreich verschickt.
-    error_message: "Fehler verhinderten, dass diese Nachricht gespeichert werden konnte:"
-    define_recipient_please: Bitte geben Sie einen Empfänger an!
-
   views:
     previous_message: "Vorherige Nachricht zum Thema:"
     score: Punkte
@@ -174,36 +114,6 @@ de:
     send: Senden
     standard_thread_view: Standard-Ansicht für Threads
     votes: Bewertungen
-
-  notifications:
-    new_mail: "Neue Nachricht von %{user}: %{subject}"
-    new_answer: "Eine neue Antwort auf Ihr Posting wurde von %{nick} geschrieben: %{subject}"
-    new_message: "Eine neue Nachricht wurde von %{nick} geschrieben: %{subject}"
-    destroyed: Die Benachrichtigung wurde erfolgreich gelöscht!
-
-  options:
-    errors:
-      pagination: Die Option „Anzahl der Einträge pro Seite” muss aus Ziffern bestehen!
-      use_archive: Die Option „Archiv benutzen” muss entweder bejaht oder verneint werden!
-      quote_char: Das Zitat-Zeichen ist fehlerhaft!
-      quote_old_message: Die Option „alte Nachricht zitieren” muss entweder bejaht oder verneint werden!
-
-  permissions:
-    read: Lesen
-    write: Schreiben
-    moderate: Moderieren
-
-
-  plugins:
-    link_tags:
-      first_msg: Erste Nachricht
-      last_msg: Letzte Nachricht
-      prev_msg: Vorherige Nachricht
-      next_msg: Nächste Nachricht
-
-    user_data:
-      all: alle
-
 
   date:
     abbr_day_names:
@@ -401,46 +311,3 @@ de:
       long: ! '%A, %d. %B %Y, %H:%M Uhr'
       short: ! '%d. %B, %H:%M Uhr'
     pm: nachmittags
-  # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
-
-  activemodel:
-    errors:
-      <<: *errors
-
-  activerecord:
-    errors:
-      <<: *errors
-    models:
-      cf_message: Nachricht
-      cf_thread: Thread
-      cf_user: Benutzer
-      cf_forum: Forum
-
-    attributes:
-      cf_message:
-        subject: Betreff
-        content: Inhalt
-        author: Name
-        email: E-Mail
-        homepage: Homepage
-
-      cf_forum:
-        name: Name
-        short_name:  Kurzname
-        slug: Slug
-        public: Öffentlich
-        description: Beschreibung
-
-      cf_user:
-        username: Benutzer-Name
-        email: E-Mail
-        admin: Administrator
-        active: Aktiv
-        password: Passwort
-        password_confirmation: Passwort-Bestätigung
-        created_at: Erstellt
-        updated_at: Geändert
-        remember_me: Login merken
-
-      cf_forum_access:
-        permission: Zugriffsrecht

@@ -1,0 +1,31 @@
+de:
+  admin:
+    forums:
+      updated: Forum erfolgreich geändert
+      created: Forum erfolgreich erstellt
+      destroyed: Forum erfolgreich gelöscht
+      merged: Das Forum wurde erfolgreich zusammengeführt
+
+      error_message: "Dieses Forum konnte nicht gespeichert werden:"
+      new_forum: Neues Forum
+      edit: "Forum %{name} bearbeiten"
+      merge_forum: "Forum %{forum} zusammenführen"
+
+    users:
+      updated: Benutzer erfolgreich geändert.
+      created: Benutzer erfolgreich erstellt.
+      deleted: Benutzer erfolgreich gelöscht.
+
+      error_message: "%{errors_count} verhinderten, dass dieser Benutzer gespeichert werden konnte:"
+      new_user: Neuer Benutzer
+      edit_user: "Benutzer %{username} bearbeiten"
+      user_administration: Benutzer-Verwaltung
+
+    groups:
+      updated: Gruppe erfolgreich geändert.
+      created: Gruppe erfolgreich erstellt.
+      deleted: Gruppe erfolgreich gelöscht.
+
+      error_message: "Fehler verhinderten, dass diese Gruppe gespeichert werden konnte:"
+      new_group: Neue Gruppe
+      edit_group: Gruppe bearbeiten

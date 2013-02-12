@@ -1,0 +1,29 @@
+en:
+  admin:
+    forums:
+      updated: Forum successfully changed
+      created: Forum successfully created
+      destroyed: Forum successfully deleted
+      merged: Forum has successfully been merged
+
+      error_message: "This forum could not be saved:"
+      new_forum: New Forum
+      edit: "Edit forum %{name}"
+      merge_forum: "Merge forum %{forum}"
+
+    users:
+      updated: User was successfully changed!
+      created: User was successfully created!
+      deleted: User successfully deleted!
+
+      error_message: "%{errors_count} prohibited this user from being saved:"
+      new_user: New User
+      edit_user: "Edit user %{username}"
+      user_administration: User administration
+
+    groups:
+      updated: User was successfully changed!
+      created: User was successfully created!
+      deleted: User successfully deleted!
+
+      error_message: "Errors prohibited this group from being saved:"

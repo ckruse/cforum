@@ -1,0 +1,13 @@
+en:
+  threads:
+    created: Thread was successfully created.
+    moved: Thread was successfully moved.
+
+    new:
+      new_thread: New Thread
+      subject: Subject
+      category: Category
+      name: Name
+      email: Email
+      homepage: Homepage
+      content: Content

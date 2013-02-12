@@ -1,0 +1,12 @@
+en:
+  messages:
+    by: "by"
+    created: Message was successfully created!
+    destroyed: Message was successfully destroyed!
+    restored: Message was successfully restored!
+    error_message: "%{errors_count} prohibited this thread from being saved:"
+    successfully_voted: You voted successfully!
+    already_voted: You already voted!
+    do_not_vote_yourself: You may not vote yourself!
+    vote_removed: Voting has been removed!
+    tags_invalid: Tag is invalid

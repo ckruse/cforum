@@ -1,0 +1,9 @@
+  users:
+    signed_up: Signed up!
+    logged_in: Successfully logged in!
+    updated: User was successfully changed!
+    deleted: User was successfully deleted!
+
+    new:
+      form_invalid: The Form is invalid!
+      passwords_do_not_match: Password and its confirmation do not match!

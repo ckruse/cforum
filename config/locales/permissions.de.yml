@@ -1,0 +1,5 @@
+de:
+  permissions:
+    read: Lesen
+    write: Schreiben
+    moderate: Moderieren
