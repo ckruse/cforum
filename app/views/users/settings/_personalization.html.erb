@@ -2,15 +2,6 @@
   <legend><%= t("views.personalization") %></legend>
 
   <div class="control-group">
-    <label class="control-label"><%= t('views.quote_char') %></label>
-    <div class="controls">
-      <label class="radio"><input type="radio" value="> " name="settings[quote_char]"<%= disabled %><% if @settings.conf('quote_char') == '> ' or @settings.conf('quote_char').blank? %> checked="checked"<% end %>> &gt; </label>
-      <label class="radio"><input type="radio" value="; " name="settings[quote_char]"<%= disabled %><% if @settings.conf('quote_char') == '; ' %> checked="checked"<% end %>> ; </label>
-      <label class="radio"><input type="radio" value=": " name="settings[quote_char]"<%= disabled %><% if @settings.conf('quote_char') == ': ' %> checked="checked"<% end %>> : </label>
-    </div>
-  </div>
-
-  <div class="control-group">
     <label class="control-label"><%= t('views.threads_by_default') %></label>
     <div class="controls">
       <label class="radio"><input type="radio" value="open" name="settings[open_close_default]"<%= disabled %><% if @settings.conf('open_close_default') == 'open' or @settings.conf('open_close_default').blank? %> checked="checked"<% end %>> <%= t("views.open") %></label>
