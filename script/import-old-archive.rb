@@ -40,17 +40,31 @@ def convert_content(txt)
     src = $1 if data =~ /src="([^"]+)"/
     alt = $1 if data =~ /alt="([^"]+)"/
 
-    img = "[img"
-    if alt.blank?
-      img << ']' + $coder.decode(src)
-    else
-      img << '=' + $coder.decode(src) + ']' + $coder.decode(alt) unless alt.blank?
-    end
+    alt = src if alt.blank?
 
-    img + "[/img]"
+    src = $coder.decode(src)
+    alt = $coder.decode(alt)
+
+    "![#{alt}](#{src})"
   end
 
-  txt = txt.gsub /\[link:([^\]+])\]/ do |data|
+  txt = txt.gsub /\[image:\s*([^\]]+)\]/ do |data|
+    href  = ""
+    title = ""
+    data  = $1
+
+    href  = data.gsub /@alt=.*/, ''
+    alt   = $1 if data =~ /@alt=(.*)/
+
+    alt   = href if alt.blank?
+
+    alt   = $coder.decode(alt.strip)
+    href  = $coder.decode(href.strip)
+
+    "![#{alt}](#{href})"
+  end
+
+  txt = txt.gsub /\[\s*link:\s*([^\]]+)\]/ do |data|
     href  = ""
     title = ""
     data  = $1
@@ -58,14 +72,12 @@ def convert_content(txt)
     href  = data.gsub /@title=.*/, ''
     title = $1 if data =~ /@title=(.*)/
 
-    lnk = "[url"
-    if title.blank?
-      lnk << ']' + $coder.decode(href)
-    else
-      lnk << '=' + $coder.decode(href) + ']' + $coder.decode(title)
-    end
+    title = href if title.blank?
 
-    lnk + '[/url]'
+    title = $coder.decode(title.strip)
+    href  = $coder.decode(href.strip)
+
+    "[#{title}](#{href})"
   end
 
   txt = txt.gsub /\[pref:([^\]]+)\]/ do |data|
@@ -81,15 +93,30 @@ def convert_content(txt)
     if t.blank? or m.blank?
       lnk = '[pref]'
     else
-      lnk = '[pref t=' + t[1..-1] + " m=" + m[1..-1] + ']'
+      title = "?t=#{t}&m=#{m}" if title.blank?
+      title = $coder.decode($title)
+
+      lnk = "[#{title}](?t=#{t}&m=#{m})"
     end
 
-    lnk << $coder.decode(title) unless title.blank?
-    lnk + '[/pref]'
+    lnk
+  end
+
+  txt = txt.gsub /\[code(?:\s+lang=(\w+))\](.*?)\[\/code\]/m do |data|
+    lang = $1
+    code = $2
+
+    lang = "html" if lang.blank?
+
+    if code =~ /\n/
+      "\n~~~ #{lang}\n#{code}\n~~~\n"
+    else
+      "`#{code}`"
+    end
   end
 
   txt = $coder.decode(txt)
-  txt.gsub!(/\u007F/,"\u{ECF0}")
+  txt.gsub!(/\u007F/,"> ")
 
   txt
 end
