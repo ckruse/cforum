@@ -151,6 +151,7 @@ def handle_messages(old_msg, x_msg, thread)
       usr = CfUser.find_by_username(uname)
       if !usr then
         usr = CfUser.new(:username => uname, created_at: the_date, updated_at: the_date)
+        usr.skip_confirmation!
         usr.save!(validate: false)
       end
 
