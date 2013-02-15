@@ -3,12 +3,16 @@
 require 'kramdown'
 
 class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
-  def parse_block_html
-    false
-  end
+  @@parsers.delete :block_html
+  @@parsers.delete :span_html
+  @@parsers.delete :html_entity
 
-  def parse_span_html
-    add_text(@src.getch)
+  def initialize(*args)
+    super(*args)
+
+    @block_parsers.delete :block_html
+    @span_parsers.delete :span_html
+    @span_parsers.delete :html_entity
   end
 end
 
