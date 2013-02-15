@@ -21,6 +21,7 @@ if ARGV[1] != 'forums'
     :name => 'Default-Forum',
     :short_name => 'Default-Forum',
     :slug => 'default',
+    :standard_permission => 'write',
     :created_at => DateTime.now,
     :updated_at => DateTime.now
   ) if $forum.blank?
@@ -194,6 +195,7 @@ def handle_doc(doc, opts = {})
       forum = CfForum.create!(
         name: forum_name,
         short_name: forum_name,
+        standard_permission: 'write',
         slug: forum_slug,
         created_at: the_date,
         updated_at: the_date,
