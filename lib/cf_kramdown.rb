@@ -6,6 +6,7 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
   @@parsers.delete :block_html
   @@parsers.delete :span_html
   @@parsers.delete :html_entity
+  @@parsers.delete :setext_header
 
   def initialize(*args)
     super(*args)
@@ -16,11 +17,14 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
 
     @block_parsers.unshift :email_style_sig
     @span_parsers.unshift :email_style_sig
+
+    idx = @block_parsers.index(:setext_header)
+    @block_parsers[idx] = :cf_setext_header
   end
 
   CF_SETEXT_HEADER_START = /^(#{OPT_SPACE}[^ \t].*?)#{HEADER_ID}[ \t]*?\n(-|=)+\n/
-  @@parsers.delete(:setext_header)
-  define_parser(:setext_header, CF_SETEXT_HEADER_START)
+  define_parser(:cf_setext_header, CF_SETEXT_HEADER_START)  unless @@parsers.has_key?(:cf_setext_header)
+  alias_method :parse_cf_setext_header, :parse_setext_header
 
   SIGNATURE_START = /^-- \n/
   def parse_email_style_sig
