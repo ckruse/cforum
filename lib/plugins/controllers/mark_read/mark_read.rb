@@ -17,9 +17,11 @@ class MarkReadPlugin < Plugin
     message = [message] unless message.is_a?(Array)
     message = message.map {|m| m.is_a?(CfMessage) ? m.message_id : m.to_i}
 
+    user_id = user.is_a?(CfUser) ? user.user_id : user
+
     read_messages = []
 
-    result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + message.join(", ") + ") AND user_id = " + user.user_id.to_s)
+    result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + message.join(", ") + ") AND user_id = " + user_id.to_s)
     result.each do |row|
       read_messages << row['message_id'].to_i
     end
