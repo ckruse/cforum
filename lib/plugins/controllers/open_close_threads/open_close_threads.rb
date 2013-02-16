@@ -28,7 +28,7 @@ class OpenCloseThreadPlugin < Plugin
 
       if close_when_read
         mids = t.messages.map {|m| m.message_id}
-        rslt = is_read.call(mids)
+        rslt = is_read.call(mids, current_user.user_id)
 
         t.attribs['open_state'] = 'closed' if not rslt.blank? and rslt.length == mids.length
       end
