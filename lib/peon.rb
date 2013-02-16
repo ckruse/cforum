@@ -10,7 +10,6 @@ module Peon
 
     class PeonTask
       include CForum::Tools
-      include ParserHelper
 
       def root_path
         Rails.application.config.action_controller.relative_url_root || '/'
