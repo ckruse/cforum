@@ -48,11 +48,12 @@ class CfUser < ActiveRecord::Base
   def moderate?(forum)
     return true if admin?
 
-    permissions = CfForumGroupPermission
+    @permissions ||= {}
+    @permissions[forum.forum_id] ||= CfForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user_id, forum.forum_id)
       .all
 
-    permissions.each do |p|
+    @permissions[forum.forum_id].each do |p|
       return true if p.permission == CfForumGroupPermission::ACCESS_MODERATE
     end
 
@@ -64,11 +65,12 @@ class CfUser < ActiveRecord::Base
     return true if forum.standard_permission == CfForumGroupPermission::ACCESS_KNOWN_WRITE
     return true if admin?
 
-    permissions = CfForumGroupPermission
+    @permissions ||= {}
+    @permissions[forum.forum_id] ||= CfForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user_id, forum.forum_id)
       .all
 
-    permissions.each do |p|
+    @permission[forum.forum_id].each do |p|
       return true if p.permission == CfForumGroupPermission::ACCESS_MODERATE or p.permission == CfForumGroupPermission::ACCESS_WRITE
     end
 
@@ -80,11 +82,12 @@ class CfUser < ActiveRecord::Base
     return true if forum.standard_permission == CfForumGroupPermission::ACCESS_KNOWN_READ or forum.standard_permission == CfForumGroupPermission::ACCESS_KNOWN_WRITE
     return true if admin?
 
-    permissions = CfForumGroupPermission
+    @permissions ||= {}
+    @permissions[forum.forum_id] ||= CfForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user_id, forum.forum_id)
       .all
 
-    permissions.each do |p|
+    @permissions[forum.forum_id.to_s].each do |p|
       return true if p.permission == CfForumGroupPermission::ACCESS_MODERATE or p.permission == CfForumGroupPermission::ACCESS_WRITE or p.permission == CfForumGroupPermission::ACCESS_READ
     end
 
