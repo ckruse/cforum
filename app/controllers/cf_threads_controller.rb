@@ -58,7 +58,7 @@ class CfThreadsController < ApplicationController
       end
     end
     sql << crits.join(" AND ")
-    sql << " ORDER BY threads.created_at DESC LIMIT #{@limit} OFFSET #{@limit * @page}"
+    sql << " ORDER BY threads.sticky DESC, threads.created_at DESC LIMIT #{@limit} OFFSET #{@limit * @page}"
 
     result = CfThread.connection.execute(sql)
 
@@ -72,7 +72,7 @@ class CfThreadsController < ApplicationController
       includes(:messages => :owner).
       where(conditions).
       where(thread_id: ids).
-      order('threads.created_at DESC').
+      order('threads.sticky DESC, threads.created_at DESC').
       all
 
     if forum
@@ -239,6 +239,23 @@ class CfThreadsController < ApplicationController
       else
         format.html { render :moving }
       end
+    end
+  end
+
+  def sticky
+    @id     = CfThread.make_id(params)
+    @thread = CfThread.find_by_slug!(@id)
+
+    if current_user.admin || current_user.moderate?(current_forum)
+      @thread.sticky = !@thread.sticky
+
+      if @thread.save
+        redirect_to cf_forum_url(current_forum), notice: @thread.sticky ? I18n.t("threads.stickied") : I18n.t("threads.unstickied")
+      else
+        redirect_to cf_forum_url(current_forum), alert: I18n.t("threads.sticky_error")
+      end
+    else
+      redirect_to cf_forum_url(current_forum), alert: I18n.t("global.insufficient_rights")
     end
   end
 

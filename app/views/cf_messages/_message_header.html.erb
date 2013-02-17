@@ -34,6 +34,10 @@
           html << " " + link_to('', cf_message_path(thread, message), data: {confirm: t('views.are_you_sure')}, :method => :delete, :class => 'icon icon-trash', title: t('views.delete_message'))
         end
       end
+
+      if opts[:first]
+        html << " " + link_to('', sticky_cf_thread_path(thread), method: :post, class: 'icon icon-pushpin', title: thread.sticky ? t('threads.mark_unsticky') : t('threads.mark_sticky'))
+      end
     end
 
     if current_forum.blank?

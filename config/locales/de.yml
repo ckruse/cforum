@@ -1,4 +1,7 @@
 de:
+  global:
+    insufficient_rights: Sie haben unzureichende Rechte für diese Aktion!
+
   views:
     previous_message: "Vorherige Nachricht zum Thema:"
     score: Punkte

@@ -4,7 +4,7 @@ render 'cf_threads/thread_tree'
 %>
 
 <% @threads.each do |thread| %>
-<article class="thread threadlist">
+<article class="thread threadlist<% if thread.sticky %> sticky<% end %>">
   <%= message_header(thread, thread.message, first: true, show_icons: true) %>
 
   <% if not thread.message.messages.blank? and thread.attribs['open_state'] != 'closed' %>

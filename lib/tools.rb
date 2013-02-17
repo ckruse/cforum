@@ -36,6 +36,10 @@ module CForum
       cf_thread_path(thread) + "/move" + query_string(args)
     end
 
+    def sticky_cf_thread_path(thread, args = {})
+      cf_thread_path(thread) + "/sticky" + query_string(args)
+    end
+
     #
     # message path helpers
     #
