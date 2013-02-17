@@ -32,8 +32,6 @@ de:
     delete_mail: Nachricht löschen
     answer_mail: Nachricht beantworten
     edit_userlist: Benutzerliste bearbeiten
-    delete_user: Benutzer löschen
-    edit_user: Benutzer bearbeiten
     delete_notification: Benachrichtigung löschen
     all_msgs_num: Anzahl aller Nachrichten
     unread_messages_num: Anzahl ungelesener Nachrichten

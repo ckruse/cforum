@@ -31,13 +31,9 @@ en:
     delete_mail: Delete mail
     answer_mail: Reply mail
     edit_userlist: Edit user list
-    delete_user: Delete user
-    edit_user: Edit user
     delete_notification: Delete notification
     all_msgs_num: Number of all messages
     unread_messages_num: Number of unread messages
-    forum: Forum
-    forums: Forums
     user: User
     edit: Edit
     delete: Delete
