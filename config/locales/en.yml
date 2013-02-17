@@ -6,6 +6,11 @@ en:
     yeah: Yes
     nope: No
     score: Score
+    error: error
+    errors: errors
+    save: Save
+    cancel: Cancel
+    are_you_sure: Are you sure?
 
   views:
     previous_message: "Previous message:"
@@ -34,10 +39,6 @@ en:
     forum: Forum
     forums: Forums
     user: User
-    users: Users
-    username: Username
-    save: Save
-    cancel: Cancel
     edit: Edit
     delete: Delete
     administration: Administration
@@ -46,7 +47,6 @@ en:
     messages: Messages
     last_change: Last Change
     never: never
-    are_you_sure: Are you sure?
     merge_forum_with: Merge forum with
     merge_forum: Merge forum
     back: Back
@@ -61,8 +61,6 @@ en:
     forum_name: Classic Forum
     title: Classic Forum
     logout: Logout
-    error: error
-    errors: errors
     subject: Subject
     author: Author
     settings: Settings

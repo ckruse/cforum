@@ -1,5 +1,7 @@
 en:
   admin:
+    usrs: Users
+
     forums:
       updated: Forum successfully changed
       created: Forum successfully created
@@ -19,7 +21,9 @@ en:
       error_message: "%{errors_count} prohibited this user from being saved:"
       new_user: New User
       edit_user: "Edit user %{username}"
+      do_edit_user: Edit user
       user_administration: User administration
+      delete_user: Delete user
 
     groups:
       updated: User was successfully changed!

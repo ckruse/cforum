@@ -7,10 +7,10 @@
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th><%= t('views.username') %></th>
-      <th><%= t('views.email') %></th>
-      <th><%= t('views.created') %></th>
-      <th><%= t('views.updated') %></th>
+      <th><%= t('activerecord.attributes.cf_user.username') %></th>
+      <th><%= t('activerecord.attributes.cf_user.email') %></th>
+      <th><%= t('activerecord.attributes.cf_user.created_at') %></th>
+      <th><%= t('activerecord.attributes.cf_user.updated_at') %></th>
       <th> </th>
     </tr>
   </thead>
@@ -23,8 +23,8 @@
       <td><%== l(user.created_at) %></td>
       <td><%== l(user.updated_at) %></td>
       <td>
-        <%= link_to '', admin_user_path(user), data: {confirm: t('views.are_you_sure')}, :method => :delete, :class => 'icon icon-trash', title: t('views.delete_user') %>
-        <%= link_to '', edit_admin_user_path(user), :class => "icon icon-edit", title: t('views.edit_user') %>
+        <%= link_to '', admin_user_path(user), data: {confirm: t('global.are_you_sure')}, :method => :delete, :class => 'icon icon-trash', title: t('admin.users.delete_user') %>
+        <%= link_to '', edit_admin_user_path(user), :class => "icon icon-edit", title: t('admin.users.do_edit_user') %>
       </td>
     </tr>
     <% end %>

@@ -1,5 +1,7 @@
 de:
   admin:
+    users: Benutzer
+
     forums:
       updated: Forum erfolgreich geändert
       created: Forum erfolgreich erstellt
@@ -19,7 +21,9 @@ de:
       error_message: "%{errors_count} verhinderten, dass dieser Benutzer gespeichert werden konnte:"
       new_user: Neuer Benutzer
       edit_user: "Benutzer %{username} bearbeiten"
+      do_edit_user: Benutzer bearbeiten
       user_administration: Benutzer-Verwaltung
+      delete_user: Benutzer löschen
 
     groups:
       updated: Gruppe erfolgreich geändert.

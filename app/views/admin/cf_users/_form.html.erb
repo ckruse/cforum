@@ -1,6 +1,6 @@
   <% if @user.errors.any? %>
     <div id="error_explanation">
-      <h2><% t('admin.users.error_message', :errors_count => pluralize(@user.errors.count, t("views.error"), t('views.errors'))) %>:</h2>
+      <h2><% t('admin.users.error_message', :errors_count => pluralize(@user.errors.count, t("global.error"), t('global.errors'))) %>:</h2>
 
       <ul>
       <% @user.errors.full_messages.each do |msg| %>
@@ -42,6 +42,6 @@
 </div>
 
 <div class="form-actions">
-  <%= f.submit t('views.save'), :class => 'btn btn-primary' %>
-  <%= link_to t('views.cancel'), admin_users_path, :class => 'btn' %>
+  <%= f.submit t('global.save'), :class => 'btn btn-primary' %>
+  <%= link_to t('global.cancel'), admin_users_path, :class => 'btn' %>
 </div>

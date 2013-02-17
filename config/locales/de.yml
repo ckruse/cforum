@@ -4,6 +4,11 @@ de:
     yeah: Ja
     nope: Nein
     score: Punkte
+    error: Fehler
+    errors: Fehler
+    save: Speichern
+    cancel: Abbrechen
+    are_you_sure: Sind Sie sicher?
 
   views:
     previous_message: "Vorherige Nachricht zum Thema:"
@@ -33,11 +38,7 @@ de:
     forum: Forum
     forums: Foren
     user: Benutzer
-    users: Benutzer
-    username: Benutzer-Name
     name: Name
-    save: Speichern
-    cancel: Abbrechen
     edit: Bearbeiten
     delete: Löschen
     administration: Verwaltung
@@ -46,7 +47,6 @@ de:
     messages: Nachrichten
     last_change: Letzte Änderung
     never: nie
-    are_you_sure: Sind Sie sicher?
     merge_forum_with: Forum zusammenführen mit
     merge_forum: Forum zusammenführen
     back: Zurück
@@ -61,8 +61,6 @@ de:
     forum_name: Classic Forum
     title: Classic Forum
     logout: Ausloggen
-    error: Fehler
-    errors: Fehler
     settings: Einstellungen
     user_information: Benutzer-Informationen
     permissions: Zugriffsrechte
