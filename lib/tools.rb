@@ -77,8 +77,12 @@ module CForum
       cf_forum_url(thread.forum) + thread.slug + query_string(args)
     end
 
+    def cf_message_url_wo_anchor(thread, message, args = {})
+      cf_thread_url(thread) + '/' + message.message_id.to_s + query_string(args)
+    end
+
     def cf_message_url(thread, message, args = {})
-      cf_thread_url(thread) + '/' + message.id.to_s + "#" + message.id.to_s + query_string(args)
+      cf_message_url_wo_anchor(thread, message) + "#" + message.message_id.to_s + query_string(args)
     end
   end
 end
