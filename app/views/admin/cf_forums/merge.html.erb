@@ -1,15 +1,15 @@
 <%
 forum_opts = @forums.map { |f| [f.name, f.forum_id] }
-%><h1><%= t('admin.forums.merge_forum', :forum => @cf_forum.name) %></h1>
+%><h1><%= t('admin.forums.merge', :forum => @cf_forum.name) %></h1>
 
 <%= form_for @cf_forum, url: admin_forums_do_merge_path(@cf_forum.forum_id), method: 'post', html: {:class => 'form-horizontal'} do |f| %>
 
-<%= t('views.merge_forum_with') %>:
+<%= t('admin.forums.merge_with') %>:
 <%= select_tag :merge_with, options_for_select(forum_opts, @merge_with) %>
 
 <p class="form-actions">
-  <%= f.submit t('views.merge_forum'), :class => 'btn btn-primary' %>
-  <%= link_to t('views.cancel'), admin_forums_path, :class => 'btn' %>
+  <%= f.submit t('admin.forums.merge'), :class => 'btn btn-primary' %>
+  <%= link_to t('global.cancel'), admin_forums_path, :class => 'btn' %>
 </p>
 
 <% end %>

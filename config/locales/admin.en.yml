@@ -20,6 +20,8 @@ en:
       edit: Edit forum
       delete: Delete forum
       merge: Merge forum
+      merge_with: Merge forum mit
+      new: New forum
 
       settings:
         items_per_page: Items per page

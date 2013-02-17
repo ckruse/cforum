@@ -20,6 +20,8 @@ de:
       edit: Forum bearbeiten
       delete: Forum löschen
       merge: Forum zusammenführen
+      merge_with: Forum zusammenführen mit
+      new: Neues Forum
 
       settings:
         items_per_page: Einträge pro Seite
