@@ -9,7 +9,6 @@ en:
 
   views:
     previous_message: "Previous message:"
-    delete_read_notifications: Delete read notifications
     original_poster: Original poster
     max_threads: Maximum number of threads
     max_messages_per_thread: Maximum number of posts per thread
@@ -84,9 +83,6 @@ en:
     subject: Subject
     mail: Mail
     notifications: Notifications
-    notification_on_activity: Notifications on activity in thread
-    notification_on_answer: Notification on answer
-    via_email: via email
     readability_overview: Readability/Overview
     comma_seperated_list: comma seperated list
     answer: Answer

@@ -2,7 +2,9 @@ de:
   users:
     settings:
       personalization: Personalisierung
+      notifications: Benachrichtigungen
       threads_by_default: Threads per default
+      via_email: via E-Mail
       open: Offen
       closed: Geschlossen
       close_threads_when_read: Threads schliessen wenn gelesen
@@ -10,3 +12,8 @@ de:
       own_js_file: Eigene JS-Datei
       own_css: Eigenes Inline-CSS
       own_js: Eigenes Inline-JS
+      delete_read_notifications: Gelesene Benachrichtigungen automatisch löschen
+      notify_on_new_mail: Benachrichtigung bei neuer Post
+      notification_on_activity: Benachrichtigung bei Aktivität in Thread
+      notification_on_answer: Benachrichtigung bei Antwort
+
