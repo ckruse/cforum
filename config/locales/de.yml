@@ -19,22 +19,33 @@ de:
     group: Gruppe
     groups: Gruppen
 
-  views:
-    previous_message: "Vorherige Nachricht zum Thema:"
-    original_poster: Thread-Ersteller
+  forums:
     all_forums: Alle Foren
-    open_thread: Thread aufklappen
-    close_thread: Thread aufklappen
+
+  threads:
     move_thread: Thread verschieben
+
+  messages:
+    new_answer: Antworten
     restore_message: Nachricht wiederherstellen
     delete_message: Nachricht löschen
+    votes: Bewertungen
+    all_msgs_num: Anzahl aller Nachrichten
+    unread_messages_num: Anzahl ungelesener Nachrichten
     user_link: Benutzer %{user}
+    original_poster: Thread-Ersteller
+    previous_message: "Vorherige Nachricht zum Thema:"
+    preview: Vorschau
+
+  plugins:
+    open_thread: Thread aufklappen
+    close_thread: Thread aufklappen
+
+  views:
     delete_mail: Nachricht löschen
     answer_mail: Nachricht beantworten
     edit_userlist: Benutzerliste bearbeiten
     delete_notification: Benachrichtigung löschen
-    all_msgs_num: Anzahl aller Nachrichten
-    unread_messages_num: Anzahl ungelesener Nachrichten
     user: Benutzer
     name: Name
     edit: Bearbeiten
@@ -58,7 +69,6 @@ de:
     permissions: Zugriffsrechte
     delete_account: Account löschen
     quote_char: Zitat-Zeichen
-    preview: Vorschau
     confirm_first: Sie müssen Ihren Benutzer-Account erst verifizieren!
     users_per_page: Benutzer pro Seite
     reply: Antworten
@@ -70,14 +80,12 @@ de:
     mail: Post
     comma_seperated_list: Komma-separierte Liste
     answer: Antworten
-    new_answer: Antworten
     sign_in: Anmelden
     sign_up: Registrieren
     forgot_your_password: Passwort vergessen?
     instructions: Bestätigungs-Mail nicht bekommen?
     unlock_instructions: Entsperr-Instruktionen nicht bekommen?
     send: Senden
-    votes: Bewertungen
 
   date:
     abbr_day_names:

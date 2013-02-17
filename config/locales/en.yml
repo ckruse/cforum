@@ -19,21 +19,33 @@ en:
     group: Group
     groups: Groups
 
-  views:
-    previous_message: "Previous message:"
-    original_poster: Original poster
-    open_thread: Open thread
-    close_thread: Close thread
+  forums:
+    all_forums: All forums
+
+  threads:
     move_thread: Move thread
+
+  messages:
+    new_answer: Answer
     restore_message: Restore message
     delete_message: Delete message
+    votes: Votes
+    all_msgs_num: Number of all messages
+    unread_messages_num: Number of unread messages
     user_link: User %{user}
+    original_poster: Original poster
+    previous_message: "Previous message:"
+    preview: Preview
+
+  plugins:
+    open_thread: Open thread
+    close_thread: Close thread
+
+  views:
     delete_mail: Delete mail
     answer_mail: Reply mail
     edit_userlist: Edit user list
     delete_notification: Delete notification
-    all_msgs_num: Number of all messages
-    unread_messages_num: Number of unread messages
     user: User
     edit: Edit
     delete: Delete
@@ -55,7 +67,6 @@ en:
     author: Author
     settings: Settings
     user_information: User Information
-    preview: Preview
     confirm_first: You have to confirm your registration first!
     users_per_page: Users per page
     reply: Reply
@@ -71,4 +82,4 @@ en:
     forgot_your_password: Forgot your password?
     instructions: Didn't receive confirmation instructions?
     unlock_instructions: Didn't receive unlock instructions?
-    votes: Votes
+

@@ -15,23 +15,23 @@
     if opts[:first] and current_user and opts[:show_icons]
       html << '  <a class="icon icon-'
       if thread.attribs['open_state'] == 'closed'
-        html << 'folder-close" title="' + t('views.open_thread') + '" href="' + cf_forum_path(current_forum || 'all', :open => thread.thread_id)
+        html << 'folder-close" title="' + t('plugins.open_thread') + '" href="' + cf_forum_path(current_forum || 'all', :open => thread.thread_id)
       else
-        html << 'folder-open" title="' + t('views.close_thread') + '" href="' + cf_forum_path(current_forum || 'all', :close => thread.thread_id)
+        html << 'folder-open" title="' + t('plugins.close_thread') + '" href="' + cf_forum_path(current_forum || 'all', :close => thread.thread_id)
       end
       html << '"> </a>'
     end
 
     if not current_user.blank? and not current_forum.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons]
       if opts[:first]
-        html << " " + link_to('', move_cf_thread_path(thread), class: 'icon icon-move', title: t('views.move_thread'))
+        html << " " + link_to('', move_cf_thread_path(thread), class: 'icon icon-move', title: t('threads.move_thread'))
       end
 
       if not opts[:prev_deleted] and opts[:show_icons]
         if message.deleted?
-          html << " " + link_to('', restore_cf_message_path(thread, message), :method => :post, :class => 'icon icon-check', title: t('views.restore_message'))
+          html << " " + link_to('', restore_cf_message_path(thread, message), :method => :post, :class => 'icon icon-check', title: t('messages.restore_message'))
         else
-          html << " " + link_to('', cf_message_path(thread, message), data: {confirm: t('views.are_you_sure')}, :method => :delete, :class => 'icon icon-trash', title: t('views.delete_message'))
+          html << " " + link_to('', cf_message_path(thread, message), data: {confirm: t('global.are_you_sure')}, :method => :delete, :class => 'icon icon-trash', title: t('messages.delete_message'))
         end
       end
 
@@ -45,7 +45,7 @@
     end
 
     if opts[:show_icons]
-      html << ' <span class="votes" title="' + t('views.votes') + '">' + (message.upvotes - message.downvotes).to_s + '</span>'
+      html << ' <span class="votes" title="' + t('messages.votes') + '">' + (message.upvotes - message.downvotes).to_s + '</span>'
     end
 
     if opts[:first]
@@ -64,9 +64,9 @@
       }
 
     if opts[:first] and thread.attribs[:msgs]
-      html << " <span class=\"msg-num\">(<span class=\"all\" title=\"" + t('views.all_msgs_num') + "\">" +
+      html << " <span class=\"msg-num\">(<span class=\"all\" title=\"" + t('messages.all_msgs_num') + "\">" +
         thread.attribs[:msgs][:all].to_s +
-        "</span>/<span class\"unread\" title=\"" + t('views.unread_messages_num') + "\">" +
+        "</span>/<span class\"unread\" title=\"" + t('messages.unread_messages_num') + "\">" +
         thread.attribs[:msgs][:unread].to_s +
         "</span>)</span>"
     end
@@ -75,9 +75,9 @@
       }
 
     if message.user_id
-      html << "<span class=\"registered-user\">" + link_to('<em>Benutzer-Profil</em>'.html_safe, user_path(message.owner), :class => 'icon icon-share', title: t('views.user_link', user: message.owner.username)) + " "
+      html << "<span class=\"registered-user\">" + link_to('<em>Benutzer-Profil</em>'.html_safe, user_path(message.owner), :class => 'icon icon-share', title: t('messages.user_link', user: message.owner.username)) + " "
     else
-      html << '<i class="icon-exclamation-sign" title="' + t('views.original_poster') + '"> </i>' if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
+      html << '<i class="icon-exclamation-sign" title="' + t('messages.original_poster') + '"> </i>' if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
     end
     html << encode_entities(message.author)
     html << '</span>' if message.user_id
@@ -100,16 +100,16 @@
 
     unless opts[:show_icons]
       html << ', <span class="votes" title="' +
-        t('views.votes') +
+        t('messages.votes') +
         '">' +
         (message.upvotes - message.downvotes).to_s +
         ' ' +
-        t('views.votes') +
+        t('messages.votes') +
         '</span>'
     end
 
     if opts[:do_parent] and @parent
-      html << "<p>" + t('views.previous_message') + " " + link_to(@parent.subject, cf_message_path(@thread, @parent)) + " " + t("messages.by") + " "
+      html << "<p>" + t('messages.previous_message') + " " + link_to(@parent.subject, cf_message_path(@thread, @parent)) + " " + t("messages.by") + " "
       html << link_to('', user_path(@parent.author), :class => 'icon icon-share') + " " if @parent.user_id
       html << @parent.author + '</p>'
     end
