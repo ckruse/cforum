@@ -7,12 +7,3 @@ en:
     unstickied: Thread was successfully unmarked as sticky.
     mark_sticky: Mark sticky
     mark_unsticky: Remove sticky mark
-
-    new:
-      new_thread: New Thread
-      subject: Subject
-      category: Category
-      name: Name
-      email: Email
-      homepage: Homepage
-      content: Content
