@@ -43,9 +43,14 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
 
   def perform_message(args)
     # we don't care about exceptions, grunt will manage this for us
-    @thread     = CfThread.includes(:forum, :messages => :owner).find args['thread']
-    @message    = @thread.find_message! args['message']
-    @parent     = @thread.find_message @message.parent_id
+    begin
+      @thread     = CfThread.includes(:forum, :messages => :owner).find args['thread']
+      @message    = @thread.find_message! args['message']
+      @parent     = @thread.find_message @message.parent_id
+    rescue ActiveRecord::RecordNotFound, CForum::NotFoundException
+      return
+    end
+
     @sent_mails = {}
     @notified   = {}
 
