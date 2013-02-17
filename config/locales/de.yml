@@ -30,6 +30,16 @@ de:
     open_thread: Thread aufklappen
     close_thread: Thread aufklappen
 
+  errors:
+    unknown_error: Unbekannter Fehler
+    unknown_error_message: "Irgendwas ist passiert. Keine Ahnung, was. Am besten, Sie schicken Ihren Nutzer-Namen zusammen mit dem, was genau Sie genau gemacht haben, an cforum@wwwtech.de."
+    not_found_error: Ressource konnte nicht gefunden werden!
+    not_found_error_message: Die angeforderte Ressource konnte nicht gefunden werden.
+    not_allowed_error: Zugriff verboten!
+    not_allowed_error_message: "Sie haben auf eine Resource zugegriffen, auf die der Zugriff verboten ist."
+    not_allowed_maybe_you_want_to: Vielleicht möchten Sie sich erst
+    login: einloggen
+
   views:
     delete_mail: Nachricht löschen
     answer_mail: Nachricht beantworten
