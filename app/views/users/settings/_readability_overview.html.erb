@@ -1,14 +1,14 @@
 <fieldset class="tab-pane" id="readability">
-  <legend><%= t("views.readability_overview") %></legend>
+  <legend><%= t("users.settings.readability_overview") %></legend>
 
   <div class="control-group">
-    <label class="control-label"><%= t('views.standard_thread_view') %></label>
+    <label class="control-label"><%= t('users.settings.standard_thread_view') %></label>
     <div class="controls">
       <label class="radio"><input type="radio" value="thread-view" name="settings[standard_view]"<%= disabled %><% if @settings.conf('standard_view') == 'thread-view' %> checked="checked"<% end %>> Thread-Ansicht</label>
       <label class="radio"><input type="radio" value="nested-view" name="settings[standard_view]"<%= disabled %><% if @settings.conf('standard_view') == 'nested-view' %> checked="checked"<% end %>> Nested-Ansicht</label>
     </div>
   </div>
 
-  <%= render 'widgets/users_selector', desc: t('views.highlighted_users'), name: "settings[highlighted_users][]", id: "settings_highlighted_users", users: @highlighted_users_list %>
+  <%= render 'widgets/users_selector', desc: t('users.settings.highlighted_users'), name: "settings[highlighted_users][]", id: "settings_highlighted_users", users: @highlighted_users_list %>
 
 </fieldset>

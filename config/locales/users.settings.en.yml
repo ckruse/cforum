@@ -16,4 +16,15 @@ en:
       notify_on_new_mail: Notifications on new mail
       notification_on_activity: Notifications on activity in thread
       notification_on_answer: Notification on answer
+      greeting: Greeting
+      farewell: Farewell
+      signature: Signature
+      quote_old_message: Quote old message
+      quote_signature: Quote signature
+      personal_information: Personal Information
+      email: Email
+      homepage: Homepage
+      readability_overview: Readability/Overview
+      standard_thread_view: Standard view for threads
+      highlighted_users: Highlighted users
 

@@ -36,7 +36,6 @@ en:
     user: User
     users: Users
     username: Username
-    email: Email
     save: Save
     cancel: Cancel
     edit: Edit
@@ -66,8 +65,6 @@ en:
     errors: errors
     subject: Subject
     author: Author
-    homepage: Homepage
-    personal_information: Personal Information
     settings: Settings
     user_information: User Information
     preview: Preview
@@ -83,7 +80,6 @@ en:
     subject: Subject
     mail: Mail
     notifications: Notifications
-    readability_overview: Readability/Overview
     comma_seperated_list: comma seperated list
     answer: Answer
     group: Group
@@ -91,5 +87,4 @@ en:
     forgot_your_password: Forgot your password?
     instructions: Didn't receive confirmation instructions?
     unlock_instructions: Didn't receive unlock instructions?
-    standard_thread_view: Standard view for threads
     votes: Votes

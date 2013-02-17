@@ -1,15 +1,15 @@
 <fieldset class="tab-pane" id="personal_information">
-  <legend><%= t('views.personal_information') %></legend>
+  <legend><%= t('users.settings.personal_information') %></legend>
 
   <div class="control-group">
-    <label class="control-label" for="settings_email"><%= t('views.email') %></label>
+    <label class="control-label" for="settings_email"><%= t('users.settings.email') %></label>
     <div class="controls">
       <input type="text" value="<%= @settings.conf('email') %>" name="settings[email]" id="settings_email"<%= disabled %>>
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="settings_url"><%= t('views.homepage') %></label>
+    <label class="control-label" for="settings_url"><%= t('users.settings.homepage') %></label>
     <div class="controls">
       <input type="text" value="<%= @settings.conf('url') %>" name="settings[url]" id="settings_url"<%= disabled %>>
     </div>

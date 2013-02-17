@@ -16,4 +16,15 @@ de:
       notify_on_new_mail: Benachrichtigung bei neuer Post
       notification_on_activity: Benachrichtigung bei Aktivität in Thread
       notification_on_answer: Benachrichtigung bei Antwort
+      greeting: Begrüßung
+      farewell: Verabschiedung
+      signature: Signatur
+      quote_old_message: Alte Nachricht zitieren
+      quote_signature: Signatur zitieren
+      personal_information: Persönliche Informationen
+      email: E-Mail
+      homepage: Homepage
+      readability_overview: Lesbarkeit/Übersicht
+      standard_thread_view: Standard-Ansicht für Threads
+      highlighted_users: Hervorgehobene Benutzer
 
