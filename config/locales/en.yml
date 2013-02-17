@@ -2,9 +2,13 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  global:
+    yeah: Yes
+    nope: No
+    score: Score
+
   views:
     previous_message: "Previous message:"
-    score: Score
     delete_read_notifications: Delete read notifications
     original_poster: Original poster
     max_threads: Maximum number of threads
@@ -51,8 +55,6 @@ en:
     created: Created
     updated: Updated
     active: Active
-    yeah: Yes
-    nope: No
     home: Home
     new_thread: New thread
     new_message: New message
@@ -87,7 +89,6 @@ en:
     via_email: via email
     readability_overview: Readability/Overview
     comma_seperated_list: comma seperated list
-    personalization: Personalization
     answer: Answer
     group: Group
     groups: Groups

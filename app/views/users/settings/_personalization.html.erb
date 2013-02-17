@@ -1,44 +1,44 @@
 <fieldset class="tab-pane" id="adoption">
-  <legend><%= t("views.personalization") %></legend>
+  <legend><%= t("users.settings.personalization") %></legend>
 
   <div class="control-group">
-    <label class="control-label"><%= t('views.threads_by_default') %></label>
+    <label class="control-label"><%= t('users.settings.threads_by_default') %></label>
     <div class="controls">
-      <label class="radio"><input type="radio" value="open" name="settings[open_close_default]"<%= disabled %><% if @settings.conf('open_close_default') == 'open' or @settings.conf('open_close_default').blank? %> checked="checked"<% end %>> <%= t("views.open") %></label>
-      <label class="radio"><input type="radio" value="closed" name="settings[open_close_default]"<%= disabled %><% if @settings.conf('open_close_default') == 'closed' %> checked="checked"<% end %>> <%= t("views.closed") %></label>
+      <label class="radio"><input type="radio" value="open" name="settings[open_close_default]"<%= disabled %><% if @settings.conf('open_close_default') == 'open' or @settings.conf('open_close_default').blank? %> checked="checked"<% end %>> <%= t("users.settings.open") %></label>
+      <label class="radio"><input type="radio" value="closed" name="settings[open_close_default]"<%= disabled %><% if @settings.conf('open_close_default') == 'closed' %> checked="checked"<% end %>> <%= t("users.settings.closed") %></label>
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label"><%= t('views.close_threads_when_read') %></label>
+    <label class="control-label"><%= t('users.settings.close_threads_when_read') %></label>
     <div class="controls">
-      <label class="checkbox"><input type="checkbox" value="yes" name="settings[open_close_close_when_read]"<%= disabled %><% if @settings.conf('open_close_close_when_read') == 'yes' %> checked="checked"<% end %>> <%= t('views.yeah') %></label>
+      <label class="checkbox"><input type="checkbox" value="yes" name="settings[open_close_close_when_read]"<%= disabled %><% if @settings.conf('open_close_close_when_read') == 'yes' %> checked="checked"<% end %>> <%= t('global.yeah') %></label>
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="settings_own_css_file"><%= t('views.own_css_file') %></label>
+    <label class="control-label" for="settings_own_css_file"><%= t('users.settings.own_css_file') %></label>
     <div class="controls">
       <input type="text" value="<%= @settings.conf('own_css_file') %>" name="settings[own_css_file]" id="settings_own_css_file"<%= disabled %>>
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="settings_own_js_file"><%= t('views.own_js_file') %></label>
+    <label class="control-label" for="settings_own_js_file"><%= t('users.settings.own_js_file') %></label>
     <div class="controls">
       <input type="text" value="<%= @settings.conf('own_js_file') %>" name="settings[own_js_file]" id="settings_own_js_file"<%= disabled %>>
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="settings_own_css"><%= t('views.own_css') %></label>
+    <label class="control-label" for="settings_own_css"><%= t('users.settings.own_css') %></label>
     <div class="controls">
       <textarea name="settings[own_css]" id="settings_own_css"<%= disabled %>><%= @settings.conf('own_css') %></textarea>
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="settings_own_js"><%= t('views.own_js') %></label>
+    <label class="control-label" for="settings_own_js"><%= t('users.settings.own_js') %></label>
     <div class="controls">
       <textarea name="settings[own_js]" id="settings_own_js"<%= disabled %>><%= @settings.conf('own_js') %></textarea>
     </div>

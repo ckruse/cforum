@@ -1,10 +1,12 @@
 de:
   global:
     insufficient_rights: Sie haben unzureichende Rechte für diese Aktion!
+    yeah: Ja
+    nope: Nein
+    score: Punkte
 
   views:
     previous_message: "Vorherige Nachricht zum Thema:"
-    score: Punkte
     delete_read_notifications: Gelesene Benachrichtigungen automatisch löschen
     original_poster: Thread-Ersteller
     all_forums: Alle Foren
@@ -53,8 +55,6 @@ de:
     created: Erstellt
     updated: Geändert
     active: Aktiv
-    yeah: Ja
-    nope: Nein
     home: Hauptseite
     new_thread: Neuer Thread
     new_message: Neue Nachricht
@@ -76,14 +76,6 @@ de:
     signature: Signatur
     farewell: Verabschiedung
     greeting: Begrüßung
-    threads_by_default: Threads per default
-    open: geöffnet
-    closed: geschlossen
-    close_threads_when_read: Threads schliessen wenn gelesen
-    own_js_file: Eigene JS-Datei
-    own_css_file: Eigene CSS-Datei
-    own_js: Eigenes Inline-JavaScript
-    own_css: Eigenes Inline-CSS
     highlighted_users: Hervorgehobene Benutzer
     preview: Vorschau
     confirm_first: Sie müssen Ihren Benutzer-Account erst verifizieren!
@@ -103,7 +95,6 @@ de:
     via_email: via E-Mail
     readability_overview: Lesbarkeit/Übersicht
     comma_seperated_list: Komma-separierte Liste
-    personalization: Personalisierung
     notify_on_new_mail: Benachrichtigung bei neuer Post
     answer: Antworten
     group: Gruppe

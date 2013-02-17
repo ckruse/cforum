@@ -1,0 +1,13 @@
+en:
+  users:
+    settings:
+      personalization: Personalization
+      threads_by_default: Threads by default
+      open: Open
+      closed: Geschlossen
+      close_threads_when_read: Close threads when read
+      own_css_file: Own CSS file
+      own_js_file: Own JS file
+      own_css: Own inline CSS
+      own_js: Own inline JS
+
