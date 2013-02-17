@@ -977,7 +977,8 @@ CREATE TABLE threads (
     updated_at timestamp without time zone NOT NULL,
     tid bigint,
     message_id bigint,
-    deleted boolean DEFAULT false NOT NULL
+    deleted boolean DEFAULT false NOT NULL,
+    sticky boolean DEFAULT false NOT NULL
 );
 
 
@@ -1965,6 +1966,8 @@ INSERT INTO schema_migrations (version) VALUES ('33');
 INSERT INTO schema_migrations (version) VALUES ('34');
 
 INSERT INTO schema_migrations (version) VALUES ('35');
+
+INSERT INTO schema_migrations (version) VALUES ('36');
 
 INSERT INTO schema_migrations (version) VALUES ('4');
 
