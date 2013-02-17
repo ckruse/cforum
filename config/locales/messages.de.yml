@@ -10,3 +10,14 @@ de:
     do_not_vote_yourself: Sie dürfen nicht sich selber bewerten!
     vote_removed: Die Wahl wurde entfernt!
     tags_invalid: Der Tag ist fehlerhaft!
+
+    new_answer: Antworten
+    restore_message: Nachricht wiederherstellen
+    delete_message: Nachricht löschen
+    votes: Bewertungen
+    all_msgs_num: Anzahl aller Nachrichten
+    unread_messages_num: Anzahl ungelesener Nachrichten
+    user_link: Benutzer %{user}
+    original_poster: Thread-Ersteller
+    previous_message: "Vorherige Nachricht zum Thema:"
+    preview: Vorschau

@@ -1,5 +1,5 @@
 atom_feed do |feed|
-  feed.title current_forum ? current_forum.name : t('views.all_forums')
+  feed.title current_forum ? current_forum.name : t('forums.all_forums')
   feed.updated(@threads[0].created_at) if @threads.length > 0
 
   @threads.each do |thread|

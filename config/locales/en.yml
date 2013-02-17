@@ -24,18 +24,7 @@ en:
 
   threads:
     move_thread: Move thread
-
-  messages:
-    new_answer: Answer
-    restore_message: Restore message
-    delete_message: Delete message
-    votes: Votes
-    all_msgs_num: Number of all messages
-    unread_messages_num: Number of unread messages
-    user_link: User %{user}
-    original_poster: Original poster
-    previous_message: "Previous message:"
-    preview: Preview
+    new_thread: New Thread
 
   plugins:
     open_thread: Open thread
@@ -56,7 +45,6 @@ en:
     updated: Updated
     active: Active
     home: Home
-    new_thread: New thread
     new_message: New message
     register: Register
     welcome_message: Welcome to our new forum.

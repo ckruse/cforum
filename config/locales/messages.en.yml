@@ -10,3 +10,14 @@ en:
     do_not_vote_yourself: You may not vote yourself!
     vote_removed: Voting has been removed!
     tags_invalid: Tag is invalid
+
+    new_answer: Answer
+    restore_message: Restore message
+    delete_message: Delete message
+    votes: Votes
+    all_msgs_num: Number of all messages
+    unread_messages_num: Number of unread messages
+    user_link: User %{user}
+    original_poster: Original poster
+    previous_message: "Previous message:"
+    preview: Preview

@@ -24,18 +24,7 @@ de:
 
   threads:
     move_thread: Thread verschieben
-
-  messages:
-    new_answer: Antworten
-    restore_message: Nachricht wiederherstellen
-    delete_message: Nachricht löschen
-    votes: Bewertungen
-    all_msgs_num: Anzahl aller Nachrichten
-    unread_messages_num: Anzahl ungelesener Nachrichten
-    user_link: Benutzer %{user}
-    original_poster: Thread-Ersteller
-    previous_message: "Vorherige Nachricht zum Thema:"
-    preview: Vorschau
+    new_thread: Neuer Thread
 
   plugins:
     open_thread: Thread aufklappen
@@ -57,7 +46,6 @@ de:
     updated: Geändert
     active: Aktiv
     home: Hauptseite
-    new_thread: Neuer Thread
     new_message: Neue Nachricht
     register: Registrieren
     welcome_message: Willkommen im neuen Forum
