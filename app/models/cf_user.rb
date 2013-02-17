@@ -70,7 +70,7 @@ class CfUser < ActiveRecord::Base
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user_id, forum.forum_id)
       .all
 
-    @permission[forum.forum_id].each do |p|
+    @permissions[forum.forum_id].each do |p|
       return true if p.permission == CfForumGroupPermission::ACCESS_MODERATE or p.permission == CfForumGroupPermission::ACCESS_WRITE
     end
 
@@ -87,7 +87,7 @@ class CfUser < ActiveRecord::Base
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user_id, forum.forum_id)
       .all
 
-    @permissions[forum.forum_id.to_s].each do |p|
+    @permissions[forum.forum_id].each do |p|
       return true if p.permission == CfForumGroupPermission::ACCESS_MODERATE or p.permission == CfForumGroupPermission::ACCESS_WRITE or p.permission == CfForumGroupPermission::ACCESS_READ
     end
 

@@ -66,17 +66,23 @@ class CfUserTest < ActiveSupport::TestCase
 
     p = CfForumGroupPermission.create!(forum_id: f.forum_id, permission: CfForumGroupPermission::ACCESS_READ, group_id: g.group_id)
 
+    u = CfUser.find u.user_id
+
     assert !u.moderate?(f)
     assert !u.write?(f)
     assert u.read?(f)
 
     p.update_attributes(permission: CfForumGroupPermission::ACCESS_WRITE)
 
+    u = CfUser.find u.user_id
+
     assert !u.moderate?(f)
     assert u.write?(f)
     assert u.read?(f)
 
     p.update_attributes(permission: CfForumGroupPermission::ACCESS_MODERATE)
+
+    u = CfUser.find u.user_id
 
     assert u.moderate?(f)
     assert u.write?(f)
