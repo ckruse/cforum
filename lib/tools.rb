@@ -40,28 +40,33 @@ module CForum
     # message path helpers
     #
 
+    def cf_message_path_wo_anchor(thread, message, args = {})
+      cf_thread_path(thread) + "/" + message.id.to_s + query_string(args)
+    end
+
     def cf_message_path(thread, message, args = {})
-      cf_thread_path(thread) + "/" + message.id.to_s + "#" + message.id.to_s + query_string(args)
+      cf_message_path_wo_anchor(thread, message) + "#" + message.id.to_s + query_string(args)
     end
 
     def cf_edit_message_path(thread, message, args = {})
-      path, anchor = cf_message_path(thread, message).split(/#/)
-      path + "/edit" + query_string(args)
+      cf_message_path_wo_anchor(thread, message) + "/edit" + query_string(args)
     end
 
     def new_cf_message_path(thread, message, args = {})
-      path, anchor = cf_message_path(thread, message).split(/#/)
-      path + "/new" + query_string(args)
+      cf_message_path_wo_anchor(thread, message) + "/new" + query_string(args)
     end
 
     def restore_cf_message_path(thread, message, args = {})
-      path, anchor = cf_message_path(thread, message).split(/#/)
-      path + "/restore" + query_string(args)
+      cf_message_path_wo_anchor(thread, message) + "/restore" + query_string(args)
     end
 
     def vote_cf_message_path(thread, message, args = {})
-      cf_message_path(thread, message) + "/vote" + query_string(args)
+      cf_message_path_wo_anchor(thread, message) + "/vote" + query_string(args)
     end
+
+    #
+    # URL helpers
+    #
 
     def cf_forum_url(forum, args = {})
       forum = forum.slug unless forum.is_a?(String)
