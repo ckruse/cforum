@@ -50,3 +50,6 @@ de:
       error_message: "Fehler verhinderten, dass diese Gruppe gespeichert werden konnte:"
       new_group: Neue Gruppe
       edit_group: Gruppe bearbeiten
+      delete_group: Gruppe löschen
+
+      members: Mitglieder

@@ -1,12 +1,12 @@
-<h1><%= t("views.groups") %></h1>
+<h1><%= t("global.groups") %></h1>
 
 <table class="table table-condensed table-striped table-hover table-striped">
   <thead>
     <tr>
-      <th>Gruppe</th>
-      <th>Mitglieder</th>
-      <th>Erstellt</th>
-      <th>Geändert</th>
+      <th><%= t('global.group') %></th>
+      <th><%= t('admin.groups.members') %></th>
+      <th><%= t('activerecord.attributes.cf_group.created_at') %></th>
+      <th><%= t('activerecord.attributes.cf_group.updated_at') %></th>
       <th> </th>
     </tr>
   </thead>
@@ -19,8 +19,8 @@
       <td><%= l(g.created_at) %></td>
       <td><%= l(g.updated_at) %></td>
       <td>
-        <%= link_to '', admin_group_path(g), :method => :delete, data: {confirm: t('views.are_you_sure')}, class: 'icon icon-trash', title: t('views.delete_group') %>
-        <%= link_to '', edit_admin_group_path(g), class: 'icon icon-edit', title: t('views.edit_group') %>
+        <%= link_to '', admin_group_path(g), :method => :delete, data: {confirm: t('global.are_you_sure')}, class: 'icon icon-trash', title: t('admin.groups.delete_group') %>
+        <%= link_to '', edit_admin_group_path(g), class: 'icon icon-edit', title: t('admin.groups.edit_group') %>
       </td>
     </tr>
     <% end %>

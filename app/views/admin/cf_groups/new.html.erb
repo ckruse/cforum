@@ -5,8 +5,8 @@
 <%= render 'form', t: t %>
 
 <p class="form-actions">
-  <input type="submit" value="<%= t('views.save') %>" class="btn btn-primary"><!-- "> -->
-  <%= link_to t('views.cancel'), admin_groups_path, class: 'btn' %>
+  <%= t.submit t('global.save'), class: 'btn btn-primary' %>
+  <%= link_to t('global.cancel'), admin_groups_path, class: 'btn' %>
 </p>
 
 <% end %>

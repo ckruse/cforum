@@ -16,6 +16,8 @@ de:
     messages: Nachrichten
     last_change: Letzte Änderung
     never: nie
+    group: Gruppe
+    groups: Gruppen
 
   views:
     previous_message: "Vorherige Nachricht zum Thema:"
@@ -32,8 +34,6 @@ de:
     edit_userlist: Benutzerliste bearbeiten
     delete_user: Benutzer löschen
     edit_user: Benutzer bearbeiten
-    delete_group: Gruppe löschen
-    edit_group: Gruppe bearbeiten
     delete_notification: Benachrichtigung löschen
     all_msgs_num: Anzahl aller Nachrichten
     unread_messages_num: Anzahl ungelesener Nachrichten
@@ -72,8 +72,6 @@ de:
     mail: Post
     comma_seperated_list: Komma-separierte Liste
     answer: Antworten
-    group: Gruppe
-    groups: Gruppen
     new_answer: Antworten
     sign_in: Anmelden
     sign_up: Registrieren

@@ -1,8 +1,6 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
   global:
+    insufficient_rights: You have insufficient rights for this action!
     yeah: Yes
     nope: No
     score: Score
@@ -18,6 +16,8 @@ en:
     messages: Messages
     last_change: Last Change
     never: never
+    group: Group
+    groups: Groups
 
   views:
     previous_message: "Previous message:"
@@ -33,8 +33,6 @@ en:
     edit_userlist: Edit user list
     delete_user: Delete user
     edit_user: Edit user
-    delete_group: Delete group
-    edit_group: Edit group
     delete_notification: Delete notification
     all_msgs_num: Number of all messages
     unread_messages_num: Number of unread messages
@@ -74,8 +72,6 @@ en:
     notifications: Notifications
     comma_seperated_list: comma seperated list
     answer: Answer
-    group: Group
-    groups: Groups
     forgot_your_password: Forgot your password?
     instructions: Didn't receive confirmation instructions?
     unlock_instructions: Didn't receive unlock instructions?

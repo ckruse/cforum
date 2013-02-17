@@ -48,3 +48,9 @@ en:
       deleted: User successfully deleted!
 
       error_message: "Errors prohibited this group from being saved:"
+      new_group: New group
+      edit_group: Edit group
+      delete_group: Delete group
+
+      members: Members
+

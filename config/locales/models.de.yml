@@ -68,3 +68,9 @@ de:
 
       cf_forum_access:
         permission: Zugriffsrecht
+
+      cf_group:
+        created_at: Erstellt
+        updated_at: Geändert
+
+
