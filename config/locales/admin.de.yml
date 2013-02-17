@@ -1,7 +1,5 @@
 de:
   admin:
-    users: Benutzer
-
     forums:
       updated: Forum erfolgreich geändert
       created: Forum erfolgreich erstellt
@@ -12,6 +10,23 @@ de:
       new_forum: Neues Forum
       edit: "Forum %{name} bearbeiten"
       merge_forum: "Forum %{forum} zusammenführen"
+
+      no_access: Kein Zugriff
+      read: Lesen
+      write: Schreiben
+      read_after_login: Lesen nach Anmeldung
+      write_after_login: Schreiben nach Anmeldung
+
+      edit: Forum bearbeiten
+      delete: Forum löschen
+      merge: Forum zusammenführen
+
+      settings:
+        items_per_page: Einträge pro Seite
+        use_archive: Archiv nutzen
+        max_threads: Maximale Anzahl von Threads
+        max_messages_per_thread: Maximale Anzahl von Nachrichten pro Thread
+        quote_old_message: Alte Nachricht zitieren
 
     users:
       updated: Benutzer erfolgreich geändert.

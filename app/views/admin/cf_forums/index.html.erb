@@ -3,10 +3,10 @@
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th><%= t('views.forum') %></th>
-      <th><%= t('views.threads') %></th>
-      <th><%= t('views.messages') %></th>
-      <th><%= t('views.last_change') %></th>
+      <th><%= t('global.forum') %></th>
+      <th><%= t('global.threads') %></th>
+      <th><%= t('global.messages') %></th>
+      <th><%= t('global.last_change') %></th>
       <th> </th>
     </tr>
   </thead>
@@ -21,13 +21,13 @@
           msg = @activities[forum.forum_id] %>
           <%= l(msg.updated_at) %> von <%= msg.user_id ? link_to(msg.author, user_path(msg.owner)) : msg.author %>: <%= link_to msg.subject, cf_message_path(msg.thread, msg) %>
         <% else %>
-          <em>(<%= t("views.never") %>)</em>
+          <em>(<%= t("global.never") %>)</em>
         <% end %>
       </td>
       <td>
-        <%= link_to '', edit_admin_forum_path(forum.forum_id), :class => "icon icon-edit", title: t('views.edit_forum') %>
-        <%= link_to '', admin_forum_path(forum.forum_id), data: {confirm: t('views.are_you_sure')}, :method => :delete, :class => 'icon icon-trash', title: t('views.delete_forum') %>
-        <%= link_to '', admin_forums_merge_path(forum.forum_id), :class => 'icon icon-share', title: t('views.merge_forum') %>
+        <%= link_to '', edit_admin_forum_path(forum.forum_id), :class => "icon icon-edit", title: t('admin.forums.edit') %>
+        <%= link_to '', admin_forum_path(forum.forum_id), data: {confirm: t('global.are_you_sure')}, :method => :delete, :class => 'icon icon-trash', title: t('admin.forums.delete') %>
+        <%= link_to '', admin_forums_merge_path(forum.forum_id), :class => 'icon icon-share', title: t('admin.forums.merge') %>
       </td>
     </tr>
     <% end %>

@@ -11,12 +11,17 @@ en:
     save: Save
     cancel: Cancel
     are_you_sure: Are you sure?
+    users: Users
+    forums: Forums
+    forum: Forum
+    threads: Threads
+    messages: Messages
+    last_change: Last Change
+    never: never
 
   views:
     previous_message: "Previous message:"
     original_poster: Original poster
-    max_threads: Maximum number of threads
-    max_messages_per_thread: Maximum number of posts per thread
     open_thread: Open thread
     close_thread: Close thread
     move_thread: Move thread
@@ -28,9 +33,6 @@ en:
     edit_userlist: Edit user list
     delete_user: Delete user
     edit_user: Edit user
-    edit_forum: Edit forum
-    delete_forum: Delete forum
-    merge_forum: Merge forum
     delete_group: Delete group
     edit_group: Edit group
     delete_notification: Delete notification
@@ -43,10 +45,6 @@ en:
     delete: Delete
     administration: Administration
     administrator: Administrator
-    threads: Threads
-    messages: Messages
-    last_change: Last Change
-    never: never
     merge_forum_with: Merge forum with
     merge_forum: Merge forum
     back: Back
@@ -67,9 +65,7 @@ en:
     user_information: User Information
     preview: Preview
     confirm_first: You have to confirm your registration first!
-    items_per_page: Items per page
     users_per_page: Users per page
-    use_archive: Use archive
     reply: Reply
     post_from: Mail from %{name}
     post: Mail

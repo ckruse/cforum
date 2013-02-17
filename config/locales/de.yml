@@ -9,13 +9,18 @@ de:
     save: Speichern
     cancel: Abbrechen
     are_you_sure: Sind Sie sicher?
+    users: Benutzer
+    forums: Forums
+    forum: Forum
+    threads: Threads
+    messages: Nachrichten
+    last_change: Letzte Änderung
+    never: nie
 
   views:
     previous_message: "Vorherige Nachricht zum Thema:"
     original_poster: Thread-Ersteller
     all_forums: Alle Foren
-    max_threads: Maximal-Anzahl von Threads
-    max_messages_per_thread: Maximal-Anzahl Nachrichten pro Thread
     open_thread: Thread aufklappen
     close_thread: Thread aufklappen
     move_thread: Thread verschieben
@@ -27,26 +32,17 @@ de:
     edit_userlist: Benutzerliste bearbeiten
     delete_user: Benutzer löschen
     edit_user: Benutzer bearbeiten
-    edit_forum: Forum bearbeiten
-    delete_forum: Forum löschen
-    merge_forum: Forum zusammenführen
     delete_group: Gruppe löschen
     edit_group: Gruppe bearbeiten
     delete_notification: Benachrichtigung löschen
     all_msgs_num: Anzahl aller Nachrichten
     unread_messages_num: Anzahl ungelesener Nachrichten
-    forum: Forum
-    forums: Foren
     user: Benutzer
     name: Name
     edit: Bearbeiten
     delete: Löschen
     administration: Verwaltung
     administrator: Administrator
-    threads: Threads
-    messages: Nachrichten
-    last_change: Letzte Änderung
-    never: nie
     merge_forum_with: Forum zusammenführen mit
     merge_forum: Forum zusammenführen
     back: Zurück
@@ -68,9 +64,7 @@ de:
     quote_char: Zitat-Zeichen
     preview: Vorschau
     confirm_first: Sie müssen Ihren Benutzer-Account erst verifizieren!
-    items_per_page: Einträge pro Seite
     users_per_page: Benutzer pro Seite
-    use_archive: Archiv benutzen
     reply: Antworten
     post_from: Kommunikation mit %{name}
     post: Post

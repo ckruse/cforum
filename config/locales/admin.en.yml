@@ -1,7 +1,5 @@
 en:
   admin:
-    usrs: Users
-
     forums:
       updated: Forum successfully changed
       created: Forum successfully created
@@ -12,6 +10,23 @@ en:
       new_forum: New Forum
       edit: "Edit forum %{name}"
       merge_forum: "Merge forum %{forum}"
+
+      no_access: No access
+      read: Read
+      write: Write
+      read_after_login: Read after login
+      write_after_login: Write after login
+
+      edit: Edit forum
+      delete: Delete forum
+      merge: Merge forum
+
+      settings:
+        items_per_page: Items per page
+        use_archive: Use archive
+        max_threads: Maximum amount of threads
+        max_messages_per_thread: Maximum amount of messages per thread
+        quote_old_message: Alte Nachricht zitieren
 
     users:
       updated: User was successfully changed!
