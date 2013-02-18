@@ -1,7 +1,6 @@
-<p>Hello <%= @resource.email %>!</p>
+<p><%= t('devise.unlocks.hello') %> <%= @resource.email %>!</p>
 
-<p>Your account has been locked due to an excessive amount of unsuccessful sign in attempts.</p>
+<p><%= t('devise.unlocks.account_locked') %></p>
+<p><%= t('devise.unlocks.visit_link_to_unlock') %>:</p>
 
-<p>Click the link below to unlock your account:</p>
-
-<p><%= link_to 'Unlock my account', unlock_url(@resource, :unlock_token => @resource.unlock_token) %></p>
+<p><%= link_to t('devise.unlocks.unlock'), unlock_url(@resource, :unlock_token => @resource.unlock_token) %></p>

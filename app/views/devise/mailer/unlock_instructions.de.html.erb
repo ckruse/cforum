@@ -1,7 +1,0 @@
-<p>Hallo <%= @resource.username %>!</p>
-
-<p>Ihr Account wurde gesperrt durch eine exzessive Anzahl von erfolglosen Login-Versuchen.</p>
-
-<p>Besuchen Sie den folgenden Link, um Ihren Account zu entsperren:</p>
-
-<p><%= link_to 'Account entsperren', unlock_url(@resource, :unlock_token => @resource.unlock_token) %></p>
