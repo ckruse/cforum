@@ -27,6 +27,7 @@
       <td>
         <%= link_to '', mail_path(m.sender.username, m), :method => :delete, data: {confirm: t('global.are_you_sure')}, :class => 'icon icon-trash', title: t('mails.delete') %>
         <%= link_to '', new_mail_path('priv_message_id' => m.priv_message_id), :class => 'icon icon-share', title: t('mails.answer_mail') %>
+        <%= link_to '', new_mail_path('priv_message_id' => m.priv_message_id, quote_old_message: 'yes'), class: 'icon icon-share', title: t('mails.answer_mail_wo_quote') %>
       </td>
     </tr>
     <% end %>

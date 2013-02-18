@@ -31,12 +31,4 @@
     </div>
   </div>
 
-  <div class="control-group">
-    <label class="control-label" for="settings-quote_old_message"><%= t('admin.forums.settings.quote_old_message') %></label>
-    <div class="controls">
-      <input type="hidden" name="settings[quote_old_message]" value="no">
-      <%= check_box_tag 'settings[quote_old_message]', 'yes', @settings.options['quote_old_message'] == 'yes', :id => 'settings-quote_old_message' %>
-    </div>
-  </div>
-
 </fieldset>

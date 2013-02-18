@@ -5,7 +5,7 @@
     <%= m.to_html %>
   </div>
 
-  <p><%= link_to t("messages.new_answer"), new_cf_message_path(@thread, m) %>
+  <p><%= link_to t("messages.new_answer"), new_cf_message_path(@thread, m, 'quote_old_message' => 'yes') %> <%= link_to t("messages.new_answer_wo_quote"), new_cf_message_path(@thread, m) %>
 
     <% if current_user %>
     <%= form_tag vote_cf_message_path(@thread, m), :method => :post do %>

@@ -69,7 +69,7 @@ class CfMessagesController < ApplicationController
 
     # inherit message and subject from previous post
     @message.subject = @parent.subject
-    @message.content = @parent.to_quote if uconf('quote_old_message', 'yes') == 'yes'
+    @message.content = @parent.to_quote if params.has_key?(:quote_old_message)
 
     notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
   end
@@ -263,7 +263,5 @@ class CfMessagesController < ApplicationController
   end
 
 end
-
-SettingValidator.validators['quote_old_message'] = lambda { |nam, val| %w{yes no}.include?(val) }
 
 # eof
