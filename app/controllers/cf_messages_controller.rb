@@ -262,6 +262,49 @@ class CfMessagesController < ApplicationController
     redirect_to cf_message_url(@thread, @message)
   end
 
+  def accept
+    @id      = CfThread.make_id(params)
+    @thread  = CfThread.includes(:messages, :forum).find_by_slug!(@id)
+    @message = @thread.find_message(params[:mid].to_i)
+    raise CForum::NotFoundException.new if @message.blank?
+
+    if @thread.message.user_id != current_user.user_id and @thread.message.uuid != cookies[:cforum_user]
+      flash[:error] = t('messages.only_op_may_accept')
+      redirect_to cf_message_url(@thread, @message)
+      return
+    end
+
+    CfMessage.transaction do
+      @message.accepted = !@message.accepted
+      @message.save
+
+      unless @message.user_id.blank?
+        if @message.accepted
+          @thread.messages.each do |m|
+            if m.message_id != @message.message_id and m.accepted
+              m.accepted = false
+              m.save
+
+              if not m.user_id.blank? and score = CfScore.find(user_id: m.user_id, message_id: m.message_id)
+                score.destroy
+              end
+            end
+          end
+
+          CfScore.create!(
+            user_id: @message.user_id,
+            message_id: @vote.vote_id,
+            value: Rails.application.config.accept_value
+          )
+        else
+          if score = CfScore.find(user_id: @message.user_id, message_id: @message.message_id)
+            score.destroy
+          end
+        end
+      end
+    end
+  end
+
 end
 
 # eof

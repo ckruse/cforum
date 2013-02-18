@@ -637,7 +637,8 @@ CREATE TABLE messages (
     subject character varying NOT NULL,
     content character varying NOT NULL,
     flags hstore,
-    uuid character varying(250)
+    uuid character varying(250),
+    accepted boolean DEFAULT false NOT NULL
 );
 
 
@@ -876,9 +877,10 @@ CREATE TABLE schema_migrations (
 CREATE TABLE scores (
     score_id bigint NOT NULL,
     user_id bigint NOT NULL,
-    vote_id bigint NOT NULL,
+    vote_id bigint,
     value integer NOT NULL,
-    created_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    message_id bigint
 );
 
 
@@ -1459,10 +1461,17 @@ CREATE UNIQUE INDEX read_messages_message_id_user_id_idx ON read_messages USING 
 
 
 --
+-- Name: scores_user_id_message_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX scores_user_id_message_id_idx ON scores USING btree (user_id, message_id) WHERE (message_id IS NOT NULL);
+
+
+--
 -- Name: scores_user_id_vote_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX scores_user_id_vote_id_idx ON scores USING btree (user_id, vote_id);
+CREATE UNIQUE INDEX scores_user_id_vote_id_idx ON scores USING btree (user_id, vote_id) WHERE (vote_id IS NOT NULL);
 
 
 --
@@ -1834,6 +1843,14 @@ ALTER TABLE ONLY read_messages
 
 
 --
+-- Name: scores_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY scores
+    ADD CONSTRAINT scores_message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: scores_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -1968,6 +1985,8 @@ INSERT INTO schema_migrations (version) VALUES ('34');
 INSERT INTO schema_migrations (version) VALUES ('35');
 
 INSERT INTO schema_migrations (version) VALUES ('36');
+
+INSERT INTO schema_migrations (version) VALUES ('37');
 
 INSERT INTO schema_migrations (version) VALUES ('4');
 

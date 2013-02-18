@@ -70,6 +70,7 @@ module Cforum
 
     config.vote_up_value = 10
     config.vote_down_value = 1
+    config.accept_value = 15
 
   end
 end
