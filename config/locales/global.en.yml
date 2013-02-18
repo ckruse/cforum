@@ -1,0 +1,21 @@
+en:
+  global:
+    insufficient_rights: You have insufficient rights for this action!
+    yeah: Yes
+    nope: No
+    score: Score
+    error: error
+    errors: errors
+    save: Save
+    cancel: Cancel
+    are_you_sure: Are you sure?
+    users: Users
+    forums: Forums
+    forum: Forum
+    threads: Threads
+    messages: Messages
+    last_change: Last Change
+    never: never
+    group: Group
+    groups: Groups
+    back: Back

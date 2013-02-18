@@ -10,6 +10,12 @@ de:
         other: "Konnte %{resource} nicht speichern: %{count} Fehler."
 
   devise:
+    sign_in: Anmelden
+    sign_up: Registrieren
+    forgot_your_password: Passwort vergessen?
+    instructions: Bestätigungs-Mail nicht bekommen?
+    unlock_instructions: Entsperr-Instruktionen nicht bekommen?
+
     failure:
       already_authenticated: "Du bist schon angemeldet."
       unauthenticated: "Bitte melde Dich an."

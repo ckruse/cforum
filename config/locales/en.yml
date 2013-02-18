@@ -1,24 +1,4 @@
 en:
-  global:
-    insufficient_rights: You have insufficient rights for this action!
-    yeah: Yes
-    nope: No
-    score: Score
-    error: error
-    errors: errors
-    save: Save
-    cancel: Cancel
-    are_you_sure: Are you sure?
-    users: Users
-    forums: Forums
-    forum: Forum
-    threads: Threads
-    messages: Messages
-    last_change: Last Change
-    never: never
-    group: Group
-    groups: Groups
-
   forums:
     all_forums: All forums
 
@@ -59,33 +39,7 @@ en:
     post_from_to: "Mail from %{sender} to %{recipient}"
     at: at
 
-  views:
-    delete_notification: Delete notification
-    user: User
-    edit: Edit
-    delete: Delete
-    administrator: Administrator
-    back: Back
-    created: Created
-    updated: Updated
-    active: Active
-    new_message: New message
-    welcome_message: Welcome to our new forum.
-    forum_name: Classic Forum
-    subject: Subject
-    author: Author
-    settings: Settings
-    user_information: User Information
-    confirm_first: You have to confirm your registration first!
-    users_per_page: Users per page
-    reply: Reply
-    author: Author
-    recipient: Recipient
-    subject: Subject
-    notifications: Notifications
-    comma_seperated_list: comma seperated list
-    answer: Answer
-    forgot_your_password: Forgot your password?
-    instructions: Didn't receive confirmation instructions?
-    unlock_instructions: Didn't receive unlock instructions?
+  notifications:
+    delete: Delete notification
+
 

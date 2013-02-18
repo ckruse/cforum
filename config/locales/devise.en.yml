@@ -1,5 +1,3 @@
-# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
-
 en:
   errors:
     messages:
@@ -12,6 +10,12 @@ en:
         other: "%{count} errors prohibited this %{resource} from being saved:"
 
   devise:
+    sign_in: Sign in
+    sign_up: Sign up
+    forgot_your_password: Forgot your password?
+    instructions: Didn't receive confirmation instructions?
+    unlock_instructions: Didn't receive unlock instructions?
+
     failure:
       already_authenticated: 'You are already signed in.'
       unauthenticated: 'You need to sign in or sign up before continuing.'

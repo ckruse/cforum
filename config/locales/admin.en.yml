@@ -1,5 +1,8 @@
 en:
   admin:
+    administration: Administration
+    settings: Settings
+
     forums:
       updated: Forum successfully changed
       created: Forum successfully created
@@ -29,6 +32,7 @@ en:
         max_threads: Maximum amount of threads
         max_messages_per_thread: Maximum amount of messages per thread
         quote_old_message: Alte Nachricht zitieren
+        users_per_page: Users per page
 
     users:
       updated: User was successfully changed!

@@ -4,3 +4,25 @@ de:
     logged_in: Der Login war erfolgreich.
     updated: Benutzer erfolgreich geändert.
     deleted: Benutzer erfolgreich gelöscht.
+
+    user_information: Benutzer-Informationen
+    personal_information: Persönliche Informationen
+    comfort: Komfort
+    notifications: Benachrichtigungen
+    personalization: Personalisierung
+    readability_overview: Lesbarkeit/Übersicht
+
+    edit: Profil bearbeiten
+    delete: Profil löschen
+
+    name: Name
+    score: Punkte
+    registered_since: Registriert seit
+    newest_messages: Neueste Nachrichten
+    no_messages_so_far: Bisher keine Beiträge.
+    tags: Tags
+    no_tagged_messages_so_far: Bisher keine getaggten Beiträge
+    best_scored: Best bewertet
+    no_scored_messages_so_far: Bisher keine bewerteten Beiträge.
+    votings: Bewertungen
+

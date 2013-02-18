@@ -1,24 +1,4 @@
 de:
-  global:
-    insufficient_rights: Sie haben unzureichende Rechte für diese Aktion!
-    yeah: Ja
-    nope: Nein
-    score: Punkte
-    error: Fehler
-    errors: Fehler
-    save: Speichern
-    cancel: Abbrechen
-    are_you_sure: Sind Sie sicher?
-    users: Benutzer
-    forums: Forums
-    forum: Forum
-    threads: Threads
-    messages: Nachrichten
-    last_change: Letzte Änderung
-    never: nie
-    group: Gruppe
-    groups: Gruppen
-
   forums:
     all_forums: Alle Foren
 
@@ -59,38 +39,8 @@ de:
     post_from_to: "Post von %{sender} an %{recipient}"
     at: am
 
-  views:
-    delete_notification: Benachrichtigung löschen
-    user: Benutzer
-    name: Name
-    edit: Bearbeiten
-    delete: Löschen
-    administrator: Administrator
-    back: Zurück
-    created: Erstellt
-    updated: Geändert
-    active: Aktiv
-    new_message: Neue Nachricht
-    welcome_message: Willkommen im neuen Forum
-    forum_name: Classic Forum
-    settings: Einstellungen
-    user_information: Benutzer-Informationen
-    permissions: Zugriffsrechte
-    delete_account: Account löschen
-    quote_char: Zitat-Zeichen
-    confirm_first: Sie müssen Ihren Benutzer-Account erst verifizieren!
-    users_per_page: Benutzer pro Seite
-    reply: Antworten
-    author: Autor
-    recipient: Empfänger
-    subject: Betreff
-    comma_seperated_list: Komma-separierte Liste
-    answer: Antworten
-    sign_in: Anmelden
-    sign_up: Registrieren
-    forgot_your_password: Passwort vergessen?
-    instructions: Bestätigungs-Mail nicht bekommen?
-    unlock_instructions: Entsperr-Instruktionen nicht bekommen?
+  notifications:
+    delete: Benachrichtigung löschen
 
   date:
     abbr_day_names:

@@ -1,12 +1,12 @@
-<h1><%= t('views.user') %> <%= @user.username %></h1>
+<h1><%= t('global.user') %> <%= @user.username %></h1>
 
 <%= form_for @user, url: user_path(@user), html: {:class => 'form-horizontal'} do |f| %>
 
   <%= render 'form', f: f %>
 
   <p class="form-actions">
-    <%= f.submit :class => 'btn btn-primary' %>
-    <%= link_to 'Back', users_path, :class => 'btn' %>
+    <%= f.submit t('global.save'), :class => 'btn btn-primary' %>
+    <%= link_to t('global.back'), users_path, :class => 'btn' %>
   </p>
 
 <% end %>

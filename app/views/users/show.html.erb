@@ -1,21 +1,21 @@
 <% render 'cf_messages/message_header' %>
-<h1><%= t('views.user') + ' ' + @user.username %></h1>
+<h1><%= t('global.user') + ' ' + @user.username %></h1>
 
 <table>
   <tr>
-    <th>Name:</th>
+    <th><%= t('users.name') %>:</th>
     <td><%= @settings.conf('name', @user.username) %></td>
   </tr>
   <tr>
-    <th>Punkte:</th>
+    <th><%= t('users.score') %>:</th>
     <td class="<% if @user_score < 0 %>score-down<% else %>score-up<% end %>"><%= @user_score %></td>
   </tr>
   <% if current_user == @user %><tr>
-    <th>E-Mail:</th>
+    <th><%= t('activerecord.attributes.cf_user.email') %>:</th>
     <td><%= @user.email %></td>
   </tr><% end %>
   <tr>
-    <th>Registriert seit:</th>
+    <th><%= t('users.registered_since') %>:</th>
     <td><%= l(@user.created_at) %></td>
   </tr>
 </table>
@@ -24,10 +24,10 @@
 
 <div class="row-fluid">
   <div class="well span6">
-    <h3>Neueste Nachrichten</h3>
+    <h3><%= t('users.newest_messages') %></h3>
 
     <% if @last_messages.blank? %>
-      <p>Bisher keine Beiträge.</p>
+      <p><%= t('users.no_messages_so_far') %></p>
     <% end %>
 
     <% @last_messages.each do |m| %>
@@ -38,10 +38,10 @@
   </div>
 
   <div class="well span6">
-    <h3>Tags</h3>
+    <h3><%= t('users.tags') %></h3>
 
     <% if @tags_cnts.blank? %>
-      <p>Bisher keine getaggten Beiträge.</p>
+      <p><%= t('users.no_tagged_messages_so_far') %>.</p>
     <% else %>
       <table class="users-tags-list">
         <% @tags_cnts.each do |t| %>
@@ -59,10 +59,10 @@
 
 <div class="row-fluid">
   <div class="well span6">
-    <h3>Best bewertet</h3>
+    <h3><%= t('users.best_scored') %></h3>
 
     <% if @point_msgs.blank? %>
-      <p>Bisher keine bewerteten Beiträge.</p>
+      <p><%= t('users.no_scored_messages_so_far') %></p>
     <% end %>
     <% @point_msgs.each do |m| %>
       <article class="thread threadlist">
@@ -72,10 +72,10 @@
   </div>
 
   <div class="well span6">
-    <h3>Bewertungen</h3>
+    <h3><%= t('users.votings') %></h3>
 
     <% if @score_msgs.blank? %>
-      <p>Bisher keine bewerteten Beiträge.</p>
+      <p><%= t('users.no_scored_messages_so_far') %></p>
 
     <% else %>
       <table class="score-table">
@@ -93,10 +93,10 @@
 
 <p class="form-actions">
   <% if not current_user.blank? and @user.user_id == current_user.user_id %>
-  <%= link_to t('views.edit'), edit_user_path(@user), :class => 'btn' %>
-  <%= link_to t('views.delete_account'), user_path(@user), confirm: t("views.are_you_sure"), :method => :delete, :class => 'btn' %>
+  <%= link_to t('users.edit'), edit_user_path(@user), :class => 'btn' %>
+  <%= link_to t('users.delete'), user_path(@user), confirm: t("global.are_you_sure"), :method => :delete, :class => 'btn' %>
   <% end %>
 
-  <%= link_to t('views.back'), users_path, :class => 'btn' %>
+  <%= link_to t('global.back'), users_path, :class => 'btn' %>
 </p>
 

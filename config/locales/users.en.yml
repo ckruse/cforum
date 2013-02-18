@@ -1,9 +1,28 @@
+en:
   users:
     signed_up: Signed up!
     logged_in: Successfully logged in!
     updated: User was successfully changed!
     deleted: User was successfully deleted!
 
-    new:
-      form_invalid: The Form is invalid!
-      passwords_do_not_match: Password and its confirmation do not match!
+    user_information: User information
+    personal_information: Personal Information
+    comfort: Comfort
+    notifications: Notifications
+    personalization: Personalization
+    readability_overview: Readability/Overview
+
+    edit: Edit profile
+    delete: Delete profile
+
+    name: Name
+    score: Score
+    registered_since: Registered since
+    newest_messages: Newest messages
+    no_messages_so_far: No messages so far
+    tags: Tags
+    no_tagged_messages_so_far: No tagged messages so far
+    best_scored: Best scored
+    no_scored_messages_so_far: No scored messages so far
+    votings: Votings
+
