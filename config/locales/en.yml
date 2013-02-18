@@ -29,16 +29,6 @@ en:
     register: Register
     title: Classic Forum
 
-  mails:
-    post: Mail
-    new_mail: New mail
-    post_from: Mail from %{name}
-    delete: Delete mail
-    answer_mail: Reply mail
-    send: Send
-    post_from_to: "Mail from %{sender} to %{recipient}"
-    at: at
-
   notifications:
     delete: Delete notification
 

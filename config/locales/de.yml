@@ -29,16 +29,6 @@ de:
     register: Registrieren
     title: Classic Forum
 
-  mails:
-    post: Post
-    new_mail: Neue Mail
-    post_from: Kommunikation mit %{name}
-    delete: Post löschen
-    answer_mail: Nachricht beantworten
-    send: Senden
-    post_from_to: "Post von %{sender} an %{recipient}"
-    at: am
-
   notifications:
     delete: Benachrichtigung löschen
 

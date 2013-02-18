@@ -4,3 +4,12 @@ de:
     sent: Die Nachricht wurde erfolgreich verschickt.
     error_message: "Fehler verhinderten, dass diese Nachricht gespeichert werden konnte:"
     define_recipient_please: Bitte geben Sie einen Empfänger an!
+    post: Post
+    new_mail: Neue Mail
+    post_from: Kommunikation mit %{name}
+    delete: Post löschen
+    answer_mail: Nachricht beantworten
+    answer_mail_wo_quote: Nachricht ohne Zitat beantworten
+    send: Senden
+    post_from_to: "Post von %{sender} an %{recipient}"
+    at: am
