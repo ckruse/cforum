@@ -5,7 +5,7 @@
     <h2><%= @mail.subject %></h2>
 
     <details open>
-      <summary><%= t('mails.post_from_to', name: @mail.sender.username, recipient: @mail.recipient.username) %> <%= t('mails.at') %> <time datetime="<%= @mail.created_at.to_s %>"><%= l(@mail.created_at) %></time></summary>
+      <summary><%= t('mails.post_from_to', sender: @mail.sender.username, recipient: @mail.recipient.username) %> <%= t('mails.at') %> <time datetime="<%= @mail.created_at.to_s %>"><%= l(@mail.created_at) %></time></summary>
     </details>
   </header>
 
@@ -15,6 +15,7 @@
 </article>
 
 <div class="form-actions">
-  <%= link_to t('mails.answer_mail'), new_mail_path('priv_message_id' => @mail.priv_message_id), :class => 'btn' %>
+  <%= link_to t('mails.answer_mail'), new_mail_path(priv_message_id: @mail.priv_message_id, quote_old_message: 'yes'), :class => 'btn' %>
+  <%= link_to t('mails.answer_mail_wo_quote'), new_mail_path('priv_message_id' => @mail.priv_message_id), :class => 'btn' %>
   <%= link_to t('mails.delete'), mail_path(@mail.sender.username, @mail), :method => :delete, data: {confirm: t('global.are_you_sure')}, :class => 'btn' %>
 </div>
