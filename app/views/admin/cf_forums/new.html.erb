@@ -5,7 +5,7 @@
 <%= render 'form', f: f %>
 
 <p class="form-actions">
-  <%= t.submit t('global.save'), class: 'btn btn-primary' %>
+  <%= f.submit t('global.save'), class: 'btn btn-primary' %>
   <%= link_to t('global.cancel'), admin_forums_path, class: 'btn' %>
 </p>
 
