@@ -1,11 +1,11 @@
-<h1><%= t('views.post_from', :name => @mail.sender.username) %></h1>
+<h1><%= t('mails.post_from', :name => @mail.sender.username) %></h1>
 
 <article class="message">
   <header>
     <h2><%= @mail.subject %></h2>
 
     <details open>
-      <summary>Nachricht von <%= @mail.sender.username %> an <%= @mail.recipient.username %> am <time datetime="<%= @mail.created_at.to_s %>"><%= l(@mail.created_at) %></time></summary>
+      <summary><%= t('mails.post_from_to', name: @mail.sender.username, recipient: @mail.recipient.username) %> <%= t('mails.at') %> <time datetime="<%= @mail.created_at.to_s %>"><%= l(@mail.created_at) %></time></summary>
     </details>
   </header>
 
@@ -15,6 +15,6 @@
 </article>
 
 <div class="form-actions">
-  <%= link_to t('views.reply'), new_mail_path('priv_message_id' => @mail.priv_message_id), :class => 'btn' %>
-  <%= link_to t('views.delete'), mail_path(@mail.sender.username, @mail), :method => :delete, data: {confirm: t('views.are_you_sure')}, :class => 'btn' %>
+  <%= link_to t('mails.answer_mail'), new_mail_path('priv_message_id' => @mail.priv_message_id), :class => 'btn' %>
+  <%= link_to t('mails.delete'), mail_path(@mail.sender.username, @mail), :method => :delete, data: {confirm: t('global.are_you_sure')}, :class => 'btn' %>
 </div>

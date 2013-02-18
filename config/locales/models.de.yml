@@ -73,4 +73,10 @@ de:
         created_at: Erstellt
         updated_at: Geändert
 
+      cf_priv_message:
+        sender: Autor
+        recipient: Empfänger
+        subject: Betreff
+        created_at: Erstellt
+        updated_at: Geändert
 

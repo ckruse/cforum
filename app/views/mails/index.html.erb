@@ -1,4 +1,4 @@
-<h1><% if @user %><%= t('views.post_from', name: @user.username) %><% else %><%= t('views.post') %><% end %></h1>
+<h1><% if @user %><%= t('mails.post_from', name: @user.username) %><% else %><%= t('mails.post') %><% end %></h1>
 
 <%= form_tag mails_path, :class => 'form-horizontal', :method => :delete do %>
 
@@ -7,10 +7,10 @@
     <tr>
       <th><input type="checkbox" id="check-all-box">
       <th> </th>
-      <th><%= t('views.author') %></th>
-      <th><%= t('views.recipient') %></th>
-      <th><%= t('views.subject') %></th>
-      <th><%= t('views.created') %></th>
+      <th><%= t('activerecord.attributes.cf_priv_message.sender') %></th>
+      <th><%= t('activerecord.attributes.cf_priv_message.recipient') %></th>
+      <th><%= t('activerecord.attributes.cf_priv_message.subject') %></th>
+      <th><%= t('activerecord.attributes.cf_priv_message.created_at') %></th>
       <th> </th>
     </tr>
   </thead>
@@ -25,8 +25,8 @@
       <td><%= link_to m.subject, mail_path(m.sender.username, m) %></td>
       <td><%= l(m.created_at) %></td>
       <td>
-        <%= link_to '', mail_path(m.sender.username, m), :method => :delete, data: {confirm: t('views.are_you_sure')}, :class => 'icon icon-trash', title: t('views.delete_mail') %>
-        <%= link_to '', new_mail_path('priv_message_id' => m.priv_message_id), :class => 'icon icon-share', title: t('views.answer_mail') %>
+        <%= link_to '', mail_path(m.sender.username, m), :method => :delete, data: {confirm: t('global.are_you_sure')}, :class => 'icon icon-trash', title: t('mails.delete') %>
+        <%= link_to '', new_mail_path('priv_message_id' => m.priv_message_id), :class => 'icon icon-share', title: t('mails.answer_mail') %>
       </td>
     </tr>
     <% end %>

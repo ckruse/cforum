@@ -49,10 +49,17 @@ de:
     register: Registrieren
     title: Classic Forum
 
-  views:
-    delete_mail: Nachricht löschen
+  mails:
+    post: Post
+    new_mail: Neue Mail
+    post_from: Kommunikation mit %{name}
+    delete: Post löschen
     answer_mail: Nachricht beantworten
-    edit_userlist: Benutzerliste bearbeiten
+    send: Senden
+    post_from_to: "Post von %{sender} an %{recipient}"
+    at: am
+
+  views:
     delete_notification: Benachrichtigung löschen
     user: Benutzer
     name: Name
@@ -74,8 +81,6 @@ de:
     confirm_first: Sie müssen Ihren Benutzer-Account erst verifizieren!
     users_per_page: Benutzer pro Seite
     reply: Antworten
-    post_from: Kommunikation mit %{name}
-    post: Post
     author: Autor
     recipient: Empfänger
     subject: Betreff
@@ -86,7 +91,6 @@ de:
     forgot_your_password: Passwort vergessen?
     instructions: Bestätigungs-Mail nicht bekommen?
     unlock_instructions: Entsperr-Instruktionen nicht bekommen?
-    send: Senden
 
   date:
     abbr_day_names:

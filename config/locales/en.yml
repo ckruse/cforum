@@ -49,10 +49,17 @@ en:
     register: Register
     title: Classic Forum
 
-  views:
-    delete_mail: Delete mail
+  mails:
+    post: Mail
+    new_mail: New mail
+    post_from: Mail from %{name}
+    delete: Delete mail
     answer_mail: Reply mail
-    edit_userlist: Edit user list
+    send: Send
+    post_from_to: "Mail from %{sender} to %{recipient}"
+    at: at
+
+  views:
     delete_notification: Delete notification
     user: User
     edit: Edit
@@ -72,8 +79,6 @@ en:
     confirm_first: You have to confirm your registration first!
     users_per_page: Users per page
     reply: Reply
-    post_from: Mail from %{name}
-    post: Mail
     author: Author
     recipient: Recipient
     subject: Subject
