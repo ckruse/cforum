@@ -38,7 +38,16 @@ de:
     not_allowed_error: Zugriff verboten!
     not_allowed_error_message: "Sie haben auf eine Resource zugegriffen, auf die der Zugriff verboten ist."
     not_allowed_maybe_you_want_to: Vielleicht möchten Sie sich erst
-    login: einloggen
+    login: anmelden
+
+  layout:
+    home: Hauptseite
+    mail: Post
+    administration: Verwaltung
+    logout: Abmelden
+    login: Anmelden
+    register: Registrieren
+    title: Classic Forum
 
   views:
     delete_mail: Nachricht löschen
@@ -49,19 +58,14 @@ de:
     name: Name
     edit: Bearbeiten
     delete: Löschen
-    administration: Verwaltung
     administrator: Administrator
     back: Zurück
     created: Erstellt
     updated: Geändert
     active: Aktiv
-    home: Hauptseite
     new_message: Neue Nachricht
-    register: Registrieren
     welcome_message: Willkommen im neuen Forum
     forum_name: Classic Forum
-    title: Classic Forum
-    logout: Ausloggen
     settings: Einstellungen
     user_information: Benutzer-Informationen
     permissions: Zugriffsrechte
@@ -75,7 +79,6 @@ de:
     author: Autor
     recipient: Empfänger
     subject: Betreff
-    mail: Post
     comma_seperated_list: Komma-separierte Liste
     answer: Antworten
     sign_in: Anmelden

@@ -8,29 +8,29 @@
 
           <div class="nav-collapse">
             <ul class="nav">
-              <li<% if controller_path == 'cf_forums' %> class="active"<% end %>><a href="<%= root_url %>"><%= t('views.home') %></a></li>
+              <li<% if controller_path == 'cf_forums' %> class="active"<% end %>><a href="<%= root_url %>"><%= t('layout.home') %></a></li>
 
               <% if current_user %>
-              <li<% if controller_path == 'mails' %> class="active"<% end %>><a href="<%= mails_path %>"><%= t('views.mail') %></a></li>
+              <li<% if controller_path == 'mails' %> class="active"<% end %>><a href="<%= mails_path %>"><%= t('layout.mail') %></a></li>
               <% end %>
 
               <% if current_user and current_user.admin %>
-              <li<% if controller_path =~ /^admin/ %> class="active"<% end %>><%= link_to t('views.administration'), admin_users_path %></li>
+              <li<% if controller_path =~ /^admin/ %> class="active"<% end %>><%= link_to t('layout.administration'), admin_users_path %></li>
               <% end %>
 
               <% if current_forum %>
               <li<% if controller_path == 'cf_threads' or controller_path == 'cf_messages' %> class="active"<% end %>><%= link_to current_forum.name, current_forum %></li>
-              <li><%= link_to t("views.new_thread"), new_cf_thread_path(current_forum.slug) %></li><% end %>
+              <li><%= link_to t("threads.new_thread"), new_cf_thread_path(current_forum.slug) %></li><% end %>
             </ul>
             <ul class="nav pull-right">
               <% if user_signed_in? %>
                 <li><%= link_to notifications_path do %><span class="badge<% if @new_notifications.length > 0 %> badge-info<% end %>"><%= @new_notifications.length %></span></a><% end %></li>
                 <li><%= link_to user_path(current_user) do %><span class="badge <% if @score < 0 %>badge-important<% elsif @score > 0 %>badge-success<% end %>"><%= @score %></span><% end %></li>
                 <li<% if controller_path == 'users' %> class="active"<% end %>><%= link_to(current_user.username, edit_user_path(current_user)) %></li>
-                <li><%= link_to(t('views.logout'), destroy_user_session_path, :method => :delete) %></li>
+                <li><%= link_to(t('layout.logout'), destroy_user_session_path, :method => :delete) %></li>
               <% else %>
-                <li><%= link_to(t('views.login'), new_user_session_path) %></li>
-                <li><%= link_to t("views.register"), new_user_registration_path %></li>
+                <li><%= link_to(t('layout.login'), new_user_session_path) %></li>
+                <li><%= link_to t("layout.register"), new_user_registration_path %></li>
               <% end %>
             </ul>
           </div><!--/.nav-collapse -->

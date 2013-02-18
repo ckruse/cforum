@@ -40,6 +40,15 @@ en:
     not_allowed_maybe_you_want_to: Maybe first you want to
     login: login
 
+  layout:
+    home: Home
+    mail: Mail
+    administration: Administration
+    logout: Logout
+    login: Login
+    register: Register
+    title: Classic Forum
+
   views:
     delete_mail: Delete mail
     answer_mail: Reply mail
@@ -48,19 +57,14 @@ en:
     user: User
     edit: Edit
     delete: Delete
-    administration: Administration
     administrator: Administrator
     back: Back
     created: Created
     updated: Updated
     active: Active
-    home: Home
     new_message: New message
-    register: Register
     welcome_message: Welcome to our new forum.
     forum_name: Classic Forum
-    title: Classic Forum
-    logout: Logout
     subject: Subject
     author: Author
     settings: Settings
@@ -73,7 +77,6 @@ en:
     author: Author
     recipient: Recipient
     subject: Subject
-    mail: Mail
     notifications: Notifications
     comma_seperated_list: comma seperated list
     answer: Answer
