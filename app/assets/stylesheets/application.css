@@ -32,4 +32,9 @@ input:-moz-placeholder {
   display:none;
 }
 
+.small {
+  font-size:0.8em;
+  line-height:0.8em;
+}
+
 /* eof */
