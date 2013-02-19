@@ -40,7 +40,7 @@ class CfThread < ActiveRecord::Base
     m
   end
 
-  attr_accessor :attribs
+  attr_accessor :attribs, :accepted
 
   def message=(msg)
     @message = msg
@@ -62,6 +62,8 @@ class CfThread < ActiveRecord::Base
     map = {}
 
     messages.each do |msg|
+      self.accepted = msg if msg.accepted
+
       map[msg.message_id] = msg
       msg.messages = [] unless msg.messages
 
