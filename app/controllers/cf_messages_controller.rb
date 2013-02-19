@@ -268,18 +268,7 @@ class CfMessagesController < ApplicationController
     @message = @thread.find_message(params[:mid].to_i)
     raise CForum::NotFoundException.new if @message.blank?
 
-    forbidden = false
-
-    # current user is not the owner of the message
-    if not current_user.blank? and @thread.message.user_id != current_user.user_id
-      forbidden = true
-    elsif @thread.message.uuid.blank? # has message not been posted anonymously?
-      forbidden = true if current_user.blank?
-    else
-      forbidden = true if cookies[:cforum_user] != @thread.message.uuid
-    end
-
-    if forbidden
+    if @thread.acceptance_forbidden?(current_user, cookies[:cforum_user])
       flash[:error] = t('messages.only_op_may_accept')
       redirect_to cf_message_url(@thread, @message)
       return

@@ -127,6 +127,21 @@ class CfThread < ActiveRecord::Base
 
     ret
   end
+
+  def acceptance_forbidden?(usr, uuid)
+    forbidden = false
+
+    # current user is not the owner of the message
+    if not usr.blank? and message.user_id != usr.user_id
+      forbidden = true
+    elsif message.uuid.blank? # has message not been posted anonymously?
+      forbidden = true if usr.blank?
+    else
+      forbidden = true if uuid != message.uuid
+    end
+
+    forbidden
+  end
 end
 
 # eof

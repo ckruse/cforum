@@ -9,9 +9,9 @@
     <%= link_to t("messages.new_answer"), new_cf_message_path(@thread, m, 'quote_old_message' => 'yes'), class: 'btn' %>
     <%= link_to t("messages.new_answer_wo_quote"), new_cf_message_path(@thread, m), class: 'btn' %>
 
-    <%# if m.message_id != @thread.message.message_id and ((not current_user.blank? and @thread.message.user_id == current_user.user_id) or (not cookies[:cforum_user].blank? and @thread.message.uuid == cookies[:cforum_user])) %>
+    <% if not @thread.acceptance_forbidden?(current_user, cookies[:cforum_user]) %>
     <%= link_to m.accepted ? t('messages.unaccept_answer') : t('messages.accept_answer'), accept_cf_message_path(@thread, m), method: 'post', class: 'btn' %>
-    <%# end %>
+    <% end %>
 
     <% if current_user %>
     <%= form_tag vote_cf_message_path(@thread, m), :method => :post do %>
