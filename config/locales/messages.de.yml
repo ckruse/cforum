@@ -24,3 +24,7 @@ de:
 
     new_answer_wo_quote: Antworten ohne Zitat
     only_op_may_accept: Nur der Original-Autor kann eine Antwort akzeptieren!
+    accept_answer: Antwort akzeptieren
+    unaccept_answer: Antwort nicht länger akzeptieren
+    accepted: Antwort wurde akzeptiert
+    unaccepted: Antwort wird nicht länger akzeptiert

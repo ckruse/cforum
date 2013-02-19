@@ -268,7 +268,18 @@ class CfMessagesController < ApplicationController
     @message = @thread.find_message(params[:mid].to_i)
     raise CForum::NotFoundException.new if @message.blank?
 
-    if @thread.message.user_id != current_user.user_id and @thread.message.uuid != cookies[:cforum_user]
+    forbidden = false
+
+    # current user is not the owner of the message
+    if not current_user.blank? and @thread.message.user_id != current_user.user_id
+      forbidden = true
+    elsif @thread.message.uuid.blank? # has message not been posted anonymously?
+      forbidden = true if current_user.blank?
+    else
+      forbidden = true if cookies[:cforum_user] != @thread.message.uuid
+    end
+
+    if forbidden
       flash[:error] = t('messages.only_op_may_accept')
       redirect_to cf_message_url(@thread, @message)
       return
@@ -285,24 +296,26 @@ class CfMessagesController < ApplicationController
               m.accepted = false
               m.save
 
-              if not m.user_id.blank? and score = CfScore.find(user_id: m.user_id, message_id: m.message_id)
-                score.destroy
+              if not m.user_id.blank?
+                scores = CfScore.where(user_id: m.user_id, message_id: m.message_id).all
+                scores.each { |score| score.destroy } if not scores.blank?
               end
             end
           end
 
           CfScore.create!(
             user_id: @message.user_id,
-            message_id: @vote.vote_id,
+            message_id: @message.message_id,
             value: Rails.application.config.accept_value
           )
         else
-          if score = CfScore.find(user_id: @message.user_id, message_id: @message.message_id)
-            score.destroy
-          end
+          scores = CfScore.where(user_id: @message.user_id, message_id: @message.message_id).all
+          scores.each { |score| score.destroy } if not scores.blank?
         end
       end
     end
+
+    redirect_to cf_message_url(@thread, @message), notice: @message.accepted ? t('messages.accepted') : t('messages.unaccepted')
   end
 
 end

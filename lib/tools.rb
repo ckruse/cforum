@@ -68,6 +68,10 @@ module CForum
       cf_message_path_wo_anchor(thread, message) + "/vote" + query_string(args)
     end
 
+    def accept_cf_message_path(thread, message, args = {})
+      cf_message_path_wo_anchor(thread, message) + "/accept" + query_string(args)
+    end
+
     #
     # URL helpers
     #
