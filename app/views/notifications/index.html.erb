@@ -1,4 +1,6 @@
-<h1>Benachrichtigungen</h1>
+<%
+content_for :title, t('notifications.notifications')
+%><h1><%= t('notifications.notifications') %></h1>
 
 <%= form_tag notifications_path, :method => :delete, :class => 'form-horizontal' do %>
 

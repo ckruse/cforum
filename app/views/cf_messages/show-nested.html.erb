@@ -1,6 +1,8 @@
 <%
 render 'cf_messages/message_header'
 render 'cf_threads/thread_tree'
+
+content_for :title, @thread.message.subject + " " + I18n.t('messages.by') + " " + @thread.message.author + ", " + I18n.l(@thread.message.created_at)
 %>
 
 <% def whole_thread(thread, messages) %>

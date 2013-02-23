@@ -1,4 +1,7 @@
-<% render 'cf_messages/message_header' %>
+<%
+render 'cf_messages/message_header'
+content_for :title, t('threads.write_new_thread')
+%>
 <article class="message">
   <h2><%= t "threads.new_thread" %></h2>
 

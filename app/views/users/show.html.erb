@@ -1,5 +1,8 @@
-<% render 'cf_messages/message_header' %>
-<h1><%= t('global.user') + ' ' + @user.username %></h1>
+<%
+render 'cf_messages/message_header'
+content_for :title, t('users.user', name: @user.username)
+
+%><h1><%= t('users.user', name: @user.username) %></h1>
 
 <table>
   <tr>

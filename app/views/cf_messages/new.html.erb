@@ -1,4 +1,7 @@
-<% render 'message_header' %><article class="message">
+<% render 'message_header'
+
+content_for :title, t('messages.write_new_answer')
+%><article class="message">
 
 <% if @parent and not @preview %>
   <%= message_header(@thread, @parent) %>

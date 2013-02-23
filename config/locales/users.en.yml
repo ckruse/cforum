@@ -1,5 +1,8 @@
 en:
   users:
+    user: "User %{name}"
+    users: Users
+    new_user: New user
     signed_up: Signed up!
     logged_in: Successfully logged in!
     updated: User was successfully changed!

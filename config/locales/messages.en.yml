@@ -8,6 +8,7 @@ en:
     tags_invalid: Tag is invalid
 
     new_answer: Answer
+    write_new_answer: Write new answer
     restore_message: Restore message
     delete_message: Delete message
     votes: Votes

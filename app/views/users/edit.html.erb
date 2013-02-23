@@ -1,4 +1,6 @@
-<h1><%= t('global.user') %> <%= @user.username %></h1>
+<%
+content_for :title, t('users.user', name: @user.username)
+%><h1><%= t('users.user', name: @user.username) %></h1>
 
 <%= form_for @user, url: user_path(@user), html: {:class => 'form-horizontal'} do |f| %>
 

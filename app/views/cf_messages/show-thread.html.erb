@@ -1,6 +1,8 @@
 <%
 render 'cf_messages/message_header'
 render 'cf_threads/thread_tree'
+
+content_for :title, @message.subject + " " + I18n.t('messages.by') + " " + @message.author + ", " + I18n.l(@message.created_at)
 %>
 <article class="message">
   <%= render 'message', m: @message, first: true, do_parent: true %>

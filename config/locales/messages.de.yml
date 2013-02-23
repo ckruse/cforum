@@ -8,6 +8,7 @@ de:
     tags_invalid: Der Tag ist fehlerhaft!
 
     new_answer: Antworten
+    write_new_answer: Neue Antwort verfassen
     restore_message: Nachricht wiederherstellen
     delete_message: Nachricht löschen
     votes: Bewertungen

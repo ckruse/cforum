@@ -1,9 +1,13 @@
 en:
   admin:
     administration: Administration
-    settings: Settings
+    settings_menu: Settings
+
+    settings:
+      global_settings: General and global settings
 
     forums:
+      index: Forum index
       updated: Forum successfully changed
       created: Forum successfully created
       destroyed: Forum successfully deleted

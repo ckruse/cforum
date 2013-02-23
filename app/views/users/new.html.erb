@@ -1,3 +1,7 @@
+<%
+content_for :title, t('users.new_user')
+%><h1><%= t('users.new_user') %></h1>
+
 <%= form_for @user, :url => users_path() do |f| %>
   <% if @user.errors.any? %>
     <div class="error_messages">

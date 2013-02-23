@@ -1,5 +1,6 @@
 de:
   notifications:
+    notifications: Benachrichtigungen
     new_mail: "Neue Nachricht von %{user}: %{subject}"
     new_answer: "Eine neue Antwort auf Ihr Posting wurde von %{nick} geschrieben: %{subject}"
     new_message: "Eine neue Nachricht wurde von %{nick} geschrieben: %{subject}"

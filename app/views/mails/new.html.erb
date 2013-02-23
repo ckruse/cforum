@@ -1,4 +1,6 @@
-<h1>New Mail</h1>
+<%
+content_for :title, t('mails.new_mail')
+%><h1><%= t('mails.new_mail') %></h1>
 
 <%= form_for @mail, url: mails_path, html: {:class => 'form-horizontal'} do |t| %>
 

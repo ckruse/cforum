@@ -1,4 +1,6 @@
-<h1><%= t('admin.users.new_user') %></h1>
+<%
+content_for :title, t('admin.users.new_user')
+%><h1><%= t('admin.users.new_user') %></h1>
 
 <%= form_for @user, url: admin_users_path, html: {:class => 'form-horizontal'} do |f| %>
 

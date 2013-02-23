@@ -1,4 +1,6 @@
-<h1><% if @user %><%= t('mails.post_from', name: @user.username) %><% else %><%= t('mails.post') %><% end %></h1>
+<%
+content_for :title, @user ? t('mails.post_from', name: @user.username) : t('mails.post')
+%><h1><% if @user %><%= t('mails.post_from', name: @user.username) %><% else %><%= t('mails.post') %><% end %></h1>
 
 <%= form_tag mails_path, :class => 'form-horizontal', :method => :delete do %>
 

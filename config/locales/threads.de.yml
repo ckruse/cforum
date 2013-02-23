@@ -1,5 +1,7 @@
 de:
   threads:
+    threadlist: Forum %{name}
+    threadlist_all: Alle Foren
     created: Der Thread wurde erfolgreich erstellt.
     moved: Der Thread wurde erfolgreich verschoben!
     stickied: Der Thread wurde erfolgreich angepinnt.
@@ -7,3 +9,4 @@ de:
     unstickied: Der Thread wurde erfolgreich gelöst.
     mark_sticky: Als angepinnt markieren
     mark_unsticky: Nicht länger als angepinnt markieren
+    write_new_thread: Neuen Thread verfassen

@@ -1,9 +1,13 @@
 de:
   admin:
     administration: Verwaltung
-    settings: Einstellungen
+    settings_menu: Einstellungen
+
+    settings:
+      global_settings: Allgemeine und globale Einstellungen
 
     forums:
+      index: Foren-Index
       updated: Forum erfolgreich geändert
       created: Forum erfolgreich erstellt
       destroyed: Forum erfolgreich gelöscht
@@ -53,7 +57,7 @@ de:
 
       error_message: "Fehler verhinderten, dass diese Gruppe gespeichert werden konnte:"
       new_group: Neue Gruppe
-      edit_group: Gruppe bearbeiten
+      edit_group: "Gruppe bearbeiten: %{name}"
       delete_group: Gruppe löschen
 
       members: Mitglieder

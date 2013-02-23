@@ -1,4 +1,5 @@
 <%
+content_for :title, t('admin.forums.merge', :forum => @cf_forum.name)
 forum_opts = @forums.map { |f| [f.name, f.forum_id] }
 %><h1><%= t('admin.forums.merge', :forum => @cf_forum.name) %></h1>
 

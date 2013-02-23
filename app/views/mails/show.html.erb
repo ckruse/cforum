@@ -1,4 +1,6 @@
-<h1><%= t('mails.post_from', :name => @mail.sender.username) %></h1>
+<%
+content_for :title, t('mails.post_from', :name => @mail.sender.username)
+%><h1><%= t('mails.post_from', :name => @mail.sender.username) %></h1>
 
 <article class="message">
   <header>

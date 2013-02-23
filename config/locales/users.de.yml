@@ -1,5 +1,8 @@
 de:
   users:
+    user: "Benutzer %{name}"
+    users: Benutzer
+    new_user: Neuer Benutzer
     signed_up: Benutzer erfolgreich erstellt!
     logged_in: Der Login war erfolgreich.
     updated: Benutzer erfolgreich geändert.
