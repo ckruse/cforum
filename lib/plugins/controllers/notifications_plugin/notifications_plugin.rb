@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
 class NotificationsPlugin < Plugin
-  def created_new_message(@thread, @parent, @message, @tags)
-    peon(class_name: 'NotifyNewTask', arguments: {type: 'message', thread: @thread.thread_id, message: @message.message_id})
+  def created_new_message(thread, parent, message, tags)
+    peon(class_name: 'NotifyNewTask', arguments: {type: 'message', thread: thread.thread_id, message: message.message_id})
   end
 
-  def deleted_message(@thread, @message)
-    CfNotification.delete_all(["oid = ? AND otype = 'message:create'", @message.message_id])
+  def deleted_message(thread, message)
+    CfNotification.delete_all(["oid = ? AND otype = 'message:create'", message.message_id])
   end
 
-  def restored_message(@thread, @message)
-    peon(class_name: 'NotifyNewTask', arguments: {type: 'message', thread: @thread.thread_id, message: @message.message_id})
+  def restored_message(thread, message)
+    peon(class_name: 'NotifyNewTask', arguments: {type: 'message', thread: thread.thread_id, message: message.message_id})
   end
 end
 
