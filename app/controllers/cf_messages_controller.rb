@@ -183,7 +183,7 @@ class CfMessagesController < ApplicationController
 
     retvals = notification_center.notify(RESTORING_MESSAGE, @thread, @message)
 
-    unless revals.include?(false)
+    unless retvals.include?(false)
       CfMessage.transaction do
         @message.restore_with_subtree
       end
