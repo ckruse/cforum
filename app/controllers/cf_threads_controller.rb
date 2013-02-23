@@ -31,10 +31,7 @@ class CfThreadsController < ApplicationController
 
     if forum
       crits << "forum_id = " + forum.forum_id.to_s
-
-      unless @view_all
-        crits << "EXISTS(SELECT message_id FROM messages WHERE thread_id = threads.thread_id AND deleted = false)"
-      end
+      crits << "deleted = false" unless @view_all
     else
       if current_user and current_user.admin?
         crits = []
