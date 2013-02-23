@@ -66,4 +66,16 @@ body[data-controller="messages"][data-action="new"] {
   color:#b94a48;
 }
 
+article.accepted {
+  padding:0px 4px 4px 4px;
+  background-color:#d9edf7;
+  margin-bottom:1em;
+  border-radius:4px;
+  border:1px solid #bce8f1;
+}
+
+article.accepted .posting-content {
+  margin-bottom:1em;
+}
+
 /* eof */

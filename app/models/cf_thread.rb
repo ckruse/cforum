@@ -40,7 +40,7 @@ class CfThread < ActiveRecord::Base
     m
   end
 
-  attr_accessor :attribs
+  attr_accessor :attribs, :accepted
 
   def message=(msg)
     @message = msg
@@ -62,6 +62,8 @@ class CfThread < ActiveRecord::Base
     map = {}
 
     messages.each do |msg|
+      self.accepted = msg if msg.accepted
+
       map[msg.message_id] = msg
       msg.messages = [] unless msg.messages
 
@@ -124,6 +126,21 @@ class CfThread < ActiveRecord::Base
     end
 
     ret
+  end
+
+  def acceptance_forbidden?(usr, uuid)
+    forbidden = false
+
+    # current user is not the owner of the message
+    if not usr.blank? and message.user_id != usr.user_id
+      forbidden = true
+    elsif message.uuid.blank? # has message not been posted anonymously?
+      forbidden = true if usr.blank?
+    else
+      forbidden = true if uuid != message.uuid
+    end
+
+    forbidden
   end
 end
 

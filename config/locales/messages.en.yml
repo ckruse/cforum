@@ -24,3 +24,8 @@ en:
 
     new_answer_wo_quote: Answer without quoting
     only_op_may_accept: Only the original poster may accept an answer!
+    accept_answer: Accept answer
+    unaccept_answer: No longer accept answer
+    accepted: Answer has been accepted
+    unaccepted: Answer is no longer accepted
+
