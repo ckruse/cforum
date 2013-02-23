@@ -43,17 +43,6 @@ class CfMessagesController < ApplicationController
     @parent = @message.parent_level
 
     if current_user
-      if n = CfNotification.find_by_recipient_id_and_oid_and_otype_and_is_read(current_user.user_id, @message.message_id, 'message:create', false)
-        @new_notifications -= [n]
-
-        if uconf('delete_read_notifications', 'yes') == 'yes'
-          n.destroy
-        else
-          n.is_read = true
-          n.save!
-        end
-      end
-
       mids = @thread.messages.map {|m| m.message_id}
       votes = CfVote.where(user_id: current_user.user_id, message_id: mids).all
       @votes = {}
