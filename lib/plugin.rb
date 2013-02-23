@@ -73,6 +73,10 @@ class Plugin
   def t(*args)
     I18n.t(*args)
   end
+
+  def application_controller
+    @app_controller
+  end
 end
 
 # eof
