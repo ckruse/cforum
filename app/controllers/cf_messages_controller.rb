@@ -64,10 +64,10 @@ class CfMessagesController < ApplicationController
     end
 
     if uconf('standard_view', 'thread-view') == 'thread-view'
-      notification_center.notify(SHOW_MESSAGE, @thread, @message)
+      notification_center.notify(SHOW_MESSAGE, @thread, @message, @votes)
       render 'show-thread'
     else
-      notification_center.notify(SHOW_THREAD, @thread, @message)
+      notification_center.notify(SHOW_THREAD, @thread, @message, @votes)
       render 'show-nested'
     end
   end

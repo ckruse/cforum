@@ -108,7 +108,7 @@ class MarkReadPlugin < Plugin
     @cache[current_user.user_id] = @cache[current_user.user_id].merge(new_cache)
   end
 
-  def show_thread(thread, message = nil)
+  def show_thread(thread, message = nil, votes = nil)
     return unless current_user
 
     sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", "
@@ -124,7 +124,7 @@ class MarkReadPlugin < Plugin
     check_thread(thread)
   end
 
-  def show_message(thread, message)
+  def show_message(thread, message, votes)
     return unless current_user
 
     begin

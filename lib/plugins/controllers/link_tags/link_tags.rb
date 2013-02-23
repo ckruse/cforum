@@ -46,7 +46,7 @@ class LinkTagsPlugin < Plugin
     set('link_tags', top_link.html_safe)
   end
 
-  def show_thread(thread, message = nil)
+  def show_thread(thread, message = nil, votes = nil)
     msgs = []
     to_shallow([thread.message], msgs)
 
@@ -59,7 +59,7 @@ class LinkTagsPlugin < Plugin
     set('link_tags', html.html_safe)
   end
 
-  def show_message(thread, message)
+  def show_message(thread, message, votes)
     msgs = []
     to_shallow([thread.message], msgs)
 
