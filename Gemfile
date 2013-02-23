@@ -9,13 +9,14 @@ gem 'therubyracer', '< 0.11'
 gem 'devise'
 gem "bcrypt-ruby", :require => "bcrypt"
 gem 'kramdown'
+gem 'coderay'
 
 gem 'jquery-rails'
 gem 'anjlab-bootstrap-rails', '>= 2.0', :require => 'bootstrap-rails'
 
 gem 'daemons'
 
-gem 'coderay'
+gem 'content_for_in_controllers'
 
 group :development, :test do
   gem 'factory_girl_rails'

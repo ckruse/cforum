@@ -46,6 +46,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
+    content_for_in_controllers (0.0.2)
     daemons (1.1.9)
     devise (2.2.3)
       bcrypt-ruby (~> 3.0)
@@ -150,6 +151,7 @@ DEPENDENCIES
   bcrypt-ruby
   coderay
   coffee-rails (< 3.3)
+  content_for_in_controllers
   daemons
   devise
   email
