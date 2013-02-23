@@ -23,10 +23,10 @@
   </div>
 
   <div class="control-group">
-    <label class="control-label"><%= t('users.settings.quote_signature') %></label>
+    <label class="control-label" for="settings_quote_signature"><%= t('users.settings.quote_signature') %></label>
     <div class="controls">
-      <label class="radio"><input type="radio" value="yes" name="settings[quote_signature]"<%= disabled %><% if @settings.conf('quote_signature') == 'yes' %> checked="checked"<% end %>> Ja</label>
-      <label class="radio"><input type="radio" value="no" name="settings[quote_signature]"<%= disabled %><% if @settings.conf('quote_signature') == 'no' or @settings.conf('quote_signature').blank? %> checked="checked"<% end %>> Nein</label>
+      <%= hidden_field_tag 'settings[quote_signature]', 'no' %>
+      <%= check_box_tag 'settings[quote_signature]', 'yes', @settings.conf('quote_signature') %>
     </div>
   </div>
 </fieldset>
