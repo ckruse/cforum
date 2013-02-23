@@ -24,6 +24,7 @@ en:
     unaccept_answer: No longer accept answer
     accepted: Answer has been accepted
     unaccepted: Answer is no longer accepted
+    accepted_answer: Accepted answer
 
     vote_up: Vote up
     vote_down: Vote down
