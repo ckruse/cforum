@@ -146,8 +146,6 @@ class CfMessagesController < ApplicationController
 
     if saved
       notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message, @tags)
-      peon(class_name: 'NotifyNewTask', arguments: {type: 'message', thread: @thread.thread_id, message: @message.message_id})
-
       redirect_to cf_message_path(@thread, @message), :notice => I18n.t('messages.created')
     else
       render :new
