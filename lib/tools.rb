@@ -49,7 +49,7 @@ module CForum
     end
 
     def cf_message_path(thread, message, args = {})
-      cf_message_path_wo_anchor(thread, message) + "#" + message.id.to_s + query_string(args)
+      cf_message_path_wo_anchor(thread, message) + query_string(args) + "#" + message.id.to_s
     end
 
     def cf_edit_message_path(thread, message, args = {})
@@ -86,7 +86,7 @@ module CForum
     end
 
     def cf_message_url(thread, message, args = {})
-      cf_message_url_wo_anchor(thread, message) + "#" + message.message_id.to_s + query_string(args)
+      cf_message_url_wo_anchor(thread, message) + query_string(args) + "#" + message.message_id.to_s
     end
   end
 end
