@@ -1545,6 +1545,13 @@ CREATE UNIQUE INDEX threads_slug_idx ON threads USING btree (slug);
 
 
 --
+-- Name: threads_sticky_created_at_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX threads_sticky_created_at_idx ON threads USING btree (sticky, created_at);
+
+
+--
 -- Name: threads_tid_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -1987,6 +1994,8 @@ INSERT INTO schema_migrations (version) VALUES ('35');
 INSERT INTO schema_migrations (version) VALUES ('36');
 
 INSERT INTO schema_migrations (version) VALUES ('37');
+
+INSERT INTO schema_migrations (version) VALUES ('38');
 
 INSERT INTO schema_migrations (version) VALUES ('4');
 
