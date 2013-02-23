@@ -5,10 +5,6 @@ de:
     destroyed: Nachricht wurde erfolgreich gelöscht!
     restored: Nachricht wurde erfolgreich wieder hergestellt!
     error_message: "%{errors_count} verhinderten, dass diese Nachricht gespeichert werden konnte:"
-    successfully_voted: Sie haben erfolgreich gewählt!
-    already_voted: Sie haben bereits gewählt!
-    do_not_vote_yourself: Sie dürfen nicht sich selber bewerten!
-    vote_removed: Die Wahl wurde entfernt!
     tags_invalid: Der Tag ist fehlerhaft!
 
     new_answer: Antworten
@@ -28,3 +24,10 @@ de:
     unaccept_answer: Antwort nicht länger akzeptieren
     accepted: Antwort wurde akzeptiert
     unaccepted: Antwort wird nicht länger akzeptiert
+
+    vote_up: Positiv bewerten
+    vote_down: Negativ bewerten
+    successfully_voted: Sie haben erfolgreich gewählt!
+    vote_removed: Die Wahl wurde entfernt!
+    already_voted: Sie haben bereits gewählt!
+    do_not_vote_yourself: Sie dürfen nicht sich selber bewerten!

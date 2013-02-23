@@ -37,4 +37,8 @@ input:-moz-placeholder {
   line-height:0.8em;
 }
 
+form.form-inline {
+  display:inline;
+}
+
 /* eof */

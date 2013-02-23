@@ -5,6 +5,23 @@
     <%= m.to_html %>
   </div>
 
+  <% if current_user %>
+  <%= form_tag vote_cf_message_path(@thread, m), :method => :post, class: 'form-inline' do %>
+    <p>
+      <%= link_to t("messages.new_answer"), new_cf_message_path(@thread, m, 'quote_old_message' => 'yes'), class: 'btn' %>
+      <%= link_to t("messages.new_answer_wo_quote"), new_cf_message_path(@thread, m), class: 'btn' %>
+
+      <% if not @thread.acceptance_forbidden?(current_user, cookies[:cforum_user]) and not @thread.message.message_id == m.message_id %>
+      <%= link_to m.accepted ? t('messages.unaccept_answer') : t('messages.accept_answer'), accept_cf_message_path(@thread, m), method: 'post', class: 'btn' %>
+      <% end %>
+
+
+      <button name="type" value="up" title="<%= t('messages.vote_up') %>"><i class="icon icon-thumbs-up vote vote-up<% if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::UPVOTE %> active<% end %>"> </i></button>
+      <button name="type" value="down" title="<%= t('messages.vote_down') %>"><i class="icon icon-thumbs-down vote vote-up<% if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::DOWNVOTE %> active<% end %>"> </i></button>
+    </p>
+  <% end
+  end %>
+
   <% if m.message_id == @thread.message.message_id and @thread.accepted %>
     <article class="accepted">
       <%= message_header(@thread, @thread.accepted, first: false, do_parent: false) %>
@@ -16,19 +33,3 @@
       <p class="small">Akzeptierte Antwort zum Thema</p>
     </article>
   <% end %>
-
-  <p>
-    <%= link_to t("messages.new_answer"), new_cf_message_path(@thread, m, 'quote_old_message' => 'yes'), class: 'btn' %>
-    <%= link_to t("messages.new_answer_wo_quote"), new_cf_message_path(@thread, m), class: 'btn' %>
-
-    <% if not @thread.acceptance_forbidden?(current_user, cookies[:cforum_user]) %>
-    <%= link_to m.accepted ? t('messages.unaccept_answer') : t('messages.accept_answer'), accept_cf_message_path(@thread, m), method: 'post', class: 'btn' %>
-    <% end %>
-
-    <% if current_user %>
-    <%= form_tag vote_cf_message_path(@thread, m), :method => :post do %>
-    <button name="type" value="up"><i class="icon icon-arrow-up vote vote-up<% if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::UPVOTE %> active<% end %>"> </i></button>
-    <button name="type" value="down"><i class="icon icon-arrow-down vote vote-up<% if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::DOWNVOTE %> active<% end %>"> </i></button>
-    <% end
-    end %>
-  </p>
