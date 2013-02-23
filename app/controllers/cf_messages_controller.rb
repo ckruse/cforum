@@ -9,8 +9,24 @@ class CfMessagesController < ApplicationController
   SHOW_NEW_MESSAGE     = "show_new_message"
   SHOW_MESSAGE         = "show_message"
   SHOW_THREAD          = "show_thread"
+
   CREATING_NEW_MESSAGE = "creating_new_message"
   CREATED_NEW_MESSAGE  = "created_new_message"
+
+  DELETING_MESSAGE     = "deleting_message"
+  DELETED_MESSAGE      = "deleted_message"
+
+  RESTORING_MESSAGE    = "restoring_message"
+  RESTORED_MESSAGE     = "restored_message"
+
+  VOTING_MESSAGE       = "voting_message"
+  VOTED_MESSAGE        = "voted_message"
+
+  UNVOTING_MESSAGE     = "unvoting_message"
+  UNVOTED_MESSAGE      = "unvoted_message"
+
+  ACCEPTING_MESSAGE    = "accepting_message"
+  ACCEPTED_MESSAGE     = "accepted_message"
 
   def show
     @id = CfThread.make_id(params)
@@ -145,8 +161,13 @@ class CfMessagesController < ApplicationController
     @message = @thread.find_message(params[:mid].to_i) if @thread
     raise CForum::NotFoundException.new if @message.blank?
 
-    CfMessage.transaction do
-      @message.delete_with_subtree
+    retvals = notification_center.notify(DELETING_MESSAGE, @thread, @message)
+
+    unless retvals.include?(false)
+      CfMessage.transaction do
+        @message.delete_with_subtree
+      end
+      notification_center.notify(DELETED_MESSAGE, @thread, @message)
     end
 
     respond_to do |format|
@@ -162,8 +183,13 @@ class CfMessagesController < ApplicationController
     @message = @thread.find_message(params[:mid].to_i)
     raise CForum::NotFoundException.new if @message.blank?
 
-    CfMessage.transaction do
-      @message.restore_with_subtree
+    retvals = notification_center.notify(RESTORING_MESSAGE, @thread, @message)
+
+    unless revals.include?(false)
+      CfMessage.transaction do
+        @message.restore_with_subtree
+      end
+      notification_center.notify(RESTORED_MESSAGE, @thread, @message)
     end
 
     respond_to do |format|
@@ -188,8 +214,10 @@ class CfMessagesController < ApplicationController
 
     vtype    = params[:type] == 'up' ? CfVote::UPVOTE : CfVote::DOWNVOTE
 
+    # remove voting if user already voted with the same parameters
     if @vote = CfVote.find_by_user_id_and_message_id(current_user.user_id, @message.message_id) and @vote.vtype == vtype
 
+      notification_center.notify(UNVOTING_MESSAGE, @message, @vote)
       CfVote.transaction do
         if @vote.vtype == CfVote::UPVOTE
           CfVote.connection.execute "UPDATE messages SET upvotes = upvotes - 1 WHERE message_id = " + @message.message_id.to_s
@@ -200,12 +228,14 @@ class CfMessagesController < ApplicationController
         CfScore.delete_all(['vote_id = ?', @vote.vote_id])
         @vote.destroy
       end
+      notification_center.notify(UNVOTED_MESSAGE, @message, @vote)
 
       # flash[:error] = t('messages.already_voted')
       redirect_to cf_message_url(@thread, @message), notice: t('messages.vote_removed')
       return
     end
 
+    notification_center.notify(VOTING_MESSAGE, @message)
     CfVote.transaction do
       if @vote
         @vote.update_attributes(vtype: vtype)
@@ -257,6 +287,7 @@ class CfMessagesController < ApplicationController
       end
 
     end
+    notification_center.notify(VOTED_MESSAGE, @message)
 
     flash[:notice] = t('messages.successfully_voted')
     redirect_to cf_message_url(@thread, @message)
@@ -274,6 +305,7 @@ class CfMessagesController < ApplicationController
       return
     end
 
+    notification_center.notify(ACCEPTING_MESSAGE, @thread, @message)
     CfMessage.transaction do
       @message.accepted = !@message.accepted
       @message.save
@@ -303,6 +335,7 @@ class CfMessagesController < ApplicationController
         end
       end
     end
+    notification_center.notify(ACCEPTED_MESSAGE, @thread, @message)
 
     redirect_to cf_message_url(@thread, @message), notice: @message.accepted ? t('messages.accepted') : t('messages.unaccepted')
   end
