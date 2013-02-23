@@ -1,5 +1,9 @@
 en:
   plugins:
+    open_close:
+      open_thread: Open thread
+      close_thread: Close thread
+
     link_tags:
       first_msg: First Message
       last_msg: Last Message

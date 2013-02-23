@@ -6,10 +6,6 @@ en:
     move_thread: Move thread
     new_thread: New Thread
 
-  plugins:
-    open_thread: Open thread
-    close_thread: Close thread
-
   errors:
     unknown_error: Unknown error
     unknown_error_message: "Something unexpected happend. Don't know what. Please send your username and a description what happend to cforum@wwwtech.de."

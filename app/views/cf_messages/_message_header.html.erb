@@ -15,9 +15,9 @@
     if opts[:first] and current_user and opts[:show_icons]
       html << '  <a class="icon icon-'
       if thread.attribs['open_state'] == 'closed'
-        html << 'folder-close" title="' + t('plugins.open_thread') + '" href="' + cf_forum_path(current_forum || 'all', :open => thread.thread_id)
+        html << 'folder-close" title="' + t('plugins.open_close.open_thread') + '" href="' + cf_forum_path(current_forum || 'all', :open => thread.thread_id)
       else
-        html << 'folder-open" title="' + t('plugins.close_thread') + '" href="' + cf_forum_path(current_forum || 'all', :close => thread.thread_id)
+        html << 'folder-open" title="' + t('plugins.open_close.close_thread') + '" href="' + cf_forum_path(current_forum || 'all', :close => thread.thread_id)
       end
       html << '"> </a>'
     end

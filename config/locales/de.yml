@@ -6,9 +6,6 @@ de:
     move_thread: Thread verschieben
     new_thread: Neuer Thread
 
-  plugins:
-    open_thread: Thread aufklappen
-    close_thread: Thread aufklappen
 
   errors:
     unknown_error: Unbekannter Fehler

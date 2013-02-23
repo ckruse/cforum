@@ -1,5 +1,9 @@
 de:
   plugins:
+    open_close:
+      open_thread: Thread aufklappen
+      close_thread: Thread zuklappen
+
     link_tags:
       first_msg: Erste Nachricht
       last_msg: Letzte Nachricht
