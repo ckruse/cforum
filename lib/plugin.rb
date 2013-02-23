@@ -77,6 +77,10 @@ class Plugin
   def application_controller
     @app_controller
   end
+
+  def content_for(name, content)
+    @app_controller.content_for(name, content)
+  end
 end
 
 # eof
