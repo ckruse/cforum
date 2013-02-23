@@ -27,4 +27,6 @@ en:
       readability_overview: Readability/Overview
       standard_thread_view: Standard view for threads
       highlighted_users: Highlighted users
+      show_unread_pms_in_title: Show unread mail count in title
+      show_unread_notifications_in_title: Show unread notifications count in title
 

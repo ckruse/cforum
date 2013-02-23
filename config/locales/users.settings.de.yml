@@ -27,4 +27,6 @@ de:
       readability_overview: Lesbarkeit/Übersicht
       standard_thread_view: Standard-Ansicht für Threads
       highlighted_users: Hervorgehobene Benutzer
+      show_unread_pms_in_title: Zeige Anzahl ungelesener Post im Titel
+      show_unread_notifications_in_title: Zeige Anzahl ungelesener Benachrichtigungen im Titel
 
