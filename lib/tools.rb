@@ -19,78 +19,102 @@ module CForum
       ''
     end
 
-    def cf_forum_path(forum, args = {})
+    def _cf_forum_path(forum)
       forum = forum.slug unless forum.is_a?(String)
-      root_path + forum + query_string(args)
+      root_path + forum
+    end
+
+    def cf_forum_path(forum, args = {})
+      _cf_forum_path(forum) + query_string(args)
+    end
+
+    def _cf_thread_path(thread)
+      _cf_forum_path(thread.forum) + thread.slug
     end
 
     def cf_thread_path(thread, args = {})
-      cf_forum_path(thread.forum) + thread.slug + query_string(args)
+      _cf_thread_path(thread) + query_string(args)
     end
 
     def edit_cf_thread_path(thread, args = {})
-      cf_thread_path(thread) + '/edit' + query_string(args)
+      _cf_thread_path(thread) + '/edit' + query_string(args)
     end
 
     def move_cf_thread_path(thread, args = {})
-      cf_thread_path(thread) + "/move" + query_string(args)
+      _cf_thread_path(thread) + "/move" + query_string(args)
     end
 
     def sticky_cf_thread_path(thread, args = {})
-      cf_thread_path(thread) + "/sticky" + query_string(args)
+      _cf_thread_path(thread) + "/sticky" + query_string(args)
     end
 
     #
     # message path helpers
     #
 
+    def _cf_message_path_wo_anchor(thread, message)
+      _cf_thread_path(thread) + "/" + message.message_id.to_s
+    end
+
     def cf_message_path_wo_anchor(thread, message, args = {})
-      cf_thread_path(thread) + "/" + message.message_id.to_s + query_string(args)
+      _cf_message_path_wo_anchor(thread, message) + query_string(args)
     end
 
     def cf_message_path(thread, message, args = {})
-      cf_message_path_wo_anchor(thread, message) + query_string(args) + "#" + message.message_id.to_s
+      _cf_message_path_wo_anchor(thread, message) + query_string(args) + "#" + message.message_id.to_s
     end
 
     def cf_edit_message_path(thread, message, args = {})
-      cf_message_path_wo_anchor(thread, message) + "/edit" + query_string(args)
+      _cf_message_path_wo_anchor(thread, message) + "/edit" + query_string(args)
     end
 
     def new_cf_message_path(thread, message, args = {})
-      cf_message_path_wo_anchor(thread, message) + "/new" + query_string(args)
+      _cf_message_path_wo_anchor(thread, message) + "/new" + query_string(args)
     end
 
     def restore_cf_message_path(thread, message, args = {})
-      cf_message_path_wo_anchor(thread, message) + "/restore" + query_string(args)
+      _cf_message_path_wo_anchor(thread, message) + "/restore" + query_string(args)
     end
 
     def vote_cf_message_path(thread, message, args = {})
-      cf_message_path_wo_anchor(thread, message) + "/vote" + query_string(args)
+      _cf_message_path_wo_anchor(thread, message) + "/vote" + query_string(args)
     end
 
     def accept_cf_message_path(thread, message, args = {})
-      cf_message_path_wo_anchor(thread, message) + "/accept" + query_string(args)
+      _cf_message_path_wo_anchor(thread, message) + "/accept" + query_string(args)
     end
 
     #
     # URL helpers
     #
 
-    def cf_forum_url(forum, args = {})
+    def _cf_forum_url(forum)
       forum = forum.slug unless forum.is_a?(String)
-      return root_url + forum + query_string(args)
+      root_url + forum
+    end
+
+    def cf_forum_url(forum, args = {})
+      _cf_forum_url(forum) + query_string(args)
+    end
+
+    def _cf_thread_url(thread)
+      _cf_forum_url(thread.forum) + thread.slug
     end
 
     def cf_thread_url(thread, args = {})
-      cf_forum_url(thread.forum) + thread.slug + query_string(args)
+      _cf_thread_url(thread) + query_string(args)
+    end
+
+    def _cf_message_url_wo_anchor(thread, message)
+      _cf_thread_url(thread) + '/' + message.message_id.to_s
     end
 
     def cf_message_url_wo_anchor(thread, message, args = {})
-      cf_thread_url(thread) + '/' + message.message_id.to_s + query_string(args)
+      _cf_message_url_wo_anchor(thread, message) + query_string(args)
     end
 
     def cf_message_url(thread, message, args = {})
-      cf_message_url_wo_anchor(thread, message) + query_string(args) + "#" + message.message_id.to_s
+      _cf_message_url_wo_anchor(thread, message) + query_string(args) + "#" + message.message_id.to_s
     end
   end
 end
