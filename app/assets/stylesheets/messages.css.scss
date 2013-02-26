@@ -59,6 +59,10 @@ body[data-controller="messages"][data-action="new"] {
   font-size:0.9em;
 }
 
+header.deleted {
+  text-decoration:line-through;
+}
+
 .vote {
   color:inherit;
 }

@@ -6,6 +6,7 @@
     classes = []
     classes += message.attribs['classes']
     classes << 'first' if opts[:first]
+    classes << 'deleted' if message.deleted?
 
     html = "<header"
     html << ' class="' + classes.join(" ") + '"' unless classes.blank?
