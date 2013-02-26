@@ -4,7 +4,7 @@ module AuthorizeForum
   def authorize!
     forum = current_forum
 
-    if params.has_key?(:view_all)
+    if params.has_key?(:view_all) and params[:view_all] != 'false'
       if forum.blank?
         @view_all = true if not current_user.blank? and current_user.admin?
       else

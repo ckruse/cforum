@@ -1,6 +1,8 @@
 de:
   forums:
     all_forums: Alle Foren
+    admin_view: Admin
+    normal_view: User
 
   threads:
     move_thread: Thread verschieben

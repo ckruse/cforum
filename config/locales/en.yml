@@ -1,6 +1,8 @@
 en:
   forums:
     all_forums: All forums
+    admin_view: Admin
+    normal_view: User
 
   threads:
     move_thread: Move thread

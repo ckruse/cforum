@@ -16,9 +16,9 @@ class ApplicationController < ActionController::Base
   after_filter :run_after_handler
   protect_from_forgery
 
-  attr_reader :notification_center, :plugin_apis
+  attr_reader :notification_center, :plugin_apis, :view_all
 
-  helper_method :uconf, :conf
+  helper_method :uconf, :conf, :view_all
 
   BEFORE_HANDLER = "before_handler"
   AFTER_HANDLER  = "after_handler"
