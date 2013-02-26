@@ -2,6 +2,18 @@
 
 module CForum
   module Tools
+    @@url_attribs = {}
+
+    def init
+      @@url_attribs = {}
+    end
+    module_function :init
+
+    def set_url_attrib(nam, val)
+      @@url_attribs ||= {}
+      @@url_attribs[nam] = val
+    end
+
     def encode_entities(txt)
       map = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;'}
       x = txt.gsub /([&<>"])/ do |r|
@@ -11,7 +23,16 @@ module CForum
 
     def query_string(args = {})
       qs = []
+      had_key = {}
+      @@url_attribs ||= {}
+
       args.each do |k, v|
+        had_key[k.to_s] = true
+        qs << URI.escape(k.to_s) + "=" + URI.escape(v.to_s)
+      end
+
+      @@url_attribs.each do |k,v|
+        next if had_key[k.to_s] == true
         qs << URI.escape(k.to_s) + "=" + URI.escape(v.to_s)
       end
 

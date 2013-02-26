@@ -60,6 +60,8 @@ class ApplicationController < ActionController::Base
 
     mod_view_paths
     load_and_init_plugins
+
+    CForum::Tools.init
   end
 
   def uconf(name, default = nil)
