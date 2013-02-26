@@ -10,6 +10,8 @@ module AuthorizeForum
       else
         @view_all = forum.moderator?(current_user)
       end
+
+      set_url_attrib(:view_all, 'yes') if @view_all
     end
 
     return if forum.blank?
