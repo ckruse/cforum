@@ -50,10 +50,10 @@
     end
 
     if opts[:first]
-      html << "  <h2>" + link_to(message.subject, cf_message_path(thread, message) + '#m' + message.message_id.to_s) + "</h2>"
+      html << "  <h2>" + link_to(message.subject, cf_message_path(thread, message)) + "</h2>"
     else
       if thread.thread_id and message.message_id
-        html << "  <h3>" + link_to(message.subject, cf_message_path(thread, message) + '#m' + message.message_id.to_s) + "</h3>"
+        html << "  <h3>" + link_to(message.subject, cf_message_path(thread, message)) + "</h3>"
       else
         html << "  <h3>" + message.subject + "</h3>"
       end
