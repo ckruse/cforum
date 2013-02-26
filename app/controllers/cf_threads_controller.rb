@@ -26,7 +26,7 @@ class CfThreadsController < ApplicationController
 
     # the „no forum” case is much more complex; we have to do it partly manually
     # to avoid DISTINCT
-    sql = "SELECT thread_id FROM threads WHERE "
+    sql = "SELECT thread_id FROM threads "
     crits = []
 
     if forum
@@ -54,7 +54,7 @@ class CfThreadsController < ApplicationController
         crits << 'threads.deleted = false' #"EXISTS(SELECT message_id FROM messages WHERE thread_id = threads.thread_id AND deleted = false)"
       end
     end
-    sql << crits.join(" AND ")
+    sql << ' WHERE ' + crits.join(" AND ") unless crits.empty?
     sql << " ORDER BY threads.sticky DESC, threads.created_at DESC LIMIT #{@limit} OFFSET #{@limit * @page}"
 
     result = CfThread.connection.execute(sql)
