@@ -3,6 +3,7 @@
 class OpenCloseThreadPlugin < Plugin
   def show_threadlist(threads)
     return unless current_user
+    return if application_controller.view_all
 
     # default state is setable via user config
     default_state   = uconf('open_close_default', 'open')
