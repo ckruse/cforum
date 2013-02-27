@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 module ApplicationHelper
   include CForum::Tools
 
@@ -11,3 +13,5 @@ module ApplicationHelper
     @_current_forum = nil
   end
 end
+
+# eof
