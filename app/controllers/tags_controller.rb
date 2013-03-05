@@ -40,7 +40,7 @@ class TagsController < ApplicationController
 
     offset = @page * @limit
 
-    @messages = CfMessage.preload(:owner, :tags, :thread => :forum).includes(:messages_tags).where('messages_tags.tag_id' => @tag.tag_id, deleted: false).order('messages.created_at DESC').limit(@limit).offset(offset).all
+    @messages = CfMessage.preload(:owner, :tags, :thread => :forum).joins('INNER JOIN messages_tags USING(message_id)').where('messages_tags.tag_id' => @tag.tag_id, forum_id: current_forum.forum_id, deleted: false).order('messages.created_at DESC').limit(@limit).offset(offset).all
 
     respond_to do |format|
       format.html # show.html.erb

@@ -1398,6 +1398,13 @@ CREATE INDEX messages_tags_message_id_idx ON messages_tags USING btree (message_
 
 
 --
+-- Name: messages_tags_tag_id_message_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX messages_tags_tag_id_message_id_idx ON messages_tags USING btree (tag_id, message_id);
+
+
+--
 -- Name: messages_thread_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -1996,6 +2003,8 @@ INSERT INTO schema_migrations (version) VALUES ('36');
 INSERT INTO schema_migrations (version) VALUES ('37');
 
 INSERT INTO schema_migrations (version) VALUES ('38');
+
+INSERT INTO schema_migrations (version) VALUES ('39');
 
 INSERT INTO schema_migrations (version) VALUES ('4');
 
