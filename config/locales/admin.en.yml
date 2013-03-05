@@ -41,6 +41,7 @@ en:
         quote_old_message: Alte Nachricht zitieren
         users_per_page: Users per page
         max_tags_per_message: Maximum no of tags per message
+        header_start_index: Start index for headings
 
     users:
       updated: User was successfully changed!

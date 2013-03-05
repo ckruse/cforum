@@ -39,4 +39,12 @@
     </div>
   </div>
 
+  <div class="control-group">
+    <label class="control-label" for="settings-header_start_index"><%= t('admin.forums.settings.header_start_index') %></label>
+    <div class="controls">
+      <input type="hidden" name="settings[header_start_index]" value="no">
+      <%= text_field_tag 'settings[header_start_index]', @settings.options['header_start_index'], :id => 'settings-header_start_index' %>
+    </div>
+  </div>
+
 </fieldset>
