@@ -52,11 +52,19 @@ class ApplicationController < ActionController::Base
   # normal stuff
   #
 
+  def self.instance
+    @@instance
+  end
+
   def do_init
+    ConfigManager.reset_instance
+
     @notification_center = NotificationCenter.new
-    @config_manager      = ConfigManager.new
+    @config_manager      = ConfigManager.instance
     @view_all            = false
     @_current_forum      = nil
+
+    @@instance           = self
 
     mod_view_paths
     load_and_init_plugins

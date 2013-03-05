@@ -9,6 +9,15 @@ class ConfigManager
     @value_cache = {:users => {}, :forums => {}}
   end
 
+  def self.reset_instance
+    @@instance = nil
+  end
+
+  def self.instance
+    @@instance ||= self.new
+    @@instance
+  end
+
   def read_settings(user = nil, forum = nil)
     if not user.blank? and not @value_cache[:users].has_key?(user)
       @value_cache[:users][user] = CfSetting.find_by_user_id(user)
