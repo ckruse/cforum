@@ -13,7 +13,16 @@ module ParserHelper
     has_attribute?(:content) ? content.to_s : body.to_s
   end
 
-  def to_html
+  def to_html(opts = {})
+    opts = opts.symbolize_keys!.reverse_merge!(
+      input: 'CfMarkdown',
+      coderay_wrap: nil,
+      coderay_css: :class,
+      coderay_line_numbers: nil,
+      header_offset: ApplicationController.instance.conf('header_start_index', 2),
+      auto_id_prefix: 'msg-'
+    )
+
     if @doc.blank?
       if Rails.env.development?
         load Rails.root + 'lib/cf_kramdown.rb'
@@ -21,12 +30,7 @@ module ParserHelper
 
       @doc = Kramdown::Document.new(
         get_content,
-        input: 'CfMarkdown',
-        coderay_wrap: nil,
-        coderay_css: :class,
-        coderay_line_numbers: nil,
-        header_offset: 2, # TODO: configurable
-        auto_id_prefix: 'msg-'
+        opts
       )
     end
 
@@ -34,7 +38,7 @@ module ParserHelper
   end
 
   def to_quote(opts = {})
-    opts.symbolize_keys!.reverse_merge!(:quote_signature => 'no')
+    opts.symbolize_keys!.reverse_merge!(:quote_signature => ApplicationController.instance.uconf('quote_signature', 'no'))
 
     c = get_content
 
