@@ -5,9 +5,10 @@ class TagsController < ApplicationController
   # GET /collections.json
   def index
     unless params[:s].blank?
-      @tags = CfTag.where("forum_id = ? AND UPPER(tag_name) LIKE UPPER(?)", current_forum.forum_id, params[:s].strip + '%').order('num_messages DESC').all
+      clean_tag = params[:s].strip + '%'
+      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (UPPER(tag_name) LIKE UPPER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE UPPER(synonym) LIKE UPPER(?)))", current_forum.forum_id, clean_tag, clean_tag).order('num_messages DESC').all
     else
-      @tags = CfTag.order('tag_name ASC').find_all_by_forum_id current_forum.forum_id
+      @tags = CfTag.preload(:synonyms).order('tag_name ASC').find_all_by_forum_id current_forum.forum_id
     end
 
     respond_to do |format|
@@ -22,7 +23,7 @@ class TagsController < ApplicationController
           @min_count = t.num_messages if t.num_messages < @min_count or @min_count == -1
         end
       }
-      format.json { render json: @tags }
+      format.json { render json: @tags, include: [:synonyms] }
     end
   end
 
