@@ -43,7 +43,7 @@ module ParserHelper
       c = c[0..(sig_pos-1)] unless sig_pos.nil?
     end
 
-    c.gsub!(/\n/, "\n> ")
+    c = c.gsub(/\n/, "\n> ")
     c = '> ' + c unless c.blank?
     c
   end
