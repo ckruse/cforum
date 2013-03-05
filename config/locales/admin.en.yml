@@ -12,6 +12,8 @@ en:
       created: Forum successfully created
       destroyed: Forum successfully deleted
       merged: Forum has successfully been merged
+      forum_data: Forum data
+      settings_nam: Settings
 
       error_message: "This forum could not be saved:"
       new_forum: New Forum

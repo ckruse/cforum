@@ -12,6 +12,8 @@ de:
       created: Forum erfolgreich erstellt
       destroyed: Forum erfolgreich gelöscht
       merged: Das Forum wurde erfolgreich zusammengeführt
+      forum_data: Forums-Daten
+      settings_nam: Einstellungen
 
       error_message: "Dieses Forum konnte nicht gespeichert werden:"
       new_forum: Neues Forum
