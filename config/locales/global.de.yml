@@ -19,3 +19,16 @@ de:
     group: Gruppe
     groups: Gruppen
     back: Zurück
+
+    scores:
+      right_upvote: Upvote-Recht
+      right_downvote: Downvote-Recht
+      right_retag: Recht neu zu taggen
+      right_flag: Markierungs-Recht
+      right_visit_close_reopen: Abstimmungsrecht über Öffnungs-/Schliess-Abstimmungen
+      right_create_tag: Recht Tags zu erstellen
+      right_edit_question: Recht Fragen zu editieren
+      right_edit_answer: Recht Antworten zu editieren
+      right_tag_synonym: Recht Tag-Synonyme zu erstellen
+      right_create_close_reopen: Recht Abstimmungen über Öffnung/Schliessung zu erstellen
+      right_moderator: Zugriff auf Moderationstools

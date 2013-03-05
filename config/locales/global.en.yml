@@ -19,3 +19,16 @@ en:
     group: Group
     groups: Groups
     back: Back
+
+    scores:
+      right_upvote: Right to upvote
+      right_downvote: Right to downvote
+      right_retag: Right to retag
+      right_flag: Right to flag
+      right_visit_close_reopen: Right to visit reopen/close polls
+      right_create_tag: Right to create tags
+      right_edit_question: Right to edit questions
+      right_edit_answer: Right to edit answers
+      right_tag_synonym: Right to create tag synonyms
+      right_create_close_reopen: Right to create reopen/close polls
+      right_moderator: Access to moderation tools

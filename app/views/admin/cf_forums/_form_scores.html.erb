@@ -1,0 +1,13 @@
+<fieldset class="tab-pane" id="scores">
+
+  <% RightsHelper::ALL_RIGHTS.each do |r| %>
+  <div class="control-group">
+    <label class="control-label" for="scores-<%= r %>"><%= t('global.scores.' + r) %></label>
+    <div class="controls">
+      <%= text_field_tag 'settings[' + r + ']', @settings.options[r], :id => 'scores-' + r %>
+    </div>
+  </div>
+  <% end %>
+
+
+</fieldset>
