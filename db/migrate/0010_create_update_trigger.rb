@@ -2,7 +2,7 @@
 
 class CreateUpdateTrigger < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 --
 -- UPDATE: add one dataset with difference = +/- 1 if row is deleted/restored for each row
 --
@@ -31,14 +31,14 @@ CREATE TRIGGER messages__count_update_trigger
   ON messages
   FOR EACH ROW
   EXECUTE PROCEDURE count_messages_update_trigger();
-    }
+    SQL
   end
 
   def down
-    execute %q{
+    execute <<-SQL
 DROP TRIGGER messages__count_update_trigger ON messages;
 DROP FUNCTION count_messages_update_trigger();
-    }
+    SQL
   end
 end
 

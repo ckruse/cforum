@@ -2,7 +2,7 @@
 
 class TagsCounterFramework < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 ALTER TABLE tags ADD COLUMN num_threads BIGINT NOT NULL DEFAULT 0;
 UPDATE tags SET num_threads = (
   SELECT
@@ -43,17 +43,17 @@ CREATE TRIGGER tags_threads__count_delete_trigger
   ON tags_threads
   FOR EACH ROW
   EXECUTE PROCEDURE count_threads_tag_delete_trigger();
-    }
+    SQL
   end
 
   def down
-    execute %q{
+    execute <<-SQL
 DROP TRIGGER tags_threads__count_insert_trigger ON tags_threads;
 DROP TRIGGER tags_threads__count_delete_trigger ON tags_threads;
 DROP FUNCTION count_threads_tag_insert_trigger();
 DROP FUNCTION count_threads_tag_delete_trigger();
 ALTER TABLE tags DROP COLUMN num_threads;
-    }
+    SQL
   end
 end
 

@@ -2,7 +2,7 @@
 
 class TagsCounter < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 ALTER TABLE tags ALTER COLUMN num_messages SET DEFAULT 0;
 
 UPDATE tags SET num_messages = (
@@ -46,17 +46,17 @@ CREATE TRIGGER messages_tags__count_delete_trigger
   ON messages_tags
   FOR EACH ROW
   EXECUTE PROCEDURE count_messages_tag_delete_trigger();
-    }
+    SQL
   end
 
   def down
-    execute %q{
+    execute <<-SQL
 DROP TRIGGER messages_tags__count_insert_trigger ON messages_tags;
 DROP TRIGGER messages_tags__count_delete_trigger ON messages_tags;
 DROP FUNCTION count_messages_tag_insert_trigger();
 DROP FUNCTION count_messages_tag_delete_trigger();
 ALTER TABLE tags ALTER COLUMN num_messages SET NULL;
-    }
+    SQL
   end
 end
 

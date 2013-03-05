@@ -1,6 +1,6 @@
 class CreateMessages < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
       CREATE EXTENSION hstore;
 
       CREATE TABLE messages (
@@ -40,7 +40,7 @@ class CreateMessages < ActiveRecord::Migration
 
       CREATE INDEX messages_forum_id_updated_at_idx ON messages (forum_id, updated_at);
       CREATE INDEX messages_user_id_idx on messages (user_id);
-    }
+    SQL
   end
 
   def down

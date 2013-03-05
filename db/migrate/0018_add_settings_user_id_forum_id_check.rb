@@ -2,7 +2,7 @@
 
 class AddSettingsUserIdForumIdCheck < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 CREATE OR REPLACE FUNCTION settings_unique_check() RETURNS trigger AS $body$
 BEGIN
   IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL THEN
@@ -27,14 +27,14 @@ $body$ LANGUAGE plpgsql;
 
 CREATE TRIGGER settings_unique_check BEFORE INSERT OR UPDATE ON settings
   FOR EACH ROW EXECUTE PROCEDURE settings_unique_check();
-    }
+    SQL
   end
 
   def down
-    execute %q{
+    execute <<-SQL
 DROP TRIGGER settings_unique_check ON settings;
 DROP FUNCTION settings_unique_check();
-    }
+    SQL
   end
 end
 

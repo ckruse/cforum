@@ -1,6 +1,6 @@
 class CreateThreads < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
       CREATE TABLE threads (
         thread_id BIGSERIAL NOT NULL PRIMARY KEY,
         slug CHARACTER VARYING(255) NOT NULL,
@@ -18,7 +18,7 @@ class CreateThreads < ActiveRecord::Migration
       CREATE INDEX threads_archived_idx ON threads (archived);
       CREATE INDEX threads_created_at_idx ON threads (created_at);
       CREATE INDEX threads_forum_id_idx ON threads (forum_id);
-    }
+    SQL
   end
 
   def down

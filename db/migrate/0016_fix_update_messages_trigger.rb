@@ -2,7 +2,7 @@
 
 class FixUpdateMessagesTrigger < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
       ALTER TABLE threads ADD COLUMN deleted BOOLEAN NOT NULL DEFAULT false;
 --
 -- UPDATE: add one dataset with difference = +/- 1 if row is deleted/restored for each row
@@ -47,9 +47,7 @@ BEGIN
   RETURN NULL;
 END;
 $body$;
-    }
 
-    execute %q{
 --
 -- UPDATE: add one dataset with difference = +/- 1 if row is deleted/restored for each row
 --
@@ -84,7 +82,7 @@ BEGIN
   RETURN NULL;
 END;
 $body$;
-    }
+    SQL
   end
 
   def down

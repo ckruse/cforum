@@ -2,7 +2,7 @@
 
 class AddUpdateMoveTrigger < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 --
 -- UPDATE: add one dataset with difference = +/- 1 if row is deleted/restored for each row
 --
@@ -37,9 +37,7 @@ BEGIN
   RETURN NULL;
 END;
 $body$;
-    }
 
-    execute %q{
 --
 -- UPDATE: add one dataset with difference = +/- 1 if row is deleted/restored for each row
 --
@@ -66,12 +64,14 @@ CREATE TRIGGER threads__count_update_trigger
   ON threads
   FOR EACH ROW
   EXECUTE PROCEDURE count_threads_update_trigger();
-    }
+    SQL
   end
 
   def down
-    execute "DROP TRIGGER threads__count_update_trigger ON threads;"
-    execute "DROP FUNCTION count_threads_update_trigger()"
+    execute <<-SQL
+      DROP TRIGGER threads__count_update_trigger ON threads;
+      DROP FUNCTION count_threads_update_trigger();
+    SQL
   end
 end
 

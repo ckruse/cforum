@@ -1,6 +1,6 @@
 class CreateForums < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
       CREATE TABLE forums (
         forum_id BIGSERIAL PRIMARY KEY NOT NULL,
         slug CHARACTER VARYING(255) NOT NULL,
@@ -16,7 +16,7 @@ class CreateForums < ActiveRecord::Migration
       );
 
       CREATE UNIQUE INDEX forums_slug_idx ON forums (slug);
-    }
+    SQL
   end
 
   def down

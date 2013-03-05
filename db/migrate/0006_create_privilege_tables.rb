@@ -1,6 +1,6 @@
 class CreatePrivilegeTables < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
       CREATE TABLE forum_permissions (
         forum_permission_id BIGSERIAL NOT NULL PRIMARY KEY,
         user_id BIGINT NOT NULL REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -11,7 +11,7 @@ class CreatePrivilegeTables < ActiveRecord::Migration
       CREATE INDEX forum_permissions_user_id_idx ON forum_permissions (user_id);
       CREATE INDEX forum_permissions_forum_id_idx ON forum_permissions (user_id);
       CREATE UNIQUE INDEX forum_permissions_user_id_forum_id_permission_idx ON forum_permissions (user_id, forum_id, permission);
-    }
+    SQL
   end
 
   def down

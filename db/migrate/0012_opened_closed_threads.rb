@@ -2,7 +2,7 @@
 
 class OpenedClosedThreads < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 CREATE TABLE opened_closed_threads (
   opened_closed_thread_id BIGSERIAL NOT NULL PRIMARY KEY,
   user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -11,7 +11,7 @@ CREATE TABLE opened_closed_threads (
 );
 
 CREATE UNIQUE INDEX opened_closed_threads_thread_id_user_id_idx ON opened_closed_threads (thread_id, user_id);
-    }
+    SQL
   end
 
   def down

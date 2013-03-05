@@ -7,10 +7,12 @@ class CreateForumMessageTriggers  < ActiveRecord::Migration
   end
 
   def down
-    execute 'DROP FUNCTION count_messages_insert_trigger() CASCADE'
-    execute 'DROP FUNCTION count_messages_delete_trigger() CASCADE'
-    execute 'DROP FUNCTION count_messages_truncate_trigger() CASCADE'
-    execute 'DROP FUNCTION count_messages_insert_forum_trigger() CASCADE'
+    execute <<-SQL
+      DROP FUNCTION count_messages_insert_trigger() CASCADE;
+      DROP FUNCTION count_messages_delete_trigger() CASCADE;
+      DROP FUNCTION count_messages_truncate_trigger() CASCADE;
+      DROP FUNCTION count_messages_insert_forum_trigger() CASCADE;
+    SQL
   end
 end
 

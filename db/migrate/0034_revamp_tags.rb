@@ -2,7 +2,7 @@
 
 class RevampTags < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 DROP TABLE IF EXISTS tags_threads CASCADE;
 DROP TABLE IF EXISTS tags CASCADE;
 
@@ -27,14 +27,14 @@ CREATE TABLE messages_tags (
 );
 
 CREATE INDEX messages_tags_message_id_idx ON messages_tags (message_id);
-    }
+    SQL
   end
 
   def down
-    execute %q{
+    execute <<-SQL
 DROP TABLE messages_tags CASCADE;
 DROP TABLE tags CASCADE;
-    }
+    SQL
   end
 end
 

@@ -2,7 +2,7 @@
 
 class CreateNotifications < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 CREATE TABLE notifications (
   notification_id BIGSERIAL NOT NULL PRIMARY KEY,
   recipient_id BIGINT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -17,11 +17,13 @@ CREATE TABLE notifications (
 );
 
 CREATE INDEX notifications_recipient_id_oid_idx ON notifications (recipient_id, oid);
-    }
+    SQL
   end
 
   def down
-    execute "DROP TABLE notifications;"
+    execute <<-SQL
+DROP TABLE notifications;
+    SQL
   end
 end
 

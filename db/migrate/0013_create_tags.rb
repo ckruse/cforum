@@ -2,7 +2,7 @@
 
 class CreateTags < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 CREATE TABLE tags (
   tag_id BIGSERIAL NOT NULL PRIMARY KEY,
   tag_name CHARACTER VARYING(250) NOT NULL
@@ -15,7 +15,7 @@ CREATE TABLE tags_threads (
   tag_id BIGINT NOT NULL REFERENCES tags(tag_id) ON DELETE CASCADE ON UPDATE CASCADE,
   thread_id BIGINT NOT NULL REFERENCES threads(thread_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-    }
+    SQL
   end
 
   def down

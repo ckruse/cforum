@@ -2,7 +2,7 @@
 
 class VotingChecks < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 CREATE TABLE votes (
   vote_id BIGSERIAL NOT NULL PRIMARY KEY,
   user_id BIGINT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -11,11 +11,13 @@ CREATE TABLE votes (
 );
 
 CREATE UNIQUE INDEX votes_user_id_message_id_idx ON votes (user_id, message_id);
-    }
+    SQL
   end
 
   def down
-    execute "DROP TABLE votes;"
+    execute <<-SQL
+DROP TABLE votes;
+    SQL
   end
 end
 

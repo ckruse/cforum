@@ -1,6 +1,6 @@
 class CreateSettings < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
       CREATE TABLE settings (
         setting_id BIGSERIAL NOT NULL PRIMARY KEY,
         forum_id BIGINT REFERENCES forums(forum_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -13,7 +13,7 @@ class CreateSettings < ActiveRecord::Migration
 
       -- constraint to ensure that there is only one user settings object per user and forum
       CREATE UNIQUE INDEX settings_forum_id_user_id_idx ON settings (forum_id, user_id);
-    }
+    SQL
   end
 
   def down

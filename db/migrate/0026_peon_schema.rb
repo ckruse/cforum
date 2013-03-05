@@ -2,7 +2,7 @@
 
 class PeonSchema < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 CREATE TABLE peon_jobs (
   peon_job_id BIGSERIAL NOT NULL PRIMARY KEY,
   queue_name CHARACTER VARYING(255) NOT NULL,
@@ -16,11 +16,13 @@ CREATE TABLE peon_jobs (
 );
 
 CREATE INDEX peon_jobs_work_done_idx ON peon_jobs (work_done);
-    }
+    SQL
   end
 
   def down
-    execute "DROP TABLE peon_jobs;"
+    execute <<-SQL
+DROP TABLE peon_jobs;
+    SQL
   end
 end
 

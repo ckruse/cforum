@@ -2,7 +2,7 @@
 
 class FixUniquenessCheck < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 DROP TRIGGER settings_unique_check ON settings;
 DROP FUNCTION settings_unique_check();
 
@@ -54,11 +54,11 @@ CREATE TRIGGER settings_unique_check_insert BEFORE INSERT ON settings
   FOR EACH ROW EXECUTE PROCEDURE settings_unique_check__insert();
 CREATE TRIGGER settings_unique_check_update BEFORE UPDATE ON settings
   FOR EACH ROW EXECUTE PROCEDURE settings_unique_check__update();
-    }
+    SQL
   end
 
   def down
-    execute %q{
+    execute <<-SQL
 DROP TRIGGER settings_unique_check_insert ON settings;
 DROP TRIGGER settings_unique_check_update ON settings;
 DROP FUNCTION settings_unique_check__insert();
@@ -88,7 +88,7 @@ $body$ LANGUAGE plpgsql;
 
 CREATE TRIGGER settings_unique_check BEFORE INSERT OR UPDATE ON settings
   FOR EACH ROW EXECUTE PROCEDURE settings_unique_check();
-    }
+    SQL
   end
 end
 

@@ -1,6 +1,6 @@
 class CreateUsers < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
       CREATE TABLE users (
         user_id BIGSERIAL NOT NULL PRIMARY KEY,
         username CHARACTER VARYING(255) NOT NULL,
@@ -32,7 +32,7 @@ class CreateUsers < ActiveRecord::Migration
       CREATE UNIQUE INDEX users_reset_password_token_idx ON users (reset_password_token);
       CREATE UNIQUE INDEX users_confirmation_token_idx ON users (confirmation_token);
       CREATE UNIQUE INDEX users_authentication_token_idx ON users (authentication_token);
-    }
+    SQL
   end
 
   def down

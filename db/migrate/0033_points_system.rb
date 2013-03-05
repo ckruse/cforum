@@ -2,7 +2,7 @@
 
 class PointsSystem < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 CREATE TABLE scores (
   score_id BIGSERIAL NOT NULL PRIMARY KEY,
   user_id BIGINT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -12,11 +12,13 @@ CREATE TABLE scores (
 );
 
 CREATE UNIQUE INDEX scores_user_id_vote_id_idx ON scores (user_id, vote_id);
-    }
+    SQL
   end
 
   def down
-    execute "DROP TABLE scores;"
+    execute <<-SQL
+DROP TABLE scores;
+    SQL
   end
 end
 

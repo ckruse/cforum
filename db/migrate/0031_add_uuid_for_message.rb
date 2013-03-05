@@ -2,11 +2,15 @@
 
 class AddUuidForMessage < ActiveRecord::Migration
   def up
-    execute "ALTER TABLE messages ADD COLUMN uuid CHARACTER VARYING(250);"
+    execute <<-SQL
+ALTER TABLE messages ADD COLUMN uuid CHARACTER VARYING(250);
+    SQL
   end
 
   def down
-    execute "ALTER TABLE messages DROP COLUMN uuid"
+    execute <<-SQL
+ALTER TABLE messages DROP COLUMN uuid;
+    SQL
   end
 end
 

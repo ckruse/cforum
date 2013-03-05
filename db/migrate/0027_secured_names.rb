@@ -2,14 +2,14 @@
 
 class SecuredNames < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 CREATE TABLE secured_names (
   user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE PRIMARY KEY,
   name CHARACTER VARYING NOT NULL
 );
 
 CREATE UNIQUE INDEX secured_names_lower_name_idx ON secured_names (LOWER(name));
-    }
+    SQL
   end
 
   def down

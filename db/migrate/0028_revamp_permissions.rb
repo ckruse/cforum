@@ -2,7 +2,7 @@
 
 class RevampPermissions < ActiveRecord::Migration
   def up
-    execute %q{
+    execute <<-SQL
 DROP TABLE forum_permissions;
 
 CREATE TABLE groups (
@@ -24,11 +24,11 @@ CREATE TABLE groups_users (
   group_id BIGINT NOT NULL REFERENCES groups(group_id) ON DELETE CASCADE ON UPDATE CASCADE,
   user_id BIGINT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-    }
+    SQL
   end
 
   def down
-    execute %q{
+    execute <<-SQL
 DROP TABLE forums_groups_permissions;
 DROP TABLE groups_users;
 DROP TABLE groups;
@@ -43,7 +43,7 @@ CREATE TABLE forum_permissions (
 CREATE INDEX forum_permissions_forum_id_idx ON forum_permissions USING btree (forum_id);
 CREATE UNIQUE INDEX forum_permissions_user_id_forum_id_permission_idx ON forum_permissions USING btree (user_id, forum_id, permission);
 CREATE INDEX forum_permissions_user_id_idx ON forum_permissions USING btree (user_id);
-    }
+    SQL
   end
 end
 
