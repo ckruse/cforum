@@ -40,7 +40,7 @@ cforum.tags = {
     ev.preventDefault();
     var $this = $(this);
 
-    if($.trim($this.val()) && $this.val() != ',') {
+    if($.trim($this.val()) && $this.val() != ',' && $("#tags-list .tag").length < cforum.max_tags) {
       var val = $.trim($this.val().replace(/[, ].*/, '').toLowerCase());
       cforum.tags.appendTag(val);
 

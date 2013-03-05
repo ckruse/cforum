@@ -40,6 +40,7 @@ de:
         max_messages_per_thread: Maximale Anzahl von Nachrichten pro Thread
         quote_old_message: Alte Nachricht zitieren
         users_per_page: Benutzer pro Seite
+        max_tags_per_message: Maximale Tags pro Nachricht
 
     users:
       updated: Benutzer erfolgreich geändert.

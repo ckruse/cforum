@@ -6,6 +6,7 @@ en:
     restored: Message was successfully restored!
     error_message: "%{errors_count} prohibited this thread from being saved:"
     tags_invalid: Tag is invalid
+    too_many_tags: "You may only use %{max_tags}!"
 
     new_answer: Answer
     write_new_answer: Write new answer

@@ -37,6 +37,7 @@
       <% if current_user %>cforum.currentUser = <%= current_user.to_json.html_safe %>;<% end %>
       cforum.baseUrl = <%= root_url.to_json.html_safe %>;
       <% if current_forum %>cforum.currentForum = <%= current_forum.to_json.html_safe %>;<% end %>
+      <% if @max_tags %>cforum.max_tags = <%= @max_tags %>;<% end %>
     </script>
   </head>
 

@@ -6,6 +6,7 @@ de:
     restored: Nachricht wurde erfolgreich wieder hergestellt!
     error_message: "%{errors_count} verhinderten, dass diese Nachricht gespeichert werden konnte:"
     tags_invalid: Der Tag ist fehlerhaft!
+    too_many_tags: "Sie dürfen nur %{max_tags} verwenden!"
 
     new_answer: Antworten
     write_new_answer: Neue Antwort verfassen
