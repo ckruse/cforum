@@ -46,10 +46,6 @@ cforum.tags = {
 
       v = $this.val();
       $this.val(v.indexOf(String.fromCharCode(ev.keyCode)) == -1 ? '' : v.replace(/.*[, ]?/, ''));
-
-      // if(ev.type == 'focusout') {
-      //   $this.focus();
-      // }
     }
 
   },

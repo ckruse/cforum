@@ -48,6 +48,15 @@ content_for :title, t('admin.settings.global_settings')
           <%= text_field_tag 'settings[max_messages_per_thread]', @settings.options['max_messages_per_thread'], :id => 'settings-max_messages_per_thread' %>
         </div>
       </div>
+
+      <div class="control-group">
+        <label class="control-label" for="settings-max_tags_per_message"><%= t('admin.forums.settings.max_tags_per_message') %></label>
+        <div class="controls">
+          <input type="hidden" name="settings[max_tags_per_message]" value="no">
+          <%= text_field_tag 'settings[max_tags_per_message]', @settings.options['max_tags_per_message'], :id => 'settings-max_tags_per_message' %>
+        </div>
+      </div>
+
     </fieldset>
 
     <fieldset class="tab-pane" id="scores">

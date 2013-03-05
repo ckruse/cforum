@@ -104,6 +104,8 @@ class CfThreadsController < ApplicationController
     @thread.message = CfMessage.new
     @tags = []
 
+    @max_tags = conf('max_tags_per_message', 3)
+
     notification_center.notify(SHOW_NEW_THREAD, @thread)
   end
 
