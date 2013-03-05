@@ -935,6 +935,36 @@ ALTER SEQUENCE settings_setting_id_seq OWNED BY settings.setting_id;
 
 
 --
+-- Name: tag_synonyms; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE tag_synonyms (
+    tag_synonym_id bigint NOT NULL,
+    tag_id bigint NOT NULL,
+    synonym character varying(250) NOT NULL
+);
+
+
+--
+-- Name: tag_synonyms_tag_synonym_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE tag_synonyms_tag_synonym_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tag_synonyms_tag_synonym_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE tag_synonyms_tag_synonym_id_seq OWNED BY tag_synonyms.tag_synonym_id;
+
+
+--
 -- Name: tags; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -1176,6 +1206,13 @@ ALTER TABLE ONLY settings ALTER COLUMN setting_id SET DEFAULT nextval('settings_
 
 
 --
+-- Name: tag_synonym_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY tag_synonyms ALTER COLUMN tag_synonym_id SET DEFAULT nextval('tag_synonyms_tag_synonym_id_seq'::regclass);
+
+
+--
 -- Name: tag_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -1321,6 +1358,14 @@ ALTER TABLE ONLY scores
 
 ALTER TABLE ONLY settings
     ADD CONSTRAINT settings_pkey PRIMARY KEY (setting_id);
+
+
+--
+-- Name: tag_synonyms_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY tag_synonyms
+    ADD CONSTRAINT tag_synonyms_pkey PRIMARY KEY (tag_synonym_id);
 
 
 --
@@ -1500,6 +1545,20 @@ CREATE UNIQUE INDEX settings_forum_id_user_id_idx ON settings USING btree (forum
 --
 
 CREATE INDEX settings_user_id_idx ON settings USING btree (user_id);
+
+
+--
+-- Name: tag_synonyms_synonym_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX tag_synonyms_synonym_idx ON tag_synonyms USING btree (synonym);
+
+
+--
+-- Name: tag_synonyms_tag_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE INDEX tag_synonyms_tag_id_idx ON tag_synonyms USING btree (tag_id);
 
 
 --
@@ -1897,6 +1956,14 @@ ALTER TABLE ONLY settings
 
 
 --
+-- Name: tag_synonyms_tag_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY tag_synonyms
+    ADD CONSTRAINT tag_synonyms_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES tags(tag_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: tags_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -2007,6 +2074,8 @@ INSERT INTO schema_migrations (version) VALUES ('38');
 INSERT INTO schema_migrations (version) VALUES ('39');
 
 INSERT INTO schema_migrations (version) VALUES ('4');
+
+INSERT INTO schema_migrations (version) VALUES ('40');
 
 INSERT INTO schema_migrations (version) VALUES ('5');
 

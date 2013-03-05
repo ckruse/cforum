@@ -8,6 +8,8 @@ class CfTag < ActiveRecord::Base
   has_many :messages, class_name: 'CfMessage', :through => :messages_tags
   belongs_to :forum, class_name: 'CfForum', :foreign_key => :forum_id
 
+  has_many :synonyms, class_name: 'CfTagSynonym', foreign_key: :tag_id
+
   attr_accessible :tag_id, :tag_name, :slug,  :forum_id, :num_messages
 
   validates_presence_of :forum_id
