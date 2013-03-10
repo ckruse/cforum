@@ -1,9 +1,12 @@
 cforum.tags = {
   views: {
-    tag: "<li class=\"tag label label-info\" style=\"display:none\"><input name=\"tags[]\" type=\"hidden\" value=\"{{tag}}\"><i class=\"icon icon-trash del-tag\"> </i> {{tag}}</li>"
+    tag: "<li class=\"tag label label-info\" style=\"display:none\"><input name=\"tags[]\" type=\"hidden\" value=\"{{tag}}\"><i class=\"icon icon-trash del-tag\"> </i> {{tag}}</li>",
+    tagSuggestion: "<li class=\"tag label label-info\" style=\"display:none\" data-tag=\"{{tag}}\"><i class=\"icon icon-ok del-tag\"> </i> {{tag}}</li>"
   },
 
   autocomplete_timeout: null,
+  suggestionsTimeout: null,
+  maxTags: 4,
 
   autocomplete: function() {
     cforum.tags.autocomplete_timeout = null;
@@ -36,11 +39,62 @@ cforum.tags = {
     }
   },
 
+  suggestions: function(text) {
+    var tokens = text.split(/[^a-z0-9äöüß-]+/i);
+    var words = {};
+
+    for(var i = 0; i < tokens.length; ++i) {
+      if(tokens[i].match(/^[a-z0-9äöüß-]+$/i) && tokens[i].length > 2) {
+        words[tokens[i].toLowerCase()] = 1;
+      }
+    }
+
+    return Object.keys(words);
+  },
+
+  suggestTags: function() {
+    var suggestions = cforum.tags.suggestions($("#cf_message_content").val());
+
+    $.get(
+      cforum.baseUrl + '/' + cforum.currentForum.slug + '/tags.json',
+      'tags=' + encodeURIComponent(suggestions.join(",")),
+      function(data) {
+        var tag_list = $("#tags-suggestions");
+        tag_list.html("");
+
+        for(var i = 0; i < data.length && i < cforum.tags.maxTags; ++i) {
+          cforum.tags.appendTag(data[i].tag_name, tag_list, cforum.tags.views.tagSuggestion);
+        }
+
+      }
+    )
+  },
+
+  addTagSuggestion: function(ev) {
+    ev.preventDefault();
+    var tag = $(ev.target).closest("li").attr("data-tag");
+    var hasIt = false;
+
+    if($("#tags-list .tag").length >= cforum.maxTags) {
+      return;
+    }
+
+    $("#tags-list input[type=hidden]").each(function() {
+      if($(this).val() == tag) {
+        hasIt = true;
+      }
+    });
+
+    if(!hasIt) {
+      cforum.tags.appendTag(tag);
+    }
+  },
+
   addTag: function(ev) {
     ev.preventDefault();
     var $this = $(this);
 
-    if($.trim($this.val()) && $this.val() != ',' && $("#tags-list .tag").length < cforum.max_tags) {
+    if($.trim($this.val()) && $this.val() != ',' && $("#tags-list .tag").length < cforum.maxTags) {
       var val = $.trim($this.val().replace(/[, ].*/, '').toLowerCase());
       cforum.tags.appendTag(val);
 
@@ -50,9 +104,16 @@ cforum.tags = {
 
   },
 
-  appendTag: function(tag) {
-    var list = $("#tags-list");
-    list.append(Mustache.render(cforum.tags.views.tag, {tag: tag}));
+  appendTag: function(tag, list, view) {
+    if(!list) {
+      list = $("#tags-list");
+    }
+
+    if(!view) {
+      view = cforum.tags.views.tag;
+    }
+
+    list.append(Mustache.render(view, {tag: tag}));
     list.find(".tag").last().fadeIn('fast');
   },
 
@@ -74,18 +135,31 @@ cforum.tags = {
       return false;
     });
 
+    cforum.tags.suggestTags();
     for(var i = 0; i < tags.length; ++i) {
       cforum.tags.appendTag(tags[i]);
     }
 
     $("#tags-input").val("");
 
-    $("#tags-input").on('keyup', cforum.tags.handleKeyUp);
+    $("#tags-input").on('keyup', cforum.tags.handleTagsKeyUp);
     $("#tags-input").on('focusout', cforum.tags.addTag);
-    $("#tags-list").click(cforum.tags.removeTag);
+    $("#tags-list").on('click', cforum.tags.removeTag);
+
+    $("#cf_message_content").on('keyup', cforum.tags.handleSuggestionsKeyUp);
+    $("#tags-suggestions").on('click', cforum.tags.addTagSuggestion);
   },
 
-  handleKeyUp: function(ev) {
+  handleSuggestionsKeyUp: function() {
+    // cforum.tags.suggestTags
+    if(cforum.tags.suggestionsTimeout) {
+      window.clearTimeout(cforum.tags.suggestionsTimeout);
+    }
+
+    cforum.tags.suggestionsTimeout = window.setTimeout(cforum.tags.suggestTags, 800);
+  },
+
+  handleTagsKeyUp: function(ev) {
     if(cforum.tags.autocomplete_timeout) {
       window.clearTimeout(cforum.tags.autocomplete_timeout);
     }

@@ -4,9 +4,12 @@ class TagsController < ApplicationController
   # GET /collections
   # GET /collections.json
   def index
-    unless params[:s].blank?
+    if not params[:s].blank?
       clean_tag = params[:s].strip + '%'
-      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (UPPER(tag_name) LIKE UPPER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE UPPER(synonym) LIKE UPPER(?)))", current_forum.forum_id, clean_tag, clean_tag).order('num_messages DESC').all
+      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))", current_forum.forum_id, clean_tag, clean_tag).order('num_messages DESC').all
+    elsif not params[:tags].blank?
+      tags = params[:tags].split(',')
+      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) IN (?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) IN (?)))", current_forum.forum_id, tags, tags).order('num_messages DESC').all
     else
       @tags = CfTag.preload(:synonyms).order('tag_name ASC').find_all_by_forum_id current_forum.forum_id
     end
