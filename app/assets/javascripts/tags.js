@@ -53,7 +53,12 @@ cforum.tags = {
   },
 
   suggestTags: function() {
-    var suggestions = cforum.tags.suggestions($("#cf_message_content").val());
+    var mcnt = $(document.getElementById('cf_thread_message_content') ? "#cf_thread_message_content" : "#cf_message_content").val();
+    if(mcnt == "") {
+      return;
+    }
+
+    var suggestions = cforum.tags.suggestions(mcnt);
 
     $.get(
       cforum.baseUrl + '/' + cforum.currentForum.slug + '/tags.json',
@@ -146,7 +151,7 @@ cforum.tags = {
     $("#tags-input").on('focusout', cforum.tags.addTag);
     $("#tags-list").on('click', cforum.tags.removeTag);
 
-    $("#cf_message_content").on('keyup', cforum.tags.handleSuggestionsKeyUp);
+    $(document.getElementById('cf_thread_message_content') ? "#cf_thread_message_content" : "#cf_message_content").on('keyup', cforum.tags.handleSuggestionsKeyUp);
     $("#tags-suggestions").on('click', cforum.tags.addTagSuggestion);
   },
 
