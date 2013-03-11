@@ -8,6 +8,8 @@ class CfGroupUser < ActiveRecord::Base
   belongs_to :group, class_name: 'CfGroup', :foreign_key => :group_id
 
   attr_accessible :group_user_id, :group_id, :user_id
+
+  validates_presence_of :user_id, :group_id
 end
 
 # eof
