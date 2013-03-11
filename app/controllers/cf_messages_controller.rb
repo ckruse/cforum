@@ -135,8 +135,7 @@ class CfMessagesController < ApplicationController
     if not invalid and not retvals.include?(false) and not @preview
       CfMessage.transaction do
         raise ActiveRecord::Rollback unless @message.save
-        save_tags(@message, @tags)
-
+        raise ActiveRecord::Rollback unless save_tags(@message, @tags)
         saved = true
       end
     end

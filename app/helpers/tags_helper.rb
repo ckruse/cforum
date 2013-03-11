@@ -7,9 +7,16 @@ module TagsHelper
 
     # first check if all tags are present
     unless tags.empty?
-      tag_objs = CfTag.where('forum_id = ? AND LOWER(tag_name) IN (?)', current_forum.forum_id, tags).all
+      #tag_objs = CfTag.where('forum_id = ? AND LOWER(tag_name) IN (?)', current_forum.forum_id, tags).all
+      tag_objs = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) IN (?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) IN (?)))", current_forum.forum_id, tags, tags).order('num_messages DESC').all
       tags.each do |t|
-        tag_obj = tag_objs.find {|to| to.tag_name.downcase == t}
+        tag_obj = tag_objs.find do |to|
+          if to.tag_name.downcase == t
+            true
+          else
+            to.synonyms.find {|syn| syn.synonym == t}
+          end
+        end
 
         if tag_obj.blank?
           # create a savepoint (rails implements savepoints as nested transactions)
