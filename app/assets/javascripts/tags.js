@@ -15,7 +15,7 @@ cforum.tags = {
 
     if($tag_input.val().length >= 2) {
       $.get(
-        cforum.baseUrl + '/' + cforum.currentForum.slug + '/tags.json',
+        cforum.baseUrl + '/' + cforum.currentForum.slug + '/tags/autocomplete.json',
         's=' + encodeURIComponent($tag_input.val()),
         function(data) {
           if(data.length > 0) {
@@ -23,12 +23,12 @@ cforum.tags = {
             var val_l = $.trim(val.toLowerCase());
 
             for(var i = 0; i < data.length; ++i) {
-              if(val_l == data[i].tag_name.toLowerCase()) {
+              if(val_l == data[i].toLowerCase()) {
                 return;
               }
             }
 
-            var tag = data[0].tag_name;
+            var tag = data[0];
 
             $tag_input.val(val + tag.substring(val.length));
             $tag_input.selection(val.length, tag.length);

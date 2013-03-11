@@ -30,6 +30,32 @@ class TagsController < ApplicationController
     end
   end
 
+  def autocomplete
+    if not params[:s].blank?
+      clean_tag = params[:s].strip + '%'
+      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))", current_forum.forum_id, clean_tag, clean_tag).all
+    else
+      @tags = CfTag.preload(:synonyms).find_all_by_forum_id current_forum.forum_id
+    end
+
+    @tags_list = {}
+    @tags.each do |t|
+      if params[:s].blank? or t.tag_name =~ Regexp.new('^' + params[:s].strip.downcase)
+        @tags_list[t.tag_name] ||= 0
+        @tags_list[t.tag_name] += t.num_messages
+      end
+
+      t.synonyms.each do |s|
+        if params[:s].blank? or s.synonym =~ Regexp.new('^' + params[:s].strip.downcase)
+          @tags_list[s.synonym] ||= 0
+          @tags_list[s.synonym] += t.num_messages - 1
+        end
+      end
+    end
+
+    render json: @tags_list.keys.sort { |a,b| @tags_list[b] <=> @tags_list[a]}
+  end
+
   # GET /collections/1
   # GET /collections/1.json
   def show

@@ -39,6 +39,7 @@ Cforum::Application.routes.draw do
   get '/all' => 'cf_threads#index'
 
   scope ":curr_forum" do
+    get 'tags/autocomplete' => 'tags#autocomplete'
     resources :tags, except: [:new, :create, :edit, :update, :destroy]
 
     get '/' => 'cf_threads#index', as: 'cf_threads'
