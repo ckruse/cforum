@@ -1562,6 +1562,13 @@ CREATE INDEX tag_synonyms_tag_id_idx ON tag_synonyms USING btree (tag_id);
 
 
 --
+-- Name: tag_synonyms_tag_id_synonym_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX tag_synonyms_tag_id_synonym_idx ON tag_synonyms USING btree (tag_id, synonym);
+
+
+--
 -- Name: tags_forum_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 

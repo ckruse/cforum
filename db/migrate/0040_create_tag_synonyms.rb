@@ -11,6 +11,7 @@ CREATE TABLE tag_synonyms (
 
 CREATE INDEX tag_synonyms_tag_id_idx ON tag_synonyms (tag_id);
 CREATE INDEX tag_synonyms_synonym_idx ON tag_synonyms (synonym);
+CREATE UNIQUE INDEX tag_synonyms_tag_id_synonym_idx ON tag_synonyms (tag_id, synonym);
     SQL
   end
 
