@@ -941,6 +941,7 @@ ALTER SEQUENCE settings_setting_id_seq OWNED BY settings.setting_id;
 CREATE TABLE tag_synonyms (
     tag_synonym_id bigint NOT NULL,
     tag_id bigint NOT NULL,
+    forum_id bigint NOT NULL,
     synonym character varying(250) NOT NULL
 );
 
@@ -1548,6 +1549,13 @@ CREATE INDEX settings_user_id_idx ON settings USING btree (user_id);
 
 
 --
+-- Name: tag_synonyms_forum_id_synonym_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX tag_synonyms_forum_id_synonym_idx ON tag_synonyms USING btree (forum_id, synonym);
+
+
+--
 -- Name: tag_synonyms_synonym_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -1559,13 +1567,6 @@ CREATE INDEX tag_synonyms_synonym_idx ON tag_synonyms USING btree (synonym);
 --
 
 CREATE INDEX tag_synonyms_tag_id_idx ON tag_synonyms USING btree (tag_id);
-
-
---
--- Name: tag_synonyms_tag_id_synonym_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX tag_synonyms_tag_id_synonym_idx ON tag_synonyms USING btree (tag_id, synonym);
 
 
 --
@@ -1960,6 +1961,14 @@ ALTER TABLE ONLY settings
 
 ALTER TABLE ONLY settings
     ADD CONSTRAINT settings_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: tag_synonyms_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY tag_synonyms
+    ADD CONSTRAINT tag_synonyms_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

@@ -5,11 +5,13 @@ class CfTagSynonym < ActiveRecord::Base
   self.table_name  = 'tag_synonyms'
 
   belongs_to :tag, class_name: 'CfTag', foreign_key: :tag_id
+  belongs_to :forum, class_name: 'CfForum', foreign_key: :forum_id
 
-  attr_accessible :tag_synonym_id, :tag_id, :synonym
+  attr_accessible :tag_synonym_id, :tag_id, :forum_id, :synonym
 
-  validates_presence_of :tag_id
+  validates_presence_of :tag_id, :forum_id
   validates :synonym, length: {:in => 2..50}, presence: true
+  validates_uniqueness_of :synonym, scope: :forum_id
 end
 
 # eof
