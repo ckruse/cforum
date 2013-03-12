@@ -48,14 +48,9 @@ class CfThreadTest < ActiveSupport::TestCase
 
     assert_equal m, t.find_message!(m.message_id)
 
-    not_found = false
-    begin
+    assert_raise CForum::NotFoundException do
       t.find_message!(-303234)
-    rescue CForum::NotFoundException
-      not_found = true
     end
-
-    assert not_found
 
     m.mid = 1
     m.save
@@ -69,14 +64,9 @@ class CfThreadTest < ActiveSupport::TestCase
 
     assert_equal m, t.find_by_mid!(m.mid)
 
-    not_found = false
-    begin
+    assert_raise CForum::NotFoundException do
       t.find_by_mid!(-234234)
-    rescue CForum::NotFoundException
-      not_found = true
     end
-
-    assert not_found
 
     assert t.messages.clear
     assert_equal 0, t.messages.count()
