@@ -85,6 +85,31 @@ class CfThreadTest < ActiveSupport::TestCase
 
     assert_equal DateTime.now.strftime("/%Y/%b/%d/").downcase + 'death-star', CfThread.gen_id(t)
   end
+
+  test "acceptance_forbidden?" do
+    msg = FactoryGirl.create(:cf_message)
+
+    assert msg.thread.acceptance_forbidden?(nil, nil)
+    assert msg.thread.acceptance_forbidden?('', '')
+    assert !msg.thread.acceptance_forbidden?(msg.owner, nil)
+
+    adm = FactoryGirl.create(:cf_user)
+    assert !msg.thread.acceptance_forbidden?(adm, nil)
+
+    usr = FactoryGirl.create(:cf_user, admin: false)
+    assert msg.thread.acceptance_forbidden?(usr, nil)
+
+    msg.uuid = '1234'
+    msg.save
+    msg.reload
+
+    assert !msg.thread.acceptance_forbidden?(nil, '1234')
+    assert msg.thread.acceptance_forbidden?(nil, '12345')
+    assert msg.thread.acceptance_forbidden?(nil, nil)
+    assert msg.thread.acceptance_forbidden?(nil, '')
+    assert msg.thread.acceptance_forbidden?('', '')
+
+  end
 end
 
 
