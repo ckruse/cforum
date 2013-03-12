@@ -132,10 +132,10 @@ class CfThread < ActiveRecord::Base
     forbidden = false
 
     # current user is not the owner of the message
-    if not usr.blank? and message.user_id != usr.user_id
-      forbidden = true
+    if not usr.blank?
+      forbidden = true if message.user_id != usr.user_id and not usr.admin?
     elsif message.uuid.blank? # has message not been posted anonymously?
-      forbidden = true if usr.blank?
+      forbidden = true
     else
       forbidden = true if uuid != message.uuid
     end
