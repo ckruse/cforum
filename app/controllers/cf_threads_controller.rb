@@ -141,6 +141,12 @@ class CfThreadsController < ApplicationController
     @preview = true if params[:preview]
     retvals  = notification_center.notify(NEW_THREAD, @thread, @message, @tags)
 
+    @max_tags = conf('max_tags_per_message', 3)
+    if @tags.length > @max_tags
+      invalid = true
+      flash[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
+    end
+
     unless current_user
       cookies[:cforum_user] = {value: request.uuid, expires: 1.year.from_now} if cookies[:cforum_user].blank?
       @message.uuid = cookies[:cforum_user]
