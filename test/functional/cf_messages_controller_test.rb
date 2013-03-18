@@ -1459,6 +1459,27 @@ class CfMessagesControllerTest < ActionController::TestCase
     assert_redirected_to cf_message_url(assigns(:thread), assigns(:message))
   end
 
+  test "should not post answer deleted message" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
+
+    assert_raise ActiveRecord::RecordNotFound do
+      post :create, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s,
+        cf_message: {
+          subject: 'Fighters of the world',
+          content: 'Long live the imperator! Down with the rebellion!'
+        }
+      }
+    end
+  end
+
 end
 
 # eof
