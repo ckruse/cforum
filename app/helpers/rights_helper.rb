@@ -38,6 +38,13 @@ module RightsHelper
     return true if @cache[user] >= conf(right, DEFAULT_SCORES[right] || 50000)
     return
   end
+
+  def std_conditions(conditions)
+    conditions = {slug: conditions} if conditions.is_a?(String)
+    conditions[:messages] = {deleted: false} unless @view_all
+
+    conditions
+  end
 end
 
 # eof
