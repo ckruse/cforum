@@ -722,7 +722,7 @@ class CfMessagesControllerTest < ActionController::TestCase
 
     sign_in user
 
-    post :restore, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id}
+    post :restore, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id, view_all: 'yes'}
 
     assert_not_nil assigns(:message)
     assert_not_nil assigns(:thread)
@@ -777,7 +777,7 @@ class CfMessagesControllerTest < ActionController::TestCase
 
     sign_in user
 
-    post :restore, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id}
+    post :restore, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id, view_all: 'yes'}
 
     assert_not_nil assigns(:message)
     assert_not_nil assigns(:thread)
