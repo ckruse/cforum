@@ -188,6 +188,7 @@ class CfMessagesController < ApplicationController
     end
   end
 
+  # TODO: votable with anoynmous user
   def vote
     raise CForum::ForbiddenException.new if current_user.blank?
 
@@ -202,8 +203,11 @@ class CfMessagesController < ApplicationController
       return
     end
 
-    vote_up_value = conf('vote_up_value', 10).to_i
     vote_down_value = conf('vote_down_value', -1).to_i
+
+    # we may use a different vote_up_value if user is the author of the OP
+    vote_up_value = conf('vote_up_value', 10).to_i
+    vote_up_value = conf('vote_up_value_user', 10).to_i unless @thread.acceptance_forbidden?(current_user, cookies[:cforum_user])
 
     vtype    = params[:type] == 'up' ? CfVote::UPVOTE : CfVote::DOWNVOTE
 
