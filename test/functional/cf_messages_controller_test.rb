@@ -967,7 +967,7 @@ class CfMessagesControllerTest < ActionController::TestCase
     end
 
     s = CfScore.first
-    assert_equal Rails.application.config.vote_up_value, s.value
+    assert_equal 10, s.value
   end
 
   test "vote down should score -x points to bevoted user and voter" do
@@ -991,10 +991,10 @@ class CfMessagesControllerTest < ActionController::TestCase
     end
 
     s = CfScore.find_by_user_id! usr.user_id
-    assert_equal -Rails.application.config.vote_down_value, s.value
+    assert_equal -1, s.value
 
     s = CfScore.find_by_user_id! message.user_id
-    assert_equal -Rails.application.config.vote_down_value, s.value
+    assert_equal -1, s.value
   end
 
   test "revote up should score x points to bevoted user and remove -score from voter" do
@@ -1004,8 +1004,8 @@ class CfMessagesControllerTest < ActionController::TestCase
     usr     = FactoryGirl.create(:cf_user)
 
     v = CfVote.create!(user_id: usr.user_id, message_id: message.message_id, vtype: CfVote::DOWNVOTE)
-    CfScore.create!(user_id: usr.user_id, vote_id: v.vote_id, value: Rails.application.config.vote_down_value)
-    CfScore.create!(user_id: message.user_id, vote_id: v.vote_id, value: Rails.application.config.vote_down_value)
+    CfScore.create!(user_id: usr.user_id, vote_id: v.vote_id, value: -1)
+    CfScore.create!(user_id: message.user_id, vote_id: v.vote_id, value: -1)
 
     sign_in usr
 
@@ -1022,7 +1022,7 @@ class CfMessagesControllerTest < ActionController::TestCase
     end
 
     s = CfScore.first
-    assert_equal Rails.application.config.vote_up_value, s.value
+    assert_equal 10, s.value
   end
 
 

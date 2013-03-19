@@ -202,6 +202,9 @@ class CfMessagesController < ApplicationController
       return
     end
 
+    vote_up_value = conf('vote_up_value', 10).to_i
+    vote_down_value = conf('vote_down_value', -1).to_i
+
     vtype    = params[:type] == 'up' ? CfVote::UPVOTE : CfVote::DOWNVOTE
 
     # remove voting if user already voted with the same parameters
@@ -235,14 +238,14 @@ class CfMessagesController < ApplicationController
 
           unless @message.user_id.blank?
             CfScore.delete_all(['user_id = ? AND vote_id = ?', current_user.user_id, @vote.vote_id])
-            CfScore.update_all(['value = ?', Rails.application.config.vote_up_value], ['user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id])
+            CfScore.update_all(['value = ?', vote_up_value], ['user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id])
           end
         else
           CfVote.connection.execute "UPDATE messages SET upvotes = upvotes - 1, downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
 
           unless @message.user_id.blank?
-            CfScore.update_all(['value = ?', -Rails.application.config.vote_down_value], ['user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id])
-            CfScore.create!(user_id: current_user.user_id, vote_id: @vote.vote_id, value: -Rails.application.config.vote_down_value)
+            CfScore.update_all(['value = ?', vote_down_value], ['user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id])
+            CfScore.create!(user_id: current_user.user_id, vote_id: @vote.vote_id, value: vote_down_value)
           end
         end
 
@@ -257,14 +260,14 @@ class CfMessagesController < ApplicationController
           CfScore.create!(
             user_id: @message.user_id,
             vote_id: @vote.vote_id,
-            value: vtype == CfVote::UPVOTE ? Rails.application.config.vote_up_value : -Rails.application.config.vote_down_value
+            value: vtype == CfVote::UPVOTE ? vote_up_value : vote_down_value
           )
 
           if vtype == CfVote::DOWNVOTE
             CfScore.create!(
               user_id: current_user.user_id,
               vote_id: @vote.vote_id,
-              value: -Rails.application.config.vote_down_value
+              value: vote_down_value
             )
           end
         end
@@ -317,7 +320,7 @@ class CfMessagesController < ApplicationController
           CfScore.create!(
             user_id: @message.user_id,
             message_id: @message.message_id,
-            value: Rails.application.config.accept_value
+            value: conf('accept_value', 15).to_i
           )
         else
           scores = CfScore.where(user_id: @message.user_id, message_id: @message.message_id).all
