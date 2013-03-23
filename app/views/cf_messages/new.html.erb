@@ -3,20 +3,22 @@
 content_for :title, t('messages.write_new_answer')
 %><article class="message">
 
+  <div class="thread">
 <% if @parent and not @preview %>
-  <%= message_header(@thread, @parent) %>
+    <%= message_header(@thread, @parent) %>
 
-  <div class="posting-content well">
-    <%= @parent.to_html %>
-  </div>
+    <div class="posting-content well">
+      <%= @parent.to_html %>
+    </div>
 
 <% elsif @preview %>
-  <%= message_header(@thread, @message) %>
+    <%= message_header(@thread, @message) %>
 
-  <div class="posting-content well">
-    <%= @message.to_html %>
-  </div>
+    <div class="posting-content well">
+      <%= @message.to_html %>
+    </div>
 <% end %>
+  </div>
 
 <%= form_for @message, :url => cf_message_path(@thread, @parent), html: {:class => 'form-horizontal'} do |f| %>
   <% if @message.errors.any? %>
