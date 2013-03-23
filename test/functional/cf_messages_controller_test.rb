@@ -1464,7 +1464,7 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
 
-    assert_raise ActiveRecord::RecordNotFound do
+    assert_raise CForum::NotFoundException do
       post :create, {
         curr_forum: forum.slug,
         year: '2012',

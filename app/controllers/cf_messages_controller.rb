@@ -29,12 +29,7 @@ class CfMessagesController < ApplicationController
   ACCEPTED_MESSAGE     = "accepted_message"
 
   def show
-    @id = CfThread.make_id(params)
-    @thread = CfThread.preload(:messages => [:owner, :tags]).includes(:messages => :owner).where(std_conditions(@id)).first
-    raise CForum::NotFoundException.new if @thread.blank?
-
-    @message = @thread.find_message(params[:mid].to_i)
-    raise CForum::NotFoundException.new if @message.nil?
+    get_thread_w_post
 
     @parent = @message.parent_level
 
@@ -58,13 +53,9 @@ class CfMessagesController < ApplicationController
   end
 
   def new
-    @id = CfThread.make_id(params)
-    @thread = CfThread.preload(:messages => [:owner, :tags]).includes(:messages).where(std_conditions(@id)).first!
-    raise CForum::ForbiddenException.new if @thread.archived and conf('use_archive') == 'yes'
+    get_thread_w_post
 
-    @parent = @thread.find_message(params[:mid].to_i) if @thread
-    raise CForum::NotFoundException.new if @thread.nil? or @parent.nil?
-
+    @parent  = @message
     @message = CfMessage.new
     @tags    = @parent.tags.map {|t| t.tag_name}
 
@@ -78,15 +69,11 @@ class CfMessagesController < ApplicationController
   end
 
   def create
-    @id = CfThread.make_id(params)
-    @thread = CfThread.preload(:messages => [:owner, :tags]).includes(:messages).where(std_conditions(@id)).first!
-    raise CForum::ForbiddenException.new if @thread.archived and conf('use_archive') == 'yes'
+    get_thread_w_post
 
-    @parent = @thread.find_message(params[:mid].to_i) if @thread
-    raise CForum::NotFoundException.new if @thread.nil? or @parent.nil?
+    invalid  = false
 
-    invalid = false
-
+    @parent  = @message
     @message = CfMessage.new(params[:cf_message])
 
     @message.parent_id  = @parent.message_id
@@ -145,11 +132,7 @@ class CfMessagesController < ApplicationController
   end
 
   def destroy
-    @id     = CfThread.make_id(params)
-    @thread = CfThread.includes(:messages, :forum).where(std_conditions(@id)).first!
-
-    @message = @thread.find_message(params[:mid].to_i) if @thread
-    raise CForum::NotFoundException.new if @message.blank?
+    get_thread_w_post
 
     retvals = notification_center.notify(DELETING_MESSAGE, @thread, @message)
 
@@ -167,11 +150,7 @@ class CfMessagesController < ApplicationController
   end
 
   def restore
-    @id     = CfThread.make_id(params)
-    @thread = CfThread.includes(:messages, :forum).where(std_conditions(@id)).first!
-
-    @message = @thread.find_message(params[:mid].to_i)
-    raise CForum::NotFoundException.new if @message.blank?
+    get_thread_w_post
 
     retvals = notification_center.notify(RESTORING_MESSAGE, @thread, @message)
 
@@ -192,10 +171,7 @@ class CfMessagesController < ApplicationController
   def vote
     raise CForum::ForbiddenException.new if current_user.blank?
 
-    @id      = CfThread.make_id(params)
-    @thread  = CfThread.includes(:messages, :forum).where(std_conditions(@id)).first!
-    @message = @thread.find_message(params[:mid].to_i)
-    raise CForum::NotFoundException.new if @message.blank?
+    get_thread_w_post
 
     if @message.user_id == current_user.user_id
       flash[:error] = t('messages.do_not_vote_yourself')
@@ -291,10 +267,7 @@ class CfMessagesController < ApplicationController
   end
 
   def accept
-    @id      = CfThread.make_id(params)
-    @thread  = CfThread.includes(:messages, :forum).where(std_conditions(@id)).first!
-    @message = @thread.find_message(params[:mid].to_i)
-    raise CForum::NotFoundException.new if @message.blank?
+    get_thread_w_post
 
     if @thread.acceptance_forbidden?(current_user, cookies[:cforum_user])
       flash[:error] = t('messages.only_op_may_accept')
@@ -337,6 +310,17 @@ class CfMessagesController < ApplicationController
     redirect_to cf_message_url(@thread, @message), notice: @message.accepted ? t('messages.accepted') : t('messages.unaccepted')
   end
 
+
+  private
+
+  def get_thread_w_post
+    @id = CfThread.make_id(params)
+    @thread = CfThread.preload(:forum, :messages => [:owner, :tags]).includes(:messages => :owner).where(std_conditions(@id)).first
+    raise CForum::NotFoundException.new if @thread.blank?
+
+    @message = @thread.find_message(params[:mid].to_i)
+    raise CForum::NotFoundException.new if @message.nil?
+  end
 end
 
 # eof
