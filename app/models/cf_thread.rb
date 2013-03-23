@@ -62,7 +62,7 @@ class CfThread < ActiveRecord::Base
     map = {}
 
     messages.each do |msg|
-      self.accepted = msg if msg.accepted
+      self.accepted = msg if msg.flags["accepted"] == 'yes'
 
       map[msg.message_id] = msg
       msg.messages = [] unless msg.messages

@@ -277,14 +277,14 @@ class CfMessagesController < ApplicationController
 
     notification_center.notify(ACCEPTING_MESSAGE, @thread, @message)
     CfMessage.transaction do
-      @message.accepted = !@message.accepted
+      @message.flags['accepted'] = @message.flags['accepted'] == 'yes' ? 'no' : 'yes'
       @message.save
 
       unless @message.user_id.blank?
-        if @message.accepted
+        if @message.flags['accepted'] == 'yes'
           @thread.messages.each do |m|
-            if m.message_id != @message.message_id and m.accepted
-              m.accepted = false
+            if m.message_id != @message.message_id and m.flags['accepted'] == 'yes'
+              m.flags.delete('accepted')
               m.save
 
               if not m.user_id.blank?
@@ -307,7 +307,7 @@ class CfMessagesController < ApplicationController
     end
     notification_center.notify(ACCEPTED_MESSAGE, @thread, @message)
 
-    redirect_to cf_message_url(@thread, @message), notice: @message.accepted ? t('messages.accepted') : t('messages.unaccepted')
+    redirect_to cf_message_url(@thread, @message), notice: (@message.flags['accepted'] == 'yes' ? t('messages.accepted') : t('messages.unaccepted'))
   end
 
 
