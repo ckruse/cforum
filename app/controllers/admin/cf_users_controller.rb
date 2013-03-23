@@ -14,8 +14,14 @@ class Admin::CfUsersController < ApplicationController
     @page = 0 if @page < 0
     @limit = conf('pagination_users', 50).to_i
 
-    @all_users_count = CfUser.count()
-    @users = CfUser.order('username ASC').limit(@limit).offset(@page * @limit).find(:all)
+    if params[:s].blank?
+      @users = CfUser.order('username').limit(@limit).offset(@page * @limit)
+      @all_users_count = CfUser.count()
+    else
+      @users = CfUser.where('LOWER(username) LIKE ?', '%' + params[:s].strip + '%').order('username').limit(@limit).offset(@page * @limit)
+      @all_users_count = CfUser.where('LOWER(username) LIKE ?', params[:s].strip + '%').count()
+      @search_term = params[:s]
+    end
   end
 
   def edit
