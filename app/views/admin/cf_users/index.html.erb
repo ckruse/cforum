@@ -59,8 +59,8 @@ content_for :title, t('admin.users.user_administration')
 
     <% if end_page != last_possible_page %><li class="disabled"><a href="#">…</a></li><% end %>
 
-    <li><a href="<%= admin_users_path(p: next_page) %>">»</a></li>
-    <li><a href="<%= admin_users_path(p: last_possible_page) %>">»»</a></li>
+    <li<% if next_page == last_possible_page %> class="disabled"<% end %>><a href="<%= admin_users_path(p: next_page) %>">»</a></li>
+    <li<% if next_page == last_possible_page %> class="disabled"<% end %>><a href="<%= admin_users_path(p: last_possible_page) %>">»»</a></li>
 
   </ul>
 </div>
