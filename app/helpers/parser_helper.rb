@@ -20,7 +20,7 @@ module ParserHelper
       coderay_css: :class,
       coderay_line_numbers: nil,
       header_offset: ApplicationController.instance.conf('header_start_index', 2),
-      auto_id_prefix: 'm' + message_id.to_s + '-'
+      auto_id_prefix: 'm' + (has_attribute?(:message_id) ? message_id.to_s : priv_message_id.to_s) + '-'
     )
 
     if @doc.blank?
