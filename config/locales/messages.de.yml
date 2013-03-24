@@ -30,6 +30,7 @@ de:
 
     vote_up: Positiv bewerten
     vote_down: Negativ bewerten
+    unvote: Bewertung zurücknehmen
     successfully_voted: Sie haben erfolgreich gewählt!
     vote_removed: Die Wahl wurde entfernt!
     already_voted: Sie haben bereits gewählt!

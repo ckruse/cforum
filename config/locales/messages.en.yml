@@ -30,6 +30,7 @@ en:
 
     vote_up: Vote up
     vote_down: Vote down
+    unvote: Remove voting
     successfully_voted: You voted successfully!
     already_voted: You already voted!
     do_not_vote_yourself: You may not vote yourself!

@@ -1,4 +1,9 @@
-<% do_parent ||= false %>
+<% do_parent ||= false
+
+has_upvote = has_downvote = false
+has_upvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::UPVOTE
+has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::UPVOTE
+%>
   <%= message_header(@thread, m, first: first, do_parent: do_parent) %>
 
   <div class="posting-content well">
@@ -16,8 +21,8 @@
       <% end %>
 
 
-      <button name="type" value="up" title="<%= t('messages.vote_up') %>"><i class="icon icon-thumbs-up vote vote-up<% if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::UPVOTE %> active<% end %>"> </i></button>
-      <button name="type" value="down" title="<%= t('messages.vote_down') %>"><i class="icon icon-thumbs-down vote vote-up<% if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::DOWNVOTE %> active<% end %>"> </i></button>
+      <button name="type" value="up" title="<%= t(has_upvote ? 'messages.unvote' : 'messages.vote_up') %>"><i class="icon icon-thumbs-up vote vote-up<% if has_upvote %> active<% end %>"> </i></button>
+      <button name="type" value="down" title="<%= t(has_downvote ? 'messages.unvote' : 'messages.vote_down') %>"><i class="icon icon-thumbs-down vote vote-up<% if has_downvote %> active<% end %>"> </i></button>
     </p>
   <% end
   end %>
