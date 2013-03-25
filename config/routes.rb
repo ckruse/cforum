@@ -58,7 +58,7 @@ Cforum::Application.routes.draw do
     put '/:year/:mon/:day/:tid/:mid' => 'cf_messages#update', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/
     delete '/:year/:mon/:day/:tid/:mid' => 'cf_messages#destroy', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/
 
-    post '/:year/:mon/:day/:tid/:mid/vote' => 'cf_messages#vote', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'vote_cf_message'
+    post '/:year/:mon/:day/:tid/:mid/vote' => 'vote_plugin#vote', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'vote_cf_message'
     post '/:year/:mon/:day/:tid/:mid/restore' => 'cf_messages#restore', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'restore_cf_message'
     post '/:year/:mon/:day/:tid/:mid/accept' => 'accept_plugin#accept', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'accept_cf_message'
 
