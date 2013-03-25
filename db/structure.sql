@@ -1010,7 +1010,8 @@ CREATE TABLE threads (
     tid bigint,
     message_id bigint,
     deleted boolean DEFAULT false NOT NULL,
-    sticky boolean DEFAULT false NOT NULL
+    sticky boolean DEFAULT false NOT NULL,
+    flags hstore
 );
 
 
@@ -2093,6 +2094,8 @@ INSERT INTO schema_migrations (version) VALUES ('4');
 INSERT INTO schema_migrations (version) VALUES ('40');
 
 INSERT INTO schema_migrations (version) VALUES ('41');
+
+INSERT INTO schema_migrations (version) VALUES ('42');
 
 INSERT INTO schema_migrations (version) VALUES ('5');
 

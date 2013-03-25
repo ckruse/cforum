@@ -7,7 +7,7 @@ class CfThread < ActiveRecord::Base
   belongs_to :forum, class_name: 'CfForum', :foreign_key => :forum_id
   has_many :messages, class_name: 'CfMessage', :foreign_key => :thread_id, :dependent => :destroy
 
-  attr_accessible :thread_id, :tid, :slug, :forum_id, :archived, :created_at, :updated_at, :sticky
+  attr_accessible :thread_id, :tid, :slug, :forum_id, :archived, :created_at, :updated_at, :sticky, :flags
 
   validates :slug, uniqueness: true, allow_blank: false, format: {with: /^[a-z0-9_\/-]+$/}
   validates_presence_of :forum_id
