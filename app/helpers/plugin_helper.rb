@@ -23,7 +23,7 @@ module PluginHelper
     if @@loaded_plugins.blank? or Rails.env == 'development'
       self.class.init_hooks = []
 
-      plugin_dir = Rails.root + 'lib/plugins/controllers'
+      plugin_dir = Rails.root + 'lib/plugins/notifiers'
       Dir.open(plugin_dir).each do |p|
         next if p[0] == '.' or not File.directory?(plugin_dir + p)
         load plugin_dir + p + "#{p}.rb"
@@ -54,12 +54,12 @@ module PluginHelper
   end
 
   def mod_view_paths
-    paths = [Rails.root + "lib/plugins/controllers/"]
+    paths = [Rails.root + "lib/plugins/notifiers/"]
 
     rest = view_paths[0..-1]
     paths += rest if rest
 
-    ActionMailer::Base.prepend_view_path(Rails.root + "lib/plugins/controllers/")
+    ActionMailer::Base.prepend_view_path(Rails.root + "lib/plugins/notifiers/")
     lookup_context.view_paths = view_paths = ActionView::PathSet.new(paths)
   end
 end

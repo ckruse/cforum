@@ -60,7 +60,7 @@ Cforum::Application.routes.draw do
 
     post '/:year/:mon/:day/:tid/:mid/vote' => 'cf_messages#vote', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'vote_cf_message'
     post '/:year/:mon/:day/:tid/:mid/restore' => 'cf_messages#restore', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'restore_cf_message'
-    post '/:year/:mon/:day/:tid/:mid/accept' => 'cf_messages#accept', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'accept_cf_message'
+    post '/:year/:mon/:day/:tid/:mid/accept' => 'accept_plugin#accept', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'accept_cf_message'
 
     get '/:year/:mon/:day/:tid/:mid/new' => 'cf_messages#new', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'new_cf_message'
     post '/:year/:mon/:day/:tid/:mid' => 'cf_messages#create', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/
