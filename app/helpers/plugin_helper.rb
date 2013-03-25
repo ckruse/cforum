@@ -54,12 +54,13 @@ module PluginHelper
   end
 
   def mod_view_paths
-    paths = [Rails.root + "lib/plugins/notifiers/"]
+    paths = [Rails.root + "lib/plugins/notifiers/", Rails.root + "lib/plugins/controllers/"]
 
     rest = view_paths[0..-1]
     paths += rest if rest
 
     ActionMailer::Base.prepend_view_path(Rails.root + "lib/plugins/notifiers/")
+    ActionMailer::Base.prepend_view_path(Rails.root + "lib/plugins/controllers/")
     lookup_context.view_paths = view_paths = ActionView::PathSet.new(paths)
   end
 end
