@@ -25,9 +25,6 @@ class CfMessagesController < ApplicationController
   UNVOTING_MESSAGE     = "unvoting_message"
   UNVOTED_MESSAGE      = "unvoted_message"
 
-  ACCEPTING_MESSAGE    = "accepting_message"
-  ACCEPTED_MESSAGE     = "accepted_message"
-
   def show
     get_thread_w_post
 
@@ -265,51 +262,6 @@ class CfMessagesController < ApplicationController
     flash[:notice] = t('messages.successfully_voted')
     redirect_to cf_message_url(@thread, @message)
   end
-
-  def accept
-    get_thread_w_post
-
-    if @thread.acceptance_forbidden?(current_user, cookies[:cforum_user])
-      flash[:error] = t('messages.only_op_may_accept')
-      redirect_to cf_message_url(@thread, @message)
-      return
-    end
-
-    notification_center.notify(ACCEPTING_MESSAGE, @thread, @message)
-    CfMessage.transaction do
-      @message.flags['accepted'] = @message.flags['accepted'] == 'yes' ? 'no' : 'yes'
-      @message.save
-
-      unless @message.user_id.blank?
-        if @message.flags['accepted'] == 'yes'
-          @thread.messages.each do |m|
-            if m.message_id != @message.message_id and m.flags['accepted'] == 'yes'
-              m.flags.delete('accepted')
-              m.save
-
-              if not m.user_id.blank?
-                scores = CfScore.where(user_id: m.user_id, message_id: m.message_id).all
-                scores.each { |score| score.destroy } if not scores.blank?
-              end
-            end
-          end
-
-          CfScore.create!(
-            user_id: @message.user_id,
-            message_id: @message.message_id,
-            value: conf('accept_value', 15).to_i
-          )
-        else
-          scores = CfScore.where(user_id: @message.user_id, message_id: @message.message_id).all
-          scores.each { |score| score.destroy } if not scores.blank?
-        end
-      end
-    end
-    notification_center.notify(ACCEPTED_MESSAGE, @thread, @message)
-
-    redirect_to cf_message_url(@thread, @message), notice: (@message.flags['accepted'] == 'yes' ? t('messages.accepted') : t('messages.unaccepted'))
-  end
-
 
   private
 
