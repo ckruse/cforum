@@ -113,6 +113,7 @@ class CfThread < ActiveRecord::Base
 
   after_initialize do
     self.attribs ||= {'classes' => []}
+    self.flags ||= {} if attributes.has_key? 'flags'
   end
 
   alias_method :messages_orig, :messages
