@@ -69,6 +69,10 @@ module CForum
       _cf_thread_path(thread) + "/sticky" + query_string(args)
     end
 
+    def no_archive_cf_thread_path(thread, args = {})
+      _cf_thread_path(thread) + "/no_archive" + query_string(args)
+    end
+
     #
     # message path helpers
     #
@@ -103,6 +107,10 @@ module CForum
 
     def accept_cf_message_path(thread, message, args = {})
       _cf_message_path_wo_anchor(thread, message) + "/accept" + query_string(args)
+    end
+
+    def no_answer_cf_message_path(thread, message, args = {})
+      _cf_message_path_wo_anchor(thread, message) + "/no_answer" + query_string(args)
     end
 
     #

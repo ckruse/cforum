@@ -12,3 +12,14 @@ de:
 
     user_data:
       all: alle
+
+    no_answer_no_archive:
+      no_answer: Antworten verbieten
+      answer: Antworten erlauben
+      no_answered: Antworten ist jetzt verboten.
+      no_answer_removed: Antworten ist jetzt wieder erlaubt.
+      answer_not_allowed: Antworten ist nicht erlaubt!
+      no_archived: Nachricht wird beim archivieren gelöscht.
+      no_archive_removed: Nachricht wird beim archivieren nicht mehr gelöscht.
+      no_arc: Nicht archivieren
+      arc: Archivieren

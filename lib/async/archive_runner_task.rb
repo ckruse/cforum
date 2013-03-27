@@ -11,12 +11,17 @@ module Peon
 
         # first: max messages per thread (to avoid monster threads like „Test, bitte ignorieren”)
         CfThread.transaction do
-          threads = CfThread.select('threads.thread_id, COUNT(*) AS cnt').joins(:messages).where(archived: false, forum_id: forum.forum_id).group('threads.thread_id')
+          threads = CfThread.select('threads.thread_id, COUNT(*) AS cnt, flags').joins(:messages).where(archived: false, forum_id: forum.forum_id).group('threads.thread_id')
 
           threads.each do |t|
             if t.cnt.to_i > max_messages
-              Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + t.thread_id.to_s + ' because of to many messages'
-              CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + t.thread_id.to_s
+              if t.flags['no-archive'] == 'yes'
+                Rails.logger.info 'ArchiveRunnerTask: archiving (deleting!) thread ' + t.thread_id.to_s + ' because of to many messages'
+                t.destroy
+              else
+                Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + t.thread_id.to_s + ' because of to many messages'
+                CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + t.thread_id.to_s
+              end
             end
           end
         end
@@ -28,8 +33,14 @@ module Peon
             rslt = CfThread.connection.execute 'SELECT threads.thread_id, MAX(messages.created_at) AS created_at FROM threads INNER JOIN cforum.messages USING(thread_id) WHERE threads.forum_id = ' + forum.forum_id.to_s + ' AND archived = false GROUP BY threads.thread_id ORDER BY MAX(messages.created_at) ASC LIMIT 1'
             tid = rslt[0]['thread_id']
 
-            Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + tid + ' because oldest while to many threads'
-            CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + tid
+            t = CfThread.find tid
+            if t.flags['no-archive'] == 'yes'
+              Rails.logger.info 'ArchiveRunnerTask: archiving (deleting!) thread ' + tid + ' because oldest while to many threads'
+              t.destroy
+            else
+              Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + tid + ' because oldest while to many threads'
+              CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + tid
+            end
           end
         end
       end

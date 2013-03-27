@@ -51,6 +51,7 @@ Cforum::Application.routes.draw do
     get '/:year/:mon/:day/:tid/move' => 'cf_threads#moving', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'move_cf_thread'
     post '/:year/:mon/:day/:tid/move' => 'cf_threads#move', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/
     post '/:year/:mon/:day/:tid/sticky' => 'cf_threads#sticky', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/
+    post '/:year/:mon/:day/:tid/no_archive' => 'no_answer_no_archive_plugin#no_archive', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'no_archive_cf_thread'
 
     # message urls
     get '/:year/:mon/:day/:tid/:mid' => 'cf_messages#show', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'cf_message'
@@ -61,6 +62,7 @@ Cforum::Application.routes.draw do
     post '/:year/:mon/:day/:tid/:mid/vote' => 'vote_plugin#vote', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'vote_cf_message'
     post '/:year/:mon/:day/:tid/:mid/restore' => 'cf_messages#restore', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'restore_cf_message'
     post '/:year/:mon/:day/:tid/:mid/accept' => 'accept_plugin#accept', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'accept_cf_message'
+    post '/:year/:mon/:day/:tid/:mid/no_answer' => 'no_answer_no_archive_plugin#no_answer', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'no_answer_cf_message'
 
     get '/:year/:mon/:day/:tid/:mid/new' => 'cf_messages#new', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'new_cf_message'
     post '/:year/:mon/:day/:tid/:mid' => 'cf_messages#create', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/
