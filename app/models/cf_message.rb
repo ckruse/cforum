@@ -57,6 +57,25 @@ class CfMessage < ActiveRecord::Base
       m.restore_with_subtree
     end
   end
+
+  def flag_with_subtree(flag, value)
+    flags[flag] = value
+    save
+
+    messages.each do |m|
+      m.flag_with_subtree(flag, value)
+    end
+  end
+
+  def del_flag_with_subtree(flag)
+    flags.delete(flag)
+    save
+
+    messages.each do |m|
+      m.del_flag_with_subtree(flag)
+    end
+  end
+
 end
 
 # eof
