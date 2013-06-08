@@ -1,0 +1,7 @@
+<article class="thread threadlist<% if thread.sticky %> sticky<% end %>" data-js="thread-<%= thread.thread_id %>">
+  <%= message_header(thread, thread.message, first: true, show_icons: true) %>
+
+  <% if not thread.message.messages.blank? and thread.attribs['open_state'] != 'closed' %>
+  <%= message_tree(thread, thread.message.messages, show_icons: true) %>
+  <% end %>
+</article>
