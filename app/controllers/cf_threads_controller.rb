@@ -188,6 +188,9 @@ class CfThreadsController < ApplicationController
 
     respond_to do |format|
       if not @preview and saved
+        publish('/messages/' + @thread.forum.slug, {type: 'thread', thread: @thread, message: @message})
+        publish('/messages/all', {type: 'thread', thread: @thread, message: @message})
+
         notification_center.notify(NEW_THREAD_SAVED, @thread, @message)
 
         format.html { redirect_to cf_message_url(@thread, @message), notice: I18n.t("threads.created") }
