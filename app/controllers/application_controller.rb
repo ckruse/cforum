@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   include NotifyHelper
   include AuthorizeStd
   include ExceptionHelpers
+  include FayeHelper
 
   before_filter :do_init, :check_forum_access, :notifications, :scores, :run_before_handler
   after_filter :run_after_handler

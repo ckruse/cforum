@@ -62,5 +62,5 @@ Cforum::Application.configure do
   config.active_support.deprecation = :notify
 
   config.mail_sender = 'cforum@wwwtech.de'
-
+  config.faye_url = "http://forumtest.selfhtml.org:9090/faye"
 end

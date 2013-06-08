@@ -39,6 +39,7 @@ cforum = {
 
   common: {
     init: function() {
+      cforum.client = new Faye.Client(cforum.fayeUrl, {timeout: 120, retry: 5});
     }
   }
 };
