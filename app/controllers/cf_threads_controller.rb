@@ -94,6 +94,15 @@ class CfThreadsController < ApplicationController
     end
   end
 
+  def show
+    @thread, _, _ = get_thread_w_post
+
+    respond_to do |format|
+      format.html { render partial: 'thread', layout: false, locals: {thread: @thread} }
+      format.json { render json: @thread, include: {:messages => {include: [:owner, :tags]} } }
+    end
+  end
+
   # TODO: implement editing
   # def edit
   #   @id = CfThread.make_id(params)
