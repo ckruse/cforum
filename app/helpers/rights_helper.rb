@@ -39,11 +39,41 @@ module RightsHelper
     return
   end
 
-  def std_conditions(conditions)
-    conditions = {slug: conditions} if conditions.is_a?(String)
+  def std_conditions(conditions, tid = false)
+    if conditions.is_a?(String)
+      if tid
+        conditions = {thread_id: tid}
+      else
+        conditions = {slug: conditions}
+      end
+    end
+
     conditions[:messages] = {deleted: false} unless @view_all
 
     conditions
+  end
+
+  def get_thread_w_post
+    tid = false
+    id  = nil
+
+    if params[:year] and params[:moin] and params[:day] and params[:tid]
+      id = CfThread.make_id(params)
+    else
+      id = params[:id]
+      tid = true
+    end
+
+    thread = CfThread.preload(:forum, :messages => [:owner, :tags]).includes(:messages => :owner).where(std_conditions(id, tid)).first
+    raise CForum::NotFoundException.new if thread.blank?
+
+    message = nil
+    unless params[:mid].blank?
+      message = thread.find_message(params[:mid].to_i)
+      raise CForum::NotFoundException.new if message.nil?
+    end
+
+    return thread, message, id
   end
 end
 

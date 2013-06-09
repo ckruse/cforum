@@ -20,7 +20,7 @@ class CfMessagesController < ApplicationController
   RESTORED_MESSAGE     = "restored_message"
 
   def show
-    get_thread_w_post
+    @thread, @message, @id = get_thread_w_post
 
     @parent = @message.parent_level
 
@@ -44,7 +44,7 @@ class CfMessagesController < ApplicationController
   end
 
   def new
-    get_thread_w_post
+    @thread, @message, @id = get_thread_w_post
 
     @parent  = @message
     @message = CfMessage.new
@@ -60,7 +60,7 @@ class CfMessagesController < ApplicationController
   end
 
   def create
-    get_thread_w_post
+    @thread, @message, @id = get_thread_w_post
 
     invalid  = false
 
@@ -126,7 +126,7 @@ class CfMessagesController < ApplicationController
   end
 
   def destroy
-    get_thread_w_post
+    @thread, @message, @id = get_thread_w_post
 
     retvals = notification_center.notify(DELETING_MESSAGE, @thread, @message)
 
@@ -144,7 +144,7 @@ class CfMessagesController < ApplicationController
   end
 
   def restore
-    get_thread_w_post
+    @thread, @message, @id = get_thread_w_post
 
     retvals = notification_center.notify(RESTORING_MESSAGE, @thread, @message)
 
@@ -161,16 +161,6 @@ class CfMessagesController < ApplicationController
     end
   end
 
-  private
-
-  def get_thread_w_post
-    @id = CfThread.make_id(params)
-    @thread = CfThread.preload(:forum, :messages => [:owner, :tags]).includes(:messages => :owner).where(std_conditions(@id)).first
-    raise CForum::NotFoundException.new if @thread.blank?
-
-    @message = @thread.find_message(params[:mid].to_i)
-    raise CForum::NotFoundException.new if @message.nil?
-  end
 end
 
 # eof
