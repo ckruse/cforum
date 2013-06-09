@@ -10,7 +10,7 @@
 
     html = "<header"
     html << ' class="' + classes.join(" ") + '"' unless classes.blank?
-    html << ' id="m' + message.message_id.to_s + '"' if nested
+    html << ' id="m' + message.message_id.to_s + '"'
     html << ">\n"
 
     if opts[:first] and current_user and opts[:show_icons]
