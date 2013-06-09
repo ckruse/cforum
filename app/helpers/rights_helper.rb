@@ -42,7 +42,7 @@ module RightsHelper
   def std_conditions(conditions, tid = false)
     if conditions.is_a?(String)
       if tid
-        conditions = {thread_id: tid}
+        conditions = {thread_id: conditions}
       else
         conditions = {slug: conditions}
       end
