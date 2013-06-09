@@ -47,6 +47,7 @@ Cforum::Application.routes.draw do
     # thread urls
     post '/' => 'cf_threads#create'
     get '/new' => 'cf_threads#new', as: 'new_cf_thread'
+    get '/:id' => 'cf_threads#show', as: 'show_cf_thread', id: /\d+/
     delete '/:year/:mon/:day/:tid' => 'cf_threads#destroy', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/
     get '/:year/:mon/:day/:tid/move' => 'cf_threads#moving', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'move_cf_thread'
     post '/:year/:mon/:day/:tid/move' => 'cf_threads#move', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/

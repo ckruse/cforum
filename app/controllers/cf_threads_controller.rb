@@ -87,6 +87,7 @@ class CfThreadsController < ApplicationController
     unless ret.include?(:redirected)
       respond_to do |format|
         format.html
+        format.json { render json: @threads, include: {:messages => {include: [:owner, :tags]} } }
         format.rss
         format.atom
       end
