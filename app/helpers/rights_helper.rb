@@ -57,7 +57,7 @@ module RightsHelper
     tid = false
     id  = nil
 
-    if params[:year] and params[:moin] and params[:day] and params[:tid]
+    if params[:year] and params[:mon] and params[:day] and params[:tid]
       id = CfThread.make_id(params)
     else
       id = params[:id]
