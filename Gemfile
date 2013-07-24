@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '< 3.3'
+gem 'rails', '< 4'
 gem 'pg'
 gem 'activerecord-postgres-hstore'
 
