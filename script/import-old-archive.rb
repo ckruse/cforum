@@ -33,7 +33,7 @@ $coder = HTMLEntities.new
 def convert_content(txt)
   txt = txt.gsub(/<br ?\/?>/,"\n")
 
-  txt = txt.gsub /<img([^>]+)>/ do |data|
+  txt = txt.gsub(/<img([^>]+)>/) do |data|
     alt = ""
     src = ""
 
@@ -48,12 +48,12 @@ def convert_content(txt)
     "![#{alt}](#{src})"
   end
 
-  txt = txt.gsub /\[image:\s*([^\]]+)\]/ do |data|
+  txt = txt.gsub(/\[image:\s*([^\]]+)\]/) do |data|
     href  = ""
-    title = ""
+    alt   = ""
     data  = $1
 
-    href  = data.gsub /@alt=.*/, ''
+    href  = data.gsub(/@alt=.*/, '')
     alt   = $1 if data =~ /@alt=(.*)/
 
     alt   = href if alt.blank?
@@ -64,12 +64,12 @@ def convert_content(txt)
     "![#{alt}](#{href})"
   end
 
-  txt = txt.gsub /\[\s*link:\s*([^\]]+)\]/ do |data|
+  txt = txt.gsub(/\[\s*link:\s*([^\]]+)\]/) do |data|
     href  = ""
     title = ""
     data  = $1
 
-    href  = data.gsub /@title=.*/, ''
+    href  = data.gsub(/@title=.*/, '')
     title = $1 if data =~ /@title=(.*)/
 
     title = href if title.blank?
@@ -80,12 +80,12 @@ def convert_content(txt)
     "[#{title}](#{href})"
   end
 
-  txt = txt.gsub /\[pref:([^\]]+)\]/ do |data|
+  txt = txt.gsub(/\[pref:([^\]]+)\]/) do |data|
     href  = ""
     title = ""
     data  = $1
 
-    href  = data.gsub /@title=.*/, ''
+    href  = data.gsub(/@title=.*/, '')
     title = $1 if data =~ /@title=(.*)/
 
     t, m = href.split ';', 2
@@ -102,7 +102,7 @@ def convert_content(txt)
     lnk
   end
 
-  txt = txt.gsub /\[code(?:\s+lang=(\w+))\](.*?)\[\/code\]/m do |data|
+  txt = txt.gsub(/\[code(?:\s+lang=(\w+))\](.*?)\[\/code\]/m) do |data|
     lang = $1
     code = $2
 
