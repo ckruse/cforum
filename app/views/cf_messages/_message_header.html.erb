@@ -14,44 +14,44 @@
     html << ">\n"
 
     if opts[:first] and current_user and opts[:show_icons]
-      html << '  <a class="icon icon-'
+      html << '  <a class="icon-thread '
       if thread.attribs['open_state'] == 'closed'
-        html << 'folder-close" title="' + t('plugins.open_close.open_thread') + '" href="' + cf_forum_path(current_forum || 'all', :open => thread.thread_id)
+        html << 'close" title="' + t('plugins.open_close.open_thread') + '" href="' + cf_forum_path(current_forum || 'all', :open => thread.thread_id)
       else
-        html << 'folder-open" title="' + t('plugins.open_close.close_thread') + '" href="' + cf_forum_path(current_forum || 'all', :close => thread.thread_id)
+        html << 'open" title="' + t('plugins.open_close.close_thread') + '" href="' + cf_forum_path(current_forum || 'all', :close => thread.thread_id)
       end
       html << '"> </a>'
     end
 
     if not current_user.blank? and not current_forum.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons]
       if opts[:first]
-        html << " " + link_to('', move_cf_thread_path(thread), class: 'icon icon-move', title: t('threads.move_thread'))
-        html << " " + link_to('', sticky_cf_thread_path(thread), method: :post, class: 'icon icon-pushpin', title: thread.sticky ? t('threads.mark_unsticky') : t('threads.mark_sticky'))
+        html << " " + link_to('', move_cf_thread_path(thread), class: 'icon-thread move', title: t('threads.move_thread'))
+        html << " " + link_to('', sticky_cf_thread_path(thread), method: :post, class: 'icon-thread sticky', title: thread.sticky ? t('threads.mark_unsticky') : t('threads.mark_sticky'))
 
         if thread.flags['no-archive'] == 'yes'
-          html << " " + link_to('', no_archive_cf_thread_path(thread), method: :post, class: 'icon icon-cloud', title: t('plugins.no_answer_no_archive.arc'))
+          html << " " + link_to('', no_archive_cf_thread_path(thread), method: :post, class: 'icon-thread archive', title: t('plugins.no_answer_no_archive.arc'))
         else
-          html << " " + link_to('', no_archive_cf_thread_path(thread), method: :post, class: 'icon icon-signout', title: t('plugins.no_answer_no_archive.no_arc'))
+          html << " " + link_to('', no_archive_cf_thread_path(thread), method: :post, class: 'icon-thread no-archive', title: t('plugins.no_answer_no_archive.no_arc'))
         end
       end
 
       if not opts[:prev_deleted]
         if message.deleted?
-          html << " " + link_to('', restore_cf_message_path(thread, message), :method => :post, :class => 'icon icon-check', title: t('messages.restore_message'))
+          html << " " + link_to('', restore_cf_message_path(thread, message), :method => :post, :class => 'icon-message restore', title: t('messages.restore_message'))
         else
-          html << " " + link_to('', cf_message_path(thread, message), data: {confirm: t('global.are_you_sure')}, :method => :delete, :class => 'icon icon-trash', title: t('messages.delete_message'))
+          html << " " + link_to('', cf_message_path(thread, message), data: {confirm: t('global.are_you_sure')}, :method => :delete, :class => 'icon-message delete', title: t('messages.delete_message'))
         end
       end
 
       if message.flags['no-answer'] == 'yes'
-        html << " " + link_to('', no_answer_cf_message_path(thread, message), method: :post, class: 'icon icon-unlock', title: t('plugins.no_answer_no_archive.answer'))
+        html << " " + link_to('', no_answer_cf_message_path(thread, message), method: :post, class: 'icon-message answer', title: t('plugins.no_answer_no_archive.answer'))
       else
-        html << " " + link_to('', no_answer_cf_message_path(thread, message), method: :post, class: 'icon icon-lock', title: t('plugins.no_answer_no_archive.no_answer'))
+        html << " " + link_to('', no_answer_cf_message_path(thread, message), method: :post, class: 'icon-message no-answer', title: t('plugins.no_answer_no_archive.no_answer'))
       end
     end
 
     if current_forum.blank?
-      html << "  " + link_to(thread.forum.short_name, cf_forum_path(thread.forum), :class => 'label label-info') + "\n"
+      html << "  " + link_to(thread.forum.short_name, cf_forum_path(thread.forum), class: 'thread-forum-plate') + "\n"
     end
 
     if opts[:show_icons]
@@ -76,7 +76,7 @@
     if opts[:first] and thread.attribs[:msgs]
       html << " <span class=\"msg-num\">(<span class=\"all\" title=\"" + t('messages.all_msgs_num') + "\">" +
         thread.attribs[:msgs][:all].to_s +
-        "</span>/<span class\"unread\" title=\"" + t('messages.unread_messages_num') + "\">" +
+        "</span>/<span class=\"unread\" title=\"" + t('messages.unread_messages_num') + "\">" +
         thread.attribs[:msgs][:unread].to_s +
         "</span>)</span>"
     end
@@ -85,9 +85,9 @@
       }
 
     if message.user_id
-      html << "<span class=\"registered-user\">" + link_to('<em>Benutzer-Profil</em>'.html_safe, user_path(message.owner), :class => 'icon icon-share', title: t('messages.user_link', user: message.owner.username)) + " "
+      html << "<span class=\"registered-user\">" + link_to('<em>Benutzer-Profil</em>'.html_safe, user_path(message.owner), class: 'icon-message registered-user', title: t('messages.user_link', user: message.owner.username)) + " "
     else
-      html << '<i class="icon-exclamation-sign" title="' + t('messages.original_poster') + '"> </i>' if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
+      html << '<i class="icon-message original-poster" title="' + t('messages.original_poster') + '"> </i>' if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
     end
     html << encode_entities(message.author)
     html << '</span>' if message.user_id
@@ -120,7 +120,7 @@
 
     if opts[:do_parent] and @parent
       html << "<p>" + t('messages.previous_message') + " " + link_to(@parent.subject, cf_message_path(@thread, @parent)) + " " + t("messages.by") + " "
-      html << link_to('', user_path(@parent.author), :class => 'icon icon-share') + " " if @parent.user_id
+      html << link_to('', user_path(@parent.author), class: 'icon-message registered-user') + " " if @parent.user_id
       html << @parent.author + '</p>'
     end
 

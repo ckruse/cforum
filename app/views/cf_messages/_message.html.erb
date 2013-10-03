@@ -6,23 +6,23 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
 %>
   <%= message_header(@thread, m, first: first, do_parent: do_parent) %>
 
-  <div class="posting-content well">
+  <div class="posting-content">
     <%= m.to_html %>
   </div>
 
   <% if current_user and m.flags['no-answer'] != 'yes' %>
   <%= form_tag vote_cf_message_path(@thread, m), :method => :post, class: 'form-inline' do %>
     <p>
-      <%= link_to t("messages.new_answer"), new_cf_message_path(@thread, m, 'quote_old_message' => 'yes'), class: 'btn' %>
-      <%= link_to t("messages.new_answer_wo_quote"), new_cf_message_path(@thread, m), class: 'btn' %>
+      <%= link_to t("messages.new_answer"), new_cf_message_path(@thread, m, 'quote_old_message' => 'yes'), class: 'cf-btn' %>
+      <%= link_to t("messages.new_answer_wo_quote"), new_cf_message_path(@thread, m), class: 'cf-btn' %>
 
       <% if not @thread.acceptance_forbidden?(current_user, cookies[:cforum_user]) and not @thread.message.message_id == m.message_id %>
-      <%= link_to m.flags['accepted'] == 'yes' ? t('messages.unaccept_answer') : t('messages.accept_answer'), accept_cf_message_path(@thread, m), method: 'post', class: 'btn' %>
+      <%= link_to m.flags['accepted'] == 'yes' ? t('messages.unaccept_answer') : t('messages.accept_answer'), accept_cf_message_path(@thread, m), method: 'post', class: 'cf-btn' %>
       <% end %>
 
 
-      <button name="type" value="up" title="<%= t(has_upvote ? 'messages.unvote' : 'messages.vote_up') %>"><i class="icon icon-thumbs-up vote vote-up<% if has_upvote %> active<% end %>"> </i></button>
-      <button name="type" value="down" title="<%= t(has_downvote ? 'messages.unvote' : 'messages.vote_down') %>"><i class="icon icon-thumbs-down vote vote-up<% if has_downvote %> active<% end %>"> </i></button>
+      <button name="type" value="up" title="<%= t(has_upvote ? 'messages.unvote' : 'messages.vote_up') %>" class="cf-btn"><i class="vote icon-vote-up<% if has_upvote %> active<% end %>"> </i></button>
+      <button name="type" value="down" title="<%= t(has_downvote ? 'messages.unvote' : 'messages.vote_down') %>" class="cf-btn"><i class="vote icon-vote-down<% if has_downvote %> active<% end %>"> </i></button>
     </p>
   <% end
   end %>
@@ -31,7 +31,7 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
     <article class="accepted">
       <%= message_header(@thread, @thread.accepted, first: false, do_parent: false) %>
 
-      <div class="posting-content well">
+      <div class="posting-content">
         <%= @thread.accepted.to_html %>
       </div>
 

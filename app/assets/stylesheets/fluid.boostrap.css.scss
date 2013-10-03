@@ -1,9 +1,77 @@
 /* for fluid bootstrap */
 
+@import "twitter/bootstrap";
+@import "font-awesome";
+
 body {
   padding-top: 60px;
   padding-bottom: 40px;
 }
 
+.cforum-default-table {
+  @extend .table;
+  @extend .table-striped;
+  @extend .table-bordered;
+}
+
+.thread-forum-plate {
+  @extend .label;
+  @extend .label-info;
+}
+
+.icon-thread {
+  @extend .icon;
+
+  &.open { @extend .icon-folder-open; }
+  &.close { @extend .icon-folder-close; }
+  &.move { @extend .icon-move; }
+  &.sticky { @extend .icon-pushpin; }
+  &.archive { @extend .icon-cloud; }
+  &.no-archive { @extend .icon-signout; }
+}
+
+.icon-message {
+  @extend .icon;
+
+  &.restore { @extend .icon-check; }
+  &.delete { @extend .icon-trash; }
+  &.answer { @extend .icon-unlock; }
+  &.no-answer { @extend .icon-lock; }
+  &.registered-user {
+    @extend .icon-share;
+    em { display:none; }
+  }
+  &.original-poster { @extend .icon-exclamation-sign; }
+
+}
+
+.cf-cgroup {
+  @extend .control-group;
+
+  & > label { @extend .control-label; }
+  .cntrls { @extend .controls; }
+}
+
+.cf-btn { @extend .btn; }
+.cf-primary-btn {
+  @extend .btn;
+  @extend .btn-primary;
+}
+
+.icon-vote-up {
+  @extend .icon;
+  @extend .icon-thumbs-up;
+}
+
+.icon-vote-down {
+  @extend .icon;
+  @extend .icon-thumbs-down;
+}
+
+.posting-content { @extend .well; }
+.cf-error {
+  @extend .alert;
+  @extend .alert-error;
+}
 
 /* eof */

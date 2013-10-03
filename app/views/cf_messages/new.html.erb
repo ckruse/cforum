@@ -7,14 +7,14 @@ content_for :title, t('messages.write_new_answer')
 <% if @parent and not @preview %>
     <%= message_header(@thread, @parent) %>
 
-    <div class="posting-content well">
+    <div class="posting-content">
       <%= @parent.to_html %>
     </div>
 
 <% elsif @preview %>
     <%= message_header(@thread, @message) %>
 
-    <div class="posting-content well">
+    <div class="posting-content">
       <%= @message.to_html %>
     </div>
 <% end %>
@@ -22,7 +22,7 @@ content_for :title, t('messages.write_new_answer')
 
 <%= form_for @message, :url => cf_message_path(@thread, @parent), html: {:class => 'form-horizontal'} do |f| %>
   <% if @message.errors.any? %>
-    <div id="error_explanation" class="alert alert-error">
+    <div id="error_explanation" class="cf-error">
       <h4><%= t('messages.error_message', :errors_count => pluralize(@message.errors.count, t("global.error"), t('global.errors'))) %></h4>
 
       <ul>
@@ -36,9 +36,9 @@ content_for :title, t('messages.write_new_answer')
   <%= render "form", f: f %>
 
   <p>
-    <%= f.submit t('global.save'), :class => 'btn btn-primary' %>
-    <%= f.submit t('messages.preview'), :class => 'btn', name: 'preview' %>
-    <%= link_to t('global.cancel'), @parent ? cf_message_path(@thread, @parent) : cf_forum_path(current_forum), :class => 'btn' %>
+    <%= f.submit t('global.save'), :class => 'cf-primary-btn' %>
+    <%= f.submit t('messages.preview'), :class => 'cf-btn', name: 'preview' %>
+    <%= link_to t('global.cancel'), @parent ? cf_message_path(@thread, @parent) : cf_forum_path(current_forum), :class => 'cf-btn' %>
   </p>
 <% end %>
 
