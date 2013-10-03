@@ -12,7 +12,7 @@ gem 'kramdown'
 gem 'coderay'
 
 gem 'jquery-rails'
-gem 'anjlab-bootstrap-rails', '>= 2.0', :require => 'bootstrap-rails'
+gem 'anjlab-bootstrap-rails', '< 3.0', require: 'bootstrap-rails'
 
 gem 'daemons'
 
