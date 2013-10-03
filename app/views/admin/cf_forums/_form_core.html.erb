@@ -1,29 +1,29 @@
 
-<fieldset class="tab-pane active" id="core">
-  <div class="control-group">
-    <%= f.label :name, :class => 'control-label' %>
-    <div class="controls">
+<fieldset class="cf-tab-pane active" id="core">
+  <div class="cf-cgroup">
+    <%= f.label :name %>
+    <div class="cntrls">
       <%= f.text_field :name %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :short_name, :class => 'control-label' %>
-    <div class="controls">
+  <div class="cf-cgroup">
+    <%= f.label :short_name %>
+    <div class="cntrls">
       <%= f.text_field :short_name %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :slug, :class => 'control-label' %>
-    <div class="controls">
+  <div class="cf-cgroup">
+    <%= f.label :slug %>
+    <div class="cntrls">
       <%= f.text_field :slug %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :standard_permissions, :class => 'control-label' %>
-    <div class="controls">
+  <div class="cf-cgroup">
+    <%= f.label :standard_permissions %>
+    <div class="cntrls">
       <%= f.select :standard_permission, [
         [t('admin.forums.no_access'), 'private'],
         [t('admin.forums.read'), CfForumGroupPermission::ACCESS_READ],
@@ -34,9 +34,9 @@
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :description, :class => 'control-label' %>
-    <div class="controls">
+  <div class="cf-cgroup">
+    <%= f.label :description %>
+    <div class="cntrls">
       <%= f.text_area :description %>
     </div>
   </div>

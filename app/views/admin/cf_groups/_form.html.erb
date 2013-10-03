@@ -11,14 +11,14 @@
 <% end %>
 
 
-<div class="control-group">
-  <%= t.label :name, class: 'control-label' %>
-  <div class="controls"><%= t.text_field :name %></div>
+<div class="cf-cgroup">
+  <%= t.label :name %>
+  <div class="cntrls"><%= t.text_field :name %></div>
 </div>
 
-<div class="control-group" id="forums-container">
-  <label class="control-label">Foren</label>
-  <div class="controls">
+<div class="cf-cgroup">
+  <label>Foren</label>
+  <div class="cntrls" id="forums-container">
     <% @forums_groups_permissions.each do |gup| %>
     <label>
       <select name="forums[]">

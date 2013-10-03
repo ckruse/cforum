@@ -8,7 +8,26 @@ body {
   padding-bottom: 40px;
 }
 
-.cforum-default-table {
+.icon {
+  cursor:pointer;
+  * { display:none; }
+}
+
+form.form-inline { display:inline; }
+
+.cf-container-fluid { @extend .container-fluid; }
+.cf-row-fluid { @extend .row-fluid; }
+
+
+.top-bar {
+  @extend .navbar;
+  @extend .navbar-inverse;
+  @extend .navbar-fixed-top;
+
+  .inner-top-bar { @extend .navbar-inner; }
+}
+
+.cf-default-table {
   @extend .table;
   @extend .table-striped;
   @extend .table-bordered;
@@ -37,12 +56,8 @@ body {
   &.delete { @extend .icon-trash; }
   &.answer { @extend .icon-unlock; }
   &.no-answer { @extend .icon-lock; }
-  &.registered-user {
-    @extend .icon-share;
-    em { display:none; }
-  }
+  &.registered-user { @extend .icon-share; }
   &.original-poster { @extend .icon-exclamation-sign; }
-
 }
 
 .cf-cgroup {
@@ -68,10 +83,97 @@ body {
   @extend .icon-thumbs-down;
 }
 
+.icon-delete-user {
+  @extend .icon;
+  @extend .icon-trash;
+}
+
+.icon-edit-user {
+  @extend .icon;
+  @extend .icon-edit;
+}
+
+.icon-edit-forum {
+  @extend .icon;
+  @extend .icon-edit;
+}
+
+.icon-delete-forum {
+  @extend .icon;
+  @extend .icon-trash;
+}
+
+.icon-merge-forum {
+  @extend .icon;
+  @extend .icon-share;
+}
+
+.icon-delete-group {
+  @extend .icon;
+  @extend .icon-trash;
+}
+
+.icon-edit-group {
+  @extend .icon;
+  @extend .icon-edit;
+}
+
+.icon-remove-permission {
+  @extend .icon;
+  @extend .icon-trash;
+}
+
+
 .posting-content { @extend .well; }
 .cf-error {
   @extend .alert;
   @extend .alert-error;
+}
+.cf-success {
+  @extend .alert;
+  @extend .alert-success;
+}
+
+.cf-pages {
+  @extend .pagination;
+  @extend .pagination-centered;
+}
+
+.cf-sidebar-box {
+  @extend .well;
+
+  .cf-sidebar {
+    @extend .nav;
+    @extend .nav-list;
+
+    .cf-sidebar-header {
+      @extend .nav-header;
+    }
+  }
+}
+
+.cf-search-query {
+  @extend .input-medium;
+  @extend .search-query;
+}
+
+
+.cf-tabs {
+  @extend .nav;
+  @extend .nav-tabs;
+}
+.cf-tab-content { @extend .tab-content; }
+.cf-tab-pane { @extend .tab-pane; }
+
+
+.grid1, .grid2, .grid3, .grid4, .grid5, .grid6, .grid7, .grid8, .grid9, .grid10, .grid11, .grid12 {
+  float: left;
+  margin-left: 20px;
+  min-height: 1px;
+}
+
+@for $i from 1 through 12 {
+  .grid#{$i} { @extend .span#{$i}; }
 }
 
 /* eof */

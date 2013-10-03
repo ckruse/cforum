@@ -1,6 +1,6 @@
 <%= form_for @thread, html: {:class => 'form-horizontal'} do |f| %>
   <% if @thread.message.errors.any? %>
-    <div id="error_explanation" class="alert alert-error">
+    <div id="error_explanation" class="cf-error">
       <h4><%= pluralize(@thread.message.errors.count, "error") %> prohibited this thread from being saved:</h4>
 
       <ul>
@@ -16,8 +16,8 @@
   <% end %>
 
   <p>
-    <%= f.submit :class => 'btn btn-primary' %>
-    <%= f.submit t('messages.preview'), :class => 'btn', name: 'preview' %>
-    <%= link_to t('global.cancel'), cf_forum_path(current_forum), :class => 'btn' %>
+    <%= f.submit :class => 'cf-primary-btn' %>
+    <%= f.submit t('messages.preview'), :class => 'cf-btn', name: 'preview' %>
+    <%= link_to t('global.cancel'), cf_forum_path(current_forum), :class => 'cf-btn' %>
   </p>
 <% end %>

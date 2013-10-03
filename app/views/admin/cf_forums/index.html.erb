@@ -2,7 +2,7 @@
 content_for :title, t('admin.forums.index')
 %><h1><%= t('admin.forums.index') %></h1>
 
-<table class="table table-striped table-bordered">
+<table class="cf-default-table">
   <thead>
     <tr>
       <th><%= t('global.forum') %></th>
@@ -27,9 +27,9 @@ content_for :title, t('admin.forums.index')
         <% end %>
       </td>
       <td>
-        <%= link_to '', edit_admin_forum_path(forum.forum_id), :class => "icon icon-edit", title: t('admin.forums.edit') %>
-        <%= link_to '', admin_forum_path(forum.forum_id), data: {confirm: t('global.are_you_sure')}, :method => :delete, :class => 'icon icon-trash', title: t('admin.forums.delete') %>
-        <%= link_to '', admin_forums_merge_path(forum.forum_id), :class => 'icon icon-share', title: t('admin.forums.merge') %>
+        <%= link_to '', edit_admin_forum_path(forum.forum_id), class: "icon-edit-forum", title: t('admin.forums.edit') %>
+        <%= link_to '', admin_forum_path(forum.forum_id), data: {confirm: t('global.are_you_sure')}, method: :delete, class: 'icon-delete-forum', title: t('admin.forums.delete') %>
+        <%= link_to '', admin_forums_merge_path(forum.forum_id), class: 'icon-merge-forum', title: t('admin.forums.merge') %>
       </td>
     </tr>
     <% end %>

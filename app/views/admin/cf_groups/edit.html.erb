@@ -7,8 +7,8 @@ content_for :title, t("admin.groups.edit_group", name: @group.name)
 <%= render 'form', t: t %>
 
 <p class="form-actions">
-  <%= t.submit t('global.save'), class: 'btn btn-primary' %>
-  <%= link_to t('global.cancel'), admin_groups_path, class: 'btn' %>
+  <%= t.submit t('global.save'), class: 'cf-primary-btn' %>
+  <%= link_to t('global.cancel'), admin_groups_path, class: 'cf-btn' %>
 </p>
 
 <% end %>

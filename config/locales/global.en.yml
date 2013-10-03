@@ -19,6 +19,7 @@ en:
     group: Group
     groups: Groups
     back: Back
+    search: Search
 
     scores:
       right_upvote: Right to upvote

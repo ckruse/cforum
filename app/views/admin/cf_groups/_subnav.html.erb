@@ -1,8 +1,8 @@
-<div class="well sidebar-nav">
+<div class="cf-sidebar-box">
   <%= render 'admin/admin_subnav' %>
 
-  <ul class="nav nav-list">
-    <li class="nav-header"><%= t('global.groups') %></li>
+  <ul class="cf-sidebar">
+    <li class="cf-sidebar-header"><%= t('global.groups') %></li>
     <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('admin.groups.new_group'), new_admin_group_path %></li>
   </ul>
 </div>

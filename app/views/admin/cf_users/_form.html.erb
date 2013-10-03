@@ -10,38 +10,38 @@
     </div>
   <% end %>
 
-<div class="control-group">
-  <%= f.label :username, :class => 'control-label' %>
-  <div class="controls"><%= f.text_field :username %></div>
+<div class="cf-cgroup">
+  <%= f.label :username %>
+  <div class="cntrls"><%= f.text_field :username %></div>
 </div>
 
-<div class="control-group">
-  <%= f.label :email, :class => 'control-label' %>
-  <div class="controls"><%= f.email_field :email %></div>
+<div class="cf-cgroup">
+  <%= f.label :email %>
+  <div class="cntrls"><%= f.email_field :email %></div>
 </div>
 
-<div class="control-group">
-  <%= f.label :admin, :class => 'control-label' %>
-  <div class="controls"><%= f.check_box :admin %></div>
+<div class="cf-cgroup">
+  <%= f.label :admin %>
+  <div class="cntrls"><%= f.check_box :admin %></div>
 </div>
 
-<div class="control-group">
-  <%= f.label :active, :class => 'control-label' %>
-  <div class="controls"><%= f.check_box :active %></div>
+<div class="cf-cgroup">
+  <%= f.label :active %>
+  <div class="cntrls"><%= f.check_box :active %></div>
 </div>
 
 
-<div class="control-group">
-  <%= f.label :password, :class => 'control-label' %>
-  <div class="controls"><%= f.password_field :password %></div>
+<div class="cf-cgroup">
+  <%= f.label :password %>
+  <div class="cntrls"><%= f.password_field :password %></div>
 </div>
 
-<div class="control-group">
-  <%= f.label :password_confirmation, :class => 'control-label' %>
-  <div class="controls"><%= f.password_field :password_confirmation %></div>
+<div class="cf-cgroup">
+  <%= f.label :password_confirmation %>
+  <div class="cntrls"><%= f.password_field :password_confirmation %></div>
 </div>
 
 <div class="form-actions">
-  <%= f.submit t('global.save'), :class => 'btn btn-primary' %>
-  <%= link_to t('global.cancel'), admin_users_path, :class => 'btn' %>
+  <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
+  <%= link_to t('global.cancel'), admin_users_path, class: 'cf-btn' %>
 </div>

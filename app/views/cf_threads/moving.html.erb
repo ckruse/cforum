@@ -3,9 +3,9 @@ content_for :title, t("threads.move_thread", thread: @thread.message.subject)
 %><h1><%= t("threads.move_thread", thread: @thread.message.subject) %></h1>
 
 <%= form_for @thread, url: move_cf_thread_path(@thread), :method => :post, html: {:class => 'form-horizontal'} do |t| %>
-  <div class="control-group">
-    <label class="control-label" for="forum_move_to">Move to forum</label>
-    <div class="controls">
+  <div class="cf-cgroup">
+    <label for="forum_move_to">Move to forum</label>
+    <div class="cntrls">
       <select id="forum_move_to" name="move_to">
         <% @forums.each do |f| %>
         <option value="<%= f.forum_id %>"<% if @move_to == f.forum_id %> selected="selected"<% end %>><%= f.short_name %></option>
@@ -15,7 +15,7 @@ content_for :title, t("threads.move_thread", thread: @thread.message.subject)
   </div>
 
   <p class="form-actions">
-    <%= t.submit :class => 'btn btn-primary', :value => 'Move' %>
-    <%= link_to t('global.cancel'), cf_forum_path(current_forum.slug), :class => 'btn' %>
+    <%= t.submit :class => 'cf-primary-btn', :value => 'Move' %>
+    <%= link_to t('global.cancel'), cf_forum_path(current_forum.slug), :class => 'cf-btn' %>
   </p>
 <% end %>
