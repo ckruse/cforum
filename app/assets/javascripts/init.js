@@ -1,3 +1,6 @@
+/* -*- coding: utf-8 -*- */
+/* global cforum, Faye */
+
 cforum = {
   utils: {
     exec: function(controller, action) {
@@ -39,7 +42,9 @@ cforum = {
 
   common: {
     init: function() {
-      cforum.client = new Faye.Client(cforum.fayeUrl, {timeout: 120, retry: 5});
+      if(typeof Faye !== 'undefined') {
+        cforum.client = new Faye.Client(cforum.fayeUrl, {timeout: 120, retry: 5});
+      }
     }
   }
 };
