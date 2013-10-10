@@ -1,16 +1,16 @@
-<fieldset class="tab-pane" id="personal_information">
+<fieldset class="cf-tab-pane" id="personal_information">
   <legend><%= t('users.settings.personal_information') %></legend>
 
-  <div class="control-group">
+  <div class="cf-cgroup">
     <label class="control-label" for="settings_email"><%= t('users.settings.email') %></label>
-    <div class="controls">
+    <div class="cntrls">
       <input type="text" value="<%= @settings.conf('email') %>" name="settings[email]" id="settings_email"<%= disabled %>>
     </div>
   </div>
 
-  <div class="control-group">
+  <div class="cf-cgroup">
     <label class="control-label" for="settings_url"><%= t('users.settings.homepage') %></label>
-    <div class="controls">
+    <div class="cntrls">
       <input type="text" value="<%= @settings.conf('url') %>" name="settings[url]" id="settings_url"<%= disabled %>>
     </div>
   </div>

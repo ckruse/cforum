@@ -7,8 +7,8 @@ content_for :title, t('users.user', name: @user.username)
   <%= render 'form', f: f %>
 
   <p class="form-actions">
-    <%= f.submit t('global.save'), :class => 'btn btn-primary' %>
-    <%= link_to t('global.back'), users_path, :class => 'btn' %>
+    <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
+    <%= link_to t('global.back'), users_path, class: 'cf-btn' %>
   </p>
 
 <% end %>

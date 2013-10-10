@@ -18,7 +18,7 @@ Cforum::Application.routes.draw do
   delete '/mails' => 'mails#batch_destroy'
 
 
-  resources :users
+  resources :users, except: [:new, :create]
   resources :notifications, except: [:show, :edit, :new, :update, :create]
   delete 'notifications' => 'notifications#batch_destroy'
 

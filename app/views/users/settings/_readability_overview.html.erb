@@ -1,9 +1,9 @@
-<fieldset class="tab-pane" id="readability">
+<fieldset class="cf-tab-pane" id="readability">
   <legend><%= t("users.settings.readability_overview") %></legend>
 
-  <div class="control-group">
-    <label class="control-label"><%= t('users.settings.standard_thread_view') %></label>
-    <div class="controls">
+  <div class="cf-cgroup">
+    <label><%= t('users.settings.standard_thread_view') %></label>
+    <div class="cntrls">
       <label class="radio"><input type="radio" value="thread-view" name="settings[standard_view]"<%= disabled %><% if @settings.conf('standard_view') == 'thread-view' %> checked="checked"<% end %>> Thread-Ansicht</label>
       <label class="radio"><input type="radio" value="nested-view" name="settings[standard_view]"<%= disabled %><% if @settings.conf('standard_view') == 'nested-view' %> checked="checked"<% end %>> Nested-Ansicht</label>
     </div>

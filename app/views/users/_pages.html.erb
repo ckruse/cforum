@@ -9,7 +9,7 @@ if start_page <= 0
 end
 
 end_page = all_pages_count if end_page > all_pages_count
-%><div class="pagination pagination-centered">
+%><div class="cf-pages">
   <ul>
     <li<% if @page == 0 %> class="disabled"<% end %>><%= link_to '«', users_path %></li>
 

@@ -3,10 +3,10 @@ content_for :title, t('users.users')
 %><h1><%= t('users.users') %></h1>
 
 <form class="form-search">
-<input name="s" value="<%= @search_term %>" type="text" placeholder="username" class="input-medium search-query">
+<input name="s" value="<%= @search_term %>" type="text" placeholder="username" class="cf-search-query">
 </form>
 
-<table class="table table-condensed table-striped">
+<table class="cf-table-condensed-striped-hover">
   <thead>
     <tr>
       <th><%= t('activerecord.attributes.cf_user.username') %></th>

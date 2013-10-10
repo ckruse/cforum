@@ -1,46 +1,46 @@
-<fieldset class="tab-pane" id="comfort">
+<fieldset class="cf-tab-pane" id="comfort">
   <legend>Komfort</legend>
 
-  <div class="control-group">
-    <label class="control-label" for="settings_greeting"><%= t('users.settings.greeting') %></label>
-    <div class="controls">
+  <div class="cf-cgroup">
+    <label for="settings_greeting"><%= t('users.settings.greeting') %></label>
+    <div class="cntrls">
       <textarea name="settings[greeting]" id="settings_greeting"<%= disabled %>><%= @settings.conf('greeting') %></textarea>
     </div>
   </div>
 
-  <div class="control-group">
-    <label class="control-label" for="settings_farewell"><%= t('users.settings.farewell') %></label>
-    <div class="controls">
+  <div class="cf-cgroup">
+    <label for="settings_farewell"><%= t('users.settings.farewell') %></label>
+    <div class="cntrls">
       <textarea name="settings[farewell]" id="settings_farewell"<%= disabled %>><%= @settings.conf('farewell') %></textarea>
     </div>
   </div>
 
-  <div class="control-group">
-    <label class="control-label" for="settings_signature"><%= t('users.settings.signature') %></label>
-    <div class="controls">
+  <div class="cf-cgroup">
+    <label for="settings_signature"><%= t('users.settings.signature') %></label>
+    <div class="cntrls">
       <textarea name="settings[signature]" id="settings_signature"<%= disabled %>><%= @settings.conf('signature') %></textarea>
     </div>
   </div>
 
-  <div class="control-group">
-    <label class="control-label" for="settings_quote_signature"><%= t('users.settings.quote_signature') %></label>
-    <div class="controls">
+  <div class="cf-cgroup">
+    <label for="settings_quote_signature"><%= t('users.settings.quote_signature') %></label>
+    <div class="cntrls">
       <%= hidden_field_tag 'settings[quote_signature]', 'no' %>
       <%= check_box_tag 'settings[quote_signature]', 'yes', @settings.conf('quote_signature') %>
     </div>
   </div>
 
-  <div class="control-group">
-    <label class="control-label" for="settings_show_unread_notifications_in_title"><%= t('users.settings.show_unread_notifications_in_title') %></label>
-    <div class="controls">
+  <div class="cf-cgroup">
+    <label for="settings_show_unread_notifications_in_title"><%= t('users.settings.show_unread_notifications_in_title') %></label>
+    <div class="cntrls">
       <%= hidden_field_tag 'settings[show_unread_notifications_in_title]', 'no' %>
       <%= check_box_tag 'settings[show_unread_notifications_in_title]', 'yes', @settings.conf('show_unread_notifications_in_title') %>
     </div>
   </div>
 
-  <div class="control-group">
-    <label class="control-label" for="settings_show_unread_pms_in_title"><%= t('users.settings.show_unread_pms_in_title') %></label>
-    <div class="controls">
+  <div class="cf-cgroup">
+    <label for="settings_show_unread_pms_in_title"><%= t('users.settings.show_unread_pms_in_title') %></label>
+    <div class="cntrls">
       <%= hidden_field_tag 'settings[show_unread_pms_in_title]', 'no' %>
       <%= check_box_tag 'settings[show_unread_pms_in_title]', 'yes', @settings.conf('show_unread_pms_in_title') %>
     </div>

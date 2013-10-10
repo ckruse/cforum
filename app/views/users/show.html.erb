@@ -25,8 +25,8 @@ content_for :title, t('users.user', name: @user.username)
 
 <hr>
 
-<div class="row-fluid">
-  <div class="well span6">
+<div class="cf-row-fluid">
+  <div class="cf-box cf-span6">
     <h3><%= t('users.newest_messages') %></h3>
 
     <% if @last_messages.blank? %>
@@ -40,7 +40,7 @@ content_for :title, t('users.user', name: @user.username)
     <% end %>
   </div>
 
-  <div class="well span6">
+  <div class="cf-box cf-span6">
     <h3><%= t('users.tags') %></h3>
 
     <% if @tags_cnts.blank? %>
@@ -60,8 +60,8 @@ content_for :title, t('users.user', name: @user.username)
 
 <hr>
 
-<div class="row-fluid">
-  <div class="well span6">
+<div class="cf-row-fluid">
+  <div class="cf-box cf-span6">
     <h3><%= t('users.best_scored') %></h3>
 
     <% if @point_msgs.blank? %>
@@ -74,7 +74,7 @@ content_for :title, t('users.user', name: @user.username)
     <% end %>
   </div>
 
-  <div class="well span6">
+  <div class="cf-box cf-span6">
     <h3><%= t('users.votings') %></h3>
 
     <% if @score_msgs.blank? %>
@@ -96,10 +96,9 @@ content_for :title, t('users.user', name: @user.username)
 
 <p class="form-actions">
   <% if not current_user.blank? and @user.user_id == current_user.user_id %>
-  <%= link_to t('users.edit'), edit_user_path(@user), :class => 'btn' %>
-  <%= link_to t('users.delete'), user_path(@user), confirm: t("global.are_you_sure"), :method => :delete, :class => 'btn' %>
+  <%= link_to t('users.edit'), edit_user_path(@user), class: 'cf-btn' %>
+  <%= link_to t('users.delete'), user_path(@user), confirm: t("global.are_you_sure"), method: :delete, class: 'cf-btn' %>
   <% end %>
 
-  <%= link_to t('global.back'), users_path, :class => 'btn' %>
+  <%= link_to t('global.back'), users_path, class: 'cf-btn' %>
 </p>
-

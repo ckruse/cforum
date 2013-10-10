@@ -1,6 +1,6 @@
   <% if @user.errors.any? %>
-    <div id="error_explanation" class="alert alert-error">
-      <h4><%= t('messages.error_message', :errors_count => pluralize(@user.errors.count, t("global.error"), t('global.errors'))) %></h4>
+    <div id="error_explanation" class="cf-error">
+      <h4><%= t('messages.error_message', errors_count: pluralize(@user.errors.count, t("global.error"), t('global.errors'))) %></h4>
 
       <ul>
       <% @user.errors.full_messages.each do |msg| %>
@@ -10,27 +10,27 @@
     </div>
   <% end %>
 
-  <fieldset class="tab-pane active" id="user-data">
+  <fieldset class="cf-tab-pane active" id="user-data">
     <legend><%= t('users.user_information') %></legend>
 
-    <div class="control-group">
-      <%= f.label :username, :class => 'control-label' %>
-      <div class="controls"><%= f.text_field :username %></div>
+    <div class="cf-cgroup">
+      <%= f.label :username %>
+      <div class="cntrls"><%= f.text_field :username %></div>
     </div>
 
-    <div class="control-group">
-      <%= f.label :email, :class => 'control-label' %>
-      <div class="controls"><%= f.email_field :email %></div>
+    <div class="cf-cgroup">
+      <%= f.label :email %>
+      <div class="cntrls"><%= f.email_field :email %></div>
     </div>
 
-    <div class="control-group">
-      <%= f.label :password, :class => 'control-label' %>
-      <div class="controls"><%= f.password_field :password, autocomplete: 'off' %></div>
+    <div class="cf-cgroup">
+      <%= f.label :password %>
+      <div class="cntrls"><%= f.password_field :password, autocomplete: 'off' %></div>
     </div>
 
-    <div class="control-group">
-      <%= f.label :password_confirmation, :class => 'control-label' %>
-      <div class="controls"><%= f.password_field :password_confirmation, autocomplete: 'off' %></div>
+    <div class="cf-cgroup">
+      <%= f.label :password_confirmation %>
+      <div class="cntrls"><%= f.password_field :password_confirmation, autocomplete: 'off' %></div>
     </div>
 
   </fieldset>
