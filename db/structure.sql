@@ -800,7 +800,7 @@ ALTER SEQUENCE peon_jobs_peon_job_id_seq OWNED BY peon_jobs.peon_job_id;
 
 CREATE TABLE priv_messages (
     priv_message_id bigint NOT NULL,
-    sender_id bigint NOT NULL,
+    sender_id bigint,
     recipient_id bigint,
     owner_id bigint,
     is_read boolean DEFAULT false NOT NULL,
@@ -2096,6 +2096,8 @@ INSERT INTO schema_migrations (version) VALUES ('40');
 INSERT INTO schema_migrations (version) VALUES ('41');
 
 INSERT INTO schema_migrations (version) VALUES ('42');
+
+INSERT INTO schema_migrations (version) VALUES ('43');
 
 INSERT INTO schema_migrations (version) VALUES ('5');
 
