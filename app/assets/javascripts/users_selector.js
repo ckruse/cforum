@@ -1,10 +1,12 @@
+/* -*- coding: utf-8 -*- */
+/* global cforum, Mustache */
+
 cforum.common.usersSelector = $({});
 
 cforum.common.usersSelector.selectedUsers = [];
 cforum.common.usersSelector.foundUsers = [];
 
 cforum.common.usersSelector.search = function(obj) {
-  console.log(cforum.baseUrl)
   $.get(
     cforum.baseUrl + '/users.json',
     's=' + encodeURIComponent(obj.find(".user_search").val()),
@@ -17,7 +19,6 @@ cforum.common.usersSelector.search = function(obj) {
     cforum.common.usersSelector.foundUsers = [];
 
     for(var i = 0; i < data.length; ++i) {
-      console.log(data[i])
       cforum.common.usersSelector.foundUsers[data[i].user_id] = data[i];
       the_html += Mustache.render(cforum.common.usersSelector.views.userFoundLine, {user: data[i]});
     }
@@ -82,7 +83,7 @@ cforum.common.usersSelector.select = function(event) {
   });
 
   $(this).closest('.users-selector').find('.users-modal').modal('hide');
-  cforum.common.usersSelector.trigger('users-selector:selected', [cforum.common.usersSelector.selectedUsers])
+  cforum.common.usersSelector.trigger('users-selector:selected', [cforum.common.usersSelector.selectedUsers]);
 };
 
 cforum.common.usersSelector.remove = function(ev) {

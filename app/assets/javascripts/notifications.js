@@ -1,3 +1,6 @@
+/* -*- coding: utf-8 -*- */
+/* global cforum */
+
 cforum.notifications = {
   index: function() {
     $("#check-all-box").on('change', function() {
@@ -11,6 +14,6 @@ cforum.notifications = {
 
     });
   }
-}
+};
 
 /* eof */

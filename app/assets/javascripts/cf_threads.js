@@ -1,4 +1,5 @@
 /* -*- coding: utf-8 -*- */
+/* global cforum */
 
 cforum.cf_threads = {
   new: function() {

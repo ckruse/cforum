@@ -1,3 +1,6 @@
+/* -*- coding: utf-8 -*- */
+/* global cforum, Mustache */
+
 cforum.tags = {
   views: {
     tag: "<li class=\"tag label label-info\" style=\"display:none\"><input name=\"tags[]\" type=\"hidden\" value=\"{{tag}}\"><i class=\"icon icon-trash del-tag\"> </i> {{tag}}</li>",
@@ -72,7 +75,7 @@ cforum.tags = {
         }
 
       }
-    )
+    );
   },
 
   addTagSuggestion: function(ev) {
@@ -103,7 +106,7 @@ cforum.tags = {
       var val = $.trim($this.val().replace(/[, ].*/, '').toLowerCase());
       cforum.tags.appendTag(val);
 
-      v = $this.val();
+      var v = $this.val();
       $this.val(v.indexOf(String.fromCharCode(ev.keyCode)) == -1 ? '' : v.replace(/.*[, ]?/, ''));
     }
 
@@ -132,7 +135,7 @@ cforum.tags = {
   },
 
   initTags: function() {
-    tags = $("#tags-input").val().split(",").map(function(x) {return $.trim(x);}).filter(function(x) {
+    var tags = $("#tags-input").val().split(",").map(function(x) {return $.trim(x);}).filter(function(x) {
       if(x) {
         return true;
       }
