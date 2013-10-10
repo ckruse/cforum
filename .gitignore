@@ -20,3 +20,4 @@ coverage
 *.swp
 /node_modules/*
 /config/faye.secret
+*.dump
