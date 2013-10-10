@@ -11,13 +11,13 @@ content_for :title, t('mails.post_from', :name => @mail.sender.username)
     </details>
   </header>
 
-  <div class="posting-content well">
+  <div class="posting-content cf-box">
     <%= @mail.to_html %>
   </div>
 </article>
 
 <div class="form-actions">
-  <%= link_to t('mails.answer_mail'), new_mail_path(priv_message_id: @mail.priv_message_id, quote_old_message: 'yes'), :class => 'btn' %>
-  <%= link_to t('mails.answer_mail_wo_quote'), new_mail_path('priv_message_id' => @mail.priv_message_id), :class => 'btn' %>
-  <%= link_to t('mails.delete'), mail_path(@mail.sender.username, @mail), :method => :delete, data: {confirm: t('global.are_you_sure')}, :class => 'btn' %>
+  <%= link_to t('mails.answer_mail'), new_mail_path(priv_message_id: @mail.priv_message_id, quote_old_message: 'yes'), class: 'cf-btn' %>
+  <%= link_to t('mails.answer_mail_wo_quote'), new_mail_path('priv_message_id' => @mail.priv_message_id), class: 'cf-btn' %>
+  <%= link_to t('mails.delete'), mail_path(@mail.sender.username, @mail), method: :delete, data: {confirm: t('global.are_you_sure')}, class: 'cf-btn' %>
 </div>

@@ -2,9 +2,9 @@
 content_for :title, @user ? t('mails.post_from', name: @user.username) : t('mails.post')
 %><h1><% if @user %><%= t('mails.post_from', name: @user.username) %><% else %><%= t('mails.post') %><% end %></h1>
 
-<%= form_tag mails_path, :class => 'form-horizontal', :method => :delete do %>
+<%= form_tag mails_path, class: 'form-horizontal', :method => :delete do %>
 
-<table class="table table-condensed table-striped table-hover">
+<table class="cf-table-condensed-striped-hover">
   <thead>
     <tr>
       <th><input type="checkbox" id="check-all-box">
@@ -21,15 +21,15 @@ content_for :title, @user ? t('mails.post_from', name: @user.username) : t('mail
     <% @mails.each do |m| %>
     <tr>
       <td><input type="checkbox" name="ids[]" value="<%= m.priv_message_id %>" class="mid-checkbox"></td>
-      <td class="unread-mark"><% unless m.is_read? %><span class="badge badge-info">&nbsp;</span><% end %></td>
+      <td class="unread-mark"><% unless m.is_read? %><span class="status-unread">&nbsp;</span><% end %></td>
       <td><%= link_to m.sender.username, mail_path(m.sender.username, m) %></td>
       <td><%= link_to m.recipient.username, mail_path(m.sender.username, m) %></td>
       <td><%= link_to m.subject, mail_path(m.sender.username, m) %></td>
       <td><%= l(m.created_at) %></td>
       <td>
-        <%= link_to '', mail_path(m.sender.username, m), :method => :delete, data: {confirm: t('global.are_you_sure')}, :class => 'icon icon-trash', title: t('mails.delete') %>
-        <%= link_to '', new_mail_path('priv_message_id' => m.priv_message_id), :class => 'icon icon-share', title: t('mails.answer_mail') %>
-        <%= link_to '', new_mail_path('priv_message_id' => m.priv_message_id, quote_old_message: 'yes'), class: 'icon icon-share', title: t('mails.answer_mail_wo_quote') %>
+        <%= link_to '', mail_path(m.sender.username, m), method: :delete, data: {confirm: t('global.are_you_sure')}, class: 'icon-delete-mail', title: t('mails.delete') %>
+        <%= link_to '', new_mail_path('priv_message_id' => m.priv_message_id), class: 'icon-answer-mail', title: t('mails.answer_mail') %>
+        <%= link_to '', new_mail_path('priv_message_id' => m.priv_message_id, quote_old_message: 'yes'), class: 'icon-answer-mail-wo-quote', title: t('mails.answer_mail_wo_quote') %>
       </td>
     </tr>
     <% end %>
@@ -38,7 +38,7 @@ content_for :title, @user ? t('mails.post_from', name: @user.username) : t('mail
 </table>
 
 <p class="form-actions">
-  <button class="btn btn-primary">Löschen</button>
+  <button class="cf-primary-btn">Löschen</button>
 </p>
 
 <% end %>

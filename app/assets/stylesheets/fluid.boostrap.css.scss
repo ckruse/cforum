@@ -33,6 +33,13 @@ form.form-inline { display:inline; }
   @extend .table-bordered;
 }
 
+.cf-table-condensed-striped-hover {
+  @extend .table;
+  @extend .table-condensed;
+  @extend .table-striped;
+  @extend .table-hover;
+}
+
 .thread-forum-plate {
   @extend .label;
   @extend .label-info;
@@ -56,7 +63,6 @@ form.form-inline { display:inline; }
   &.delete { @extend .icon-trash; }
   &.answer { @extend .icon-unlock; }
   &.no-answer { @extend .icon-lock; }
-  &.registered-user { @extend .icon-share; }
   &.original-poster { @extend .icon-exclamation-sign; }
 }
 
@@ -71,6 +77,11 @@ form.form-inline { display:inline; }
 .cf-primary-btn {
   @extend .btn;
   @extend .btn-primary;
+}
+
+.icon-registered-user {
+  @extend .icon;
+  @extend .icon-share;
 }
 
 .icon-vote-up {
@@ -123,6 +134,37 @@ form.form-inline { display:inline; }
   @extend .icon-trash;
 }
 
+.icon-delete-mail {
+  @extend .icon;
+  @extend .icon-trash;
+}
+
+.icon-answer-mail {
+  @extend .icon;
+  @extend .icon-share;
+}
+
+.icon-answer-mail-wo-quote {
+  @extend .icon;
+  @extend .icon-share;
+}
+
+.icon-delete-nofication {
+  @extend .icon;
+  @extend .icon-trash;
+}
+
+
+.status-unread {
+  @extend .badge;
+  @extend .badge-info;
+}
+
+.status-read {
+  @extend .badge;
+}
+
+
 
 .posting-content { @extend .well; }
 .cf-error {
@@ -165,6 +207,10 @@ form.form-inline { display:inline; }
 .cf-tab-content { @extend .tab-content; }
 .cf-tab-pane { @extend .tab-pane; }
 
+.cf-box {
+  @extend .well;
+}
+
 
 .grid1, .grid2, .grid3, .grid4, .grid5, .grid6, .grid7, .grid8, .grid9, .grid10, .grid11, .grid12 {
   float: left;
@@ -173,7 +219,7 @@ form.form-inline { display:inline; }
 }
 
 @for $i from 1 through 12 {
-  .grid#{$i} { @extend .span#{$i}; }
+  .cf-span#{$i} { @extend .span#{$i}; }
 }
 
 /* eof */

@@ -1,9 +1,9 @@
-<div class="well sidebar-nav">
-  <ul class="nav nav-list inbox-list">
-    <li class="nav-header"><%= t('mails.post') %></li>
+<div class="cf-sidebar-box">
+  <ul class="cf-sidebar inbox-list">
+    <li class="cf-sidebar-header"><%= t('mails.post') %></li>
 
     <% @mail_users.each do |uname, vals| %>
-    <li><%= link_to uname, user_mails_path(uname), class: "btn" %> <% if vals[:unread] == 0 %><span class="unread-batches"><span class="badge"><%= vals[:read] || 0 %></span><% else %><span class="badge badge-info"><%= vals[:unread] %></span><% end %></span></a></li>
+    <li><%= link_to user_mails_path(uname), class: "cf-btn" do %><%= uname %> <span class="unread-batches"><% if vals[:unread] == 0 %><span class="status-read"><%= vals[:read] || 0 %></span><% else %><span class="status-unread"><%= vals[:unread] || 0 %></span><% end %></span><% end %></li>
     <% end %>
 
     <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('mails.new_mail'), new_mail_path %></li>

@@ -13,13 +13,13 @@
 
 <%= render 'widgets/users_selector', name: 'cf_priv_message[recipient_id]', id: 'recipient_id', users: @mail.recipient ? [@mail.recipient] : nil, desc: 'Empfänger', single: true %>
 
-<div class="control-group">
-  <%= t.label :subject, :class => 'control-label' %>
-  <div class="controls">
+<div class="cf-cgroup">
+  <%= t.label :subject %>
+  <div class="cntrls">
     <%= t.text_field :subject %>
   </div>
 </div>
 
-<div class="control-group">
-  <%= t.text_area :body, :class => 'span5', maxlength: 12288, value: t.object.to_txt %>
+<div class="cf-cgroup">
+  <%= t.text_area :body, class: 'cf-span5', maxlength: 12288, value: t.object.to_txt %>
 </div>

@@ -7,8 +7,8 @@ content_for :title, t('mails.new_mail')
 <%= render 'form', t: t %>
 
 <p class="form-actions">
-  <%= t.submit t("mails.send"), :class => 'btn btn-primary' %>
-  <%= link_to t("global.cancel"), mails_path, :class => 'btn' %>
+  <%= t.submit t("mails.send"), class: 'cf-primary-btn' %>
+  <%= link_to t("global.cancel"), mails_path, class: 'cf-btn' %>
 </p>
 
 <% end %>
