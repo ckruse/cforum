@@ -8,6 +8,13 @@ body {
   padding-bottom: 40px;
 }
 
+.cf-max-width-fluid {
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .icon {
   cursor:pointer;
   * { display:none; }
@@ -15,8 +22,8 @@ body {
 
 form.form-inline { display:inline; }
 
-.cf-container-fluid { @extend .container-fluid; }
-.cf-row-fluid { @extend .row-fluid; }
+.cf-container-fluid { @extend .container; }
+.cf-row-fluid { @extend .row; }
 
 
 .top-bar {
@@ -24,7 +31,22 @@ form.form-inline { display:inline; }
   @extend .navbar-inverse;
   @extend .navbar-fixed-top;
 
-  .inner-top-bar { @extend .navbar-inner; }
+  .inner-top-bar { @extend .container; }
+  .header-bar { @extend .navbar-header; }
+  .cf-toggler { @extend .navbar-toggle; }
+  .cf-icon-bar { @extend .icon-bar; }
+  .cf-brand { @extend .navbar-brand; }
+  .cf-collapse { @extend .collapse; }
+
+  .cf-nav {
+    @extend .nav;
+    @extend .navbar-nav;
+  }
+
+  .cf-right-nav {
+    @extend .cf-nav;
+    @extend .navbar-right;
+  }
 }
 
 .cf-default-table {
@@ -67,13 +89,24 @@ form.form-inline { display:inline; }
 }
 
 .cf-cgroup {
-  @extend .control-group;
+  @extend .form-group;
 
-  & > label { @extend .control-label; }
-  .cntrls { @extend .controls; }
+  & > label {
+    @extend .control-label;
+    @extend .col-lg-2;
+  }
+  .cntrls {
+    @extend .col-lg-3;
+    input[type=text], input[type=email], input[type=password], input[type=search], textarea, select {
+      @extend .form-control;
+    }
+  }
 }
 
-.cf-btn { @extend .btn; }
+.cf-btn {
+  @extend .btn;
+  @extend .btn-default;
+}
 .cf-primary-btn {
   @extend .btn;
   @extend .btn-primary;
@@ -177,8 +210,8 @@ form.form-inline { display:inline; }
 }
 
 .cf-pages {
-  @extend .pagination;
-  @extend .pagination-centered;
+  ul { @extend .pagination; }
+  @extend .text-center;
 }
 
 .cf-sidebar-box {
@@ -194,9 +227,16 @@ form.form-inline { display:inline; }
   }
 }
 
+.form-search {
+  @extend .form-inline;
+  @extend .container;
+}
+
 .cf-search-query {
-  @extend .input-medium;
-  @extend .search-query;
+  /*@extend .input-medium;
+  @extend .search-query;*/
+  @extend .form-control;
+  max-width:300px;
 }
 
 
@@ -212,14 +252,8 @@ form.form-inline { display:inline; }
 }
 
 
-.grid1, .grid2, .grid3, .grid4, .grid5, .grid6, .grid7, .grid8, .grid9, .grid10, .grid11, .grid12 {
-  float: left;
-  margin-left: 20px;
-  min-height: 1px;
-}
-
 @for $i from 1 through 12 {
-  .cf-span#{$i} { @extend .span#{$i}; }
+  .cf-span#{$i} { @extend .col-lg-#{$i}; }
 }
 
 /* eof */
