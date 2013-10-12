@@ -1,43 +1,45 @@
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+
+        <div class="header-bar">
+          <button type="button" class="cf-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="cf-icon-bar"></span>
+            <span class="cf-icon-bar"></span>
+            <span class="cf-icon-bar"></span>
           </button>
 
-          <a class="brand" href="https://github.com/ckruse/cforum/">Classic Forum</a>
+          <a class="cf-brand" href="https://github.com/ckruse/cforum/">Classic Forum</a>
+        </div>
 
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li<% if controller_path == 'cf_forums' %> class="active"<% end %>><a href="<%= root_url %>"><%= t('layout.home') %></a></li>
+        <div class="navbar-collapse cf-collapse">
+          <ul class="cf-nav">
+            <li<% if controller_path == 'cf_forums' %> class="active"<% end %>><%= link_to t('layout.home'), root_url %></li>
 
-              <% if current_user %>
-              <li<% if controller_path == 'mails' %> class="active"<% end %>><a href="<%= mails_path %>"><%= t('layout.mail') %></a></li>
-              <% end %>
+            <% if current_user %>
+            <li<% if controller_path == 'mails' %> class="active"<% end %>><%= link_to t('layout.mail'), mails_path %></li>
+            <% end %>
 
-              <% if current_user and current_user.admin %>
-              <li<% if controller_path =~ /^admin/ %> class="active"<% end %>><%= link_to t('layout.administration'), admin_users_path %></li>
-              <% end %>
+            <% if current_user and current_user.admin %>
+            <li<% if controller_path =~ /^admin/ %> class="active"<% end %>><%= link_to t('layout.administration'), admin_users_path %></li>
+            <% end %>
 
-              <% if current_forum %>
+            <% if current_forum %>
               <li<% if controller_path == 'cf_threads' or controller_path == 'cf_messages' %> class="active"<% end %>><%= link_to current_forum.name, current_forum %></li>
               <li><%= link_to t("threads.new_thread"), new_cf_thread_path(current_forum.slug) %></li><% end %>
 
               <% if current_user and ((!current_forum and current_user.admin?) or (current_forum and current_user.moderate?(current_forum))) %>
-                <% if not view_all %><li><%= link_to t("forums.admin_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: 'yes') %></li>
-                <% else %><li><%= link_to t("forums.normal_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: false) %></li><% end %>
-              <% end %>
+              <% if not view_all %><li><%= link_to t("forums.admin_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: 'yes') %></li>
+              <% else %><li><%= link_to t("forums.normal_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: false) %></li><% end %>
+            <% end %>
+          </ul>
 
-            </ul>
-
-            <ul class="nav pull-right">
-              <% if user_signed_in? %>
-                <li><%= link_to notifications_path do %><span class="badge<% if @new_notifications.length > 0 %> badge-info<% end %>"><%= @new_notifications.length %></span></a><% end %></li>
-                <li><%= link_to user_path(current_user) do %><span class="badge <% if @score < 0 %>badge-important<% elsif @score > 0 %>badge-success<% end %>"><%= @score %></span><% end %></li>
-                <li<% if controller_path == 'users' %> class="active"<% end %>><%= link_to(current_user.username, edit_user_path(current_user)) %></li>
-                <li><%= link_to(t('layout.logout'), destroy_user_session_path, :method => :delete) %></li>
-              <% else %>
-                <li><%= link_to(t('layout.login'), new_user_session_path) %></li>
-                <li><%= link_to t("layout.register"), new_user_registration_path %></li>
-              <% end %>
-            </ul>
-          </div><!--/.nav-collapse -->
+          <ul class="cf-right-nav">
+            <% if user_signed_in? %>
+              <li><%= link_to notifications_path do %><span class="badge<% if @new_notifications.length > 0 %> badge-info<% end %>"><%= @new_notifications.length %></span></a><% end %></li>
+              <li><%= link_to user_path(current_user) do %><span class="badge <% if @score < 0 %>badge-important<% elsif @score > 0 %>badge-success<% end %>"><%= @score %></span><% end %></li>
+              <li<% if controller_path == 'users' %> class="active"<% end %>><%= link_to(current_user.username, edit_user_path(current_user)) %></li>
+              <li><%= link_to(t('layout.logout'), destroy_user_session_path, :method => :delete) %></li>
+            <% else %>
+              <li><%= link_to(t('layout.login'), new_user_session_path) %></li>
+              <li><%= link_to t("layout.register"), new_user_registration_path %></li>
+            <% end %>
+          </ul>
+        </div><!--/.nav-collapse -->

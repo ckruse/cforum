@@ -2,8 +2,8 @@
 content_for :title, t('admin.users.user_administration')
 %><h1><%= t('admin.users.user_administration') %></h1>
 
-<%= form_tag admin_users_path, :method => :get, class: 'form-search' do |t| %>
-  <input type="text" class="cf-search-query" name="s" placeholder="<%= t('global.search') %>">
+<%= form_tag admin_users_path, method: :get, class: 'form-search' do |t| %>
+  <input type="search" class="cf-search-query" name="s" placeholder="<%= t('global.search') %>">
 <% end %>
 
 <table class="cf-default-table">
@@ -59,7 +59,7 @@ content_for :title, t('admin.users.user_administration')
 
     <% if end_page != last_possible_page %><li class="disabled"><a href="#">…</a></li><% end %>
 
-    <li<% if next_page == last_possible_page %> class="disabled"<% end %>><%= link_to '»' admin_users_path(p: next_page) %></li>
+    <li<% if next_page == last_possible_page %> class="disabled"<% end %>><%= link_to '»', admin_users_path(p: next_page) %></li>
     <li<% if next_page == last_possible_page %> class="disabled"<% end %>><%= link_to '»»', admin_users_path(p: last_possible_page) %></li>
 
   </ul>
