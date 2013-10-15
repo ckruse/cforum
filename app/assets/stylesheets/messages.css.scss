@@ -86,11 +86,16 @@ article.accepted .posting-content {
   display:inline;
   list-style-type:none;
   margin:0;
+
+  li {
+    display:inline;
+    margin-left:2px;
+  }
 }
 
-.tags-list li {
+#tags-input {
+  width:50%;
   display:inline;
-  margin-left:2px;
 }
 
 /* eof */
