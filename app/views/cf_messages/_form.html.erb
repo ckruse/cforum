@@ -24,7 +24,10 @@
 
 <fieldset>
   <div class="cf-cgroup">
-    <%= f.text_area :content, :class => 'span5', maxlength: 12288, value: f.object.to_txt %>
+    <%= f.label :content %>
+    <div class="cntrls">
+      <%= f.text_area :content, :class => 'span5', maxlength: 12288, value: f.object.to_txt %>
+    </div>
   </div>
 </fieldset>
 
