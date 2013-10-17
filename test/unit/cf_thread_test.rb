@@ -34,14 +34,14 @@ class CfThreadTest < ActiveSupport::TestCase
     m = FactoryGirl.create(:cf_message, owner: nil, forum: t.forum, thread: t)
 
     t = CfThread.find t.thread_id
-    assert_equal 1, t.messages.count()
+    assert_equal 1, t.sorted_messages.count()
 
     m1 = FactoryGirl.create(:cf_message, owner: nil, forum: t.forum, thread: t, parent_id: m.message_id)
 
     t = CfThread.includes(:messages).find t.thread_id
-    assert_equal 2, t.messages.count()
-    assert_equal t.message.message_id, m.message_id
-    assert_equal t.messages[0].messages[0].message_id, m1.message_id
+    assert_equal 2, t.sorted_messages.count()
+    assert_equal m.message_id, t.message.message_id
+    assert_equal m1.message_id, t.sorted_messages[0].messages[0].message_id
 
     assert_equal m, t.find_message(m.message_id)
     assert_nil t.find_message(-324234)

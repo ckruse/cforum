@@ -16,10 +16,6 @@ class CfUser < ActiveRecord::Base
   validates :username, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true, email: true
 
-  attr_accessible :username, :email, :password, :password_confirmation,
-    :admin, :active, :created_at,
-    :updated_at, :confirmed_at, :remember_me
-
   attr_accessor :login
 
   has_one :settings, class_name: 'CfSetting', :foreign_key => :user_id, :dependent => :destroy
@@ -51,7 +47,6 @@ class CfUser < ActiveRecord::Base
     @permissions ||= {}
     @permissions[forum.forum_id] ||= CfForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user_id, forum.forum_id)
-      .all
 
     @permissions[forum.forum_id].each do |p|
       return true if p.permission == CfForumGroupPermission::ACCESS_MODERATE
@@ -68,7 +63,6 @@ class CfUser < ActiveRecord::Base
     @permissions ||= {}
     @permissions[forum.forum_id] ||= CfForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user_id, forum.forum_id)
-      .all
 
     @permissions[forum.forum_id].each do |p|
       return true if p.permission == CfForumGroupPermission::ACCESS_MODERATE or p.permission == CfForumGroupPermission::ACCESS_WRITE
@@ -85,7 +79,6 @@ class CfUser < ActiveRecord::Base
     @permissions ||= {}
     @permissions[forum.forum_id] ||= CfForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user_id, forum.forum_id)
-      .all
 
     @permissions[forum.forum_id].each do |p|
       return true if p.permission == CfForumGroupPermission::ACCESS_MODERATE or p.permission == CfForumGroupPermission::ACCESS_WRITE or p.permission == CfForumGroupPermission::ACCESS_READ

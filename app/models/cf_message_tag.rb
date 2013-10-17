@@ -7,8 +7,6 @@ class CfMessageTag < ActiveRecord::Base
   belongs_to :message, class_name: 'CfMessage', :foreign_key => :message_id
   belongs_to :tag, class_name: 'CfTag', :foreign_key => :tag_id
 
-  attr_accessible :message_tag_id, :message_id, :tag_id
-
   validates_presence_of :message_id, :tag_id
 end
 

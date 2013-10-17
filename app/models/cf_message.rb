@@ -8,19 +8,12 @@ class CfMessage < ActiveRecord::Base
   self.primary_key = 'message_id'
   self.table_name  = 'messages'
 
-  serialize :flags, ActiveRecord::Coders::Hstore
-
   belongs_to :owner, class_name: 'CfUser', :foreign_key => :user_id
   belongs_to :thread, class_name: 'CfThread', :foreign_key => :thread_id
   belongs_to :forum, class_name: 'CfForum', :foreign_key => :forum_id
 
   has_many :messages_tags, class_name: 'CfMessageTag', :foreign_key => :message_id, :dependent => :destroy
   has_many :tags, class_name: 'CfTag', :through => :messages_tags
-
-  attr_accessible :message_id, :mid, :thread_id, :subject, :content,
-    :author, :email, :homepage, :deleted, :user_id, :parent_id,
-    :updated_at, :created_at, :upvotes, :downvotes, :forum_id, :flags,
-    :uuid, :accepted
 
   attr_accessor :messages, :attribs, :parent_level
 
@@ -43,7 +36,7 @@ class CfMessage < ActiveRecord::Base
   # end
 
   def delete_with_subtree
-    update_attributes(:deleted => true)
+    update_attributes(deleted: true)
 
     messages.each do |m|
       m.delete_with_subtree
@@ -51,7 +44,7 @@ class CfMessage < ActiveRecord::Base
   end
 
   def restore_with_subtree
-    update_attributes(:deleted => false)
+    update_attributes(deleted: false)
 
     messages.each do |m|
       m.restore_with_subtree

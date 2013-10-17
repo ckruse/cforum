@@ -10,9 +10,7 @@ class CfForum < ActiveRecord::Base
 
   has_many :forums_groups_permissions, class_name: 'CfForumGroupPermission', :foreign_key => :forum_id, :dependent => :destroy
 
-  attr_accessible :forum_id, :slug, :name, :short_name, :description, :updated_at, :created_at, :standard_permission
-
-  validates :slug, uniqueness: true, length: {:in => 1..20}, allow_blank: false, format: {with: /^[a-z0-9_-]+$/}
+  validates :slug, uniqueness: true, length: {:in => 1..20}, allow_blank: false, format: {with: /\A[a-z0-9_-]+\z/}
   validates :name, length: {:minimum => 3}, allow_blank: false
   validates :short_name, length: {:in => 1..50}
 
@@ -26,7 +24,6 @@ class CfForum < ActiveRecord::Base
 
     permissions = CfForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user.user_id, forum_id)
-      .all
 
     permissions.each do |p|
       return true if p.permission == CfForumGroupPermission::ACCESS_MODERATE
@@ -43,7 +40,6 @@ class CfForum < ActiveRecord::Base
 
     permissions = CfForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user.user_id, forum_id)
-      .all
 
     permissions.each do |p|
       return true if p.permission == CfForumGroupPermission::ACCESS_MODERATE or p.permission == CfForumGroupPermission::ACCESS_WRITE
@@ -60,7 +56,6 @@ class CfForum < ActiveRecord::Base
 
     permissions = CfForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user.user_id, forum_id)
-      .all
 
     return true unless permissions.blank?
     return false

@@ -4,14 +4,12 @@ class CfThread < ActiveRecord::Base
   self.primary_key = 'thread_id'
   self.table_name  = 'threads'
 
-  serialize :flags, ActiveRecord::Coders::Hstore
+  attr_accessor :sorted_messages
 
   belongs_to :forum, class_name: 'CfForum', :foreign_key => :forum_id
   has_many :messages, class_name: 'CfMessage', :foreign_key => :thread_id, :dependent => :destroy
 
-  attr_accessible :thread_id, :tid, :slug, :forum_id, :archived, :created_at, :updated_at, :sticky, :flags
-
-  validates :slug, uniqueness: true, allow_blank: false, format: {with: /^[a-z0-9_\/-]+$/}
+  validates :slug, uniqueness: true, allow_blank: false, format: {with: /\A[a-z0-9_\/-]+\z/}
   validates_presence_of :forum_id
 
   def find_message(mid)
@@ -49,12 +47,12 @@ class CfThread < ActiveRecord::Base
   end
 
   def message
-    @message = messages[0] if @message.blank?
+    @message = sorted_messages[0] if @message.blank?
     @message
   end
 
   def gen_tree
-    messages.sort! do |a,b|
+    @sorted_messages = messages.sort do |a,b|
       ret = a.created_at <=> b.created_at
       ret = a.message_id <=> b.message_id if ret == 0
 
@@ -63,7 +61,7 @@ class CfThread < ActiveRecord::Base
 
     map = {}
 
-    messages.each do |msg|
+    @sorted_messages.each do |msg|
       self.accepted = msg if msg.flags["accepted"] == 'yes'
 
       map[msg.message_id] = msg
@@ -118,17 +116,14 @@ class CfThread < ActiveRecord::Base
     self.flags ||= {} if attributes.has_key? 'flags'
   end
 
-  alias_method :messages_orig, :messages
-  def messages
-    ret = messages_orig
-
-    if not @generated and not ret.blank?
+  def sorted_messages
+    if not @generated
       @generated = true
       gen_tree
       sort_tree
     end
 
-    ret
+    @sorted_messages
   end
 
   def acceptance_forbidden?(usr, uuid)

@@ -10,8 +10,6 @@ class CfTag < ActiveRecord::Base
 
   has_many :synonyms, class_name: 'CfTagSynonym', foreign_key: :tag_id
 
-  attr_accessible :tag_id, :tag_name, :slug,  :forum_id, :num_messages
-
   validates_presence_of :forum_id
   validates :tag_name, length: {:in => 2..50}, presence: true
 

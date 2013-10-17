@@ -102,7 +102,7 @@ class CfUserTest < ActiveSupport::TestCase
     s.options['blub'] = 'blah'
     s.save
 
-    assert_blank u.conf('blub')
+    assert u.conf('blub').blank?
 
     s.user_id = u.user_id
     s.save

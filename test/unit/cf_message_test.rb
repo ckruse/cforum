@@ -75,19 +75,19 @@ class CfMessageTest < ActiveSupport::TestCase
 
     t = CfThread.preload(:messages).find(m.thread.thread_id)
 
-    t.messages[0].delete_with_subtree
+    t.sorted_messages[0].delete_with_subtree
     assert m.reload.deleted
     assert m1.reload.deleted
 
-    t.messages[0].restore_with_subtree
+    t.sorted_messages[0].restore_with_subtree
     assert !m.reload.deleted
     assert !m.reload.deleted
 
-    t.messages[1].delete_with_subtree
+    t.sorted_messages[1].delete_with_subtree
     assert !m.reload.deleted
     assert m1.reload.deleted
 
-    t.messages[1].restore_with_subtree
+    t.sorted_messages[1].restore_with_subtree
     assert !m.reload.deleted
     assert !m.reload.deleted
   end
