@@ -13,20 +13,20 @@ class HighlightPlugin < Plugin
     end
 
     threads.each do |t|
-      t.messages.each do |m|
+      t.sorted_messages.each do |m|
         m.attribs['classes'] << 'highlighted-user' if user_map[m.author.strip.downcase]
       end
     end
   end
 
   def showing_settings(user)
-    users = CfUser.find_all_by_username(user.conf('highlighted_users', '').split(/\s*,\s*/))
+    users = CfUser.where(username: user.conf('highlighted_users', '').split(/\s*,\s*/))
     set('highlighted_users_list', users)
   end
 
   def saving_settings(user, settings)
     unless settings.options["highlighted_users"].blank?
-      users = CfUser.find_all_by_user_id(settings.options["highlighted_users"])
+      users = CfUser.where(user_id: settings.options["highlighted_users"])
       settings.options["highlighted_users"] = (users.map {|u| u.username}).join(",")
     end
   end

@@ -20,7 +20,7 @@ class NotificationsPlugin < Plugin
   def show_thread(thread, message = nil, votes = nil)
     had_one = false
 
-    thread.messages.each do |m|
+    thread.sorted_messages.each do |m|
       had_one = true if check_for_deleting_notification(m)
     end
 

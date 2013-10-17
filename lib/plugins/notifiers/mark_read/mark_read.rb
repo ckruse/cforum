@@ -82,7 +82,7 @@ class MarkReadPlugin < Plugin
     threads.each do |t|
       num_msgs = 0
 
-      t.messages.each do |m|
+      t.sorted_messages.each do |m|
         ids << m.message_id
         new_cache[m.message_id] = false
         msgs[m.message_id.to_s] = [m, t]
@@ -112,7 +112,7 @@ class MarkReadPlugin < Plugin
     return unless current_user
 
     sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", "
-    thread.messages.each do |m|
+    thread.sorted_messages.each do |m|
       m.attribs['visited'] = true
 
       begin
@@ -140,7 +140,7 @@ class MarkReadPlugin < Plugin
     ids = []
     msgs = {}
 
-    thread.messages.each do |m|
+    thread.sorted_messages.each do |m|
       ids << m.message_id
       msgs[m.message_id.to_s] = m
     end

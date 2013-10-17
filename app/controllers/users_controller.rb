@@ -82,8 +82,7 @@ class UsersController < ApplicationController
       preload(:owner, :tags, :thread => :forum).
       where("user_id = ? AND deleted = false AND forum_id IN (#{sql})", @user.user_id).
       order('created_at DESC').
-      limit(5).
-      all
+      limit(5)
 
     @tags_cnts = CfMessageTag.
       preload(:tag => :forum).
@@ -92,22 +91,19 @@ class UsersController < ApplicationController
       where("deleted = false AND user_id = ? AND forum_id IN (#{sql})", @user.user_id).
       group("tag_id").
       order("cnt DESC").
-      limit(10).
-      all
+      limit(10)
 
     @point_msgs = CfMessage.
       preload(:owner, :tags, :thread => :forum).
       where("deleted = false AND upvotes > 0 AND user_id = ? AND forum_id IN (#{sql})", @user.user_id).
       order('upvotes DESC').
-      limit(10).
-      all
+      limit(10)
 
     @score_msgs = CfScore.
       preload(:vote => {:message => [:thread, :tags]}).
       where(:user_id => @user.user_id).
       limit(10).
-      order('created_at DESC').
-      all
+      order('created_at DESC')
 
     if (@user.confirmed_at.blank? or not @user.unconfirmed_email.blank?) and (not current_user.blank? and current_user.username == @user.username)
       flash[:error] = I18n.t('users.confirm_first')
@@ -129,11 +125,11 @@ class UsersController < ApplicationController
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
   end
 
-  def update
-    attrs = params[:cf_user]
-    attrs.delete :active
-    attrs.delete :admin
+  def user_params
+    params.require(:cf_user).permit(:username, :email, :password)
+  end
 
+  def update
     @user = CfUser.find(params[:id])
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
 
@@ -145,7 +141,7 @@ class UsersController < ApplicationController
 
     saved = false
     CfUser.transaction do
-      if @user.update_attributes(attrs)
+      if @user.update_attributes(user_params)
         notification_center.notify(SAVING_SETTINGS, @user, @settings)
         @settings.save!
 

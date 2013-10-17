@@ -33,7 +33,7 @@ class VotePluginController < ApplicationController
     vtype    = params[:type] == 'up' ? CfVote::UPVOTE : CfVote::DOWNVOTE
 
     # remove voting if user already voted with the same parameters
-    if @vote = CfVote.find_by_user_id_and_message_id(current_user.user_id, @message.message_id) and @vote.vtype == vtype
+    if @vote = CfVote.where(user_id: current_user.user_id, message_id: @message.message_id).first and @vote.vtype == vtype
 
       notification_center.notify(UNVOTING_MESSAGE, @message, @vote)
       CfVote.transaction do
@@ -63,13 +63,13 @@ class VotePluginController < ApplicationController
 
           unless @message.user_id.blank?
             CfScore.delete_all(['user_id = ? AND vote_id = ?', current_user.user_id, @vote.vote_id])
-            CfScore.update_all(['value = ?', vote_up_value], ['user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id])
+            CfScore.where('user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id).update_all(['value = ?', vote_up_value])
           end
         else
           CfVote.connection.execute "UPDATE messages SET upvotes = upvotes - 1, downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
 
           unless @message.user_id.blank?
-            CfScore.update_all(['value = ?', vote_down_value], ['user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id])
+            CfScore.where('user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id).update_all(['value = ?', vote_down_value])
             CfScore.create!(user_id: current_user.user_id, vote_id: @vote.vote_id, value: vote_down_value)
           end
         end

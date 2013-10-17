@@ -24,7 +24,7 @@ class Admin::CfForumsControllerTest < ActionController::TestCase
 
     get :index
     assert_not_nil assigns(:forums)
-    assert_blank assigns(:forums)
+    assert assigns(:forums).blank?
     assert_response :success
   end
 

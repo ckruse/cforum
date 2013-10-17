@@ -21,17 +21,19 @@ class AcceptPluginController < ApplicationController
     notification_center.notify(ACCEPTING_MESSAGE, @thread, @message)
     CfMessage.transaction do
       @message.flags['accepted'] = @message.flags['accepted'] == 'yes' ? 'no' : 'yes'
+      @message.changed_attributes['flags'] = true
       @message.save
 
       unless @message.user_id.blank?
         if @message.flags['accepted'] == 'yes'
-          @thread.messages.each do |m|
+          @thread.sorted_messages.each do |m|
             if m.message_id != @message.message_id and m.flags['accepted'] == 'yes'
               m.flags.delete('accepted')
+              m.changed_attributes['flags'] = true
               m.save
 
               if not m.user_id.blank?
-                scores = CfScore.where(user_id: m.user_id, message_id: m.message_id).all
+                scores = CfScore.where(user_id: m.user_id, message_id: m.message_id)
                 scores.each { |score| score.destroy } if not scores.blank?
               end
             end
@@ -43,7 +45,7 @@ class AcceptPluginController < ApplicationController
             value: conf('accept_value', 15).to_i
           )
         else
-          scores = CfScore.where(user_id: @message.user_id, message_id: @message.message_id).all
+          scores = CfScore.where(user_id: @message.user_id, message_id: @message.message_id)
           scores.each { |score| score.destroy } if not scores.blank?
         end
       end

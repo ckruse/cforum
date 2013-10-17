@@ -69,8 +69,7 @@ class CfThreadsController < ApplicationController
       includes(:messages => :owner).
       where(conditions).
       where(thread_id: ids).
-      order('threads.sticky DESC, threads.created_at DESC').
-      all
+      order('threads.sticky DESC, threads.created_at DESC')
 
     if forum
       rslt = CfForum.connection.execute("SELECT counter_table_get_count('threads', " +
@@ -109,6 +108,10 @@ class CfThreadsController < ApplicationController
   #   @thread = CfThread.includes(:messages).find_by_slug!(@id)
   # end
 
+  def message_params
+    params.require(:cf_thread).require(:message).permit(:subject, :content, :author, :email, :homepage)
+  end
+
   def new
     @thread = CfThread.new
     @thread.message = CfMessage.new
@@ -120,13 +123,12 @@ class CfThreadsController < ApplicationController
   end
 
   def create
-    now = Time.now
     invalid = false
 
     @forum = current_forum
 
     @thread  = CfThread.new()
-    @message = CfMessage.new(params[:cf_thread][:message])
+    @message = CfMessage.new(message_params)
     @thread.message  =  @message
     @thread.slug     = CfThread.gen_id(@thread)
 
@@ -135,8 +137,8 @@ class CfThreadsController < ApplicationController
     @message.user_id    = current_user.user_id unless current_user.blank?
     @message.content    = CfMessage.to_internal(@message.content)
 
-    @message.created_at = DateTime.now
-    @message.updated_at = DateTime.now
+    @message.created_at = Time.now
+    @message.updated_at = @message.created_at
 
     if current_user
       @message.author   = current_user.username
@@ -218,16 +220,16 @@ class CfThreadsController < ApplicationController
 
   def moving
     @id     = CfThread.make_id(params)
-    @thread = CfThread.includes(:forum).find_by_slug!(@id)
+    @thread = CfThread.includes(:forum).where(slug: @id).first!
 
     if current_user.admin
-      @forums = CfForum.order('name ASC').find :all
+      @forums = CfForum.order('name ASC')
     else
       @forums = CfForum.where(
         "forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ? AND permission = ?)",
         current_user.user_id,
         CfForumGroupPermission::ACCESS_MODERATE
-      ).order('name ASC').all
+      ).order('name ASC')
     end
   end
 

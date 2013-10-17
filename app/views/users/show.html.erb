@@ -105,7 +105,7 @@ content_for :title, t('users.user', name: @user.username)
 <p class="form-actions">
   <% if not current_user.blank? and @user.user_id == current_user.user_id %>
   <%= link_to t('users.edit'), edit_user_path(@user), class: 'cf-btn' %>
-  <%= link_to t('users.delete'), user_path(@user), confirm: t("global.are_you_sure"), method: :delete, class: 'cf-btn' %>
+  <%= link_to t('users.delete'), user_path(@user), data: {confirm: t("global.are_you_sure")}, method: :delete, class: 'cf-btn' %>
   <% end %>
 
   <%= link_to t('global.back'), users_path, class: 'cf-btn' %>

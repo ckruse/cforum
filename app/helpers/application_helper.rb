@@ -15,4 +15,12 @@ module ApplicationHelper
   end
 end
 
+require 'pp'
+class Object
+  def pp_inspect
+    PP.pp(self, "")
+  end
+end
+
+
 # eof

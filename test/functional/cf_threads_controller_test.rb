@@ -441,7 +441,7 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_not_nil flash[:notice]
     assert_not_nil assigns(:message)
     assert_not_nil assigns(:thread)
-    assert_blank assigns(:message).tags
+    assert assigns(:message).tags.blank?
 
     assert_redirected_to cf_message_url(assigns(:thread), assigns(:message))
   end

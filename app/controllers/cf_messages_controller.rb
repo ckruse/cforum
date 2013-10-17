@@ -26,7 +26,7 @@ class CfMessagesController < ApplicationController
 
     if current_user
       mids = @thread.messages.map {|m| m.message_id}
-      votes = CfVote.where(user_id: current_user.user_id, message_id: mids).all
+      votes = CfVote.where(user_id: current_user.user_id, message_id: mids)
       @votes = {}
 
       votes.each do |v|
@@ -41,6 +41,10 @@ class CfMessagesController < ApplicationController
       notification_center.notify(SHOW_THREAD, @thread, @message, @votes)
       render 'show-nested'
     end
+  end
+
+  def message_params
+    params.require(:cf_message).permit(:subject, :content, :author, :email, :homepage)
   end
 
   def new
@@ -65,7 +69,7 @@ class CfMessagesController < ApplicationController
     invalid  = false
 
     @parent  = @message
-    @message = CfMessage.new(params[:cf_message])
+    @message = CfMessage.new(message_params)
 
     @message.parent_id  = @parent.message_id
     @message.forum_id   = current_forum.forum_id
@@ -74,8 +78,8 @@ class CfMessagesController < ApplicationController
 
     @message.content    = CfMessage.to_internal(@message.content)
 
-    @message.created_at = DateTime.now
-    @message.updated_at = DateTime.now
+    @message.created_at = Time.now
+    @message.updated_at = @message.created_at
 
     if current_user
       @message.author   = current_user.username

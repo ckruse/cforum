@@ -8,7 +8,7 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
   SHOW_FORUMLIST = "show_forumlist"
 
   def index
-    @forums = CfForum.order('name ASC').find :all
+    @forums = CfForum.order('UPPER(name) ASC')
 
     results = CfForum.connection.execute("SELECT table_name, group_crit, SUM(difference) AS diff FROM counter_table WHERE table_name = 'threads' OR table_name = 'messages' GROUP BY table_name, group_crit")
 
@@ -34,7 +34,7 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
           LIMIT 1
         )
         FROM forums
-      )").all
+      )")
 
     @activities = {}
     msgs.each do |msg|
@@ -48,6 +48,10 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
     @settings = CfSetting.find_by_forum_id(@cf_forum.forum_id) || CfSetting.new
   end
 
+  def forum_params
+    params.require(:cf_forum).permit(:slug, :name, :short_name, :description, :standard_permission)
+  end
+
   def update
     saved = false
     @settings = CfSetting.find_by_forum_id(@cf_forum.forum_id) || CfSetting.new
@@ -55,7 +59,7 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
     @settings.forum_id = @cf_forum.forum_id
 
     CfForum.transaction do
-      if @cf_forum.update_attributes(params[:cf_forum])
+      if @cf_forum.update_attributes(forum_params)
         raise ActiveRecord::Rollback.new unless saved = @settings.save
       end
     end
@@ -73,7 +77,7 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
   end
 
   def create
-    @cf_forum = CfForum.new(params[:cf_forum])
+    @cf_forum = CfForum.new(forum_params)
     @settings = CfSetting.new
     @settings.options  = params[:settings] || {}
     @settings.forum_id = @cf_forum.forum_id
@@ -103,7 +107,7 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
   end
 
   def merge
-    @forums = CfForum.order(:name).find :all
+    @forums = CfForum.order(:name)
     @merge_with = params[:merge_with]
   end
 
@@ -122,7 +126,7 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
       redirect_to admin_forums_url, notice: I18n.t('admin.forums.merged')
     else
       flash[:error] = 'Forum to merge with not found!' # TODO: i18n/l10n
-      @forums = CfForum.order(:name).find :all
+      @forums = CfForum.order(:name)
       @merge_with = params[:merge_with]
 
       render :merge

@@ -6,12 +6,12 @@ class TagsController < ApplicationController
   def index
     if not params[:s].blank?
       clean_tag = params[:s].strip + '%'
-      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))", current_forum.forum_id, clean_tag, clean_tag).order('num_messages DESC').all
+      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))", current_forum.forum_id, clean_tag, clean_tag).order('num_messages DESC')
     elsif not params[:tags].blank?
       tags = params[:tags].split(',')
-      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) IN (?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) IN (?)))", current_forum.forum_id, tags, tags).order('num_messages DESC').all
+      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) IN (?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) IN (?)))", current_forum.forum_id, tags, tags).order('num_messages DESC')
     else
-      @tags = CfTag.preload(:synonyms).order('tag_name ASC').find_all_by_forum_id current_forum.forum_id
+      @tags = CfTag.preload(:synonyms).order('tag_name ASC').where(forum_id: current_forum.forum_id)
     end
 
     respond_to do |format|
@@ -33,7 +33,7 @@ class TagsController < ApplicationController
   def autocomplete
     if not params[:s].blank?
       clean_tag = params[:s].strip + '%'
-      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))", current_forum.forum_id, clean_tag, clean_tag).all
+      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))", current_forum.forum_id, clean_tag, clean_tag)
     else
       @tags = CfTag.preload(:synonyms).find_all_by_forum_id current_forum.forum_id
     end
@@ -70,7 +70,7 @@ class TagsController < ApplicationController
 
     offset = @page * @limit
 
-    @messages = CfMessage.preload(:owner, :tags => :synonyms, :thread => :forum).joins('INNER JOIN messages_tags USING(message_id)').where('messages_tags.tag_id' => @tag.tag_id, forum_id: current_forum.forum_id, deleted: false).order('messages.created_at DESC').limit(@limit).offset(offset).all
+    @messages = CfMessage.preload(:owner, :tags => :synonyms, :thread => :forum).joins('INNER JOIN messages_tags USING(message_id)').where('messages_tags.tag_id' => @tag.tag_id, forum_id: current_forum.forum_id, deleted: false).order('messages.created_at DESC').limit(@limit).offset(offset)
 
     respond_to do |format|
       format.html # show.html.erb

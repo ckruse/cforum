@@ -64,8 +64,11 @@ module RightsHelper
       tid = true
     end
 
-    thread = CfThread.preload(:forum, :messages => [:owner, :tags]).includes(:messages => :owner).where(std_conditions(id, tid)).first
+    thread = CfThread.preload(:forum, :messages => [:owner, :tags]).includes(:messages => :owner).where(std_conditions(id, tid)).references(:messages => :owner).first
     raise CForum::NotFoundException.new if thread.blank?
+
+    # sort messages
+    thread.message
 
     message = nil
     unless params[:mid].blank?

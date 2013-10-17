@@ -8,7 +8,7 @@ module TagsHelper
     # first check if all tags are present
     unless tags.empty?
       #tag_objs = CfTag.where('forum_id = ? AND LOWER(tag_name) IN (?)', current_forum.forum_id, tags).all
-      tag_objs = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) IN (?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) IN (?)))", current_forum.forum_id, tags, tags).order('num_messages DESC').all
+      tag_objs = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) IN (?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) IN (?)))", current_forum.forum_id, tags, tags).order('num_messages DESC')
       tags.each do |t|
         tag_obj = tag_objs.find do |to|
           if to.tag_name.downcase == t
@@ -23,7 +23,6 @@ module TagsHelper
           tag_obj = CfTag.create(forum_id: current_forum.forum_id, tag_name: t)
 
           if tag_obj.tag_id.blank?
-            saved = false
             flash[:error] = t('messages.tag_invalid')
             raise ActiveRecord::Rollback.new
           end

@@ -12,7 +12,7 @@ class NotificationsController < ApplicationController
     @page  = 0 if @page < 0
     @limit = 50 if @limit <= 0
 
-    @notifications = CfNotification.where(recipient_id: current_user.user_id).order('created_at DESC').limit(@limit).offset(@page * @limit).all
+    @notifications = CfNotification.where(recipient_id: current_user.user_id).order('created_at DESC').limit(@limit).offset(@page * @limit)
     @all_notifications_count = CfNotification.where(recipient_id: current_user.user_id).count
 
     respond_to do |format|
@@ -24,7 +24,7 @@ class NotificationsController < ApplicationController
   def batch_destroy
     unless params[:ids].blank?
       CfNotification.transaction do
-        @notifications = CfNotification.where(recipient_id: current_user.user_id, notification_id: params[:ids]).all
+        @notifications = CfNotification.where(recipient_id: current_user.user_id, notification_id: params[:ids])
         @notifications.each do |n|
           n.destroy
         end
@@ -35,7 +35,7 @@ class NotificationsController < ApplicationController
   end
 
   def destroy
-    @notification = CfNotification.find_by_recipient_id_and_notification_id!(current_user.user_id, params[:id])
+    @notification = CfNotification.where(recipient_id: current_user.user_id, notification_id: params[:id]).first!
     @notification.destroy
 
     respond_to do |format|

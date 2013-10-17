@@ -25,7 +25,7 @@ class Admin::CfGroupsControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:groups)
-    assert_blank assigns(:groups)
+    assert assigns(:groups).blank?
   end
 
   test "should show index" do

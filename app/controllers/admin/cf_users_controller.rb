@@ -27,8 +27,12 @@ class Admin::CfUsersController < ApplicationController
   def edit
   end
 
+  def user_params
+    params.require(:cf_user).permit(:username, :email, :password, :active, :admin)
+  end
+
   def update
-    if @user.update_attributes(params[:cf_user])
+    if @user.update_attributes(user_params)
       redirect_to edit_admin_user_url(@user), notice: I18n.t('admin.users.updated')
     else
       render :edit
@@ -40,7 +44,7 @@ class Admin::CfUsersController < ApplicationController
   end
 
   def create
-    @user = CfUser.new(params[:cf_user])
+    @user = CfUser.new(user_params)
 
     if @user.save
       redirect_to edit_admin_user_url(@user), notice: I18n.t('admin.users.created')

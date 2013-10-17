@@ -6,7 +6,7 @@ class Admin::CfGroupsController < ApplicationController
   include Admin::AuthorizeHelper
 
   def index
-    @groups = CfGroup.order('name ASC').find :all
+    @groups = CfGroup.order('UPPER(name) ASC')
   end
 
   def edit
@@ -14,6 +14,10 @@ class Admin::CfGroupsController < ApplicationController
     @forums_groups_permissions = @group.forums_groups_permissions
     @users = @group.users
     @forums = CfForum.all
+  end
+
+  def group_params
+    params.require(:cf_group).permit(:name)
   end
 
   def update
@@ -37,7 +41,7 @@ class Admin::CfGroupsController < ApplicationController
 
     saved = false
     CfGroup.transaction do
-      raise ActiveRecord::Rollback.new unless @group.update_attributes(params[:cf_group])
+      raise ActiveRecord::Rollback.new unless @group.update_attributes(group_params)
 
       @group.groups_users.clear
       @users.each do |u|
@@ -69,7 +73,7 @@ class Admin::CfGroupsController < ApplicationController
   end
 
   def create
-    @group = CfGroup.new(params[:cf_group])
+    @group = CfGroup.new(group_params)
     @forums = CfForum.all
 
     @users = []
