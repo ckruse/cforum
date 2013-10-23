@@ -28,7 +28,7 @@ GEM
     anjlab-bootstrap-rails (3.0.0.3)
       railties (>= 3.0)
       sass (>= 3.2)
-    arel (4.0.0)
+    arel (4.0.1)
     atomic (1.1.14)
     bcrypt-ruby (3.1.2)
     builder (3.1.4)
