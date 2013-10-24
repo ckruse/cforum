@@ -177,7 +177,7 @@ class CfThreadsController < ApplicationController
           CfThread.transaction do
             @thread.save!
           end
-        rescue ActiveRecord::RecordInvalid => e
+        rescue ActiveRecord::RecordInvalid
           if @thread.errors.keys == [:slug]
             @thread.slug = CfThread.gen_id(@thread, num)
             num += 1
