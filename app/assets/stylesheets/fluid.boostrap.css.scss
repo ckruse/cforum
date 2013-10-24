@@ -25,6 +25,35 @@ form.form-inline { display:inline; }
 .cf-container-fluid { @extend .container; }
 .cf-row-fluid { @extend .row; }
 
+.users-modal {
+  @extend .modal;
+  @extend .fade;
+
+  .user_search {
+    @extend .form-control;
+  }
+}
+
+.users-selector ul {
+  list-style-type:none;
+}
+
+.cf-modal-dialog {
+  @extend .modal-dialog;
+}
+.cf-modal-content {
+  @extend .modal-content;
+}
+.cf-modal-header {
+  @extend .modal-header;
+}
+.cf-modal-body {
+  @extend .modal-body;
+}
+.cf-modal-footer {
+  @extend .modal-footer;
+}
+
 
 .top-bar {
   @extend .navbar;
@@ -102,6 +131,14 @@ form.form-inline { display:inline; }
     }
   }
 }
+
+.cf-cgroup.cf-textarea-only .cntrls {
+  @extend .col-lg-5;
+  textarea {
+    height:30em;
+  }
+}
+
 
 .cf-btn {
   @extend .btn;
@@ -190,7 +227,7 @@ form.form-inline { display:inline; }
 
 .status-unread {
   @extend .badge;
-  @extend .badge-info;
+  background-color:#3a87ad;
 }
 
 .status-read {
@@ -202,7 +239,7 @@ form.form-inline { display:inline; }
 .posting-content { @extend .well; }
 .cf-error {
   @extend .alert;
-  @extend .alert-error;
+  @extend .alert-danger;
 }
 .cf-success {
   @extend .alert;
@@ -218,11 +255,23 @@ form.form-inline { display:inline; }
   @extend .well;
 
   .cf-sidebar {
-    @extend .nav;
-    @extend .nav-list;
+    //@extend .nav;
+    //@extend .nav-list;
+    @extend .list-group;
+    a { @extend .list-group-item; }
+    li {
+      list-style-type:none;
+      margin:0;
+      padding:0;
+    }
+    li.active a {
+      @extend .active;
+    }
 
     .cf-sidebar-header {
-      @extend .nav-header;
+      @extend .list-group-item;
+
+      h4 { @extend .list-group-item-heading; }
     }
   }
 }

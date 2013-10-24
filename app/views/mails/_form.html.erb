@@ -20,6 +20,8 @@
   </div>
 </div>
 
-<div class="cf-cgroup">
-  <%= t.text_area :body, class: 'cf-span5', maxlength: 12288, value: t.object.to_txt %>
+<div class="cf-cgroup cf-textarea-only">
+  <div class="cntrls">
+    <%= t.text_area :body, maxlength: 12288, value: t.object.to_txt %>
+  </div>
 </div>

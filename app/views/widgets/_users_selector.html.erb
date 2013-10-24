@@ -6,47 +6,51 @@ single ||= false
 desc ||= ""
 
 %><div class="users-selector<% if single %> single<% end %>">
-  <div class="control-group">
-    <% if not desc.blank? %><label class="control-label"><%= desc %></label><% end %>
+  <div class="cf-cgroup">
+    <% if not desc.blank? %><label><%= desc %></label><% end %>
 
-    <div class="controls">
+    <div class="cntrls">
       <div class="users" data-name="<%= name %>" data-id="<%= id %>">
         <% if users
           users.each do |u| %>
-        <label class="checkbox">
-          <input type="checkbox" checked="checked" value="<%= u.user_id %>" name="<%= name %>" id="<%= id %>_<%= u.user_id %>"<% if disabled %> disabled="disabled"<% end %>>
-          <%= u.username %>
-        </label>
-        <% end
+          <label class="checkbox">
+            <input type="checkbox" checked="checked" value="<%= u.user_id %>" name="<%= name %>" id="<%= id %>_<%= u.user_id %>"<% if disabled %> disabled="disabled"<% end %>>
+              <%= u.username %>
+          </label>
+          <% end
         end %>
       </div>
+
 
       <% unless disabled %><i class="icon icon-edit add-user" title="<%= t('widgets.users_selector.edit_userlist') %>"> </i><% end %>
     </div>
   </div>
 
-  <div class="modal fade users-modal">
-    <div class="modal-header">
-      <button class="close" data-dismiss="modal">×</button>
-      <h3><%= t('widgets.users_selector.search_user') %></h3>
-    </div>
-    <div class="modal-body">
-      <p><input type="text" class="user_search"></p>
+  <div class="users-modal">
+    <div class="cf-modal-dialog">
+      <div class="cf-modal-content">
+        <div class="cf-modal-header">
+          <button class="close" data-dismiss="modal">×</button>
+          <h3><%= t('widgets.users_selector.search_user') %></h3>
+        </div>
+        <div class="cf-modal-body">
+          <p><input type="text" class="user_search"></p>
 
-      <h4><%= t('widgets.users_selector.found') %>:</h4>
+          <h4><%= t('widgets.users_selector.found') %>:</h4>
 
-      <ul class="user-list">
-      </ul>
+          <ul class="user-list">
+          </ul>
 
-      <h4><%= t('widgets.users_selector.chosen') %>:</h4>
-      <ul class="found-user-list">
-      </ul>
+          <h4><%= t('widgets.users_selector.chosen') %>:</h4>
+          <ul class="found-user-list">
+          </ul>
 
-    </div>
-    <div class="modal-footer">
-      <a href="#" class="btn cancel"><%= t('global.cancel') %></a>
-      <a href="#" class="btn btn-primary ok"><%= t('global.save') %></a>
+        </div>
+        <div class="cf-modal-footer">
+          <a href="#" class="btn cancel"><%= t('global.cancel') %></a>
+          <a href="#" class="btn btn-primary ok"><%= t('global.save') %></a>
+        </div>
+      </div>
     </div>
   </div>
-
 </div>
