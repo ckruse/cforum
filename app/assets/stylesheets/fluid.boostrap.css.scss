@@ -149,6 +149,14 @@ form.form-inline { display:inline; }
   @extend .btn-primary;
 }
 
+.form-actions {
+  padding: 19px 20px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #e5e5e5;
+}
+
 .icon-registered-user {
   @extend .icon;
   @extend .icon-share;
