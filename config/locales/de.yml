@@ -30,3 +30,14 @@ de:
 
   notifications:
     delete: Benachrichtigung löschen
+
+  devise:
+    sign_in: Anmelden
+    sign_up: Registrieren
+    forgot_your_password: Passwort vergessen?
+    confirmation_instructions: Bestätigungsanweisungen
+    unlock_instructions: Entsperrungsanweisungen
+    resend_confirmation_instructions: Bestätigungsanweisungen erneut senden
+    change_password: Passwort ändern
+    new_password: Neues Passwort
+    confirm_new_password: Passwort-Bestätigung

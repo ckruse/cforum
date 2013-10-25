@@ -11,10 +11,9 @@
 <% end -%>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <li><%= link_to t("devise.instructions"), new_confirmation_path(resource_name) %></li>
+  <li><%= link_to t("devise.confirmation_instructions"), new_confirmation_path(resource_name) %></li>
 <% end -%>
 
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
   <li><%= link_to t("devise.unlock_instructions"), new_unlock_path(resource_name) %></li>
 <% end -%>
-

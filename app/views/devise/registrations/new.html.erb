@@ -1,9 +1,9 @@
 <h2><%= t('devise.sign_up') %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {:class => 'form-horizontal'}) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'form-horizontal'}) do |f| %>
   <% if resource.errors.any? %>
   <div class="alert alert-error">
-    <h4><%= t("errors.messages.not_saved", :count => resource.errors.count, :resource => resource.class.model_name.human.downcase) %></h4>
+    <h4><%= t("errors.messages.not_saved", count: resource.errors.count, resource: resource.class.model_name.human.downcase) %></h4>
 
     <ul>
       <% for message in resource.errors.full_messages %>
@@ -13,29 +13,27 @@
   </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :username, :class => 'control-label' %>
-    <div class="controls"><%= f.text_field :username %></div>
+  <div class="cf-cgroup">
+    <%= f.label :username %>
+    <div class="cntrls"><%= f.text_field :username %></div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :email, :class => 'control-label' %>
-    <div class="controls"><%= f.email_field :email %></div>
+  <div class="cf-cgroup">
+    <%= f.label :email %>
+    <div class="cntrls"><%= f.email_field :email %></div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :password, :class => 'control-label' %>
-    <div class="controls"><%= f.password_field :password %></div>
+  <div class="cf-cgroup">
+    <%= f.label :password %>
+    <div class="cntrls"><%= f.password_field :password %></div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :password_confirmation, :class => 'control-label' %>
-    <div class="controls"><%= f.password_field :password_confirmation %></div>
+  <div class="cf-cgroup">
+    <%= f.label :password_confirmation %>
+    <div class="cntrls"><%= f.password_field :password_confirmation %></div>
   </div>
 
   <p class="form-actions">
-    <%= f.submit t('devise.sign_up'), :class => 'btn btn-primary' %>
+    <%= f.submit t('devise.sign_up'), class: 'cf-primary-btn' %>
   </p>
 <% end %>
-
-
