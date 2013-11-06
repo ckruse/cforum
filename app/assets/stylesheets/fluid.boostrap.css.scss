@@ -100,7 +100,7 @@ form.form-inline { display:inline; }
   @extend .icon;
 
   &.open { @extend .icon-folder-open; }
-  &.close { @extend .icon-folder-close; }
+  &.closed { @extend .icon-folder-close; }
   &.move { @extend .icon-move; }
   &.sticky { @extend .icon-pushpin; }
   &.archive { @extend .icon-cloud; }
