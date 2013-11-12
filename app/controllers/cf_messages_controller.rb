@@ -43,6 +43,12 @@ class CfMessagesController < ApplicationController
     end
   end
 
+  def show_header
+    @thread = CfThread.find params[:id]
+    @message = @thread.find_message!(params[:mid].to_i)
+    render layout: false
+  end
+
   def message_params
     params.require(:cf_message).permit(:subject, :content, :author, :email, :homepage)
   end

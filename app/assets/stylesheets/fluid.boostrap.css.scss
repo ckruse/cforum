@@ -100,7 +100,7 @@ form.form-inline { display:inline; }
   @extend .icon;
 
   &.open { @extend .icon-folder-open; }
-  &.close { @extend .icon-folder-close; }
+  &.closed { @extend .icon-folder-close; }
   &.move { @extend .icon-move; }
   &.sticky { @extend .icon-pushpin; }
   &.archive { @extend .icon-cloud; }
@@ -147,6 +147,14 @@ form.form-inline { display:inline; }
 .cf-primary-btn {
   @extend .btn;
   @extend .btn-primary;
+}
+
+.form-actions {
+  padding: 19px 20px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #e5e5e5;
 }
 
 .icon-registered-user {
