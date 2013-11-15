@@ -13,7 +13,29 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require i18n
-//= require i18n/translations
 //= require init.js
 //= require_tree .
+
+/* global cforum */
+
+function t(key, deflt) {
+  var pieces = key.split('.');
+  var loc = cforum.l10n[cforum.locale];
+
+  for(var i = 0; i < pieces.length; ++i) {
+    if(loc[pieces[i]]) {
+      loc = loc[pieces[i]];
+    }
+    else {
+      if(deflt) {
+        return deflt;
+      }
+
+      return "translation missing: " + key;
+    }
+  }
+
+  return loc;
+}
+
+// eof
