@@ -1,13 +1,3 @@
 <fieldset class="cf-tab-pane" id="scores">
-
-  <% RightsHelper::ALL_RIGHTS.each do |r| %>
-  <div class="cf-cgroup">
-    <label for="scores-<%= r %>"><%= t('global.scores.' + r) %></label>
-    <div class="cntrls">
-      <%= text_field_tag 'settings[' + r + ']', @settings.options[r], id: 'scores-' + r %>
-    </div>
-  </div>
-  <% end %>
-
-
+  <%= render 'admin/cf_settings/scores' %>
 </fieldset>

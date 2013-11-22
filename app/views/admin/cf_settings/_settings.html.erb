@@ -1,0 +1,61 @@
+      <div class="cf-cgroup">
+        <label for="settings-locked"><%= t('admin.forums.settings.' + (@cf_forum ? 'forum_locked' : 'instance_locked')) %></label>
+        <div class="cntrls">
+          <input type="hidden" name="settings[locked]" value="no">
+          <%= check_box_tag 'settings[locked]', 'yes', @settings.options['locked'] == 'yes', id: 'settings-locked' %>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-pagination"><%= t('admin.forums.settings.items_per_page') %></label>
+        <div class="cntrls">
+          <%= text_field_tag 'settings[pagination]', @settings.options['pagination'], id: 'settings-pagination' %>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-pagination-users"><%= t('admin.forums.settings.users_per_page') %></label>
+        <div class="cntrls">
+          <%= text_field_tag 'settings[pagination_users]', @settings.options['pagination_users'], id: 'settings-pagination-users' %>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-use_archive"><%= t('admin.forums.settings.use_archive') %></label>
+        <div class="cntrls">
+          <input type="hidden" name="settings[use_archive]" value="no">
+          <%= check_box_tag 'settings[use_archive]', 'yes', @settings.options['use_archive'] == 'yes', id: 'settings-use_archive' %>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-max_threads"><%= t('admin.forums.settings.max_threads') %></label>
+        <div class="cntrls">
+          <input type="hidden" name="settings[max_threads]" value="no">
+          <%= text_field_tag 'settings[max_threads]', @settings.options['max_threads'], id: 'settings-max_threads' %>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-max_messages_per_thread"><%= t('admin.forums.settings.max_messages_per_thread') %></label>
+        <div class="cntrls">
+          <input type="hidden" name="settings[max_messages_per_thread]" value="no">
+          <%= text_field_tag 'settings[max_messages_per_thread]', @settings.options['max_messages_per_thread'], id: 'settings-max_messages_per_thread' %>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-max_tags_per_message"><%= t('admin.forums.settings.max_tags_per_message') %></label>
+        <div class="cntrls">
+          <input type="hidden" name="settings[max_tags_per_message]" value="no">
+          <%= text_field_tag 'settings[max_tags_per_message]', @settings.options['max_tags_per_message'], id: 'settings-max_tags_per_message' %>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-header_start_index"><%= t('admin.forums.settings.header_start_index') %></label>
+        <div class="cntrls">
+          <input type="hidden" name="settings[header_start_index]" value="no">
+          <%= text_field_tag 'settings[header_start_index]', @settings.options['header_start_index'], id: 'settings-header_start_index' %>
+        </div>
+      </div>

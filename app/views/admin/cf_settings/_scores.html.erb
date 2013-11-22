@@ -1,0 +1,8 @@
+      <% RightsHelper::ALL_RIGHTS.each do |r| %>
+      <div class="cf-cgroup">
+        <label for="scores-<%= r %>"><%= t('global.scores.' + r) %></label>
+        <div class="cntrls">
+          <%= text_field_tag 'settings[' + r + ']', @settings.options[r] || RightsHelper::DEFAULT_SCORES[r], id: 'scores-' + r %>
+        </div>
+      </div>
+      <% end %>
