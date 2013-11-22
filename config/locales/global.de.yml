@@ -20,6 +20,8 @@ de:
     groups: Gruppen
     back: Zurück
     search: Suche
+    locked: Gesperrt
+    instance_locked: Das Forum oder die Instanz wurden gesperrt.
 
     scores:
       right_upvote: Upvote-Recht

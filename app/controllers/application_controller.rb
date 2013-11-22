@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   include ExceptionHelpers
   include FayeHelper
 
-  before_filter :do_init, :check_forum_access, :notifications, :scores, :run_before_handler
+  before_filter :do_init, :locked?, :check_forum_access, :notifications, :scores, :run_before_handler
   after_filter :run_after_handler
   protect_from_forgery
 
@@ -83,6 +83,12 @@ class ApplicationController < ActionController::Base
 
   def scores
     @score = CfScore.where(user_id: current_user.user_id).sum('value') if current_user
+  end
+
+  def locked?
+    if @config_manager.get('locked', false, nil, current_forum) and (not current_user or not current_user.admin?)
+      render :locked, status: 500, layout: nil
+    end
   end
 
 end

@@ -20,6 +20,8 @@ en:
     groups: Groups
     back: Back
     search: Search
+    locked: Locked
+    instance_locked: This forum or this instance have been locked.
 
     scores:
       right_upvote: Right to upvote
