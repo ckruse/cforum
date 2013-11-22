@@ -154,7 +154,7 @@ DEPENDENCIES
   devise
   devise-i18n
   email
-  factory_girl_rails (~> 4)
+  factory_girl_rails
   faker
   font-awesome-sass-rails
   jquery-rails

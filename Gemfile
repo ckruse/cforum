@@ -21,7 +21,7 @@ gem 'content_for_in_controllers'
 
 group :development, :test do
   #gem 'factory_girl_rails'
-  gem 'factory_girl_rails', '~> 4'
+  gem 'factory_girl_rails'
   gem 'quiet_assets'
   gem 'simplecov', :require => false
   gem 'faker'
