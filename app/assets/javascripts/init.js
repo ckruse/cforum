@@ -45,6 +45,9 @@ cforum = {
     init: function() {
       if(typeof Faye !== 'undefined') {
         cforum.client = new Faye.Client(cforum.fayeUrl, {timeout: 120, retry: 5});
+
+        cforum.client.on('transport:up', function() { $(".cf-right-nav .username").addClass('connected'); });
+        cforum.client.on('transport:down', function() { $(".cf-right-nav .username").removeClass('connected'); });
       }
     }
   }

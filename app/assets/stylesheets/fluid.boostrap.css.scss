@@ -313,4 +313,6 @@ form.form-inline { display:inline; }
   .cf-span#{$i} { @extend .col-lg-#{$i}; }
 }
 
+.cf-right-nav .username.connected { color: #3A3; }
+
 /* eof */
