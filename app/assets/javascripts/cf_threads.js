@@ -39,7 +39,7 @@ cforum.cf_threads = {
           $msg.after("<ol>");
           $ol = $msg.next();
         }
-        console.log($ol);
+
         $ol.append("<li>" + data + "</li>");
         $("#m" + message.message.message_id).addClass("new");
       }
