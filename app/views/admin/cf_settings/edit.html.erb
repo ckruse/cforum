@@ -12,6 +12,15 @@ content_for :title, t('admin.settings.global_settings')
   <div class="tab-content">
     <fieldset class="tab-pane active" id="settings">
       <div class="cf-cgroup">
+        <label for="settings-locked"><%= t('admin.forums.settings.instance_locked') %></label>
+        <div class="cntrls">
+          <input type="hidden" name="settings[locked]" value="no">
+          <%= check_box_tag 'settings[locked]', 'yes', @settings.options['locked'] == 'yes', id: 'settings-locked' %>
+        </div>
+      </div>
+
+
+      <div class="cf-cgroup">
         <label for="settings-pagination"><%= t('admin.forums.settings.items_per_page') %></label>
         <div class="cntrls">
           <%= text_field_tag 'settings[pagination]', @settings.options['pagination'], id: 'settings-pagination' %>

@@ -29,4 +29,5 @@ de:
       highlighted_users: Hervorgehobene Benutzer
       show_unread_pms_in_title: Zeige Anzahl ungelesener Post im Titel
       show_unread_notifications_in_title: Zeige Anzahl ungelesener Benachrichtigungen im Titel
-
+      instance_locked: Instanz sperren
+      forum_locked: Forum sperren
