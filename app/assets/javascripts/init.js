@@ -4,7 +4,8 @@
 cforum = {
   utils: {
     exec: function(controller, action) {
-      var ns = cforum, action = (action === undefined) ? "init" : action;
+      var ns = cforum;
+      action = (action === undefined) ? "init" : action;
 
       if(controller.length > 0) {
         for(var i = 0; i < controller.length; ++i) {
