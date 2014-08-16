@@ -226,8 +226,7 @@ def handle_doc(doc, opts = {})
         standard_permission: 'write',
         slug: forum_slug,
         created_at: the_date,
-        updated_at: the_date,
-        :public => true
+        updated_at: the_date
       )
     end
   else
