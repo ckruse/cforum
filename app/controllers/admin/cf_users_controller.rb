@@ -10,17 +10,20 @@ class Admin::CfUsersController < ApplicationController
   end
 
   def index
-    @page = params[:p].to_i || 0
-    @page = 0 if @page < 0
     @limit = conf('pagination_users', 50).to_i
 
     if params[:s].blank?
-      @users = CfUser.order('username').limit(@limit).offset(@page * @limit)
-      @all_users_count = CfUser.count()
+      @users = CfUser
     else
-      @users = CfUser.where('LOWER(username) LIKE ?', '%' + params[:s].strip + '%').order('username').limit(@limit).offset(@page * @limit)
-      @all_users_count = CfUser.where('LOWER(username) LIKE ?', params[:s].strip + '%').count()
+      @users = CfUser.where('LOWER(username) LIKE ?', '%' + params[:s].strip + '%')
       @search_term = params[:s]
+    end
+
+    @users = @users.order('username').page(params[:p]).per(@limit)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @users }
     end
   end
 

@@ -19,6 +19,8 @@ gem 'daemons'
 
 gem 'content_for_in_controllers'
 
+gem 'kaminari'
+
 group :development, :test do
   #gem 'factory_girl_rails'
   gem 'factory_girl_rails'

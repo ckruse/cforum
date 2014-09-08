@@ -11,18 +11,16 @@ class UsersController < ApplicationController
   DESTROYED_USER  = "destroyed_user"
 
   def index
-    @page = params[:p].to_i
-    @page = 0 if @page < 0
     @limit = conf('pagination_users', 50).to_i
 
     if params[:s].blank?
-      @users = CfUser.order('username').limit(@limit).offset(@page * @limit)
-      @all_users_count = CfUser.count()
+      @users = CfUser
     else
-      @users = CfUser.where('LOWER(username) LIKE ?', '%' + params[:s].strip + '%').order('username').limit(@limit).offset(@page * @limit)
-      @all_users_count = CfUser.where('LOWER(username) LIKE ?', params[:s].strip + '%').count()
+      @users = CfUser.where('LOWER(username) LIKE ?', '%' + params[:s].strip + '%')
       @search_term = params[:s]
     end
+
+    @users = @users.order('username').page(params[:p]).per(@limit)
 
     scores = CfScore.select('user_id, SUM(value) AS value').where(user_id: @users.map {|u| u.user_id}).group('user_id')
     @scores = {}

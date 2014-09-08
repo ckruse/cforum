@@ -60,17 +60,18 @@ class TagsController < ApplicationController
   # GET /collections/1.json
   def show
     @limit = uconf('pagination', 100).to_i
-    @tag = CfTag.preload(:synonyms).where('tags.forum_id = ? AND slug = ?', current_forum.forum_id, params[:id]).first!
+    @tag = CfTag.preload(:synonyms).where('tags.forum_id = ? AND slug = ?',
+                                          current_forum.forum_id, params[:id]).
+      first!
 
     @tag.num_messages ||= 0
 
-    @page = params[:p].to_i
-    @page = 0 if @page < 0
-    @page = (@tag.num_messages / @limit).ceil if @page > (@tag.num_messages / @limit).ceil
-
-    offset = @page * @limit
-
-    @messages = CfMessage.preload(:owner, :tags => :synonyms, :thread => :forum).joins('INNER JOIN messages_tags USING(message_id)').where('messages_tags.tag_id' => @tag.tag_id, forum_id: current_forum.forum_id, deleted: false).order('messages.created_at DESC').limit(@limit).offset(offset)
+    @messages = CfMessage.preload(:owner, tags: :synonyms, thread: :forum).
+      joins('INNER JOIN messages_tags USING(message_id)').
+      where('messages_tags.tag_id' => @tag.tag_id,
+            forum_id: current_forum.forum_id,
+            deleted: false).
+      order('messages.created_at DESC').page(params[:p]).per(@limit)
 
     respond_to do |format|
       format.html # show.html.erb

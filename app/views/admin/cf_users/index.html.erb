@@ -33,34 +33,4 @@ content_for :title, t('admin.users.user_administration')
   </tbody>
 </table>
 
-<div class="cf-pages">
-  <ul>
-    <%
-    start_page = @page - 5
-    end_page = @page + 5
-
-    last_possible_page = (@all_users_count / @limit).floor
-    start_page = 0 if start_page < 0
-    end_page = last_possible_page if end_page > last_possible_page
-
-    prev_page = @page - 1 < 0 ? 0 : @page - 1
-    next_page = @page + 1 > last_possible_page ? last_possible_page : @page + 1
-
-    %>
-
-    <li<% if @page == 0 %> class="disabled"<% end %>><%= link_to '««', admin_users_path %></li>
-    <li<% if @page == 0 %> class="disabled"<% end %>><%= link_to '«', admin_users_path(p: prev_page) %></li>
-
-    <% if start_page != 0 %><li class="disabled"><a href="#">…</a></li><% end %>
-
-    <% (start_page..end_page).each do |i| %>
-    <li<% if @page == i %> class="active"<% end %>><%= link_to (i+1).to_s, admin_users_path(p: i) %></li>
-    <% end %>
-
-    <% if end_page != last_possible_page %><li class="disabled"><a href="#">…</a></li><% end %>
-
-    <li<% if next_page == last_possible_page %> class="disabled"<% end %>><%= link_to '»', admin_users_path(p: next_page) %></li>
-    <li<% if next_page == last_possible_page %> class="disabled"<% end %>><%= link_to '»»', admin_users_path(p: last_possible_page) %></li>
-
-  </ul>
-</div>
+<%= paginate @users %>

@@ -6,7 +6,10 @@ class Admin::CfGroupsController < ApplicationController
   include Admin::AuthorizeHelper
 
   def index
-    @groups = CfGroup.order('UPPER(name) ASC')
+    @limit = conf('pagination', 50).to_i
+    @limit = 50 if @limit <= 0
+
+    @groups = CfGroup.page(params[:p]).per(@limit).order('UPPER(name) ASC')
   end
 
   def edit
