@@ -58,7 +58,7 @@ class CfMessagesController < ApplicationController
 
     @parent  = @message
     @message = CfMessage.new
-    @tags    = @parent.tags.map {|t| t.tag_name}
+    @tags    = @parent.tags.map { |t| t.tag_name }
 
     @max_tags = conf('max_tags_per_message', 3)
 

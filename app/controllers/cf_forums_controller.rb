@@ -17,9 +17,14 @@ class CfForumsController < ApplicationController
 
 
     if not current_user
-      @forums = CfForum.where("standard_permission = ? OR standard_permission = ?", CfForumGroupPermission::ACCESS_READ, CfForumGroupPermission::ACCESS_WRITE).order('UPPER(name) ASC')
+      @forums = CfForum.where("standard_permission = ? OR standard_permission = ?",
+                              CfForumGroupPermission::ACCESS_READ,
+                              CfForumGroupPermission::ACCESS_WRITE).
+        order('UPPER(name) ASC')
+
     elsif current_user and current_user.admin
       @forums = CfForum.order('UPPER(name) ASC')
+
     else
       @forums = CfForum.where(
         "(standard_permission IN (?, ?, ?, ?)) OR forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ?)",
@@ -32,7 +37,8 @@ class CfForumsController < ApplicationController
     end
 
     # TODO: check only for selected forums
-    results = CfForum.connection.execute("SELECT table_name, group_crit, SUM(difference) AS diff FROM counter_table WHERE table_name = 'threads' OR table_name = 'messages' GROUP BY table_name, group_crit")
+    results = CfForum.connection.
+      execute("SELECT table_name, group_crit, SUM(difference) AS diff FROM counter_table WHERE table_name = 'threads' OR table_name = 'messages' GROUP BY table_name, group_crit")
 
     @counts = {}
     results.each do |r|
@@ -40,7 +46,7 @@ class CfForumsController < ApplicationController
       @counts[r['group_crit'].to_i][r['table_name'].to_sym] = r['diff']
     end
 
-    msgs = CfMessage.includes(:owner, :thread => :forum).where("
+    msgs = CfMessage.includes(:owner, thread: :forum).where("
       messages.message_id IN (
         SELECT (
           SELECT

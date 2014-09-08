@@ -15,8 +15,8 @@ class CfThreadsController < ApplicationController
     forum  = current_forum
     @page  = params[:p].to_i
     @limit = uconf('pagination', 50).to_i
-    @page  = 0 if @page < 0
 
+    @page  = 0 if @page < 0
     @limit = 50 if @limit <= 0
 
     conditions = {}
@@ -51,24 +51,17 @@ class CfThreadsController < ApplicationController
       end
 
       unless @view_all
-        crits << 'threads.deleted = false' #"EXISTS(SELECT message_id FROM messages WHERE thread_id = threads.thread_id AND deleted = false)"
+        crits << 'threads.deleted = false'
       end
     end
     sql << ' WHERE ' + crits.join(" AND ") unless crits.empty?
     sql << " ORDER BY threads.sticky DESC, threads.created_at DESC LIMIT #{@limit} OFFSET #{@limit * @page}"
 
-    result = CfThread.connection.execute(sql)
-
-    ids = []
-    result.each do |row|
-      ids << row['thread_id'].to_i
-    end
-
     @threads = CfThread.
-      preload(:forum, :messages => [:owner, :tags]).
-      includes(:messages => :owner).
+      preload(:forum, messages: [:owner, :tags]).
+      includes(messages: :owner).
       where(conditions).
-      where(thread_id: ids).
+      where("threads.thread_id IN (#{sql})").
       order('threads.sticky DESC, threads.created_at DESC')
 
     if forum
@@ -98,15 +91,9 @@ class CfThreadsController < ApplicationController
 
     respond_to do |format|
       format.html { render partial: 'thread', layout: false, locals: {thread: @thread} }
-      format.json { render json: @thread, include: {:messages => {include: [:owner, :tags]} } }
+      format.json { render json: @thread, include: {messages: {include: [:owner, :tags]} } }
     end
   end
-
-  # TODO: implement editing
-  # def edit
-  #   @id = CfThread.make_id(params)
-  #   @thread = CfThread.includes(:messages).find_by_slug!(@id)
-  # end
 
   def message_params
     params.require(:cf_thread).require(:message).permit(:subject, :content, :author, :email, :homepage)
@@ -213,10 +200,6 @@ class CfThreadsController < ApplicationController
       end
     end
   end
-
-  # TODO: implement
-  # def destroy
-  # end
 
   def moving
     @id     = CfThread.make_id(params)
