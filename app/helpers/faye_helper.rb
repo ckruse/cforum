@@ -13,6 +13,7 @@ module FayeHelper
     uri = URI.parse(Rails.application.config.faye_url)
 
     Net::HTTP.post_form(uri, :message => message.to_json)
+  rescue
   end
 
 end
