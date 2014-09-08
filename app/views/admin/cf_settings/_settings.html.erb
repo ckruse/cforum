@@ -59,3 +59,11 @@
           <%= text_field_tag 'settings[header_start_index]', @settings.options['header_start_index'], id: 'settings-header_start_index' %>
         </div>
       </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-header_start_index"><%= t('admin.forums.settings.max_editable_age') %></label>
+        <div class="cntrls">
+          <input type="hidden" name="settings[max_editable_age]" value="no">
+          <%= text_field_tag 'settings[max_editable_age]', @settings.options['max_editable_age'], id: 'settings-max_editable_age' %>
+        </div>
+      </div>

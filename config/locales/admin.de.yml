@@ -42,6 +42,7 @@ de:
         users_per_page: Benutzer pro Seite
         max_tags_per_message: Maximale Tags pro Nachricht
         header_start_index: Start-Index für Überschriften
+        max_editable_age: maximales editierbares Nachrichtenalter
 
     users:
       updated: Benutzer erfolgreich geändert.

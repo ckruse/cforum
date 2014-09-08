@@ -3,12 +3,16 @@ de:
     by: von
     created: Nachricht wurde erfolgreich erstellt!
     destroyed: Nachricht wurde erfolgreich gelöscht!
+    updated: Nachricht wurde erfolgreich geändert!
     restored: Nachricht wurde erfolgreich wieder hergestellt!
     error_message: "%{errors_count} verhinderten, dass diese Nachricht gespeichert werden konnte:"
     tags_invalid: Der Tag ist fehlerhaft!
     too_many_tags: "Sie dürfen nur %{max_tags} verwenden!"
+    only_author_or_mod_may_edit: Nur der Autor oder ein Moderator kann eine Antwort editieren!
+    message_too_old_to_edit: Nachrichten dürfen nur in einem Zeitraum von %{minutes} Minuten editiert werden!
 
     new_answer: Antworten
+    edit_posting: Nachricht bearbeiten
     write_new_answer: Neue Antwort verfassen
     restore_message: Nachricht wiederherstellen
     delete_message: Nachricht löschen

@@ -13,6 +13,9 @@ class CfMessagesController < ApplicationController
   CREATING_NEW_MESSAGE = "creating_new_message"
   CREATED_NEW_MESSAGE  = "created_new_message"
 
+  UPDATING_MESSAGE     = "updating_message"
+  UPDATED_MESSAGE      = "updated_message"
+
   DELETING_MESSAGE     = "deleting_message"
   DELETED_MESSAGE      = "deleted_message"
 
@@ -130,6 +133,94 @@ class CfMessagesController < ApplicationController
 
       notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message, @tags)
       redirect_to cf_message_path(@thread, @message), :notice => I18n.t('messages.created')
+    else
+      render :new
+    end
+  end
+
+  def check_editable
+    @max_editable_age = conf('max_editable_age', 10).to_i
+
+    @thread, @message, @id = get_thread_w_post
+    edit_it = false
+    too_old = false
+
+    if @message.created_at <= @max_editable_age.minutes.ago
+      too_old = true
+    end
+
+    if not current_user and
+        not cookies[:cforum_user].blank? and
+        @message.uuid == cookies[:cforum_user] and not too_old
+      edit_it = true
+    elsif current_user and
+        not current_forum.moderator?(current_user) and
+        current_user.user_id == @message.user_id and
+        not too_old
+      edit_it = true
+    elsif current_user and current_forum.moderator?(current_user)
+      edit_it = true
+    end
+
+    unless edit_it
+      if too_old
+        flash[:error] = t('messages.message_too_old_to_edit',
+                          minutes: @max_editable_age)
+      else
+        flash[:error] = t('messages.only_author_or_mod_may_edit')
+      end
+
+      redirect_to cf_message_url(@thread, @message)
+      return
+    end
+
+    return true
+  end
+
+  def edit
+    return unless check_editable
+
+    @tags = @message.tags.map { |t| t.tag_name }
+
+  end
+
+  def update
+    return unless check_editable
+
+    invalid  = false
+
+    @message.attributes = message_params
+    @message.content    = CfMessage.to_internal(@message.content)
+
+    @tags    = parse_tags
+    @preview = true if params[:preview]
+    retvals  = notification_center.notify(UPDATING_MESSAGE, @thread, @message,
+                                          @tags)
+
+    @max_tags = conf('max_tags_per_message', 3).to_i
+    if @tags.length > @max_tags
+      invalid = true
+      flash[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
+    end
+
+    saved = false
+    if not invalid and not retvals.include?(false) and not @preview
+      CfMessage.transaction do
+        raise ActiveRecord::Rollback unless @message.save
+        raise ActiveRecord::Rollback unless save_tags(@message, @tags)
+        saved = true
+      end
+    end
+
+    if saved
+      publish('/messages/' + @thread.forum.slug, {type: 'message',
+                thread: @thread, message: @message, parent: @parent})
+      publish('/messages/all', {type: 'message', thread: @thread,
+                message: @message, parent: @parent})
+
+      notification_center.notify(UPDATED_MESSAGE, @thread, @parent,
+                                 @message, @tags)
+      redirect_to cf_message_path(@thread, @message), notice: I18n.t('messages.updated')
     else
       render :new
     end

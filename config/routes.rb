@@ -59,7 +59,7 @@ Cforum::Application.routes.draw do
     # message urls
     get '/:year/:mon/:day/:tid/:mid' => 'cf_messages#show', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'cf_message'
     get '/:year/:mon/:day/:tid/:mid/edit' => 'cf_messages#edit', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'edit_cf_message'
-    put '/:year/:mon/:day/:tid/:mid' => 'cf_messages#update', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/
+    patch '/:year/:mon/:day/:tid/:mid' => 'cf_messages#update', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/
     delete '/:year/:mon/:day/:tid/:mid' => 'cf_messages#destroy', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/
 
     post '/:year/:mon/:day/:tid/:mid/vote' => 'vote_plugin#vote', :year => /\d{4}/, :mon => /\w{3}/, :day => /\d{1,2}/, as: 'vote_cf_message'

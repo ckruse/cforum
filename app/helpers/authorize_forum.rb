@@ -16,7 +16,7 @@ module AuthorizeForum
 
     return if forum.blank?
 
-    return if %q{show index accept}.include?(action_name) and forum.read?(current_user)
+    return if %q{show index accept edit update}.include?(action_name) and forum.read?(current_user)
     return if %q{new create vote}.include?(action_name) and forum.write?(current_user)
     return if forum.moderator?(current_user)
 
