@@ -43,6 +43,8 @@ de:
         max_tags_per_message: Maximale Tags pro Nachricht
         header_start_index: Start-Index für Überschriften
         max_editable_age: maximales editierbares Nachrichtenalter
+        instance_locked: Instanz gesperrt
+        forum_locked: Forum gesperrt
 
     users:
       updated: Benutzer erfolgreich geändert.
