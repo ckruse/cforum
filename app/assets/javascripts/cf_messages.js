@@ -2,10 +2,7 @@
 /* global cforum */
 
 cforum.cf_messages = {
-  new: function() {
-    cforum.tags.initTags();
-  },
-  create: function() {
+  init: function() {
     cforum.tags.initTags();
   }
 };

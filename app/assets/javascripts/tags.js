@@ -135,7 +135,13 @@ cforum.tags = {
   },
 
   initTags: function() {
-    var tags = $("#tags-input").val().split(",").map(function(x) {return $.trim(x);}).filter(function(x) {
+    var el = $("#tags-input");
+
+    if(el.length == 0) {
+      return;
+    }
+
+    var tags = el.val().split(",").map(function(x) {return $.trim(x);}).filter(function(x) {
       if(x) {
         return true;
       }
@@ -148,10 +154,10 @@ cforum.tags = {
       cforum.tags.appendTag(tags[i]);
     }
 
-    $("#tags-input").val("");
+    el.val("");
 
-    $("#tags-input").on('keyup', cforum.tags.handleTagsKeyUp);
-    $("#tags-input").on('focusout', cforum.tags.addTag);
+    el.on('keyup', cforum.tags.handleTagsKeyUp);
+    el.on('focusout', cforum.tags.addTag);
     $("#tags-list").on('click', cforum.tags.removeTag);
 
     $(document.getElementById('cf_thread_message_content') ? "#cf_thread_message_content" : "#cf_message_content").on('keyup', cforum.tags.handleSuggestionsKeyUp);
