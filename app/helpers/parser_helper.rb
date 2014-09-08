@@ -70,7 +70,7 @@ module ParserHelper
   module ClassMethods
     def to_internal(content)
       v = content.to_s
-      v.gsub! /\015\012|\015|\012/, "\012"
+      v.gsub!(/\015\012|\015|\012/, "\012")
 
       v
     end
