@@ -21,3 +21,6 @@ coverage
 /node_modules/*
 /config/faye.secret
 *.dump
+
+TAGS
+
