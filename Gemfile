@@ -13,7 +13,8 @@ gem 'kramdown'
 gem 'coderay'
 
 gem 'jquery-rails'
-gem 'anjlab-bootstrap-rails', require: 'bootstrap-rails'
+gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
 
 gem 'daemons'
 
