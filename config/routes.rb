@@ -75,7 +75,7 @@ Cforum::Application.routes.draw do
 
   if Rails.env == 'production'
     # default route to catch 404s
-    match '*a', :to => 'application#render_404'
+    match '*a', :to => 'application#render_404', via: [:get, :post, :put, :delete, :patch]
   end
 
   # The priority is based upon order of creation:
