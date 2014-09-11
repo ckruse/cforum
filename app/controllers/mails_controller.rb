@@ -68,7 +68,7 @@ class MailsController < ApplicationController
   end
 
   def new
-    @mail = CfPrivMessage.new(params[:cf_priv_message])
+    @mail = CfPrivMessage.new(priv_message_params)
 
     if not params[:priv_message_id].blank? and @parent = CfPrivMessage.where(owner_id: current_user.user_id, priv_message_id: params[:priv_message_id]).first!
       @mail.recipient_id = @parent.recipient_id == current_user.user_id ? @parent.sender_id : @parent.recipient_id
