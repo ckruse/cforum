@@ -9,6 +9,21 @@
     </div>
   </div>
 
+  <div class="cf-cgroup">
+    <label><%= t('users.settings.mark_suspicious') %></label>
+    <div class="cntrls">
+      <label class="radio"><input type="radio" value="yes"
+                                  name="settings[mark_suspicious]"<%= disabled %>
+        <% if @settings.conf('mark_suspicious') == 'yes' %> checked="checked"<% end %>>
+        Ja</label>
+      <label class="radio"><input type="radio" value="no"
+                                  name="settings[mark_suspicious]"<%= disabled %>
+        <% if @settings.conf('mark_suspicious') == 'no' %> checked="checked"<% end %>>
+        Nein</label>
+    </div>
+  </div>
+
+
   <%= render 'widgets/users_selector', desc: t('users.settings.highlighted_users'), name: "settings[highlighted_users][]", id: "settings_highlighted_users", users: @highlighted_users_list %>
 
 </fieldset>

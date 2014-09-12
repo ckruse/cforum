@@ -31,3 +31,4 @@ de:
       show_unread_notifications_in_title: Zeige Anzahl ungelesener Benachrichtigungen im Titel
       instance_locked: Instanz sperren
       forum_locked: Forum sperren
+      mark_suspicious: Namen mit Zeichen außerhalb ISO-8859-1 markieren
