@@ -69,6 +69,16 @@ class CfMessage < ActiveRecord::Base
     end
   end
 
+
+  def subject_changed?
+    return false if parent_id.blank?
+
+    if parent_level.blank?
+      self.parent_level = CfMessage.find! parent_id
+    end
+
+    parent_level.subject != subject
+  end
 end
 
 # eof
