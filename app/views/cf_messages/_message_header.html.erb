@@ -85,7 +85,9 @@
       }
 
     if message.user_id
-      html << "<span class=\"registered-user\">" + link_to('<em>Benutzer-Profil</em>'.html_safe, user_path(message.owner), class: 'icon-registered-user', title: t('messages.user_link', user: message.owner.username)) + " "
+      html << "<span class=\"registered-user"
+      html << " original-poster" if not message.message_id == thread.message.message_id and message.user_id == thread.message.user_id
+      html << "\">" + link_to('<em>Benutzer-Profil</em>'.html_safe, user_path(message.owner), class: 'icon-registered-user', title: t('messages.user_link', user: message.owner.username)) + " "
     else
       html << '<i class="icon-message original-poster" title="' + t('messages.original_poster') + '"> </i>' if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
     end
