@@ -3,6 +3,8 @@ de:
     open_close:
       open_thread: Thread aufklappen
       close_thread: Thread zuklappen
+      open_all_threads: Alle Threads aufklappen
+      close_all_threads: Alle Threads zuklappen
 
     link_tags:
       first_msg: Erste Nachricht

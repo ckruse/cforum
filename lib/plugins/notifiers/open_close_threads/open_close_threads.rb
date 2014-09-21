@@ -11,6 +11,14 @@ class OpenCloseThreadPlugin < Plugin
 
     is_read = get_plugin_api :is_read
 
+    #
+    # check for standard actions:
+    # - close a thread
+    # - open a thread
+    # - close all threads
+    # - open all threads
+    #
+
     unless params[:close].blank?
       return close_thread(params[:close])
     end
@@ -18,6 +26,26 @@ class OpenCloseThreadPlugin < Plugin
     unless params[:open].blank?
       return open_thread(params[:open])
     end
+
+    if params[:close_all] == 'yes'
+      threads.each do |t|
+        check_existance_and_delete_or_set(t.thread_id, 'closed')
+      end
+
+      redirect_to current_forum ? cf_forum_url(current_forum) : root_url + 'all'
+      return :redirected
+    end
+
+    if params[:open_all] == 'yes'
+      threads.each do |t|
+        check_existance_and_delete_or_set(t.thread_id, 'open')
+      end
+
+      redirect_to current_forum ? cf_forum_url(current_forum) : root_url + 'all'
+      return :redirected
+    end
+
+    # now continue with the checks for each thread
 
     ids = []
     thread_map = {}
@@ -28,7 +56,7 @@ class OpenCloseThreadPlugin < Plugin
       t.attribs['open_state'] = default_state
 
       if close_when_read
-        mids = t.sorted_messages.map {|m| m.message_id}
+        mids = t.sorted_messages.map { |m| m.message_id }
         rslt = is_read.call(mids, current_user.user_id)
 
         t.attribs['open_state'] = 'closed' if not rslt.blank? and rslt.length == mids.length

@@ -34,6 +34,11 @@
                   <% if current_user and ((!current_forum and current_user.admin? and (@messages or @thread)) or (current_forum and current_user.moderate?(current_forum))) %>
                     <% if not view_all %><li><%= link_to t("forums.admin_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: 'yes') %></li>
                     <% else %><li><%= link_to t("forums.normal_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: false) %></li><% end %>
+
+                    <% if current_user %>
+                      <li><%= link_to t('plugins.open_close.close_all_threads'), cf_forum_path(current_forum, close_all: 'yes') %></li>
+                      <li><%= link_to t('plugins.open_close.open_all_threads'), cf_forum_path(current_forum, open_all: 'yes') %></li>
+                    <% end %>
                 </ul>
               </li>
             <% end %>
