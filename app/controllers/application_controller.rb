@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
   include ExceptionHelpers
   include FayeHelper
 
-  before_filter :do_init, :locked?, :check_forum_access, :notifications,
-    :scores, :run_before_handler, :set_forums
+  before_filter :do_init, :locked?, :check_forum_access, :set_forums,
+    :notifications, :scores, :run_before_handler
   after_filter :run_after_handler
   protect_from_forgery
 

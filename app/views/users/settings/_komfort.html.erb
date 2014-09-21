@@ -45,4 +45,12 @@
       <%= check_box_tag 'settings[show_unread_pms_in_title]', 'yes', @settings.conf('show_unread_pms_in_title') %>
     </div>
   </div>
+
+  <div class="cf-cgroup">
+    <label for="settings_show_new_messages_since_last_visit_in_title"><%= t('users.settings.show_new_messages_since_last_visit_in_title') %></label>
+    <div class="cntrls">
+      <%= hidden_field_tag 'settings[show_new_messages_since_last_visit_in_title]', 'no' %>
+      <%= check_box_tag 'settings[show_new_messages_since_last_visit_in_title]', 'yes', @settings.conf('show_new_messages_since_last_visit_in_title') %>
+    </div>
+  </div>
 </fieldset>

@@ -29,6 +29,7 @@ de:
       highlighted_users: Hervorgehobene Benutzer
       show_unread_pms_in_title: Zeige Anzahl ungelesener Post im Titel
       show_unread_notifications_in_title: Zeige Anzahl ungelesener Benachrichtigungen im Titel
+      show_new_messages_since_last_visit_in_title: Zeige Anzahl ungelesener Postings seit letztem Besuch im Titel
       instance_locked: Instanz sperren
       forum_locked: Forum sperren
       mark_suspicious: Namen mit Zeichen außerhalb ISO-8859-1 markieren
