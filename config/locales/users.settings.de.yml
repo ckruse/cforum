@@ -7,7 +7,7 @@ de:
       via_email: via E-Mail
       open: Offen
       closed: Geschlossen
-      close_threads_when_read: Threads schliessen wenn gelesen
+      close_threads_when_read: Threads schließen wenn gelesen
       own_css_file: Eigene CSS-Datei
       own_js_file: Eigene JS-Datei
       own_css: Eigenes Inline-CSS
@@ -37,5 +37,5 @@ de:
       date_format_post: Datumsformat im Posting
       date_format_default: Default-Datumsformat
       mark_read_moment: Threads/Postings als gelesen markieren
-      before_render: beim ersten Besuch
-      after_render: nach dem ersten Besuch
+      before_render: beim Öffnen der Einzelansicht
+      after_render: beim Schließen der Einzelansicht
