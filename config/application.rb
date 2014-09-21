@@ -61,7 +61,7 @@ module Cforum
 
     config.active_record.disable_implicit_join_references = true
 
-    config.action_view.field_error_proc = Proc.new { |html_tag, instance| "<span class='field_with_errors'>#{html_tag}</span>".html_safe }
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag }
 
   end
 end
