@@ -4,7 +4,7 @@ render 'cf_threads/thread_tree'
 
 content_for :title, @thread.message.subject + " " +
   I18n.t('messages.by') + " " + @thread.message.author + ", " +
-  I18n.l(@thread.message.created_at, format: uconf('date_format_post'))
+  I18n.l(@thread.message.created_at, format: date_format('date_format_post'))
 %>
 
 <% def whole_thread(thread, messages) %>

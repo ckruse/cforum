@@ -9,7 +9,7 @@ content_for :title, t('mails.post_from', :name => @mail.sender.username)
     <details open>
       <summary><%= t('mails.post_from_to', sender: @mail.sender.username,
                      recipient: @mail.recipient.username) %> <%= t('mails.at') %>
-        <time datetime="<%= @mail.created_at.to_s %>"><%= l(@mail.created_at, format: uconf('date_format_default')) %></time></summary>
+        <time datetime="<%= @mail.created_at.to_s %>"><%= l(@mail.created_at, format: date_format) %></time></summary>
     </details>
   </header>
 

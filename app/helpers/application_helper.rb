@@ -13,6 +13,10 @@ module ApplicationHelper
 
     @_current_forum = nil
   end
+
+  def date_format(type = 'date_format_default', standard = '%d.%m.%Y %H:%M')
+    uconf(type, standard)
+  end
 end
 
 require 'pp'

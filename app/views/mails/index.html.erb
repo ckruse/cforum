@@ -25,7 +25,7 @@ content_for :title, @user ? t('mails.post_from', name: @user.username) : t('mail
       <td><%= link_to m.sender.username, mail_path(m.sender.username, m) %></td>
       <td><%= link_to m.recipient.username, mail_path(m.sender.username, m) %></td>
       <td><%= link_to m.subject, mail_path(m.sender.username, m) %></td>
-      <td><%= l(m.created_at, format: uconf('date_format_default')) %></td>
+      <td><%= l(m.created_at, format: date_format) %></td>
       <td>
         <%= link_to '', mail_path(m.sender.username, m), method: :delete, data: {confirm: t('global.are_you_sure')}, class: 'icon-delete-mail', title: t('mails.delete') %>
         <%= link_to '', new_mail_path('priv_message_id' => m.priv_message_id), class: 'icon-answer-mail', title: t('mails.answer_mail') %>

@@ -22,8 +22,8 @@ content_for :title, t('admin.users.user_administration')
     <tr>
       <td><%= link_to user.username, edit_admin_user_path(user) %></td>
       <td><%= user.email %></td>
-      <td><%== l(user.created_at, format: uconf('date_format_default')) %></td>
-      <td><%== l(user.updated_at, format: uconf('date_format_default')) %></td>
+      <td><%== l(user.created_at, format: date_format) %></td>
+      <td><%== l(user.updated_at, format: date_format) %></td>
       <td>
         <%= link_to '', admin_user_path(user), data: {confirm: t('global.are_you_sure')}, method: :delete, class: 'icon-delete-user', title: t('admin.users.delete_user') %>
         <%= link_to '', edit_admin_user_path(user), class: "icon-edit-user", title: t('admin.users.do_edit_user') %>

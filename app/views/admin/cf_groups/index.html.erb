@@ -18,8 +18,8 @@ content_for :title, t("global.groups")
     <tr>
       <td><%= link_to g.name, edit_admin_group_path(g) %></td>
       <td><%= g.users.count %></td>
-      <td><%= l(g.created_at, format: uconf('date_format_default')) %></td>
-      <td><%= l(g.updated_at, format: uconf('date_format_default')) %></td>
+      <td><%= l(g.created_at, format: date_format) %></td>
+      <td><%= l(g.updated_at, format: date_format) %></td>
       <td>
         <%= link_to '', admin_group_path(g), method: :delete, data: {confirm: t('global.are_you_sure')}, class: 'icon-delete-group', title: t('admin.groups.delete_group') %>
         <%= link_to '', edit_admin_group_path(g), class: 'icon-edit-group', title: t('admin.groups.edit_group') %>

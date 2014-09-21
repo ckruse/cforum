@@ -25,8 +25,8 @@ content_for :title, t('users.users')
       <td><%= @scores[u.user_id] || 0 %></td>
       <td><%= u.admin ? t('global.yeah') : t('global.nope') %></td>
       <td><%= u.active ? t('global.yeah') : t('global.nope') %></td>
-      <td><%= l(u.created_at, format: uconf('date_format_default')) %></td>
-      <td><%= l(u.updated_at, format: uconf('date_format_default')) %></td>
+      <td><%= l(u.created_at, format: date_format) %></td>
+      <td><%= l(u.updated_at, format: date_format) %></td>
     </tr>
     <% end %>
   </tbody>
