@@ -1055,7 +1055,12 @@ CREATE TABLE users (
     confirmation_sent_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    authentication_token character varying(255)
+    authentication_token character varying(255),
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_ip character varying,
+    current_sign_in_ip character varying,
+    sign_in_count integer
 );
 
 
@@ -2099,6 +2104,8 @@ INSERT INTO schema_migrations (version) VALUES ('41');
 INSERT INTO schema_migrations (version) VALUES ('42');
 
 INSERT INTO schema_migrations (version) VALUES ('43');
+
+INSERT INTO schema_migrations (version) VALUES ('44');
 
 INSERT INTO schema_migrations (version) VALUES ('5');
 
