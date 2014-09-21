@@ -14,7 +14,7 @@ class InvisibleThreadsPlugin < Plugin
     end
   end
 
-  def is_invisible(message, user)
+  def is_invisible(thread, user)
     return if user.blank?
 
     thread = [thread] unless thread.is_a?(Array)
@@ -42,7 +42,7 @@ class InvisibleThreadsPlugin < Plugin
 
     invisible_threads = []
 
-    result = CfMessage.connection.execute("SELECT thread_id FROM invisible_threads WHERE thread_id IN (" + threads.join(", ") + ") AND user_id = " + user_id.to_s)
+    result = CfThread.connection.execute("SELECT thread_id FROM invisible_threads WHERE thread_id IN (" + threads.join(", ") + ") AND user_id = " + user_id.to_s)
     result.each do |row|
       t = row['thread_id'].to_i
       invisible_threads << t
@@ -57,12 +57,12 @@ class InvisibleThreadsPlugin < Plugin
 
   def mark_invisible(thread, user)
     return if user.blank?
-    thread = [thread] unless message.is_a?(Array)
+    thread = [thread] unless thread.is_a?(Array)
 
     thread = thread.map { |t| t.is_a?(CfThread) ? t.thread_id : t.to_i }
     user_id = user.is_a?(CfUser) ? user.user_id : user
 
-    sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + user_id.to_s + ", "
+    sql = "INSERT INTO invisible_threads (user_id, thread_id) VALUES (" + user_id.to_s + ", "
 
     thread.each do |t|
       begin
@@ -82,6 +82,16 @@ class InvisibleThreadsPlugin < Plugin
     }
   end
 
+  def show_threadlist(threads)
+    return unless current_user
+
+    if params[:hide_thread]
+      mark_invisible(params[:hide_thread], current_user)
+      redirect_to current_forum ? cf_forum_url(current_forum) : cf_forum_url('all'),
+        notice: t('plugins.invisible_threads.thread_marked_invisible')
+      return :redirected
+    end
+  end
 end
 
 ApplicationController.init_hooks << Proc.new do |app_controller|
@@ -89,6 +99,9 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
 
   app_controller.notification_center.
     register_hook(CfThreadsController::MODIFY_THREADLIST_QUERY_OBJ,
+                  inv_threads_plugin)
+  app_controller.notification_center.
+    register_hook(CfThreadsController::SHOW_THREADLIST,
                   inv_threads_plugin)
 end
 

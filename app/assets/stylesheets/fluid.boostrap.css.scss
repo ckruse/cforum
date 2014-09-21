@@ -106,6 +106,7 @@ form.form-inline { display:inline; }
   &.sticky { @extend .icon-pushpin; }
   &.archive { @extend .icon-cloud; }
   &.no-archive { @extend .icon-signout; }
+  &.mark-invisible { @extend .icon-remove; }
 }
 
 .icon-message {

@@ -25,3 +25,8 @@ de:
       no_archive_removed: Nachricht wird beim archivieren nicht mehr gelöscht.
       no_arc: Nicht archivieren
       arc: Archivieren
+
+    invisible_threads:
+      thread_marked_invisible: Thread wurde erfolgreich versteckt.
+      mark_thread_invisible: Thread verstecken
+
