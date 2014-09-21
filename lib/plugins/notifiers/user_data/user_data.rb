@@ -22,11 +22,11 @@ class UserDataPlugin < Plugin
 
       unless greeting.blank?
         if parent
-          greeting.gsub! /\{\$name\}/, parent.author
-          greeting.gsub! /\{\$vname\}/, parent.author.gsub(/\s.*/, '')
+          greeting.gsub!(/\{\$name\}/, parent.author)
+          greeting.gsub!(/\{\$vname\}/, parent.author.gsub(/\s.*/, ''))
         else
-          greeting.gsub! /\{\$name\}/, I18n.t('plugins.user_data.all')
-          greeting.gsub! /\{\$vname\}/, I18n.t('plugins.user_data.all')
+          greeting.gsub!(/\{\$name\}/, I18n.t('plugins.user_data.all'))
+          greeting.gsub!(/\{\$vname\}/, I18n.t('plugins.user_data.all'))
         end
 
         msg.content = greeting + "\n" + msg.content
