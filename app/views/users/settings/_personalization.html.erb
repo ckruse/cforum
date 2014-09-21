@@ -17,6 +17,22 @@
   </div>
 
   <div class="cf-cgroup">
+    <label><%= t('users.settings.mark_read_moment') %></label>
+    <div class="cntrls">
+      <label class="radio"><input type="radio" value="before_render"
+                                  name="settings[mark_read_moment]"<%= disabled %>
+        <% if @settings.conf('mark_read_moment') == 'before_render' or @settings.conf('mark_read_moment').blank? %> checked="checked"<% end %>>
+        <%= t("users.settings.before_render") %>
+      </label>
+      <label class="radio"><input type="radio" value="after_render"
+                                  name="settings[mark_read_moment]"<%= disabled %>
+        <% if @settings.conf('mark_read_moment') == 'after_render' %> checked="checked"<% end %>>
+        <%= t("users.settings.after_render") %>
+      </label>
+    </div>
+  </div>
+
+  <div class="cf-cgroup">
     <label for="settings_own_css_file"><%= t('users.settings.own_css_file') %></label>
     <div class="cntrls">
       <input type="text" value="<%= @settings.conf('own_css_file') %>" name="settings[own_css_file]" id="settings_own_css_file"<%= disabled %>>
