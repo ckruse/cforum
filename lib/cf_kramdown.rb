@@ -11,10 +11,6 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
   def initialize(*args)
     super(*args)
 
-    @block_parsers.delete :block_html
-    @span_parsers.delete :span_html
-    @span_parsers.delete :html_entity
-
     @block_parsers.unshift :email_style_sig
     @span_parsers.unshift :email_style_sig
 
@@ -37,6 +33,10 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
     true
   end
   define_parser(:email_style_sig, SIGNATURE_START) unless @@parsers.has_key?(:email_style_sig)
+
+  define_parser(:span_html, /\0/) unless @@parsers.has_key?(:pan_html)
+  define_parser(:block_html, /\0/) unless @@parsers.has_key?(:block_html)
+  define_parser(:html_entity, /\0/) unless @@parsers.has_key?(:html_entity)
 end
 
 class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
