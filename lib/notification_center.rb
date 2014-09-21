@@ -22,9 +22,13 @@ class NotificationCenter
     retvals
   end
 
-  def register_hook(name, obj = nil, &block)
+  def register_hook(name, obj = nil, front = false, &block)
     @hooks[name] = [] unless @hooks[name]
-    @hooks[name] << (obj || block)
+    if front
+      @hooks[name] = [obj || block] + @hooks[name]
+    else
+      @hooks[name] << (obj || block)
+    end
   end
 end
 
