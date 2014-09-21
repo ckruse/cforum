@@ -43,6 +43,6 @@ group :assets do
   gem 'font-awesome-sass-rails'
 end
 
-gem 'email'
+gem 'email_validator'
 
 # eof
