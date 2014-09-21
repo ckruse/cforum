@@ -9,12 +9,12 @@ content_for :title, t('users.users')
 <table class="cf-table-condensed-striped-hover">
   <thead>
     <tr>
-      <th><%= t('activerecord.attributes.cf_user.username') %></th>
+      <th><%= CfUser.human_attribute_name(:username) %></th>
       <th><%= t('global.score') %></td>
-      <th><%= t('activerecord.attributes.cf_user.admin') %></th>
-      <th><%= t('activerecord.attributes.cf_user.active') %></th>
-      <th><%= t('activerecord.attributes.cf_user.created_at') %></th>
-      <th><%= t('activerecord.attributes.cf_user.updated_at') %></th>
+      <th><%= CfUser.human_attribute_name(:admin) %></th>
+      <th><%= CfUser.human_attribute_name(:active) %></th>
+      <th><%= CfUser.human_attribute_name(:created_at) %></th>
+      <th><%= CfUser.human_attribute_name(:updated_at) %></th>
     </tr>
   </thead>
 

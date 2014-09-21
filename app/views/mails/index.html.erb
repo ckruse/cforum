@@ -9,10 +9,10 @@ content_for :title, @user ? t('mails.post_from', name: @user.username) : t('mail
     <tr>
       <th><input type="checkbox" id="check-all-box">
       <th> </th>
-      <th><%= t('activerecord.attributes.cf_priv_message.sender') %></th>
-      <th><%= t('activerecord.attributes.cf_priv_message.recipient') %></th>
-      <th><%= t('activerecord.attributes.cf_priv_message.subject') %></th>
-      <th><%= t('activerecord.attributes.cf_priv_message.created_at') %></th>
+      <th><%= CfPrivMessage.human_attribute_name(:sender) %></th>
+      <th><%= CfPrivMessage.human_attribute_name(:recipient) %></th>
+      <th><%= CfPrivMessage.human_attribute_name(:subject) %></th>
+      <th><%= CfPrivMessage.human_attribute_name(:created_at) %></th>
       <th> </th>
     </tr>
   </thead>

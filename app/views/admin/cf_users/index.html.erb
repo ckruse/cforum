@@ -9,10 +9,10 @@ content_for :title, t('admin.users.user_administration')
 <table class="cf-default-table">
   <thead>
     <tr>
-      <th><%= t('activerecord.attributes.cf_user.username') %></th>
-      <th><%= t('activerecord.attributes.cf_user.email') %></th>
-      <th><%= t('activerecord.attributes.cf_user.created_at') %></th>
-      <th><%= t('activerecord.attributes.cf_user.updated_at') %></th>
+      <th><%= CfUser.human_attribute_name(:username) %></th>
+      <th><%= CfUser.human_attribute_name(:email) %></th>
+      <th><%= CfUser.human_attribute_name(:created_at) %></th>
+      <th><%= CfUser.human_attribute_name(:updated_at) %></th>
       <th> </th>
     </tr>
   </thead>

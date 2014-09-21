@@ -7,8 +7,8 @@ content_for :title, t("global.groups")
     <tr>
       <th><%= t('global.group') %></th>
       <th><%= t('admin.groups.members') %></th>
-      <th><%= t('activerecord.attributes.cf_group.created_at') %></th>
-      <th><%= t('activerecord.attributes.cf_group.updated_at') %></th>
+      <th><%= CfGroup.human_attribute_name(:created_at) %></th>
+      <th><%= CfGroup.human_attribute_name(:updated_at) %></th>
       <th> </th>
     </tr>
   </thead>

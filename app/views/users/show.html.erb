@@ -14,7 +14,7 @@ content_for :title, t('users.user', name: @user.username)
     <td class="<% if @user_score < 0 %>score-down<% else %>score-up<% end %>"><%= @user_score %></td>
   </tr>
   <% if current_user == @user %><tr>
-    <th><%= t('activerecord.attributes.cf_user.email') %>:</th>
+    <th><%= CfUser.human_attribute_name("email") %>:</th>
     <td><%= @user.email %></td>
   </tr><% end %>
   <tr>
