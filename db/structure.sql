@@ -617,6 +617,36 @@ ALTER SEQUENCE groups_users_group_user_id_seq OWNED BY groups_users.group_user_i
 
 
 --
+-- Name: invisible_threads; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE invisible_threads (
+    invisible_thread_id bigint NOT NULL,
+    user_id integer NOT NULL,
+    thread_id bigint NOT NULL
+);
+
+
+--
+-- Name: invisible_threads_invisible_thread_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE invisible_threads_invisible_thread_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: invisible_threads_invisible_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE invisible_threads_invisible_thread_id_seq OWNED BY invisible_threads.invisible_thread_id;
+
+
+--
 -- Name: messages; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -1150,6 +1180,13 @@ ALTER TABLE ONLY groups_users ALTER COLUMN group_user_id SET DEFAULT nextval('gr
 
 
 --
+-- Name: invisible_thread_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY invisible_threads ALTER COLUMN invisible_thread_id SET DEFAULT nextval('invisible_threads_invisible_thread_id_seq'::regclass);
+
+
+--
 -- Name: message_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -1296,6 +1333,14 @@ ALTER TABLE ONLY groups_users
 
 
 --
+-- Name: invisible_threads_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY invisible_threads
+    ADD CONSTRAINT invisible_threads_pkey PRIMARY KEY (invisible_thread_id);
+
+
+--
 -- Name: messages_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -1419,6 +1464,13 @@ CREATE INDEX counter_table_table_name_group_crit_idx ON counter_table USING btre
 --
 
 CREATE UNIQUE INDEX forums_slug_idx ON forums USING btree (slug);
+
+
+--
+-- Name: invisible_threads_thread_id_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX invisible_threads_thread_id_user_id_idx ON invisible_threads USING btree (thread_id, user_id);
 
 
 --
@@ -1818,6 +1870,22 @@ ALTER TABLE ONLY groups_users
 
 
 --
+-- Name: invisible_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY invisible_threads
+    ADD CONSTRAINT invisible_threads_thread_id_fkey FOREIGN KEY (thread_id) REFERENCES threads(thread_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: invisible_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY invisible_threads
+    ADD CONSTRAINT invisible_threads_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: messages_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -2106,6 +2174,8 @@ INSERT INTO schema_migrations (version) VALUES ('42');
 INSERT INTO schema_migrations (version) VALUES ('43');
 
 INSERT INTO schema_migrations (version) VALUES ('44');
+
+INSERT INTO schema_migrations (version) VALUES ('45');
 
 INSERT INTO schema_migrations (version) VALUES ('5');
 
