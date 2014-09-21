@@ -13,7 +13,8 @@ class ApplicationController < ActionController::Base
   include ExceptionHelpers
   include FayeHelper
 
-  before_filter :do_init, :locked?, :check_forum_access, :notifications, :scores, :run_before_handler
+  before_filter :do_init, :locked?, :check_forum_access, :notifications,
+    :scores, :run_before_handler, :set_forums
   after_filter :run_after_handler
   protect_from_forgery
 
@@ -88,6 +89,28 @@ class ApplicationController < ActionController::Base
   def locked?
     if @config_manager.get('locked', false, nil, current_forum) and (not current_user or not current_user.admin?)
       render :locked, status: 500, layout: nil
+    end
+  end
+
+  def set_forums
+    if not current_user
+      @forums = CfForum.where("standard_permission = ? OR standard_permission = ?",
+                              CfForumGroupPermission::ACCESS_READ,
+                              CfForumGroupPermission::ACCESS_WRITE).
+        order('UPPER(name) ASC')
+
+    elsif current_user and current_user.admin
+      @forums = CfForum.order('UPPER(name) ASC')
+
+    else
+      @forums = CfForum.where(
+        "(standard_permission IN (?, ?, ?, ?)) OR forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ?)",
+        CfForumGroupPermission::ACCESS_READ,
+        CfForumGroupPermission::ACCESS_WRITE,
+        CfForumGroupPermission::ACCESS_KNOWN_READ,
+        CfForumGroupPermission::ACCESS_KNOWN_WRITE,
+        current_user.user_id
+      ).order('UPPER(name) ASC')
     end
   end
 
