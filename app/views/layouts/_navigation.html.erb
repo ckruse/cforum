@@ -22,12 +22,20 @@
             <% end %>
 
             <% if current_forum %>
-              <li<% if controller_path == 'cf_threads' or controller_path == 'cf_messages' %> class="active"<% end %>><%= link_to current_forum.name, current_forum %></li>
-              <li><%= link_to t("threads.new_thread"), new_cf_thread_path(current_forum.slug) %></li><% end %>
+              <li class="dropdown active">
+                <%= link_to current_forum, 'data-toggle' => "dropdown" do %>
+                  <%= current_forum.name %>
+                  <span class="caret"></span>
+                <% end %>
 
-              <% if current_user and ((!current_forum and current_user.admin? and (@messages or @thread)) or (current_forum and current_user.moderate?(current_forum))) %>
-              <% if not view_all %><li><%= link_to t("forums.admin_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: 'yes') %></li>
-              <% else %><li><%= link_to t("forums.normal_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: false) %></li><% end %>
+                <ul class="dropdown-menu">
+                  <li><%= link_to t("threads.new_thread"), new_cf_thread_path(current_forum.slug) %></li><% end %>
+
+                  <% if current_user and ((!current_forum and current_user.admin? and (@messages or @thread)) or (current_forum and current_user.moderate?(current_forum))) %>
+                    <% if not view_all %><li><%= link_to t("forums.admin_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: 'yes') %></li>
+                    <% else %><li><%= link_to t("forums.normal_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: false) %></li><% end %>
+                </ul>
+              </li>
             <% end %>
           </ul>
 
