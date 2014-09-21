@@ -21,27 +21,40 @@
             <li<% if controller_path =~ /^admin/ %> class="active"<% end %>><%= link_to t('layout.administration'), admin_users_path %></li>
             <% end %>
 
-            <% if current_forum %>
-              <li class="dropdown active">
-                <%= link_to current_forum, 'data-toggle' => "dropdown" do %>
-                  <%= current_forum.name %>
-                  <span class="caret"></span>
+            <li class="dropdown <% if current_forum %>active<% end %>">
+              <%= link_to current_forum, 'data-toggle' => "dropdown" do %>
+                <% if current_forum %><%= current_forum.name %><% else %>Foren<% end %>
+                <span class="caret"></span>
+              <% end %>
+
+              <ul class="dropdown-menu">
+
+                <% if current_forum %>
+                  <li><%= link_to t("threads.new_thread"), new_cf_thread_path(current_forum.slug) %></li>
+
+                  <% if current_user %>
+                    <% if ((!current_forum and current_user.admin? and (@messages or @thread)) or (current_forum and current_user.moderate?(current_forum))) %>
+                      <% if not view_all %><li><%= link_to t("forums.admin_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: 'yes') %></li>
+                      <% else %><li><%= link_to t("forums.normal_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: false) %></li>
+                      <% end %>
+                    <% end %>
+
+
+                    <li><%= link_to t('plugins.open_close.close_all_threads'), cf_forum_path(current_forum, close_all: 'yes') %></li>
+                    <li><%= link_to t('plugins.open_close.open_all_threads'), cf_forum_path(current_forum, open_all: 'yes') %></li>
+                  <% end %>
+
+                  <li class="divider"></li>
                 <% end %>
 
-                <ul class="dropdown-menu">
-                  <li><%= link_to t("threads.new_thread"), new_cf_thread_path(current_forum.slug) %></li><% end %>
 
-                  <% if current_user and ((!current_forum and current_user.admin? and (@messages or @thread)) or (current_forum and current_user.moderate?(current_forum))) %>
-                    <% if not view_all %><li><%= link_to t("forums.admin_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: 'yes') %></li>
-                    <% else %><li><%= link_to t("forums.normal_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: false) %></li><% end %>
-
-                    <% if current_user %>
-                      <li><%= link_to t('plugins.open_close.close_all_threads'), cf_forum_path(current_forum, close_all: 'yes') %></li>
-                      <li><%= link_to t('plugins.open_close.open_all_threads'), cf_forum_path(current_forum, open_all: 'yes') %></li>
-                    <% end %>
-                </ul>
-              </li>
-            <% end %>
+                <% @forums.each do |f| %>
+                  <% next if current_forum and current_forum.forum_id == f.forum_id %>
+                  <li><%= link_to f.name, f %></li>
+                <% end %>
+                <li><%= link_to t('forums.all_forums'), cf_forum_path('all') %></li>
+              </ul>
+            </li>
           </ul>
 
           <ul class="cf-right-nav">
