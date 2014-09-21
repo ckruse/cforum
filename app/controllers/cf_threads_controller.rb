@@ -10,6 +10,7 @@ class CfThreadsController < ApplicationController
   SHOW_NEW_THREAD  = "show_new_thread"
   NEW_THREAD       = "new_thread"
   NEW_THREAD_SAVED = "new_thread_saved"
+  MODIFY_THREADLIST_QUERY_OBJ = 'modify_threadlist_query_obj'
 
   def index
     forum  = current_forum
@@ -73,6 +74,12 @@ class CfThreadsController < ApplicationController
     end
 
     @all_threads_count = rslt[0]['cnt'].to_i
+
+    ret = notification_center.notify(MODIFY_THREADLIST_QUERY_OBJ)
+    ret.each do |b|
+      next if b.blank?
+      @threads = b.call(@threads)
+    end
 
     ret = notification_center.notify(SHOW_THREADLIST, @threads)
 
