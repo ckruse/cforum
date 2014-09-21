@@ -67,3 +67,24 @@
           <%= text_field_tag 'settings[max_editable_age]', @settings.options['max_editable_age'], id: 'settings-max_editable_age' %>
         </div>
       </div>
+
+      <div class="cf-cgroup">
+        <label><%= t('users.settings.date_format_index') %></label>
+        <div class="cntrls">
+          <input type="text" value="<%= @settings.conf('date_format_index', "%d.%m.%Y %H:%M") %>" name="settings[date_format_index]" id="settings_date_format_index">
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label><%= t('users.settings.date_format_post') %></label>
+        <div class="cntrls">
+          <input type="text" value="<%= @settings.conf('date_format_post', "%d.%m.%Y %H:%M") %>" name="settings[date_format_post]" id="settings_date_format_post">
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label><%= t('users.settings.date_format_default') %></label>
+        <div class="cntrls">
+          <input type="text" value="<%= @settings.conf('date_format_default', "%d.%m.%Y %H:%M") %>" name="settings[date_format_default]" id="settings_date_format_default">
+        </div>
+      </div>

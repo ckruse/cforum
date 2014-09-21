@@ -19,7 +19,7 @@ content_for :title, t('users.user', name: @user.username)
   </tr><% end %>
   <tr>
     <th><%= t('users.registered_since') %>:</th>
-    <td><%= l(@user.created_at) %></td>
+    <td><%= l(@user.created_at, format: uconf('date_format_default')) %></td>
   </tr>
 </table>
 

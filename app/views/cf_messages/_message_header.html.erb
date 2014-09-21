@@ -1,6 +1,8 @@
 <%
   def message_header(thread, message, opts = {})
-    opts = {first: false, prev_deleted: false, show_icons: false, do_parent: false}.merge(opts)
+    opts = {first: false, prev_deleted: false,
+            show_icons: false, do_parent: false,
+            tree: true}.merge(opts)
     nested = uconf('standard_view', 'thread-view') == 'nested-view'
 
     classes = []
@@ -94,9 +96,13 @@
     html << encode_entities(message.author)
     html << '</span>' if message.user_id
 
-    html << %q{,
-      <time datetime="} + message.created_at.to_s + '">' + encode_entities(l(message.created_at)) + %q{</time>
-    </summary>}
+    html << ",
+      <time datetime=\"" + message.created_at.to_s + '">' +
+      encode_entities(l(message.created_at, format: opts[:tree] ?
+                        uconf("date_format_index") :
+                        uconf("date_format_post"))) +
+        "</time>
+    </summary>"
 
     unless message.tags.blank?
       html << %q{

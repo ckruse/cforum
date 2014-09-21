@@ -32,3 +32,6 @@ de:
       instance_locked: Instanz sperren
       forum_locked: Forum sperren
       mark_suspicious: Namen mit Zeichen außerhalb ISO-8859-1 markieren
+      date_format_index: Datumsformat im Index und im Thread-Baum
+      date_format_post: Datumsformat im Posting
+      date_format_default: Default-Datumsformat

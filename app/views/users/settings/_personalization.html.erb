@@ -43,4 +43,28 @@
       <textarea name="settings[own_js]" id="settings_own_js"<%= disabled %>><%= @settings.conf('own_js') %></textarea>
     </div>
   </div>
+
+
+  <div class="cf-cgroup">
+    <label><%= t('users.settings.date_format_index') %></label>
+    <div class="cntrls">
+      <input type="text" value="<%= @settings.conf('date_format_index') %>" name="settings[date_format_index]" id="settings_date_format_index"<%= disabled %>>
+    </div>
+  </div>
+
+  <div class="cf-cgroup">
+    <label><%= t('users.settings.date_format_post') %></label>
+    <div class="cntrls">
+      <input type="text" value="<%= @settings.conf('date_format_post') %>" name="settings[date_format_post]" id="settings_date_format_post"<%= disabled %>>
+    </div>
+  </div>
+
+
+  <div class="cf-cgroup">
+    <label><%= t('users.settings.date_format_default') %></label>
+    <div class="cntrls">
+      <input type="text" value="<%= @settings.conf('date_format_default') %>" name="settings[date_format_default]" id="settings_date_format_default"<%= disabled %>>
+    </div>
+  </div>
+
 </fieldset>
