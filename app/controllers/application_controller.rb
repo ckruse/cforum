@@ -16,6 +16,9 @@ class ApplicationController < ActionController::Base
   before_filter :do_init, :locked?, :check_forum_access, :set_forums,
     :notifications, :scores, :run_before_handler
   after_filter :run_after_handler
+
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
   protect_from_forgery
 
   attr_reader :notification_center, :plugin_apis, :view_all
@@ -114,6 +117,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) << :username
+    devise_parameter_sanitizer.for(:sign_up) << :email
+  end
 end
 
 # eof
