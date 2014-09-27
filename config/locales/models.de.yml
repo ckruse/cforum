@@ -15,7 +15,7 @@ de:
       greater_than: muss größer als %{count} sein
       greater_than_or_equal_to: muss größer oder gleich %{count} sein
       inclusion: ist kein gültiger Wert
-      invalid: ist nicht gültig
+      invalid: ist ungültig
       less_than: muss kleiner als %{count} sein
       less_than_or_equal_to: muss kleiner oder gleich %{count} sein
       not_a_number: ist keine Zahl
@@ -52,33 +52,33 @@ de:
         name: Name
         short_name:  Kurzname
         slug: Slug
-        public: Öffentlich
+        public: öffentlich
         description: Beschreibung
 
       cf_user:
-        username: Benutzer-Name
+        username: Benutzername
         email: E-Mail
         admin: Administrator
-        active: Aktiv
+        active: aktiv
         password: Passwort
         password_confirmation: Passwort-Bestätigung
-        created_at: Erstellt
-        updated_at: Geändert
+        created_at: erstellt
+        updated_at: geändert
         remember_me: Login merken
 
       cf_forum_access:
         permission: Zugriffsrecht
 
       cf_group:
-        created_at: Erstellt
-        updated_at: Geändert
+        created_at: erstellt
+        updated_at: geändert
 
       cf_priv_message:
         sender: Autor
         recipient: Empfänger
         subject: Betreff
-        created_at: Erstellt
-        updated_at: Geändert
+        created_at: erstellt
+        updated_at: geändert
         body: Inhalt
 
 
