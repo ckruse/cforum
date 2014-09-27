@@ -2,7 +2,7 @@ de:
   # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
 
   errors: &errors
-    name_taken: Der Name ist bereits vergeben!
+    name_taken: Der Name ist bereits vergeben.
     format: ! '%{attribute} %{message}'
     messages:
       accepted: muss akzeptiert werden
@@ -50,7 +50,7 @@ de:
 
       cf_forum:
         name: Name
-        short_name:  Kurzname
+        short_name: Kurzname
         slug: Slug
         public: öffentlich
         description: Beschreibung
