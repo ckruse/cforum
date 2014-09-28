@@ -3,28 +3,28 @@ de:
     open_close:
       open_thread: Thread aufklappen
       close_thread: Thread zuklappen
-      open_all_threads: Alle Threads aufklappen
-      close_all_threads: Alle Threads zuklappen
+      open_all_threads: alle Threads aufklappen
+      close_all_threads: alle Threads zuklappen
 
     link_tags:
-      first_msg: Erste Nachricht
-      last_msg: Letzte Nachricht
-      prev_msg: Vorherige Nachricht
-      next_msg: Nächste Nachricht
+      first_msg: erste Nachricht
+      last_msg: letzte Nachricht
+      prev_msg: vorherige Nachricht
+      next_msg: nächste Nachricht
 
     user_data:
       all: alle
 
     no_answer_no_archive:
-      no_answer: Antworten verbieten
-      answer: Antworten erlauben
+      no_answer: antworten verbieten
+      answer: antworten erlauben
       no_answered: Antworten ist jetzt verboten.
       no_answer_removed: Antworten ist jetzt wieder erlaubt.
-      answer_not_allowed: Antworten ist nicht erlaubt!
-      no_archived: Nachricht wird beim archivieren gelöscht.
-      no_archive_removed: Nachricht wird beim archivieren nicht mehr gelöscht.
-      no_arc: Nicht archivieren
-      arc: Archivieren
+      answer_not_allowed: Antworten ist nicht erlaubt.
+      no_archived: Nachricht wird beim Archivieren gelöscht.
+      no_archive_removed: Nachricht wird beim Archivieren nicht mehr gelöscht.
+      no_arc: nicht archivieren
+      arc: archivieren
 
     invisible_threads:
       thread_marked_invisible: Thread wurde erfolgreich versteckt.

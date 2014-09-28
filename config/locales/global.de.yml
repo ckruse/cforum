@@ -1,26 +1,26 @@
 de:
   global:
-    insufficient_rights: Sie haben unzureichende Rechte für diese Aktion!
-    yeah: Ja
-    nope: Nein
+    insufficient_rights: Sie haben unzureichende Rechte für diese Aktion.
+    yeah: ja
+    nope: nein
     score: Punkte
     error: Fehler
     errors: Fehler
-    save: Speichern
-    cancel: Abbrechen
+    save: speichern
+    cancel: abbrechen
     are_you_sure: Sind Sie sicher?
     users: Benutzer
     forums: Foren
     forum: Forum
     threads: Threads
     messages: Nachrichten
-    last_change: Letzte Änderung
+    last_change: letzte Änderung
     never: nie
     group: Gruppe
     groups: Gruppen
-    back: Zurück
+    back: zrück
     search: Suche
-    locked: Gesperrt
+    locked: gesperrt
     instance_locked: Das Forum oder die Instanz wurden gesperrt.
 
     scores:

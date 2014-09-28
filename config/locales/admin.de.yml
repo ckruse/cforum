@@ -11,36 +11,36 @@ de:
       updated: Forum erfolgreich geändert
       created: Forum erfolgreich erstellt
       destroyed: Forum erfolgreich gelöscht
-      merged: Das Forum wurde erfolgreich zusammengeführt
+      merged: Die Foren wurden erfolgreich zusammengeführt
       forum_data: Forums-Daten
       settings_nam: Einstellungen
       scores: Punkte
 
       error_message: "Dieses Forum konnte nicht gespeichert werden:"
-      new_forum: Neues Forum
+      new_forum: neues Forum
       edit: "Forum %{name} bearbeiten"
       merge_forum: "Forum %{forum} zusammenführen"
 
-      no_access: Kein Zugriff
-      read: Lesen
-      write: Schreiben
-      read_after_login: Lesen nach Anmeldung
-      write_after_login: Schreiben nach Anmeldung
+      no_access: kein Zugriff
+      read: lesen
+      write: schreiben
+      read_after_login: lesen nach Anmeldung
+      write_after_login: schreiben nach Anmeldung
 
       edit: Forum bearbeiten
       delete: Forum löschen
       merge: Forum zusammenführen
       merge_with: Forum zusammenführen mit
-      new: Neues Forum
+      new: neues Forum
 
       settings:
         items_per_page: Einträge pro Seite
         use_archive: Archiv nutzen
-        max_threads: Maximale Anzahl von Threads
-        max_messages_per_thread: Maximale Anzahl von Nachrichten pro Thread
-        quote_old_message: Alte Nachricht zitieren
+        max_threads: maximale Anzahl von Threads
+        max_messages_per_thread: maximale Anzahl von Nachrichten pro Thread
+        quote_old_message: alte Nachricht zitieren
         users_per_page: Benutzer pro Seite
-        max_tags_per_message: Maximale Tags pro Nachricht
+        max_tags_per_message: maximale Tags pro Nachricht
         header_start_index: Start-Index für Überschriften
         max_editable_age: maximales editierbares Nachrichtenalter
         instance_locked: Instanz gesperrt

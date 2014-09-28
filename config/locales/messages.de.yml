@@ -1,19 +1,19 @@
 de:
   messages:
     by: von
-    created: Nachricht wurde erfolgreich erstellt!
-    destroyed: Nachricht wurde erfolgreich gelöscht!
-    updated: Nachricht wurde erfolgreich geändert!
-    restored: Nachricht wurde erfolgreich wieder hergestellt!
+    created: Nachricht wurde erfolgreich erstellt.
+    destroyed: Nachricht wurde erfolgreich gelöscht.
+    updated: Nachricht wurde erfolgreich geändert.
+    restored: Nachricht wurde erfolgreich wieder hergestellt.
     error_message: "%{errors_count} verhinderten, dass diese Nachricht gespeichert werden konnte:"
-    tags_invalid: Der Tag ist fehlerhaft!
-    too_many_tags: "Sie dürfen nur %{max_tags} verwenden!"
-    only_author_or_mod_may_edit: Nur der Autor oder ein Moderator kann eine Antwort editieren!
-    message_too_old_to_edit: Nachrichten dürfen nur in einem Zeitraum von %{minutes} Minuten editiert werden!
+    tags_invalid: Das Tag ist fehlerhaft.
+    too_many_tags: "Sie dürfen nur %{max_tags} Tags verwenden."
+    only_author_or_mod_may_edit: Nur der Autor oder ein Moderator kann eine Antwort editieren.
+    message_too_old_to_edit: Nachrichten dürfen nur in einem Zeitraum von %{minutes} Minuten editiert werden.
 
-    new_answer: Antworten
+    new_answer: antworten
     edit_posting: Nachricht bearbeiten
-    write_new_answer: Neue Antwort verfassen
+    write_new_answer: neue Antwort verfassen
     restore_message: Nachricht wiederherstellen
     delete_message: Nachricht löschen
     votes: Bewertungen
@@ -24,18 +24,18 @@ de:
     previous_message: "Vorherige Nachricht zum Thema:"
     preview: Vorschau
 
-    new_answer_wo_quote: Antworten ohne Zitat
-    only_op_may_accept: Nur der Original-Autor kann eine Antwort akzeptieren!
+    new_answer_wo_quote: antworten ohne Zitat
+    only_op_may_accept: Nur der Original-Autor kann eine Antwort akzeptieren.
     accept_answer: Antwort akzeptieren
     unaccept_answer: Antwort nicht länger akzeptieren
     accepted: Antwort wurde akzeptiert
     unaccepted: Antwort wird nicht länger akzeptiert
     accepted_answer: Akzeptierte Antwort zum Thema
 
-    vote_up: Positiv bewerten
-    vote_down: Negativ bewerten
+    vote_up: positiv bewerten
+    vote_down: negativ bewerten
     unvote: Bewertung zurücknehmen
-    successfully_voted: Sie haben erfolgreich gewählt!
-    vote_removed: Die Wahl wurde entfernt!
-    already_voted: Sie haben bereits gewählt!
-    do_not_vote_yourself: Sie dürfen nicht sich selber bewerten!
+    successfully_voted: Sie haben erfolgreich bewertet.
+    vote_removed: Die Bewertung wurde entfernt.
+    already_voted: Sie haben bereits bewertet.
+    do_not_vote_yourself: Sie dürfen sich nicht selbst bewerten.

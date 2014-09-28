@@ -5,29 +5,29 @@ de:
       notifications: Benachrichtigungen
       threads_by_default: Threads per default
       via_email: via E-Mail
-      open: Offen
-      closed: Geschlossen
+      open: offen
+      closed: geschlossen
       close_threads_when_read: Threads schließen wenn gelesen
-      own_css_file: Eigene CSS-Datei
-      own_js_file: Eigene JS-Datei
-      own_css: Eigenes Inline-CSS
-      own_js: Eigenes Inline-JS
-      delete_read_notifications: Gelesene Benachrichtigungen automatisch löschen
+      own_css_file: eigene CSS-Datei
+      own_js_file: eigene JS-Datei
+      own_css: eigenes Inline-CSS
+      own_js: eigenes Inline-JS
+      delete_read_notifications: gelesene Benachrichtigungen automatisch löschen
       notify_on_new_mail: Benachrichtigung bei neuer Post
-      notification_on_activity: Benachrichtigung bei Aktivität in Thread
+      notification_on_activity: Benachrichtigung bei Aktivität im Thread
       notification_on_answer: Benachrichtigung bei Antwort
       greeting: Begrüßung
       farewell: Verabschiedung
       signature: Signatur
-      quote_old_message: Alte Nachricht zitieren
+      quote_old_message: alte Nachricht zitieren
       quote_signature: Signatur zitieren
-      personal_information: Persönliche Informationen
+      personal_information: persönliche Informationen
       email: E-Mail
       homepage: Homepage
       readability_overview: Lesbarkeit/Übersicht
       standard_thread_view: Standard-Ansicht für Threads
-      highlighted_users: Hervorgehobene Benutzer
-      show_unread_pms_in_title: Zeige Anzahl ungelesener Post im Titel
+      highlighted_users: hervorgehobene Benutzer
+      show_unread_pms_in_title: zeige Anzahl ungelesener Post im Titel
       show_unread_notifications_in_title: Zeige Anzahl ungelesener Benachrichtigungen im Titel
       show_new_messages_since_last_visit_in_title: Zeige Anzahl ungelesener Postings seit letztem Besuch im Titel
       instance_locked: Instanz sperren

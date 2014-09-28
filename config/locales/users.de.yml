@@ -2,14 +2,14 @@ de:
   users:
     user: "Benutzer %{name}"
     users: Benutzer
-    new_user: Neuer Benutzer
-    signed_up: Benutzer erfolgreich erstellt!
-    logged_in: Der Login war erfolgreich.
+    new_user: neuer Benutzer
+    signed_up: Benutzer erfolgreich erstellt.
+    logged_in: Das Login war erfolgreich.
     updated: Benutzer erfolgreich geändert.
     deleted: Benutzer erfolgreich gelöscht.
 
     user_information: Benutzer-Informationen
-    personal_information: Persönliche Informationen
+    personal_information: persönliche Informationen
     comfort: Komfort
     notifications: Benachrichtigungen
     personalization: Personalisierung
@@ -20,14 +20,14 @@ de:
 
     name: Name
     score: Punkte
-    registered_since: Registriert seit
-    newest_messages: Neueste Nachrichten
-    no_messages_so_far: Bisher keine Beiträge.
+    registered_since: registriert seit
+    newest_messages: neueste Nachrichten
+    no_messages_so_far: bisher keine Beiträge
     tags: Tags
-    no_tagged_messages_so_far: Bisher keine getaggten Beiträge
-    best_scored: Best bewertet
-    no_scored_messages_so_far: Bisher keine bewerteten Beiträge.
+    no_tagged_messages_so_far: bisher keine getaggten Beiträge
+    best_scored: am besten bewertet
+    no_scored_messages_so_far: bisher keine bewerteten Beiträge
     votings: Bewertungen
 
-    confirm_first: Sie müssen Ihr Profil erst bestätigen!
+    confirm_first: Sie müssen Ihr Profil erst bestätigen.
 

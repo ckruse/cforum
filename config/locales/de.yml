@@ -1,20 +1,20 @@
 de:
   forums:
-    all_forums: Alle Foren
+    all_forums: alle Foren
     admin_view: Admin
     normal_view: User
 
   threads:
     move_thread: Thread verschieben
-    new_thread: Neuer Thread
+    new_thread: neuer Thread
 
 
   errors:
-    unknown_error: Unbekannter Fehler
+    unknown_error: unbekannter Fehler
     unknown_error_message: "Irgendwas ist passiert. Keine Ahnung, was. Am besten, Sie schicken Ihren Nutzer-Namen zusammen mit dem, was genau Sie genau gemacht haben, an cforum@wwwtech.de."
-    not_found_error: Ressource konnte nicht gefunden werden!
+    not_found_error: Ressource konnte nicht gefunden werden
     not_found_error_message: Die angeforderte Ressource konnte nicht gefunden werden.
-    not_allowed_error: Zugriff verboten!
+    not_allowed_error: Zugriff verboten
     not_allowed_error_message: "Sie haben auf eine Resource zugegriffen, auf die der Zugriff verboten ist."
     not_allowed_maybe_you_want_to: Vielleicht möchten Sie sich erst
     login: anmelden
@@ -23,21 +23,21 @@ de:
     home: Hauptseite
     mail: Post
     administration: Verwaltung
-    logout: Abmelden
-    login: Anmelden
-    register: Registrieren
+    logout: abmelden
+    login: anmelden
+    register: registrieren
     title: Classic Forum
 
   notifications:
     delete: Benachrichtigung löschen
 
   devise:
-    sign_in: Anmelden
-    sign_up: Registrieren
+    sign_in: anmelden
+    sign_up: registrieren
     forgot_your_password: Passwort vergessen?
     confirmation_instructions: Bestätigungsanweisungen
     unlock_instructions: Entsperrungsanweisungen
     resend_confirmation_instructions: Bestätigungsanweisungen erneut senden
     change_password: Passwort ändern
-    new_password: Neues Passwort
+    new_password: neues Passwort
     confirm_new_password: Passwort-Bestätigung
