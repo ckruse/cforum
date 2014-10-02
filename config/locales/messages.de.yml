@@ -43,12 +43,12 @@ de:
     close_vote:
       created: Die Sperr-Abstimmung wurde erstellt.
       voted: Sie haben erfolgreich abgestimmt.
-      vote_deleted: Ihre Stimme wurde erfolgreich zurück genommen
+      vote_deleted: Ihre Stimme wurde erfolgreich zurückgenommen.
       error_message: "%{errors_count} verhinderten, dass diese Sperr-Abstimmung gespeichert werden konnte:"
       close_message: Nachricht „%{subject}” von %{author} schließen
-      close_vote_already_exists: Es existiert bereits ein Löschgesuch
-      no_close_vote: Es existiert noch keine Sperr-Abstimmung
-      off-topic: Diese Nachricht ist außerhalb des von diesem Forum abgedeckten Themengebiets
-      not-constructive: Diese Nachricht ist unkonstruktiv oder provokativ und trägt zu einer Verschlechterung der allgemeinen Stimmung im Forum bei
-      duplicate: Diese Nachricht ist ein Duplikat einer anderen Nachricht
+      close_vote_already_exists: Es existiert bereits ein Löschgesuch.
+      no_close_vote: Es existiert noch keine Sperr-Abstimmung.
+      off-topic: Diese Nachricht ist außerhalb des durch dieses Forum abgedeckten Themengebiets.
+      not-constructive: Diese Nachricht ist unkonstruktiv oder provokativ und trägt zu einer Verschlechterung der allgemeinen Stimmung im Forum bei.
+      duplicate: Diese Nachricht ist ein Duplikat einer anderen Nachricht.
       custom: sonstiger Grund
