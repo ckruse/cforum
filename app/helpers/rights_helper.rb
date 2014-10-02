@@ -34,7 +34,7 @@ module RightsHelper
     @cache ||= {}
     user = user.user_id if user.is_a?(CfUser)
 
-    @cache[user] = CfScore.where(:user_id => user.user_id).sum(:value) if @cache[user].blank?
+    @cache[user] = CfScore.where(:user_id => user).sum(:value) if @cache[user].blank?
     return true if @cache[user] >= conf(right, DEFAULT_SCORES[right] || 50000)
     return
   end
@@ -64,7 +64,12 @@ module RightsHelper
       tid = true
     end
 
-    thread = CfThread.preload(:forum, :messages => [:owner, :tags]).includes(:messages => :owner).where(std_conditions(id, tid)).references(:messages => :owner).first
+    thread = CfThread.
+      preload(:forum, messages: [:owner, :tags, {close_vote: :voters}]).
+      includes(messages: :owner).
+      where(std_conditions(id, tid)).
+      references(messages: :owner).
+      first
     raise CForum::NotFoundException.new if thread.blank?
 
     # sort messages
