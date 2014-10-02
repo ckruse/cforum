@@ -83,6 +83,31 @@ module RightsHelper
 
     return thread, message, id
   end
+
+  def authorize_action(actions, &proc)
+    actions = [actions] unless actions.is_a?(Array)
+
+    @@authorizatian_hooks ||= {}
+
+    actions.each do |a|
+      @@authorizatian_hooks[a.to_sym] ||= []
+      @@authorizatian_hooks[a.to_sym] << proc
+    end
+  end
+
+  def check_authorizations
+    action = action_name.to_sym
+
+    if defined?(@@authorizatian_hooks) and @@authorizatian_hooks[action]
+      @@authorizatian_hooks[action].each do |block|
+        raise CForum::ForbiddenException.new unless self.instance_eval(&block)
+      end
+    end
+
+    return true
+  end
 end
+
+ApplicationController.extend RightsHelper
 
 # eof
