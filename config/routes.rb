@@ -95,6 +95,13 @@ Cforum::Application.routes.draw do
     post '/:year/:mon/:day/:tid/:mid/accept' => 'accept_plugin#accept',
       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'accept_cf_message'
 
+    get '/:year/:mon/:day/:tid/:mid/close' => 'close_vote#new',
+      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'close_cf_message'
+    put '/:year/:mon/:day/:tid/:mid/close' => 'close_vote#create',
+      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+    patch '/:year/:mon/:day/:tid/:mid/close' => 'close_vote#vote',
+      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+
     #
     # new and create messages
     #

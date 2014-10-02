@@ -22,6 +22,7 @@ en:
     search: Search
     locked: Locked
     instance_locked: This forum or this instance have been locked.
+    something_went_wrong: Something went wrong.
 
     scores:
       right_upvote: Right to upvote

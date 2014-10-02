@@ -39,6 +39,7 @@ de:
       cf_thread: Thread
       cf_user: Benutzer
       cf_forum: Forum
+      cf_close_vote: Sperr-Abstimmung
 
     attributes:
       cf_message:
@@ -80,5 +81,10 @@ de:
         created_at: erstellt
         updated_at: geändert
         body: Inhalt
+
+      cf_close_vote:
+        reason: Sperr-Grund
+        duplicate_slug: Duplikats-URL
+        custom_reason: sonstiger Grund
 
 
