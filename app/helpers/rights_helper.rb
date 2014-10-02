@@ -32,9 +32,15 @@ module RightsHelper
 
   def may?(right, user = current_user)
     @cache ||= {}
-    user = user.user_id if user.is_a?(CfUser)
 
-    @cache[user] = CfScore.where(:user_id => user).sum(:value) if @cache[user].blank?
+    return false if user.blank?
+
+    if user.is_a?(CfUser)
+      return true if user.admin
+      user = user.user_id
+    end
+
+    @cache[user] = CfScore.where(user_id: user).sum(:value) if @cache[user].blank?
     return true if @cache[user] >= conf(right, DEFAULT_SCORES[right] || 50000)
     return
   end
