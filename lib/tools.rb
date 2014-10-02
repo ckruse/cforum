@@ -16,7 +16,7 @@ module CForum
 
     def encode_entities(txt)
       map = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;'}
-      x = txt.gsub /([&<>"])/ do |r|
+      txt.gsub(/([&<>"])/) do |r|
         map[r]
       end
     end
