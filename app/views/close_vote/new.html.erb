@@ -1,0 +1,60 @@
+<% content_for :title do %><%= t("messages.close_vote.close_message",
+                                 subject: @message.subject,
+                                 author: @message.author) %><% end %>
+
+<h1><%= t("messages.close_vote.close_message", subject: @message.subject,
+          author: @message.author) %></h1>
+
+<% if @close_vote.errors.any? %>
+  <div id="error_explanation" class="cf-error">
+    <h4><%= t('messages.close_vote.error_message', errors_count: pluralize(@close_vote.errors.count, t("global.error"), t('global.errors'))) %></h4>
+
+      <ul>
+      <% @close_vote.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+<% end %>
+
+<%= form_for(@close_vote, url: close_cf_message_path(@thread, @message),
+             html: {:class => 'form-horizontal'}, method: :put) do |f| %>
+
+  <div class="cf-radio-only">
+    <label>
+      <%= f.radio_button :reason, "off-topic" %>
+      <%= t('messages.close_vote.off-topic') %>
+    </label>
+  </div>
+
+  <div class="cf-radio-only">
+    <label>
+      <%= f.radio_button :reason, "not-constructive" %>
+      <%= t('messages.close_vote.not-constructive') %>
+    </label>
+  </div>
+
+  <div class="cf-radio-only">
+    <label>
+      <%= f.radio_button :reason, "duplicate" %>
+      <%= t('messages.close_vote.duplicate') %>
+    </label>
+
+    <%= f.url_field :duplicate_slug %>
+  </div>
+
+  <div class="cf-radio-only">
+    <label>
+      <%= f.radio_button :reason, "custom" %>
+      <%= t('messages.close_vote.custom') %>
+    </label>
+
+    <%= f.text_field :custom_reason %>
+   </div>
+
+
+   <p class="form-actions">
+     <%= f.submit t("global.save"), class: "cf-primary-btn" %>
+     <%= link_to t("global.cancel"), cf_message_path(@thread, @message), class: "cf-btn" %>
+   </p>
+<% end %>

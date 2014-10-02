@@ -141,6 +141,14 @@ form.form-inline { display:inline; }
   }
 }
 
+.cf-radio-only {
+  @extend .radio;
+
+  input[type=text], input[type=url] {
+    @extend .form-control;
+  }
+}
+
 
 .cf-btn {
   @extend .btn;

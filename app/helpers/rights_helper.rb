@@ -34,7 +34,7 @@ module RightsHelper
     @cache ||= {}
     user = user.user_id if user.is_a?(CfUser)
 
-    @cache[user] = CfScore.where(:user_id => user.user_id).sum(:value) if @cache[user].blank?
+    @cache[user] = CfScore.where(:user_id => user).sum(:value) if @cache[user].blank?
     return true if @cache[user] >= conf(right, DEFAULT_SCORES[right] || 50000)
     return
   end
@@ -64,7 +64,12 @@ module RightsHelper
       tid = true
     end
 
-    thread = CfThread.preload(:forum, :messages => [:owner, :tags]).includes(:messages => :owner).where(std_conditions(id, tid)).references(:messages => :owner).first
+    thread = CfThread.
+      preload(:forum, messages: [:owner, :tags, {close_vote: :voters}]).
+      includes(messages: :owner).
+      where(std_conditions(id, tid)).
+      references(messages: :owner).
+      first
     raise CForum::NotFoundException.new if thread.blank?
 
     # sort messages
@@ -78,6 +83,31 @@ module RightsHelper
 
     return thread, message, id
   end
+
+  def authorize_action(actions, &proc)
+    actions = [actions] unless actions.is_a?(Array)
+
+    @@authorizatian_hooks ||= {}
+
+    actions.each do |a|
+      @@authorizatian_hooks[a.to_sym] ||= []
+      @@authorizatian_hooks[a.to_sym] << proc
+    end
+  end
+
+  def check_authorizations
+    action = action_name.to_sym
+
+    if defined?(@@authorizatian_hooks) and @@authorizatian_hooks[action]
+      @@authorizatian_hooks[action].each do |block|
+        raise CForum::ForbiddenException.new unless self.instance_eval(&block)
+      end
+    end
+
+    return true
+  end
 end
+
+ApplicationController.extend RightsHelper
 
 # eof

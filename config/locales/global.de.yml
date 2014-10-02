@@ -22,6 +22,7 @@ de:
     search: Suche
     locked: gesperrt
     instance_locked: Das Forum oder die Instanz wurden gesperrt.
+    something_went_wrong: Irgendetwas ist schief gelaufen.
 
     scores:
       right_upvote: Upvote-Recht

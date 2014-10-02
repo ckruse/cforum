@@ -16,7 +16,7 @@ module CForum
 
     def encode_entities(txt)
       map = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;'}
-      x = txt.gsub /([&<>"])/ do |r|
+      txt.gsub(/([&<>"])/) do |r|
         map[r]
       end
     end
@@ -113,6 +113,11 @@ module CForum
       _cf_message_path_wo_anchor(thread, message) + "/no_answer" + query_string(args)
     end
 
+    def close_cf_message_path(thread, message, args = {})
+      _cf_message_path_wo_anchor(thread, message) + "/close" +
+        query_string(args)
+    end
+
     #
     # URL helpers
     #
@@ -144,6 +149,11 @@ module CForum
 
     def cf_message_url(thread, message, args = {})
       _cf_message_url_wo_anchor(thread, message) + query_string(args) + "#m" + message.message_id.to_s
+    end
+
+    def close_cf_message_url(thread, message, args = {})
+      _cf_message_url_wo_anchor(thread, message) + "/close" +
+        query_string(args)
     end
   end
 end

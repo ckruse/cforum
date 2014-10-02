@@ -1,0 +1,19 @@
+<h3>Sperr-Abstimmung (<%= @message.close_vote.voters.length %>/<%= conf("close_vote_votes", 5) %>)</h3>
+
+<p>
+  Diese Nachricht (und damit auch alle folgenden) soll geschlossen werden.
+  Der angegebene Grund:
+  <em><% if @message.close_vote.reason == 'custom' %>
+    <%= @message.close_vote.custom_reason %>
+  <% else %>
+    <%= t('messages.close_vote.' + @message.close_vote.reason) %>
+  <% end %></em>
+</p>
+
+<% if not current_user.blank? %>
+  <p>
+     <%= link_to("Sehe ich auch so", close_cf_message_path(@thread, @message),
+                 class:  (@message.close_vote.has_voted?(current_user) ? "cf-primary-btn" : 'cf-btn'),
+                 method: :patch) %>
+  </p>
+<% end %>
