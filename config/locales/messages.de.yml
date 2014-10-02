@@ -46,6 +46,7 @@ de:
       vote_deleted: Ihre Stimme wurde erfolgreich zurückgenommen.
       error_message: "%{errors_count} verhinderten, dass diese Sperr-Abstimmung gespeichert werden konnte:"
       close_message: Nachricht „%{subject}” von %{author} schließen
+      close_message_button: Nachricht schliessen
       close_vote_already_exists: Es existiert bereits ein Löschgesuch.
       no_close_vote: Es existiert noch keine Sperr-Abstimmung.
       off-topic: Diese Nachricht ist außerhalb des durch dieses Forum abgedeckten Themengebiets.

@@ -45,6 +45,7 @@ de:
         max_editable_age: maximales editierbares Nachrichtenalter
         instance_locked: Instanz gesperrt
         forum_locked: Forum gesperrt
+        close_vote_votes: Notwendige Stimmen, um einen Thread zu öffnen/schliessen
 
     users:
       updated: Benutzer erfolgreich geändert.

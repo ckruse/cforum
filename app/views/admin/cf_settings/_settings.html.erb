@@ -69,6 +69,14 @@
       </div>
 
       <div class="cf-cgroup">
+        <label for="settings-header_start_index"><%= t('admin.forums.settings.close_vote_votes') %></label>
+        <div class="cntrls">
+          <input type="hidden" name="settings[close_vote_votes]" value="no">
+          <%= text_field_tag 'settings[close_vote_votes]', @settings.options['close_vote_votes'], id: 'settings-close_vote_votes' %>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
         <label><%= t('users.settings.date_format_index') %></label>
         <div class="cntrls">
           <input type="text" value="<%= @settings.conf('date_format_index', "%d.%m.%Y %H:%M") %>" name="settings[date_format_index]" id="settings_date_format_index">
