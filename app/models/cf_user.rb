@@ -86,6 +86,14 @@ class CfUser < ActiveRecord::Base
 
     return false
   end
+
+  def score
+    unless @score
+      @score = CfScore.where(user_id: self.user_id).sum('value')
+    end
+
+    @score
+  end
 end
 
 # eof

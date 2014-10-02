@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   include FayeHelper
 
   before_filter :do_init, :locked?, :check_forum_access, :set_forums,
-    :notifications, :scores, :run_before_handler
+    :notifications, :run_before_handler
   after_filter :run_after_handler
 
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -83,10 +83,6 @@ class ApplicationController < ActionController::Base
 
   def conf(name, default = nil)
     @config_manager.get(name, default, nil, current_forum)
-  end
-
-  def scores
-    @score = CfScore.where(user_id: current_user.user_id).sum('value') if current_user
   end
 
   def locked?
