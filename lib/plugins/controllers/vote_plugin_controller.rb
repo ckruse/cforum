@@ -11,12 +11,7 @@ class VotePluginController < ApplicationController
   def vote
     raise CForum::ForbiddenException.new if current_user.blank?
 
-    @id = CfThread.make_id(params)
-    @thread = CfThread.preload(:forum, :messages => [:owner, :tags]).includes(:messages => :owner).where(std_conditions(@id)).first
-    raise CForum::NotFoundException.new if @thread.blank?
-
-    @message = @thread.find_message(params[:mid].to_i)
-    raise CForum::NotFoundException.new if @message.nil?
+    @thread, @message, @id = get_thread_w_post
 
     if @message.user_id == current_user.user_id
       flash[:error] = t('messages.do_not_vote_yourself')

@@ -5,12 +5,7 @@ class AcceptPluginController < ApplicationController
   ACCEPTED_MESSAGE     = "accepted_message"
 
   def accept
-    @id = CfThread.make_id(params)
-    @thread = CfThread.preload(:forum, :messages => [:owner, :tags]).includes(:messages => :owner).where(std_conditions(@id)).first
-    raise CForum::NotFoundException.new if @thread.blank?
-
-    @message = @thread.find_message(params[:mid].to_i)
-    raise CForum::NotFoundException.new if @message.nil?
+    @thread, @message, @id = get_thread_w_post
 
     if @thread.acceptance_forbidden?(current_user, cookies[:cforum_user])
       flash[:error] = t('messages.only_op_may_accept')
