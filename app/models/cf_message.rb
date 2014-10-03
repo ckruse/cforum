@@ -54,6 +54,7 @@ class CfMessage < ActiveRecord::Base
   end
 
   def flag_with_subtree(flag, value)
+    flags_will_change!
     flags[flag] = value
     save
 
@@ -63,6 +64,7 @@ class CfMessage < ActiveRecord::Base
   end
 
   def del_flag_with_subtree(flag)
+    flags_will_change!
     flags.delete(flag)
     save
 
