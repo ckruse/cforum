@@ -59,7 +59,7 @@ module RightsHelper
     conditions
   end
 
-  def get_thread_w_post
+  def get_thread
     tid = false
     id  = nil
 
@@ -80,6 +80,12 @@ module RightsHelper
 
     # sort messages
     thread.message
+
+    return thread, id
+  end
+
+  def get_thread_w_post
+    thread, id = get_thread
 
     message = nil
     unless params[:mid].blank?
