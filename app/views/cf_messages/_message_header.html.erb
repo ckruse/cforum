@@ -49,7 +49,7 @@
         end
       end
 
-      if message.flags['no-answer'] == 'yes'
+      if not message.open?
         html << " " + link_to('', no_answer_cf_message_path(thread, message), method: :post, class: 'icon-message answer', title: t('plugins.no_answer_no_archive.answer'))
       else
         html << " " + link_to('', no_answer_cf_message_path(thread, message), method: :post, class: 'icon-message no-answer', title: t('plugins.no_answer_no_archive.no_answer'))

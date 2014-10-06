@@ -10,7 +10,7 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
     <%= m.to_html %>
   </div>
 
-  <% if m.flags['no-answer'] != 'yes' and @thread.forum.write?(current_user) %>
+  <% if m.open? and @thread.forum.write?(current_user) %>
   <%= form_tag vote_cf_message_path(@thread, m), :method => :post, class: 'form-inline' do %>
     <p>
       <%= link_to t("messages.new_answer"), new_cf_message_path(@thread, m, 'quote_old_message' => 'yes'), class: 'cf-btn' %>

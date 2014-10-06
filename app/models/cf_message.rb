@@ -83,6 +83,10 @@ class CfMessage < ActiveRecord::Base
 
     parent_level.subject != subject
   end
+
+  def open?
+    flags["no-answer"] != "yes"
+  end
 end
 
 # eof
