@@ -59,6 +59,8 @@ class CfMessagesController < ApplicationController
   def new
     @thread, @message, @id = get_thread_w_post
 
+    raise CForum::ForbiddenException.new if not @message.open?
+
     @parent  = @message
     @message = CfMessage.new
     @tags    = @parent.tags.map { |t| t.tag_name }
@@ -74,6 +76,8 @@ class CfMessagesController < ApplicationController
 
   def create
     @thread, @message, @id = get_thread_w_post
+
+    raise CForum::ForbiddenException.new if not @message.open?
 
     invalid  = false
 
@@ -144,6 +148,8 @@ class CfMessagesController < ApplicationController
     @thread, @message, @id = get_thread_w_post
     edit_it = false
     too_old = false
+
+    raise CForum::ForbiddenException.new if not @message.open?
 
     if @message.created_at <= @max_editable_age.minutes.ago
       too_old = true
