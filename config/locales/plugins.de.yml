@@ -30,3 +30,6 @@ de:
       thread_marked_invisible: Thread wurde erfolgreich versteckt.
       mark_thread_invisible: Thread verstecken
 
+    mark_read:
+      marked_unread: Die Nachricht wurde als ungelesen markiert.
+      mark_unread: ungelesen markieren

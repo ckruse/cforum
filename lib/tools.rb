@@ -123,6 +123,11 @@ module CForum
         query_string(args)
     end
 
+    def unread_cf_message_path(thread, message, args = {})
+      _cf_message_path_wo_anchor(thread, message) + "/unread" +
+        query_string(args)
+    end
+
     #
     # URL helpers
     #
@@ -158,6 +163,11 @@ module CForum
 
     def open_cf_message_url(thread, message, args = {})
       _cf_message_url_wo_anchor(thread, message) + "/open" +
+        query_string(args)
+    end
+
+    def unread_cf_message_url(thread, message, args = {})
+      _cf_message_url_wo_anchor(thread, message) + "/unread" +
         query_string(args)
     end
   end

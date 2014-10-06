@@ -117,6 +117,7 @@ form.form-inline { display:inline; }
   &.answer { @extend .icon-unlock; }
   &.no-answer { @extend .icon-lock; }
   &.original-poster { @extend .icon-exclamation-sign; }
+  &.unread { @extend .icon-star; }
 }
 
 .cf-cgroup {

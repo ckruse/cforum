@@ -79,18 +79,21 @@ Cforum::Application.routes.draw do
     delete '/:year/:mon/:day/:tid/:mid' => 'cf_messages#destroy',
       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
+    post '/:year/:mon/:day/:tid/:mid/vote' => 'vote_plugin#vote',
+      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'vote_cf_message'
+    post '/:year/:mon/:day/:tid/:mid/unread' => 'mark_unread#mark_unread',
+      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'unread_cf_message'
+
     #
     # admin actions
     #
-    post '/:year/:mon/:day/:tid/:mid/vote' => 'vote_plugin#vote',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'vote_cf_message'
     post '/:year/:mon/:day/:tid/:mid/restore' => 'cf_messages#restore',
       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'restore_cf_message'
     post '/:year/:mon/:day/:tid/:mid/no_answer' => 'no_answer_no_archive_plugin#no_answer',
       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_answer_cf_message'
 
     #
-    # plugins
+    # Plugins
     #
     post '/:year/:mon/:day/:tid/:mid/accept' => 'accept_plugin#accept',
       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'accept_cf_message'
