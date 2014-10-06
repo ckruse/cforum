@@ -19,7 +19,7 @@ class NoAnswerNoArchivePluginController < ApplicationController
     unless retvals.include?(false)
       CfMessage.transaction do
         if @message.flags['no-answer-admin'] == 'yes'
-          @message.del_flag_with_subtree('no-answer-admin')
+          @message.flag_with_subtree('no-answer-admin', 'no')
         else
           @message.flag_with_subtree('no-answer-admin', 'yes')
         end
