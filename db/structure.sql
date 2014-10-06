@@ -459,6 +459,74 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: close_votes; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE close_votes (
+    close_vote_id bigint NOT NULL,
+    message_id bigint NOT NULL,
+    reason character varying(20) NOT NULL,
+    duplicate_slug character varying(255),
+    custom_reason character varying(255),
+    finished boolean DEFAULT false NOT NULL,
+    vote_type boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: close_votes_close_vote_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE close_votes_close_vote_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: close_votes_close_vote_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE close_votes_close_vote_id_seq OWNED BY close_votes.close_vote_id;
+
+
+--
+-- Name: close_votes_voters; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE close_votes_voters (
+    close_votes_voter_id bigint NOT NULL,
+    close_vote_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: close_votes_voters_close_votes_voter_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE close_votes_voters_close_votes_voter_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: close_votes_voters_close_votes_voter_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE close_votes_voters_close_votes_voter_id_seq OWNED BY close_votes_voters.close_votes_voter_id;
+
+
+--
 -- Name: counter_table; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -1145,6 +1213,20 @@ ALTER SEQUENCE votes_vote_id_seq OWNED BY votes.vote_id;
 
 
 --
+-- Name: close_vote_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY close_votes ALTER COLUMN close_vote_id SET DEFAULT nextval('close_votes_close_vote_id_seq'::regclass);
+
+
+--
+-- Name: close_votes_voter_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY close_votes_voters ALTER COLUMN close_votes_voter_id SET DEFAULT nextval('close_votes_voters_close_votes_voter_id_seq'::regclass);
+
+
+--
 -- Name: count_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -1282,6 +1364,38 @@ ALTER TABLE ONLY users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_s
 --
 
 ALTER TABLE ONLY votes ALTER COLUMN vote_id SET DEFAULT nextval('votes_vote_id_seq'::regclass);
+
+
+--
+-- Name: close_votes_message_id_vote_type_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY close_votes
+    ADD CONSTRAINT close_votes_message_id_vote_type_key UNIQUE (message_id, vote_type);
+
+
+--
+-- Name: close_votes_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY close_votes
+    ADD CONSTRAINT close_votes_pkey PRIMARY KEY (close_vote_id);
+
+
+--
+-- Name: close_votes_voters_close_vote_id_user_id_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY close_votes_voters
+    ADD CONSTRAINT close_votes_voters_close_vote_id_user_id_key UNIQUE (close_vote_id, user_id);
+
+
+--
+-- Name: close_votes_voters_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY close_votes_voters
+    ADD CONSTRAINT close_votes_voters_pkey PRIMARY KEY (close_votes_voter_id);
 
 
 --
@@ -1838,6 +1952,22 @@ CREATE TRIGGER threads__count_update_trigger AFTER UPDATE ON threads FOR EACH RO
 
 
 --
+-- Name: close_votes_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY close_votes
+    ADD CONSTRAINT close_votes_message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: close_votes_voters_close_vote_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY close_votes_voters
+    ADD CONSTRAINT close_votes_voters_close_vote_id_fkey FOREIGN KEY (close_vote_id) REFERENCES close_votes(close_vote_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: forums_groups_permissions_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -2176,6 +2306,8 @@ INSERT INTO schema_migrations (version) VALUES ('43');
 INSERT INTO schema_migrations (version) VALUES ('44');
 
 INSERT INTO schema_migrations (version) VALUES ('45');
+
+INSERT INTO schema_migrations (version) VALUES ('46');
 
 INSERT INTO schema_migrations (version) VALUES ('5');
 
