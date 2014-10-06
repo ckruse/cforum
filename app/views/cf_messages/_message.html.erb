@@ -10,6 +10,18 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
     <%= m.to_html %>
   </div>
 
+  <% if not m.flags['flattr_id'].blank? %>
+    <%= link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(m.flags['flattr_id']) +
+    "&url=" + CGI.escape(cf_message_url(@thread, m)) +
+    "&title=" + CGI.escape(m.subject) do %>
+    <img src="https://flattr.com/_img/icons/flattr_logo_16.png"
+         alt=""
+         title=""
+         width="16"
+         height="16">&nbsp;Flattr this!
+    <% end %>
+  <% end %>
+
   <% if m.open? and @thread.forum.write?(current_user) %>
   <%= form_tag vote_cf_message_path(@thread, m), :method => :post, class: 'form-inline' do %>
     <p>
@@ -29,7 +41,7 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
   end %>
 
   <% if may?(RightsHelper::RIGHT_TO_CREATE_CLOSE_REOPEN_VOTES) and
-    m.flags['no-answer-admin'].blank? %>
+    m.flags['no-answer-admin'] != 'yes' %>
     <p>
       <%
       # allow close vote if
@@ -62,6 +74,22 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
       </div>
 
       <p class="small"><%= t('messages.accepted_answer') %></p>
+
+      <p>
+        <% if not @thread.accepted.flags['flattr_id'].blank? %>
+          <%= link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(@thread.accepted.flags['flattr_id']) +
+          "&url=" + CGI.escape(cf_message_url(@thread, @thread.accepted)) +
+          "&title=" + CGI.escape(@thread.accepted.subject) do %>
+          <img src="https://flattr.com/_img/icons/flattr_logo_16.png"
+               alt=""
+               title=""
+               width="16"
+               height="16">&nbsp;Flattr this!
+          <% end %>
+        <% end %>
+      </p>
+
+      </p>
     </article>
   <% end %>
 
