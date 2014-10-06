@@ -24,14 +24,34 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
       <button name="type" value="up" title="<%= t(has_upvote ? 'messages.unvote' : 'messages.vote_up') %>" class="cf-btn"><i class="vote icon-vote-up<% if has_upvote %> active<% end %>"> </i></button>
       <button name="type" value="down" title="<%= t(has_downvote ? 'messages.unvote' : 'messages.vote_down') %>" class="cf-btn"><i class="vote icon-vote-down<% if has_downvote %> active<% end %>"> </i></button>
       <% end %>
-
-      <% if may?(RightsHelper::RIGHT_TO_CREATE_CLOSE_REOPEN_VOTES) and not @message.close_vote %>
-        <%= link_to(t('messages.close_vote.close_message_button'),
-                    close_cf_message_path(@thread, @message), class: 'cf-btn') %>
-      <% end %>
     </p>
   <% end
   end %>
+
+  <% if may?(RightsHelper::RIGHT_TO_CREATE_CLOSE_REOPEN_VOTES) and
+    m.flags['no-answer-admin'].blank? %>
+    <p>
+      <%
+      # allow close vote if
+      # - message is not closed
+      # - message hasn't got a close vote already
+      if @message.open? and @message.close_vote.blank?
+      %>
+        <%= link_to(t('messages.close_vote.close_message_button'),
+                    close_cf_message_path(@thread, @message), class: 'cf-btn') %>
+      <% end %>
+      <%
+      # allow open vote if
+      # - user has the rights to do so
+      # - message is closed
+      # - message hasn't got an open vote already
+      if not @message.open? and @message.open_vote.blank?
+      %>
+        <%= link_to(t('messages.close_vote.open_message_button'),
+                    open_cf_message_path(@thread, @message), class: 'cf-btn') %>
+      <% end %>
+    </p>
+  <% end %>
 
   <% if m.message_id == @thread.message.message_id and @thread.accepted %>
     <article class="accepted">
@@ -47,4 +67,8 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
 
   <% unless @message.close_vote.blank? %>
     <%= render 'close_vote' %>
+  <% end %>
+
+  <% unless @message.open_vote.blank? %>
+    <%= render 'open_vote' %>
   <% end %>

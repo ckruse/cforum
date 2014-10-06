@@ -1,0 +1,37 @@
+<% content_for :title do %><%= t("messages.close_vote.open_message",
+                                 subject: @message.subject,
+                                 author: @message.author) %><% end %>
+
+<h1><%= t("messages.close_vote.open_message", subject: @message.subject,
+          author: @message.author) %></h1>
+
+<% if @open_vote.errors.any? %>
+  <div id="error_explanation" class="cf-error">
+    <h4><%= t('messages.close_vote.error_message', errors_count: pluralize(@open_vote.errors.count, t("global.error"), t('global.errors'))) %></h4>
+
+      <ul>
+      <% @open_vote.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+<% end %>
+
+<%= form_for(@open_vote, url: open_cf_message_path(@thread, @message),
+             html: {:class => 'form-horizontal'}, method: :put) do |f| %>
+
+  <div class="cf-radio-only">
+    <label>
+      <%= f.hidden_field :reason, value: "custom" %>
+      <%= t('messages.close_vote.custom') %>
+    </label>
+
+    <%= f.text_field :custom_reason %>
+   </div>
+
+
+   <p class="form-actions">
+     <%= f.submit t("global.save"), class: "cf-primary-btn" %>
+     <%= link_to t("global.cancel"), cf_message_path(@thread, @message), class: "cf-btn" %>
+   </p>
+<% end %>

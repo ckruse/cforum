@@ -102,6 +102,13 @@ Cforum::Application.routes.draw do
     patch '/:year/:mon/:day/:tid/:mid/close' => 'close_vote#vote',
       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
+    get '/:year/:mon/:day/:tid/:mid/open' => 'close_vote#new_open',
+      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'open_cf_message'
+    put '/:year/:mon/:day/:tid/:mid/open' => 'close_vote#create_open',
+      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+    patch '/:year/:mon/:day/:tid/:mid/open' => 'close_vote#vote_open',
+      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+
     #
     # new and create messages
     #

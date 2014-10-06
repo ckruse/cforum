@@ -5,15 +5,19 @@ class AddCloseVotes < ActiveRecord::Migration
     execute <<-SQL
 CREATE TABLE close_votes (
   close_vote_id BIGSERIAL PRIMARY KEY,
-  message_id BIGINT NOT NULL UNIQUE REFERENCES messages(message_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  message_id BIGINT NOT NULL REFERENCES messages(message_id) ON DELETE CASCADE ON UPDATE CASCADE,
   reason VARCHAR(20) NOT NULL,
   duplicate_slug VARCHAR(255),
   custom_reason VARCHAR(255),
 
   finished BOOLEAN NOT NULL DEFAULT false,
 
+  vote_type BOOLEAN NOT NULL DEFAULT false,
+
   created_at TIMESTAMP NOT NULL,
-  updated_at TIMESTAMP NOT NULL
+  updated_at TIMESTAMP NOT NULL,
+
+  UNIQUE(message_id, vote_type)
 );
 
 CREATE TABLE close_votes_voters (

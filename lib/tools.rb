@@ -118,6 +118,11 @@ module CForum
         query_string(args)
     end
 
+    def open_cf_message_path(thread, message, args = {})
+      _cf_message_path_wo_anchor(thread, message) + "/open" +
+        query_string(args)
+    end
+
     #
     # URL helpers
     #
@@ -151,8 +156,8 @@ module CForum
       _cf_message_url_wo_anchor(thread, message) + query_string(args) + "#m" + message.message_id.to_s
     end
 
-    def close_cf_message_url(thread, message, args = {})
-      _cf_message_url_wo_anchor(thread, message) + "/close" +
+    def open_cf_message_url(thread, message, args = {})
+      _cf_message_url_wo_anchor(thread, message) + "/open" +
         query_string(args)
     end
   end

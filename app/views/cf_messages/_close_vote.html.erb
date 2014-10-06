@@ -1,7 +1,12 @@
 <h3>Sperr-Abstimmung (<%= @message.close_vote.voters.length %>/<%= conf("close_vote_votes", 5) %>)</h3>
 
 <p>
-  Diese Nachricht (und damit auch alle folgenden) soll geschlossen werden.
+  <% if @message.close_vote.finished %>
+    Diese Nachricht (und damit auch alle folgenden) wurden geschlossen.
+  <% else %>
+    Diese Nachricht (und damit auch alle folgenden) soll geschlossen werden.
+  <% end %>
+
   Der angegebene Grund:
   <em><% if @message.close_vote.reason == 'custom' %>
     <%= @message.close_vote.custom_reason %>
@@ -10,7 +15,7 @@
   <% end %></em>
 </p>
 
-<% if may?(RightsHelper::RIGHT_TO_VISIT_CLOSE_AND_REOPEN_VOTES) %>
+<% if may?(RightsHelper::RIGHT_TO_VISIT_CLOSE_AND_REOPEN_VOTES) and not @message.close_vote.finished %>
   <p>
      <%= link_to("Sehe ich auch so", close_cf_message_path(@thread, @message),
                  class:  (@message.close_vote.has_voted?(current_user) ? "cf-primary-btn" : 'cf-btn'),
