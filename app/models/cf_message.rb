@@ -85,7 +85,7 @@ class CfMessage < ActiveRecord::Base
   end
 
   def open?
-    flags["no-answer"] != "yes"
+    flags["no-answer"] != "yes" and flags["no-answer-admin"] != 'yes'
   end
 end
 

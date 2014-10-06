@@ -14,18 +14,18 @@ class NoAnswerNoArchivePluginController < ApplicationController
   def no_answer
     @thread, @message, @id = get_thread_w_post
 
-    retvals = notification_center.notify(@message.flags['no-answer'] == 'yes' ? NO_ANSWER_REMOVING : NO_ANSWER, @thread, @message)
+    retvals = notification_center.notify(@message.flags['no-answer-admin'] == 'yes' ? NO_ANSWER_REMOVING : NO_ANSWER, @thread, @message)
 
     unless retvals.include?(false)
       CfMessage.transaction do
-        if @message.flags['no-answer'] == 'yes'
-          @message.del_flag_with_subtree('no-answer')
+        if @message.flags['no-answer-admin'] == 'yes'
+          @message.del_flag_with_subtree('no-answer-admin')
         else
-          @message.flag_with_subtree('no-answer', 'yes')
+          @message.flag_with_subtree('no-answer-admin', 'yes')
         end
       end
 
-      notification_center.notify(@message.flags['no-answer'] == 'yes' ? NO_ANSWERED : NO_ANSWER_REMOVED, @thread, @message)
+      notification_center.notify(@message.flags['no-answer-admin'] == 'yes' ? NO_ANSWERED : NO_ANSWER_REMOVED, @thread, @message)
     end
 
     respond_to do |format|
@@ -37,7 +37,7 @@ class NoAnswerNoArchivePluginController < ApplicationController
             :view_all => true
           ),
           notice: I18n.t(
-            @message.flags['no-answer'] == 'yes' ? 'plugins.no_answer_no_archive.no_answered' : 'plugins.no_answer_no_archive.no_answer_removed'
+            @message.flags['no-answer-admin'] == 'yes' ? 'plugins.no_answer_no_archive.no_answered' : 'plugins.no_answer_no_archive.no_answer_removed'
           )
         )
       end
