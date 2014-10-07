@@ -100,18 +100,21 @@ module RightsHelper
     actions = [actions] unless actions.is_a?(Array)
 
     @@authorizatian_hooks ||= {}
+    @@authorizatian_hooks[controller_path] ||= {}
 
     actions.each do |a|
-      @@authorizatian_hooks[a.to_sym] ||= []
-      @@authorizatian_hooks[a.to_sym] << proc
+      @@authorizatian_hooks[controller_path][a.to_sym] ||= []
+      @@authorizatian_hooks[controller_path][a.to_sym] << proc
     end
   end
 
   def check_authorizations
     action = action_name.to_sym
 
-    if defined?(@@authorizatian_hooks) and @@authorizatian_hooks[action]
-      @@authorizatian_hooks[action].each do |block|
+    if defined?(@@authorizatian_hooks) and
+        @@authorizatian_hooks[controller_path] and
+        @@authorizatian_hooks[controller_path][action]
+      @@authorizatian_hooks[controller_path][action].each do |block|
         raise CForum::ForbiddenException.new unless self.instance_eval(&block)
       end
     end
