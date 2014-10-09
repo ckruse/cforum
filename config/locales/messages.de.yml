@@ -47,8 +47,8 @@ de:
       error_message: "%{errors_count} verhinderten, dass diese Sperr-Abstimmung gespeichert werden konnte:"
       close_message: Nachricht „%{subject}” von %{author} schließen
       open_message: Nachricht „%{subject}” von %{author} entsperren
-      close_message_button: Nachricht schliessen
-      open_message_button: Nachricht entsperren
+      close_message_button: Sperr-Abstimmung erstellen
+      open_message_button: Entsperr-Abstimmung erstellen
       close_vote_already_exists: Es existiert bereits eine Sperr-Abstimmung.
       open_vote_already_exists: Es existiert bereits eine Entsperr-Abstimmung.
       no_vote: Es existiert noch keine Abstimmung.
