@@ -30,6 +30,9 @@
               <ul class="dropdown-menu">
 
                 <% if current_forum %>
+                  <li><%= link_to current_forum.name, current_forum %></li>
+                  <li class="divider"></li>
+
                   <li><%= link_to t("threads.new_thread"), new_cf_thread_path(current_forum.slug) %></li>
 
                   <% if current_user %>
