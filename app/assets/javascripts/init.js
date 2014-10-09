@@ -49,6 +49,12 @@ cforum = {
         cforum.client.on('transport:up', function() { $(".cf-right-nav .username").addClass('connected'); });
         cforum.client.on('transport:down', function() { $(".cf-right-nav .username").removeClass('connected'); });
       }
+      else {
+        cforum.client = {
+          on: function() {},
+          subscribe: function() {}
+        }
+      }
     }
   }
 };
