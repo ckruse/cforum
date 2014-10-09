@@ -10,6 +10,11 @@
     classes << 'first' if opts[:first]
     classes << 'deleted' if message.deleted?
 
+    if thread.accepted
+      classes << "accepted-answer" if thread.accepted.message_id == message.message_id
+      classes << "has-accepted-answer" if thread.message.message_id == message.message_id
+    end
+
     html = "<header"
     html << ' class="' + classes.join(" ") + '"' unless classes.blank?
     html << ' id="m' + message.message_id.to_s + '"'
