@@ -5,7 +5,7 @@
             tree: true}.merge(opts)
     nested = uconf('standard_view', 'thread-view') == 'nested-view'
 
-    classes = []
+    classes = ['message']
     classes += message.attribs['classes']
     classes << 'first' if opts[:first]
     classes << 'deleted' if message.deleted?
