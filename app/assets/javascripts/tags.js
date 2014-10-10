@@ -166,7 +166,9 @@ cforum.tags = {
       cforum.tags.appendTag(tags[i]);
     }
 
-    el.val("");
+    $("<input type=\"text\" id=\"replaced_tag_input\" class=\"tags-input\">").insertBefore(el);
+    el.remove();
+    el = $("#replaced_tag_input");
 
     el.on('keyup', cforum.tags.handleTagsKeyUp);
     el.on('focusout', cforum.tags.addTag);
