@@ -56,7 +56,9 @@ cforum.tags = {
   },
 
   suggestTags: function() {
-    var mcnt = $(document.getElementById('cf_thread_message_content') ? "#cf_thread_message_content" : "#cf_message_content").val();
+    var mcnt = $(document.getElementById('cf_thread_message_content') ?
+                 "#cf_thread_message_content" : "#cf_message_content").val();
+
     if(mcnt == "") {
       return;
     }
@@ -64,14 +66,16 @@ cforum.tags = {
     var suggestions = cforum.tags.suggestions(mcnt);
 
     $.get(
-      cforum.baseUrl + '/' + cforum.currentForum.slug + '/tags.json',
+      cforum.baseUrl + cforum.currentForum.slug + '/tags.json',
       'tags=' + encodeURIComponent(suggestions.join(",")),
       function(data) {
         var tag_list = $("#tags-suggestions");
         tag_list.html("");
 
         for(var i = 0; i < data.length && i < cforum.tags.maxTags; ++i) {
-          cforum.tags.appendTag(data[i].tag_name, tag_list, cforum.tags.views.tagSuggestion);
+          if(!cforum.tags.hasTag(data[i].tag_name)) {
+            cforum.tags.appendTag(data[i].tag_name, tag_list, cforum.tags.views.tagSuggestion);
+          }
         }
 
       }
@@ -96,6 +100,18 @@ cforum.tags = {
     if(!hasIt) {
       cforum.tags.appendTag(tag);
     }
+  },
+
+  hasTag: function(name) {
+    var tags = $("#tags-list input[type=hidden]")
+
+    for(var i = 0; i < tags.length; ++i) {
+      if($(tags[i]).val().toLowerCase() == name) {
+        return true;
+      }
+    }
+
+    return false;
   },
 
   addTag: function(ev) {
