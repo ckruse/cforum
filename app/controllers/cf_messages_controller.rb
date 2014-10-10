@@ -197,7 +197,7 @@ class CfMessagesController < ApplicationController
                                  @message, @tags)
       redirect_to cf_message_path(@thread, @message), notice: I18n.t('messages.updated')
     else
-      render :new
+      render :edit
     end
   end
 
