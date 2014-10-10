@@ -89,7 +89,7 @@ module CForum
       _cf_message_path_wo_anchor(thread, message) + query_string(args) + "#m" + message.message_id.to_s
     end
 
-    def cf_edit_message_path(thread, message, args = {})
+    def edit_cf_message_path(thread, message, args = {})
       _cf_message_path_wo_anchor(thread, message) + "/edit" + query_string(args)
     end
 
