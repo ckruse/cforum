@@ -32,7 +32,7 @@ class OpenCloseThreadPlugin < Plugin
         check_existance_and_delete_or_set(t.thread_id, 'closed')
       end
 
-      redirect_to current_forum ? cf_forum_url(current_forum) : root_url + 'all'
+      redirect_to cf_forum_url(current_forum)
       return :redirected
     end
 
@@ -41,7 +41,7 @@ class OpenCloseThreadPlugin < Plugin
         check_existance_and_delete_or_set(t.thread_id, 'open')
       end
 
-      redirect_to current_forum ? cf_forum_url(current_forum) : root_url + 'all'
+      redirect_to cf_forum_url(current_forum)
       return :redirected
     end
 
@@ -75,13 +75,13 @@ class OpenCloseThreadPlugin < Plugin
 
   def open_thread(tid)
     check_existance_and_delete_or_set(tid, 'open')
-    redirect_to current_forum ? cf_forum_url(current_forum) : root_url + 'all'
+    redirect_to cf_forum_url(current_forum)
     return :redirected
   end
 
   def close_thread(tid)
     check_existance_and_delete_or_set(tid, 'closed')
-    redirect_to current_forum ? cf_forum_url(current_forum) : root_url + 'all'
+    redirect_to cf_forum_url(current_forum)
     return :redirected
   end
 

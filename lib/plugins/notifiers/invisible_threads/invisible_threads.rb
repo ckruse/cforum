@@ -87,7 +87,7 @@ class InvisibleThreadsPlugin < Plugin
 
     if params[:hide_thread]
       mark_invisible(params[:hide_thread], current_user)
-      redirect_to current_forum ? cf_forum_url(current_forum) : cf_forum_url('all'),
+      redirect_to cf_forum_url(current_forum),
         notice: t('plugins.invisible_threads.thread_marked_invisible')
       return :redirected
     end

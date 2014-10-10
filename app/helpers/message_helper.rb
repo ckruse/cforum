@@ -24,15 +24,15 @@ module MessageHelper
     if opts[:first] and current_user and opts[:show_icons]
       html << '  <a class="icon-thread '
       if thread.attribs['open_state'] == 'closed'
-        html << 'closed" title="' + t('plugins.open_close.open_thread') + '" href="' + cf_forum_path(current_forum || 'all', :open => thread.thread_id)
+        html << 'closed" title="' + t('plugins.open_close.open_thread') + '" href="' + cf_forum_path(current_forum, :open => thread.thread_id)
       else
-        html << 'open" title="' + t('plugins.open_close.close_thread') + '" href="' + cf_forum_path(current_forum || 'all', :close => thread.thread_id)
+        html << 'open" title="' + t('plugins.open_close.close_thread') + '" href="' + cf_forum_path(current_forum, :close => thread.thread_id)
       end
       html << '"> </a>'
 
       html << ' <a class="icon-thread mark-invisible" title="' +
         t('plugins.invisible_threads.mark_thread_invisible') + '" href="' +
-        cf_forum_path(current_forum || 'all', hide_thread: thread.thread_id) + '"> </a>'
+        cf_forum_path(current_forum, hide_thread: thread.thread_id) + '"> </a>'
     end
 
     if not current_user.blank? and not current_forum.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons]

@@ -41,6 +41,7 @@ module CForum
     end
 
     def _cf_forum_path(forum)
+      forum = 'all' if forum.blank?
       forum = forum.slug unless forum.is_a?(String)
       root_path + forum
     end
@@ -133,6 +134,7 @@ module CForum
     #
 
     def _cf_forum_url(forum)
+      forum = 'all' if forum.blank?
       forum = forum.slug unless forum.is_a?(String)
       root_url + forum
     end

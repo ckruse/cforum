@@ -3,8 +3,8 @@ xml.rss :version => '2.0', 'xmlns:atom' => 'http://www.w3.org/2005/Atom' do
   xml.channel do
     xml.title current_forum ? current_forum.name : t('forums.all_forums')
     xml.description current_forum ? current_forum.description : t('forums.all_forums')
-    xml.link cf_forum_url(current_forum || 'all')
-    xml.tag! 'atom:link', :rel => 'self', :type => 'application/rss+xml', :href => cf_forum_url(current_forum || 'all') + '.json'
+    xml.link cf_forum_url(current_forum)
+    xml.tag! 'atom:link', :rel => 'self', :type => 'application/rss+xml', :href => cf_forum_url(current_forum) + '.json'
 
     for thread in @threads
       xml.item do
