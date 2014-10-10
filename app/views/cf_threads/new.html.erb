@@ -9,7 +9,7 @@ content_for :title, t('threads.write_new_thread')
     <%= message_header(@thread, @message) %>
 
     <div class="posting-content well">
-      <%= @message.to_html %>
+      <%= @message.to_html(self) %>
     </div>
   </div>
 <% end %>

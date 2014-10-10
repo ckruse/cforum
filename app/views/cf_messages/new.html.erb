@@ -7,14 +7,14 @@ content_for :title, t('messages.write_new_answer')
     <%= message_header(@thread, @parent) %>
 
     <div class="posting-content">
-      <%= @parent.to_html %>
+      <%= @parent.to_html(self) %>
     </div>
 
 <% elsif @preview %>
     <%= message_header(@thread, @message) %>
 
     <div class="posting-content">
-      <%= @message.to_html %>
+      <%= @message.to_html(self) %>
     </div>
 <% end %>
   </div>

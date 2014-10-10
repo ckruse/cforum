@@ -14,7 +14,7 @@ content_for :title, t('mails.post_from', :name => @mail.sender.username)
   </header>
 
   <div class="posting-content cf-box">
-    <%= @mail.to_html %>
+    <%= @mail.to_html(self) %>
   </div>
 </article>
 

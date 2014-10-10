@@ -7,7 +7,7 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
   <%= message_header(@thread, m, first: first, do_parent: do_parent, tree: false) %>
 
   <div class="posting-content">
-    <%= m.to_html %>
+    <%= m.to_html(self) %>
   </div>
 
   <% if not m.flags['flattr_id'].blank? %>
@@ -74,7 +74,7 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
       <%= message_header(@thread, @thread.accepted, first: false, do_parent: false) %>
 
       <div class="posting-content">
-        <%= @thread.accepted.to_html %>
+        <%= @thread.accepted.to_html(self) %>
       </div>
 
       <p class="small"><%= t('messages.accepted_answer') %></p>
