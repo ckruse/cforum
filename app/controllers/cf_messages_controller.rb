@@ -37,12 +37,17 @@ class CfMessagesController < ApplicationController
       end
     end
 
-    if uconf('standard_view', 'thread-view') == 'thread-view'
-      notification_center.notify(SHOW_MESSAGE, @thread, @message, @votes)
-      render 'show-thread'
-    else
-      notification_center.notify(SHOW_THREAD, @thread, @message, @votes)
-      render 'show-nested'
+    respond_to do |format|
+      format.html do
+        if uconf('standard_view', 'thread-view') == 'thread-view'
+          notification_center.notify(SHOW_MESSAGE, @thread, @message, @votes)
+          render 'show-thread'
+        else
+          notification_center.notify(SHOW_THREAD, @thread, @message, @votes)
+          render 'show-nested'
+        end
+      end
+      format.json { render json: {thread: @thread, message: @message} }
     end
   end
 
