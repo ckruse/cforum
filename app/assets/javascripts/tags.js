@@ -85,19 +85,12 @@ cforum.tags = {
   addTagSuggestion: function(ev) {
     ev.preventDefault();
     var tag = $(ev.target).closest("li").attr("data-tag");
-    var hasIt = false;
 
     if($("#tags-list .tag").length >= cforum.maxTags) {
       return;
     }
 
-    $("#tags-list input[type=hidden]").each(function() {
-      if($(this).val() == tag) {
-        hasIt = true;
-      }
-    });
-
-    if(!hasIt) {
+    if(!cforum.tags.hasTag(tag)) {
       cforum.tags.appendTag(tag);
     }
   },
@@ -120,7 +113,10 @@ cforum.tags = {
 
     if($.trim($this.val()) && $this.val() != ',' && $("#tags-list .tag").length < cforum.maxTags) {
       var val = $.trim($this.val().replace(/[, ].*/, '').toLowerCase());
-      cforum.tags.appendTag(val);
+
+      if(!cforum.tags.hasTag(val)) {
+        cforum.tags.appendTag(val);
+      }
 
       var v = $this.val();
       $this.val(v.indexOf(String.fromCharCode(ev.keyCode)) == -1 ? '' : v.replace(/.*[, ]?/, ''));
