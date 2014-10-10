@@ -53,6 +53,8 @@ class NoAnswerNoArchivePluginController < ApplicationController
 
     unless retvals.include?(false)
       CfMessage.transaction do
+        @thread.flags_will_change!
+
         if @thread.flags['no-archive'] == 'yes'
           @thread.flags.delete 'no-archive'
         else
