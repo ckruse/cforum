@@ -46,6 +46,8 @@ de:
         instance_locked: Instanz gesperrt
         forum_locked: Forum gesperrt
         close_vote_votes: Notwendige Stimmen, um einen Thread zu öffnen/schliessen
+        edit_until_has_answer: Editieren nur bis zur ersten Antwort möglich
+        editing_enabled: Editieren grundsätzlich möglich
 
     users:
       updated: Benutzer erfolgreich geändert.

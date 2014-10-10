@@ -121,6 +121,59 @@ module RightsHelper
 
     return true
   end
+
+  def check_editable(thread, message)
+    # editing is always possible when user is an admin
+    return true if current_user and current_user.admin?
+
+    # editing isn't possible when disabled
+    if conf('editing_enabled', 'yes') != 'yes'
+      flash[:error] = t('messages.editing_disabled')
+      redirect_to cf_message_url(thread, message)
+      return
+    end
+
+    @max_editable_age = conf('max_editable_age', 10).to_i
+
+    edit_it = false
+
+    raise CForum::ForbiddenException.new if not message.open?
+
+    if conf('edit_until_has_answer', 'yes') == 'yes' and not message.messages.empty?
+      flash[:error] = t('messages.editing_not_allowed_with_answer')
+      redirect_to cf_message_url(thread, message)
+      return
+    end
+
+    if message.created_at <= @max_editable_age.minutes.ago
+        flash[:error] = t('messages.message_too_old_to_edit',
+                          minutes: @max_editable_age)
+      redirect_to cf_message_url(thread, message)
+      return
+    end
+
+    if not current_user and
+        not cookies[:cforum_user].blank? and
+        message.uuid == cookies[:cforum_user]
+      edit_it = true
+
+    elsif current_user
+      if not current_forum.moderator?(current_user) and
+          current_user.user_id == message.user_id
+        edit_it = true
+      elsif current_forum.moderator?(current_user)
+        edit_it = true
+      end
+    end
+
+    unless edit_it
+      flash[:error] = t('messages.only_author_or_mod_may_edit')
+      redirect_to cf_message_url(thread, message)
+      return
+    end
+
+    return true
+  end
 end
 
 ApplicationController.extend RightsHelper

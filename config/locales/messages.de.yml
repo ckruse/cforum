@@ -10,6 +10,9 @@ de:
     too_many_tags: "Sie dürfen nur %{max_tags} Tags verwenden."
     only_author_or_mod_may_edit: Nur der Autor oder ein Moderator kann eine Antwort editieren.
     message_too_old_to_edit: Nachrichten dürfen nur in einem Zeitraum von %{minutes} Minuten editiert werden.
+    editing_disabled: Das Editieren von Nachrichten ist deaktiviert.
+    editing_not_allowed_with_answer: Das Editieren von Nachrichten, die eine Antwort erhalten haben, ist verboten.
+    edit_message: Nachricht bearbeiten
 
     new_answer: antworten
     edit_posting: Nachricht bearbeiten

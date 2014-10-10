@@ -32,6 +32,10 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
       <%= link_to m.flags['accepted'] == 'yes' ? t('messages.unaccept_answer') : t('messages.accept_answer'), accept_cf_message_path(@thread, m), method: 'post', class: 'cf-btn' %>
       <% end %>
 
+      <% if check_editable(@thread, m) %>
+        <%= link_to t('messages.edit_message'), edit_cf_message_path(@thread, m), class: 'cf-btn' %>
+      <% end %>
+
       <% unless current_user.blank? %>
       <button name="type" value="up" title="<%= t(has_upvote ? 'messages.unvote' : 'messages.vote_up') %>" class="cf-btn"><i class="vote icon-vote-up<% if has_upvote %> active<% end %>"> </i></button>
       <button name="type" value="down" title="<%= t(has_downvote ? 'messages.unvote' : 'messages.vote_down') %>" class="cf-btn"><i class="vote icon-vote-down<% if has_downvote %> active<% end %>"> </i></button>

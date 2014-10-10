@@ -57,9 +57,25 @@
       </div>
 
       <div class="cf-cgroup">
+        <label for="settings-editing_enabled"><%= t('admin.forums.settings.editing_enabled') %></label>
+        <div class="cntrls">
+          <input type="hidden" name="settings[editing_enabled]" value="no">
+          <%= check_box_tag 'settings[editing_enabled]', 'yes', @settings.options['editing_enabled'] == 'yes', id: 'settings-editing_enabled' %>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
         <label for="settings-max_editable_age"><%= t('admin.forums.settings.max_editable_age') %></label>
         <div class="cntrls">
           <%= number_field_tag 'settings[max_editable_age]', @settings.options['max_editable_age'], id: 'settings-max_editable_age' %>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-edit_until_has_answer"><%= t('admin.forums.settings.edit_until_has_answer') %></label>
+        <div class="cntrls">
+          <input type="hidden" name="settings[edit_until_has_answer]" value="no">
+          <%= check_box_tag 'settings[edit_until_has_answer]', 'yes', @settings.options['edit_until_has_answer'] == 'yes', id: 'settings-edit_until_has_answer' %>
         </div>
       </div>
 
