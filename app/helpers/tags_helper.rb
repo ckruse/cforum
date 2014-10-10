@@ -33,11 +33,10 @@ module TagsHelper
 
       # then create the message/tag connections
       tag_objs.each do |to|
-        CfMessageTag.create!(tag_id: to.tag_id, message_id: message.message_id)
+        message.tags << to
       end
     end
 
-    message.tags = tag_objs
     tag_objs
   end # save_tags
 
