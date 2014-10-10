@@ -14,7 +14,7 @@ cforum.tags = {
   autocomplete: function() {
     cforum.tags.autocomplete_timeout = null;
 
-    var $tag_input = $("#tags-input");
+    var $tag_input = $("#replaced_tag_input");
 
     if($tag_input.val().length >= 2) {
       $.get(
@@ -193,7 +193,7 @@ cforum.tags = {
     }
 
     if(ev.keyCode == 188 || ev.keyCode == 32) {
-      cforum.tags.addTag.call($("#tags-input"), ev);
+      cforum.tags.addTag.call($("#replaced_tag_input"), ev);
     }
     else {
       cforum.tags.autocomplete_timeout = window.setTimeout(cforum.tags.autocomplete, 800);
