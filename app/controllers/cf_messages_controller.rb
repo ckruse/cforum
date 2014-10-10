@@ -58,7 +58,8 @@ class CfMessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:cf_message).permit(:subject, :content, :author, :email, :homepage)
+    params.require(:cf_message).permit(:subject, :content, :author,
+                                       :email, :homepage)
   end
 
   def new
