@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   include AuthorizeStd
   include ExceptionHelpers
   include FayeHelper
+  include MessageHelper
 
   before_filter :do_init, :locked?, :check_forum_access, :set_forums,
     :notifications, :run_before_handler, :check_authorizations

@@ -1,4 +1,6 @@
-class MessageHelpers
+# -*- coding: utf-8 -*-
+
+module MessageHelper
   def message_header(thread, message, opts = {})
     opts = {first: false, prev_deleted: false,
       show_icons: false, do_parent: false,
@@ -178,3 +180,5 @@ class MessageHelpers
     html.html_safe
   end
 end
+
+# eof
