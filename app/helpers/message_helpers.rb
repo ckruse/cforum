@@ -1,9 +1,8 @@
-<%
+class MessageHelpers
   def message_header(thread, message, opts = {})
     opts = {first: false, prev_deleted: false,
-            show_icons: false, do_parent: false,
-            tree: true}.merge(opts)
-    nested = uconf('standard_view', 'thread-view') == 'nested-view'
+      show_icons: false, do_parent: false,
+      tree: true}.merge(opts)
 
     classes = ['message']
     classes += message.attribs['classes']
@@ -103,10 +102,14 @@
 
     if message.user_id
       html << "<span class=\"registered-user"
-      html << " original-poster" if not message.message_id == thread.message.message_id and message.user_id == thread.message.user_id
+      if not message.message_id == thread.message.message_id and message.user_id == thread.message.user_id
+        html << " original-poster"
+      end
       html << "\">" + link_to('<em>Benutzer-Profil</em>'.html_safe, user_path(message.owner), class: 'icon-registered-user', title: t('messages.user_link', user: message.owner.username)) + " "
     else
-      html << '<i class="icon-message original-poster" title="' + t('messages.original_poster') + '"> </i>' if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
+      if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
+        html << '<i class="icon-message original-poster" title="' + t('messages.original_poster') + '"> </i>'
+      end
     end
     html << encode_entities(message.author)
     html << '</span>' if message.user_id
@@ -153,4 +156,25 @@
 
     html.html_safe
   end
-%>
+
+  def message_tree(thread, messages, opts = {})
+    opts = {prev_deleted: false, show_icons: false}.merge(opts)
+
+    html = "<ol>\n"
+    messages.each do |message|
+      classes = []
+      classes << 'active' if @message and @message.message_id == message.message_id
+
+      html << "<li"
+      html << " class=\"" + classes.join(" ") + "\"" unless classes.blank?
+      html << ">"
+      html << message_header(thread, message, first: false, prev_deleted: opts[:prev_deleted], show_icons: opts[:show_icons])
+      html << message_tree(thread, message.messages, first: false, prev_deleted: message.deleted?, show_icons: opts[:show_icons]) unless message.messages.blank?
+      html << "</li>"
+    end
+
+    html << "\n</ol>"
+
+    html.html_safe
+  end
+end
