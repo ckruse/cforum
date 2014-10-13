@@ -2,7 +2,11 @@
 
 class MarkUnreadController < ApplicationController
   def mark_unread
-    raise CForum::ForbiddenException.new if current_user.blank?
+    if current_user.blank?
+      flash[:error] = t('global.only_as_user')
+      redirect_to cf_forum_url(current_forum)
+      return :redirected
+    end
 
     @thread, @message, @id = get_thread_w_post
 
