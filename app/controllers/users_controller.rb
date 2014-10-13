@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     if params[:s].blank?
       @users = CfUser
     else
-      @users = CfUser.where('LOWER(username) LIKE ?', '%' + params[:s].strip + '%')
+      @users = CfUser.where('LOWER(username) LIKE LOWER(?)', '%' + params[:s].strip + '%')
       @search_term = params[:s]
     end
 
