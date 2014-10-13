@@ -86,7 +86,11 @@ class CfMessage < ActiveRecord::Base
   end
 
   def open?
-    flags["no-answer"] != "yes" and flags["no-answer-admin"] != 'yes'
+    # admin decisions overrule normal decisions
+    return true if flags["no-answer-admin"] != 'yes'
+    return false if flags["no-answer-admin"] == 'yes'
+
+    flags["no-answer"] != "yes"
   end
 end
 
