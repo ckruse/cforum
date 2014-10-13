@@ -1,24 +1,24 @@
-<h3>Entsperr-Abstimmung (<%= @message.open_vote.voters.length %>/<%= conf("close_vote_votes", 5) %>)</h3>
+<h3>Entsperr-Abstimmung (<%= m.open_vote.voters.length %>/<%= conf("close_vote_votes", 5) %>)</h3>
 
 <p>
-  <% if @message.open_vote.finished %>
+  <% if m.open_vote.finished %>
     Diese Nachricht (und damit auch alle folgenden) wurden wieder geöffnet.
   <% else %>
     Diese Nachricht (und damit auch alle folgenden) soll wieder geöffnet werden.
   <% end %>
 
   Der angegebene Grund:
-  <em><% if @message.open_vote.reason == 'custom' %>
-    <%= @message.open_vote.custom_reason %>
+  <em><% if m.open_vote.reason == 'custom' %>
+    <%= m.open_vote.custom_reason %>
   <% else %>
-    <%= t('messages.close_vote.' + @message.open_vote.reason) %>
+    <%= t('messages.close_vote.' + m.open_vote.reason) %>
   <% end %></em>
 </p>
 
-<% if may?(RightsHelper::RIGHT_TO_VISIT_CLOSE_AND_REOPEN_VOTES) and not @message.open_vote.finished %>
+<% if may?(RightsHelper::RIGHT_TO_VISIT_CLOSE_AND_REOPEN_VOTES) and not m.open_vote.finished %>
   <p>
-     <%= link_to("Sehe ich auch so", open_cf_message_path(@thread, @message),
-                 class:  (@message.open_vote.has_voted?(current_user) ? "cf-primary-btn" : 'cf-btn'),
+     <%= link_to("Sehe ich auch so", open_cf_message_path(@thread, m),
+                 class:  (m.open_vote.has_voted?(current_user) ? "cf-primary-btn" : 'cf-btn'),
                  method: :patch) %>
   </p>
 <% end %>

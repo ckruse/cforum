@@ -51,20 +51,20 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
       # allow close vote if
       # - message is not closed
       # - message hasn't got a close vote already
-      if @message.open? and @message.close_vote.blank?
+      if m.open? and m.close_vote.blank?
       %>
         <%= link_to(t('messages.close_vote.close_message_button'),
-                    close_cf_message_path(@thread, @message), class: 'cf-btn') %>
+                    close_cf_message_path(@thread, m), class: 'cf-btn') %>
       <% end %>
       <%
       # allow open vote if
       # - user has the rights to do so
       # - message is closed
       # - message hasn't got an open vote already
-      if not @message.open? and @message.open_vote.blank?
+      if not m.open? and m.open_vote.blank?
       %>
         <%= link_to(t('messages.close_vote.open_message_button'),
-                    open_cf_message_path(@thread, @message), class: 'cf-btn') %>
+                    open_cf_message_path(@thread, m), class: 'cf-btn') %>
       <% end %>
     </p>
   <% end %>
@@ -97,10 +97,10 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
     </article>
   <% end %>
 
-  <% unless @message.close_vote.blank? %>
-    <%= render 'close_vote' %>
+  <% unless m.close_vote.blank? %>
+    <%= render 'close_vote', m: m %>
   <% end %>
 
-  <% unless @message.open_vote.blank? %>
-    <%= render 'open_vote' %>
+  <% unless m.open_vote.blank? %>
+    <%= render 'open_vote', m: m %>
   <% end %>
