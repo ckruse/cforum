@@ -119,17 +119,20 @@ module RightsHelper
       end
     end
 
-    return true
+    return
   end
 
-  def check_editable(thread, message)
+  def check_editable(thread, message, redirect = true)
     # editing is always possible when user is an admin
     return true if current_user and current_user.admin?
 
     # editing isn't possible when disabled
     if conf('editing_enabled', 'yes') != 'yes'
-      flash[:error] = t('messages.editing_disabled')
-      redirect_to cf_message_url(thread, message)
+      if redirect
+        flash[:error] = t('messages.editing_disabled')
+        redirect_to cf_message_url(thread, message)
+      end
+
       return
     end
 
@@ -137,18 +140,28 @@ module RightsHelper
 
     edit_it = false
 
-    raise CForum::ForbiddenException.new if not message.open?
+    if redirect
+      raise CForum::ForbiddenException.new if not message.open?
+    else
+      return
+    end
 
     if conf('edit_until_has_answer', 'yes') == 'yes' and not message.messages.empty?
-      flash[:error] = t('messages.editing_not_allowed_with_answer')
-      redirect_to cf_message_url(thread, message)
+      if redirect
+        flash[:error] = t('messages.editing_not_allowed_with_answer')
+        redirect_to cf_message_url(thread, message)
+      end
+
       return
     end
 
     if message.created_at <= @max_editable_age.minutes.ago
+      if redirect
         flash[:error] = t('messages.message_too_old_to_edit',
                           minutes: @max_editable_age)
-      redirect_to cf_message_url(thread, message)
+        redirect_to cf_message_url(thread, message)
+      end
+
       return
     end
 
@@ -167,8 +180,11 @@ module RightsHelper
     end
 
     unless edit_it
-      flash[:error] = t('messages.only_author_or_mod_may_edit')
-      redirect_to cf_message_url(thread, message)
+      if redirect
+        flash[:error] = t('messages.only_author_or_mod_may_edit')
+        redirect_to cf_message_url(thread, message)
+      end
+
       return
     end
 

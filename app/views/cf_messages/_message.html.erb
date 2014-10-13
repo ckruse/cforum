@@ -32,7 +32,7 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
       <%= link_to m.flags['accepted'] == 'yes' ? t('messages.unaccept_answer') : t('messages.accept_answer'), accept_cf_message_path(@thread, m), method: 'post', class: 'cf-btn' %>
       <% end %>
 
-      <% if check_editable(@thread, m) %>
+      <% if check_editable(@thread, m, false) %>
         <%= link_to t('messages.edit_message'), edit_cf_message_path(@thread, m), class: 'cf-btn' %>
       <% end %>
 
