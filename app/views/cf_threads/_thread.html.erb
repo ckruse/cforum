@@ -1,4 +1,4 @@
-<article class="thread threadlist<% if thread.sticky %> sticky<% end %>" id="t<%= thread.thread_id %>">
+<article class="thread threadlist<% if thread.sticky %> sticky<% end %><% unless thread.attribs['classes'].blank? %> <%= thread.attribs['classes'].join(' ') %><% end %>" id="t<%= thread.thread_id %>">
   <%= message_header(thread, thread.message, first: true, show_icons: true) %>
 
   <% if not thread.message.messages.blank? and thread.attribs['open_state'] != 'closed' %>
