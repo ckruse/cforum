@@ -397,6 +397,20 @@ $$;
 
 
 --
+-- Name: messages__thread_set_latest(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION messages__thread_set_latest() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE threads SET latest_message = (SELECT MAX(created_at) FROM messages WHERE thread_id = threads.thread_id) WHERE thread_id = OLD.thread_id;
+  RETURN NULL;
+END;
+$$;
+
+
+--
 -- Name: settings_unique_check__insert(); Type: FUNCTION; Schema: cforum; Owner: -
 --
 
@@ -1142,7 +1156,8 @@ CREATE TABLE threads (
     message_id bigint,
     deleted boolean DEFAULT false NOT NULL,
     sticky boolean DEFAULT false NOT NULL,
-    flags hstore
+    flags hstore,
+    latest_message timestamp without time zone NOT NULL
 );
 
 
@@ -1944,6 +1959,13 @@ CREATE TRIGGER messages__count_update_trigger AFTER UPDATE ON messages FOR EACH 
 
 
 --
+-- Name: messages__thread_set_latest_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER messages__thread_set_latest_trigger AFTER INSERT OR DELETE OR UPDATE ON messages FOR EACH ROW EXECUTE PROCEDURE messages__thread_set_latest();
+
+
+--
 -- Name: messages_tags__count_delete_trigger; Type: TRIGGER; Schema: cforum; Owner: -
 --
 
@@ -2381,6 +2403,8 @@ INSERT INTO schema_migrations (version) VALUES ('45');
 INSERT INTO schema_migrations (version) VALUES ('46');
 
 INSERT INTO schema_migrations (version) VALUES ('47');
+
+INSERT INTO schema_migrations (version) VALUES ('48');
 
 INSERT INTO schema_migrations (version) VALUES ('5');
 

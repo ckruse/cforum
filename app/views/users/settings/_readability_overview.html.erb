@@ -23,6 +23,14 @@
     </div>
   </div>
 
+  <div class="cf-cgroup">
+    <label><%= t('users.settings.sort_threads') %></label>
+    <div class="cntrls">
+      <label class="radio"><input type="radio" value="ascending" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'ascending' %> checked="checked"<% end %>> Aufsteigend</label>
+      <label class="radio"><input type="radio" value="descending" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'descending' || !@settings.conf('sort_threads') %> checked="checked"<% end %>> Absteigend</label>
+      <label class="radio"><input type="radio" value="newest-first" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'newest-first' %> checked="checked"<% end %>> Threads mit letzter Aktivität zuerst</label>
+    </div>
+  </div>
 
   <%= render 'widgets/users_selector', desc: t('users.settings.highlighted_users'), name: "settings[highlighted_users][]", id: "settings_highlighted_users", users: @highlighted_users_list %>
 

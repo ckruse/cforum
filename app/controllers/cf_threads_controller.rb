@@ -25,6 +25,18 @@ class CfThreadsController < ApplicationController
     conditions[:archived] = false if conf('use_archive') == 'yes'
     conditions[:messages] = {deleted: false} unless @view_all
 
+    order = uconf('sort_threads', 'descending')
+    case order
+    when 'descending'
+      order = 'threads.created_at DESC'
+    when 'ascending'
+      order = 'threads.created_at ASC'
+    when 'newest-first'
+      order = 'threads.latest_message DESC'
+    else
+      order = 'threads.created_at DESC'
+    end
+
     # the „no forum” case is much more complex; we have to do it partly manually
     # to avoid DISTINCT
     sql = "SELECT thread_id FROM threads "
@@ -56,14 +68,14 @@ class CfThreadsController < ApplicationController
       end
     end
     sql << ' WHERE ' + crits.join(" AND ") unless crits.empty?
-    sql << " ORDER BY threads.sticky DESC, threads.created_at DESC LIMIT #{@limit} OFFSET #{@limit * @page}"
+    sql << " ORDER BY threads.sticky DESC, #{order} LIMIT #{@limit} OFFSET #{@limit * @page}"
 
     @threads = CfThread.
       preload(:forum, messages: [:owner, :tags]).
       includes(messages: :owner).
       where(conditions).
       where("threads.thread_id IN (#{sql})").
-      order('threads.sticky DESC, threads.created_at DESC')
+      order("threads.sticky DESC, #{order}")
 
     if forum
       rslt = CfForum.connection.execute("SELECT counter_table_get_count('threads', " +
