@@ -48,7 +48,7 @@ class CfForumsController < ApplicationController
       @activities[msg.forum_id] = msg
     end
 
-    notification_center.notify(SHOW_FORUMLIST, @threads, false)
+    notification_center.notify(SHOW_FORUMLIST, @counts, @activities)
   end
 
   def redirect_archive

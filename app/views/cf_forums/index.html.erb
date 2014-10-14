@@ -25,31 +25,44 @@ content_for :title, t('global.forums')
   </thead>
 
   <tfoot>
-    <tr>
+    <%
+    msg = nil
+    if not aggregated[:last_change].blank?
+      msg = aggregated[:last_change]
+    end
+    %>
+    <tr<% if msg and not msg.attribs['classes'].blank? %> class="<%= msg.attribs['classes'].join(" ") %>"<% end %>>
       <td><%= link_to t('forums.all_forums'), cf_forum_path('all') %></td>
       <td><%= aggregated[:threads] %></td>
       <td><%= aggregated[:messages] %></td>
-      <td><% if aggregated[:last_change].blank? %><%= ('<em>' + t('global.never') + '</em>').html_safe %><% else
-        msg = aggregated[:last_change] %><%= l(msg.updated_at, format: date_format) %> von <%= msg.user_id ? link_to(msg.author, user_path(msg.owner)) : msg.author %>: <%= link_to msg.subject, cf_message_path(msg.thread, msg) %>
-        <% end %></td>
+      <td>
+        <% if msg.nil?  %><%= ('<em>' + t('global.never') + '</em>').html_safe %>
+        <% else %><%= l(msg.updated_at, format: date_format) %> von <%= msg.user_id ? link_to(msg.author, user_path(msg.owner)) : msg.author %>: <%= link_to msg.subject, cf_message_path(msg.thread, msg) %>
+        <% end %>
+      </td>
     </tr>
   </tfoot>
 
   <tbody>
     <% @forums.each do |forum| %>
-    <tr>
-      <td><%= link_to forum.name, forum %></td>
-      <td><%= @counts[forum.forum_id][:threads] %></td>
-      <td><%= @counts[forum.forum_id][:messages] %></td>
-      <td><%
-        if @activities[forum.forum_id]
-          msg = @activities[forum.forum_id] %>
-          <%= l(msg.updated_at, format: date_format) %> von <%= msg.user_id ? link_to(msg.author, user_path(msg.owner)) : msg.author %>: <%= link_to msg.subject, cf_message_path(msg.thread, msg) %>
-        <% else %>
-          <em>(<%= ("<em>" + t("global.never") + "</em>").html_safe %>)</em>
-        <% end %>
-      </td>
-    </tr>
+      <%
+      msg = nil
+      if @activities[forum.forum_id]
+        msg = @activities[forum.forum_id]
+      end
+      %>
+      <tr<% if msg and not msg.attribs['classes'].blank? %> class="<%= msg.attribs['classes'].join(" ") %>"<% end %>>
+        <td><%= link_to forum.name, forum %></td>
+        <td><%= @counts[forum.forum_id][:threads] %></td>
+        <td><%= @counts[forum.forum_id][:messages] %></td>
+        <td>
+          <% if msg %>
+            <%= l(msg.updated_at, format: date_format) %> von <%= msg.user_id ? link_to(msg.author, user_path(msg.owner)) : msg.author %>: <%= link_to msg.subject, cf_message_path(msg.thread, msg) %>
+          <% else %>
+            <em>(<%= ("<em>" + t("global.never") + "</em>").html_safe %>)</em>
+          <% end %>
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>
