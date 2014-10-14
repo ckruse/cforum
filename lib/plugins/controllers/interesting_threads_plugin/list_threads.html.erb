@@ -1,0 +1,9 @@
+<%
+content_for :title, t('plugins.interesting_threads.interesting_threads')
+%>
+
+<div data-js="threadlist">
+  <% @threads.each do |t| %>
+    <%=  render 'cf_threads/thread', thread: t %>
+  <% end %>
+</div>

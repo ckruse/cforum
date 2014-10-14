@@ -74,6 +74,14 @@ module CForum
       _cf_thread_path(thread) + "/no_archive" + query_string(args)
     end
 
+    def interesting_cf_thread_path(thread, args = {})
+      _cf_thread_path(thread) + "/interesting" + query_string(args)
+    end
+
+    def boring_cf_thread_path(thread, args = {})
+      _cf_thread_path(thread) + "/boring" + query_string(args)
+    end
+
     #
     # message path helpers
     #
@@ -149,6 +157,14 @@ module CForum
 
     def cf_thread_url(thread, args = {})
       _cf_thread_url(thread) + query_string(args)
+    end
+
+    def interesting_cf_thread_url(thread, args = {})
+      _cf_thread_url(thread) + '/interesting' + query_string(args)
+    end
+
+    def boring_cf_thread_url(thread, args = {})
+      _cf_thread_url(thread) + '/boring' + query_string(args)
     end
 
     def _cf_message_url_wo_anchor(thread, message)

@@ -685,6 +685,38 @@ ALTER SEQUENCE groups_users_group_user_id_seq OWNED BY groups_users.group_user_i
 
 
 --
+-- Name: interesting_threads; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE interesting_threads (
+    interesting_thread_id bigint NOT NULL,
+    thread_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: interesting_threads_interesting_thread_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE interesting_threads_interesting_thread_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: interesting_threads_interesting_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE interesting_threads_interesting_thread_id_seq OWNED BY interesting_threads.interesting_thread_id;
+
+
+--
 -- Name: invisible_threads; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -1262,6 +1294,13 @@ ALTER TABLE ONLY groups_users ALTER COLUMN group_user_id SET DEFAULT nextval('gr
 
 
 --
+-- Name: interesting_thread_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY interesting_threads ALTER COLUMN interesting_thread_id SET DEFAULT nextval('interesting_threads_interesting_thread_id_seq'::regclass);
+
+
+--
 -- Name: invisible_thread_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -1444,6 +1483,22 @@ ALTER TABLE ONLY groups
 
 ALTER TABLE ONLY groups_users
     ADD CONSTRAINT groups_users_pkey PRIMARY KEY (group_user_id);
+
+
+--
+-- Name: interesting_threads_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY interesting_threads
+    ADD CONSTRAINT interesting_threads_pkey PRIMARY KEY (interesting_thread_id);
+
+
+--
+-- Name: interesting_threads_thread_id_user_id_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY interesting_threads
+    ADD CONSTRAINT interesting_threads_thread_id_user_id_key UNIQUE (thread_id, user_id);
 
 
 --
@@ -2000,6 +2055,22 @@ ALTER TABLE ONLY groups_users
 
 
 --
+-- Name: interesting_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY interesting_threads
+    ADD CONSTRAINT interesting_threads_thread_id_fkey FOREIGN KEY (thread_id) REFERENCES threads(thread_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: interesting_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY interesting_threads
+    ADD CONSTRAINT interesting_threads_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: invisible_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -2308,6 +2379,8 @@ INSERT INTO schema_migrations (version) VALUES ('44');
 INSERT INTO schema_migrations (version) VALUES ('45');
 
 INSERT INTO schema_migrations (version) VALUES ('46');
+
+INSERT INTO schema_migrations (version) VALUES ('47');
 
 INSERT INTO schema_migrations (version) VALUES ('5');
 

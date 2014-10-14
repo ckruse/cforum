@@ -33,6 +33,18 @@ module MessageHelper
       html << ' <a class="icon-thread mark-invisible" title="' +
         t('plugins.invisible_threads.mark_thread_invisible') + '" href="' +
         cf_forum_path(current_forum, hide_thread: thread.thread_id) + '"> </a>'
+
+      if get_plugin_api(:is_interesting).call(thread, current_user).blank?
+        html << ' ' + link_to('', interesting_cf_thread_path(thread),
+                              class: 'icon-thread mark-interesting',
+                              title: t('plugins.interesting_threads.mark_thread_interesting'),
+                              method: :post)
+      else
+        html << ' ' + link_to('', boring_cf_thread_path(thread),
+                              class: 'icon-thread mark-boring',
+                              title: t('plugins.interesting_threads.mark_thread_boring'),
+                              method: :post)
+      end
     end
 
     if not current_user.blank? and not current_forum.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons]

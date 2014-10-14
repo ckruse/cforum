@@ -107,6 +107,8 @@ form.form-inline { display:inline; }
   &.archive { @extend .icon-cloud; }
   &.no-archive { @extend .icon-signout; }
   &.mark-invisible { @extend .icon-remove; }
+  &.mark-interesting { @extend .icon-star; }
+  &.mark-boring { @extend .icon-star-empty; }
 }
 
 .icon-message {
@@ -117,7 +119,7 @@ form.form-inline { display:inline; }
   &.answer { @extend .icon-unlock; }
   &.no-answer { @extend .icon-lock; }
   &.original-poster { @extend .icon-exclamation-sign; }
-  &.unread { @extend .icon-star; }
+  &.unread { @extend .icon-ban-circle; }
 }
 
 .cf-cgroup {
