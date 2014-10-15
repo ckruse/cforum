@@ -141,6 +141,8 @@ class MarkReadPlugin < Plugin
   end
 
   def show_forumlist(counts, activities)
+    return unless current_user
+
     messages = activities.values
     ids = messages.map { |a| a.message_id }
     result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
