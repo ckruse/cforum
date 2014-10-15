@@ -397,10 +397,24 @@ $$;
 
 
 --
--- Name: messages__thread_set_latest(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: messages__thread_set_latest_insert(); Type: FUNCTION; Schema: cforum; Owner: -
 --
 
-CREATE FUNCTION messages__thread_set_latest() RETURNS trigger
+CREATE FUNCTION messages__thread_set_latest_insert() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE threads SET latest_message = (SELECT MAX(created_at) FROM messages WHERE thread_id = threads.thread_id) WHERE thread_id = NEW.thread_id;
+  RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: messages__thread_set_latest_update_delete(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION messages__thread_set_latest_update_delete() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -1959,10 +1973,17 @@ CREATE TRIGGER messages__count_update_trigger AFTER UPDATE ON messages FOR EACH 
 
 
 --
--- Name: messages__thread_set_latest_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: messages__thread_set_latest_trigger_insert; Type: TRIGGER; Schema: cforum; Owner: -
 --
 
-CREATE TRIGGER messages__thread_set_latest_trigger AFTER INSERT OR DELETE OR UPDATE ON messages FOR EACH ROW EXECUTE PROCEDURE messages__thread_set_latest();
+CREATE TRIGGER messages__thread_set_latest_trigger_insert AFTER INSERT ON messages FOR EACH ROW EXECUTE PROCEDURE messages__thread_set_latest_insert();
+
+
+--
+-- Name: messages__thread_set_latest_trigger_update; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER messages__thread_set_latest_trigger_update AFTER DELETE OR UPDATE ON messages FOR EACH ROW EXECUTE PROCEDURE messages__thread_set_latest_update_delete();
 
 
 --
@@ -2405,6 +2426,8 @@ INSERT INTO schema_migrations (version) VALUES ('46');
 INSERT INTO schema_migrations (version) VALUES ('47');
 
 INSERT INTO schema_migrations (version) VALUES ('48');
+
+INSERT INTO schema_migrations (version) VALUES ('49');
 
 INSERT INTO schema_migrations (version) VALUES ('5');
 
