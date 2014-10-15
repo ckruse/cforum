@@ -41,7 +41,7 @@ module RightsHelper
     end
 
     @cache[user] = CfScore.where(user_id: user).sum(:value) if @cache[user].blank?
-    return true if @cache[user] >= conf(right, DEFAULT_SCORES[right] || 50000)
+    return true if @cache[user] >= conf(right, DEFAULT_SCORES[right] || 50000).to_i
     return
   end
 
