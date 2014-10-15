@@ -1,14 +1,20 @@
-<%
+# -*- coding: utf-8 -*-
+
+module MessageHelper
   def message_header(thread, message, opts = {})
     opts = {first: false, prev_deleted: false,
-            show_icons: false, do_parent: false,
-            tree: true}.merge(opts)
-    nested = uconf('standard_view', 'thread-view') == 'nested-view'
+      show_icons: false, do_parent: false,
+      tree: true}.merge(opts)
 
-    classes = []
+    classes = ['message']
     classes += message.attribs['classes']
     classes << 'first' if opts[:first]
     classes << 'deleted' if message.deleted?
+
+    if thread.accepted
+      classes << "accepted-answer" if thread.accepted.message_id == message.message_id
+      classes << "has-accepted-answer" if thread.message.message_id == message.message_id
+    end
 
     html = "<header"
     html << ' class="' + classes.join(" ") + '"' unless classes.blank?
@@ -18,15 +24,27 @@
     if opts[:first] and current_user and opts[:show_icons]
       html << '  <a class="icon-thread '
       if thread.attribs['open_state'] == 'closed'
-        html << 'closed" title="' + t('plugins.open_close.open_thread') + '" href="' + cf_forum_path(current_forum || 'all', :open => thread.thread_id)
+        html << 'closed" title="' + t('plugins.open_close.open_thread') + '" href="' + cf_forum_path(current_forum, :open => thread.thread_id)
       else
-        html << 'open" title="' + t('plugins.open_close.close_thread') + '" href="' + cf_forum_path(current_forum || 'all', :close => thread.thread_id)
+        html << 'open" title="' + t('plugins.open_close.close_thread') + '" href="' + cf_forum_path(current_forum, :close => thread.thread_id)
       end
       html << '"> </a>'
 
       html << ' <a class="icon-thread mark-invisible" title="' +
         t('plugins.invisible_threads.mark_thread_invisible') + '" href="' +
-        cf_forum_path(current_forum || 'all', hide_thread: thread.thread_id) + '"> </a>'
+        cf_forum_path(current_forum, hide_thread: thread.thread_id) + '"> </a>'
+
+      if get_plugin_api(:is_interesting).call(thread, current_user).blank?
+        html << ' ' + link_to('', interesting_cf_thread_path(thread),
+                              class: 'icon-thread mark-interesting',
+                              title: t('plugins.interesting_threads.mark_thread_interesting'),
+                              method: :post)
+      else
+        html << ' ' + link_to('', boring_cf_thread_path(thread),
+                              class: 'icon-thread mark-boring',
+                              title: t('plugins.interesting_threads.mark_thread_boring'),
+                              method: :post)
+      end
     end
 
     if not current_user.blank? and not current_forum.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons]
@@ -49,11 +67,17 @@
         end
       end
 
-      if message.flags['no-answer'] == 'yes'
+      if not message.open?
         html << " " + link_to('', no_answer_cf_message_path(thread, message), method: :post, class: 'icon-message answer', title: t('plugins.no_answer_no_archive.answer'))
       else
         html << " " + link_to('', no_answer_cf_message_path(thread, message), method: :post, class: 'icon-message no-answer', title: t('plugins.no_answer_no_archive.no_answer'))
       end
+    end
+
+    if current_user and opts[:show_icons] and not get_plugin_api(:is_read).call(message, current_user).blank?
+      html << " " + link_to('', unread_cf_message_path(thread, message),
+                            method: :post, class: 'icon-message unread',
+                            title: t('plugins.mark_read.mark_unread'))
     end
 
     if current_forum.blank?
@@ -92,10 +116,14 @@
 
     if message.user_id
       html << "<span class=\"registered-user"
-      html << " original-poster" if not message.message_id == thread.message.message_id and message.user_id == thread.message.user_id
+      if not message.message_id == thread.message.message_id and message.user_id == thread.message.user_id
+        html << " original-poster"
+      end
       html << "\">" + link_to('<em>Benutzer-Profil</em>'.html_safe, user_path(message.owner), class: 'icon-registered-user', title: t('messages.user_link', user: message.owner.username)) + " "
     else
-      html << '<i class="icon-message original-poster" title="' + t('messages.original_poster') + '"> </i>' if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
+      if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
+        html << '<i class="icon-message original-poster" title="' + t('messages.original_poster') + '"> </i>'
+      end
     end
     html << encode_entities(message.author)
     html << '</span>' if message.user_id
@@ -142,4 +170,27 @@
 
     html.html_safe
   end
-%>
+
+  def message_tree(thread, messages, opts = {})
+    opts = {prev_deleted: false, show_icons: false}.merge(opts)
+
+    html = "<ol>\n"
+    messages.each do |message|
+      classes = []
+      classes << 'active' if @message and @message.message_id == message.message_id
+
+      html << "<li"
+      html << " class=\"" + classes.join(" ") + "\"" unless classes.blank?
+      html << ">"
+      html << message_header(thread, message, first: false, prev_deleted: opts[:prev_deleted], show_icons: opts[:show_icons])
+      html << message_tree(thread, message.messages, first: false, prev_deleted: message.deleted?, show_icons: opts[:show_icons]) unless message.messages.blank?
+      html << "</li>"
+    end
+
+    html << "\n</ol>"
+
+    html.html_safe
+  end
+end
+
+# eof

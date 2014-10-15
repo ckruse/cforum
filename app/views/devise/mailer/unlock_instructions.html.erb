@@ -3,4 +3,4 @@
 <p><%= t('devise.unlocks.account_locked') %></p>
 <p><%= t('devise.unlocks.visit_link_to_unlock') %>:</p>
 
-<p><%= link_to t('devise.unlocks.unlock'), unlock_url(@resource, :unlock_token => @resource.unlock_token) %></p>
+<p><%= link_to t('devise.unlocks.unlock'), unlock_url(@resource, :unlock_token => @token) %></p>

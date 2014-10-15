@@ -44,6 +44,9 @@ Cforum::Application.routes.draw do
 
   get '/all' => 'cf_threads#index'
 
+  get '/interesting' => 'interesting_threads_plugin#list_threads',
+    as: :interesting_threads
+
   scope ":curr_forum" do
     get 'tags/autocomplete' => 'tags#autocomplete'
     resources :tags, except: [:new, :create, :edit, :update, :destroy]
@@ -67,6 +70,12 @@ Cforum::Application.routes.draw do
     post '/:year/:mon/:day/:tid/no_archive' => 'no_answer_no_archive_plugin#no_archive',
       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_archive_cf_thread'
 
+
+    post '/:year/:mon/:day/:tid/interesting' => 'interesting_threads_plugin#mark_interesting',
+      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'interesting_cf_thread'
+    post '/:year/:mon/:day/:tid/boring' => 'interesting_threads_plugin#mark_boring',
+       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'boring_cf_thread'
+
     #
     # message urls
     #
@@ -79,18 +88,21 @@ Cforum::Application.routes.draw do
     delete '/:year/:mon/:day/:tid/:mid' => 'cf_messages#destroy',
       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
+    post '/:year/:mon/:day/:tid/:mid/vote' => 'vote_plugin#vote',
+      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'vote_cf_message'
+    post '/:year/:mon/:day/:tid/:mid/unread' => 'mark_unread#mark_unread',
+      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'unread_cf_message'
+
     #
     # admin actions
     #
-    post '/:year/:mon/:day/:tid/:mid/vote' => 'vote_plugin#vote',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'vote_cf_message'
     post '/:year/:mon/:day/:tid/:mid/restore' => 'cf_messages#restore',
       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'restore_cf_message'
     post '/:year/:mon/:day/:tid/:mid/no_answer' => 'no_answer_no_archive_plugin#no_answer',
       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_answer_cf_message'
 
     #
-    # plugins
+    # Plugins
     #
     post '/:year/:mon/:day/:tid/:mid/accept' => 'accept_plugin#accept',
       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'accept_cf_message'
@@ -100,6 +112,13 @@ Cforum::Application.routes.draw do
     put '/:year/:mon/:day/:tid/:mid/close' => 'close_vote#create',
       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
     patch '/:year/:mon/:day/:tid/:mid/close' => 'close_vote#vote',
+      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+
+    get '/:year/:mon/:day/:tid/:mid/open' => 'close_vote#new_open',
+      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'open_cf_message'
+    put '/:year/:mon/:day/:tid/:mid/open' => 'close_vote#create_open',
+      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+    patch '/:year/:mon/:day/:tid/:mid/open' => 'close_vote#vote_open',
       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
     #

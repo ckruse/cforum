@@ -37,12 +37,17 @@ class CfMessagesController < ApplicationController
       end
     end
 
-    if uconf('standard_view', 'thread-view') == 'thread-view'
-      notification_center.notify(SHOW_MESSAGE, @thread, @message, @votes)
-      render 'show-thread'
-    else
-      notification_center.notify(SHOW_THREAD, @thread, @message, @votes)
-      render 'show-nested'
+    respond_to do |format|
+      format.html do
+        if uconf('standard_view', 'thread-view') == 'thread-view'
+          notification_center.notify(SHOW_MESSAGE, @thread, @message, @votes)
+          render 'show-thread'
+        else
+          notification_center.notify(SHOW_THREAD, @thread, @message, @votes)
+          render 'show-nested'
+        end
+      end
+      format.json { render json: {thread: @thread, message: @message} }
     end
   end
 
@@ -53,11 +58,14 @@ class CfMessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:cf_message).permit(:subject, :content, :author, :email, :homepage)
+    params.require(:cf_message).permit(:subject, :content, :author,
+                                       :email, :homepage)
   end
 
   def new
     @thread, @message, @id = get_thread_w_post
+
+    raise CForum::ForbiddenException.new if not @message.open?
 
     @parent  = @message
     @message = CfMessage.new
@@ -67,13 +75,15 @@ class CfMessagesController < ApplicationController
 
     # inherit message and subject from previous post
     @message.subject = @parent.subject
-    @message.content = @parent.to_quote if params.has_key?(:quote_old_message)
+    @message.content = @parent.to_quote(self) if params.has_key?(:quote_old_message)
 
     notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
   end
 
   def create
     @thread, @message, @id = get_thread_w_post
+
+    raise CForum::ForbiddenException.new if not @message.open?
 
     invalid  = false
 
@@ -138,54 +148,19 @@ class CfMessagesController < ApplicationController
     end
   end
 
-  def check_editable
-    @max_editable_age = conf('max_editable_age', 10).to_i
-
-    @thread, @message, @id = get_thread_w_post
-    edit_it = false
-    too_old = false
-
-    if @message.created_at <= @max_editable_age.minutes.ago
-      too_old = true
-    end
-
-    if not current_user and
-        not cookies[:cforum_user].blank? and
-        @message.uuid == cookies[:cforum_user] and not too_old
-      edit_it = true
-    elsif current_user and
-        not current_forum.moderator?(current_user) and
-        current_user.user_id == @message.user_id and
-        not too_old
-      edit_it = true
-    elsif current_user and current_forum.moderator?(current_user)
-      edit_it = true
-    end
-
-    unless edit_it
-      if too_old
-        flash[:error] = t('messages.message_too_old_to_edit',
-                          minutes: @max_editable_age)
-      else
-        flash[:error] = t('messages.only_author_or_mod_may_edit')
-      end
-
-      redirect_to cf_message_url(@thread, @message)
-      return
-    end
-
-    return true
-  end
-
   def edit
-    return unless check_editable
+    @thread, @message, @id = get_thread_w_post
+
+    return unless check_editable(@thread, @message)
 
     @tags = @message.tags.map { |t| t.tag_name }
 
   end
 
   def update
-    return unless check_editable
+    @thread, @message, @id = get_thread_w_post
+
+    return unless check_editable(@thread, @message)
 
     invalid  = false
 
@@ -196,7 +171,6 @@ class CfMessagesController < ApplicationController
     @preview = true if params[:preview]
     retvals  = notification_center.notify(UPDATING_MESSAGE, @thread, @message,
                                           @tags)
-
     @max_tags = conf('max_tags_per_message', 3).to_i
     if @tags.length > @max_tags
       invalid = true
@@ -207,22 +181,23 @@ class CfMessagesController < ApplicationController
     if not invalid and not retvals.include?(false) and not @preview
       CfMessage.transaction do
         raise ActiveRecord::Rollback unless @message.save
+        raise ActiveRecord::Rollback unless @message.tags.delete_all
         raise ActiveRecord::Rollback unless save_tags(@message, @tags)
         saved = true
       end
     end
 
     if saved
-      publish('/messages/' + @thread.forum.slug, {type: 'message',
+      publish('/messages/' + @thread.forum.slug, {type: 'update',
                 thread: @thread, message: @message, parent: @parent})
-      publish('/messages/all', {type: 'message', thread: @thread,
+      publish('/messages/all', {type: 'update', thread: @thread,
                 message: @message, parent: @parent})
 
       notification_center.notify(UPDATED_MESSAGE, @thread, @parent,
                                  @message, @tags)
       redirect_to cf_message_path(@thread, @message), notice: I18n.t('messages.updated')
     else
-      render :new
+      render :edit
     end
   end
 

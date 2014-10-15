@@ -397,6 +397,34 @@ $$;
 
 
 --
+-- Name: messages__thread_set_latest_insert(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION messages__thread_set_latest_insert() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE threads SET latest_message = (SELECT MAX(created_at) FROM messages WHERE thread_id = threads.thread_id) WHERE thread_id = NEW.thread_id;
+  RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: messages__thread_set_latest_update_delete(); Type: FUNCTION; Schema: cforum; Owner: -
+--
+
+CREATE FUNCTION messages__thread_set_latest_update_delete() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE threads SET latest_message = (SELECT MAX(created_at) FROM messages WHERE thread_id = threads.thread_id) WHERE thread_id = OLD.thread_id;
+  RETURN NULL;
+END;
+$$;
+
+
+--
 -- Name: settings_unique_check__insert(); Type: FUNCTION; Schema: cforum; Owner: -
 --
 
@@ -457,6 +485,74 @@ $$;
 SET default_tablespace = '';
 
 SET default_with_oids = false;
+
+--
+-- Name: close_votes; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE close_votes (
+    close_vote_id bigint NOT NULL,
+    message_id bigint NOT NULL,
+    reason character varying(20) NOT NULL,
+    duplicate_slug character varying(255),
+    custom_reason character varying(255),
+    finished boolean DEFAULT false NOT NULL,
+    vote_type boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: close_votes_close_vote_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE close_votes_close_vote_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: close_votes_close_vote_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE close_votes_close_vote_id_seq OWNED BY close_votes.close_vote_id;
+
+
+--
+-- Name: close_votes_voters; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE close_votes_voters (
+    close_votes_voter_id bigint NOT NULL,
+    close_vote_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: close_votes_voters_close_votes_voter_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE close_votes_voters_close_votes_voter_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: close_votes_voters_close_votes_voter_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE close_votes_voters_close_votes_voter_id_seq OWNED BY close_votes_voters.close_votes_voter_id;
+
 
 --
 -- Name: counter_table; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
@@ -614,6 +710,38 @@ CREATE SEQUENCE groups_users_group_user_id_seq
 --
 
 ALTER SEQUENCE groups_users_group_user_id_seq OWNED BY groups_users.group_user_id;
+
+
+--
+-- Name: interesting_threads; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE interesting_threads (
+    interesting_thread_id bigint NOT NULL,
+    thread_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: interesting_threads_interesting_thread_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE interesting_threads_interesting_thread_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: interesting_threads_interesting_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE interesting_threads_interesting_thread_id_seq OWNED BY interesting_threads.interesting_thread_id;
 
 
 --
@@ -1042,7 +1170,8 @@ CREATE TABLE threads (
     message_id bigint,
     deleted boolean DEFAULT false NOT NULL,
     sticky boolean DEFAULT false NOT NULL,
-    flags hstore
+    flags hstore,
+    latest_message timestamp without time zone NOT NULL
 );
 
 
@@ -1145,6 +1274,20 @@ ALTER SEQUENCE votes_vote_id_seq OWNED BY votes.vote_id;
 
 
 --
+-- Name: close_vote_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY close_votes ALTER COLUMN close_vote_id SET DEFAULT nextval('close_votes_close_vote_id_seq'::regclass);
+
+
+--
+-- Name: close_votes_voter_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY close_votes_voters ALTER COLUMN close_votes_voter_id SET DEFAULT nextval('close_votes_voters_close_votes_voter_id_seq'::regclass);
+
+
+--
 -- Name: count_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -1177,6 +1320,13 @@ ALTER TABLE ONLY groups ALTER COLUMN group_id SET DEFAULT nextval('groups_group_
 --
 
 ALTER TABLE ONLY groups_users ALTER COLUMN group_user_id SET DEFAULT nextval('groups_users_group_user_id_seq'::regclass);
+
+
+--
+-- Name: interesting_thread_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY interesting_threads ALTER COLUMN interesting_thread_id SET DEFAULT nextval('interesting_threads_interesting_thread_id_seq'::regclass);
 
 
 --
@@ -1285,6 +1435,38 @@ ALTER TABLE ONLY votes ALTER COLUMN vote_id SET DEFAULT nextval('votes_vote_id_s
 
 
 --
+-- Name: close_votes_message_id_vote_type_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY close_votes
+    ADD CONSTRAINT close_votes_message_id_vote_type_key UNIQUE (message_id, vote_type);
+
+
+--
+-- Name: close_votes_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY close_votes
+    ADD CONSTRAINT close_votes_pkey PRIMARY KEY (close_vote_id);
+
+
+--
+-- Name: close_votes_voters_close_vote_id_user_id_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY close_votes_voters
+    ADD CONSTRAINT close_votes_voters_close_vote_id_user_id_key UNIQUE (close_vote_id, user_id);
+
+
+--
+-- Name: close_votes_voters_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY close_votes_voters
+    ADD CONSTRAINT close_votes_voters_pkey PRIMARY KEY (close_votes_voter_id);
+
+
+--
 -- Name: counter_table_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -1330,6 +1512,22 @@ ALTER TABLE ONLY groups
 
 ALTER TABLE ONLY groups_users
     ADD CONSTRAINT groups_users_pkey PRIMARY KEY (group_user_id);
+
+
+--
+-- Name: interesting_threads_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY interesting_threads
+    ADD CONSTRAINT interesting_threads_pkey PRIMARY KEY (interesting_thread_id);
+
+
+--
+-- Name: interesting_threads_thread_id_user_id_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY interesting_threads
+    ADD CONSTRAINT interesting_threads_thread_id_user_id_key UNIQUE (thread_id, user_id);
 
 
 --
@@ -1775,6 +1973,20 @@ CREATE TRIGGER messages__count_update_trigger AFTER UPDATE ON messages FOR EACH 
 
 
 --
+-- Name: messages__thread_set_latest_trigger_insert; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER messages__thread_set_latest_trigger_insert AFTER INSERT ON messages FOR EACH ROW EXECUTE PROCEDURE messages__thread_set_latest_insert();
+
+
+--
+-- Name: messages__thread_set_latest_trigger_update; Type: TRIGGER; Schema: cforum; Owner: -
+--
+
+CREATE TRIGGER messages__thread_set_latest_trigger_update AFTER DELETE OR UPDATE ON messages FOR EACH ROW EXECUTE PROCEDURE messages__thread_set_latest_update_delete();
+
+
+--
 -- Name: messages_tags__count_delete_trigger; Type: TRIGGER; Schema: cforum; Owner: -
 --
 
@@ -1838,6 +2050,22 @@ CREATE TRIGGER threads__count_update_trigger AFTER UPDATE ON threads FOR EACH RO
 
 
 --
+-- Name: close_votes_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY close_votes
+    ADD CONSTRAINT close_votes_message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: close_votes_voters_close_vote_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY close_votes_voters
+    ADD CONSTRAINT close_votes_voters_close_vote_id_fkey FOREIGN KEY (close_vote_id) REFERENCES close_votes(close_vote_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: forums_groups_permissions_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -1867,6 +2095,22 @@ ALTER TABLE ONLY groups_users
 
 ALTER TABLE ONLY groups_users
     ADD CONSTRAINT groups_users_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: interesting_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY interesting_threads
+    ADD CONSTRAINT interesting_threads_thread_id_fkey FOREIGN KEY (thread_id) REFERENCES threads(thread_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: interesting_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY interesting_threads
+    ADD CONSTRAINT interesting_threads_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -2176,6 +2420,14 @@ INSERT INTO schema_migrations (version) VALUES ('43');
 INSERT INTO schema_migrations (version) VALUES ('44');
 
 INSERT INTO schema_migrations (version) VALUES ('45');
+
+INSERT INTO schema_migrations (version) VALUES ('46');
+
+INSERT INTO schema_migrations (version) VALUES ('47');
+
+INSERT INTO schema_migrations (version) VALUES ('48');
+
+INSERT INTO schema_migrations (version) VALUES ('49');
 
 INSERT INTO schema_migrations (version) VALUES ('5');
 

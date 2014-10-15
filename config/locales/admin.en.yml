@@ -42,6 +42,7 @@ en:
         users_per_page: Users per page
         max_tags_per_message: Maximum no of tags per message
         header_start_index: Start index for headings
+        close_vote_votes: Necessary votes to open/close a thread
 
     users:
       updated: User was successfully changed!

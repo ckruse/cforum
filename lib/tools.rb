@@ -41,6 +41,7 @@ module CForum
     end
 
     def _cf_forum_path(forum)
+      forum = 'all' if forum.blank?
       forum = forum.slug unless forum.is_a?(String)
       root_path + forum
     end
@@ -73,6 +74,14 @@ module CForum
       _cf_thread_path(thread) + "/no_archive" + query_string(args)
     end
 
+    def interesting_cf_thread_path(thread, args = {})
+      _cf_thread_path(thread) + "/interesting" + query_string(args)
+    end
+
+    def boring_cf_thread_path(thread, args = {})
+      _cf_thread_path(thread) + "/boring" + query_string(args)
+    end
+
     #
     # message path helpers
     #
@@ -89,7 +98,7 @@ module CForum
       _cf_message_path_wo_anchor(thread, message) + query_string(args) + "#m" + message.message_id.to_s
     end
 
-    def cf_edit_message_path(thread, message, args = {})
+    def edit_cf_message_path(thread, message, args = {})
       _cf_message_path_wo_anchor(thread, message) + "/edit" + query_string(args)
     end
 
@@ -118,11 +127,22 @@ module CForum
         query_string(args)
     end
 
+    def open_cf_message_path(thread, message, args = {})
+      _cf_message_path_wo_anchor(thread, message) + "/open" +
+        query_string(args)
+    end
+
+    def unread_cf_message_path(thread, message, args = {})
+      _cf_message_path_wo_anchor(thread, message) + "/unread" +
+        query_string(args)
+    end
+
     #
     # URL helpers
     #
 
     def _cf_forum_url(forum)
+      forum = 'all' if forum.blank?
       forum = forum.slug unless forum.is_a?(String)
       root_url + forum
     end
@@ -139,6 +159,14 @@ module CForum
       _cf_thread_url(thread) + query_string(args)
     end
 
+    def interesting_cf_thread_url(thread, args = {})
+      _cf_thread_url(thread) + '/interesting' + query_string(args)
+    end
+
+    def boring_cf_thread_url(thread, args = {})
+      _cf_thread_url(thread) + '/boring' + query_string(args)
+    end
+
     def _cf_message_url_wo_anchor(thread, message)
       _cf_thread_url(thread) + '/' + message.message_id.to_s
     end
@@ -151,8 +179,13 @@ module CForum
       _cf_message_url_wo_anchor(thread, message) + query_string(args) + "#m" + message.message_id.to_s
     end
 
-    def close_cf_message_url(thread, message, args = {})
-      _cf_message_url_wo_anchor(thread, message) + "/close" +
+    def open_cf_message_url(thread, message, args = {})
+      _cf_message_url_wo_anchor(thread, message) + "/open" +
+        query_string(args)
+    end
+
+    def unread_cf_message_url(thread, message, args = {})
+      _cf_message_url_wo_anchor(thread, message) + "/unread" +
         query_string(args)
     end
   end

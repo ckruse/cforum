@@ -32,10 +32,16 @@ module RightsHelper
 
   def may?(right, user = current_user)
     @cache ||= {}
-    user = user.user_id if user.is_a?(CfUser)
 
-    @cache[user] = CfScore.where(:user_id => user).sum(:value) if @cache[user].blank?
-    return true if @cache[user] >= conf(right, DEFAULT_SCORES[right] || 50000)
+    return false if user.blank?
+
+    if user.is_a?(CfUser)
+      return true if user.admin
+      user = user.user_id
+    end
+
+    @cache[user] = CfScore.where(user_id: user).sum(:value) if @cache[user].blank?
+    return true if @cache[user] >= conf(right, DEFAULT_SCORES[right] || 50000).to_i
     return
   end
 
@@ -53,7 +59,7 @@ module RightsHelper
     conditions
   end
 
-  def get_thread_w_post
+  def get_thread
     tid = false
     id  = nil
 
@@ -75,6 +81,12 @@ module RightsHelper
     # sort messages
     thread.message
 
+    return thread, id
+  end
+
+  def get_thread_w_post
+    thread, id = get_thread
+
     message = nil
     unless params[:mid].blank?
       message = thread.find_message(params[:mid].to_i)
@@ -88,20 +100,92 @@ module RightsHelper
     actions = [actions] unless actions.is_a?(Array)
 
     @@authorizatian_hooks ||= {}
+    @@authorizatian_hooks[controller_path] ||= {}
 
     actions.each do |a|
-      @@authorizatian_hooks[a.to_sym] ||= []
-      @@authorizatian_hooks[a.to_sym] << proc
+      @@authorizatian_hooks[controller_path][a.to_sym] ||= []
+      @@authorizatian_hooks[controller_path][a.to_sym] << proc
     end
   end
 
   def check_authorizations
     action = action_name.to_sym
 
-    if defined?(@@authorizatian_hooks) and @@authorizatian_hooks[action]
-      @@authorizatian_hooks[action].each do |block|
+    if defined?(@@authorizatian_hooks) and
+        @@authorizatian_hooks[controller_path] and
+        @@authorizatian_hooks[controller_path][action]
+      @@authorizatian_hooks[controller_path][action].each do |block|
         raise CForum::ForbiddenException.new unless self.instance_eval(&block)
       end
+    end
+
+    return
+  end
+
+  def check_editable(thread, message, redirect = true)
+    # editing is always possible when user is an admin
+    return true if current_user and current_user.admin?
+
+    # editing isn't possible when disabled
+    if conf('editing_enabled', 'yes') != 'yes'
+      if redirect
+        flash[:error] = t('messages.editing_disabled')
+        redirect_to cf_message_url(thread, message)
+      end
+
+      return
+    end
+
+    @max_editable_age = conf('max_editable_age', 10).to_i
+
+    edit_it = false
+
+    if redirect
+      raise CForum::ForbiddenException.new if not message.open?
+    else
+      return
+    end
+
+    if conf('edit_until_has_answer', 'yes') == 'yes' and not message.messages.empty?
+      if redirect
+        flash[:error] = t('messages.editing_not_allowed_with_answer')
+        redirect_to cf_message_url(thread, message)
+      end
+
+      return
+    end
+
+    if message.created_at <= @max_editable_age.minutes.ago
+      if redirect
+        flash[:error] = t('messages.message_too_old_to_edit',
+                          minutes: @max_editable_age)
+        redirect_to cf_message_url(thread, message)
+      end
+
+      return
+    end
+
+    if not current_user and
+        not cookies[:cforum_user].blank? and
+        message.uuid == cookies[:cforum_user]
+      edit_it = true
+
+    elsif current_user
+      if not current_forum.moderator?(current_user) and
+          current_user.user_id == message.user_id
+        edit_it = true
+      elsif current_forum.moderator?(current_user)
+        edit_it = true
+      end
+    end
+
+    unless edit_it
+      if redirect
+        flash[:error] = t('messages.only_author_or_mod_may_edit')
+        redirect_to cf_message_url(thread, message)
+      end
+
+      return
     end
 
     return true

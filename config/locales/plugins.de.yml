@@ -30,3 +30,13 @@ de:
       thread_marked_invisible: Thread wurde erfolgreich versteckt.
       mark_thread_invisible: Thread verstecken
 
+    mark_read:
+      marked_unread: Die Nachricht wurde als ungelesen markiert.
+      mark_unread: ungelesen markieren
+
+    interesting_threads:
+      marked_interesting: Der Thread wurde als interessant markiert.
+      unmarked_interesting: Die Interessant-Markierung wurde entfernt.
+      mark_thread_interesting: Thread als interessant markieren
+      mark_thread_boring: Thread als uninteressant markieren
+      interesting_threads: Interessante Threads

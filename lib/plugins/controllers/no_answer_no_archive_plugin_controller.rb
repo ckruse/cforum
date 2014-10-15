@@ -12,25 +12,20 @@ class NoAnswerNoArchivePluginController < ApplicationController
   NO_ARCHIVE_REMOVED  = "no_archive_removed"
 
   def no_answer
-    @id = CfThread.make_id(params)
-    @thread = CfThread.preload(:forum, :messages => [:owner, :tags]).includes(:messages => :owner).where(std_conditions(@id)).first
-    raise CForum::NotFoundException.new if @thread.blank?
+    @thread, @message, @id = get_thread_w_post
 
-    @message = @thread.find_message(params[:mid].to_i)
-    raise CForum::NotFoundException.new if @message.nil?
-
-    retvals = notification_center.notify(@message.flags['no-answer'] == 'yes' ? NO_ANSWER_REMOVING : NO_ANSWER, @thread, @message)
+    retvals = notification_center.notify(@message.flags['no-answer-admin'] == 'yes' ? NO_ANSWER_REMOVING : NO_ANSWER, @thread, @message)
 
     unless retvals.include?(false)
       CfMessage.transaction do
-        if @message.flags['no-answer'] == 'yes'
-          @message.del_flag_with_subtree('no-answer')
+        if @message.flags['no-answer-admin'] == 'yes'
+          @message.flag_with_subtree('no-answer-admin', 'no')
         else
-          @message.flag_with_subtree('no-answer', 'yes')
+          @message.flag_with_subtree('no-answer-admin', 'yes')
         end
       end
 
-      notification_center.notify(@message.flags['no-answer'] == 'yes' ? NO_ANSWERED : NO_ANSWER_REMOVED, @thread, @message)
+      notification_center.notify(@message.flags['no-answer-admin'] == 'yes' ? NO_ANSWERED : NO_ANSWER_REMOVED, @thread, @message)
     end
 
     respond_to do |format|
@@ -42,7 +37,7 @@ class NoAnswerNoArchivePluginController < ApplicationController
             :view_all => true
           ),
           notice: I18n.t(
-            @message.flags['no-answer'] == 'yes' ? 'plugins.no_answer_no_archive.no_answered' : 'plugins.no_answer_no_archive.no_answer_removed'
+            @message.flags['no-answer-admin'] == 'yes' ? 'plugins.no_answer_no_archive.no_answered' : 'plugins.no_answer_no_archive.no_answer_removed'
           )
         )
       end
@@ -52,14 +47,14 @@ class NoAnswerNoArchivePluginController < ApplicationController
   end
 
   def no_archive
-    @id = CfThread.make_id(params)
-    @thread = CfThread.preload(:forum).find_by_slug(@id)
-    raise CForum::NotFoundException.new if @thread.blank?
+    @thread, @id = get_thread
 
     retvals = notification_center.notify(@thread.flags['no-archive'] == 'yes' ? NO_ARCHIVE_REMOVING : NO_ARCHIVE, @thread)
 
     unless retvals.include?(false)
       CfMessage.transaction do
+        @thread.flags_will_change!
+
         if @thread.flags['no-archive'] == 'yes'
           @thread.flags.delete 'no-archive'
         else
@@ -75,7 +70,7 @@ class NoAnswerNoArchivePluginController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(
-          cf_forum_url(current_forum || 'all'),
+          cf_forum_url(current_forum),
           notice: I18n.t(
             @thread.flags['no-archive'] == 'yes' ? 'plugins.no_answer_no_archive.no_archived' : 'plugins.no_answer_no_archive.no_archive_removed'
           )

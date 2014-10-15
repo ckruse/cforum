@@ -1,7 +1,4 @@
 <%
-render 'cf_messages/message_header'
-render 'cf_threads/thread_tree'
-
 content_for :title, @thread.message.subject + " " +
   I18n.t('messages.by') + " " + @thread.message.author + ", " +
   I18n.l(@thread.message.created_at, format: date_format('date_format_post'))

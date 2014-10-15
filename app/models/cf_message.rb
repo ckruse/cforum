@@ -24,7 +24,8 @@ class CfMessage < ActiveRecord::Base
   validates :email, length: {:in => 2..60 }, email: true, allow_blank: true
   validates :homepage, length: {:in => 2..250 }, allow_blank: true, http_url: true
 
-  has_one :close_vote, class_name: CfCloseVote, foreign_key: :message_id
+  has_one :close_vote, -> { where(vote_type: false) }, class_name: CfCloseVote, foreign_key: :message_id
+  has_one :open_vote, -> { where(vote_type: true) }, class_name: CfCloseVote, foreign_key: :message_id
 
   validates_presence_of :forum_id, :thread_id
 
@@ -54,6 +55,7 @@ class CfMessage < ActiveRecord::Base
   end
 
   def flag_with_subtree(flag, value)
+    flags_will_change!
     flags[flag] = value
     save
 
@@ -63,6 +65,7 @@ class CfMessage < ActiveRecord::Base
   end
 
   def del_flag_with_subtree(flag)
+    flags_will_change!
     flags.delete(flag)
     save
 
@@ -80,6 +83,14 @@ class CfMessage < ActiveRecord::Base
     end
 
     parent_level.subject != subject
+  end
+
+  def open?
+    # admin decisions overrule normal decisions
+    return true if flags["no-answer-admin"] != 'yes'
+    return false if flags["no-answer-admin"] == 'yes'
+
+    flags["no-answer"] != "yes"
   end
 end
 

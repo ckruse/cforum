@@ -5,12 +5,7 @@ class AcceptPluginController < ApplicationController
   ACCEPTED_MESSAGE     = "accepted_message"
 
   def accept
-    @id = CfThread.make_id(params)
-    @thread = CfThread.preload(:forum, :messages => [:owner, :tags]).includes(:messages => :owner).where(std_conditions(@id)).first
-    raise CForum::NotFoundException.new if @thread.blank?
-
-    @message = @thread.find_message(params[:mid].to_i)
-    raise CForum::NotFoundException.new if @message.nil?
+    @thread, @message, @id = get_thread_w_post
 
     if @thread.acceptance_forbidden?(current_user, cookies[:cforum_user])
       flash[:error] = t('messages.only_op_may_accept')
@@ -20,16 +15,16 @@ class AcceptPluginController < ApplicationController
 
     notification_center.notify(ACCEPTING_MESSAGE, @thread, @message)
     CfMessage.transaction do
+      @message.flags_will_change!
       @message.flags['accepted'] = @message.flags['accepted'] == 'yes' ? 'no' : 'yes'
-      @message.changed_attributes['flags'] = true
       @message.save
 
       unless @message.user_id.blank?
         if @message.flags['accepted'] == 'yes'
           @thread.sorted_messages.each do |m|
             if m.message_id != @message.message_id and m.flags['accepted'] == 'yes'
+              m.flags_will_change!
               m.flags.delete('accepted')
-              m.changed_attributes['flags'] = true
               m.save
 
               if not m.user_id.blank?

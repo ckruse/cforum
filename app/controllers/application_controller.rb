@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   include AuthorizeStd
   include ExceptionHelpers
   include FayeHelper
+  include MessageHelper
 
   before_filter :do_init, :locked?, :check_forum_access, :set_forums,
     :notifications, :run_before_handler, :check_authorizations
@@ -57,19 +58,11 @@ class ApplicationController < ActionController::Base
   # normal stuff
   #
 
-  def self.instance
-    @@instance
-  end
-
   def do_init
-    ConfigManager.reset_instance
-
     @notification_center = NotificationCenter.new
-    @config_manager      = ConfigManager.instance
+    @config_manager      = ConfigManager.new
     @view_all            = false
     @_current_forum      = nil
-
-    @@instance           = self
 
     mod_view_paths
     load_and_init_plugins
@@ -86,7 +79,7 @@ class ApplicationController < ActionController::Base
   end
 
   def locked?
-    if @config_manager.get('locked', false, nil, current_forum) and (not current_user or not current_user.admin?)
+    if conf('locked', 'no') == "yes" and (not current_user or not current_user.admin?)
       render :locked, status: 500, layout: nil
     end
   end

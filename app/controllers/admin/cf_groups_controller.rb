@@ -35,10 +35,7 @@ class Admin::CfGroupsController < ApplicationController
       (params[:forums].length - 1).times do |i|
         next if params[:forums][i].blank? or params[:permissions][i].blank?
 
-        @forums_groups_permissions << CfForumGroupPermission.new(
-          forum_id: params[:forums][i],
-          permission: params[:permissions][i]
-        )
+        @forums_groups_permissions << [params[:forums][i],params[:permissions][i]]
       end
     end
 
@@ -49,13 +46,12 @@ class Admin::CfGroupsController < ApplicationController
       @group.groups_users.clear
       @users.each do |u|
         raise ActiveRecord::Rollback.new unless CfGroupUser.create(group_id: @group.group_id, user_id: u.user_id)
+      end
 
-        @group.forums_groups_permissions.clear
-        @forums_groups_permissions.each do |fgp|
-          fgp.group_id = @group.group_id
-          fgp.save!
-        end
-
+      @group.forums_groups_permissions.clear
+      @forums_groups_permissions.each do |fgp|
+        @group.forums_groups_permissions.create!(forum_id: fgp[0],
+                                                   permission: fgp[1])
       end
 
       saved = true

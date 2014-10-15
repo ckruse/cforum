@@ -31,7 +31,7 @@ class CfUser < ActiveRecord::Base
   end
 
   def self.find_first_by_auth_conditions(conditions = {})
-    conditions = conditions.dup
+    conditions = conditions.to_h.dup
     conditions[:active] = true
 
     if login = conditions.delete(:login)

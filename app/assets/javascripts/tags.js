@@ -14,7 +14,7 @@ cforum.tags = {
   autocomplete: function() {
     cforum.tags.autocomplete_timeout = null;
 
-    var $tag_input = $("#tags-input");
+    var $tag_input = $("#replaced_tag_input");
 
     if($tag_input.val().length >= 2) {
       $.get(
@@ -56,7 +56,9 @@ cforum.tags = {
   },
 
   suggestTags: function() {
-    var mcnt = $(document.getElementById('cf_thread_message_content') ? "#cf_thread_message_content" : "#cf_message_content").val();
+    var mcnt = $(document.getElementById('cf_thread_message_content') ?
+                 "#cf_thread_message_content" : "#cf_message_content").val();
+
     if(mcnt == "") {
       return;
     }
@@ -64,14 +66,16 @@ cforum.tags = {
     var suggestions = cforum.tags.suggestions(mcnt);
 
     $.get(
-      cforum.baseUrl + '/' + cforum.currentForum.slug + '/tags.json',
+      cforum.baseUrl + cforum.currentForum.slug + '/tags.json',
       'tags=' + encodeURIComponent(suggestions.join(",")),
       function(data) {
         var tag_list = $("#tags-suggestions");
         tag_list.html("");
 
         for(var i = 0; i < data.length && i < cforum.tags.maxTags; ++i) {
-          cforum.tags.appendTag(data[i].tag_name, tag_list, cforum.tags.views.tagSuggestion);
+          if(!cforum.tags.hasTag(data[i].tag_name)) {
+            cforum.tags.appendTag(data[i].tag_name, tag_list, cforum.tags.views.tagSuggestion);
+          }
         }
 
       }
@@ -81,21 +85,26 @@ cforum.tags = {
   addTagSuggestion: function(ev) {
     ev.preventDefault();
     var tag = $(ev.target).closest("li").attr("data-tag");
-    var hasIt = false;
 
     if($("#tags-list .tag").length >= cforum.maxTags) {
       return;
     }
 
-    $("#tags-list input[type=hidden]").each(function() {
-      if($(this).val() == tag) {
-        hasIt = true;
-      }
-    });
-
-    if(!hasIt) {
+    if(!cforum.tags.hasTag(tag)) {
       cforum.tags.appendTag(tag);
     }
+  },
+
+  hasTag: function(name) {
+    var tags = $("#tags-list input[type=hidden]")
+
+    for(var i = 0; i < tags.length; ++i) {
+      if($(tags[i]).val().toLowerCase() == name) {
+        return true;
+      }
+    }
+
+    return false;
   },
 
   addTag: function(ev) {
@@ -104,7 +113,10 @@ cforum.tags = {
 
     if($.trim($this.val()) && $this.val() != ',' && $("#tags-list .tag").length < cforum.maxTags) {
       var val = $.trim($this.val().replace(/[, ].*/, '').toLowerCase());
-      cforum.tags.appendTag(val);
+
+      if(!cforum.tags.hasTag(val)) {
+        cforum.tags.appendTag(val);
+      }
 
       var v = $this.val();
       $this.val(v.indexOf(String.fromCharCode(ev.keyCode)) == -1 ? '' : v.replace(/.*[, ]?/, ''));
@@ -154,7 +166,9 @@ cforum.tags = {
       cforum.tags.appendTag(tags[i]);
     }
 
-    el.val("");
+    $("<input type=\"text\" id=\"replaced_tag_input\" class=\"tags-input\">").insertBefore(el);
+    el.remove();
+    el = $("#replaced_tag_input");
 
     el.on('keyup', cforum.tags.handleTagsKeyUp);
     el.on('focusout', cforum.tags.addTag);
@@ -179,7 +193,7 @@ cforum.tags = {
     }
 
     if(ev.keyCode == 188 || ev.keyCode == 32) {
-      cforum.tags.addTag.call($("#tags-input"), ev);
+      cforum.tags.addTag.call($("#replaced_tag_input"), ev);
     }
     else {
       cforum.tags.autocomplete_timeout = window.setTimeout(cforum.tags.autocomplete, 800);

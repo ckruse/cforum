@@ -42,9 +42,12 @@ en:
       vote_deleted: Your vote has been removed
       error_message: "%{errors_count} prohibited this close vote from being saved:"
       close_message: Close message „%{subject}” by %{author}
+      close_message_button: close message
+      open_message_button: re-open message
       close_vote_already_exists: There already is a close vote
       no_close_vote: "There isn't a close vote yet"
       off-topic: This message is off topic
       not-constructive: This message is unconstructive and leads to a bad tone in this forum
       duplicate: This message is a duplicate
       custom: custom reason
+      vote_already_closed: The poll is already closed.

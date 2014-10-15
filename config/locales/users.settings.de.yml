@@ -39,3 +39,5 @@ de:
       mark_read_moment: Threads/Postings als gelesen markieren
       before_render: beim Öffnen der Einzelansicht
       after_render: beim Schließen der Einzelansicht
+      flattr: Flattr-ID
+

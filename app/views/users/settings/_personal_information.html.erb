@@ -14,4 +14,11 @@
       <input type="text" value="<%= @settings.conf('url') %>" name="settings[url]" id="settings_url"<%= disabled %>>
     </div>
   </div>
+
+  <div class="cf-cgroup">
+    <label class="control-label" for="settings_flattr"><%= t('users.settings.flattr') %></label>
+    <div class="cntrls">
+      <input type="text" value="<%= @settings.conf('flattr') %>" name="settings[flattr]" id="settings_flattr"<%= disabled %>>
+    </div>
+  </div>
 </fieldset>

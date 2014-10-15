@@ -140,6 +140,20 @@ class MarkReadPlugin < Plugin
     check_thread(thread) if mark_read_moment == 'before_render'
   end
 
+  def show_forumlist(counts, activities)
+    return unless current_user
+
+    messages = activities.values
+    ids = messages.map { |a| a.message_id }
+    result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+
+    result.each do |row|
+      a = messages.find { |m| m.message_id == row['message_id'].to_i }
+      a.attribs['classes'] << 'visited' if a
+    end
+
+  end
+
   private
   def check_thread(thread)
     ids = []
@@ -160,9 +174,14 @@ end
 ApplicationController.init_hooks << Proc.new do |app_controller|
   mr_plugin = MarkReadPlugin.new(app_controller)
 
-  app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, mr_plugin)
-  app_controller.notification_center.register_hook(CfMessagesController::SHOW_THREAD, mr_plugin)
-  app_controller.notification_center.register_hook(CfMessagesController::SHOW_MESSAGE, mr_plugin)
+  app_controller.notification_center.
+    register_hook(CfThreadsController::SHOW_THREADLIST, mr_plugin)
+  app_controller.notification_center.
+    register_hook(CfMessagesController::SHOW_THREAD, mr_plugin)
+  app_controller.notification_center.
+    register_hook(CfMessagesController::SHOW_MESSAGE, mr_plugin)
+  app_controller.notification_center.
+    register_hook(CfForumsController::SHOW_FORUMLIST, mr_plugin)
 end
 
 # eof

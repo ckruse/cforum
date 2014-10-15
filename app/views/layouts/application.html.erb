@@ -12,8 +12,8 @@
 
     <%= javascript_include_tag Rails.application.config.faye_url + ".js" %>
 
-    <link rel="alternate" title="Atom Feed" type="application/atom+xml" href="<%= cf_forum_url(current_forum || 'all') %>.atom">
-    <link rel="alternate" title="RSS Feed" type="application/rss+xml" href="<%= cf_forum_url(current_forum || 'all') %>.rss">
+    <link rel="alternate" title="Atom Feed" type="application/atom+xml" href="<%= cf_forum_url(current_forum) %>.atom">
+    <link rel="alternate" title="RSS Feed" type="application/rss+xml" href="<%= cf_forum_url(current_forum) %>.rss">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>

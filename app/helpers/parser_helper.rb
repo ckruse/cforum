@@ -13,13 +13,13 @@ module ParserHelper
     has_attribute?(:content) ? content.to_s : body.to_s
   end
 
-  def to_html(opts = {})
+  def to_html(app, opts = {})
     opts = opts.symbolize_keys!.reverse_merge!(
       input: 'CfMarkdown',
       coderay_wrap: nil,
       coderay_css: :class,
       coderay_line_numbers: nil,
-      header_offset: ApplicationController.instance.conf('header_start_index', 2),
+      header_offset: app.conf('header_start_index', 2),
       auto_id_prefix: 'm' + (has_attribute?(:message_id) ? message_id.to_s : priv_message_id.to_s) + '-'
     )
 
@@ -37,8 +37,8 @@ module ParserHelper
     @doc.to_cf_html.html_safe
   end
 
-  def to_quote(opts = {})
-    opts.symbolize_keys!.reverse_merge!(:quote_signature => ApplicationController.instance.uconf('quote_signature', 'no'))
+  def to_quote(app, opts = {})
+    opts.symbolize_keys!.reverse_merge!(:quote_signature => app.uconf('quote_signature', 'no'))
 
     c = get_content
 
@@ -55,17 +55,6 @@ module ParserHelper
   def to_txt
     get_content
   end
-
-  # TODO: better method to load plugins, eval()ing them every time sucks
-  # def read_syntax_plugins
-  #   # read syntax plugins
-  #   plugin_dir = Rails.root + 'lib/plugins/syntax'
-  #   Dir.open(plugin_dir).each do |p|
-  #     next unless File.file?(plugin_dir + p)
-  #     load Rails.root + 'lib/plugins/syntax/' + p
-  #   end
-  # end
-
 
   module ClassMethods
     def to_internal(content)

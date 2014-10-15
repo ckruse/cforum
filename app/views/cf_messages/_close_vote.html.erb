@@ -1,19 +1,24 @@
-<h3>Sperr-Abstimmung (<%= @message.close_vote.voters.length %>/<%= conf("close_vote_votes", 5) %>)</h3>
+<h3>Sperr-Abstimmung (<%= m.close_vote.voters.length %>/<%= conf("close_vote_votes", 5) %>)</h3>
 
 <p>
-  Diese Nachricht (und damit auch alle folgenden) soll geschlossen werden.
-  Der angegebene Grund:
-  <em><% if @message.close_vote.reason == 'custom' %>
-    <%= @message.close_vote.custom_reason %>
+  <% if m.close_vote.finished %>
+    Diese Nachricht (und damit auch alle folgenden) wurden geschlossen.
   <% else %>
-    <%= t('messages.close_vote.' + @message.close_vote.reason) %>
+    Diese Nachricht (und damit auch alle folgenden) soll geschlossen werden.
+  <% end %>
+
+  Der angegebene Grund:
+  <em><% if m.close_vote.reason == 'custom' %>
+    <%= m.close_vote.custom_reason %>
+  <% else %>
+    <%= t('messages.close_vote.' + m.close_vote.reason) %>
   <% end %></em>
 </p>
 
-<% if not current_user.blank? %>
+<% if may?(RightsHelper::RIGHT_TO_VISIT_CLOSE_AND_REOPEN_VOTES) and not m.close_vote.finished %>
   <p>
-     <%= link_to("Sehe ich auch so", close_cf_message_path(@thread, @message),
-                 class:  (@message.close_vote.has_voted?(current_user) ? "cf-primary-btn" : 'cf-btn'),
+     <%= link_to("Sehe ich auch so", close_cf_message_path(@thread, m),
+                 class:  (m.close_vote.has_voted?(current_user) ? "cf-primary-btn" : 'cf-btn'),
                  method: :patch) %>
   </p>
 <% end %>
