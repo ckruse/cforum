@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
   end
 
   def locked?
-    if @config_manager.get('locked', false, nil, current_forum) and (not current_user or not current_user.admin?)
+    if conf('locked', 'no') == "yes" and (not current_user or not current_user.admin?)
       render :locked, status: 500, layout: nil
     end
   end
