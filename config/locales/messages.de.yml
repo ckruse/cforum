@@ -1,30 +1,30 @@
 de:
   messages:
     by: von
-    created: Nachricht wurde erfolgreich erstellt.
-    destroyed: Nachricht wurde erfolgreich gelöscht.
-    updated: Nachricht wurde erfolgreich geändert.
-    restored: Nachricht wurde erfolgreich wieder hergestellt.
-    error_message: "%{errors_count} verhinderten, dass diese Nachricht gespeichert werden konnte:"
+    created: Beitrag wurde erfolgreich erstellt.
+    destroyed: Beitrag wurde erfolgreich gelöscht.
+    updated: Beitrag wurde erfolgreich geändert.
+    restored: Beitrag wurde erfolgreich wiederhergestellt.
+    error_message: "%{errors_count} verhinderten, dass dieser Beitrag gespeichert werden konnte:"
     tags_invalid: Das Tag ist fehlerhaft.
     too_many_tags: "Sie dürfen nur %{max_tags} Tags verwenden."
     only_author_or_mod_may_edit: Nur der Autor oder ein Moderator kann eine Antwort editieren.
-    message_too_old_to_edit: Nachrichten dürfen nur in einem Zeitraum von %{minutes} Minuten editiert werden.
-    editing_disabled: Das Editieren von Nachrichten ist deaktiviert.
-    editing_not_allowed_with_answer: Das Editieren von Nachrichten, die eine Antwort erhalten haben, ist verboten.
-    edit_message: Nachricht bearbeiten
+    message_too_old_to_edit: Beiträge dürfen nur in einem Zeitraum von %{minutes} Minuten editiert werden.
+    editing_disabled: Das Editieren von Beiträgen ist deaktiviert.
+    editing_not_allowed_with_answer: Das Editieren von Beiträgen, die bereits eine Antwort erhalten haben, ist verboten.
+    edit_message: Beitrag bearbeiten
 
     new_answer: antworten
-    edit_posting: Nachricht bearbeiten
+    edit_posting: Beitrag bearbeiten
     write_new_answer: neue Antwort verfassen
-    restore_message: Nachricht wiederherstellen
-    delete_message: Nachricht löschen
+    restore_message: Beitrag wiederherstellen
+    delete_message: Beitrag löschen
     votes: Bewertungen
-    all_msgs_num: Anzahl aller Nachrichten
-    unread_messages_num: Anzahl ungelesener Nachrichten
+    all_msgs_num: Anzahl aller Beiträge
+    unread_messages_num: Anzahl ungelesener Beiträge
     user_link: Benutzer %{user}
     original_poster: Thread-Ersteller
-    previous_message: "Vorherige Nachricht zum Thema:"
+    previous_message: "Vorheriger Beitrag zum Thema:"
     preview: Vorschau
 
     new_answer_wo_quote: antworten ohne Zitat
@@ -48,16 +48,16 @@ de:
       voted: Sie haben erfolgreich abgestimmt.
       vote_deleted: Ihre Stimme wurde erfolgreich zurückgenommen.
       error_message: "%{errors_count} verhinderten, dass diese Sperr-Abstimmung gespeichert werden konnte:"
-      close_message: Nachricht „%{subject}” von %{author} schließen
-      open_message: Nachricht „%{subject}” von %{author} entsperren
-      close_message_button: Sperr-Abstimmung erstellen
-      open_message_button: Entsperr-Abstimmung erstellen
+      close_message: Beitrag „%{subject}” von %{author} schließen
+      open_message: Beitrag „%{subject}” von %{author} entsperren
+      close_message_button: Beitrag missbilligen
+      open_message_button: Sperre widerrufen
       close_vote_already_exists: Es existiert bereits eine Sperr-Abstimmung.
       open_vote_already_exists: Es existiert bereits eine Entsperr-Abstimmung.
       no_vote: Es existiert noch keine Abstimmung.
-      off-topic: Diese Nachricht ist außerhalb des durch dieses Forum abgedeckten Themengebiets.
-      not-constructive: Diese Nachricht ist unkonstruktiv oder provokativ und trägt zu einer Verschlechterung der allgemeinen Stimmung im Forum bei.
-      duplicate: Diese Nachricht ist ein Duplikat einer anderen Nachricht.
+      off-topic: Dieser Beitrag ist außerhalb des durch dieses Forum abgedeckten Themengebiets.
+      not-constructive: Dieser Beitrag ist unkonstruktiv oder provokativ und trägt zu einer Verschlechterung der allgemeinen Stimmung im Forum bei.
+      duplicate: Dieser Beitrag ist ein Duplikat eines anderen Beitrags.
       custom: sonstiger Grund
       vote_already_closed: Die Abstimmung ist bereits abgeschlossen.
-      moderator_decision: Ein Moderator hat sich entschieden einzugreifen. Damit wurden die Abstimmungsmöglichkeiten deaktiviert.
+      moderator_decision: Ein Moderator hat eingegriffen. Damit wurden die Abstimmungsmöglichkeiten deaktiviert.
