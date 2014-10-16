@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
 class HighlightPlugin < Plugin
+  def to_class_name(nam)
+    nam = nam.strip.downcase
+    'author-' + nam.gsub(/[^a-zA-Z0-9]/, '-')
+  end
+
   def show_threadlist(threads)
     return unless current_user
 
@@ -14,7 +19,10 @@ class HighlightPlugin < Plugin
 
     threads.each do |t|
       t.sorted_messages.each do |m|
-        m.attribs['classes'] << 'highlighted-user' if user_map[m.author.strip.downcase]
+        if user_map[m.author.strip.downcase]
+          m.attribs['classes'] << 'highlighted-user'
+          m.attribs['classes'] << to_class_name(m.author)
+        end
       end
     end
   end
@@ -26,7 +34,7 @@ class HighlightPlugin < Plugin
 
   def saving_settings(user, settings)
     unless settings.options["highlighted_users"].blank?
-      users = CfUser.where(user_id: settings.options["highlighted_users"])
+      users = CfUser.where(user_id: JSON.parse(settings.options["highlighted_users"]))
       settings.options["highlighted_users"] = (users.map {|u| u.username}).join(",")
     end
   end
