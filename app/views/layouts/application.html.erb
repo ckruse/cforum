@@ -28,7 +28,7 @@
     <% if @own_js_file %><script src="<%= @own_js_file %>"></script><% end %>
 
     <% if @own_css %><style>
-    <%= @own_css %>
+    <%= @own_css.html_safe %>
     </style><% end %>
 
     <% if @own_js %><style>
