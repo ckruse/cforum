@@ -140,9 +140,8 @@ module RightsHelper
 
     edit_it = false
 
-    if redirect
-      raise CForum::ForbiddenException.new if not message.open?
-    else
+    if not message.open?
+      raise CForum::ForbiddenException.new if redirect
       return
     end
 
