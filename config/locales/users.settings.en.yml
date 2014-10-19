@@ -12,7 +12,9 @@ en:
       own_js_file: Own JS file
       own_css: Own inline CSS
       own_js: Own inline JS
-      delete_read_notifications: Automatically delete read notifications
+      delete_read_notifications_on_answer: Automatically delete read notifications for new answers
+      delete_read_notifications_on_activity: Automatically delete read notifications for activity in thread
+      delete_read_notifications_on_new_mail: Automatically delete read notifications for new mail
       notify_on_new_mail: Notifications on new mail
       notification_on_activity: Notifications on activity in thread
       notification_on_answer: Notification on answer

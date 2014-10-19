@@ -74,7 +74,9 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
                            subject: @message.subject),
           cf_message_path(@thread, @message),
           @message.message_id,
-          'message:create',
+                    'message:create-' + (@parent.user_id == m.user_id ?
+                                         'answer' :
+                                         'activity'),
           'icon-comment-alt'
         )
 

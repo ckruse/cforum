@@ -56,7 +56,7 @@ class MailsController < ApplicationController
                                     otype: 'mails:create', is_read: false).first
           @new_notifications -= [n]
 
-          if uconf('delete_read_notifications', 'yes') == 'yes'
+          if uconf('delete_read_notifications_on_new_mail', 'yes') == 'yes'
             n.destroy
           else
             n.is_read = true

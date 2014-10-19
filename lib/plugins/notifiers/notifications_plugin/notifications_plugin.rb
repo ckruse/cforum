@@ -6,7 +6,9 @@ class NotificationsPlugin < Plugin
   end
 
   def deleted_message(thread, message)
-    CfNotification.delete_all(["oid = ? AND otype = 'message:create'", message.message_id])
+    CfNotification.
+      delete_all(["oid = ? AND otype IN ('message:create-answer', 'message:create-activity')",
+                  message.message_id])
   end
 
   def restored_message(thread, message)
@@ -30,8 +32,18 @@ class NotificationsPlugin < Plugin
   private
   def check_for_deleting_notification(message)
     if user = current_user
-      if n = CfNotification.find_by_recipient_id_and_oid_and_otype_and_is_read(user.user_id, message.message_id, 'message:create', false)
-        if uconf('delete_read_notifications', 'yes') == 'yes'
+      n = CfNotification.
+        where(recipient_id: user.user_id,
+              oid: message.message_id,
+              is_read: false).
+        where("otype IN ('message:create-answer','message:create-activity')").
+        first
+
+      unless n.blank?
+        if (n.otype == 'message:create-answer' and
+            uconf('delete_read_notifications_on_answer', 'yes') == 'yes') or
+            (n.otype == 'message:create-acitivity' and
+             uconf('delete_read_notifications_on_activity', 'yes') == 'yes')
           n.destroy
         else
           n.is_read = true
