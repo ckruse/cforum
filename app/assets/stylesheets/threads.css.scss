@@ -62,6 +62,14 @@
     color:#f00; /* TODO: choose a nicer style */
   }
 
+
+  header.open-vote-active, header.close-vote-active {
+    color:#8A6D3B;
+    background-color:#FCF8E3;
+  }
+  .open-vote-finished {
+  }
+
   margin-bottom:2em;
 }
 

@@ -15,6 +15,14 @@ module MessageHelper
       classes << "accepted-answer" if thread.accepted.message_id == message.message_id
       classes << "has-accepted-answer" if thread.message.message_id == message.message_id
     end
+    unless message.close_vote.blank?
+      classes << (message.close_vote.finished ? "close-vote-finished" :
+                  "close-vote-active")
+    end
+    unless message.open_vote.blank?
+      classes << (message.close_vote.finished ? "open-vote-finished" :
+                  "open-vote-active")
+    end
 
     html = "<header"
     html << ' class="' + classes.join(" ") + '"' unless classes.blank?
