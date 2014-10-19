@@ -4,7 +4,7 @@ module MessageHelper
   def message_header(thread, message, opts = {})
     opts = {first: false, prev_deleted: false,
       show_icons: false, do_parent: false,
-      tree: true}.merge(opts)
+      tree: true, id: true}.merge(opts)
 
     classes = ['message']
     classes += message.attribs['classes']
@@ -18,7 +18,7 @@ module MessageHelper
 
     html = "<header"
     html << ' class="' + classes.join(" ") + '"' unless classes.blank?
-    html << ' id="m' + message.message_id.to_s + '"'
+    html << ' id="m' + message.message_id.to_s + '"' if opts[:id]
     html << ">\n"
 
     if opts[:first] and current_user and opts[:show_icons]
@@ -172,7 +172,7 @@ module MessageHelper
   end
 
   def message_tree(thread, messages, opts = {})
-    opts = {prev_deleted: false, show_icons: false}.merge(opts)
+    opts = {prev_deleted: false, show_icons: false, id: true}.merge(opts)
 
     html = "<ol>\n"
     messages.each do |message|
@@ -182,8 +182,14 @@ module MessageHelper
       html << "<li"
       html << " class=\"" + classes.join(" ") + "\"" unless classes.blank?
       html << ">"
-      html << message_header(thread, message, first: false, prev_deleted: opts[:prev_deleted], show_icons: opts[:show_icons])
-      html << message_tree(thread, message.messages, first: false, prev_deleted: message.deleted?, show_icons: opts[:show_icons]) unless message.messages.blank?
+      html << message_header(thread, message, first: false,
+                             prev_deleted: opts[:prev_deleted],
+                             show_icons: opts[:show_icons],
+                             id: opts[:id])
+      html << message_tree(thread, message.messages, first: false,
+                           prev_deleted: message.deleted?,
+                           show_icons: opts[:show_icons],
+                           id: opts[:id]) unless message.messages.blank?
       html << "</li>"
     end
 

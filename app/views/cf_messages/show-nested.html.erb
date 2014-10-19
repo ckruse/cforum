@@ -4,6 +4,14 @@ content_for :title, @thread.message.subject + " " +
   I18n.l(@thread.message.created_at, format: date_format('date_format_post'))
 %>
 
+<article class="thread posting tree">
+  <%= message_header(@thread, @thread.message, first: true, show_icons: true, id: false) %>
+
+  <% if not @thread.message.messages.blank? %>
+    <%= message_tree(@thread, @thread.message.messages, show_icons: true, id: false) %>
+  <% end %>
+</article>
+
 <% def whole_thread(thread, messages) %>
   <ol class="answers">
     <% messages.each do |m| %>
@@ -18,7 +26,7 @@ content_for :title, @thread.message.subject + " " +
   </ol>
 <% end %>
 
-<article class="thread">
+<article class="thread posting nested">
   <%= render 'message', m: @thread.message, first: true %>
 
   <% unless @thread.message.messages.blank? %>
