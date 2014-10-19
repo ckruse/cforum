@@ -15,13 +15,13 @@ content_for :title, @thread.message.subject + " " +
 <% def whole_thread(thread, messages) %>
   <ol class="answers">
     <% messages.each do |m| %>
-    <li>
-      <%= render 'message', m: m, first: false %>
+      <li>
+        <%= render 'message', m: m, first: false %>
 
-      <% unless m.messages.blank?
-        whole_thread(thread, m.messages)
-      end %>
-    </li>
+        <% unless m.messages.blank?
+          whole_thread(thread, m.messages)
+        end %>
+      </li>
     <% end %>
   </ol>
 <% end %>
