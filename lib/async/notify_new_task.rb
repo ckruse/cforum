@@ -5,7 +5,9 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
   def check_notify(usr, thread, message, parent)
     return if usr.blank?
 
-    Rails.logger.debug "notify new task: checking on #{usr.username}: notify_on_activity=" + uconf('notify_on_activity', usr, thread.forum, 'no') + ", notify_on_answer=" + uconf('notify_on_answer', usr, thread.forum, 'no')
+    Rails.logger.debug "notify new task: checking on #{usr.username}: notify_on_activity=" +
+      uconf('notify_on_activity', usr, thread.forum, 'no') +
+      ", notify_on_answer=" + uconf('notify_on_answer', usr, thread.forum, 'no')
 
     return if @sent_mails[usr.email] or @notified[usr.user_id] # do not send duplicate notifications
     return if usr.user_id == message.user_id # do not notify user about own messages
@@ -66,8 +68,10 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
           m.owner,
           nil,
           @parent.user_id == m.user_id ?
-            I18n.t('notifications.new_answer', nick: @message.author, subject: @message.subject) :
-            I18n.t('notifications.new_message', nick: @message.author, subject: @message.subject),
+                    I18n.t('notifications.new_answer', nick: @message.author,
+                           subject: @message.subject) :
+                    I18n.t('notifications.new_message', nick: @message.author,
+                           subject: @message.subject),
           cf_message_path(@thread, @message),
           @message.message_id,
           'message:create',
