@@ -20,6 +20,24 @@ class NotificationsController < ApplicationController
     end
   end
 
+  def update
+    @notification = CfNotification.where(recipient_id: current_user.user_id,
+                                         notification_id: params[:id]).first!
+
+    respond_to do |format|
+      if @notification.update_attributes(is_read: false)
+        format.html { redirect_to notifications_path,
+          notice: t('notifications.marked_unread') }
+        format.json { render json: @notification }
+
+      else
+        format.html { redirect_to notifications_path,
+          notice: t('global.something_went_wrong') }
+        format.json { render json: n.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def batch_destroy
     unless params[:ids].blank?
       CfNotification.transaction do

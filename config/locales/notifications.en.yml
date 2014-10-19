@@ -4,3 +4,5 @@
     new_answer: "A new answer for your posting from %{nick}: %{subject}"
     new_message: "A new message from %{nick}: %{subject}"
     destroyed: Notification has successfully been deleted!
+    mark_unread: mark unread
+    marked_unread: Notification marked unread!

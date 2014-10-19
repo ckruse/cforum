@@ -25,7 +25,7 @@ Cforum::Application.routes.draw do
 
 
   resources :users, except: [:new, :create]
-  resources :notifications, except: [:show, :edit, :new, :update, :create]
+  resources :notifications, except: [:show, :edit, :new, :create]
   delete 'notifications' => 'notifications#batch_destroy'
 
   namespace 'admin' do

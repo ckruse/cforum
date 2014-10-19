@@ -21,11 +21,19 @@ content_for :title, t('notifications.notifications')
     <tr>
       <td><input class="nid-checkbox" type="checkbox" name="ids[]" value="<%= n.notification_id %>"></td>
       <td><% unless n.is_read? %><span class="status-unread">&nbsp;</span><% end %></td>
-      <td><% unless n.icon.blank? %><%= link_to '', n.path, class: 'icon ' + n.icon %><% end %></td><!-- TODO -->
+      <td><% unless n.icon.blank? %><%= link_to '', n.path, class: 'icon ' + n.icon %><% end %></td>
       <td><a href="<%= n.path %>"><%= n.subject %></a></td>
       <td><%= l(n.created_at, format: date_format) %></td>
       <td>
-        <%= link_to '', notification_path(n), method: :delete, data: {confirm: t('global.are_you_sure')}, class: 'icon-delete-nofication', title: t('notifications.delete') %>
+        <%= link_to('', notification_path(n), method: :delete, data: {
+          confirm: t('global.are_you_sure')},
+                    class: 'icon-delete-nofication',
+                    title: t('notifications.delete')) %>
+        <% if n.is_read? %>
+          <%= link_to('', notification_path(n), method: :patch,
+                      class: 'icon-renew-nofication',
+                      title: t('notifications.mark_unread')) %>
+        <% end %>
       </td>
     </tr>
     <% end %>

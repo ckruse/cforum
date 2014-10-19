@@ -245,6 +245,11 @@ form.form-inline { display:inline; }
   @extend .icon-trash;
 }
 
+.icon-renew-nofication {
+  @extend .icon;
+  @extend .icon-asterisk;
+}
+
 
 .status-unread {
   @extend .badge;
