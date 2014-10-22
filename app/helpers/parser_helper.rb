@@ -13,6 +13,10 @@ module ParserHelper
     has_attribute?(:content) ? content.to_s : body.to_s
   end
 
+  def id_prefix
+    'm' + (has_attribute?(:message_id) ? message_id.to_s : priv_message_id.to_s)
+  end
+
   def to_html(app, opts = {})
     opts = opts.symbolize_keys!.reverse_merge!(
       input: 'CfMarkdown',
@@ -20,7 +24,7 @@ module ParserHelper
       coderay_css: :class,
       coderay_line_numbers: nil,
       header_offset: app.conf('header_start_index', 2),
-      auto_id_prefix: 'm' + (has_attribute?(:message_id) ? message_id.to_s : priv_message_id.to_s) + '-'
+      auto_id_prefix: id_prefix + '-'
     )
 
     if @doc.blank?

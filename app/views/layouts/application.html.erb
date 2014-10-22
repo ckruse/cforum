@@ -73,6 +73,14 @@
         <% end %>
         </div>
 
+        <% if not @motds.blank? %>
+          <% @motds.each do |motd| %>
+            <div class="cf-motd">
+              <%= motd %>
+            </div>
+          <% end %>
+        <% end %>
+
         <%= yield %>
 
         <% if @has_subnav %></div><% end %>

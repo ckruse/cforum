@@ -43,4 +43,5 @@ de:
       after_render: beim Schließen der Einzelansicht
       flattr: Flattr-ID
       css_styles: alternative CSS (pro Zeile eine URL)
+      motd: Nachricht des Tages
 

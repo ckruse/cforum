@@ -113,3 +113,10 @@
           <%= text_area_tag 'settings[css_styles]', @settings.conf('css_styles'), id: 'settings-css_styles' %>
         </div>
       </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-motd"><%= t('users.settings.motd') %></label>
+        <div class="cntrls">
+          <%= text_area_tag 'settings[motd]', @settings.conf('motd'), id: 'settings-motd' %>
+        </div>
+      </div>
