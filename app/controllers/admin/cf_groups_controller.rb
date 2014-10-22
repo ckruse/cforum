@@ -9,7 +9,10 @@ class Admin::CfGroupsController < ApplicationController
     @limit = conf('pagination', 50).to_i
     @limit = 50 if @limit <= 0
 
-    @groups = CfGroup.page(params[:p]).per(@limit).order('UPPER(name) ASC')
+    @groups = CfGroup.select("*, (SELECT COUNT(*) FROM groups_users WHERE group_id = groups.group_id) AS members_cnt")
+    @groups = sort_query(%w(name members_cnt created_at updated_at),
+                         @groups, members_cnt: "(SELECT COUNT(*) FROM groups_users WHERE group_id = groups.group_id)").
+              page(params[:page]).per(@limit)
   end
 
   def edit

@@ -8,10 +8,10 @@ content_for :title, t('notifications.notifications')
   <thead>
     <tr>
       <th><input type="checkbox" id="check-all-box"></th>
+      <th><%= sortable '', :is_read, :notifications_path %></th>
       <th> </th>
-      <th> </th>
-      <th>Betrifft</th>
-      <th>Erstellt</th>
+      <th><%= sortable CfNotification.human_attribute_name(:subject), :subject, :notifications_path %></th>
+      <th><%= sortable CfNotification.human_attribute_name(:created_at), :created_at, :notifications_path %></th>
       <th> </th>
     </tr>
   </thead>
@@ -42,9 +42,9 @@ content_for :title, t('notifications.notifications')
 </table>
 
 <p class="form-actions">
-  <button class="cf-primary-btn" name="delete" value="yes">Löschen</button>
+  <button class="cf-primary-btn" name="delete" value="yes"><%= t('global.delete') %></button>
 </p>
 
 <% end %>
 
-<%= paginate @notifications %>
+<%= paginate @notifications, params: { sort: sort_column, dir: sort_direction } %>

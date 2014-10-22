@@ -10,9 +10,9 @@ class NotificationsController < ApplicationController
     @limit = 50 if @limit <= 0
 
     @notifications = CfNotification.where(recipient_id: current_user.user_id).
-      order('created_at DESC').page(params[:p]).per(@limit)
-    @all_notifications_count = CfNotification.
-      where(recipient_id: current_user.user_id).count
+                     page(params[:p]).per(@limit)
+    @notifications = sort_query(%w(created_at is_read subject),
+                                @notifications)
 
     respond_to do |format|
       format.html

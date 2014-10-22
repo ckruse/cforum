@@ -7,39 +7,38 @@ class MailsController < ApplicationController
 
   def index_users
     cu    = current_user
-    mails = CfPrivMessage
-      .preload(:sender, :recipient)
-      .where('owner_id = ?', current_user.user_id)
+    mails = CfPrivMessage.
+            select("username, is_read, COUNT(*) AS cnt").
+            joins("INNER JOIN users ON user_id = case recipient_id when #{cu.user_id} then sender_id else recipient_id end").
+            where('owner_id = ?', current_user.user_id).
+            group("username, case recipient_id when #{cu.user_id} then sender_id else recipient_id end, is_read")
 
     @mail_users = {}
     mails.each do |mu|
-      if mu.recipient_id != cu.user_id
-        @mail_users[mu.recipient.username]         ||= {read: 0, unread: 0}
-        @mail_users[mu.recipient.username][:read]   += 1 if mu.is_read?
-        @mail_users[mu.recipient.username][:unread] += 1 unless mu.is_read?
-      else
-        @mail_users[mu.sender.username]          ||= {read: 0, unread: 0}
-        @mail_users[mu.sender.username][:read]    += 1 if mu.is_read?
-        @mail_users[mu.sender.username][:unread ] += 1 unless mu.is_read?
-      end
+      @mail_users[mu.username] ||= {read: 0, unread: 0}
+      @mail_users[mu.username][mu.is_read? ? :read : :unread] += mu.cnt
     end
   end
 
   def index
     if params[:user]
       @user  = CfUser.where(username: params[:user]).first!
-      @mails = CfPrivMessage
-        .includes(:sender, :recipient)
-        .where("owner_id = ? AND (sender_id = ? OR recipient_id = ?)",
-               current_user.user_id, @user.user_id, @user.user_id)
-        .order('created_at ASC')
+      @mails = CfPrivMessage.
+               preload(:sender, :recipient).
+               joins("INNER JOIN users AS senders ON senders.user_id = sender_id, INNER JOIN users AS recipients ON recipients.user_id = recipient_id").
+               where("owner_id = ? AND (sender_id = ? OR recipient_id = ?)",
+                     current_user.user_id, @user.user_id, @user.user_id)
+
     else
-      @mails = CfPrivMessage
-        .includes(:sender, :recipient)
-        .where(owner_id: current_user.user_id)
-        .order('created_at ASC')
-        .limit(conf('pagination', 50).to_i)
+      @mails = CfPrivMessage.
+               includes(:sender, :recipient).
+               where(owner_id: current_user.user_id)
     end
+
+    @mails = sort_query(%w(created_at sender recipient subject),
+                        @mails, {sender: "senders.username",
+                                 recipient: 'recipients.username'}).
+             page(params[:page]).per(conf('pagination', 50).to_i)
   end
 
   def show

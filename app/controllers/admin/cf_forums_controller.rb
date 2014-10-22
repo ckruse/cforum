@@ -41,7 +41,7 @@ class Admin::CfForumsController < ApplicationController #< CfForumsController
       @activities[msg.forum_id] = msg
     end
 
-    notification_center.notify(SHOW_FORUMLIST, @threads, true)
+    notification_center.notify(SHOW_FORUMLIST, @threads, @activities, true)
   end
 
   def edit

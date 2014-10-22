@@ -9,12 +9,12 @@ content_for :title, t('users.users')
 <table class="cf-table-condensed-striped-hover">
   <thead>
     <tr>
-      <th><%= CfUser.human_attribute_name(:username) %></th>
-      <th><%= t('global.score') %></td>
-      <th><%= CfUser.human_attribute_name(:admin) %></th>
-      <th><%= CfUser.human_attribute_name(:active) %></th>
-      <th><%= CfUser.human_attribute_name(:created_at) %></th>
-      <th><%= CfUser.human_attribute_name(:updated_at) %></th>
+      <th><%= sortable CfUser.human_attribute_name(:username), :username, :users_path %></th>
+      <th><%= sortable t('global.score'), :score_sum, :users_path %></td>
+      <th><%= sortable CfUser.human_attribute_name(:admin), :admin, :users_path %></th>
+      <th><%= sortable CfUser.human_attribute_name(:active), :active, :users_path %></th>
+      <th><%= sortable CfUser.human_attribute_name(:created_at), :created_at, :users_path %></th>
+      <th><%= sortable CfUser.human_attribute_name(:updated_at), :updated_at, :users_path %></th>
     </tr>
   </thead>
 
@@ -22,7 +22,7 @@ content_for :title, t('users.users')
     <% @users.each do |u| %>
     <tr>
       <td><%= link_to u.username, user_path(u) %></td>
-      <td><%= @scores[u.user_id] || 0 %></td>
+      <td><%= u.score_sum %></td>
       <td><%= u.admin ? t('global.yeah') : t('global.nope') %></td>
       <td><%= u.active ? t('global.yeah') : t('global.nope') %></td>
       <td><%= l(u.created_at, format: date_format) %></td>
@@ -33,4 +33,4 @@ content_for :title, t('users.users')
 
 </table>
 
-<%= paginate @users %>
+<%= paginate @users, params: { sort: sort_column, dir: sort_direction } %>

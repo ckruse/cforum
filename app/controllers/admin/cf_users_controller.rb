@@ -19,7 +19,8 @@ class Admin::CfUsersController < ApplicationController
       @search_term = params[:s]
     end
 
-    @users = @users.order('username').page(params[:p]).per(@limit)
+    @users = sort_query(%w(username email admin active created_at updated_at),
+                        @users).page(params[:page]).per(@limit)
 
     respond_to do |format|
       format.html

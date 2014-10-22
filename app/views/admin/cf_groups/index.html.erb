@@ -5,10 +5,10 @@ content_for :title, t("global.groups")
 <table class="cf-default-table">
   <thead>
     <tr>
-      <th><%= t('global.group') %></th>
-      <th><%= t('admin.groups.members') %></th>
-      <th><%= CfGroup.human_attribute_name(:created_at) %></th>
-      <th><%= CfGroup.human_attribute_name(:updated_at) %></th>
+      <th><%= sortable t('global.group'), :name, :admin_groups_path %></th>
+      <th><%= sortable t('admin.groups.members'), :members_cnt, :admin_groups_path %></th>
+      <th><%= sortable CfGroup.human_attribute_name(:created_at), :created_at, :admin_groups_path %></th>
+      <th><%= sortable CfGroup.human_attribute_name(:updated_at), :updated_at, :admin_groups_path %></th>
       <th> </th>
     </tr>
   </thead>
@@ -17,7 +17,7 @@ content_for :title, t("global.groups")
     <% @groups.each do |g| %>
     <tr>
       <td><%= link_to g.name, edit_admin_group_path(g) %></td>
-      <td><%= g.users.count %></td>
+      <td><%= g.members_cnt %></td>
       <td><%= l(g.created_at, format: date_format) %></td>
       <td><%= l(g.updated_at, format: date_format) %></td>
       <td>
@@ -29,4 +29,4 @@ content_for :title, t("global.groups")
   </tbody>
 </table>
 
-<%= paginate @groups %>
+<%= paginate @groups, params: { sort: sort_column, dir: sort_direction } %>

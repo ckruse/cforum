@@ -140,7 +140,7 @@ class MarkReadPlugin < Plugin
     check_thread(thread) if mark_read_moment == 'before_render'
   end
 
-  def show_forumlist(counts, activities)
+  def show_forumlist(counts, activities, admin = false)
     return unless current_user
 
     messages = activities.values

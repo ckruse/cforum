@@ -20,13 +20,13 @@ class UsersController < ApplicationController
       @search_term = params[:s]
     end
 
-    @users = @users.order('username').page(params[:p]).per(@limit)
+    @users = @users.
+             select('*, (SELECT SUM(value) FROM scores WHERE user_id = users.user_id) AS score_sum')
 
-    scores = CfScore.select('user_id, SUM(value) AS value').where(user_id: @users.map {|u| u.user_id}).group('user_id')
-    @scores = {}
-    scores.each do |s|
-      @scores[s.user_id] = s.value
-    end
+    @users = sort_query(%w(username created_at updated_at score active),
+                        @users, {score: '(SELECT SUM(value) FROM scores WHERE user_id = users.user_id)'}).
+             page(params[:page]).per(@limit)
+
 
     respond_to do |format|
       format.html

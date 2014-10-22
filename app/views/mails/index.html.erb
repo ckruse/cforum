@@ -9,10 +9,10 @@ content_for :title, @user ? t('mails.post_from', name: @user.username) : t('mail
     <tr>
       <th><input type="checkbox" id="check-all-box">
       <th> </th>
-      <th><%= CfPrivMessage.human_attribute_name(:sender) %></th>
-      <th><%= CfPrivMessage.human_attribute_name(:recipient) %></th>
-      <th><%= CfPrivMessage.human_attribute_name(:subject) %></th>
-      <th><%= CfPrivMessage.human_attribute_name(:created_at) %></th>
+      <th><%= sortable CfPrivMessage.human_attribute_name(:sender), :sender, :mails_path %></th>
+      <th><%= sortable CfPrivMessage.human_attribute_name(:recipient), :recipient, :mails_path %></th>
+      <th><%= sortable CfPrivMessage.human_attribute_name(:subject), :subject, :mails_path %></th>
+      <th><%= sortable CfPrivMessage.human_attribute_name(:created_at), :created_at, :mails_path %></th>
       <th> </th>
     </tr>
   </thead>
@@ -40,5 +40,7 @@ content_for :title, @user ? t('mails.post_from', name: @user.username) : t('mail
 <p class="form-actions">
   <button class="cf-primary-btn">Löschen</button>
 </p>
+
+<%= paginate @mails, params: { sort: sort_column, dir: sort_direction } %>
 
 <% end %>
