@@ -87,4 +87,9 @@ de:
         duplicate_slug: Duplikats-URL
         custom_reason: sonstiger Grund
 
+      cf_notification:
+        subject: Betreff
+        created_at: erstellt
+        updated_at: geändert
+        is_read: gelesen
 
