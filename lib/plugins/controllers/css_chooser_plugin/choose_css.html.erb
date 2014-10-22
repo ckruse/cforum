@@ -1,0 +1,17 @@
+<h1><%= t('plugins.choose_css.choose_alternative_css') %></h1>
+
+<%= form_tag choose_css_path(), method: :post, class: 'form-horizontal' do %>
+  <div class="cf-cgroup">
+    <label><%= t('plugins.choose_css.alternative_css') %></label>
+    <div class="cntrls">
+      <%= select_tag :css_style, options_for_select([[t('plugins.choose_css.default_css'), '']] + @css_styles, cookies[:css_style]) %>
+    </div>
+  </div>
+
+
+  <p class="form-actions">
+    <%= submit_tag t('global.save'), class: 'cf-primary-btn' %>
+    <%= link_to t('global.cancel'), root_path, class: 'cf-btn' %>
+  </p>
+
+<% end %>

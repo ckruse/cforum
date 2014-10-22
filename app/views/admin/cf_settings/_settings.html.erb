@@ -106,3 +106,10 @@
           <%= text_field_tag 'settings[date_format_default]', @settings.conf('date_format_default', "%d.%m.%Y %H:%M"), id: 'settings-date_format_default' %>
         </div>
       </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-css_styles"><%= t('users.settings.css_styles') %></label>
+        <div class="cntrls">
+          <%= text_area_tag 'settings[css_styles]', @settings.conf('css_styles'), id: 'settings-css_styles' %>
+        </div>
+      </div>

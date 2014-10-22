@@ -42,4 +42,5 @@ de:
       before_render: beim Öffnen der Einzelansicht
       after_render: beim Schließen der Einzelansicht
       flattr: Flattr-ID
+      css_styles: alternative CSS (pro Zeile eine URL)
 

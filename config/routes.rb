@@ -47,6 +47,11 @@ Cforum::Application.routes.draw do
   get '/interesting' => 'interesting_threads_plugin#list_threads',
     as: :interesting_threads
 
+  get '/choose_css' => 'css_chooser_plugin#choose_css',
+      as: :choose_css
+  post '/choose_css' => 'css_chooser_plugin#css_chosen'
+
+
   scope ":curr_forum" do
     get 'tags/autocomplete' => 'tags#autocomplete'
     resources :tags, except: [:new, :create, :edit, :update, :destroy]

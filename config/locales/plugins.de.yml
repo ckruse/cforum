@@ -40,3 +40,9 @@ de:
       mark_thread_interesting: Thread als interessant markieren
       mark_thread_boring: Thread als uninteressant markieren
       interesting_threads: Interessante Threads
+
+    choose_css:
+      choose_alternative_css: Alternatives CSS auswählen
+      alternative_css: alternatives CSS
+      default_css: Default-CSS
+      css_chosen: alternatives CSS ausgewählt

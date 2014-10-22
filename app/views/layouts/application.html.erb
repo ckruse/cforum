@@ -24,6 +24,7 @@
 
     <% if @link_tags %><%= @link_tags %><% end %>
 
+    <% if @css_style %><link href="<%= @css_style %>" rel="stylesheet" media="all"><% end %>
     <% if @own_css_file %><link href="<%= @own_css_file %>" rel="stylesheet" media="all"><% end %>
     <% if @own_js_file %><script src="<%= @own_js_file %>"></script><% end %>
 
