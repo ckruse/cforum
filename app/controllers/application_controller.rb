@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   include ExceptionHelpers
   include FayeHelper
   include MessageHelper
+  include SortablesHelper
 
   before_filter :do_init, :locked?, :check_forum_access, :set_forums,
     :notifications, :run_before_handler, :check_authorizations
