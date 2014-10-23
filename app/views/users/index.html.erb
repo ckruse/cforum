@@ -10,7 +10,7 @@ content_for :title, t('users.users')
   <thead>
     <tr>
       <th><%= sortable CfUser.human_attribute_name(:username), :username, :users_path %></th>
-      <th><%= sortable t('global.score'), :score_sum, :users_path %></td>
+      <th><%= sortable t('global.score'), :score, :users_path %></td>
       <th><%= sortable CfUser.human_attribute_name(:admin), :admin, :users_path %></th>
       <th><%= sortable CfUser.human_attribute_name(:active), :active, :users_path %></th>
       <th><%= sortable CfUser.human_attribute_name(:created_at), :created_at, :users_path %></th>
