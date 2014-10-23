@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     @users = @users.
              select('*, (SELECT SUM(value) FROM scores WHERE user_id = users.user_id) AS score_sum')
 
-    @users = sort_query(%w(username created_at updated_at score active),
+    @users = sort_query(%w(username created_at updated_at score active admin),
                         @users, {score: '(SELECT SUM(value) FROM scores WHERE user_id = users.user_id)'}).
              page(params[:page]).per(@limit)
 
