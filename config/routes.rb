@@ -15,11 +15,11 @@ Cforum::Application.routes.draw do
 
 
   # we use a custom url style for mails to achieve grouping
-  get '/mails' => 'mails#index', :as => :mails
+  get '/mails' => 'mails#index', as: :mails
   post '/mails' => 'mails#create'
-  get '/mails/new' => 'mails#new', :as => :new_mail
-  get '/mails/:user' => 'mails#index', :as => :user_mails
-  get '/mails/:user/:id' => 'mails#show', :as => :mail
+  get '/mails/new' => 'mails#new', as: :new_mail
+  get '/mails/:user' => 'mails#index', as: :user_mails
+  get '/mails/:user/:id' => 'mails#show', as: :mail
   delete '/mails/:user/:id' => 'mails#destroy'
   delete '/mails' => 'mails#batch_destroy'
 
@@ -29,9 +29,9 @@ Cforum::Application.routes.draw do
   delete 'notifications' => 'notifications#batch_destroy'
 
   namespace 'admin' do
-    resources :users, :controller => :cf_users, :except => :show
-    resources :groups, :controller => :cf_groups, :except => :show
-    resources :forums, :controller => :cf_forums, :except => :show
+    resources :users, controller: :cf_users, except: :show
+    resources :groups, controller: :cf_groups, except: :show
+    resources :forums, controller: :cf_forums, except: :show
 
     get 'settings' => 'cf_settings#edit', as: 'cf_settings'
     post 'settings' => 'cf_settings#update'
@@ -132,7 +132,7 @@ Cforum::Application.routes.draw do
     get '/:year/:mon/:day/:tid/:mid/new' => 'cf_messages#new', year: /\d{4}/,
       mon: /\w{3}/, day: /\d{1,2}/, as: 'new_cf_message'
     post '/:year/:mon/:day/:tid/:mid' => 'cf_messages#create', year: /\d{4}/,
-      mon: /\w{3}/, :day => /\d{1,2}/
+      mon: /\w{3}/, day: /\d{1,2}/
   end
 
   # old archive url
@@ -144,8 +144,8 @@ Cforum::Application.routes.draw do
   # 404  handling
   if Rails.env == 'production'
     # default route to catch 404s
-    match '*a', :to => 'application#render_404', via: [:get, :post, :put,
-                                                       :delete, :patch]
+    match '*a', to: 'application#render_404', via: [:get, :post, :put,
+                                                    :delete, :patch]
   end
 
 end
