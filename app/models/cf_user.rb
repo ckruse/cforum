@@ -23,6 +23,10 @@ class CfUser < ActiveRecord::Base
   has_many :groups_users, class_name: 'CfGroupUser', :foreign_key => :user_id
   has_many :groups, class_name: 'CfGroup', :through => :groups_users
 
+  has_many :badges_users, class_name: CfBadgeUser, dependent: :delete_all,
+           foreign_key: :user_id
+  has_many :badges, through: :badges_users
+
   def conf(nam, default = nil)
     vals = settings.options unless settings.blank?
     vals ||= {}

@@ -32,6 +32,7 @@ Cforum::Application.routes.draw do
     resources :users, controller: :cf_users, except: :show
     resources :groups, controller: :cf_groups, except: :show
     resources :forums, controller: :cf_forums, except: :show
+    resources :badges, controller: :cf_badges, except: :show
 
     get 'settings' => 'cf_settings#edit', as: 'cf_settings'
     post 'settings' => 'cf_settings#update'

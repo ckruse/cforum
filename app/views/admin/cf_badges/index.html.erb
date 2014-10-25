@@ -1,0 +1,36 @@
+<%
+content_for :title, t('admin.badges.index')
+%><h1><%= t('admin.badges.index') %></h1>
+
+<table class="cf-default-table">
+  <thead>
+    <tr>
+      <th><%= CfBadge.human_attribute_name(:name) %></th>
+      <th><%= CfBadge.human_attribute_name(:score_needed) %></th>
+      <th><%= CfBadge.human_attribute_name(:badge_type) %></th>
+      <th><%= CfBadge.human_attribute_name(:badge_medal_type) %></th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @badges.each do |badge| %>
+    <tr>
+      <td><%= link_to badge.name, edit_admin_badge_path(badge) %></td>
+      <td><%= badge.score_needed %></td>
+      <td><%= t('admin.badges.badge_types.' + badge.badge_type) %></td>
+      <td><%= t('admin.badges.badge_medal_types.' + badge.badge_medal_type) %></td>
+      <td>
+        <%= link_to('', edit_admin_badge_path(badge),
+                    class: "icon-edit-badge",
+                    title: t('admin.badges.edit')) %>
+        <%= link_to('', admin_badge_path(badge),
+                    data: {confirm: t('global.are_you_sure')},
+                    method: :delete,
+                    class: 'icon-delete-badge',
+                    title: t('admin.badges.delete')) %>
+      </td>
+    </tr>
+    <% end %>
+
+  </tbody>
+</table>

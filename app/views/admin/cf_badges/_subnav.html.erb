@@ -1,0 +1,8 @@
+<div class="cf-sidebar-box">
+  <%= render 'admin/admin_subnav' %>
+
+  <ul class="cf-sidebar">
+    <li class="cf-sidebar-header"><h4><%= t('global.badges') %></h4></li>
+    <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('admin.badges.new_badge'), new_admin_badge_path %></li>
+  </ul>
+</div>

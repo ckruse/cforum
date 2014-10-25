@@ -72,3 +72,35 @@ de:
       delete_group: Gruppe löschen
 
       members: Mitglieder
+
+    badges:
+      index: Abzeichen
+      updated: Abzeichen erfolgreich geändert
+      created: Abzeichen erfolgreich erstellt
+      destroyed: Abzeichen erfolgreich gelöscht
+
+      error_message: "Dieses Abzeichen konnte nicht gespeichert werden:"
+      new_badge: neues Abzeichen
+      edit: "Abzeichen %{name} bearbeiten"
+
+      edit: Abzeichen bearbeiten
+      delete: Abzeichen löschen
+
+      badge_types:
+        custom: Benutzerdefiniert
+        upvote: Upvote
+        downvote: Downvote
+        retag: Recht neu zu taggen
+        flag: Markierungs-Recht
+        visit_close_reopen: Abstimmungsrecht über Sperr-/Entsperr-Abstimmungen
+        create_tag: Recht Tags zu erstellen
+        edit_question: Recht Fragen zu editieren
+        edit_answer: Recht Antworten zu editieren
+        create_tag_synonym: Recht Tag-Synonyme zu erstellen
+        create_close_reopen_vote: Recht Sperr-/Entsperr-Abstimmungen zu erstellen
+        moderator_tools: Zugriff auf Moderationstools
+
+      badge_medal_types:
+        bronze: Bronze
+        silver: Silber
+        gold: Gold

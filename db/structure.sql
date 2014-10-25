@@ -47,6 +47,37 @@ COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs
 SET search_path = cforum, pg_catalog;
 
 --
+-- Name: badge_medal_type_t; Type: TYPE; Schema: cforum; Owner: -
+--
+
+CREATE TYPE badge_medal_type_t AS ENUM (
+    'bronze',
+    'silver',
+    'gold'
+);
+
+
+--
+-- Name: badge_type_t; Type: TYPE; Schema: cforum; Owner: -
+--
+
+CREATE TYPE badge_type_t AS ENUM (
+    'custom',
+    'upvote',
+    'downvote',
+    'retag',
+    'flag',
+    'visit_close_reopen',
+    'create_tag',
+    'edit_question',
+    'edit_answer',
+    'create_tag_synonym',
+    'create_close_reopen_vote',
+    'moderator_tools'
+);
+
+
+--
 -- Name: count_messages_delete_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
 --
 
@@ -485,6 +516,71 @@ $$;
 SET default_tablespace = '';
 
 SET default_with_oids = false;
+
+--
+-- Name: badges; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE badges (
+    badge_id integer NOT NULL,
+    score_needed integer NOT NULL,
+    name character varying NOT NULL,
+    slug character varying NOT NULL,
+    badge_type badge_type_t NOT NULL,
+    badge_medal_type badge_medal_type_t DEFAULT 'bronze'::badge_medal_type_t NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: badges_badge_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE badges_badge_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: badges_badge_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE badges_badge_id_seq OWNED BY badges.badge_id;
+
+
+--
+-- Name: badges_users; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE TABLE badges_users (
+    badge_user_id bigint NOT NULL,
+    user_id integer NOT NULL,
+    badge_id integer NOT NULL
+);
+
+
+--
+-- Name: badges_users_badge_user_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+--
+
+CREATE SEQUENCE badges_users_badge_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: badges_users_badge_user_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+--
+
+ALTER SEQUENCE badges_users_badge_user_id_seq OWNED BY badges_users.badge_user_id;
+
 
 --
 -- Name: close_votes; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
@@ -1274,6 +1370,20 @@ ALTER SEQUENCE votes_vote_id_seq OWNED BY votes.vote_id;
 
 
 --
+-- Name: badge_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY badges ALTER COLUMN badge_id SET DEFAULT nextval('badges_badge_id_seq'::regclass);
+
+
+--
+-- Name: badge_user_id; Type: DEFAULT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY badges_users ALTER COLUMN badge_user_id SET DEFAULT nextval('badges_users_badge_user_id_seq'::regclass);
+
+
+--
 -- Name: close_vote_id; Type: DEFAULT; Schema: cforum; Owner: -
 --
 
@@ -1432,6 +1542,38 @@ ALTER TABLE ONLY users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_s
 --
 
 ALTER TABLE ONLY votes ALTER COLUMN vote_id SET DEFAULT nextval('votes_vote_id_seq'::regclass);
+
+
+--
+-- Name: badges_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY badges
+    ADD CONSTRAINT badges_pkey PRIMARY KEY (badge_id);
+
+
+--
+-- Name: badges_slug_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY badges
+    ADD CONSTRAINT badges_slug_key UNIQUE (slug);
+
+
+--
+-- Name: badges_users_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY badges_users
+    ADD CONSTRAINT badges_users_pkey PRIMARY KEY (badge_user_id);
+
+
+--
+-- Name: badges_users_user_id_badge_id_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY badges_users
+    ADD CONSTRAINT badges_users_user_id_badge_id_key UNIQUE (user_id, badge_id);
 
 
 --
@@ -2050,6 +2192,22 @@ CREATE TRIGGER threads__count_update_trigger AFTER UPDATE ON threads FOR EACH RO
 
 
 --
+-- Name: badges_users_badge_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY badges_users
+    ADD CONSTRAINT badges_users_badge_id_fkey FOREIGN KEY (badge_id) REFERENCES badges(badge_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: badges_users_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+--
+
+ALTER TABLE ONLY badges_users
+    ADD CONSTRAINT badges_users_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: close_votes_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
 --
 
@@ -2430,6 +2588,8 @@ INSERT INTO schema_migrations (version) VALUES ('48');
 INSERT INTO schema_migrations (version) VALUES ('49');
 
 INSERT INTO schema_migrations (version) VALUES ('5');
+
+INSERT INTO schema_migrations (version) VALUES ('50');
 
 INSERT INTO schema_migrations (version) VALUES ('6');
 

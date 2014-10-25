@@ -1,0 +1,14 @@
+<%
+content_for :title, t('admin.badges.new_badge')
+%><h1><%= t('admin.badges.new_badge') %></h1>
+
+<%= form_for @badge, url: admin_badges_path, html: {class: 'form-horizontal'} do |f| %>
+
+<%= render 'form', f: f %>
+
+<p class="form-actions">
+  <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
+  <%= link_to t('global.cancel'), admin_badges_path, class: 'cf-btn' %>
+</p>
+
+<% end %>

@@ -40,6 +40,7 @@ de:
       cf_user: Benutzer
       cf_forum: Forum
       cf_close_vote: Sperr-Abstimmung
+      cf_badge: Abzeichen
 
     attributes:
       cf_message:
@@ -93,3 +94,8 @@ de:
         updated_at: geändert
         is_read: gelesen
 
+      cf_badge:
+        name: Name
+        score_needed: benötigte Punktzahl
+        badge_type: Badge-Art
+        badge_medal_type: Badge-Stufe

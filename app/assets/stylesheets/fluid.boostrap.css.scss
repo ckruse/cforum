@@ -131,7 +131,8 @@ form.form-inline { display:inline; }
   }
   .cntrls {
     @extend .col-lg-3;
-    input[type=text], input[type=email], input[type=password], input[type=search], textarea, select {
+    input[type=text], input[type=email], input[type=password],
+    input[type=search], input[type=number], textarea, select {
       @extend .form-control;
     }
   }
@@ -221,6 +222,16 @@ form.form-inline { display:inline; }
 }
 
 .icon-remove-permission {
+  @extend .icon;
+  @extend .icon-trash;
+}
+
+.icon-edit-badge {
+  @extend .icon;
+  @extend .icon-edit;
+}
+
+.icon-delete-badge {
   @extend .icon;
   @extend .icon-trash;
 }
