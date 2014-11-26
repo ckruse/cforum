@@ -15,7 +15,7 @@ class MarkReadPlugin < Plugin
   end
 
   def is_read(message, user)
-    return if user.blank?
+    return if user.blank? || message.blank?
 
     message = [message] unless message.is_a?(Array)
     message = message.map {|m| m.is_a?(CfMessage) ? m.message_id : m.to_i}
@@ -142,6 +142,7 @@ class MarkReadPlugin < Plugin
 
   def show_forumlist(counts, activities, admin = false)
     return unless current_user
+    return if activities.values.blank?
 
     messages = activities.values
     ids = messages.map { |a| a.message_id }
