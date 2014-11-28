@@ -71,7 +71,7 @@ class CfThreadsController < ApplicationController
     sql << " ORDER BY threads.sticky DESC, #{order} LIMIT #{@limit} OFFSET #{@limit * @page}"
 
     @threads = CfThread.
-      preload(:forum, messages: [:owner, :tags]).
+      preload(:forum, messages: [:owner, :tags, :close_vote, :open_vote]).
       includes(messages: :owner).
       where(conditions).
       where("threads.thread_id IN (#{sql})").
