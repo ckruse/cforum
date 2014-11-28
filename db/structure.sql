@@ -525,6 +525,7 @@ CREATE TABLE badges (
     badge_id integer NOT NULL,
     score_needed integer NOT NULL,
     name character varying NOT NULL,
+    description text,
     slug character varying NOT NULL,
     badge_type badge_type_t NOT NULL,
     badge_medal_type badge_medal_type_t DEFAULT 'bronze'::badge_medal_type_t NOT NULL,
@@ -559,7 +560,9 @@ ALTER SEQUENCE badges_badge_id_seq OWNED BY badges.badge_id;
 CREATE TABLE badges_users (
     badge_user_id bigint NOT NULL,
     user_id integer NOT NULL,
-    badge_id integer NOT NULL
+    badge_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1793,6 +1796,13 @@ ALTER TABLE ONLY votes
 
 
 --
+-- Name: badges_badge_type_uniqueness; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX badges_badge_type_uniqueness ON badges USING btree (badge_type) WHERE (badge_type <> 'custom'::badge_type_t);
+
+
+--
 -- Name: counter_table_table_name_group_crit_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
 --
 
@@ -2590,6 +2600,8 @@ INSERT INTO schema_migrations (version) VALUES ('49');
 INSERT INTO schema_migrations (version) VALUES ('5');
 
 INSERT INTO schema_migrations (version) VALUES ('50');
+
+INSERT INTO schema_migrations (version) VALUES ('51');
 
 INSERT INTO schema_migrations (version) VALUES ('6');
 

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 class CfBadge < ActiveRecord::Base
+  include ParserHelper
+
   self.primary_key = 'badge_id'
   self.table_name  = 'badges'
 
@@ -16,8 +18,21 @@ class CfBadge < ActiveRecord::Base
                                visit_close_reopen create_tag edit_question
                                edit_answer create_tag_synonym
                                create_close_reopen_vote moderator_tools) }
+  validate :badge_type, uniqueness: true, unless: "badge_type != 'custom'"
   validate :badge_medal_type, presence: true, allow_blank: false,
            inclusion: { in: %w(bronze silver gold) }
+
+  def to_param
+    slug
+  end
+
+  def get_content
+    description.to_s
+  end
+
+  def id_prefix
+    ''
+  end
 end
 
 # eof
