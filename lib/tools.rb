@@ -137,6 +137,15 @@ module CForum
         query_string(args)
     end
 
+    def cf_badges_path
+      root_path + 'badges'
+    end
+
+    def cf_badge_path(badge)
+      badge = badge.slug unless badge.is_a?(String)
+      cf_badges_path + '/' + badge
+    end
+
     #
     # URL helpers
     #
@@ -187,6 +196,15 @@ module CForum
     def unread_cf_message_url(thread, message, args = {})
       _cf_message_url_wo_anchor(thread, message) + "/unread" +
         query_string(args)
+    end
+
+    def cf_badges_url
+      root_url + 'badges'
+    end
+
+    def cf_badge_url(badge)
+      badge = badge.slug unless badge.is_a?(String)
+      cf_badges_url + '/' + badge
     end
   end
 end

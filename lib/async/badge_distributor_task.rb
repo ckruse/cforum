@@ -10,20 +10,20 @@ class Peon::Tasks::BadgeDistributor < Peon::Tasks::PeonTask
     case args['type']
     when 'removed-vote', 'changed-vote'
     when 'voted'
-      if @message.author_id
-        score = @message.author.score
+      if not @message.user_id.blank?
+        score = @message.owner.score
         badges = CfBadge.where('score_needed <= ?', score)
-        user_badges = @message.author.badges
+        user_badges = @message.owner.badges
 
         badges.each do |b|
           found = user_badges.find { |obj| obj.badge_id == b.badge_id }
 
           unless found
-            @message.author.badges_users.create(badge_id: b.badge_id)
+            @message.owner.badges_users.create(badge_id: b.badge_id, created_at: DateTime.now, updated_at: DateTime.now)
             notify_user(
-              u, '', I18n.t('badges.badge_won',
-                            name: b.name,
-                            mtype: I18n.t("badges.badge_medal_types." + b.badge_medal_type)),
+              @message.owner, '', I18n.t('badges.badge_won',
+                                         name: b.name,
+                                         mtype: I18n.t("badges.badge_medal_types." + b.badge_medal_type)),
               cf_badge_path(b), b.badge_id, 'badge'
             )
           end
