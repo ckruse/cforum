@@ -60,6 +60,10 @@ class VotePluginController < ApplicationController
             CfScore.delete_all(['user_id = ? AND vote_id = ?', current_user.user_id, @vote.vote_id])
             CfScore.where('user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id).update_all(['value = ?', vote_up_value])
           end
+
+          peon(class_name: 'BadgeDistributor',
+               arguments: {type: 'changed-vote',
+                           message_id: @message.message_id})
         else
           CfVote.connection.execute "UPDATE messages SET upvotes = upvotes - 1, downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
 
@@ -97,6 +101,10 @@ class VotePluginController < ApplicationController
         else
           CfVote.connection.execute "UPDATE messages SET downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
         end
+
+        peon(class_name: 'BadgeDistributor',
+             arguments: {type: 'voted',
+                         message_id: @message.message_id})
       end
 
     end
