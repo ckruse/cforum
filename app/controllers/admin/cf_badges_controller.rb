@@ -19,7 +19,7 @@ class Admin::CfBadgesController < ApplicationController #< CfForumsController
 
   def badge_params
     params.require(:cf_badge).permit(:name, :score_needed, :badge_type,
-                                     :badge_medal_type, :slug)
+                                     :badge_medal_type, :slug, :description)
   end
 
   def update
@@ -53,6 +53,6 @@ class Admin::CfBadgesController < ApplicationController #< CfForumsController
 
   private
   def load_badge
-    @badge = CfBadge.find params[:id] if params[:id]
+    @badge = CfBadge.where(slug: params[:id]).first! if params[:id]
   end
 end
