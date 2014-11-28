@@ -38,8 +38,8 @@ content_for :title, t('messages.edit_posting')
     <%= render "form", f: f %>
 
     <p>
-      <%= f.submit t('global.save'), :class => 'cf-primary-btn' %>
       <%= f.submit t('messages.preview'), :class => 'cf-btn', name: 'preview' %>
+      <%= f.submit t('global.save'), :class => 'cf-primary-btn' %>
       <%= link_to t('global.cancel'), cf_message_path(@thread, @message), class: 'cf-btn' %>
     </p>
   <% end %>
