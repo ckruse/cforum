@@ -4,6 +4,7 @@ de:
     badges: Medallien
     badge_w_name: "%{mtype}-Medallie „%{name}“"
     no_users: Anzahl Benutzer
+    badge_won: "%{mtype}-Medallie „%{name}“ gewonnen!"
 
     badge_types:
       custom: Benutzerdefiniert

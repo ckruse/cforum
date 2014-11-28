@@ -19,10 +19,12 @@ class Peon::Tasks::BadgeDistributor < Peon::Tasks::PeonTask
           found = user_badges.find { |obj| obj.badge_id == b.badge_id }
 
           unless found
-            @message.author.badges.create(badge_id: b.badge_id)
+            @message.author.badges_users.create(badge_id: b.badge_id)
             notify_user(
-              @message.author, '', t('admin.badges.badge_won', name: b.name),
-              badge_path(b), nil, nil
+              u, '', I18n.t('badges.badge_won',
+                            name: b.name,
+                            mtype: I18n.t("badges.badge_medal_types." + b.badge_medal_type)),
+              cf_badge_path(b), b.badge_id, 'badge'
             )
           end
         end
