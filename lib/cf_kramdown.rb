@@ -18,11 +18,15 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
     @block_parsers[idx] = :cf_setext_header
   end
 
-  CF_SETEXT_HEADER_START = /^(#{OPT_SPACE}[^ \t].*?)#{HEADER_ID}[ \t]*?\n(-|=)+\n/
+  Kernel::silence_warnings {
+    CF_SETEXT_HEADER_START = /^(#{OPT_SPACE}[^ \t].*?)#{HEADER_ID}[ \t]*?\n(-|=)+\n/
+  }
   define_parser(:cf_setext_header, CF_SETEXT_HEADER_START)  unless @@parsers.has_key?(:cf_setext_header)
   alias_method :parse_cf_setext_header, :parse_setext_header
 
-  SIGNATURE_START = /^-- \n/
+  Kernel::silence_warnings {
+    SIGNATURE_START = /^-- \n/
+  }
   def parse_email_style_sig
     @src.pos += @src.matched_size
     el = new_block_el(:email_style_sig)
