@@ -1,0 +1,39 @@
+de:
+  badges:
+    badge: Medallie
+    badges: Medallien
+    badge_w_name: "%{mtype}-Medallie „%{name}“"
+    no_users: Anzahl Benutzer
+
+    badge_types:
+      custom: Benutzerdefiniert
+      upvote: Upvote
+      downvote: Downvote
+      retag: Recht neu zu taggen
+      flag: Markierungs-Recht
+      visit_close_reopen: Abstimmungsrecht über Sperr-/Entsperr-Abstimmungen
+      create_tag: Recht Tags zu erstellen
+      edit_question: Recht Fragen zu editieren
+      edit_answer: Recht Antworten zu editieren
+      create_tag_synonym: Recht Tag-Synonyme zu erstellen
+      create_close_reopen_vote: Recht Sperr-/Entsperr-Abstimmungen zu erstellen
+      moderator_tools: Zugriff auf Moderationstools
+
+    badge_medal_types:
+      bronze: Bronze
+      silver: Silber
+      gold: Gold
+
+    default_descs:
+      upvote: Der Anwender erhält das Recht, einen Beitrag positiv zu bewerten.
+      downvote: Der Anwender erhält das Recht, einen Beitrag negativ zu bewerten.
+      retag: Der Anwender erhält das Recht, die Tags eines Beitrags zu ändern.
+      flag: Der Anwender erhält das Recht, einen Beitrag zu „flaggen,“ also einen Moderator auf den Beitrag aufmerksam zu machen.
+      visit_close_reopen: Der Anwender erhält das Recht, an einer Sperr- oder Entsperr-Abstimmung teilzunehmen.
+      create_tag: Der Anwender erhält das Recht, neue Tags zu erstellen.
+      edit_question: Der Anwender erhält das Recht, Fragen zu editieren.
+      edit_answer: Der Anwender erhält das Recht, Antworten zu editieren.
+      create_tag_synonym: Der Anwender erhält das Recht, Tag-Synonyme zu erstellen
+      create_close_reopen_vote: Der Anwender erhält das Recht, Sperr- oder Entsperr-Abstimmungen zu erstellen
+      moderator_tools: Der Anwender erhält Zugriff auf Moderationstools
+      

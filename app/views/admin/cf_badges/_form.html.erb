@@ -31,18 +31,18 @@
   <div class="cntrls">
     <%= f.select(:badge_type,
                  options_for_select([
-                   [t('admin.badges.badge_medal_types.upvote'), 'upvote'],
-                   [t('admin.badges.badge_medal_types.downvote'), 'downvote'],
-                   [t('admin.badges.badge_medal_types.retag'), 'retag'],
-                   [t('admin.badges.badge_medal_types.flag'), 'flag'],
-                   [t('admin.badges.badge_medal_types.visit_close_reopen'), 'visit_close_reopen'],
-                   [t('admin.badges.badge_medal_types.create_tag'), 'create_tag'],
-                   [t('admin.badges.badge_medal_types.edit_question'), 'edit_question'],
-                   [t('admin.badges.badge_medal_types.edit_answer'), 'edit_answer'],
-                   [t('admin.badges.badge_medal_types.create_tag_synonym'), 'create_tag_synonym'],
-                   [t('admin.badges.badge_medal_types.create_close_reopen_vote'), 'create_close_reopen_vote'],
-                   [t('admin.badges.badge_medal_types.moderator_tools'), 'moderator_tools'],
-                   [t('admin.badges.badge_medal_types.custom'), 'custom']
+                   [t('badges.badge_medal_types.upvote'), 'upvote'],
+                   [t('badges.badge_medal_types.downvote'), 'downvote'],
+                   [t('badges.badge_medal_types.retag'), 'retag'],
+                   [t('badges.badge_medal_types.flag'), 'flag'],
+                   [t('badges.badge_medal_types.visit_close_reopen'), 'visit_close_reopen'],
+                   [t('badges.badge_medal_types.create_tag'), 'create_tag'],
+                   [t('badges.badge_medal_types.edit_question'), 'edit_question'],
+                   [t('badges.badge_medal_types.edit_answer'), 'edit_answer'],
+                   [t('badges.badge_medal_types.create_tag_synonym'), 'create_tag_synonym'],
+                   [t('badges.badge_medal_types.create_close_reopen_vote'), 'create_close_reopen_vote'],
+                   [t('badges.badge_medal_types.moderator_tools'), 'moderator_tools'],
+                   [t('badges.badge_medal_types.custom'), 'custom']
                  ], @badge.badge_medal_type)) %>
   </div>
 </div>
@@ -54,9 +54,9 @@
   <div class="cntrls">
     <%= f.select(:badge_medal_type,
                  options_for_select([
-                   [t('admin.badges.badge_medal_types.bronze'), 'bronze'],
-                   [t('admin.badges.badge_medal_types.silver'), 'silver'],
-                   [t('admin.badges.badge_medal_types.gold'), 'gold']
+                   [t('badges.badge_medal_types.bronze'), 'bronze'],
+                   [t('badges.badge_medal_types.silver'), 'silver'],
+                   [t('badges.badge_medal_types.gold'), 'gold']
                  ], @badge.badge_medal_type)) %>
   </div>
 </div>

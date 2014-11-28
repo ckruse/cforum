@@ -1,0 +1,29 @@
+<%
+content_for :title, t('badges.badges')
+
+%><h1><%= t('badges.badges') %></h1>
+
+<table class="cf-table-condensed-striped-hover">
+  <thead>
+    <tr>
+      <th><%= sortable CfBadge.human_attribute_name(:badge_medal_type), :badge_medal_type, :cf_badges_path %></th>
+      <th><%= sortable CfBadge.human_attribute_name(:name), :name, :cf_badges_path %></th>
+      <th><%= sortable CfBadge.human_attribute_name(:score_needed), :score_needed, :cf_badges_path %></th>
+      <th><%= sortable t("badges.no_users"), :no_users, :cf_badges_path %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @badges.each do |badge| %>
+      <tr>
+        <td><%= image_tag badge.badge_medal_type + '.png' %></td>
+        <td><%= link_to badge.name, badge %></td>
+        <td><%= badge.score_needed %></td>
+        <td><%= badge.users.length %></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>
+
+<%= paginate @badges, params: { sort: sort_column, dir: sort_direction } %>

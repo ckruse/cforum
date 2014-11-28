@@ -23,6 +23,8 @@ Cforum::Application.routes.draw do
   delete '/mails/:user/:id' => 'mails#destroy'
   delete '/mails' => 'mails#batch_destroy'
 
+  get '/badges' => 'badges#index', as: :cf_badges
+  get '/badges/:slug' => 'badges#show', as: :cf_badge
 
   resources :users, except: [:new, :create]
   resources :notifications, except: [:show, :edit, :new, :create]

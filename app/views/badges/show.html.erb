@@ -1,0 +1,20 @@
+<%
+content_for :title, t('badges.badge_w_name',
+                      mtype: t("badges.badge_medal_types." + @badge.badge_medal_type),
+                      name: @badge.name)
+
+%><h1><%= image_tag @badge.badge_medal_type + '.png' %>
+  <%= t('badges.badge_w_name',
+        mtype: t("badges.badge_medal_types." + @badge.badge_medal_type),
+        name: @badge.name) %></h1>
+
+<p>
+  <%= @badge.to_html(self) %>
+</p>
+
+
+<ul class="badge-user-list">
+  <% @badge.badges_users.each do |ub| %>
+    <li><%= link_to ub.user.username, user_path(ub.user) %> (<%= l(ub.created_at, format: date_format) %>)</li>
+  <% end %>
+</ul>

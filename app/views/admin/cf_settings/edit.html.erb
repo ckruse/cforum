@@ -4,7 +4,6 @@ content_for :title, t('admin.settings.global_settings')
 
 <ul class="nav nav-tabs">
   <li class="active"><a href="#settings" data-toggle="tab"><%= t('admin.forums.settings_nam') %></a></li>
-  <li><a href="#scores" data-toggle="tab"><%= t('admin.forums.scores') %></a></li>
 </ul>
 
 <%= form_for @settings, method: 'post', url: admin_cf_settings_path, html: {:class => 'form-horizontal'} do |t| %>
@@ -14,9 +13,6 @@ content_for :title, t('admin.settings.global_settings')
       <%= render 'settings' %>
     </fieldset>
 
-    <fieldset class="tab-pane" id="scores">
-      <%= render 'scores' %>
-    </fieldset>
   </div>
 
   <p class="form-actions">

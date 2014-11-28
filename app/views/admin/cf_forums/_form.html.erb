@@ -16,11 +16,9 @@
 <ul class="cf-tabs">
   <li class="active"><a href="#core" data-toggle="tab"><%= t('admin.forums.forum_data') %></a></li>
   <li><a href="#settings" data-toggle="tab"><%= t('admin.forums.settings_nam') %></a></li>
-  <li><a href="#scores" data-toggle="tab"><%= t('admin.forums.scores') %></a></li>
 </ul>
 
 <div class="cf-tab-content">
   <%= render 'form_core', f: f %>
   <%= render 'form_settings', f: f %>
-  <%= render 'form_scores', f: f %>
 </div>

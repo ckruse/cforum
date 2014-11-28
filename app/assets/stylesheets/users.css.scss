@@ -26,4 +26,18 @@
   font-weight:bold;
 }
 
+.medal-image {
+  height:1em;
+}
+
+.medal-list {
+  list-style-type: none;
+  padding:0;
+
+  li {
+    margin:0;
+    padding:0;
+  }
+}
+
 /* eof */

@@ -101,6 +101,27 @@ content_for :title, t('users.user', name: @user.username)
 
 </div>
 
+<hr>
+
+<div class="cf-row-fluid">
+  <div class="cf-span6">
+    <div class="cf-box">
+      <h3><%= t('users.bagdes') %></h3>
+
+      <% if @user.badges.blank? %>
+        <p><%= t('users.no_badges_so_far') %></p>
+      <% else %>
+        <ul class="badge-user-list">
+          <% @user.badges_users.each do |ub| %>
+            <li><%= image_tag ub.badge.badge_medal_type + '.png', class: "medal-image",
+              alt: t("badges.badge_medal_types." + ub.badge.badge_medal_type) %> <%= link_to ub.badge.name, ub.badge %> (<%= l(ub.created_at, format: date_format) %>)</li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+  </div>
+</div>
+
 <p class="form-actions">
   <% if not current_user.blank? and @user.user_id == current_user.user_id %>
   <%= link_to t('users.edit'), edit_user_path(@user), class: 'cf-btn' %>
