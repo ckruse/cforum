@@ -44,7 +44,7 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
   <% end
   end %>
 
-  <% if may?(RightsHelper::RIGHT_TO_CREATE_CLOSE_REOPEN_VOTES) and
+  <% if may?(RightsHelper::CREATE_CLOSE_REOPEN_VOTE) and
     m.flags['no-answer-admin'] != 'yes' %>
     <p>
       <%

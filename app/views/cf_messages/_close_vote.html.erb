@@ -15,7 +15,7 @@
   <% end %></em>
 </p>
 
-<% if may?(RightsHelper::RIGHT_TO_VISIT_CLOSE_AND_REOPEN_VOTES) and not m.close_vote.finished %>
+<% if may?(RightsHelper::VISIT_CLOSE_REOPEN) and not m.close_vote.finished %>
   <p>
      <%= link_to("Sehe ich auch so", close_cf_message_path(@thread, m),
                  class:  (m.close_vote.has_voted?(current_user) ? "cf-primary-btn" : 'cf-btn'),
