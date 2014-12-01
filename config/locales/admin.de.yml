@@ -5,6 +5,7 @@ de:
 
     settings:
       global_settings: Allgemeine und globale Einstellungen
+      updated: Die Einstellungen wurden erfolgreich geändert.
 
     forums:
       index: Foren-Index

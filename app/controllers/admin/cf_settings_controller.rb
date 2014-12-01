@@ -16,7 +16,7 @@ class Admin::CfSettingsController < ApplicationController
 
     respond_to do |format|
       if @settings.save
-        format.html { redirect_to admin_cf_settings_url, notice: 'CfSetting was successfully updated.' }
+        format.html { redirect_to admin_cf_settings_url, notice: t("admin.settings.updated") }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
