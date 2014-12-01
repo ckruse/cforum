@@ -2,9 +2,9 @@ de:
   badges:
     badge: Medaille
     badges: Medaillen
-    badge_w_name: "%{mtype}-Medallie „%{name}“"
+    badge_w_name: "%{mtype}-Medaille „%{name}“"
     no_users: Anzahl Benutzer
-    badge_won: "%{mtype}-Medallie „%{name}“ gewonnen!"
+    badge_won: "%{mtype}-Medaille „%{name}“ gewonnen!"
 
     badge_types:
       custom: Benutzerdefiniert
