@@ -1,7 +1,7 @@
 de:
   badges:
-    badge: Medallie
-    badges: Medallien
+    badge: Medaille
+    badges: Medaillen
     badge_w_name: "%{mtype}-Medallie „%{name}“"
     no_users: Anzahl Benutzer
     badge_won: "%{mtype}-Medallie „%{name}“ gewonnen!"
@@ -29,7 +29,7 @@ de:
       upvote: Der Anwender erhält das Recht, einen Beitrag positiv zu bewerten.
       downvote: Der Anwender erhält das Recht, einen Beitrag negativ zu bewerten.
       retag: Der Anwender erhält das Recht, die Tags eines Beitrags zu ändern.
-      flag: Der Anwender erhält das Recht, einen Beitrag zu „flaggen,“ also einen Moderator auf den Beitrag aufmerksam zu machen.
+      flag: Der Anwender erhält das Recht, einen Beitrag zu „flaggen“, also einen Moderator auf den Beitrag aufmerksam zu machen.
       visit_close_reopen: Der Anwender erhält das Recht, an einer Sperr- oder Entsperr-Abstimmung teilzunehmen.
       create_tag: Der Anwender erhält das Recht, neue Tags zu erstellen.
       edit_question: Der Anwender erhält das Recht, Fragen zu editieren.
