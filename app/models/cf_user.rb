@@ -45,8 +45,17 @@ class CfUser < ActiveRecord::Base
     end
   end
 
+  def has_bagde?(type)
+    badges.each do |b|
+      return true if b.badge_type == type
+    end
+
+    return false
+  end
+
   def moderate?(forum)
     return true if admin?
+    return true if has_bagde?(RightsHelper::MODERATOR_TOOLS)
 
     @permissions ||= {}
     @permissions[forum.forum_id] ||= CfForumGroupPermission
@@ -63,6 +72,7 @@ class CfUser < ActiveRecord::Base
     return true if forum.standard_permission == CfForumGroupPermission::ACCESS_WRITE
     return true if forum.standard_permission == CfForumGroupPermission::ACCESS_KNOWN_WRITE
     return true if admin?
+    return true if has_bagde?(RightsHelper::MODERATOR_TOOLS)
 
     @permissions ||= {}
     @permissions[forum.forum_id] ||= CfForumGroupPermission
@@ -79,6 +89,7 @@ class CfUser < ActiveRecord::Base
     return true if forum.standard_permission == CfForumGroupPermission::ACCESS_READ or forum.standard_permission == CfForumGroupPermission::ACCESS_WRITE
     return true if forum.standard_permission == CfForumGroupPermission::ACCESS_KNOWN_READ or forum.standard_permission == CfForumGroupPermission::ACCESS_KNOWN_WRITE
     return true if admin?
+    return true if has_bagde?(RightsHelper::MODERATOR_TOOLS)
 
     @permissions ||= {}
     @permissions[forum.forum_id] ||= CfForumGroupPermission

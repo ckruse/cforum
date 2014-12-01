@@ -42,6 +42,8 @@ de:
     vote_removed: Die Bewertung wurde entfernt.
     already_voted: Sie haben bereits bewertet.
     do_not_vote_yourself: Sie dürfen sich nicht selbst bewerten.
+    insufficient_rights_to_upvote: Sie haben nicht das Recht, einen Beitrag positiv zu bewerten.
+    insufficient_rights_to_downvote: Sie haben nicht das Recht, einen Beitrag negativ zu bewerten.
 
     close_vote:
       created: Die Abstimmung wurde erstellt.

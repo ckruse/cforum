@@ -29,10 +29,28 @@ class VotePluginController < ApplicationController
 
     vtype    = params[:type] == 'up' ? CfVote::UPVOTE : CfVote::DOWNVOTE
 
+    if params[:type] == 'up'
+      vtype = CfVote::UPVOTE
+
+      unless may?(RightsHelper::UPVOTE)
+        flash[:error] = t('messages.insufficient_rights_to_upvote')
+        redirect_to cf_message_url(@thread, @message)
+        return
+      end
+    else
+      vtype = CfVote::DOWNVOTE
+
+      unless may?(RightsHelper::DOWNVOTE)
+        flash[:error] = t('messages.insufficient_rights_to_downvote')
+        redirect_to cf_message_url(@thread, @message)
+        return
+      end
+    end
+
     # remove voting if user already voted with the same parameters
     if @vote = CfVote.where(user_id: current_user.user_id, message_id: @message.message_id).first and @vote.vtype == vtype
-
       notification_center.notify(UNVOTING_MESSAGE, @message, @vote)
+
       CfVote.transaction do
         if @vote.vtype == CfVote::UPVOTE
           CfVote.connection.execute "UPDATE messages SET upvotes = upvotes - 1 WHERE message_id = " + @message.message_id.to_s
