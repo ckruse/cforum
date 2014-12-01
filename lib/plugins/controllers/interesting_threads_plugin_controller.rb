@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 class InterestingThreadsPluginController < ApplicationController
+  authorize_controller { authorize_user && authorize_forum(:read?) }
+
   def mark_interesting
     if current_user.blank?
       flash[:error] = t('global.only_as_user')

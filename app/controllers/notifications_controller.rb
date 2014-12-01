@@ -1,9 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 class NotificationsController < ApplicationController
-  before_filter :authorize!
-
-  include AuthorizeUser
+  authorize_controller { authorize_user }
 
   def index
     @limit = uconf('pagination', 50).to_i

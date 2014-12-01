@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 
-class Admin::CfForumsController < ApplicationController #< CfForumsController
-  before_filter :authorize!, :load_forum
+class Admin::CfForumsController < ApplicationController
+  authorize_controller { authorize_admin }
 
-  include Admin::AuthorizeHelper
+  before_filter :load_forum
 
   SHOW_FORUMLIST = "show_forumlist"
 

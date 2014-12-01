@@ -11,6 +11,8 @@ class NoAnswerNoArchivePluginController < ApplicationController
   NO_ARCHIVE_REMOVING = "no_archive_removing"
   NO_ARCHIVE_REMOVED  = "no_archive_removed"
 
+  authorize_controller { authorize_admin }
+
   def no_answer
     @thread, @message, @id = get_thread_w_post
 

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 class Admin::CfSettingsController < ApplicationController
+  authorize_controller { authorize_admin }
+
   # GET /collections/1/edit
   def edit
     @settings = CfSetting.where(user_id: nil, forum_id: nil).first || CfSetting.new

@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 
-class Admin::CfBadgesController < ApplicationController #< CfForumsController
-  before_filter :authorize!, :load_badge
+class Admin::CfBadgesController < ApplicationController
+  authorize_controller { authorize_admin }
 
-  include Admin::AuthorizeHelper
+  before_filter :load_badge
 
   def index
     @badges = CfBadge.order('UPPER(name) ASC')

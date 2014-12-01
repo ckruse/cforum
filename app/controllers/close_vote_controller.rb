@@ -3,9 +3,7 @@
 class CloseVoteController < ApplicationController
   respond_to :html, :json
 
-  before_filter :authorize!
-
-  include AuthorizeForum
+  authorize_controller { authorize_forum(permission: :write?) }
 
   authorize_action([:new, :create]) { not current_user.blank? and
     (current_forum.moderator?(current_user) or

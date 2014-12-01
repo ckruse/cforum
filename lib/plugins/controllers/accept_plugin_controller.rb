@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 class AcceptPluginController < ApplicationController
+  authorize_controller { authorize_forum(permission: :write?) }
+
   ACCEPTING_MESSAGE    = "accepting_message"
   ACCEPTED_MESSAGE     = "accepted_message"
 

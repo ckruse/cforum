@@ -1,9 +1,10 @@
 # -*- encoding: utf-8 -*-
 
 class CfMessagesController < ApplicationController
-  before_filter :authorize!
+  authorize_action([:show, :show_header]) { authorize_forum(permission: :read?) }
+  authorize_action([:new, :create, :edit, :update]) { authorize_forum(permission: :write?) }
+  authorize_action([:destroy, :restore]) { authorize_forum(permission: :moderator?) }
 
-  include AuthorizeForum
   include TagsHelper
 
   SHOW_NEW_MESSAGE     = "show_new_message"

@@ -1,14 +1,16 @@
 # -*- encoding: utf-8 -*-
 
 class UsersController < ApplicationController
-  before_filter :authorize!
-
   SAVING_SETTINGS  = "saving_settings"
   SAVED_SETTINGS   = "saved_settings"
   SHOWING_SETTINGS = "showing_settings"
 
   DESTROYING_USER = "destroying_user"
   DESTROYED_USER  = "destroyed_user"
+
+  authorize_action([:edit, :update, :destroy]) do
+    return (not current_user.blank? and (current_user.admin? or current_user.user_id.to_s == params[:id]))
+  end
 
   def index
     @limit = conf('pagination_users', 50).to_i
@@ -174,13 +176,6 @@ class UsersController < ApplicationController
       format.html { redirect_to root_url, notice: I18n.t('users.deleted') }
       format.json { head :no_content }
     end
-  end
-
-  def authorize!
-    return unless %w{edit update destroy}.include?(action_name)
-    return if not current_user.blank? and (current_user.admin? or current_user.user_id.to_s == params[:id])
-
-    raise CForum::ForbiddenException.new
   end
 
 end

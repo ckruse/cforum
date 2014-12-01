@@ -1,9 +1,10 @@
 # -*- encoding: utf-8 -*-
 
 class CfThreadsController < ApplicationController
-  before_filter :authorize!
+  authorize_action([:index, :show]) { authorize_forum(permission: :read?) }
+  authorize_action([:new, :create]) { authorize_forum(permission: :write?) }
+  authorize_action([:moving, :move, :sticky]) { authorize_forum(permission: :moderator?) }
 
-  include AuthorizeForum
   include TagsHelper
 
   SHOW_THREADLIST  = "show_threadlist"

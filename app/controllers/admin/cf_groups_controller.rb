@@ -1,9 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 class Admin::CfGroupsController < ApplicationController
-  before_filter :authorize!
-
-  include Admin::AuthorizeHelper
+  authorize_controller { authorize_admin }
 
   def index
     @limit = conf('pagination', 50).to_i

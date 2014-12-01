@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 class TagsController < ApplicationController
+  authorize_controller { authorize_forum(permission: :read?) }
+
   # GET /collections
   # GET /collections.json
   def index

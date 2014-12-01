@@ -2,7 +2,6 @@
 
 module ApplicationHelper
   include CForum::Tools
-  include RightsHelper
 
   def current_forum
     unless params[:curr_forum].blank?

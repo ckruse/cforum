@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 
 class MailsController < ApplicationController
-  before_filter :authorize!, :index_users
+  before_filter :index_users
 
-  include AuthorizeUser
+  authorize_controller { authorize_user }
 
   def index_users
     cu    = current_user

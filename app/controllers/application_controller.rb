@@ -7,16 +7,16 @@ require Rails.root + 'lib/peon'
 
 class ApplicationController < ActionController::Base
   include ApplicationHelper
+  include RightsHelper
   include PluginHelper
   include NotifyHelper
-  include AuthorizeStd
   include ExceptionHelpers
   include FayeHelper
   include MessageHelper
   include SortablesHelper
 
-  before_filter :do_init, :locked?, :check_forum_access, :set_forums,
-    :notifications, :run_before_handler, :check_authorizations
+  before_filter :do_init, :locked?, :set_forums, :notifications,
+                :run_before_handler, :check_authorizations
   after_filter :run_after_handler
 
   before_action :configure_permitted_parameters, if: :devise_controller?

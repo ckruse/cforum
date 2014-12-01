@@ -77,25 +77,38 @@ module RightsHelper
     return thread, message, id
   end
 
+  def authorize_controller(&proc)
+    @@authorize_controller_hooks ||= {}
+    @@authorize_controller_hooks[controller_path] ||= []
+    @@authorize_controller_hooks[controller_path] << proc
+  end
+
   def authorize_action(actions, &proc)
     actions = [actions] unless actions.is_a?(Array)
 
-    @@authorizatian_hooks ||= {}
-    @@authorizatian_hooks[controller_path] ||= {}
+    @@authorize_action_hooks ||= {}
+    @@authorize_action_hooks[controller_path] ||= {}
 
     actions.each do |a|
-      @@authorizatian_hooks[controller_path][a.to_sym] ||= []
-      @@authorizatian_hooks[controller_path][a.to_sym] << proc
+      @@authorize_action_hooks[controller_path][a.to_sym] ||= []
+      @@authorize_action_hooks[controller_path][a.to_sym] << proc
     end
   end
 
   def check_authorizations
     action = action_name.to_sym
 
-    if defined?(@@authorizatian_hooks) and
-        @@authorizatian_hooks[controller_path] and
-        @@authorizatian_hooks[controller_path][action]
-      @@authorizatian_hooks[controller_path][action].each do |block|
+    if defined?(@@authorize_controller_hooks) and
+        @@authorize_controller_hooks[controller_path]
+      @@authorize_controller_hooks[controller_path].each do |block|
+        raise CForum::ForbiddenException.new unless self.instance_eval(&block)
+      end
+    end
+
+    if defined?(@@authorize_action_hooks) and
+        @@authorize_action_hooks[controller_path] and
+        @@authorize_action_hooks[controller_path][action]
+      @@authorize_action_hooks[controller_path][action].each do |block|
         raise CForum::ForbiddenException.new unless self.instance_eval(&block)
       end
     end
@@ -169,6 +182,46 @@ module RightsHelper
     end
 
     return true
+  end
+
+  def authorize_admin
+    return true if current_user and current_user.admin?
+    return false
+  end
+
+  def authorize_user
+    return !current_user.blank?
+  end
+
+  def authorize_forum(forum: nil, user: nil, permission: nil)
+    forum = current_forum if forum.blank?
+    user = current_user if user.blank?
+
+    if params.has_key?(:view_all) and params[:view_all] != 'false'
+      if forum.blank?
+        @view_all = true if not user.blank? and user.admin?
+      else
+        @view_all = forum.moderator?(user)
+      end
+
+      set_url_attrib(:view_all, 'yes') if @view_all
+    end
+
+    return true if forum.blank?
+    return forum.send(permission, current_user) if permission
+    return false
+  end
+
+  def check_forum_access(forum: nil, user: nil, permission: nil)
+    forum = current_forum if forum.blank?
+    user = current_user if user.blank?
+
+    return if forum.blank?
+    return if user and user.admin
+
+    return if authorize_forum(user: user, forum: forum, permission: permission)
+
+    raise CForum::ForbiddenException.new
   end
 end
 
