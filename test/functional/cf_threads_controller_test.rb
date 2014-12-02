@@ -157,6 +157,19 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_equal 1, assigns(:threads).length
   end
 
+  test "index: should show list of all threads w/o deleted as admin" do
+    msg = FactoryGirl.create(:cf_message)
+    msg1 = FactoryGirl.create(:cf_message, deleted: true)
+    usr = FactoryGirl.create(:cf_user)
+
+    sign_in usr
+
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:threads)
+    assert_equal 1, assigns(:threads).length
+  end
+
   test "index: should show list of all threads w/o deleted even w view_all" do
     msg = FactoryGirl.create(:cf_message)
     msg1 = FactoryGirl.create(:cf_message, deleted: true)
@@ -165,6 +178,19 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:threads)
     assert_equal 1, assigns(:threads).length
+  end
+
+  test "index: should show list of all threads w deleted as admin w view_all" do
+    msg = FactoryGirl.create(:cf_message)
+    msg1 = FactoryGirl.create(:cf_message, deleted: true)
+    usr = FactoryGirl.create(:cf_user)
+
+    sign_in usr
+
+    get :index, {view_all: true}
+    assert_response :success
+    assert_not_nil assigns(:threads)
+    assert_equal 2, assigns(:threads).length
   end
 
   test "index: permissions with access read" do
@@ -265,6 +291,61 @@ class CfThreadsControllerTest < ActionController::TestCase
   end
 
 
+  test "index should sort by date ascending" do
+    t = FactoryGirl.create(:cf_thread)
+    t1 = FactoryGirl.create(:cf_thread, created_at: DateTime.parse("1970-01-01 00:00:00"), forum: t.forum)
+
+    FactoryGirl.create(:cf_message, forum: t.forum, thread: t, created_at: t.created_at)
+    FactoryGirl.create(:cf_message, forum: t1.forum, thread: t1, created_at: t1.created_at)
+
+    get :index, {curr_forum: t.forum.slug}
+    assert_response :success
+    assert_not_nil assigns(:threads)
+    assert_equal 2, assigns(:threads).length
+
+    threads = assigns(:threads)
+    assert_equal threads[0].thread_id, t.thread_id
+    assert_equal threads[1].thread_id, t1.thread_id
+  end
+
+  test "index should sort by date descending" do
+    t = FactoryGirl.create(:cf_thread)
+    t1 = FactoryGirl.create(:cf_thread, created_at: DateTime.parse("1970-01-01 00:00:00"), forum: t.forum)
+
+    CfSetting.create!(options: {'sort_threads' => 'ascending'})
+
+    FactoryGirl.create(:cf_message, forum: t.forum, thread: t, created_at: t.created_at)
+    FactoryGirl.create(:cf_message, forum: t1.forum, thread: t1, created_at: t1.created_at)
+
+    get :index, {curr_forum: t.forum.slug}
+    assert_response :success
+    assert_not_nil assigns(:threads)
+    assert_equal 2, assigns(:threads).length
+
+    threads = assigns(:threads)
+    assert_equal threads[0].thread_id, t1.thread_id
+    assert_equal threads[1].thread_id, t.thread_id
+  end
+
+  test "index should sort by date newest-first" do
+    t = FactoryGirl.create(:cf_thread)
+    t1 = FactoryGirl.create(:cf_thread, created_at: DateTime.parse("1970-01-01 00:00:00"), forum: t.forum)
+
+    CfSetting.create!(options: {'sort_threads' => 'newest-first'})
+
+    FactoryGirl.create(:cf_message, forum: t.forum, thread: t, created_at: t.created_at)
+    FactoryGirl.create(:cf_message, forum: t1.forum, thread: t1, created_at: t1.created_at)
+
+    get :index, {curr_forum: t.forum.slug}
+    assert_response :success
+    assert_not_nil assigns(:threads)
+    assert_equal 2, assigns(:threads).length
+
+    threads = assigns(:threads)
+    assert_equal threads[0].thread_id, t.thread_id
+    assert_equal threads[1].thread_id, t1.thread_id
+  end
+
   test "new: should show form" do
     forum   = FactoryGirl.create(:cf_write_forum)
 
@@ -358,6 +439,31 @@ class CfThreadsControllerTest < ActionController::TestCase
 
     assert_no_difference 'CfThread.count' do
       post :create, {curr_forum: forum.slug, cf_thread: { message: {subject: 'Long live the imperator!', author: '', content: 'Long live the imperator! Down with the rebellion!'}}}
+    end
+
+    assert_response :success
+    assert_not_nil assigns(:message)
+    assert_not_nil assigns(:thread)
+    assert !assigns(:message).valid?
+  end
+  test "create: should not create a new thread in public forum because author name is taken" do
+    forum = FactoryGirl.create(:cf_write_forum)
+    user = FactoryGirl.create(:cf_user)
+
+    assert_no_difference 'CfThread.count' do
+      post :create, {curr_forum: forum.slug, cf_thread: { message: {subject: 'Long live the imperator!', author: user.username, content: 'Long live the imperator! Down with the rebellion!'}}}
+    end
+
+    assert_response :success
+    assert_not_nil assigns(:message)
+    assert_not_nil assigns(:thread)
+    assert !assigns(:message).valid?
+  end
+  test "create: should not create a new thread in public forum because of too many tags" do
+    forum = FactoryGirl.create(:cf_write_forum)
+
+    assert_no_difference 'CfThread.count' do
+      post :create, {curr_forum: forum.slug, cf_thread: { message: {subject: 'Long live the imperator!', author: "Anakin Skywalker", content: 'Long live the imperator! Down with the rebellion!'}}, tags: ["a", "b", "c", "d"]}
     end
 
     assert_response :success
@@ -1041,6 +1147,62 @@ class CfThreadsControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:threads).length
   end
 
+
+  test "should not make sticky because of rights" do
+    forum = FactoryGirl.create(:cf_forum)
+    thread = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+
+    assert_raise(CForum::ForbiddenException) do
+      post :sticky, { curr_forum: forum.slug,
+                      year: '2012', mon: 'dec',
+                      day: '6', tid: 'obi-wan-kenobi'}
+    end
+
+    thread.reload
+    assert !thread.sticky
+  end
+
+  test "should make sticky because of admin" do
+    forum = FactoryGirl.create(:cf_forum)
+    thread = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    user = FactoryGirl.create(:cf_user)
+
+    sign_in user
+
+    post :sticky, { curr_forum: forum.slug,
+                    year: '2012', mon: 'dec',
+                    day: '6', tid: 'obi-wan-kenobi'}
+
+    assert_redirected_to cf_forum_url(forum)
+
+    thread.reload
+    assert thread.sticky
+  end
+
+  test "should make sticky because of moderator" do
+    forum = FactoryGirl.create(:cf_forum)
+    thread = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    user = FactoryGirl.create(:cf_user, admin: false)
+    group   = FactoryGirl.create(:cf_group)
+
+    group.users << user
+
+    CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
+
+    sign_in user
+
+    post :sticky, { curr_forum: forum.slug,
+                    year: '2012', mon: 'dec',
+                    day: '6', tid: 'obi-wan-kenobi'}
+
+    assert_redirected_to cf_forum_url(forum)
+
+    thread.reload
+    assert thread.sticky
+  end
 end
 
 # eof

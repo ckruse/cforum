@@ -3,6 +3,43 @@
 require 'test_helper'
 
 class CfForumsControllerTest < ActionController::TestCase
+  test "should not load locked forums" do
+    forum = FactoryGirl.create(:cf_write_forum)
+    CfSetting.create(forum_id: forum.forum_id,
+                     options: {'locked' => 'yes'})
+
+    get :index, { curr_forum: forum.slug }
+    assert_response 500
+
+    get :index
+    assert_response :success
+  end
+
+  test "should not load when globally locked" do
+    forum = FactoryGirl.create(:cf_write_forum)
+    CfSetting.create(options: {'locked' => 'yes'})
+
+    get :index, { curr_forum: forum.slug }
+    assert_response 500
+
+    get :index
+    assert_response 500
+  end
+
+  test "should load as admin when globally locked" do
+    forum = FactoryGirl.create(:cf_write_forum)
+    user = FactoryGirl.create(:cf_user)
+    CfSetting.create(options: {'locked' => 'yes'})
+
+    sign_in user
+
+    get :index, { curr_forum: forum.slug }
+    assert_response :success
+
+    get :index
+    assert_response :success
+  end
+
   test "should work with empty list" do
     get :index
     assert_response :success

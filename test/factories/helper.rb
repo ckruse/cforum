@@ -5,6 +5,10 @@ FactoryGirl.define do
     "Forum #{n}"
   end
 
+  sequence :badge_name do |n|
+    "Badge #{n}"
+  end
+
   sequence :tag_name do |n|
     "Tag #{n}"
   end

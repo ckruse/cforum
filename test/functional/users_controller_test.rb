@@ -64,6 +64,16 @@ class UsersControllerTest < ActionController::TestCase
     assert_nil flash[:error]
   end
 
+  test "should show user info for all forums as admin" do
+    u = FactoryGirl.create(:cf_user, admin: false)
+    u1 = FactoryGirl.create(:cf_user, admin: true)
+    sign_in u1
+
+    get :show, id: u.user_id
+    assert_response :success
+    assert_nil flash[:error]
+  end
+
   test "should show user and no warning because of anonymous user for unconfirmed user" do
     u = FactoryGirl.create(:cf_user, admin: false, confirmed_at: nil, unconfirmed_email: nil)
 
