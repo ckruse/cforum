@@ -21,7 +21,7 @@ class CfForum < ActiveRecord::Base
   def moderator?(user)
     return false if user.blank?
     return true if user.admin?
-    return true if user.has_bagde?(RightsHelper::MODERATOR_TOOLS)
+    return true if user.has_badge?(RightsHelper::MODERATOR_TOOLS)
 
     permissions = CfForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user.user_id, forum_id)
@@ -38,7 +38,7 @@ class CfForum < ActiveRecord::Base
     return false if user.blank?
     return true if standard_permission == CfForumGroupPermission::ACCESS_KNOWN_WRITE
     return true if user.admin?
-    return true if user.has_bagde?(RightsHelper::MODERATOR_TOOLS)
+    return true if user.has_badge?(RightsHelper::MODERATOR_TOOLS)
 
     permissions = CfForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user.user_id, forum_id)
@@ -55,7 +55,7 @@ class CfForum < ActiveRecord::Base
     return false if user.blank?
     return true if standard_permission == CfForumGroupPermission::ACCESS_KNOWN_READ or standard_permission == CfForumGroupPermission::ACCESS_KNOWN_WRITE
     return true if user.admin?
-    return true if user.has_bagde?(RightsHelper::MODERATOR_TOOLS)
+    return true if user.has_badge?(RightsHelper::MODERATOR_TOOLS)
 
     permissions = CfForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user.user_id, forum_id)
