@@ -36,6 +36,10 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
         <%= link_to t('messages.edit_message'), edit_cf_message_path(@thread, m), class: 'cf-btn' %>
       <% end %>
 
+      <% if not current_user.blank? and may?(RightsHelper::FLAG) and m.flags['flagged'].blank? %>
+        <%= link_to '', flag_cf_message_path(@thread, m), class: 'cf-btn icon-flag-message' %>
+      <% end %>
+
       <% if not current_user.blank? and may?(RightsHelper::UPVOTE) %>
         <button name="type" value="up" title="<%= t(has_upvote ? 'messages.unvote' : 'messages.vote_up') %>" class="cf-btn"><i class="vote icon-vote-up<% if has_upvote %> active<% end %>"> </i></button>
       <% end %>

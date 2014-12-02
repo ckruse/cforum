@@ -18,6 +18,7 @@ de:
       notify_on_new_mail: Benachrichtigung bei neuer Post
       notification_on_activity: Benachrichtigung bei Aktivität im Thread
       notification_on_answer: Benachrichtigung bei Antwort
+      notification_on_flagged: Benachrichtigung bei Moderator-Aufmerksamkeit („Flag“)
       greeting: Begrüßung
       farewell: Verabschiedung
       signature: Signatur

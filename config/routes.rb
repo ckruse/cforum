@@ -129,6 +129,13 @@ Cforum::Application.routes.draw do
     patch '/:year/:mon/:day/:tid/:mid/open' => 'close_vote#vote_open',
       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
+
+    get '/:year/:mon/:day/:tid/:mid/flag' => 'flag_plugin#flag',
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'flag_cf_message'
+    put '/:year/:mon/:day/:tid/:mid/flag' => 'flag_plugin#flagging',
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+
+
     #
     # new and create messages
     #

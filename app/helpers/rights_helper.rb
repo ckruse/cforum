@@ -216,17 +216,7 @@ module RightsHelper
     return false
   end
 
-  def check_forum_access(forum: nil, user: nil, permission: nil)
-    forum = current_forum if forum.blank?
-    user = current_user if user.blank?
 
-    return if forum.blank?
-    return if user and user.admin
-
-    return if authorize_forum(user: user, forum: forum, permission: permission)
-
-    raise CForum::ForbiddenException.new
-  end
 end
 
 ApplicationController.extend RightsHelper

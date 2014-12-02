@@ -137,6 +137,11 @@ module CForum
         query_string(args)
     end
 
+    def flag_cf_message_path(thread, message, args = {})
+      _cf_message_path_wo_anchor(thread, message) + "/flag" +
+        query_string(args)
+    end
+
     def cf_badges_path
       root_path + 'badges'
     end
@@ -195,6 +200,11 @@ module CForum
 
     def unread_cf_message_url(thread, message, args = {})
       _cf_message_url_wo_anchor(thread, message) + "/unread" +
+        query_string(args)
+    end
+
+    def flag_cf_message_url(thread, message, args = {})
+      _cf_message_url_wo_anchor(thread, message) + "/flag" +
         query_string(args)
     end
 

@@ -68,6 +68,13 @@ class CfUser < ActiveRecord::Base
     return false
   end
 
+  def moderator?
+    return true if admin?
+    return true if has_bagde?(RightsHelper::MODERATOR_TOOLS)
+
+    return CfForumGroupPermission.exists?(["group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND permission = ?", user_id, CfForumGroupPermission::ACCESS_MODERATE])
+  end
+
   def write?(forum)
     return true if forum.standard_permission == CfForumGroupPermission::ACCESS_WRITE
     return true if forum.standard_permission == CfForumGroupPermission::ACCESS_KNOWN_WRITE

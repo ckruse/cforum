@@ -1,0 +1,43 @@
+<% content_for :title do %><%= t('plugins.flag_plugin.flag_message', subject: @message.subject, author: @message.author) %><% end %>
+<h1><%= t('plugins.flag_plugin.flag_message', subject: @message.subject, author: @message.author) %></h1>
+
+<%= form_tag flag_cf_message_path(@thread, @message), method: :put, class: 'form-horizontal' do %>
+
+  <div class="cf-radio-only">
+    <label>
+      <%= radio_button_tag :reason, "off-topic", params[:reason] == 'off-topic' %>
+      <%= t('messages.close_vote.off-topic') %>
+    </label>
+  </div>
+
+  <div class="cf-radio-only">
+    <label>
+      <%= radio_button_tag :reason, "not-constructive", params[:reason] == 'not-constructive' %>
+      <%= t('messages.close_vote.not-constructive') %>
+    </label>
+  </div>
+
+  <div class="cf-radio-only">
+    <label>
+      <%= radio_button :reason, "duplicate", params[:reason] == 'duplicate' %>
+      <%= t('messages.close_vote.duplicate') %>
+    </label>
+
+    <%= url_field_tag :duplicate_slug, params[:duplicate_slug] %>
+  </div>
+
+  <div class="cf-radio-only">
+    <label>
+      <%= radio_button_tag :reason, "custom", params[:reason] == 'custom' %>
+      <%= t('messages.close_vote.custom') %>
+    </label>
+
+    <%= text_field_tag :custom_reason, params[:custom_reason] %>
+   </div>
+
+  <p class="form-actions">
+    <%= submit_tag t('global.save'), class: 'cf-primary-btn' %>
+    <%= link_to t('global.cancel'), root_path, class: 'cf-btn' %>
+  </p>
+
+<% end %>

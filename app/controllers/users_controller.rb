@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   DESTROYED_USER  = "destroyed_user"
 
   authorize_action([:edit, :update, :destroy]) do
-    return (not current_user.blank? and (current_user.admin? or current_user.user_id.to_s == params[:id]))
+    not current_user.blank? and (current_user.admin? or current_user.user_id.to_s == params[:id])
   end
 
   def index

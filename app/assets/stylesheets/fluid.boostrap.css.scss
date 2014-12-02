@@ -186,6 +186,11 @@ form.form-inline { display:inline; }
   @extend .icon-thumbs-down;
 }
 
+.icon-flag-message {
+  @extend .icon;
+  @extend .icon-flag;
+}
+
 .icon-delete-user {
   @extend .icon;
   @extend .icon-trash;

@@ -46,3 +46,12 @@ de:
       alternative_css: alternatives CSS
       default_css: Default-CSS
       css_chosen: alternatives CSS ausgewählt
+
+    flag_plugin:
+      flagged: Die Nachricht wurde markiert und ein Moderator wird die Nachricht überprüfen.
+      flag_message: Nachricht „%{subject}“ von %{author} markieren
+      already_flagged: Die Nachricht wurde bereits markiert.
+      dup_url_needed: Die URL wird benötigt, um eine Nachricht als Duplicate zu markieren.
+      custom_reason_needed: Die URL wird benötigt, um eine Nachricht als Duplicate zu markieren.
+      reason_invalid: Es wurde ein unbekannter Grund angegeben.
+      message_has_been_flagged: Die Nachricht „%{subject}“ von %{author} erfordert Moderator-Aufmerksamkeit
