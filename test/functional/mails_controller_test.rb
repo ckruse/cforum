@@ -249,7 +249,7 @@ class MailsControllerTest < ActionController::TestCase
 
     CfSetting.create!(
       user_id: u.user_id,
-      options: {'delete_read_notifications' => 'no'}
+      options: {'delete_read_notifications_on_new_mail' => 'no'}
     )
 
     CfNotification.create!(

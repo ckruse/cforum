@@ -833,7 +833,7 @@ class CfMessagesControllerTest < ActionController::TestCase
       subject: "You're my only hope!",
       icon: nil,
       oid: message.message_id,
-      otype: 'message:create'
+      otype: 'message:create-answer'
     )
 
     sign_in user
@@ -862,7 +862,7 @@ class CfMessagesControllerTest < ActionController::TestCase
 
     CfSetting.create!(
       user_id: user.user_id,
-      options: {'delete_read_notifications' => 'no'}
+      options: {'delete_read_notifications_on_answer' => 'no'}
     )
 
     CfNotification.create!(
@@ -872,7 +872,7 @@ class CfMessagesControllerTest < ActionController::TestCase
       subject: "You're my only hope!",
       icon: nil,
       oid: message.message_id,
-      otype: 'message:create'
+      otype: 'message:create-answer'
     )
 
     sign_in user
