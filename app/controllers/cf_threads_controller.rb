@@ -28,8 +28,6 @@ class CfThreadsController < ApplicationController
 
     order = uconf('sort_threads', 'descending')
     case order
-    when 'descending'
-      order = 'threads.created_at DESC'
     when 'ascending'
       order = 'threads.created_at ASC'
     when 'newest-first'
