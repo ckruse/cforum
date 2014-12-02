@@ -9,6 +9,7 @@ FactoryGirl.define do
 
     association :forum, :factory => :cf_write_forum
     archived false
+    latest_message { DateTime.now }
   end
 end
 

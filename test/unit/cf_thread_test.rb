@@ -26,6 +26,7 @@ class CfThreadTest < ActiveSupport::TestCase
 
     t.slug = 'luke'
     t.forum_id = f.forum_id
+    t.latest_message = DateTime.now
     assert t.save
   end
 
