@@ -274,16 +274,12 @@ class CfThreadsController < ApplicationController
     @id     = CfThread.make_id(params)
     @thread = CfThread.find_by_slug!(@id)
 
-    if current_user.admin || current_user.moderate?(current_forum)
-      @thread.sticky = !@thread.sticky
+    @thread.sticky = !@thread.sticky
 
-      if @thread.save
-        redirect_to cf_forum_url(current_forum), notice: @thread.sticky ? I18n.t("threads.stickied") : I18n.t("threads.unstickied")
-      else
-        redirect_to cf_forum_url(current_forum), alert: I18n.t("threads.sticky_error")
-      end
+    if @thread.save
+      redirect_to cf_forum_url(current_forum), notice: @thread.sticky ? I18n.t("threads.stickied") : I18n.t("threads.unstickied")
     else
-      redirect_to cf_forum_url(current_forum), alert: I18n.t("global.insufficient_rights")
+      redirect_to cf_forum_url(current_forum), alert: I18n.t("threads.sticky_error")
     end
   end
 
