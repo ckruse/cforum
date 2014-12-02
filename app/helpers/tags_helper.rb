@@ -53,6 +53,17 @@ module TagsHelper
     tags
   end
 
+  def invalid_tags(tags, user = current_user)
+    may_create = may?(RightsHelper::CREATE_TAGS)
+    invalid = []
+
+    tags.each do |t|
+      tag = CfTag.where(tag_name: t).first
+      invalid << t if tag.blank? and not may_create
+    end
+
+    return invalid
+  end
 end
 
 # eof
