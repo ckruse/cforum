@@ -7,7 +7,7 @@ class VotePluginController < ApplicationController
   UNVOTING_MESSAGE     = "unvoting_message"
   UNVOTED_MESSAGE      = "unvoted_message"
 
-  authorize_controller { authorize_user && authorize_forum(:write?) }
+  authorize_controller { authorize_user && authorize_forum(permission: :write?) }
 
   # TODO: votable with anoynmous user
   def vote
