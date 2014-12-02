@@ -25,7 +25,7 @@ class MailsController < ApplicationController
       @user  = CfUser.where(username: params[:user]).first!
       @mails = CfPrivMessage.
                preload(:sender, :recipient).
-               joins("INNER JOIN users AS senders ON senders.user_id = sender_id, INNER JOIN users AS recipients ON recipients.user_id = recipient_id").
+               joins("INNER JOIN users AS senders ON senders.user_id = sender_id INNER JOIN users AS recipients ON recipients.user_id = recipient_id").
                where("owner_id = ? AND (sender_id = ? OR recipient_id = ?)",
                      current_user.user_id, @user.user_id, @user.user_id)
 
