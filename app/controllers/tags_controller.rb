@@ -93,8 +93,12 @@ class TagsController < ApplicationController
 
   def create
     @tag = CfTag.new(tag_params)
-    @tag.slug = @tag.tag_name.parameterize
     @tag.forum_id = current_forum.forum_id
+
+    if @tag.tag_name
+      @tag.tag_name.downcase!
+      @tag.slug = @tag.tag_name.parameterize
+    end
 
     if @tag.save
       redirect_to tags_url(current_forum.slug), notice: t("tags.created")

@@ -31,6 +31,7 @@ class SynonymsController < ApplicationController
 
   def create
     @synonym = CfTagSynonym.new(tag_synonym_params)
+    @synonym.synonym.downcase! if @synonym.synonym
     @synonym.forum_id = current_forum.forum_id
     @synonym.tag_id = @tag.tag_id
 
