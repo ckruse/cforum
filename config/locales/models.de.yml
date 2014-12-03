@@ -49,6 +49,8 @@ de:
         author: Name
         email: E-Mail
         homepage: Homepage
+        created_at: Erstellt
+        updated_at: Geändert
 
       cf_forum:
         name: Name
@@ -99,3 +101,7 @@ de:
         score_needed: benötigte Punktzahl
         badge_type: Badge-Art
         badge_medal_type: Badge-Stufe
+
+      cf_tag:
+        tag_name: Tag-Name
+        slug: Slug

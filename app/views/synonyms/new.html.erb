@@ -1,0 +1,14 @@
+<%
+content_for :title, t('tags.new_tag_synonym_for_tag', tag: @tag.tag_name)
+%><h1><%= t('tags.new_tag_synonym_for_tag', tag: @tag.tag_name) %></h1>
+
+<%= form_for @synonym , url: tag_synonyms_path(current_forum.slug, @tag), html: {class: 'form-horizontal'} do |f| %>
+
+<%= render 'form', f: f %>
+
+<p class="form-actions">
+  <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
+  <%= link_to t('global.cancel'), tag_path(current_forum.slug, @tag), class: 'cf-btn' %>
+</p>
+
+<% end %>

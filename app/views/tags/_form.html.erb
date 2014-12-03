@@ -1,0 +1,17 @@
+  <% if @tag.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= t('tags.error_message') %></h2>
+
+      <ul>
+        <% @tag.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="cf-cgroup">
+  <%= f.label :tag_name %>
+  <div class="cntrls"><%= f.text_field :tag_name %></div>
+</div>
+

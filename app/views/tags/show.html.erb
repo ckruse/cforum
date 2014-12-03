@@ -1,13 +1,31 @@
 <h1><%= current_forum.name %>: <%= @tag.tag_name %></h1>
 
+
+<h3><%= t('tags.synonyms') %>:</h3>
+
+<% if @tag.synonyms.blank? %>
+  <p><%= t('tags.no_synonyms') %></p>
+<% else %>
+  <ul>
+    <% @tag.synonyms.each do |syn| %>
+      <li><%= syn.synonym %><% if current_user.admin %>
+        <%= link_to "", edit_tag_synonym_path(current_forum.slug, @tag, syn), class: 'icon-edit-tag-synonym' %>
+        <%= link_to "", tag_synonym_path(current_forum.slug, @tag, syn), class: 'icon-delete-tag-synonym', method: :delete, data: {confirm: t('global.are_you_sure')} %>
+      <% end %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<h3><%= t("messages.messages") %></h3>
+
 <table class="cf-table-condensed-striped-hover">
   <thead>
     <th>
       <tr>
-        <th>Betrifft</th>
-        <th>Autor</th>
-        <th>Tags</th>
-        <th>Datum</th>
+        <th><%= CfMessage.human_attribute_name(:subject) %></th>
+        <th><%= CfMessage.human_attribute_name(:author) %></th>
+        <th><%= t('tags.tags') %></th>
+        <th><%= CfMessage.human_attribute_name(:created_at) %></th>
       </tr>
     </th>
   </thead>

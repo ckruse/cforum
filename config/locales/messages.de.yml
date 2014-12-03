@@ -1,5 +1,6 @@
 de:
   messages:
+    messages: Beiträge
     by: von
     created: Beitrag wurde erfolgreich erstellt.
     destroyed: Beitrag wurde erfolgreich gelöscht.

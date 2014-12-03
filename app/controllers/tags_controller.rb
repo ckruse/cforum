@@ -2,6 +2,8 @@
 
 class TagsController < ApplicationController
   authorize_controller { authorize_forum(permission: :read?) }
+  authorize_action([:new, :create]) { may?(RightsHelper::CREATE_TAGS) }
+  authorize_action([:edit, :update, :destroy]) { authorize_admin }
 
   # GET /collections
   # GET /collections.json
@@ -81,6 +83,50 @@ class TagsController < ApplicationController
     end
   end
 
+  def tag_params
+    params.require(:cf_tag).permit(:tag_name)
+  end
+
+  def new
+    @tag = CfTag.new
+  end
+
+  def create
+    @tag = CfTag.new(tag_params)
+    @tag.slug = @tag.tag_name.parameterize
+    @tag.forum_id = current_forum.forum_id
+
+    if @tag.save
+      redirect_to tags_url(current_forum.slug), notice: t("tags.created")
+    else
+      render :new
+    end
+  end
+
+  def edit
+    @tag = CfTag.where('tags.forum_id = ? AND slug = ?',
+                       current_forum.forum_id, params[:id]).first!
+  end
+
+  def update
+    @tag = CfTag.where('tags.forum_id = ? AND slug = ?',
+                       current_forum.forum_id, params[:id]).first!
+
+    if @tag.update_attributes(tag_params)
+      redirect_to tags_url(current_forum.slug), notice: t("tags.updated")
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @tag = CfTag.where('tags.forum_id = ? AND slug = ?',
+                       current_forum.forum_id, params[:id]).first!
+
+    @tag.destroy
+
+    redirect_to tags_url(current_forum.slug), notice: t("tags.destroyed")
+  end
 end
 
 # eof

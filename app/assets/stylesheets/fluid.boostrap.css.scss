@@ -236,7 +236,17 @@ form.form-inline { display:inline; }
   @extend .icon-edit;
 }
 
+.icon-edit-tag-synonym {
+  @extend .icon;
+  @extend .icon-edit;
+}
+
 .icon-delete-badge {
+  @extend .icon;
+  @extend .icon-trash;
+}
+
+.icon-delete-tag-synonym {
   @extend .icon;
   @extend .icon-trash;
 }

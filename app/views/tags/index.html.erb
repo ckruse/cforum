@@ -9,7 +9,8 @@ def get_size(count)
   (Math.log(count - (@min_count - 1)) / constant + @f_min).round(5)
 end
 
-%>
+content_for :title, t("tags.tags_for_forum", forum: current_forum.name)
+%><h1><%= t("tags.tags_for_forum", forum: current_forum.name) %></h1>
 
 <p>
   <% @tags.each do |t| %>

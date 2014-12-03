@@ -1,0 +1,14 @@
+<%
+content_for :title, t('tags.new_tag')
+%><h1><%= t('tags.new_tag') %></h1>
+
+<%= form_for @tag , url: tags_path(current_forum.slug), html: {class: 'form-horizontal'} do |f| %>
+
+<%= render 'form', f: f %>
+
+<p class="form-actions">
+  <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
+  <%= link_to t('global.cancel'), tags_path(current_forum.slug), class: 'cf-btn' %>
+</p>
+
+<% end %>

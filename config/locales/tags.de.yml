@@ -1,0 +1,24 @@
+de:
+  tags:
+    tags: Tags
+    new_tag: Neuen Tag erstellen
+    edit_tag: Tag „%{name}“ bearbeiten
+    edit_tag_synonym: "Tag „%{name}“: Synonym „%{synonym}“ bearbeiten"
+    error_message: "Aufgrund folgender Fehler konnte der Tag nicht gespeichert werden:"
+    error_message_synonym: "Aufgrund folgender Fehler konnte das Synonym nicht gespeichert werden:"
+    delete_tag: Tag „%{name}“ löschen
+    do_delete_tag: Tag löschen
+    do_edit_tag: Tag bearbeiten
+    new_tag_synonym: Neues Synonym erstellen
+    new_tag_synonym_for_tag: "Tag „%{tag}“: Neues Synonym erstellen"
+    tags_for_forum: "%{forum}: Tags"
+
+    no_synonyms: Bisher sind keine Synonyme bekannt.
+    synonyms: Synonyme
+
+    created: Der Tag wurde erfolgreich erstellt.
+    synonym_created: Das Synonym wurde erfolgreich erstellt.
+    updated: Der Tag wurde erfolgreich geändert.
+    synonym_updated: Das Synonym wurde erfolgreich geändert.
+    destroyed: Der Tag wurde erfolgreich gelöscht.
+    synonym_destroyed: Das Synonym wurde erfolgreich gelöscht.

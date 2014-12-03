@@ -34,6 +34,7 @@
                   <li class="divider"></li>
 
                   <li><%= link_to t("threads.new_thread"), new_cf_thread_path(current_forum.slug) %></li>
+                  <li><%= link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
 
                   <% if current_user %>
                     <% if ((!current_forum and current_user.admin? and (@messages or @thread)) or (current_forum and current_user.moderate?(current_forum))) %>
