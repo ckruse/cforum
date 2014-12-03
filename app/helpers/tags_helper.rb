@@ -58,8 +58,9 @@ module TagsHelper
     invalid = []
 
     tags.each do |t|
-      tag = CfTag.joins(:synonyms).exists?(['tags.forum_id = ? AND (tag_name = ? OR synonym = ?)',
-                                            current_forum.forum_id, t, t])
+      tag = CfTag.exists?(['tags.forum_id = ? AND (tag_name = ? OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE synonym = ? AND forum_id = ?))',
+                           current_forum.forum_id, t, t,
+                           current_forum.forum_id])
       invalid << t if tag.blank? and not may_create
     end
 
