@@ -7,7 +7,7 @@ subnav = capture do
   end
 end
 
-if @has_subnav %>
+if @has_subnav and not subnav.blank? %>
 <div class="cf-span2">
   <%= subnav %>
 </div>
