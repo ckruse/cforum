@@ -166,7 +166,7 @@ class CfThreadsController < ApplicationController
     end
 
     iv_tags = invalid_tags(@tags)
-    if not t.blank?
+    if not iv_tags.blank?
       invalid = true
       flash[:error] = I18n.t('messages.invalid_tags', tags: iv_tags.join(", "))
     end
