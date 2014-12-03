@@ -60,6 +60,7 @@ class CfThread < ActiveRecord::Base
     end
 
     map = {}
+    @sorted_messages.map { |m| map[m.message_id] = m }
 
     @sorted_messages.each do |msg|
       self.accepted = msg if msg.flags["accepted"] == 'yes'
@@ -68,8 +69,15 @@ class CfThread < ActiveRecord::Base
       msg.messages = [] unless msg.messages
 
       if msg.parent_id
-        map[msg.parent_id].messages << msg
-        msg.parent_level = map[msg.parent_id]
+        if map[msg.parent_id]
+          map[msg.parent_id].messages << msg
+          msg.parent_level = map[msg.parent_id]
+        else
+          if @sorted_messages[0].message_id != msg.message_id
+            @sorted_messages[0].messages << msg
+            msg.parent_level = @sorted_messages[0]
+          end
+        end
       end
     end
   end
