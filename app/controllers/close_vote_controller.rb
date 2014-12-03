@@ -123,6 +123,10 @@ class CloseVoteController < ApplicationController
         format.html { redirect_to cf_message_url(@thread, @message),
           notice: t('messages.close_vote.created') }
         format.json { render json: @close_vote }
+
+        peon(class_name: 'NotifyOpenCloseVoteTask',
+             arguments: {type: 'created', message_id: @message.message_id,
+                         vote_type: vtype})
       else
         format.html { render vtype ? :new_open : :new }
         format.json { render json: @close_vote.errors,
@@ -192,6 +196,9 @@ class CloseVoteController < ApplicationController
           @message.del_flag_with_subtree('no-answer')
         end
       end
+
+      peon(class_name: 'NotifyOpenCloseVoteTask',
+           arguments: {type: 'finished', message_id: @message.message_id, vote_type: vote.vote_type})
     end
 
     respond_to do |format|

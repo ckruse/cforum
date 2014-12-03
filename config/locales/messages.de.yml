@@ -65,3 +65,7 @@ de:
       custom: sonstiger Grund
       vote_already_closed: Die Abstimmung ist bereits abgeschlossen.
       moderator_decision: Ein Moderator hat eingegriffen. Damit wurden die Abstimmungsmöglichkeiten deaktiviert.
+      notification_created_open: Eine Entsperr-Abstimmung bei der Nachricht „%{subject}” von %{author} wurde erstellt.
+      notification_created_close: Eine Sperr-Abstimmung bei der Nachricht „%{subject}” von %{author} wurde erstellt.
+      notification_finished_open: Eine Entsperr-Abstimmung bei der Nachricht „%{subject}” von %{author} wurde beendet.
+      notification_finished_close: Eine Sperr-Abstimmung bei der Nachricht „%{subject}” von %{author} wurde beendet.

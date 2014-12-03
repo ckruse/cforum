@@ -1,0 +1,14 @@
+Hallo <%= @user.username %>,
+
+Die Nachricht mit dem Betreff „<%= @message.subject %>“ unter dem URL
+<<%= @url %>> von <%= @message.author %> soll durch eine Abstimmung
+entsperrt werden. Grund:
+
+<% if @message.open_vote.reason == 'custom' %>
+  <%= @message.open_vote.custom_reason %>
+<% else %>
+  <%= t('messages.close_vote.' + @message.open_vote.reason) %>
+<% end %>
+
+LG,
+ CForum
