@@ -4,12 +4,13 @@ class CfCloseVote < ActiveRecord::Base
   self.primary_key = 'close_vote_id'
   self.table_name  = 'close_votes'
 
+  REASONS = %w(off-topic not-constructive illegal duplicate custom)
+
   has_many :voters, class_name: CfCloseVotesVoter,
     foreign_key: :close_vote_id, dependent: :delete_all
   belongs_to :message, class_name: CfMessage
 
-  validates :reason, presence: true,
-    inclusion: {in: %w(off-topic not-constructive duplicate custom)}
+  validates :reason, presence: true, inclusion: {in: REASONS}
 
   validates :duplicate_slug, presence: true,
     format: { with: /\A\/\d{4}\/\w{3}\/\d{1,2}\/[\w-]+\/\d+\z/ },

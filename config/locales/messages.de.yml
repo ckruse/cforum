@@ -62,6 +62,7 @@ de:
       off-topic: Dieser Beitrag ist außerhalb des durch dieses Forum abgedeckten Themengebiets.
       not-constructive: Dieser Beitrag ist unkonstruktiv oder provokativ und trägt zu einer Verschlechterung der allgemeinen Stimmung im Forum bei.
       duplicate: Dieser Beitrag ist ein Duplikat eines anderen Beitrags.
+      illegal: Dieser Beitrag ist strafrechtlich problematisch.
       custom: sonstiger Grund
       vote_already_closed: Die Abstimmung ist bereits abgeschlossen.
       moderator_decision: Ein Moderator hat eingegriffen. Damit wurden die Abstimmungsmöglichkeiten deaktiviert.
