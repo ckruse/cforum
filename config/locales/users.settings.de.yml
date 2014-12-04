@@ -46,4 +46,5 @@ de:
       flattr: Flattr-ID
       css_styles: alternative CSS (pro Zeile eine URL)
       motd: Nachricht des Tages
+      hide_subjects_when_unchanged: Gleiche Betreffe ausblenden
 

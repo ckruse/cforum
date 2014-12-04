@@ -10,6 +10,14 @@
   </div>
 
   <div class="cf-cgroup">
+    <label><%= t('users.settings.hide_subjects_when_unchanged') %></label>
+    <div class="cntrls">
+      <label class="radio"><input type="radio" value="no" name="settings[hide_subjects_unchanged]"<%= disabled %><% if @settings.conf('hide_subjects_unchanged', 'yes') == 'no' %> checked="checked"<% end %>> anzeigen</label>
+      <label class="radio"><input type="radio" value="yes" name="settings[hide_subjects_unchanged]"<%= disabled %><% if @settings.conf('hide_subjects_unchanged', 'yes') == 'yes' %> checked="checked"<% end %>> ausblenden</label>
+    </div>
+  </div>
+
+  <div class="cf-cgroup">
     <label><%= t('users.settings.mark_suspicious') %></label>
     <div class="cntrls">
       <label class="radio"><input type="radio" value="yes"

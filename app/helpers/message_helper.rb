@@ -4,7 +4,7 @@ module MessageHelper
   def message_header(thread, message, opts = {})
     opts = {first: false, prev_deleted: false,
       show_icons: false, do_parent: false,
-      tree: true, id: true}.merge(opts)
+      tree: true, id: true, hide_repeating_subjects: false}.merge(opts)
 
     classes = ['message']
     classes += message.attribs['classes']
@@ -100,7 +100,9 @@ module MessageHelper
       html << "  <h2>" + link_to(message.subject, cf_message_path(thread, message)) + "</h2>"
     else
       if thread.thread_id and message.message_id
-        html << "  <h3>" + link_to(message.subject, cf_message_path(thread, message)) + "</h3>"
+        if (opts[:hide_repeating_subjects] and message.subject_changed?) or not opts[:hide_repeating_subjects]
+          html << "  <h3>" + link_to(message.subject, cf_message_path(thread, message)) + "</h3>"
+        end
       else
         html << "  <h3>" + message.subject + "</h3>"
       end
@@ -137,12 +139,23 @@ module MessageHelper
     html << '</span>' if message.user_id
 
     html << ",
-      <time datetime=\"" + message.created_at.to_s + '">' +
-      encode_entities(l(message.created_at, format: opts[:tree] ?
-                        date_format("date_format_index") :
-                        date_format("date_format_post"))) +
-        "</time>
-    </summary>"
+      "
+
+    text = "<time datetime=\"" + message.created_at.to_s + '">' +
+           encode_entities(l(message.created_at, format: opts[:tree] ?
+                                                   date_format("date_format_index") :
+                                                   date_format("date_format_post"))) +
+           "</time>"
+
+    if thread.thread_id and message.message_id
+      html << link_to(cf_message_path(thread, message)) do
+        text.html_safe
+      end
+    else
+      html << text.html_safe
+    end
+
+    html << "</summary>"
 
     unless message.tags.blank?
       html << %q{
@@ -180,7 +193,8 @@ module MessageHelper
   end
 
   def message_tree(thread, messages, opts = {})
-    opts = {prev_deleted: false, show_icons: false, id: true}.merge(opts)
+    opts = {prev_deleted: false, show_icons: false, id: true,
+            hide_repeating_subjects: false}.merge(opts)
 
     html = "<ol>\n"
     messages.each do |message|
@@ -193,11 +207,13 @@ module MessageHelper
       html << message_header(thread, message, first: false,
                              prev_deleted: opts[:prev_deleted],
                              show_icons: opts[:show_icons],
-                             id: opts[:id])
+                             id: opts[:id],
+                             hide_repeating_subjects: opts[:hide_repeating_subjects])
       html << message_tree(thread, message.messages, first: false,
                            prev_deleted: message.deleted?,
                            show_icons: opts[:show_icons],
-                           id: opts[:id]) unless message.messages.blank?
+                           id: opts[:id],
+                           hide_repeating_subjects: opts[:hide_repeating_subjects]) unless message.messages.blank?
       html << "</li>"
     end
 
