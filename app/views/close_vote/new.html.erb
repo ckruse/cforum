@@ -36,6 +36,13 @@
 
   <div class="cf-radio-only">
     <label>
+      <%= f.radio_button :reason, "illegal" %>
+      <%= t('messages.close_vote.illegal') %>
+    </label>
+  </div>
+
+  <div class="cf-radio-only">
+    <label>
       <%= f.radio_button :reason, "duplicate" %>
       <%= t('messages.close_vote.duplicate') %>
     </label>

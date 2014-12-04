@@ -14,7 +14,8 @@ de:
       destroyed: Forum erfolgreich gelöscht
       merged: Die Foren wurden erfolgreich zusammengeführt
       forum_data: Forums-Daten
-      settings_nam: Einstellungen
+      settings_nam: Allgemein
+      settings_close_votes: Abstimmungen
       scores: Punkte
 
       error_message: "Dieses Forum konnte nicht gespeichert werden:"
@@ -35,6 +36,8 @@ de:
       new: neues Forum
 
       settings:
+        close_subtree: Nachricht und Antworten schliessen
+        hide_subtree: Nachricht und Antworten ausblenden
         items_per_page: Einträge pro Seite
         use_archive: Archiv nutzen
         max_threads: maximale Anzahl von Threads
@@ -49,6 +52,12 @@ de:
         close_vote_votes: Notwendige Stimmen, um einen Thread zu öffnen/schliessen
         edit_until_has_answer: Editieren nur bis zur ersten Antwort möglich
         editing_enabled: Editieren grundsätzlich möglich
+        close_vote_off-topic: Aktion bei Off-Topic-Beiträgen
+        close_vote_not-constructive: Aktion bei unkonstruktiven Beiträgen
+        close_vote_illegal: Aktion bei strafrechtlich bedenklichen Beiträgen
+        close_vote_duplicate: Aktion bei Doppelposts
+        close_vote_custom: Aktion bei sonstigen Beanstandungen
+        
 
     users:
       updated: Benutzer erfolgreich geändert.

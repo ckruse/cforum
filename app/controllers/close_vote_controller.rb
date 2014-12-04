@@ -179,6 +179,7 @@ class CloseVoteController < ApplicationController
                               close_vote_id: vote.close_vote_id).
         first.destroy
       deleted = true
+      vote.reload
     else
       if not vote.voters.create(user_id: current_user.user_id)
         redirect_to cf_message_url(@thread, @message), notice: t('global.something_went_wrong')
@@ -191,9 +192,9 @@ class CloseVoteController < ApplicationController
         vote.update_attributes(finished: true)
 
         if vote.vote_type == false
-          @message.flag_with_subtree('no-answer', 'yes')
+          finish_action_close(@message, vote)
         else
-          @message.del_flag_with_subtree('no-answer')
+          finish_action_open(@message, vote)
         end
       end
 
@@ -202,13 +203,41 @@ class CloseVoteController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to cf_message_url(@thread, @message),
-        notice: t(deleted ? 'messages.close_vote.vote_deleted' : 'messages.close_vote.voted') }
+      format.html {
+        url = if @message.deleted
+                cf_forum_url(current_forum.slug)
+              else
+                cf_message_url(@thread, @message)
+              end
+
+        redirect_to url,
+                    notice: t(deleted ? 'messages.close_vote.vote_deleted' : 'messages.close_vote.voted')
+      }
       format.json { render json: vote }
     end
   end
 
   private
+
+  def finish_action_close(msg, vote)
+    action = conf('close_vote_action_' + vote.reason, 'close')
+
+    if action == 'close'
+      @message.flag_with_subtree('no-answer', 'yes')
+    else
+      @message.delete_with_subtree
+    end
+  end
+
+  def finish_action_open(msg, vote)
+    action = conf('close_vote_action_' + vote.reason, 'close')
+
+    if action == 'close'
+      @message.del_flag_with_subtree('no-answer')
+    else
+      @message.restore_with_subtree
+    end
+  end
 
   def close_vote_params
     params.require(:cf_close_vote).

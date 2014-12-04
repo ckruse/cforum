@@ -80,13 +80,6 @@
       </div>
 
       <div class="cf-cgroup">
-        <label for="settings-close_vote_votes"><%= t('admin.forums.settings.close_vote_votes') %></label>
-        <div class="cntrls">
-          <%= number_field_tag 'settings[close_vote_votes]', @settings.options['close_vote_votes'], id: 'settings-close_vote_votes' %>
-        </div>
-      </div>
-
-      <div class="cf-cgroup">
         <label for="settings-date_format_index"><%= t('users.settings.date_format_index') %></label>
         <div class="cntrls">
           <%= text_field_tag 'settings[date_format_index]', @settings.conf('date_format_index', "%d.%m.%Y %H:%M"), id: 'settings-date_format_index' %>
