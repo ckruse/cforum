@@ -696,7 +696,8 @@ CREATE TABLE forums (
     updated_at timestamp without time zone NOT NULL,
     name character varying NOT NULL,
     description character varying,
-    standard_permission character varying(50) DEFAULT 'private'::character varying NOT NULL
+    standard_permission character varying(50) DEFAULT 'private'::character varying NOT NULL,
+    keywords character varying(255)
 );
 
 
@@ -2604,6 +2605,8 @@ INSERT INTO schema_migrations (version) VALUES ('50');
 INSERT INTO schema_migrations (version) VALUES ('51');
 
 INSERT INTO schema_migrations (version) VALUES ('52');
+
+INSERT INTO schema_migrations (version) VALUES ('53');
 
 INSERT INTO schema_migrations (version) VALUES ('6');
 

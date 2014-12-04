@@ -58,6 +58,7 @@ de:
         slug: Slug
         public: öffentlich
         description: Beschreibung
+        keywords: Schlagworte
 
       cf_user:
         username: Benutzername
