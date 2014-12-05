@@ -129,7 +129,7 @@ module MessageHelper
       if not message.message_id == thread.message.message_id and message.user_id == thread.message.user_id
         html << " original-poster"
       end
-      html << "\">" + link_to('<em>Benutzer-Profil</em>'.html_safe, user_path(message.owner), class: 'icon-registered-user', title: t('messages.user_link', user: message.owner.username)) + " "
+      html << "\">" + link_to('<em>' + t('global.user_profile') + '</em>'.html_safe, user_path(message.owner), class: 'icon-registered-user', title: t('messages.user_link', user: message.owner.username)) + " "
     else
       if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
         html << '<i class="icon-message original-poster" title="' + t('messages.original_poster') + '"> </i>'
