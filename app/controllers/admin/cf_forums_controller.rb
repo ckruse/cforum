@@ -49,7 +49,7 @@ class Admin::CfForumsController < ApplicationController
   end
 
   def forum_params
-    params.require(:cf_forum).permit(:slug, :name, :short_name, :description, :standard_permission)
+    params.require(:cf_forum).permit(:slug, :name, :short_name, :description, :standard_permission, :keywords)
   end
 
   def update
