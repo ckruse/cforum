@@ -1,0 +1,36 @@
+/* -*- coding: utf-8 -*- */
+
+summary::-webkit-details-marker {
+  display:none;
+}
+
+input:-moz-placeholder {
+  color: #999;
+}
+
+th.nummeric, td.nummeric {
+  text-align:right;
+}
+
+th.no-data, td.no-data {
+  text-align:center;
+}
+
+.small {
+  font-size:0.8em;
+  line-height:0.8em;
+}
+
+.clearfix:after {
+	clear: both;
+	content: " ";
+	display: block;
+	font-size: 0;
+	height: 0;
+	line-height: 0;
+	visibility: hidden;
+	width: 0;
+}
+
+
+/* eof */

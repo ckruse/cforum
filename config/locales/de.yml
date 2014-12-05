@@ -1,8 +1,8 @@
 de:
   forums:
     all_forums: alle Foren
-    admin_view: Admin
-    normal_view: User
+    admin_view: Administrator-Ansicht
+    normal_view: Administrator-Ansicht deaktivieren
 
   threads:
     move_thread: Thread verschieben
@@ -18,15 +18,6 @@ de:
     not_allowed_error_message: "Sie haben auf eine Resource zugegriffen, auf die der Zugriff verboten ist."
     not_allowed_maybe_you_want_to: Vielleicht möchten Sie sich erst
     login: anmelden
-
-  layout:
-    home: Hauptseite
-    mail: Post
-    administration: Verwaltung
-    logout: abmelden
-    login: anmelden
-    register: registrieren
-    title: Classic Forum
 
   notifications:
     delete: Benachrichtigung löschen

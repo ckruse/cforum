@@ -39,4 +39,12 @@ function t(key, deflt) {
   return loc;
 }
 
+$(function() {
+  $("#forum-list select").on('change', function() {
+    if($(this).val() != "") {
+      $("#forum-list form").submit();
+    }
+  });
+});
+
 // eof

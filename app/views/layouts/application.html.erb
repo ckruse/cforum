@@ -1,19 +1,47 @@
-<!DOCTYPE html>
+<% @page_type ||= 'portal' %><!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title><%= @title_infos %><% if content_for?(:title) %><%= yield(:title) %> - <% end %><%= t "layout.title" %></title>
-
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <%= stylesheet_link_tag "application", :media => "all" %>
+    <meta name="robots" content="noindex,noarchive">
+    <meta name="description" content="<% if current_forum and not current_forum.description.blank? %><%= current_forum.description %><% else %><%= t('layout.description') %><% end %>">
+    <meta name="keywords" content="<% if current_forum and not current_forum.description.blank? %><%= current_forum.keywords %><% else %><%= t('layout.keywords') %><% end %>">
+
+    <meta name="DC.Publisher" content="<%= t('layout.publisher') %>">
+    <meta name="DC.Identifier" content="<%= controller_path %>">
+    <meta name="DC.Language" content="de">
+    <% if content_for?(:rights) %><meta name="DC.Rights" content="<%= content_for(:rights) %>"><% end %>
+    <meta name="SELF.Pagetype" content="<%= @page_type %>">
+
+    <meta name="application-name" content="SELFHTML | F">
+    <meta name="msapplication-TileImage" content="http://src.selfhtml.org/logo/s-Logo_kachel_144.png">
+    <meta name="msapplication-TileColor" content="#3983ab">
+
+    <link rel="shortcut icon" href="http://src.selfhtml.org/favicon2.ico" type="image/x-icon" title="<%= t("layout.icon") %>">
+
+    <link rel="apple-touch-icon" href="http://src.selfhtml.org/logo/s-Logo_60.png">
+    <link rel="apple-touch-icon-precomposed" href="http://src.selfhtml.org/logo/s-Logo_144_r.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="http://src.selfhtml.org/logo/s-Logo_76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="http://src.selfhtml.org/logo/s-Logo_120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="http://src.selfhtml.org/logo/s-Logo_152.png">
+
+    <link rel="top" href="<%= root_url %>" title="<%= t('layout.publisher') %>">
+    <link rel="help" href="/hilfe/" title="<%= t('layout.help') %>">
+    <link rel="search" href="http://suche.de.selfhtml.org/" title="<%= t('layout.selfhtml_search') %>">
+    <link rel="bookmark" href="http://wiki.selfhtml.org/" title="<%= t('layout.selfhtml') %>">
+    <link rel="bookmark" href="http://blog.selfhtml.org/" title="<%= t('layout.weblog') %>" />
+    <% if @link_tags %><%= @link_tags %><% end %>
+
+    <%= stylesheet_link_tag "application", :media => "all", title: "SELFHTML Forum Stylesheet" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
 
     <%= javascript_include_tag Rails.application.config.faye_url + ".js" %>
 
-    <link rel="alternate" title="Atom Feed" type="application/atom+xml" href="<%= cf_forum_url(current_forum) %>.atom">
-    <link rel="alternate" title="RSS Feed" type="application/rss+xml" href="<%= cf_forum_url(current_forum) %>.rss">
+    <link rel="alternate" title="Atom Feed" type="application/atom+xml" href="<%= cf_forum_url(current_forum, format: :atom) %>">
+    <link rel="alternate" title="RSS Feed" type="application/rss+xml" href="<%= cf_forum_url(current_forum, format: :rss) %>">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -22,10 +50,8 @@
 
     <%= yield(:head) %>
 
-    <% if @link_tags %><%= @link_tags %><% end %>
-
     <% if @css_style %><link href="<%= @css_style %>" rel="stylesheet" media="all"><% end %>
-    <% if @own_css_file %><link href="<%= @own_css_file %>" rel="stylesheet" media="all"><% end %>
+    <% if @own_css_file %><link href="<%= @own_css_file %>" rel="stylesheet" media="all" title="SELFHTML Forum Stylesheet"><% end %>
     <% if @own_js_file %><script src="<%= @own_js_file %>"></script><% end %>
 
     <% if @own_css %><style>
@@ -45,47 +71,48 @@
       cforum.l10n = <%= I18n.t('js.messages').to_json.html_safe %>;
       cforum.locale = <%== I18n.locale.to_json %>;
     </script>
+
+    <title><%= @title_infos %><% if content_for?(:title) %><%= yield(:title) %> - <% end %><%= t "layout.title" %></title>
   </head>
 
-  <body data-controller="<%= controller_path %>" data-action="<%= action_name %>"<%= " id='#{yield(:body_id)}'" if content_for? :body_id %>>
+  <body data-controller="<%= controller_path %>" data-action="<%= action_name %>"<% if content_for?(:body_id) %> id="<%= yield(:body_id) %>"<% end %>>
 
-    <div class="top-bar">
-      <div class="inner-top-bar">
+    <%= render 'layouts/header' %>
 
-        <%= render 'layouts/navigation' %>
+    <% if @page_type == 'portal' %>
+      <%= render 'layouts/news' %>
+      <%= render 'layouts/portal' %>
+    <% end %>
 
-      </div>
-    </div>
-
-    <div class="cf-max-width-fluid">
-      <div class="cf-row-fluid">
-        <%= render 'layouts/sidebar' %>
-
-        <% if @has_subnav %><div class="cf-span10"><% end %>
-
-        <div id="alerts-container">
+    <main>
+      <div id="alerts-container">
         <% flash.each do |name,msg|
-          next if not msg.is_a?(String) or name == :timedout # needed because there seem to be messages like „true“ %>
+        next if not msg.is_a?(String) or name == :timedout # needed because there seem to be messages like „true“ %>
           <div class="cf-<%= name.to_s == 'notice' ? "success" : "error" %> fade in">
             <button type="button" class="close" data-dismiss="alert">×</button>
             <%= msg %>
           </div>
         <% end %>
-        </div>
-
-        <% if not @motds.blank? %>
-          <% @motds.each do |motd| %>
-            <div class="cf-motd">
-              <%= motd %>
-            </div>
-          <% end %>
-        <% end %>
-
-        <%= yield %>
-
-        <% if @has_subnav %></div><% end %>
       </div>
-    </div>
 
+      <% if not @motds.blank? %>
+        <% @motds.each do |motd| %>
+          <div class="cf-motd">
+            <%= motd %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <%= yield %>
+    </main>
+
+    <footer>
+      <ul>
+        <li>© 1998-2015 <a href="http://selfhtml.org/">SELFHTML</a></li>
+        <li><a href="http://selfhtml.org/impressum.html">Impressum</a></li>
+        <li><a href="http://selfhtml.org/impressum.html#datenschutz">Datenschutz</a></li>
+        <li>Software: <a href="https://github.com/ckruse/cforum">Classic Forum <%= $CF_VERSION %></a></li>
+      </ul>
+    </footer>
   </body>
 </html>

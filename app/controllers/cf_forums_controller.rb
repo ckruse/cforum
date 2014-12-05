@@ -59,6 +59,19 @@ class CfForumsController < ApplicationController
       raise CForum::NotFoundException.new # TODO: add message
     end
   end
+
+  def redirector
+    forum = nil
+
+    if not params[:f].blank?
+      forum = CfForum.where(slug: params[:f]).first
+    end
+
+    # TODO: add message
+    raise CForum::NotFoundException.new if forum.nil?
+
+    redirect_to cf_forum_url(forum)
+  end
 end
 
 # eof

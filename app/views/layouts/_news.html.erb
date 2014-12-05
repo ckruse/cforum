@@ -1,0 +1,24 @@
+<aside id="aside">
+	<h3>aktuelle Mitteilung</h3>
+  <p class="aktuelle-mitteilung img"><img src="http://src.selfhtml.org/forum/icon-forum-mail.png" alt="Icon" />Für Anregungen, Fehlermeldungen oder Kritik sende bitte eine E-Mail an <a href="mailto:forum@selfhtml.org">forum@selfhtml.org</a>.</p>
+
+	<h3>Tipps zum Forum</h3>
+
+  <% if not controller_path == 'cf_forums' %>
+	<div id="forum-list">
+    <%= form_tag forum_redirector_path(), method: :get do %>
+      <p>
+        <label>Foren: <select name="f">
+          <option disabled>Auswählen</option>
+          <% @forums.each do |f| %>
+            <option value="<%= f.slug %>"<% if current_forum and current_forum.forum_id == f.forum_id %> selected="selected"<% end %>><%= f.short_name %></option>
+          <% end %>
+        </select></label>
+        <noscript><input type="submit" value="Auswählen"></noscript>
+      </p>
+    <% end %>
+	</div>
+  <% end %>
+
+	<p>Im Wiki: <a href="http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Tipps_und_Tricks">Tipps und Tricks für die individuelle Ansicht</a></p>
+</aside>

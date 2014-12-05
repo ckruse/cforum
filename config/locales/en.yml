@@ -18,15 +18,6 @@ en:
     not_allowed_maybe_you_want_to: Maybe first you want to
     login: login
 
-  layout:
-    home: Home
-    mail: Mail
-    administration: Administration
-    logout: Logout
-    login: Login
-    register: Register
-    title: Classic Forum
-
   notifications:
     delete: Delete notification
 

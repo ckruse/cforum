@@ -11,10 +11,11 @@ aggregated = {threads: 0, messages: 0, last_change: nil}
 end
 
 content_for :title, t('global.forums')
+@page_type = 'portal'
 
 %><h1><%= t('global.forums') %></h1>
 
-<table class="cf-default-table">
+<table class="forums-table">
   <thead>
     <tr>
       <th><%= t('global.forum') %></th>

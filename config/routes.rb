@@ -13,6 +13,7 @@ Cforum::Application.routes.draw do
       as: :new_user_registration
   end
 
+  get "/forums" => "cf_forums#redirector", as: :forum_redirector
 
   # we use a custom url style for mails to achieve grouping
   get '/mails' => 'mails#index', as: :mails

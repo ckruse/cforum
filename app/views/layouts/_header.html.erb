@@ -1,0 +1,51 @@
+<header>
+  <nav>
+    <div id="top" class="clearfix">
+      <form id="suche" method="post" action="http://suche.de.selfhtml.org/">
+        <p>
+		      <label for="suchausdruck">Suche</label><input type="text" name="suchausdruck" id="suchausdruck" size="10" maxlength="50" placeholder="Suche">
+		      <input type="hidden" name="feld" value="alle">
+		      <input type="hidden" name="hits" value="100">
+		      <input type="hidden" name="lang" value="on">
+		      <input type="hidden" name="index_1" value="on">
+		      <input type="hidden" name="index_2" value="on">
+		      <input type="hidden" name="index_3" value="on">
+		      <input type="hidden" name="index_4" value="on">
+		      <input type="hidden" name="index_5" value="on">
+	      </p>
+      </form>
+
+      <ul class="selflinks">
+        <li><a href="http://selfhtml.org/">SELFHTML</a></li>
+        <li><a href="http://wiki.selfhtml.org/">Doku</a></li>
+	      <li><a href="http://forum.de.selfhtml.org/">Forum</a></li>
+	      <li><a href="http://blog.selfhtml.org/">Blog</a></li>
+      </ul>
+    </div>
+
+	  <div id="kopf">
+		  <ul class="sociallinks">
+			  <li><%= link_to('RSS-Feed',
+                        cf_forum_url(current_forum, format: :rss),
+                        class: 'rss',
+                        title: t("layout.rss_feed",
+                                 forum: current_forum ?
+                                 t('layout.forum', name: current_forum.name) :
+                                 t('layout.all_forums'))) %></li>
+        <li><%= link_to('Atom-Feed',
+                        cf_forum_url(current_forum, format: :atom),
+                        class: 'atom',
+                        title: t("layout.atom_feed",
+                                 forum: current_forum ?
+                                 t('layout.forum', name: current_forum.name) :
+                                 t('layout.all_forums'))) %></li>
+			  <li><a href="https://github.com/selfhtml" class="github" title="GitHub">GitHub</a></li>
+			  <li><a href="https://twitter.com/selfhtml" class="twitter" title="Twitter">Twitter</a></li>
+			  <li><a href="https://flattr.com/thing/41584/SELFHTML" class="flattr" title="Flattr">Flattr</a></li>
+			  <li><a href="https://trello.com/selfhtml" class="trello" title="Trello">Trello</a></li>
+			  <li><a href="http://selfhtml.org/spenden.html" class="donate" title="spenden">Spendenseite</a></li>
+		  </ul>
+    </div>
+  </nav>
+</header>
+

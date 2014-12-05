@@ -1,0 +1,85 @@
+<nav id="side-menu">
+	<h3>Quicklinks</h3>
+	<ul>
+		<li id="quicklink-hilfe"><a href="http://wiki.selfhtml.org/wiki/SELFHTML:Forum">Forums-Hilfe</a></li>
+		<li id="quicklink-hilfe-faq"><a href="http://wiki.selfhtml.org/wiki/SELFHTML:Forum/FAQ">FAQ</a></li>
+		<li id="quicklink-suche"><a href="http://suche.de.selfhtml.org/">Suche</a></li>
+		<li id="quicklink-zitatesammlung"><a href="http://community.de.selfhtml.org/<% if current_user %>my/<% end %>zitatesammlung/">Zitatesammlung</a></li>
+	</ul>
+
+	<h3>Optionen</h3>
+	<ul id="optionen">
+    <li><%= link_to t('layout.home'), root_url %></li>
+    <% if current_user and current_user.admin %><li><%= link_to t('layout.administration'), admin_users_path %></li><% end %>
+
+    <% if current_forum %>
+		  <li id="optionen-neuenachricht"><%= link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
+      <li id="optionen-tags"><%= link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
+
+      <% if current_user %>
+        <% if ((!current_forum and current_user.admin? and (@messages or @thread)) or (current_forum and current_user.moderate?(current_forum))) %>
+          <li id="optionen-admin">
+            <% if not view_all %><%= link_to t("forums.admin_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: 'yes') %>
+            <% else %><%= link_to t("forums.normal_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: false) %>
+            <% end %>
+          </li>
+        <% end %>
+      <% end %>
+
+      <li id="optionen-close-all-threads"><%= link_to t('plugins.open_close.close_all_threads'), cf_forum_path(current_forum, close_all: 'yes') %></li>
+      <li id="optionen-open-all-threads"><%= link_to t('plugins.open_close.open_all_threads'), cf_forum_path(current_forum, open_all: 'yes') %></li>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <li id="optionen-myadmin"><div>(<%= link_to notifications_path do %><span class="notifications<% if @new_notifications.length > 0 %> new<% end %>"><%= @new_notifications.length %></span><% end %>/<span class="score"><%= current_user.score %></span>) <%= link_to(current_user.username, edit_user_path(current_user)) %></div></li>
+      <li id="optionen-logout"><%= link_to(t('layout.logout'), destroy_user_session_path, method: :delete) %></li>
+    <% else %>
+      <li id="optionen-my"><%= link_to(t('layout.login'), new_user_session_path) %></li>
+      <li id="optionen-myadmin"><%= link_to t("layout.register"), new_user_registration_path %></li>
+    <% end %>
+	</ul>
+</nav>
+	
+<aside id="beschreibung" class="clearfix">
+  <h3>Mitmachen</h3>
+
+  <nav>
+	  <ul class="mitmachen">
+      <% if current_forum %>
+		    <li id="link-neuenachricht"><%= link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
+      <% end %>
+
+      <% if user_signed_in? %>
+        <li id="link-myadmin"><%= link_to(t('layout.settings'), edit_user_path(current_user)) %></li>
+      <% else %>
+        <li id="link-my"><%= link_to(t('layout.login'), new_user_session_path) %></li>
+        <li id="link-myadmin"><%= link_to t("layout.register"), new_user_registration_path %></li>
+      <% end %>
+	  </ul>
+  </nav>
+
+  <h3>Die Doku ist ein Wiki</h3>
+  <div id="wiki">
+    <p>Dieses Forum versteht sich als Ergänzung der <a href="http://wiki.selfhtml.org/wiki/Startseite">neuen SELFHTML-Dokumentation</a>.</p>
+    <a href="http://wiki.selfhtml.org/wiki/Startseite"><img src="http://src.selfhtml.org/selfhtml_wiki.png" alt="SELFHTML-Wiki" /></a>
+    <p class="mitarbeit">SELFHTML freut sich über <strong>jede</strong> Form der <a href="http://selfhtml.org/spenden.html">Unterstützung</a>, insbesondere jedoch über eine <a href="http://wiki.selfhtml.org/wiki/SELFHTML:Über">Mitarbeit an der Dokumentation</a>.</p>
+  </div>
+
+  <h3>Nützliches und Notwendiges</h3>
+  <ul>
+    <li><a href="http://suche.de.selfhtml.org/">Durchsuche</a> das Archiv nach ähnlichen Problemen.</li>
+    <li>Stöbere in den <a href="http://wiki.selfhtml.org/wiki/SELFHTML:Forum/FAQ">FAQ</a>.</li>
+    <li>Halte die Regeln der <a href="http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Charta_des_SELFHTML-Forums">Charta des Forums</a> ein.</li>
+    <% unless user_signed_in? %>
+      <li>Eine <% link_to 'Registrierung', new_user_registration_path %> erlaubt vielfältige <a href="http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Benutzerspezifische_Ansicht">individuelle Anpassungen</a>.</li>
+    <% end %>
+  </ul>
+  
+	<p id="ladezeitpunkt">Ladezeitpunkt: <%= l(DateTime.now, format: date_format) %></p>
+  
+	<!--p id="spendenaufruf" class="aktuelle-mitteilung img"><img src="http://src.selfhtml.org/forum/icon-forum-stift.png" alt="Icon" />SELFHTML freut sich über <strong>jede</strong> Form der Unterstützung, insbesondere über eine <a href="http://wiki.selfhtml.org/wiki/SELFHTML:Über">Mitarbeit im SELFHTML-Wiki</a>.</p-->
+
+  <% if @view_all %>
+	  <p id="admin-mode" class="aktuelle-mitteilung img"><img src="http://src.selfhtml.org/forum/icon-forum-admin.png" alt="Icon" /><strong>Du bist im Administrationsmodus.</strong> Die administrative Bearbeitung von Beiträgen sollte <a href="http://forum.de.selfhtml.org/my/moderation/doku/">dokumentiert</a> werden.</p>
+  <% end %>
+</aside>

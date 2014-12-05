@@ -1,0 +1,9 @@
+en:
+  layout:
+    home: Home
+    mail: Mail
+    administration: Administration
+    logout: Logout
+    login: Login
+    register: Register
+    title: Classic Forum

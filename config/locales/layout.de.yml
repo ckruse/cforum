@@ -1,0 +1,22 @@
+de:
+  layout:
+    home: Hauptseite
+    mail: Post
+    administration: Verwaltung
+    logout: abmelden
+    login: anmelden
+    register: registrieren
+    title: Classic Forum
+    publisher: SELFHTML Forum
+    keywords: SELFHTML Forum, SELFHTML, Forum, SELFForum
+    description: Forum als Ergänzung zum SELFHTML-Wiki und zur Dokumentation SELFHTML
+    icon: SELFHTML Icon
+    help: Hilfe
+    selfhtml_search: SELFHTML Suche
+    selfhtml: SELFHTML
+    weblog: Weblog
+    atom_feed: Atom-Feed (%{forum})
+    rss_feed: RSS-Feed (%{forum})
+    all_forums: gesamtes Forum
+    forum: Forum %{name}
+    settings: Einstellungen
