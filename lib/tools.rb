@@ -22,6 +22,8 @@ module CForum
     end
 
     def query_string(args = {})
+      format = args.delete(:format) || ''
+
       qs = []
       had_key = {}
       @@url_attribs ||= {}
@@ -36,8 +38,11 @@ module CForum
         qs << URI.escape(k.to_s) + "=" + URI.escape(v.to_s)
       end
 
-      return '?' + qs.join("&") unless qs.blank?
-      ''
+      retval = ''
+      retval = '?' + qs.join("&") unless qs.blank?
+      retval = '.' + format.to_s unless format.blank?
+
+      return retval
     end
 
     def _cf_forum_path(forum)
