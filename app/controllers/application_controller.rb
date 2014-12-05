@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 
+$CF_VERSION = '4.0b1'
+
 require Rails.root + 'lib/notification_center'
 require Rails.root + 'lib/tools'
 require Rails.root + 'lib/plugin'
