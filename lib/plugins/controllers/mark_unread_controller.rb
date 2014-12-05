@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 class MarkUnreadController < ApplicationController
-  authorize_controller { authorize_user && authorize_forum(:read?) }
+  authorize_controller { authorize_user && authorize_forum(permission: :read?) }
 
   def mark_unread
     if current_user.blank?
