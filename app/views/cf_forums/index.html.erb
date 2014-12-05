@@ -18,9 +18,11 @@ content_for :title, t('global.forums')
   <thead>
     <tr>
       <th><%= t('global.forum') %></th>
-      <th><%= t('global.threads') %></th>
-      <th><%= t('global.messages') %></th>
+      <th class="nummeric"><%= t('global.threads') %></th>
+      <th class="nummeric"><%= t('global.messages') %></th>
       <th><%= t('global.last_change') %></th>
+      <th><%= t('global.author') %></th>
+      <th><%= t('global.subject') %></th>
     </tr>
   </thead>
 
@@ -32,36 +34,49 @@ content_for :title, t('global.forums')
     end
     %>
     <tr<% if msg and not msg.attribs['classes'].blank? %> class="<%= msg.attribs['classes'].join(" ") %>"<% end %>>
-      <td><%= link_to t('forums.all_forums'), cf_forum_path('all') %></td>
-      <td><%= aggregated[:threads] %></td>
-      <td><%= aggregated[:messages] %></td>
-      <td>
-        <% if msg.nil?  %><%= ('<em>' + t('global.never') + '</em>').html_safe %>
-        <% else %><%= l(msg.updated_at, format: date_format) %> von <%= msg.user_id ? link_to(msg.author, user_path(msg.owner)) : msg.author %>: <%= link_to msg.subject, cf_message_path(msg.thread, msg) %>
+      <th><%= link_to t('forums.all_forums'), cf_forum_path('all') %></th>
+      <th class="nummeric"><%= aggregated[:threads] %></th>
+      <th class="nummeric"><%= aggregated[:messages] %></th>
+      <th<% if msg.blank? %> colspan="3" class="no-data"<% end %>>
+        <% if msg.blank?  %><%= ('<em>' + t('global.never') + '</em>').html_safe %>
+        <% else %><%= l(msg.updated_at, format: date_format) %>
         <% end %>
-      </td>
+      </th>
+      <% unless msg.blank? %>
+        <th>
+          <% if msg.user_id %>
+            <%= link_to('<em>'.html_safe + t('global.user_profile') + '</em>'.html_safe, user_path(msg.owner), class: 'icon-registered-user', title: t('messages.user_link', user: msg.owner.username)) %>
+          <% end %>
+          <%= msg.author %>
+        </th>
+        <th><%= link_to msg.subject, cf_message_path(msg.thread, msg) %></th>
+      <% end %>
     </tr>
   </tfoot>
 
   <tbody>
     <% @forums.each do |forum| %>
-      <%
-      msg = nil
-      if @activities[forum.forum_id]
-        msg = @activities[forum.forum_id]
-      end
-      %>
+      <% msg = @activities[forum.forum_id] %>
       <tr<% if msg and not msg.attribs['classes'].blank? %> class="<%= msg.attribs['classes'].join(" ") %>"<% end %>>
         <td><%= link_to forum.name, forum %></td>
-        <td><%= @counts[forum.forum_id][:threads] %></td>
-        <td><%= @counts[forum.forum_id][:messages] %></td>
-        <td>
-          <% if msg %>
-            <%= l(msg.updated_at, format: date_format) %> von <%= msg.user_id ? link_to(msg.author, user_path(msg.owner)) : msg.author %>: <%= link_to msg.subject, cf_message_path(msg.thread, msg) %>
-          <% else %>
+        <td class="nummeric"><%= @counts[forum.forum_id][:threads] %></td>
+        <td class="nummeric"><%= @counts[forum.forum_id][:messages] %></td>
+        <td<% if msg.blank? %> colspan="3" class="no-data"<% end %>>
+          <% if msg.blank? %>
             <em>(<%= ("<em>" + t("global.never") + "</em>").html_safe %>)</em>
+          <% else %>
+            <%= l(msg.updated_at, format: date_format) %>
           <% end %>
         </td>
+        <% unless msg.blank? %>
+          <td>
+            <% if msg.user_id %>
+              <%= link_to('<em>'.html_safe + t('global.user_profile') + '</em>'.html_safe, user_path(msg.owner), class: 'icon-registered-user', title: t('messages.user_link', user: msg.owner.username)) %>
+            <% end %>
+            <%= msg.author %>
+          </td>
+          <td><%= link_to msg.subject, cf_message_path(msg.thread, msg) %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
