@@ -2,10 +2,12 @@
 content_for :title, current_forum.blank? ? t('threads.threadlist_all') : t('threads.threadlist', name: current_forum.name)
 %>
 
-<div data-js="threadlist">
-<% @threads.each do |thread| %>
-<%=  render 'thread', thread: thread %>
-<% end %>
+<h2 id="aktuellenachrichten"><%= current_forum.blank? ? t('threads.threads_all') : t('threads.threads_forum', name: current_forum.name) %></h2>
+
+<div class="root" data-js="threadlist">
+  <% @threads.each do |thread| %>
+    <%= render 'thread', thread: thread %>
+  <% end %>
 </div>
 
 <%= render 'pages' %>

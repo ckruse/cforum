@@ -2,6 +2,12 @@
 
 main {
   padding-left: 2em;
+
+  .visited, a.visited, #root a:visited {
+	  color: #888;
+  }
 }
+
+
 
 /* eof */

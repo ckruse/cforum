@@ -2,6 +2,8 @@ de:
   threads:
     threadlist: Forum %{name}
     threadlist_all: alle Foren
+    threads_forum: Aktuelle Beiträge im Forum %{name}
+    threads_all: Aktuelle Beiträge
     created: Der Thread wurde erfolgreich erstellt.
     moved: Der Thread wurde erfolgreich verschoben.
     stickied: Der Thread wurde erfolgreich angepinnt.
