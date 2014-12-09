@@ -174,7 +174,7 @@
 	list-style: none outside none;
 }
 /* Korrektur float */
-#kopf #side-menu , #kopf ul + ul { 
+#kopf #side-menu {
 	float: none;
 	display: inline-block;
 	margin: 92px .7em -8px 0;
