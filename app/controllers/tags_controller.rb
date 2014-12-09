@@ -151,7 +151,7 @@ class TagsController < ApplicationController
       CfTagSynonym.where(tag_id: @tag.tag_id).
         update_all(tag_id: @merge_tag.tag_id)
 
-      @merge_tag.synonyms.create!(synonym: @merge_tag.tag_name,
+      @merge_tag.synonyms.create!(synonym: @tag.tag_name,
                                   forum_id: current_forum.forum_id)
 
       @tag.destroy
