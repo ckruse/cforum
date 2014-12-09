@@ -7,7 +7,8 @@ subnav = capture do
   end
 end
 
-content_for(:div_kopf) do %>
+if @page_type == 'page'
+  content_for(:div_kopf) do %>
 <div id="side-menu">
   <% if @has_subnav and not subnav.blank? %>
     <%= subnav %>
@@ -26,6 +27,7 @@ content_for(:div_kopf) do %>
 </div>
 
 <% if content_for?(:h1) %><%= content_for(:h1) %><% end %>
-<% end %>
+<% end
+end %>
 
 
