@@ -1,4 +1,5 @@
 <%
+@page_type = "portal"
 content_for :title, current_forum.blank? ? t('threads.threadlist_all') : t('threads.threadlist', name: current_forum.name)
 %>
 

@@ -1,8 +1,7 @@
-<div class="cf-sidebar-box">
-  <%= render 'admin/admin_subnav' %>
+<%= render 'admin/admin_subnav' %>
 
-  <ul class="cf-sidebar">
-    <li class="cf-sidebar-header"><h4><%= t('global.users') %></h4></li>
-    <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('admin.users.new_user'), new_admin_user_path %></li>
-  </ul>
-</div>
+<h3><%= t('global.users') %></h3>
+<ul>
+  <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('admin.users.new_user'), new_admin_user_path %></li>
+</ul>
+

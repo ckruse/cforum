@@ -1,7 +1,8 @@
 /* -*- coding: utf-8 -*- */
 
-.forums-table {
+.forums-table, .cf-default-table {
   border-collapse: collapse;
+  width:100%;
 
   th, td {
     padding:0.2em 0.5em 0.2em 0.5em;

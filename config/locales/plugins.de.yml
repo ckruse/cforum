@@ -51,6 +51,7 @@ de:
     flag_plugin:
       flagged: Die Nachricht wurde markiert und ein Moderator wird die Nachricht überprüfen.
       flag_message: Nachricht „%{subject}“ von %{author} markieren
+      only_flag_message: Nachricht markieren
       already_flagged: Die Nachricht wurde bereits markiert.
       dup_url_needed: Die URL wird benötigt, um eine Nachricht als Duplicate zu markieren.
       custom_reason_needed: Die URL wird benötigt, um eine Nachricht als Duplicate zu markieren.

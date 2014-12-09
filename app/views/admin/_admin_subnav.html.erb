@@ -1,5 +1,5 @@
-<ul class="cf-sidebar">
-  <li class="cf-sidebar-header"><h4><%= t('admin.administration') %></h4></li>
+<h3><%= t('admin.administration') %></h3>
+<ul>
   <li<% if controller_name == 'cf_users' and action_name != 'new' %> class="active"<% end %>><%= link_to t('global.users'), admin_users_path %></li>
   <li<% if controller_name == 'cf_settings' %> class="active"<% end %>><%= link_to t('admin.settings_menu'), admin_settings_path %></li>
   <li<% if controller_name == 'cf_forums' and action_name != 'new' %> class="active"<% end %>><%= link_to t('global.forums'), admin_forums_path %></li>

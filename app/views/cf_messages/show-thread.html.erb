@@ -1,5 +1,4 @@
 <%
-@page_type = 'page'
 content_for(:title, @message.subject + " " + I18n.t('messages.by') + " " +
             @message.author + ", " + I18n.l(@message.created_at,
                                             format: date_format('date_format_post')))

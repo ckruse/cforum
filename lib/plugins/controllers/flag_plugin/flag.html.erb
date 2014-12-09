@@ -1,5 +1,8 @@
-<% content_for :title do %><%= t('plugins.flag_plugin.flag_message', subject: @message.subject, author: @message.author) %><% end %>
-<h1><%= t('plugins.flag_plugin.flag_message', subject: @message.subject, author: @message.author) %></h1>
+<%
+content_for :title, t('plugins.flag_plugin.flag_message', subject: @message.subject, author: @message.author)
+content_for :h1, "<h1>".html_safe + t('plugins.flag_plugin.only_flag_message') + "</h1>".html_safe
+%>
+<h2><%= t('plugins.flag_plugin.flag_message', subject: @message.subject, author: @message.author) %></h2>
 
 <%= form_tag flag_cf_message_path(@thread, @message), method: :put, class: 'form-horizontal' do %>
 

@@ -1,8 +1,6 @@
-<div class="cf-sidebar-box">
-  <%= render 'admin/admin_subnav' %>
+<%= render 'admin/admin_subnav' %>
 
-  <ul class="cf-sidebar">
-    <li class="cf-sidebar-header"><h4><%= t('global.forums') %></h4></li>
-    <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('admin.forums.new_forum'), new_admin_forum_path %></li>
-  </ul>
-</div>
+<h3><%= t('global.forums') %></h3>
+<ul>
+  <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('admin.forums.new_forum'), new_admin_forum_path %></li>
+</ul>
