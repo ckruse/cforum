@@ -1,19 +1,19 @@
 <%
+@page_type = "page"
 content_for :title, t('threads.write_new_thread')
+content_for :h1, "<h1>".html_safe + t('threads.write_new_thread') + "</h1>".html_safe
 %>
-<article class="message">
-  <h2><%= t "threads.new_thread" %></h2>
+
+<h2><%= t "threads.new_thread" %></h2>
 
 <% if @preview %>
-  <div class="thread">
+  <article class="thread-message">
     <%= message_header(@thread, @message) %>
 
-    <div class="posting-content well">
+    <div class="posting-content">
       <%= @message.to_html(self) %>
     </div>
-  </div>
+  </article>
 <% end %>
 
 <%= render 'form' %>
-
-</article>

@@ -1,4 +1,4 @@
-<%= form_for @thread, html: {:class => 'form-horizontal'} do |f| %>
+<%= form_for @thread, url: cf_threads_path(current_forum), html: {class: 'form-horizontal'} do |f| %>
   <% if @thread.message.errors.any? %>
     <div id="error_explanation" class="cf-error">
       <h4><%= pluralize(@thread.message.errors.count, "error") %> prohibited this thread from being saved:</h4>
