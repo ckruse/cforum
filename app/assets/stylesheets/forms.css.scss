@@ -1,0 +1,163 @@
+/* -*- coding: utf-8 -*- */
+
+.form-horizontal {
+  .cf-cgroup:after { clear:both; }
+  .cf-cgroup:before, .cf-cgroup:after {
+    display: table;
+    content: " ";
+  }
+
+  .cf-cgroup {
+    margin-right: -15px;
+    margin-left: -15px;
+    margin-bottom: 15px;
+
+    label {
+      padding-top: 7px;
+      margin-bottom: 0px;
+      text-align: right;
+      width: 16.6667%;
+      float: left;
+      position: relative;
+      min-height: 1px;
+      padding-right: 15px;
+      padding-left: 15px;
+      display: inline-block;
+      max-width: 100%;
+      font-weight: bold;
+      line-height: 1.42857em;
+      vertical-align: middle;
+    }
+
+    .cntrls {
+      width: 80%;
+      float: left;
+      position: relative;
+      min-height: 1px;
+      padding-right: 15px;
+      padding-left: 15px;
+      line-height: 1.42857em;
+      vertical-align: middle;
+
+      input:focus, select:focus, textarea:focus {
+        border-color: #66AFE9;
+        outline: 0px none;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(102, 175, 233, 0.6);
+      }
+
+      input, select, textarea {
+        width:20%;
+        display: block;
+        padding: 6px 12px;
+        line-height: 1.42857em;
+        color: #555;
+        background-color: #FFF;
+        background-image: none;
+        border: 1px solid #CCC;
+        border-radius: 4px;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+      }
+
+      input[type=radio], input[type=checkbox] { width:auto; }
+    }
+  }
+
+  .radio, .checkbox {
+    min-height: 27px;
+  }
+
+  .radio, .checkbox, .radio-inline, .checkbox-inline {
+    padding-top: 7px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  .radio, .checkbox {
+    position: relative;
+    display: block;
+  }
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -moz-user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.btn:hover, .btn:focus, .btn.focus {
+  color: #333;
+  text-decoration: none;
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus,
+.btn.focus:active, .btn.active.focus {
+    outline: thin dotted;
+    outline-offset: -2px;
+}
+
+.cf-btn {
+  @extend .btn;
+  color: #333;
+  background-color: #FFF;
+  border-color: #CCC;
+}
+
+.cf-btn:hover, .cf-btn:focus, .cf-btn.focus,
+.cf-btn:active, .cf-btn.active {
+    color: #333;
+    background-color: #E6E6E6;
+    border-color: #ADADAD;
+}
+
+.cf-primary-btn {
+  @extend .btn;
+  color: #FFF;
+  background-color: #337AB7;
+  border-color: #2E6DA4;
+}
+
+.cf-primary-btn:hover, .cf-primary-btn:focus, .cf-primary-btn.focus,
+.cf-primary-btn:active, .cf-primary-btn.active {
+    color: #FFF;
+    background-color: #286090;
+    border-color: #204D74;
+}
+
+input, button, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
+  cursor: pointer;
+}
+
+button, select {
+  text-transform: none;
+}
+
+button {
+  overflow: visible;
+}
+
+button, input, optgroup, select, textarea {
+  margin: 0px;
+  font: inherit;
+  color: inherit;
+}
+
+
+/* eof */
