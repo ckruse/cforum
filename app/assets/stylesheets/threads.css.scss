@@ -1,48 +1,114 @@
 /* -*- coding: utf-8 -*- */
 
+.root {
+  display:inline-block;
+}
+
+.thread > ol {
+  background:#fff;
+  border-bottom: 1px solid #D5D5D5;
+  border-radius: 0px 0.5em 0.5em;
+  padding-bottom:0.25em;
+}
+
+.visited, a.visited, .visited a {
+	color: #888;
+}
+
+.root a:visited {
+  color:#3481CD;
+}
+
 .thread {
-  ol { list-style-type:none; }
-  h2, h3 {
-    font-size:1em;
-    display:inline;
-    margin-bottom:0;
-    line-height:inherit;
+  background: #F1F3F4;
+  margin-bottom: 1em;
+  border: 1px solid #D5D5D5;
+  border-bottom:0;
+  border-radius: 0px 0.5em 0.5em;
+  min-width: 44em;
+  padding: 0.35em 1em 0.25em;
+
+  & > header > .thread-icons {
+    float:right;
   }
 
-  header details, header summary, header ul, header li {
-    display:inline;
-  }
-
-  header details, header ul, header li:first-of-type {
+  ol {
     list-style-type:none;
-    margin-bottom:0;
-    line-height:1em;
-    font-style:italic;
-    margin-left:0;
+    margin:0;
+    overflow:visible;
+    margin: 0.25em -1em -0.25em;
+
+    li {
+      padding:0;
+      margin:0;
+    }
   }
 
-  header li {
-    margin-left:0.5em;
-    margin-bottom:0;
-    line-height:1em;
-    font-style:italic;
+  header {
+    h2, h3 {
+      font-size:1em;
+      display:inline;
+      line-height:inherit;
+      margin:0 0 0 0.325em;
+      font-weight:bold;
+    }
+
+    h2 a {
+      font-weight:bold;
+    }
+
+    details, summary, ul, li {
+      display:inline;
+    }
+
+    details, ul, li:first-of-type {
+      list-style-type:none;
+      margin-bottom:0;
+      line-height:1em;
+      margin-left:0;
+    }
+
+    li {
+      margin-left:0.5em;
+      margin-bottom:0;
+      line-height:1em;
+    }
+
+    details {
+      font-size:0.9em;
+    }
+
+    .author {
+      font-weight:bold;
+      white-space:nowrap;
+      color:#5D7380;
+    }
+
+    .votes, .num-infos {
+      display:inline-block;
+      color: #333;
+      font-size:0.9em;
+      text-align:right;
+    }
+
+    .votes { margin-left:1em; }
   }
 
-  header details {
-    font-size:0.9em;
+  .active, .active .visited a {
+	  color:#00a1e2;
+	  font-weight:bold;
+  }
+  .active ol, .active ol a {
+	  color:#3481cd;
+	  font-weight:normal;
   }
 
-  .active {
-	  color: #00a1e2;
-	  font-weight: bold;
-  }
-  .active li, .active ul {
-	  color: #000;
-	  font-weight: normal;
+  .active ol .visited a {
+    color: #888;
   }
 
   header.highlighted-user {
-    color: #8ab337;
+    color:#8ab337;
   }
 
   header.open-vote-active, header.close-vote-active {
@@ -58,7 +124,7 @@
 }
 
 #aktuellenachrichten {
-	clear: both;
+	clear:both;
   margin-left:0;
   margin-bottom:1em;
 }

@@ -45,6 +45,8 @@
 			  <li><a href="https://trello.com/selfhtml" class="trello" title="Trello">Trello</a></li>
 			  <li><a href="http://selfhtml.org/spenden.html" class="donate" title="spenden">Spendenseite</a></li>
 		  </ul>
+
+      <% if content_for?(:div_kopf) %><%= content_for(:div_kopf) %><% end %>
     </div>
   </nav>
 </header>

@@ -1,0 +1,14 @@
+<h3><%= t("layout.options") %></h3>
+
+<ul>
+  <li id="nachricht-feed-rss"><%= link_to t("layout.msg_rss_feed"), cf_thread_url(@thread, format: :rss) %></li>
+  <li id="nachricht-feed-atom"><%= link_to t("layout.msg_atom_feed"), cf_thread_url(@thread, format: :atom) %></li>
+  <% if current_user and current_forum.moderator?(current_user) %>
+    <% if @view_all %>
+      <li id="admin-view"><%= link_to t("forums.normal_view"), cf_message_path(@thread, @message, view_all: false) %></li>
+    <% else %>
+      <li id="admin-view"><%= link_to t("forums.admin_view"), cf_message_path(@thread, @message, view_all: 'yes') %></li>
+    <% end %>
+  <% end %>
+</ul>
+

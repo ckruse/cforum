@@ -20,3 +20,8 @@ de:
     all_forums: gesamtes Forum
     forum: Forum %{name}
     settings: Einstellungen
+    options: Optionen
+    msg_rss_feed: RSS-Feed
+    msg_atom_feed: Atom-Feed
+    read_message: Beitrag lesen
+

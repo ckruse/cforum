@@ -1,0 +1,18 @@
+<%
+subnav = capture do
+  begin %>
+<%= render 'subnav' %><% @has_subnav = true
+  rescue ActionView::MissingTemplate
+    @has_subnav = false
+  end
+end
+
+content_for(:div_kopf) do
+  if @has_subnav and not subnav.blank? %>
+<div id="side-menu">
+  <%= subnav %>
+</div>
+<% end %>
+
+<% if content_for?(:h1) %><%= content_for(:h1) %><% end %>
+<% end %>
