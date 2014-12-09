@@ -1,23 +1,27 @@
 <%
+@page_type = "page"
 content_for :title, t('messages.write_new_answer')
-%><article class="message">
+content_for :h1, "<h1>".html_safe + t('messages.write_new_answer') + "</h1>".html_safe
+%>
 
-  <div class="thread">
-<% if @parent and not @preview %>
+<h2><%= t('messages.new_answer_to', name: @parent.author) %></h2>
+
+<article class="thread-message">
+  <% if @parent and not @preview %>
     <%= message_header(@thread, @parent) %>
 
     <div class="posting-content">
       <%= @parent.to_html(self) %>
     </div>
 
-<% elsif @preview %>
+  <% elsif @preview %>
     <%= message_header(@thread, @message) %>
 
     <div class="posting-content">
       <%= @message.to_html(self) %>
     </div>
-<% end %>
-  </div>
+  <% end %>
+</article>
 
 <%= form_for @message, :url => cf_message_path(@thread, @parent), html: {:class => 'form-horizontal'} do |f| %>
   <% if @message.errors.any? %>
@@ -25,9 +29,9 @@ content_for :title, t('messages.write_new_answer')
       <h4><%= t('messages.error_message', :errors_count => pluralize(@message.errors.count, t("global.error"), t('global.errors'))) %></h4>
 
       <ul>
-      <% @message.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @message.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
@@ -41,4 +45,3 @@ content_for :title, t('messages.write_new_answer')
   </p>
 <% end %>
 
-</article>

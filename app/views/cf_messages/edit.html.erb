@@ -1,47 +1,50 @@
 <%
+@page_type = "page"
 content_for :title, t('messages.edit_posting')
-%><article class="message">
+content_for :h1, "<h1>".html_safe + t('messages.edit_posting') + "</h1>".html_safe
+%>
+<h2><%= t('messages.edit_posting') %></h2>
 
-  <div class="thread">
-<% if @parent and not @preview %>
-    <%= message_header(@thread, @parent) %>
+<article class="thread-message">
+
+  <% if not @preview %>
+    <%= message_header(@thread, @message.parent) %>
 
     <div class="posting-content">
-      <%= @parent.to_html(self) %>
+      <%= @message.parent.to_html(self) %>
     </div>
 
-<% elsif @preview %>
+  <% elsif @preview %>
     <%= message_header(@thread, @message) %>
 
     <div class="posting-content">
       <%= @message.to_html(self) %>
     </div>
-<% end %>
-  </div>
+  <% end %>
+</article>
 
-  <%= form_for(@message, url: cf_message_path(@thread, @message),
-               html: {class: 'form-horizontal'}) do |f| %>
-    <% if @message.errors.any? %>
-      <div id="error_explanation" class="cf-error">
-        <h4><%= t('messages.error_message', errors_count:
-                  pluralize(@message.errors.count, t("global.error"),
-                            t('global.errors'))) %></h4>
+<%= form_for(@message, url: cf_message_path(@thread, @message),
+             html: {class: 'form-horizontal'}) do |f| %>
+  <% if @message.errors.any? %>
+    <div id="error_explanation" class="cf-error">
+      <h4><%= t('messages.error_message', errors_count:
+                pluralize(@message.errors.count, t("global.error"),
+                          t('global.errors'))) %></h4>
 
-        <ul>
-          <% @message.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <%= render "form", f: f %>
-
-    <p>
-      <%= f.submit t('messages.preview'), :class => 'cf-btn', name: 'preview' %>
-      <%= f.submit t('global.save'), :class => 'cf-primary-btn' %>
-      <%= link_to t('global.cancel'), cf_message_path(@thread, @message), class: 'cf-btn' %>
-    </p>
+      <ul>
+        <% @message.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
   <% end %>
 
-</article>
+  <%= render "form", f: f %>
+
+  <p>
+    <%= f.submit t('messages.preview'), :class => 'cf-btn', name: 'preview' %>
+    <%= f.submit t('global.save'), :class => 'cf-primary-btn' %>
+    <%= link_to t('global.cancel'), cf_message_path(@thread, @message), class: 'cf-btn' %>
+  </p>
+<% end %>
+

@@ -1,0 +1,30 @@
+/* -*- coding: utf-8 -*- */
+
+.tags-list {
+  display:inline;
+  list-style-type:none;
+  margin:0;
+
+  .tag {
+    display:inline;
+    margin-left:2px;
+    background-color: #777;
+
+    padding: 0.2em 0.6em 0.3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #FFF;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25em;
+  }
+}
+
+.form-horizontal .cf-cgroup .cntrls input[type="text"].tags-input {
+  width:10%;
+  display:inline;
+}
+
+/* eof */

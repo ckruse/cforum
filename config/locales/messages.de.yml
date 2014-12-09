@@ -18,6 +18,7 @@ de:
     edit_message: Beitrag bearbeiten
 
     new_answer: antworten
+    new_answer_to: Antwort an %{name} verfassen
     edit_posting: Beitrag bearbeiten
     write_new_answer: neue Antwort verfassen
     restore_message: Beitrag wiederherstellen

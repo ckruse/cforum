@@ -59,6 +59,11 @@
         transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
       }
 
+      textarea.big {
+        width:43%;
+        height:20em;
+      }
+
       input[type=radio], input[type=checkbox] { width:auto; }
     }
   }
@@ -159,5 +164,11 @@ button, input, optgroup, select, textarea {
   color: inherit;
 }
 
+fieldset {
+  min-width:0;
+  padding:0;
+  margin:0;
+  border:0;
+}
 
 /* eof */
