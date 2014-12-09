@@ -30,6 +30,8 @@ module MessageHelper
     html << ">\n"
 
     if opts[:first] and current_user and opts[:show_icons]
+      html << "<span class=\"thread-icons\">"
+
       html << '  <a class="icon-thread '
       if thread.attribs['open_state'] == 'closed'
         html << 'closed" title="' + t('plugins.open_close.open_thread') + '" href="' + cf_forum_path(current_forum, :open => thread.thread_id)
@@ -65,8 +67,11 @@ module MessageHelper
         else
           html << " " + link_to('', no_archive_cf_thread_path(thread), method: :post, class: 'icon-thread no-archive', title: t('plugins.no_answer_no_archive.no_arc'))
         end
+
+        html << "</span>"
       end
 
+      html << "<span class=\"message-icons\">"
       if not opts[:prev_deleted]
         if message.deleted?
           html << " " + link_to('', restore_cf_message_path(thread, message), :method => :post, :class => 'icon-message restore', title: t('messages.restore_message'))
@@ -88,6 +93,8 @@ module MessageHelper
                             title: t('plugins.mark_read.mark_unread'))
     end
 
+    html << "</span>" if opts[:show_icons]
+
     if current_forum.blank?
       html << "  " + link_to(thread.forum.short_name, cf_forum_path(thread.forum), class: 'thread-forum-plate') + "\n"
     end
@@ -97,7 +104,15 @@ module MessageHelper
     end
 
     if opts[:first]
-      html << "  <h2>" + link_to(message.subject, cf_message_path(thread, message)) + "</h2>"
+      if opts[:show_icons]
+        html << " <span class=\"num-infos\"><span class=\"num-msgs\" title=\"" + t("messages.num_messages") + "\">" + thread.messages.length.to_s + "</span>"
+        unless thread.attribs[:msgs].blank?
+          html << " <span class=\"num-unread\" title=\"" + t("plugins.mark_read.num_unread") + "\">" + thread.attribs[:msgs][:unread].to_s + "</span>"
+        end
+        html << "</span>"
+      end
+
+      html << " <h2>" + link_to(message.subject, cf_message_path(thread, message)) + "</h2>"
     else
       if thread.thread_id and message.message_id
         if (opts[:hide_repeating_subjects] and message.subject_changed?) or not opts[:hide_repeating_subjects]
@@ -121,8 +136,8 @@ module MessageHelper
         "</span>)</span>"
     end
 
-    html << " " + t("messages.by") + %q{
-      }
+    html << " " + %q{
+      <span class="author">}
 
     if message.user_id
       html << "<span class=\"registered-user"
@@ -132,13 +147,13 @@ module MessageHelper
       html << "\">" + link_to('<em>' + t('global.user_profile') + '</em>'.html_safe, user_path(message.owner), class: 'icon-registered-user', title: t('messages.user_link', user: message.owner.username)) + " "
     else
       if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
-        html << '<i class="icon-message original-poster" title="' + t('messages.original_poster') + '"> </i>'
+        html << '<span class="icon-message original-poster" title="' + t('messages.original_poster') + '"><em>' + t("messages.original_poster") + '</em></span>'
       end
     end
     html << encode_entities(message.author)
     html << '</span>' if message.user_id
 
-    html << ",
+    html << "</span>
       "
 
     text = "<time datetime=\"" + message.created_at.to_s + '">' +
@@ -177,12 +192,6 @@ module MessageHelper
         ' ' +
         t('messages.votes') +
         '</span>'
-    end
-
-    if opts[:do_parent] and @parent
-      html << "<p>" + t('messages.previous_message') + " " + link_to(@parent.subject, cf_message_path(@thread, @parent)) + " " + t("messages.by") + " "
-      html << link_to('', user_path(@parent.author), class: 'icon-message registered-user') + " " if @parent.user_id
-      html << @parent.author + '</p>'
     end
 
     html << %q{

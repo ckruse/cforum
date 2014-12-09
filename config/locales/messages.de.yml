@@ -2,6 +2,7 @@ de:
   messages:
     messages: Beiträge
     by: von
+    num_messages: Anzahl Beiträge
     created: Beitrag wurde erfolgreich erstellt.
     destroyed: Beitrag wurde erfolgreich gelöscht.
     updated: Beitrag wurde erfolgreich geändert.

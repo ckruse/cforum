@@ -33,6 +33,7 @@ de:
     mark_read:
       marked_unread: Die Nachricht wurde als ungelesen markiert.
       mark_unread: ungelesen markieren
+      num_unread: Anzahl ungelesener Beiträge
 
     interesting_threads:
       marked_interesting: Der Thread wurde als interessant markiert.
