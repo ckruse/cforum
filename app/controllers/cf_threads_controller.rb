@@ -110,6 +110,8 @@ class CfThreadsController < ApplicationController
     respond_to do |format|
       format.html { render partial: 'thread', layout: false, locals: {thread: @thread} }
       format.json { render json: @thread, include: {messages: {include: [:owner, :tags]} } }
+      format.rss
+      format.atom
     end
   end
 

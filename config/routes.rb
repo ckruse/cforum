@@ -71,6 +71,9 @@ Cforum::Application.routes.draw do
     get '/:id' => 'cf_threads#show', as: 'show_cf_thread', id: /\d+/
     get '/:id/:mid' => 'cf_messages#show_header', id: /\d+/, mid: /\d+/
 
+    get '/:year/:mon/:day/:tid' => 'cf_threads#show', year: /\d{4}/,
+        mon: /\w{3}/, day: /\d{1,2}/, format: /rss|atom/, as: 'show_cf_thread_feed'
+
     get '/:year/:mon/:day/:tid/move' => 'cf_threads#moving', year: /\d{4}/,
       mon: /\w{3}/, day: /\d{1,2}/, as: 'move_cf_thread'
     post '/:year/:mon/:day/:tid/move' => 'cf_threads#move', year: /\d{4}/,
