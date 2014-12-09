@@ -1,0 +1,40 @@
+/* -*- coding: utf-8 -*- */
+
+.cf-alert {
+  padding:15px;
+  margin-bottom:20px;
+  margin-right:2em;
+  border:1px solid transparent;
+  border-radius:4px;
+}
+
+.cf-success {
+  @extend .cf-alert;
+
+  color:#3C763D;
+  background-color:#DFF0D8;
+  border-color:#D6E9C6;
+}
+
+.cf-info {
+  @extend .cf-alert;
+  color:#31708F;
+  background-color:#D9EDF7;
+  border-color:#BCE8F1;
+}
+
+.cf-warning {
+  @extend .cf-alert;
+  color:#8A6D3B;
+  background-color:#FCF8E3;
+  border-color:#FAEBCC;
+}
+
+.cf-error {
+  @extend .cf-alert;
+  color:#A94442;
+  background-color:#F2DEDE;
+  border-color:#EBCCD1;
+}
+
+/* eof */
