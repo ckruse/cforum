@@ -1,0 +1,14 @@
+de:
+  devise:
+    confirmation_instructions: Bestätigung
+    sign_in: anmelden
+    sign_up: registrieren
+    forgot_your_password: Passwort vergessen?
+    unlock_instructions: Entsperrungsanweisungen
+    resend_confirmation_instructions: Bestätigungsanweisungen erneut senden
+    change_password: Passwort ändern
+    new_password: neues Passwort
+    confirm_new_password: Passwort-Bestätigung
+
+    passwords:
+      send_instructions: Rücksetzungsanweisungen senden
