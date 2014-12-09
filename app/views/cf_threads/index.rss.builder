@@ -4,7 +4,7 @@ xml.rss :version => '2.0', 'xmlns:atom' => 'http://www.w3.org/2005/Atom' do
     xml.title current_forum ? current_forum.name : t('forums.all_forums')
     xml.description current_forum ? current_forum.description : t('forums.all_forums')
     xml.link cf_forum_url(current_forum)
-    xml.tag! 'atom:link', :rel => 'self', :type => 'application/rss+xml', :href => cf_forum_url(current_forum) + '.json'
+    xml.tag! 'atom:link', rel: 'self', type: 'application/rss+xml', href: cf_forum_url(current_forum, format: :rss)
 
     for thread in @threads
       xml.item do
