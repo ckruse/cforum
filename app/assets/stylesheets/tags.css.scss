@@ -1,9 +1,10 @@
 /* -*- coding: utf-8 -*- */
 
-.tags-list {
+.tags-list, header details .tags-list, .thread header ul.tags-list  {
   display:inline;
   list-style-type:none;
   margin:0;
+  padding:0;
 
   .tag {
     display:inline;
@@ -19,6 +20,10 @@
     white-space: nowrap;
     vertical-align: baseline;
     border-radius: 0.25em;
+
+    a:visited, a {
+      color:inherit;
+    }
   }
 }
 

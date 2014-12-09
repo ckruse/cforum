@@ -175,10 +175,10 @@ module MessageHelper
     unless message.tags.blank?
       html << %q{
 
-    in <ul class="tags">}
+    in <ul class="tags-list">}
 
       message.tags.each do |t|
-        html << "<li>" + link_to(t.tag_name, tag_path(thread.forum.slug, t)) + "</li>"
+        html << "<li class=\"tag\">" + link_to(t.tag_name, tag_path(thread.forum.slug, t)) + "</li>"
       end
 
       html << "</ul>"
