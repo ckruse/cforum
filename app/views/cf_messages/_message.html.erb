@@ -2,7 +2,7 @@
 
 has_upvote = has_downvote = false
 has_upvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::UPVOTE
-has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::UPVOTE
+has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::DOWNVOTE
 %>
   <%= message_header(@thread, m, first: first, do_parent: do_parent, tree: false) %>
 
