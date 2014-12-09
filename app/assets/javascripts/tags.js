@@ -3,8 +3,8 @@
 
 cforum.tags = {
   views: {
-    tag: "<li class=\"tag label label-info\" style=\"display:none\"><input name=\"tags[]\" type=\"hidden\" value=\"{{tag}}\"><i class=\"icon icon-trash del-tag\"> </i> {{tag}}</li>",
-    tagSuggestion: "<li class=\"tag label label-info\" style=\"display:none\" data-tag=\"{{tag}}\"><i class=\"icon icon-ok del-tag\"> </i> {{tag}}</li>"
+    tag: "<li class=\"tag\" style=\"display:none\"><input name=\"tags[]\" type=\"hidden\" value=\"{{tag}}\"><i class=\"icon-del-tag del-tag\"> </i> {{tag}}</li>",
+    tagSuggestion: "<li class=\"tag\" style=\"display:none\" data-tag=\"{{tag}}\"><i class=\"icon-tag-ok del-tag\"> </i> {{tag}}</li>"
   },
 
   autocomplete_timeout: null,
