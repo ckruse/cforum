@@ -1,14 +1,16 @@
-<h1><%= current_forum.name %>: <%= @tag.tag_name %></h1>
+<%
+content_for :title, current_forum.name + ": " + @tag.tag_name
+content_for :h1, "<h1>".html_safe + current_forum.name + ": " + @tag.tag_name + "</h1>".html_safe
+%>
 
-
-<h3><%= t('tags.synonyms') %>:</h3>
+<h2><%= t('tags.synonyms') %>:</h2>
 
 <% if @tag.synonyms.blank? %>
   <p><%= t('tags.no_synonyms') %></p>
 <% else %>
-  <ul>
+  <ul class="tags-list">
     <% @tag.synonyms.each do |syn| %>
-      <li><%= syn.synonym %><% if current_user.admin %>
+      <li class="tags"><%= syn.synonym %><% if current_user.admin %>
         <%= link_to "", edit_tag_synonym_path(current_forum.slug, @tag, syn), class: 'icon-edit-tag-synonym' %>
         <%= link_to "", tag_synonym_path(current_forum.slug, @tag, syn), class: 'icon-delete-tag-synonym', method: :delete, data: {confirm: t('global.are_you_sure')} %>
       <% end %></li>
@@ -16,31 +18,35 @@
   </ul>
 <% end %>
 
-<h3><%= t("messages.messages") %></h3>
+<h2><%= t("messages.messages") %></h2>
 
-<table class="cf-table-condensed-striped-hover">
-  <thead>
-    <th>
-      <tr>
-        <th><%= CfMessage.human_attribute_name(:subject) %></th>
-        <th><%= CfMessage.human_attribute_name(:author) %></th>
-        <th><%= t('tags.tags') %></th>
-        <th><%= CfMessage.human_attribute_name(:created_at) %></th>
-      </tr>
-    </th>
-  </thead>
+<% if @messages.blank? %>
+  <p><%= t("tags.no_messages") %></p>
+<% else %>
+  <table class="cf-default-table">
+    <thead>
+      <th>
+        <tr>
+          <th><%= CfMessage.human_attribute_name(:subject) %></th>
+          <th><%= CfMessage.human_attribute_name(:author) %></th>
+          <th><%= t('tags.tags') %></th>
+          <th><%= CfMessage.human_attribute_name(:created_at) %></th>
+        </tr>
+      </th>
+    </thead>
 
-  <tbody>
-  <% @messages.each do |msg| %>
-    <tr>
-      <td><%= link_to msg.subject, cf_message_path(msg.thread, msg) %></td>
-      <td><% if msg.owner %><%= link_to '<em>'.html_safe + msg.owner.username + '</em>'.html_safe, user_path(msg.owner), class: 'icon-registered-user' %><% end %><%= msg.author %></td>
-      <td><%= (msg.tags.map {|t| link_to(t.tag_name, tag_path(current_forum.slug, t))}).join(", ").html_safe %></td>
-      <td><%= l(msg.created_at, format: date_format) %></td>
-    </tr>
-  <% end %>
-  </tbody>
+    <tbody>
+      <% @messages.each do |msg| %>
+        <tr>
+          <td><%= link_to msg.subject, cf_message_path(msg.thread, msg) %></td>
+          <td><% if msg.owner %><%= link_to '<em>'.html_safe + msg.owner.username + '</em>'.html_safe, user_path(msg.owner), class: 'icon-registered-user' %><% end %><%= msg.author %></td>
+          <td><%= (msg.tags.map {|t| link_to(t.tag_name, tag_path(current_forum.slug, t))}).join(", ").html_safe %></td>
+          <td><%= l(msg.created_at, format: date_format) %></td>
+        </tr>
+      <% end %>
+    </tbody>
 
-</table>
+  </table>
+<% end %>
 
 <%= paginate @messages %>

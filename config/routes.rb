@@ -58,6 +58,8 @@ Cforum::Application.routes.draw do
 
   scope ":curr_forum" do
     get 'tags/autocomplete' => 'tags#autocomplete'
+    get 'tags/:id/merge' => 'tags#merge', as: :merge_tag
+    post 'tags/:id/merge' => 'tags#do_merge'
     resources :tags do
       resources :synonyms, except: [:show, :index]
     end

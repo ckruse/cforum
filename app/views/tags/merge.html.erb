@@ -5,9 +5,13 @@ content_for :h1, "<h1>".html_safe + t('tags.new_tag') + "</h1>".html_safe
 
 <h2><%= t('tags.new_tag') %></h2>
 
-<%= form_for @tag , url: tags_path(current_forum.slug), html: {class: 'form-horizontal'} do |f| %>
+<%= form_for @tag, url: merge_tag_path(current_forum.slug, @tag), method: :post, html: {class: 'form-horizontal'} do |f| %>
 
-<%= render 'form', f: f %>
+  <select name="merge_tag">
+    <% @tags.each do |tag| %>
+      <option value="<%= tag.tag_id %>"><%= tag.tag_name %></option>
+    <% end %>
+  </select>
 
 <p class="form-actions">
   <%= f.submit t('global.save'), class: 'cf-primary-btn' %>

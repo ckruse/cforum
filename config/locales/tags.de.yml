@@ -12,8 +12,10 @@ de:
     new_tag_synonym: Neues Synonym erstellen
     new_tag_synonym_for_tag: "Tag „%{tag}“: Neues Synonym erstellen"
     tags_for_forum: "%{forum}: Tags"
+    merge: Tag zusammenführen
 
     no_synonyms: Bisher sind keine Synonyme bekannt.
+    no_messages: Bisher sind keine Beiträge mit diesem Tag geschrieben worden.
     synonyms: Synonyme
 
     created: Der Tag wurde erfolgreich erstellt.
@@ -22,3 +24,4 @@ de:
     synonym_updated: Das Synonym wurde erfolgreich geändert.
     destroyed: Der Tag wurde erfolgreich gelöscht.
     synonym_destroyed: Das Synonym wurde erfolgreich gelöscht.
+    merged: Die Tags wurden erfolgreich zusammengeführt.

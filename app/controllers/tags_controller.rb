@@ -131,6 +131,35 @@ class TagsController < ApplicationController
 
     redirect_to tags_url(current_forum.slug), notice: t("tags.destroyed")
   end
+
+  def merge
+    @tag = CfTag.where('tags.forum_id = ? AND slug = ?',
+                       current_forum.forum_id, params[:id]).first!
+    @tags = CfTag.order('tag_name ASC').where(forum_id: current_forum.forum_id)
+  end
+
+  def do_merge
+    @tag = CfTag.where('tags.forum_id = ? AND slug = ?',
+                       current_forum.forum_id, params[:id]).first!
+    @merge_tag = CfTag.where('tags.forum_id = ? AND tag_id = ?',
+                             current_forum.forum_id, params[:merge_tag]).first!
+
+    CfMessage.transaction do
+      CfMessageTag.where(tag_id: @tag.tag_id).
+        update_all(tag_id: @merge_tag.tag_id)
+
+      CfTagSynonym.where(tag_id: @tag.tag_id).
+        update_all(tag_id: @merge_tag.tag_id)
+
+      @merge_tag.synonyms.create!(synonym: @merge_tag.tag_name,
+                                  forum_id: current_forum.forum_id)
+
+      @tag.destroy
+    end
+
+    redirect_to tag_url(current_forum, @merge_tag), notice: t("tags.merged")
+  end
+
 end
 
 # eof
