@@ -72,7 +72,7 @@ class MarkReadPlugin < Plugin
   end
 
   def show_threadlist(threads)
-    return unless current_user
+    return if current_user.blank?
 
     ids = []
     msgs = {}
@@ -109,7 +109,7 @@ class MarkReadPlugin < Plugin
   end
 
   def show_thread(thread, message = nil, votes = nil)
-    return unless current_user
+    return if current_user.blank? or @app_controller.is_prefetch
 
     mark_read_moment = uconf('mark_read_moment', 'before_render')
 
@@ -127,7 +127,7 @@ class MarkReadPlugin < Plugin
   end
 
   def show_message(thread, message, votes)
-    return unless current_user
+    return if current_user.blank? or @app_controller.is_prefetch
     mark_read_moment = uconf('mark_read_moment', 'before_render')
 
     check_thread(thread) if mark_read_moment == 'after_render'
@@ -141,8 +141,7 @@ class MarkReadPlugin < Plugin
   end
 
   def show_forumlist(counts, activities, admin = false)
-    return unless current_user
-    return if activities.values.blank?
+    return if current_user.blank? or activities.values.blank?
 
     messages = activities.values
     ids = messages.map { |a| a.message_id }

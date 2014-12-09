@@ -109,6 +109,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+
+  def is_prefetch
+    %w(x-moz x-purpose purpose).each do |hdr|
+      unless request.headers[hdr].blank?
+        return true if %w(prefetch preview).include?(request.headers[hdr].downcase)
+      end
+    end
+
+    return false
+  end
+
   protected
 
   def configure_permitted_parameters
