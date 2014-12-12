@@ -17,7 +17,9 @@ content_for :title, @thread.message.subject + " " +
   <ol class="answers">
     <% messages.each do |m| %>
       <li>
-        <%= render 'message', m: m, first: false %>
+        <div class="posting-nested thread-message">
+          <%= render 'message', m: m, first: false %>
+        </div>
 
         <% unless m.messages.blank?
           whole_thread(thread, m.messages)
@@ -27,8 +29,10 @@ content_for :title, @thread.message.subject + " " +
   </ol>
 <% end %>
 
-<article class="thread posting nested">
-  <%= render 'message', m: @thread.message, first: true %>
+<article class="thread-nested">
+  <div class="posting-nested thread-message">
+    <%= render 'message', m: @thread.message, first: true %>
+  </div>
 
   <% unless @thread.message.messages.blank? %>
     <% whole_thread(@thread, @thread.message.messages) %>
