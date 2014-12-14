@@ -34,7 +34,7 @@ de:
       create_tag: Der Anwender erhält das Recht, neue Tags zu erstellen.
       edit_question: Der Anwender erhält das Recht, Fragen zu editieren.
       edit_answer: Der Anwender erhält das Recht, Antworten zu editieren.
-      create_tag_synonym: Der Anwender erhält das Recht, Tag-Synonyme zu erstellen
-      create_close_reopen_vote: Der Anwender erhält das Recht, Sperr- oder Entsperr-Abstimmungen zu erstellen
-      moderator_tools: Der Anwender erhält Zugriff auf Moderationstools
+      create_tag_synonym: Der Anwender erhält das Recht, Tag-Synonyme zu erstellen.
+      create_close_reopen_vote: Der Anwender erhält das Recht, Sperr- oder Entsperr-Abstimmungen zu erstellen.
+      moderator_tools: Der Anwender erhält Zugriff auf Moderationstools.
       
