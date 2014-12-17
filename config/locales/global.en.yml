@@ -7,6 +7,7 @@ en:
     error: error
     errors: errors
     save: Save
+    delete: Delete
     cancel: Cancel
     are_you_sure: Are you sure?
     users: Users
@@ -23,6 +24,11 @@ en:
     locked: Locked
     instance_locked: This forum or this instance have been locked.
     something_went_wrong: Something went wrong.
+    only_as_user: This feature is only available to registered users.
+    badges: Badges
+    author: Author
+    subject: Subject
+    user_profile: User Profile
 
     scores:
       right_upvote: Right to upvote
