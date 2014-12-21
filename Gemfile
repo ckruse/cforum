@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.1'
+gem 'rails', '~> 4.1.0'
 gem 'pg'
 gem 'rails-i18n'
 gem 'devise-i18n'
