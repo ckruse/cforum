@@ -1,7 +1,7 @@
 en:
   devise:
     confirmation_instructions: Confirmation
-    sign_in: Sing in
+    sign_in: Sign in
     sign_up: Sign up
     forgot_your_password: Forgot your password?
     unlock_instructions: Unlocking instructions
