@@ -22,18 +22,17 @@ desc ||= ""
       </div>
 
 
-      <% unless disabled %><i class="icon icon-edit add-user" title="<%= t('widgets.users_selector.edit_userlist') %>"> </i><% end %>
+      <% unless disabled %><i class="icon-edit-user add-user" title="<%= t('widgets.users_selector.edit_userlist') %>"> </i><% end %>
     </div>
   </div>
 
-  <div class="users-modal">
-    <div class="cf-modal-dialog">
-      <div class="cf-modal-content">
-        <div class="cf-modal-header">
-          <button class="close" data-dismiss="modal">×</button>
+  <div class="users-modal modal fade in">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
           <h3><%= t('widgets.users_selector.search_user') %></h3>
         </div>
-        <div class="cf-modal-body">
+        <div class="modal-body">
           <p><input type="text" class="user_search"></p>
 
           <h4><%= t('widgets.users_selector.found') %>:</h4>
@@ -46,9 +45,9 @@ desc ||= ""
           </ul>
 
         </div>
-        <div class="cf-modal-footer">
-          <a href="#" class="btn cancel"><%= t('global.cancel') %></a>
-          <a href="#" class="btn btn-primary ok"><%= t('global.save') %></a>
+        <div class="modal-footer">
+          <a href="#" class="cf-btn cancel"><%= t('global.cancel') %></a>
+          <a href="#" class="cf-primary-btn ok"><%= t('global.save') %></a>
         </div>
       </div>
     </div>

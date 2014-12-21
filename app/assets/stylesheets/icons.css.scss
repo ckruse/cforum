@@ -90,4 +90,17 @@
   cursor: pointer;
 }
 
+.icon-add {
+  @extend .fa;
+  @extend .fa-plus;
+  cursor: pointer;
+}
+
+.icon-remove {
+  @extend .fa;
+  @extend .fa-minus;
+  cursor: pointer;
+}
+
+
 /* eof */

@@ -129,9 +129,9 @@ cforum.common.usersSelector.init = function() {
 };
 
 cforum.common.usersSelector.views = {
-  userFoundLine: '<li style="display:none" class="found-user-line" data-user-id="{{user.user_id}}" data-username="{{user.username}}"><i class="icon icon-plus"> </i> {{user.username}}</li>',
-  userAddLine: '<li style="display:none" data-user-id="{{user.user_id}}" data-username="{{user.username}}"><i class="icon icon-minus"> </i> {{user.username}}</li>',
-  userLine: '<label class="checkbox"><input type="checkbox" checked="checked" value="{{user.user_id}}" name="{{name}}" id="{{id}}">{{user.username}}</label>'
+  userFoundLine: '<li style="display:none" class="found-user-line" data-user-id="{{user.user_id}}" data-username="{{user.username}}"><i class="icon-add"> </i> {{user.username}}</li>',
+  userAddLine: '<li style="display:none" data-user-id="{{user.user_id}}" data-username="{{user.username}}"><i class="icon-remove"> </i> {{user.username}}</li>',
+  userLine: '<label class="checkbox"><input type="checkbox" checked="checked" value="{{user.user_id}}" name="{{name}}" id="{{id}}"> {{user.username}}</label>'
 };
 
 $(document).ready(function() {
