@@ -65,6 +65,16 @@
       }
 
       input[type=radio], input[type=checkbox] { width:auto; }
+
+      .radio, .checkbox {
+        position: relative;
+        display: block;
+        float:none;
+        text-align:left;
+        font-weight:normal;
+
+        * { display:inline; }
+      }
     }
   }
 
@@ -126,11 +136,19 @@
     border-color: #ADADAD;
 }
 
+a.cf-btn:link, a.cf-btn:visited {
+  color: #333;
+}
+
 .cf-primary-btn {
   @extend .btn;
   color: #FFF;
   background-color: #337AB7;
   border-color: #2E6DA4;
+}
+
+a.cf-primary-btn:link, a.cf-primary-btn:visited {
+  color: #FFF;
 }
 
 .cf-primary-btn:hover, .cf-primary-btn:focus, .cf-primary-btn.focus,
@@ -169,6 +187,24 @@ fieldset {
   padding:0;
   margin:0;
   border:0;
+}
+
+legend {
+  display:block;
+  width:100%;
+  font-weight:bold;
+  font-size:1.1em;
+  margin-bottom:1em;
+  margin-top:1em;
+  border-bottom: 2px solid #C4D4DA;
+}
+
+.users-modal {
+  ul {
+    list-style-type:none;
+    margin-left:0;
+    padding-left:0;
+  }
 }
 
 /* eof */
