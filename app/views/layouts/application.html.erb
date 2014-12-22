@@ -66,7 +66,7 @@
       <% if current_user %>cforum.currentUser = <%= current_user.to_json.html_safe %>;<% end %>
       cforum.baseUrl = <%= root_url.to_json.html_safe %>;
       <% if current_forum %>cforum.currentForum = <%= current_forum.to_json.html_safe %>;<% end %>
-      <% if @max_tags %>cforum.maxTags = <%= @max_tags %>;<% end %>
+      <% if @max_tags %>cforum.tags.maxTags = <%= @max_tags %>;<% end %>
 
       cforum.l10n = <%= I18n.t('js.messages').to_json.html_safe %>;
       cforum.locale = <%== I18n.locale.to_json %>;

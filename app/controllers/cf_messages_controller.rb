@@ -161,6 +161,7 @@ class CfMessagesController < ApplicationController
     return unless check_editable(@thread, @message)
 
     @tags = @message.tags.map { |t| t.tag_name }
+    @max_tags = conf('max_tags_per_message', 3)
 
   end
 

@@ -86,7 +86,7 @@ cforum.tags = {
     ev.preventDefault();
     var tag = $(ev.target).closest("li").attr("data-tag");
 
-    if($("#tags-list .tag").length >= cforum.maxTags) {
+    if($("#tags-list .tag").length >= cforum.tags.maxTags) {
       return;
     }
 
@@ -111,7 +111,7 @@ cforum.tags = {
     ev.preventDefault();
     var $this = $(this);
 
-    if($.trim($this.val()) && $this.val() != ',' && $("#tags-list .tag").length < cforum.maxTags) {
+    if($.trim($this.val()) && $this.val() != ',' && $("#tags-list .tag").length < cforum.tags.maxTags) {
       var val = $.trim($this.val().replace(/[, ].*/, '').toLowerCase());
 
       if(!cforum.tags.hasTag(val)) {
@@ -153,7 +153,7 @@ cforum.tags = {
       return;
     }
 
-    var tags = el.val().split(",").map(function(x) {return $.trim(x);}).filter(function(x) {
+    var tags = el.val().split(",").map(function(x) { return $.trim(x); }).filter(function(x) {
       if(x) {
         return true;
       }
