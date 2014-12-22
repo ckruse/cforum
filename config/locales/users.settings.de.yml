@@ -44,7 +44,7 @@ de:
       before_render: beim Öffnen der Einzelansicht
       after_render: beim Schließen der Einzelansicht
       flattr: Flattr-ID
-      css_styles: alternative CSS (pro Zeile eine URL)
+      css_styles: alternatives CSS (pro Zeile eine URL)
       motd: Nachricht des Tages
       hide_subjects_when_unchanged: Gleiche Betreffe ausblenden
 

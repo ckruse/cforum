@@ -1,37 +1,50 @@
 <%
 content_for :title, t('admin.forums.index')
-%><h1><%= t('admin.forums.index') %></h1>
+content_for :h1, "<h1>".html_safe + t('admin.forums.index') + "</h1>".html_safe
+%>
 
 <table class="cf-default-table">
   <thead>
     <tr>
       <th><%= t('global.forum') %></th>
-      <th><%= t('global.threads') %></th>
-      <th><%= t('global.messages') %></th>
+      <th class="nummeric"><%= t('global.threads') %></th>
+      <th class="nummeric"><%= t('global.messages') %></th>
       <th><%= t('global.last_change') %></th>
+      <th><%= t('global.author') %></th>
+      <th><%= t('global.subject') %></th>
       <th> </th>
     </tr>
   </thead>
   <tbody>
     <% @forums.each do |forum| %>
     <tr>
-      <td><%= link_to forum.name, edit_admin_forum_path(forum.forum_id) %></td>
-      <td><%= @counts[forum.forum_id][:threads] %></td>
-      <td><%= @counts[forum.forum_id][:messages] %></td>
-      <td><%
-        if @activities[forum.forum_id]
-          msg = @activities[forum.forum_id] %>
-          <%= l(msg.updated_at, format: date_format) %> von <%= msg.user_id ? link_to(msg.author, user_path(msg.owner)) : msg.author %>: <%= link_to msg.subject, cf_message_path(msg.thread, msg) %>
-        <% else %>
-          <em>(<%= t("global.never") %>)</em>
+      <% msg = @activities[forum.forum_id] %>
+      <tr<% if msg and not msg.attribs['classes'].blank? %> class="<%= msg.attribs['classes'].join(" ") %>"<% end %>>
+        <td><%= link_to forum.name, edit_admin_forum_path(forum.forum_id) %></td>
+        <td class="nummeric"><%= @counts[forum.forum_id][:threads] %></td>
+        <td class="nummeric"><%= @counts[forum.forum_id][:messages] %></td>
+        <td<% if msg.blank? %> colspan="3" class="no-data"<% end %>>
+          <% if msg.blank? %>
+            <em>(<%= ("<em>" + t("global.never") + "</em>").html_safe %>)</em>
+          <% else %>
+            <%= l(msg.updated_at, format: date_format) %>
+          <% end %>
+        </td>
+        <% unless msg.blank? %>
+          <td>
+            <% if msg.user_id %>
+              <%= link_to('<em>'.html_safe + t('global.user_profile') + '</em>'.html_safe, user_path(msg.owner), class: 'icon-registered-user', title: t('messages.user_link', user: msg.owner.username)) %>
+            <% end %>
+            <%= msg.author %>
+          </td>
+          <td><%= link_to msg.subject, cf_message_path(msg.thread, msg) %></td>
         <% end %>
-      </td>
-      <td>
-        <%= link_to '', edit_admin_forum_path(forum.forum_id), class: "icon-edit-forum", title: t('admin.forums.edit') %>
-        <%= link_to '', admin_forum_path(forum.forum_id), data: {confirm: t('global.are_you_sure')}, method: :delete, class: 'icon-delete-forum', title: t('admin.forums.delete') %>
-        <%= link_to '', admin_forums_merge_path(forum.forum_id), class: 'icon-merge-forum', title: t('admin.forums.merge') %>
-      </td>
-    </tr>
+        <td>
+          <%= link_to '', edit_admin_forum_path(forum.forum_id), class: "icon-edit-forum", title: t('admin.forums.edit') %>
+          <%= link_to '', admin_forum_path(forum.forum_id), data: {confirm: t('global.are_you_sure')}, method: :delete, class: 'icon-delete-forum', title: t('admin.forums.delete') %>
+          <%= link_to '', admin_forums_merge_path(forum.forum_id), class: 'icon-merge-forum', title: t('admin.forums.merge') %>
+        </td>
+      </tr>
     <% end %>
 
   </tbody>

@@ -1,14 +1,15 @@
 <%
 content_for :title, t("admin.groups.edit_group", name: @group.name)
-%><h1><%= t("admin.groups.edit_group", name: @group.name) %></h1>
+content_for :h1, "<h1>".html_safe + t("admin.groups.edit_group", name: @group.name) + "</h1>".html_safe
+%>
 
 <%= form_for @group, url: admin_group_path(@group), html: {class: 'form-horizontal'} do |t| %>
 
-<%= render 'form', t: t %>
+  <%= render 'form', t: t %>
 
-<p class="form-actions">
-  <%= t.submit t('global.save'), class: 'cf-primary-btn' %>
-  <%= link_to t('global.cancel'), admin_groups_path, class: 'cf-btn' %>
-</p>
+  <p class="form-actions">
+    <%= t.submit t('global.save'), class: 'cf-primary-btn' %>
+    <%= link_to t('global.cancel'), admin_groups_path, class: 'cf-btn' %>
+  </p>
 
 <% end %>

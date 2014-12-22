@@ -1,23 +1,17 @@
-   <% if @cf_forum.errors.any? or @settings.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= t('admin.forums.error_message') %></h2>
+<% if @cf_forum.errors.any? or @settings.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= t('admin.forums.error_message') %></h2>
 
-      <ul>
-        <% @cf_forum.errors.full_messages.each do |msg| %>
+    <ul>
+      <% @cf_forum.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
-        <% end %>
-        <% @settings.errors['options'].each do |msg| %>
+      <% end %>
+      <% @settings.errors['options'].each do |msg| %>
         <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-<ul class="cf-tabs">
-  <li class="active"><a href="#core" data-toggle="tab"><%= t('admin.forums.forum_data') %></a></li>
-  <li><a href="#settings" data-toggle="tab"><%= t('admin.forums.settings_nam') %></a></li>
-  <li><a href="#settings-close-votes" data-toggle="tab"><%= t('admin.forums.settings_close_votes') %></a></li>
-</ul>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
 <div class="cf-tab-content">
   <%= render 'form_core', f: f %>
