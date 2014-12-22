@@ -102,5 +102,17 @@
   cursor: pointer;
 }
 
+.icon-new-activity {
+  @extend .fa;
+  @extend .fa-comments;
+  cursor:pointer;
+}
+
+.icon-new-mail {
+  @extend .fa;
+  @extend .fa-envelope;
+  cursor:pointer;
+}
+
 
 /* eof */

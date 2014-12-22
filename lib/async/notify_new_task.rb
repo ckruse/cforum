@@ -77,7 +77,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
                     'message:create-' + (@parent.user_id == m.user_id ?
                                          'answer' :
                                          'activity'),
-          'icon-comment-alt'
+          'icon-new-activity'
         )
 
         @notified[m.owner.user_id] = true

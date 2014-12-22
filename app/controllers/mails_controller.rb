@@ -115,7 +115,7 @@ class MailsController < ApplicationController
             path: mail_path(current_user.username, @mail_recipient),
             oid: @mail_recipient.priv_message_id,
             otype: 'mails:create',
-            icon: 'icon-envelope',
+            icon: 'icon-new-mail',
             body: @mail.to_txt
           )
         end
