@@ -11,5 +11,6 @@ en:
     answer_mail: Reply mail
     answer_mail_wo_quote: Reply mail without quoting
     send: Send
-    post_from_to: "Mail from %{sender} to %{recipient}"
+    post_from_to_from: Mail from
+    post_from_to_to: to
     at: at

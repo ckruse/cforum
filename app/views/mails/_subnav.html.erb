@@ -1,11 +1,10 @@
-<div class="cf-sidebar-box">
-  <ul class="cf-sidebar inbox-list">
-    <li class="cf-sidebar-header"><h4><%= t('mails.post') %></h4></li>
+<h3><%= t('mails.post') %></h3>
 
-    <% @mail_users.each do |uname, vals| %>
+<ul>
+  <% @mail_users.each do |uname, vals| %>
     <li><%= link_to user_mails_path(uname) do %><%= uname %> <span class="status-read"><%= vals[:read] || 0 %></span> <% if vals[:unread] > 0 %><span class="status-unread"><%= vals[:unread] || 0 %></span><% end %><% end %></li>
     <% end %>
 
     <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('mails.new_mail'), @user ? new_mail_path(cf_priv_message: {recipient_id: @user.user_id}) : new_mail_path %></li>
-  </ul>
-</div>
+</ul>
+

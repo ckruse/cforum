@@ -1,10 +1,11 @@
 <%
 content_for :title, @user ? t('mails.post_from', name: @user.username) : t('mails.post')
-%><h1><% if @user %><%= t('mails.post_from', name: @user.username) %><% else %><%= t('mails.post') %><% end %></h1>
+content_for :h1, "<h1>".html_safe + (@user ? t('mails.post_from', name: @user.username) : t('mails.post')) + "</h1>".html_safe
+%>
 
 <%= form_tag mails_path, class: 'form-horizontal', :method => :delete do %>
 
-<table class="cf-table-condensed-striped-hover">
+<table class="cf-default-table">
   <thead>
     <tr>
       <th><input type="checkbox" id="check-all-box">

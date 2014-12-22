@@ -212,6 +212,12 @@
   h3:first-child { margin-top: .7em; }
 
 	margin-bottom: .1em;
+
+  ul + ul {
+    margin-top:.5em;
+    border-top:1px solid #0070A2;
+    border-radius:0;
+  }
 }
 
 
