@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.contextMenu.js
 //= require init.js
 //= require_tree .
 
