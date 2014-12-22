@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 
+require 'digest/sha1'
+
 class CfMessagesController < ApplicationController
   authorize_action([:show, :show_header]) { authorize_forum(permission: :read?) }
   authorize_action([:new, :create, :edit, :update]) { authorize_forum(permission: :write?) }
@@ -100,7 +102,7 @@ class CfMessagesController < ApplicationController
 
     @message.created_at = Time.now
     @message.updated_at = @message.created_at
-    @message.ip         = request.remote_ip
+    @message.ip         = Digest::SHA1.hexdigest(request.remote_ip)
 
     if current_user
       @message.author   = current_user.username

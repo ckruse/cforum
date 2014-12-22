@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 
+require 'digest/sha1'
+
 class CfThreadsController < ApplicationController
   authorize_action([:index, :show]) { authorize_forum(permission: :read?) }
   authorize_action([:new, :create]) { authorize_forum(permission: :write?) }
@@ -146,7 +148,7 @@ class CfThreadsController < ApplicationController
 
     @message.created_at = Time.now
     @message.updated_at = @message.created_at
-    @message.ip         = request.remote_ip
+    @message.ip         = Digest::SHA1.hexdigest(request.remote_ip)
     @thread.latest_message = @message.created_at
 
     if current_user
