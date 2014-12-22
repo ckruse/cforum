@@ -1,9 +1,10 @@
 <%
 content_for :title, t('users.user', name: @user.username)
+content_for :h1, "<h1>".html_safe + t('users.user', name: @user.username) + "</h1>".html_safe
 
-%><h1><%= t('users.user', name: @user.username) %></h1>
+%>
 
-<table>
+<table class="user-info-table">
   <tr>
     <th><%= t('users.name') %>:</th>
     <td><%= @settings.conf('name', @user.username) %></td>
@@ -22,105 +23,75 @@ content_for :title, t('users.user', name: @user.username)
   </tr>
 </table>
 
-<hr>
 
-<div class="cf-row-fluid">
-  <div class="cf-span6">
-    <div class="cf-box">
-      <h3><%= t('users.newest_messages') %></h3>
+<h2><%= t('users.newest_messages') %></h2>
 
-      <% if @last_messages.blank? %>
-        <p><%= t('users.no_messages_so_far') %></p>
-      <% end %>
+<% if @last_messages.blank? %>
+  <p><%= t('users.no_messages_so_far') %></p>
+<% end %>
 
-      <% @last_messages.each do |m| %>
-        <article class="thread threadlist">
-          <%= message_header(m.thread, m) %>
-        </article>
-      <% end %>
-    </div>
-  </div>
+<% @last_messages.each do |m| %>
+  <article class="thread threadlist">
+    <%= message_header(m.thread, m) %>
+  </article>
+<% end %>
 
-  <div class="cf-span6">
-    <div class="cf-box">
-      <h3><%= t('users.tags') %></h3>
 
-      <% if @tags_cnts.blank? %>
-        <p><%= t('users.no_tagged_messages_so_far') %>.</p>
-      <% else %>
-        <table class="users-tags-list">
-          <% @tags_cnts.each do |t| %>
-            <tr>
-              <th><%= link_to t.tag.tag_name, tag_path(t.tag.forum.slug, t.tag) %></th>
-              <td><%= t.cnt %></td>
-            </tr>
-          <% end %>
-        </table>
-      <% end %>
-    </div>
-  </div>
-</div>
+<h2><%= t('users.tags') %></h2>
 
-<hr>
+<% if @tags_cnts.blank? %>
+  <p><%= t('users.no_tagged_messages_so_far') %>.</p>
+<% else %>
+  <table class="users-tags-list">
+    <% @tags_cnts.each do |t| %>
+      <tr>
+        <th><%= link_to t.tag.tag_name, tag_path(t.tag.forum.slug, t.tag) %></th>
+        <td><%= t.cnt %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
 
-<div class="cf-row-fluid">
-  <div class="cf-span6">
-    <div class="cf-box">
-      <h3><%= t('users.best_scored') %></h3>
+<h2><%= t('users.best_scored') %></h2>
 
-      <% if @point_msgs.blank? %>
-        <p><%= t('users.no_scored_messages_so_far') %></p>
-      <% end %>
-      <% @point_msgs.each do |m| %>
-        <article class="thread threadlist">
-          <%= message_header(m.thread, m) %>
-        </article>
-      <% end %>
-    </div>
-  </div>
+<% if @point_msgs.blank? %>
+  <p><%= t('users.no_scored_messages_so_far') %></p>
+<% end %>
+<% @point_msgs.each do |m| %>
+  <article class="thread threadlist">
+    <%= message_header(m.thread, m) %>
+  </article>
+<% end %>
 
-  <div class="cf-span6">
-    <div class="cf-box">
-      <h3><%= t('users.votings') %></h3>
 
-      <% if @score_msgs.blank? %>
-        <p><%= t('users.no_scored_messages_so_far') %></p>
+<h2><%= t('users.votings') %></h2>
 
-      <% else %>
-        <table class="score-table">
-          <% @score_msgs.each do |s| %>
-            <tr>
-              <td class="<% if s.value < 0 %>score-down<% else %>score-up<% end %>"><%= s.value %></td>
-              <td><article class="threadlist thread"><%= if s.vote then message_header(s.vote.message.thread, s.vote.message) else message_header(s.message.thread, s.message) end %></article></td>
-            </tr>
-          <% end %>
-        </table>
-      <% end %>
-    </div>
-  </div>
+<% if @score_msgs.blank? %>
+  <p><%= t('users.no_scored_messages_so_far') %></p>
 
-</div>
+<% else %>
+  <table class="score-table">
+    <% @score_msgs.each do |s| %>
+      <tr>
+        <td class="<% if s.value < 0 %>score-down<% else %>score-up<% end %>"><%= s.value %></td>
+        <td><article class="threadlist thread"><%= if s.vote then message_header(s.vote.message.thread, s.vote.message) else message_header(s.message.thread, s.message) end %></article></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
 
-<hr>
+<h2><%= t('users.badges') %></h2>
 
-<div class="cf-row-fluid">
-  <div class="cf-span6">
-    <div class="cf-box">
-      <h3><%= t('users.bagdes') %></h3>
-
-      <% if @user.badges.blank? %>
-        <p><%= t('users.no_badges_so_far') %></p>
-      <% else %>
-        <ul class="badge-user-list">
-          <% @user.badges_users.each do |ub| %>
-            <li><%= image_tag ub.badge.badge_medal_type + '.png', class: "medal-image",
-              alt: t("badges.badge_medal_types." + ub.badge.badge_medal_type) %> <%= link_to ub.badge.name, ub.badge %> (<%= l(ub.created_at, format: date_format) %>)</li>
-          <% end %>
-        </ul>
-      <% end %>
-    </div>
-  </div>
-</div>
+<% if @user.badges.blank? %>
+  <p><%= t('users.no_badges_so_far') %></p>
+<% else %>
+  <ul class="badge-user-list">
+    <% @user.badges_users.each do |ub| %>
+      <li><%= image_tag ub.badge.badge_medal_type + '.png', class: "medal-image",
+          alt: t("badges.badge_medal_types." + ub.badge.badge_medal_type) %> <%= link_to ub.badge.name, ub.badge %> (<%= l(ub.created_at, format: date_format) %>)</li>
+    <% end %>
+  </ul>
+<% end %>
 
 <p class="form-actions">
   <% if not current_user.blank? and @user.user_id == current_user.user_id %>

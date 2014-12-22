@@ -1,0 +1,15 @@
+/* -*- coding: utf-8 -*- */
+
+.user-info-table {
+  border-collapse: collapse;
+
+  th { text-align:right; }
+  th, td {
+    border-bottom:1px solid grey;
+    padding-left:.5em;
+    padding-right:.5em;
+  }
+  tr:last-of-type th, tr:last-of-type td { border-bottom:0; }
+}
+
+/* eof */
