@@ -128,14 +128,6 @@ module MessageHelper
     <summary>
       }
 
-    if opts[:first] and thread.attribs[:msgs]
-      html << " <span class=\"msg-num\">(<span class=\"all\" title=\"" + t('messages.all_msgs_num') + "\">" +
-        thread.attribs[:msgs][:all].to_s +
-        "</span>/<span class=\"unread\" title=\"" + t('messages.unread_messages_num') + "\">" +
-        thread.attribs[:msgs][:unread].to_s +
-        "</span>)</span>"
-    end
-
     html << " " + %q{
       <span class="author">}
 
