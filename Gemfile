@@ -37,7 +37,6 @@ gem 'coffee-rails'
 gem 'uglifier', '>= 1.0.3'
 
 gem 'font-awesome-sass'
-gem "jquery_context_menu-rails"
 
 gem 'email_validator'
 
