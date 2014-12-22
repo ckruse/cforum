@@ -56,6 +56,7 @@ class CfUser < ActiveRecord::Base
   def moderate?(forum)
     return true if admin?
     return true if has_badge?(RightsHelper::MODERATOR_TOOLS)
+    return false if forum.blank?
 
     @permissions ||= {}
     @permissions[forum.forum_id] ||= CfForumGroupPermission
