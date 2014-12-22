@@ -146,6 +146,7 @@ class CfThreadsController < ApplicationController
 
     @message.created_at = Time.now
     @message.updated_at = @message.created_at
+    @message.ip         = request.remote_ip
     @thread.latest_message = @message.created_at
 
     if current_user

@@ -896,7 +896,8 @@ CREATE TABLE messages (
     subject character varying NOT NULL,
     content character varying NOT NULL,
     flags hstore,
-    uuid character varying(250)
+    uuid character varying(250),
+    ip character varying(255)
 );
 
 
@@ -2607,6 +2608,8 @@ INSERT INTO schema_migrations (version) VALUES ('51');
 INSERT INTO schema_migrations (version) VALUES ('52');
 
 INSERT INTO schema_migrations (version) VALUES ('53');
+
+INSERT INTO schema_migrations (version) VALUES ('54');
 
 INSERT INTO schema_migrations (version) VALUES ('6');
 
