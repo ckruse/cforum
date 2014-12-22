@@ -18,6 +18,23 @@ if @page_type == 'page'
     <% if current_forum %>
       <li><%= link_to current_forum.name, cf_threads_path(current_forum) %></li>
     <% end %>
+
+    <% if current_user and current_user.moderate?(current_forum) %>
+      <%
+      path = nil
+      if @message.blank?
+        path = cf_threads_path(current_forum, view_all: @view_all ? false : "yes")
+      else
+        path = cf_message_path(@thread, @message, view_all: @view_all ? false : "yes")
+      end
+      %>
+      <% if @view_all %>
+        <li id="admin-view"><%= link_to t("forums.normal_view"), path %></li>
+      <% else %>
+        <li id="admin-view"><%= link_to t("forums.admin_view"), path %></li>
+      <% end %>
+    <% end %>
+
     <% if user_signed_in? %>
       <li id="post-link"><%= link_to t("layout.mail"), mails_path %></li>
       <li id="optionen-myadmin"><div>(<%= link_to notifications_path do %><span class="notifications<% if @new_notifications.length > 0 %> new<% end %>"><%= @new_notifications.length %></span><% end %>/<%= link_to user_path(current_user) do %><span class="score"><%= current_user.score %></span><% end %>) <%= link_to(current_user.username, edit_user_path(current_user)) %></div></li>

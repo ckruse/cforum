@@ -15,17 +15,25 @@
     <% if current_forum %>
 		  <li id="optionen-neuenachricht"><%= link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
       <li id="optionen-tags"><%= link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
+    <% end %>
 
-      <% if current_user %>
-        <% if ((!current_forum and current_user.admin? and (@messages or @thread)) or (current_forum and current_user.moderate?(current_forum))) %>
-          <li id="optionen-admin">
-            <% if not view_all %><%= link_to t("forums.admin_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: 'yes') %>
-            <% else %><%= link_to t("forums.normal_view"), cf_forum_path(current_forum ? current_forum.slug : 'all', view_all: false) %>
-            <% end %>
-          </li>
-        <% end %>
+    <% if current_user and current_user.moderate?(current_forum) and (@threads or @message) %>
+      <%
+      path = nil
+      if @message.blank?
+        path = cf_threads_path(current_forum, view_all: @view_all ? false : "yes")
+      else
+        path = cf_message_path(@thread, @message, view_all: @view_all ? false : "yes")
+      end
+      %>
+      <% if @view_all %>
+        <li id="admin-view"><%= link_to t("forums.normal_view"), path %></li>
+      <% else %>
+        <li id="admin-view"><%= link_to t("forums.admin_view"), path %></li>
       <% end %>
+    <% end %>
 
+    <% if @threads %>
       <li id="optionen-close-all-threads"><%= link_to t('plugins.open_close.close_all_threads'), cf_forum_path(current_forum, close_all: 'yes') %></li>
       <li id="optionen-open-all-threads"><%= link_to t('plugins.open_close.open_all_threads'), cf_forum_path(current_forum, open_all: 'yes') %></li>
     <% end %>
