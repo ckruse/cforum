@@ -40,4 +40,6 @@ gem 'font-awesome-sass'
 
 gem 'email_validator'
 
+gem "paperclip"
+
 # eof

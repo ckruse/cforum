@@ -1320,7 +1320,11 @@ CREATE TABLE users (
     current_sign_in_at timestamp without time zone,
     last_sign_in_ip character varying,
     current_sign_in_ip character varying,
-    sign_in_count integer
+    sign_in_count integer,
+    avatar_file_name character varying(255),
+    avatar_content_type character varying(255),
+    avatar_file_size integer,
+    avatar_updated_at timestamp without time zone
 );
 
 
@@ -2610,6 +2614,8 @@ INSERT INTO schema_migrations (version) VALUES ('52');
 INSERT INTO schema_migrations (version) VALUES ('53');
 
 INSERT INTO schema_migrations (version) VALUES ('54');
+
+INSERT INTO schema_migrations (version) VALUES ('55');
 
 INSERT INTO schema_migrations (version) VALUES ('6');
 

@@ -7,6 +7,9 @@ class CfUser < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable,
     :rememberable, :confirmable, :trackable
 
+  has_attached_file :avatar, styles: { medium: "80x80>", thumb: "20x20>" }, default_url: "/images/:style/missing.png"
+  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+
   self.primary_key = 'user_id'
   self.table_name  = 'users'
 

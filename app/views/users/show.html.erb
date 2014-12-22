@@ -6,6 +6,7 @@ content_for :h1, "<h1>".html_safe + t('users.user', name: @user.username) + "</h
 
 <table class="user-info-table">
   <tr>
+    <td rowspan="<% if current_user == @user %>5<% else %>4<% end %>"><%= image_tag @user.avatar.url(:medium) %></td>
     <th><%= t('users.name') %>:</th>
     <td><%= @settings.conf('name', @user.username) %></td>
   </tr>
