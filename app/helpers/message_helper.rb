@@ -145,6 +145,15 @@ module MessageHelper
     html << encode_entities(message.author)
     html << '</span>' if message.user_id
 
+    if current_user.admin? or (current_forum and current_user.moderate?(current_forum)) and @view_all
+      if not message.ip.blank?
+        html << " <span class=\"admin-infos ip\">" + message.ip + "</span>"
+      end
+      if not message.uuid.blank?
+        html << " <span class=\"admin-infos uuid\">" + message.uuid + "</span>"
+      end
+    end
+
     html << "</span>
       "
 
