@@ -21,6 +21,7 @@ module Peon
               else
                 Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + t.thread_id.to_s + ' because of to many messages'
                 CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + t.thread_id.to_s
+                CfMessage.connection.execute 'UPDATE messages SET ip = NULL where thread_id = ' + t.thread_id.to_s
               end
             end
           end
@@ -40,6 +41,7 @@ module Peon
             else
               Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + tid + ' because oldest while to many threads'
               CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + tid
+              CfMessage.connection.execute 'UPDATE messages SET ip = NULL where thread_id = ' + tid
             end
           end
         end
