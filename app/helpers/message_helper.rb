@@ -57,7 +57,7 @@ module MessageHelper
       end
     end
 
-    if not current_user.blank? and not current_forum.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons]
+    if not current_user.blank? and not current_forum.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons] and @view_all
       if opts[:first]
         html << " " + link_to('', move_cf_thread_path(thread), class: 'icon-thread move', title: t('threads.move_thread'))
         html << " " + link_to('', sticky_cf_thread_path(thread), method: :post, class: 'icon-thread sticky', title: thread.sticky ? t('threads.mark_unsticky') : t('threads.mark_sticky'))
