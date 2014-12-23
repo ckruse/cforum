@@ -85,7 +85,8 @@ class CfMessagesControllerTest < ActionController::TestCase
     group   = FactoryGirl.create(:cf_group)
 
     group.users << user
-    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_READ)
+    CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id,
+                                   permission: CfForumGroupPermission::ACCESS_READ)
 
     sign_in user
 
@@ -102,7 +103,8 @@ class CfMessagesControllerTest < ActionController::TestCase
     group   = FactoryGirl.create(:cf_group)
 
     group.users << user
-    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_WRITE)
+    CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id,
+                                   permission: CfForumGroupPermission::ACCESS_WRITE)
 
     sign_in user
 
@@ -119,7 +121,8 @@ class CfMessagesControllerTest < ActionController::TestCase
     group   = FactoryGirl.create(:cf_group)
 
     group.users << user
-    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
+    CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id,
+                                   permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
 
@@ -135,8 +138,13 @@ class CfMessagesControllerTest < ActionController::TestCase
     user    = FactoryGirl.create(:cf_user, admin: false)
     group   = FactoryGirl.create(:cf_group)
 
+    FactoryGirl.create(:cf_vote, message_id: message.message_id,
+                       user_id: user.user_id)
+
+
     group.users << user
-    cfg = CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id, permission: CfForumGroupPermission::ACCESS_MODERATE)
+    CfForumGroupPermission.create!(forum_id: forum.forum_id, group_id: group.group_id,
+                                   permission: CfForumGroupPermission::ACCESS_MODERATE)
 
     sign_in user
 
@@ -387,6 +395,31 @@ class CfMessagesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:thread)
 
     assert_redirected_to cf_message_url(assigns(:thread), assigns(:message))
+  end
+
+  test "create: should not create new message in public forum because of invalid tags" do
+    forum = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+
+    assert_no_difference 'CfMessage.count' do
+      post :create, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s,
+        cf_message: {
+          subject: 'Long live the imperator!',
+          author: 'Anaken Skywalker',
+          content: 'Long live the imperator! Down with the rebellion!'
+        },
+        tags: %w(rebellion republic imperator)
+      }
+    end
+
+    assert_not_nil flash[:error]
   end
 
   test "create: should not create new message in private forum because of anonymous" do
@@ -1036,6 +1069,166 @@ class CfMessagesControllerTest < ActionController::TestCase
     end
   end
 
+  test "should edit" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+
+    sign_in user
+
+    get :edit, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: message.message_id.to_s,
+          cf_message: {
+            subject: 'Fighters of the world',
+            content: 'Long live the imperator! Down with the rebellion!'
+          }
+        }
+
+    assert_not_nil assigns(:thread)
+    assert_not_nil assigns(:message)
+    assert_response :success
+  end
+
+  test "should fail to edit because anonymous" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+
+    get :edit, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: message.message_id.to_s,
+          cf_message: {
+            subject: 'Fighters of the world',
+            content: 'Long live the imperator! Down with the rebellion!'
+          }
+        }
+
+    assert_redirected_to cf_message_url(thread, message)
+    assert_not_nil flash[:error]
+  end
+
+  test "should fail to edit because message is too old" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user,
+                                 created_at: Time.now - 11 * 60)
+
+    sign_in user
+
+    get :edit, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: message.message_id.to_s,
+          cf_message: {
+            subject: 'Fighters of the world',
+            content: 'Long live the imperator! Down with the rebellion!'
+          }
+        }
+
+    assert_redirected_to cf_message_url(thread, message)
+    assert_not_nil flash[:error]
+  end
+
+  test "should fail to edit because message has an answer" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+    FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user,
+                                 parent_id: message.message_id)
+
+    sign_in user
+
+    get :edit, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: message.message_id.to_s,
+          cf_message: {
+            subject: 'Fighters of the world',
+            content: 'Long live the imperator! Down with the rebellion!'
+          }
+        }
+
+    assert_redirected_to cf_message_url(thread, message)
+    assert_not_nil flash[:error]
+  end
+
+  test "should fail to edit because editing is disabled" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+
+    CfSetting.create!(forum_id: forum.forum_id, options: {'editing_enabled' => 'no'})
+
+    sign_in user
+
+    get :edit, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: message.message_id.to_s,
+          cf_message: {
+            subject: 'Fighters of the world',
+            content: 'Long live the imperator! Down with the rebellion!'
+          }
+        }
+
+    assert_redirected_to cf_message_url(thread, message)
+    assert_not_nil flash[:error]
+  end
+
+  test "should edit as anonymous because is owner" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
+
+    cookies[:cforum_user] = 'aaa'
+
+    get :edit, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: message.message_id.to_s,
+          cf_message: {
+            subject: 'Fighters of the world',
+            content: 'Long live the imperator! Down with the rebellion!'
+          }
+        }
+
+    assert_not_nil assigns(:thread)
+    assert_not_nil assigns(:message)
+    assert_response :success
+  end
+
+  # TODO check if editing works for
+  # - answers w/o the right to do so
+  # - answers w/ the right to do so
+  # - questions w/o the right to do so
+  # - questions w/ the right to do so
+  # - do all tests for update as well
 end
 
 # eof

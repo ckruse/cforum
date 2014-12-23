@@ -222,6 +222,26 @@ class CfForumsControllerTest < ActionController::TestCase
     end
   end
 
+  test "should redirect to forum" do
+    forum = FactoryGirl.create(:cf_write_forum)
+
+    get :redirector, f: forum.slug
+
+    assert_redirected_to cf_forum_url(forum)
+  end
+
+  test "should fail with invalid forum" do
+    assert_raise CForum::NotFoundException do
+      get :redirector, f: 'planet-aldebaran'
+    end
+  end
+
+  test "should fail with missing forum" do
+    assert_raise CForum::NotFoundException do
+      get :redirector
+    end
+  end
+
 end
 
 # eof

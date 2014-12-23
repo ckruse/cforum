@@ -95,6 +95,40 @@ class NotificationsControllerTest < ActionController::TestCase
     assert_redirected_to notifications_url
   end
 
+  test "should mark unread in update" do
+    u  = FactoryGirl.create(:cf_user)
+    n1 = FactoryGirl.create(:cf_notification, recipient: u,
+                            is_read: true)
+
+    sign_in u
+
+    assert_no_difference 'CfNotification.count' do
+      put :update, id: n1.notification_id
+    end
+
+    n1.reload
+
+    assert n1.is_read == false
+    assert_redirected_to notifications_url
+  end
+
+  test "should not mark unread in update when not owner" do
+    u  = FactoryGirl.create(:cf_user)
+    n1 = FactoryGirl.create(:cf_notification, is_read: true)
+
+    sign_in u
+
+    assert_no_difference 'CfNotification.count' do
+      assert_raise ActiveRecord::RecordNotFound do
+        put :update, id: n1.notification_id
+      end
+    end
+
+    n1.reload
+
+    assert n1.is_read
+  end
+
 end
 
 # eof
