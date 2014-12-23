@@ -554,6 +554,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
   test "create: should create new thread in public forum with tags" do
     forum = FactoryGirl.create(:cf_write_forum)
+    FactoryGirl.create(:cf_tag, tag_name: 'test1', forum_id: forum.forum_id)
+    FactoryGirl.create(:cf_tag, tag_name: 'test2', forum_id: forum.forum_id)
+    FactoryGirl.create(:cf_tag, tag_name: 'test3', forum_id: forum.forum_id)
 
     assert_difference('CfThread.count') do
       assert_difference('CfMessage.count') do
@@ -586,6 +589,9 @@ class CfThreadsControllerTest < ActionController::TestCase
 
   test "create: should create new thread in public forum with tag list" do
     forum = FactoryGirl.create(:cf_write_forum)
+    FactoryGirl.create(:cf_tag, tag_name: 'test1', forum_id: forum.forum_id)
+    FactoryGirl.create(:cf_tag, tag_name: 'test2', forum_id: forum.forum_id)
+    FactoryGirl.create(:cf_tag, tag_name: 'test3', forum_id: forum.forum_id)
 
     assert_difference('CfThread.count') do
       assert_difference('CfMessage.count') do

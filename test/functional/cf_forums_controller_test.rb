@@ -207,7 +207,7 @@ class CfForumsControllerTest < ActionController::TestCase
     message.save
 
     get :redirect_archive, {year: message.created_at.strftime("%Y"), mon: message.created_at.strftime("%m"), tid: 't' + message.thread.tid.to_s}
-    assert_redirected_to cf_thread_path(message.thread)
+    assert_redirected_to cf_message_path(message.thread, message)
   end
 
   test 'old archive uri with non-existant uri' do
