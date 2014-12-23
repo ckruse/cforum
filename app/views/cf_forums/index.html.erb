@@ -72,7 +72,7 @@ content_for :title, t('global.forums')
         <% unless msg.blank? %>
           <td>
             <% if msg.user_id %>
-              <%= link_to('<em>'.html_safe + t('global.user_profile') + '</em>'.html_safe, user_path(msg.owner), class: 'icon-registered-user', title: t('messages.user_link', user: msg.owner.username)) %>
+              <%= link_to(image_tag(msg.owner.avatar(:thumb)), user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username)) %>
             <% end %>
             <%= msg.author %>
           </td>
