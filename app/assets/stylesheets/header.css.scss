@@ -4,13 +4,7 @@
 /* obere Navigation einschließlich Suche */
 #top {
 	background-color: #699CB3;
-	background-image: -moz-linear-gradient(left, #75b0ca 0%, #4089aa 100%); /* FF3.6+ */
-	background-image: -webkit-gradient(linear, left top, right top, color-stop(0%,#75b0ca), color-stop(100%,#4089aa)); /* Chrome,Safari4+ */
-	background-image: -webkit-linear-gradient(left, #75b0ca 0%, #4089aa 100%); /* Chrome10+,Safari5.1+ */
-	background-image: -o-linear-gradient(left, #75b0ca 0%,#4089aa 100%); /* Opera 11.10+ */
-	background-image: -ms-linear-gradient(left, #75b0ca 0%,#4089aa 100%); /* IE10+ */
-	background-image: linear-gradient(to right, #75b0ca 0%,#4089aa 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#75b0ca', endColorstr='#4089aa',GradientType=1 );
+	background-image: linear-gradient(to right, #75b0ca 0%,#4089aa 100%);
 	border-bottom: 3px double #FFFFFF;
 	border-top: 1px solid #0070A2;
 	padding-left: 2em;
@@ -27,66 +21,61 @@
   }
 
   ul.selflinks {
-    list-style-type:none;
-    margin:0;
-    padding:0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 
-    li { display:inline; }
-  }
-
-  /* IE8-Hack */
-  a:hover { text-decoration: underline; }
-  a:hover, #a#b { text-decoration: none; }
-  /* end IE8-Hack */
-
-  #suche p {
-	  margin: 0; 
-	  float: right;
-  }
-  #suche label {
-	  display: inline;
-	  margin-right: -3.75em;
-	  color: white;
-	  font-weight: normal;
-  }
-  #suche:hover label {
-	  text-decoration: underline;
-  }
-  #suche label, #a#b {
-	  display: none; /* alle, auÃŸer IE8 */
-  }
-  #suchausdruck {
-	  border: 0 none;
-	  color: white;
-	  font-size: 1em;
-	  font-family: Calibri, sans-serif;
-	  width: 2.5em;
-	  margin: 7px 1.5em 0 0;
-	  padding: .2em 0 .2em 1.2em; 
-	  background: url("http://src.selfhtml.org/search-white.png") no-repeat scroll 0 center transparent;
-	  border-radius: 6px;
-	  cursor: pointer;
+    li { display: inline; }
   }
 
-  #suchausdruck:focus {
-	  background: white;
-	  color: #afafaf;
-	  width: 10em;
-	  padding-right: 2em;
-	  background: url("http://src.selfhtml.org/search-lightgrey.png") no-repeat scroll .2em center white;
-	  cursor: text;
-  }
+  a:hover { text-decoration: none; }
+  
+  #suche {
+  	p {
+		 margin: 0; 
+	  	 float: right;
+  	}
+	 label {
+	  	display: inline;
+	  	margin-right: -3.75em;
+	  	color: white;
+	  	font-weight: normal;
+  	}
+  
+  	label {
+		display: none; 
+  	}
+  	
+  	#suchausdruck {
+	  	border: 0 none;
+	  	color: white;
+	  	font-size: 1em;
+	  	font-family: Calibri, sans-serif;
+	  	width: 2.5em;
+	  	margin: 7px 1.5em 0 0;
+	  	padding: .2em 0 .2em 1.2em; 
+		background: url("http://src.selfhtml.org/search-white.png") no-repeat scroll 0 center transparent;
+		border-radius: 6px;
+	  	cursor: pointer;
+  	}
 
-  #suche ::-webkit-input-placeholder { color: white; }
-  #suche ::-moz-placeholder { color: white; } /* firefox 19+ */
-  #suche input:-moz-placeholder { color: white; }
+  	#suchausdruck:focus {
+	  	background: white;
+	  	color: #afafaf;
+	  	width: 10em;
+	  	padding-right: 2em;
+	  	background: url("http://src.selfhtml.org/search-lightgrey.png") no-repeat scroll .2em center white;
+	  	cursor: text;
+  	}
 
-  #suchausdruck, #suchausdruck:hover {
-    -o-transition: all .2s ease-in-out 0s;
-	  -webkit-transition: all .2s ease-in-out 0s;
-	  -moz-transition: all .2s ease-in-out 0s;
-	  transition: all .2s ease-in-out 0s;
-  }
+  	::-webkit-input-placeholder { color: white; }
+  	::-moz-placeholder { color: white; } /* firefox 19+ */
+  	:-ms-input-placeholder { color: white; }
+  
+  	#suchausdruck, #suchausdruck:hover {
+		transition: all .2s ease-in-out 0s;
+	}
+  } 
 }
 
 #kopf {
@@ -125,9 +114,6 @@
     }
 
     a, a:hover {
-	    -o-transition: none;
-	    -webkit-transition: none;
-	    -moz-transition: none;
 	    transition: none;
     }	
 
@@ -197,8 +183,6 @@
 	  padding: 0;
 	  border: 0 none;
   }
-
-
 
   li div a { display:inline; }
 
