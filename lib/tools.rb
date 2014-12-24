@@ -30,6 +30,7 @@ module CForum
 
       args.each do |k, v|
         had_key[k.to_s] = true
+        next if v === nil
         qs << URI.escape(k.to_s) + "=" + URI.escape(v.to_s)
       end
 

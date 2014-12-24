@@ -21,9 +21,9 @@
       <%
       path = nil
       if @message.blank?
-        path = cf_threads_path(current_forum, view_all: @view_all ? false : "yes")
+        path = cf_threads_path(current_forum, view_all: @view_all ? nil : "yes")
       else
-        path = cf_message_path(@thread, @message, view_all: @view_all ? false : "yes")
+        path = cf_message_path(@thread, @message, view_all: @view_all ? nil : "yes")
       end
       %>
       <% if @view_all %>
