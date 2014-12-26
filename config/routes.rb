@@ -2,15 +2,15 @@
 
 Cforum::Application.routes.draw do
   devise_for :users, class_name: 'CfUser', path_names: {sign_in: 'login',
-    sign_out: 'logout'}, skip: :registration
+                                                        sign_out: 'logout'}, skip: :registration
 
   devise_scope :user do
     get '/users/registration/cancel' => 'devise/registrations#cancel',
-      as: :cancel_user_registration
+        as: :cancel_user_registration
     post '/users/registration' => 'devise/registrations#create',
-      as: :user_registration
+         as: :user_registration
     get '/users/registration' => 'devise/registrations#new',
-      as: :new_user_registration
+        as: :new_user_registration
   end
 
   get "/forums" => "cf_forums#redirector", as: :forum_redirector
@@ -49,7 +49,7 @@ Cforum::Application.routes.draw do
   get '/all' => 'cf_threads#index'
 
   get '/interesting' => 'interesting_threads_plugin#list_threads',
-    as: :interesting_threads
+      as: :interesting_threads
 
   get '/choose_css' => 'css_chooser_plugin#choose_css',
       as: :choose_css
@@ -78,64 +78,64 @@ Cforum::Application.routes.draw do
         mon: /\w{3}/, day: /\d{1,2}/, format: /rss|atom/, as: 'show_cf_thread_feed'
 
     get '/:year/:mon/:day/:tid/move' => 'cf_threads#moving', year: /\d{4}/,
-      mon: /\w{3}/, day: /\d{1,2}/, as: 'move_cf_thread'
+        mon: /\w{3}/, day: /\d{1,2}/, as: 'move_cf_thread'
     post '/:year/:mon/:day/:tid/move' => 'cf_threads#move', year: /\d{4}/,
-      mon: /\w{3}/, day: /\d{1,2}/
+         mon: /\w{3}/, day: /\d{1,2}/
     post '/:year/:mon/:day/:tid/sticky' => 'cf_threads#sticky', year: /\d{4}/,
-      mon: /\w{3}/, day: /\d{1,2}/
+         mon: /\w{3}/, day: /\d{1,2}/
     post '/:year/:mon/:day/:tid/no_archive' => 'no_answer_no_archive_plugin#no_archive',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_archive_cf_thread'
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_archive_cf_thread'
 
 
     post '/:year/:mon/:day/:tid/interesting' => 'interesting_threads_plugin#mark_interesting',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'interesting_cf_thread'
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'interesting_cf_thread'
     post '/:year/:mon/:day/:tid/boring' => 'interesting_threads_plugin#mark_boring',
-       year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'boring_cf_thread'
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'boring_cf_thread'
 
     #
     # message urls
     #
     get '/:year/:mon/:day/:tid/:mid' => 'cf_messages#show', year: /\d{4}/,
-      mon: /\w{3}/, day: /\d{1,2}/, as: 'cf_message'
+        mon: /\w{3}/, day: /\d{1,2}/, as: 'cf_message'
     get '/:year/:mon/:day/:tid/:mid/edit' => 'cf_messages#edit',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'edit_cf_message'
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'edit_cf_message'
     patch '/:year/:mon/:day/:tid/:mid' => 'cf_messages#update',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
     delete '/:year/:mon/:day/:tid/:mid' => 'cf_messages#destroy',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+           year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
     post '/:year/:mon/:day/:tid/:mid/vote' => 'vote_plugin#vote',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'vote_cf_message'
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'vote_cf_message'
     post '/:year/:mon/:day/:tid/:mid/unread' => 'mark_unread#mark_unread',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'unread_cf_message'
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'unread_cf_message'
 
     #
     # admin actions
     #
     post '/:year/:mon/:day/:tid/:mid/restore' => 'cf_messages#restore',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'restore_cf_message'
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'restore_cf_message'
     post '/:year/:mon/:day/:tid/:mid/no_answer' => 'no_answer_no_archive_plugin#no_answer',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_answer_cf_message'
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_answer_cf_message'
 
     #
     # Plugins
     #
     post '/:year/:mon/:day/:tid/:mid/accept' => 'accept_plugin#accept',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'accept_cf_message'
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'accept_cf_message'
 
     get '/:year/:mon/:day/:tid/:mid/close' => 'close_vote#new',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'close_cf_message'
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'close_cf_message'
     put '/:year/:mon/:day/:tid/:mid/close' => 'close_vote#create',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
     patch '/:year/:mon/:day/:tid/:mid/close' => 'close_vote#vote',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
     get '/:year/:mon/:day/:tid/:mid/open' => 'close_vote#new_open',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'open_cf_message'
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'open_cf_message'
     put '/:year/:mon/:day/:tid/:mid/open' => 'close_vote#create_open',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
     patch '/:year/:mon/:day/:tid/:mid/open' => 'close_vote#vote_open',
-      year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
 
     get '/:year/:mon/:day/:tid/:mid/flag' => 'flag_plugin#flag',
@@ -148,9 +148,9 @@ Cforum::Application.routes.draw do
     # new and create messages
     #
     get '/:year/:mon/:day/:tid/:mid/new' => 'cf_messages#new', year: /\d{4}/,
-      mon: /\w{3}/, day: /\d{1,2}/, as: 'new_cf_message'
+        mon: /\w{3}/, day: /\d{1,2}/, as: 'new_cf_message'
     post '/:year/:mon/:day/:tid/:mid' => 'cf_messages#create', year: /\d{4}/,
-      mon: /\w{3}/, day: /\d{1,2}/
+         mon: /\w{3}/, day: /\d{1,2}/
   end
 
   # old archive url
