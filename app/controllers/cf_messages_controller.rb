@@ -189,6 +189,12 @@ class CfMessagesController < ApplicationController
       flash[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
     end
 
+    iv_tags = invalid_tags(@tags)
+    if not iv_tags.blank?
+      invalid = true
+      flash[:error] = I18n.t('messages.invalid_tags', tags: iv_tags.join(", "))
+    end
+
     saved = false
     if not invalid and not retvals.include?(false) and not @preview
       CfMessage.transaction do
