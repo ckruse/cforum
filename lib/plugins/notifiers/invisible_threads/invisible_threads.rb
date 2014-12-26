@@ -45,7 +45,7 @@ class InvisibleThreadsPlugin < Plugin
 
     invisible_threads = []
 
-    result = CfThread.connection.execute("SELECT thread_id FROM invisible_threads WHERE thread_id IN (" + threads.join(", ") + ") AND user_id = " + user_id.to_s)
+    result = CfThread.connection.execute("SELECT thread_id FROM invisible_threads WHERE thread_id IN (" + thread.join(", ") + ") AND user_id = " + user_id.to_s)
     result.each do |row|
       t = row['thread_id'].to_i
       invisible_threads << t
