@@ -28,7 +28,11 @@ de:
 
     invisible_threads:
       thread_marked_invisible: Thread wurde erfolgreich versteckt.
+      thread_marked_visible: Thread wird jetzt wieder angezeigt.
       mark_thread_invisible: Thread verstecken
+      mark_thread_visible: Thread wieder anzeigen
+      invisible_threads: Versteckte Threads
+      no_threads: Bisher keine ausgeblendeten Threads.
 
     mark_read:
       marked_unread: Die Nachricht wurde als ungelesen markiert.
@@ -41,6 +45,7 @@ de:
       mark_thread_interesting: Thread als interessant markieren
       mark_thread_boring: Thread als uninteressant markieren
       interesting_threads: Interessante Threads
+      no_threads: Bisher keine als interessant markierten Threads.
 
     choose_css:
       choose_alternative_css: Alternatives CSS auswählen

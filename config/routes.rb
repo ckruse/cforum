@@ -50,6 +50,10 @@ Cforum::Application.routes.draw do
 
   get '/interesting' => 'interesting_threads_plugin#list_threads',
       as: :interesting_threads
+  get '/invisible' => 'invisible_threads_plugin#list_threads',
+      as: :hidden_threads
+  post '/invisible/:id' => 'invisible_threads_plugin#unhide_thread',
+       as: :unhide_thread
 
   get '/choose_css' => 'css_chooser_plugin#choose_css',
       as: :choose_css

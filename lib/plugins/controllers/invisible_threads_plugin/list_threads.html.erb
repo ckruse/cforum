@@ -1,0 +1,13 @@
+<%
+content_for :title, t('plugins.invisible_threads.invisible_threads')
+content_for :h1, "<h1>".html_safe + t('plugins.invisible_threads.invisible_threads') + "</h1>".html_safe
+%>
+
+<div data-js="threadlist">
+  <% if @threads.empty? %>
+    <p><%= t('plugins.invisible_threads.no_threads') %></p>
+  <% end %>
+  <% @threads.each do |t| %>
+    <%=  render 'cf_threads/thread', thread: t %>
+  <% end %>
+</div>

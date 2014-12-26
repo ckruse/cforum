@@ -9,6 +9,9 @@ class InvisibleThreadsPlugin < Plugin
     register_plugin_api :mark_invisible do |thread, user|
       mark_invisible(thread, user)
     end
+    register_plugin_api :mark_visible do |thread, user|
+      mark_visible(thread, user)
+    end
     register_plugin_api :is_invisible do |thread, user|
       is_invisible(thread, user)
     end
@@ -72,6 +75,23 @@ class InvisibleThreadsPlugin < Plugin
     end
 
     thread
+  end
+
+  def mark_visible(thread, user)
+    return if user.blank?
+    thread = [thread] unless thread.is_a?(Array)
+
+    thread = thread.map { |t| t.is_a?(CfThread) ? t.thread_id : t.to_i }
+    user_id = user.is_a?(CfUser) ? user.user_id : user
+
+    sql = "DELETE FROM invisible_threads WHERE user_id = " +
+          user_id.to_s + " AND thread_id = "
+
+    CfThread.transaction do
+      thread.each do |t|
+        CfMessage.connection.execute(sql + t.to_s)
+      end
+    end
   end
 
   def modify_threadlist_query_obj()

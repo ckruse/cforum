@@ -40,9 +40,16 @@ module MessageHelper
       end
       html << '"> </a>'
 
-      html << ' <a class="icon-thread mark-invisible" title="' +
-        t('plugins.invisible_threads.mark_thread_invisible') + '" href="' +
-        cf_forum_path(current_forum, hide_thread: thread.thread_id) + '"> </a>'
+      if get_plugin_api(:is_invisible).call(thread, current_user).blank?
+        html << link_to('', cf_forum_path(current_forum, hide_thread: thread.thread_id),
+                        class: 'icon-thread mark-invisible',
+                        title: t('plugins.invisible_threads.mark_thread_invisible'))
+      else
+        html << ' ' + link_to('', unhide_thread_path(thread.thread_id),
+                              class: 'icon-thread mark-visible',
+                              title: t('plugins.invisible_threads.mark_thread_visible'),
+                              method: :post)
+      end
 
       if get_plugin_api(:is_interesting).call(thread, current_user).blank?
         html << ' ' + link_to('', interesting_cf_thread_path(thread),

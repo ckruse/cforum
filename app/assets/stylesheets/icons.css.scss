@@ -26,6 +26,7 @@
   &.archive { @extend .fa-cloud; }
   &.no-archive { @extend .fa-sign-out; }
   &.mark-invisible { @extend .fa-remove; }
+  &.mark-visible { @extend .fa-recycle; }
   &.mark-interesting { @extend .fa-star; }
   &.mark-boring { @extend .fa-star-o; }
 }
