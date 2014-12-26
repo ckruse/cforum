@@ -15,6 +15,9 @@
     <% if current_forum %>
 		  <li id="optionen-neuenachricht"><%= link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
       <li id="optionen-tags"><%= link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
+      <li id="mark-all-read"><%= link_to(t("plugins.mark_read.mark_all_read"),
+                                         mark_all_read_path(current_forum),
+                                         method: :post) %></li>
     <% end %>
 
     <% if current_user and current_user.moderate?(current_forum) and (@threads or @message) %>

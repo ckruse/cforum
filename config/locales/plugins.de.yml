@@ -36,6 +36,8 @@ de:
 
     mark_read:
       marked_unread: Die Nachricht wurde als ungelesen markiert.
+      marked_all_read: Alle Nachrichten der Hauptseite wurden als gelesen markiert.
+      mark_all_read: Alle Nachrichten als gelesen markieren
       mark_unread: ungelesen markieren
       num_unread: Anzahl ungelesener Beiträge
 

@@ -70,6 +70,9 @@ Cforum::Application.routes.draw do
 
     get '/' => 'cf_threads#index', as: 'cf_threads'
 
+    post '/mark_all_visited' => 'mark_read_plugin#mark_all_read',
+         as: 'mark_all_read'
+
     #
     # thread urls
     #
