@@ -43,7 +43,7 @@
 
     <% if user_signed_in? %>
       <li id="post-link"><%= link_to t("layout.mail"), mails_path %></li>
-      <li id="optionen-myadmin"><div>(<%= link_to notifications_path do %><span class="notifications<% if @new_notifications.length > 0 %> new<% end %>"><%= @new_notifications.length %></span><% end %>/<%= link_to user_path(current_user) do %><span class="score"><%= current_user.score %></span><% end %>) <%= link_to(current_user.username, edit_user_path(current_user)) %></div></li>
+      <li id="optionen-myadmin"><div>(<%= link_to notifications_path do %><span class="notifications<% if @new_notifications.length > 0 %> new<% end %>"><%= @new_notifications.length %></span><% end %>/<%= link_to user_path(current_user) do %><span class="score"><%= current_user.score %></span><% end %>) <%= link_to(current_user.username, edit_user_path(current_user), id: 'username') %></div></li>
       <li id="optionen-logout"><%= link_to(t('layout.logout'), destroy_user_session_path, method: :delete) %></li>
     <% else %>
       <li id="optionen-my"><%= link_to(t('layout.login'), new_user_session_path) %></li>
