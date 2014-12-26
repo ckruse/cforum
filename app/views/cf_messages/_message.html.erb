@@ -37,6 +37,10 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
             <%= link_to t('messages.edit_message'), edit_cf_message_path(@thread, m), class: 'cf-btn' %>
           <% end %>
 
+          <% if may?(RightsHelper::RETAG) %>
+            <%= link_to t('messages.retag'), retag_cf_message_path(@thread, m), class: 'cf-btn' %>
+          <% end %>
+
           <% if not current_user.blank? and may?(RightsHelper::FLAG) and m.flags['flagged'].blank? %>
             <%= link_to '', flag_cf_message_path(@thread, m), class: 'cf-btn icon-flag-message' %>
           <% end %>
