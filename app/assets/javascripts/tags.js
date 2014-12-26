@@ -56,10 +56,18 @@ cforum.tags = {
   },
 
   suggestTags: function() {
-    var mcnt = $(document.getElementById('cf_thread_message_content') ?
-                 "#cf_thread_message_content" : "#cf_message_content").val();
+    var node = $(document.getElementById('cf_thread_message_content') ?
+                 "#cf_thread_message_content" : "#cf_message_content");
+    var mcnt;
 
-    if(mcnt == "") {
+    if(node.val()) {
+      mcnt = node.val();
+    }
+    else {
+      mcnt = node.text();
+    }
+
+    if(!mcnt) {
       return;
     }
 

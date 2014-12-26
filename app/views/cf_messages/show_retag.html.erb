@@ -1,0 +1,43 @@
+<%
+content_for(:title, t('essages.retag') + ": " + @message.subject + " " +
+            I18n.t('messages.by') + " " + @message.author + ", " +
+            I18n.l(@message.created_at, format: date_format('date_format_post')))
+content_for(:body_id, "message")
+content_for(:h1) do
+%>
+<h1><%= t('essages.retag') %>: <span class="author" id="posting-author"><%= @message.author %>:</span><br>
+  <span class="title" id="posting-title"><%= @message.subject %></span></h1>
+<% end %>
+
+<%= form_tag retag_cf_message_path(@thread, @message), class: 'form-horizontal' do %>
+  <article class="thread-message">
+    <%= message_header(@thread, @message, first: true, do_parent: false, tree: false) %>
+
+    <div class="posting-content" id="cf_message_content">
+      <%= @message.to_html(self) %>
+    </div>
+
+    <fieldset>
+      <div class="cf-cgroup">
+        <label>Tag-Vorschläge</label>
+
+        <div class="cntrls">
+          <ul id="tags-suggestions" class="tags-list"></ul>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label>Tags</label>
+        <div class="cntrls" id="tags-group">
+          <ul id="tags-list" class="tags-list"></ul>
+          <input type="text" name="tag_list" value="<%= @tags.join(", ") %>" id="tags-input" class="tags-input"><noscript> <em>Komma-separierte Liste</em></noscript>
+        </div>
+      </div>
+    </fieldset>
+
+    <p>
+      <%= submit_tag t('global.save'), class: 'cf-primary-btn' %>
+      <%= link_to t('global.cancel'), cf_message_path(@thread, @message), class: 'cf-btn' %>
+    </p>
+  </article>
+<% end %>

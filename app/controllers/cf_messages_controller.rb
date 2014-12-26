@@ -6,6 +6,7 @@ class CfMessagesController < ApplicationController
   authorize_action([:show, :show_header]) { authorize_forum(permission: :read?) }
   authorize_action([:new, :create, :edit, :update]) { authorize_forum(permission: :write?) }
   authorize_action([:destroy, :restore]) { authorize_forum(permission: :moderator?) }
+  authorize_action([:show_retag, :retag]) { may?(RightsHelper::RETAG) }
 
   include TagsHelper
 
@@ -248,6 +249,49 @@ class CfMessagesController < ApplicationController
     end
   end
 
+  def show_retag
+    @thread, @message, @id = get_thread_w_post
+    @tags = @message.tags.map { |t| t.tag_name }
+    @max_tags = conf('max_tags_per_message', 3)
+  end
+
+  def retag
+    @thread, @message, @id = get_thread_w_post
+    @tags = parse_tags
+    invalid = false
+
+    @max_tags = conf('max_tags_per_message', 3).to_i
+    if @tags.length > @max_tags
+      invalid = true
+      flash[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
+    end
+
+    iv_tags = invalid_tags(@tags)
+    if not iv_tags.blank?
+      invalid = true
+      flash[:error] = I18n.t('messages.invalid_tags', tags: iv_tags.join(", "))
+    end
+
+    saved = false
+    if not invalid
+      CfMessage.transaction do
+        raise ActiveRecord::Rollback unless @message.tags.delete_all
+        raise ActiveRecord::Rollback unless save_tags(@message, @tags)
+        saved = true
+      end
+    end
+
+    respond_to do |format|
+      if saved
+        format.html { redirect_to cf_message_url(@thread, @message), notice: t('messages.retagged') }
+        format.json { head :no_content }
+      else
+        format.html { render :show_retag }
+        format.json { render json: {error: flash[:error]} }
+      end
+    end
+
+  end
 end
 
 # eof

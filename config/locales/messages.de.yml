@@ -49,6 +49,9 @@ de:
     insufficient_rights_to_upvote: Sie haben nicht das Recht, einen Beitrag positiv zu bewerten.
     insufficient_rights_to_downvote: Sie haben nicht das Recht, einen Beitrag negativ zu bewerten.
 
+    retag: Tags neu vergeben
+    retagged: Die Tags wurden erfolgreich neu vergeben.
+
     close_vote:
       created: Die Abstimmung wurde erstellt.
       voted: Sie haben erfolgreich abgestimmt.

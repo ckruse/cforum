@@ -116,6 +116,10 @@ module CForum
       _cf_message_path_wo_anchor(thread, message) + "/new" + query_string(args)
     end
 
+    def retag_cf_message_path(thread, message, args = {})
+      _cf_message_path_wo_anchor(thread, message) + "/retag" + query_string(args)
+    end
+
     def restore_cf_message_path(thread, message, args = {})
       _cf_message_path_wo_anchor(thread, message) + "/restore" + query_string(args)
     end
@@ -201,6 +205,10 @@ module CForum
 
     def cf_message_url(thread, message, args = {})
       _cf_message_url_wo_anchor(thread, message) + query_string(args) + "#m" + message.message_id.to_s
+    end
+
+    def retag_cf_message_url(thread, message, args = {})
+      _cf_message_url_wo_anchor(thread, message) + "/retag" + query_string(args)
     end
 
     def open_cf_message_url(thread, message, args = {})

@@ -103,6 +103,10 @@ Cforum::Application.routes.draw do
           year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
     delete '/:year/:mon/:day/:tid/:mid' => 'cf_messages#destroy',
            year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+    get '/:year/:mon/:day/:tid/:mid/retag' => 'cf_messages#show_retag',
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'retag_cf_message'
+    post '/:year/:mon/:day/:tid/:mid/retag' => 'cf_messages#retag',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
     post '/:year/:mon/:day/:tid/:mid/vote' => 'vote_plugin#vote',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'vote_cf_message'

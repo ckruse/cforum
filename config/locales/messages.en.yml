@@ -36,6 +36,9 @@ en:
     do_not_vote_yourself: You may not vote yourself!
     vote_removed: Voting has been removed!
 
+    retag: Retag message
+    retagged: Message has been retagged successfully.
+
     close_vote:
       created: The close vote has been created
       voted: You have successfully voted
