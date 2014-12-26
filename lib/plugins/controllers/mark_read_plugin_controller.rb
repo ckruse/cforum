@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class MarkUnreadController < ApplicationController
+class MarkReadPluginController < ApplicationController
   authorize_controller { authorize_user && authorize_forum(permission: :read?) }
 
   def mark_unread
