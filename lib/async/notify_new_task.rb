@@ -56,7 +56,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     @sent_mails = {}
     @notified   = {}
 
-    @thread.sorted_messages.each do |m|
+    @thread.messages.each do |m|
       Rails.logger.debug "notify new task: perform_message: owner: " + m.owner.inspect
 
       if check_notify(m.owner, @thread, @message, @parent)

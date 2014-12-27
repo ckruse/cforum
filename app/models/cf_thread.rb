@@ -82,18 +82,6 @@ class CfThread < ActiveRecord::Base
     end
   end
 
-  def sort_tree(msg = nil)
-    msg = message if msg.nil?
-
-    unless msg.messages.blank?
-      msg.messages.sort! {|a,b| b.created_at <=> a.created_at }
-
-      msg.messages.each do |m|
-        sort_tree(m)
-      end
-    end
-  end
-
   def self.gen_id(thread, num = nil)
     now = thread.message.created_at
     now = Time.now if now.nil?
@@ -122,16 +110,6 @@ class CfThread < ActiveRecord::Base
   after_initialize do
     self.attribs ||= {'classes' => []}
     self.flags ||= {} if attributes.has_key? 'flags'
-  end
-
-  def sorted_messages
-    if not @generated
-      @generated = true
-      gen_tree
-      sort_tree
-    end
-
-    @sorted_messages
   end
 
   def acceptance_forbidden?(usr, uuid)

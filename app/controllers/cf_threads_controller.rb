@@ -158,6 +158,7 @@ class CfThreadsController < ApplicationController
   def moving
     @id     = CfThread.make_id(params)
     @thread = CfThread.includes(:forum).where(slug: @id).first!
+    @thread.gen_tree
 
     if current_user.admin
       @forums = CfForum.order('name ASC')

@@ -35,11 +35,13 @@ class CfThreadTest < ActiveSupport::TestCase
     m = FactoryGirl.create(:cf_message, owner: nil, forum: t.forum, thread: t)
 
     t = CfThread.find t.thread_id
+    t.gen_tree
     assert_equal 1, t.sorted_messages.count()
 
     m1 = FactoryGirl.create(:cf_message, owner: nil, forum: t.forum, thread: t, parent_id: m.message_id)
 
     t = CfThread.includes(:messages).find t.thread_id
+    t.gen_tree
     assert_equal 2, t.sorted_messages.count()
     assert_equal m.message_id, t.message.message_id
     assert_equal m1.message_id, t.sorted_messages[0].messages[0].message_id
@@ -89,6 +91,7 @@ class CfThreadTest < ActiveSupport::TestCase
 
   test "acceptance_forbidden?" do
     msg = FactoryGirl.create(:cf_message)
+    msg.thread.gen_tree
 
     assert msg.thread.acceptance_forbidden?(nil, nil)
     assert msg.thread.acceptance_forbidden?('', '')
@@ -103,6 +106,7 @@ class CfThreadTest < ActiveSupport::TestCase
     msg.uuid = '1234'
     msg.save
     msg.reload
+    msg.thread.gen_tree
 
     assert !msg.thread.acceptance_forbidden?(nil, '1234')
     assert msg.thread.acceptance_forbidden?(nil, '12345')

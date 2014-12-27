@@ -74,6 +74,7 @@ class CfMessageTest < ActiveSupport::TestCase
     m1 = FactoryGirl.create(:cf_message, forum: m.forum, thread: m.thread, parent_id: m.message_id)
 
     t = CfThread.preload(:messages).find(m.thread.thread_id)
+    t.gen_tree
 
     t.sorted_messages[0].delete_with_subtree
     assert m.reload.deleted

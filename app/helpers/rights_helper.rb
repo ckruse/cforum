@@ -60,7 +60,7 @@ module RightsHelper
     raise CForum::NotFoundException.new if thread.blank?
 
     # sort messages
-    thread.message
+    sort_thread(thread)
 
     return thread, id
   end

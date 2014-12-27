@@ -78,6 +78,10 @@ module ThreadsHelper
       @threads = b.call(@threads)
     end
 
+    @threads.each do |t|
+      sort_thread(t)
+    end
+
     @threads
   end
 end

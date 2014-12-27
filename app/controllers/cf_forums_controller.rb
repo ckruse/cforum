@@ -53,7 +53,9 @@ class CfForumsController < ApplicationController
 
   def redirect_archive
     thread = CfThread.find_by_tid(params[:tid][1..-1].to_i)
+
     if thread
+      sort_thread(thread)
       redirect_to cf_message_url(thread, thread.message), status: 301
     else
       raise CForum::NotFoundException.new # TODO: add message

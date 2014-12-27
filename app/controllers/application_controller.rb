@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
   include FayeHelper
   include MessageHelper
   include SortablesHelper
+  include SortingHelper
 
   before_filter :do_init, :locked?, :set_forums, :notifications,
                 :run_before_handler, :check_authorizations
