@@ -10,6 +10,7 @@ module Peon
 
     class PeonTask
       include CForum::Tools
+      include FayeHelper
 
       def root_path
         Rails.application.config.action_controller.relative_url_root || '/'
@@ -35,7 +36,7 @@ module Peon
       def notify_user(user, hook, subject, path, oid, otype, icon = nil, default = 'yes')
         return if not hook.blank? and @config_manager.get(hook, default, user) != 'yes'
 
-        CfNotification.create!(
+        n = CfNotification.create!(
           recipient_id: user.user_id,
           subject: subject,
           path: path,
@@ -45,6 +46,9 @@ module Peon
           created_at: DateTime.now,
           updated_at: DateTime.now
         )
+
+        publish('/user/' + user.user_id.to_s + "/notifications",
+                {type: 'notification', notification: n})
       end
 
       def work_work(args)
