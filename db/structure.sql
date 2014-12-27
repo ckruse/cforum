@@ -1324,7 +1324,8 @@ CREATE TABLE users (
     avatar_file_name character varying(255),
     avatar_content_type character varying(255),
     avatar_file_size integer,
-    avatar_updated_at timestamp without time zone
+    avatar_updated_at timestamp without time zone,
+    websocket_token character varying(250)
 );
 
 
@@ -1791,6 +1792,14 @@ ALTER TABLE ONLY threads
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: users_websocket_token_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_websocket_token_key UNIQUE (websocket_token);
 
 
 --
@@ -2616,6 +2625,8 @@ INSERT INTO schema_migrations (version) VALUES ('53');
 INSERT INTO schema_migrations (version) VALUES ('54');
 
 INSERT INTO schema_migrations (version) VALUES ('55');
+
+INSERT INTO schema_migrations (version) VALUES ('56');
 
 INSERT INTO schema_migrations (version) VALUES ('6');
 

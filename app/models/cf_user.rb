@@ -48,6 +48,12 @@ class CfUser < ActiveRecord::Base
     end
   end
 
+  def after_database_authentication
+    if websocket_token.blank?
+      update_attributes(websocket_token: SecureRandom.uuid)
+    end
+  end
+
   def has_badge?(type)
     badges.each do |b|
       return true if b.badge_type == type
