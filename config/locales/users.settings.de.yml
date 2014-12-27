@@ -47,4 +47,5 @@ de:
       css_styles: alternatives CSS (pro Zeile eine URL)
       motd: Nachricht des Tages
       hide_subjects_when_unchanged: Gleiche Betreffe ausblenden
+      sort_threads: Thread-Sortierung
 
