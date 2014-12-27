@@ -74,7 +74,7 @@ content_for :h1, "<h1>".html_safe + t('users.user', name: @user.username) + "</h
   <table class="score-table">
     <% @score_msgs.each do |s| %>
       <tr>
-        <td class="<% if s.value < 0 %>score-down<% else %>score-up<% end %>"><%= s.value %></td>
+        <td class="<% if s.value < 0 %>score-down<% else %>score-up<% end %>"><span><%= s.value %><span></td>
         <td><article class="threadlist thread"><%= if s.vote then message_header(s.vote.message.thread, s.vote.message) else message_header(s.message.thread, s.message) end %></article></td>
       </tr>
     <% end %>
