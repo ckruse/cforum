@@ -46,6 +46,28 @@ cforum = {
       if(typeof Faye !== 'undefined') {
         cforum.client = new Faye.Client(cforum.fayeUrl, {timeout: 120, retry: 5});
 
+        var SendPass = {
+          incoming: function(message, callback) {
+            if(message.ext && message.ext.token) {
+              delete message.ext.token;
+            }
+
+            callback(message);
+          },
+          outgoing: function(message, callback) {
+            if(message.channel == '/meta/subscribe' && message.subscription.match(/^\/user/)) {
+              if(!message.ext) {
+                message.ext = {};
+              }
+
+              message.ext.token = cforum.currentUser.websocket_token;
+            }
+
+            callback(message);
+          }
+        };
+
+        cforum.client.addExtension(SendPass);
         cforum.client.on('transport:up', function() { $("#username").addClass('connected'); });
         cforum.client.on('transport:down', function() { $("#username").removeClass('connected'); });
       }
