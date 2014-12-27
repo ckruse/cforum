@@ -1,4 +1,4 @@
 de:
   js:
     messages:
-      dummy: val
+      messages_threads: "Es gibt {{messages}} neue Nachrichten und {{threads}} neue Threads."

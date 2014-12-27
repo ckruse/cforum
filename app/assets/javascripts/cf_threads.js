@@ -1,7 +1,10 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum */
+/* global cforum, Mustache, t */
 
 cforum.cf_threads = {
+  numThreads: 0,
+  numMessages: 0,
+
   new: function() {
     cforum.tags.initTags();
     cforum.cf_threads.initCursor();
@@ -20,32 +23,34 @@ cforum.cf_threads = {
 
   },
 
+  showNewAlert: function() {
+    var alert = $("#new_messages_arrived");
+    var append = false;
+
+    if(!alert.length) {
+      alert = $("<div class=\"cf-success\" id=\"new_messages_arrived\"></div>");
+      append = true;
+    }
+
+    alert.text(Mustache.render(
+      t('messages_threads'),
+      {threads: cforum.cf_threads.numThreads,
+       messages: cforum.cf_threads.numMessages}));
+
+    if(append) {
+      $("#alerts-container").append(alert);
+    }
+  },
+
   newThreadArriving: function(message) {
-    $.get(
-      cforum.baseUrl + (cforum.currentForum ? cforum.currentForum.slug : '/all') + '/' + message.thread.thread_id,
-      function(data) {
-        $("body [data-js=threadlist]").prepend(data);
-        $("#t" + message.thread.thread_id).addClass('new');
-      }
-    );
+    cforum.cf_threads.numThreads += 1;
+    cforum.cf_threads.numMessages += 1;
+    cforum.cf_threads.showNewAlert();
   },
 
   newMessageArriving: function(message) {
-    $.get(
-      cforum.baseUrl + (cforum.currentForum ? cforum.currentForum.slug : '/all') + '/' + message.thread.thread_id + '/' + message.message.message_id,
-      function(data) {
-        var $msg = $("#m" + message.message.parent_id);
-        var $ol = $msg.next();
-
-        if($ol.length === 0 || $ol[0].nodeName != 'OL') {
-          $msg.after("<ol>");
-          $ol = $msg.next();
-        }
-
-        $ol.append("<li>" + data + "</li>");
-        $("#m" + message.message.message_id).addClass("new");
-      }
-    );
+    cforum.cf_threads.numMessages += 1;
+    cforum.cf_threads.showNewAlert();
   },
 
   initCursor: function() {
