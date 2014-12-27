@@ -19,7 +19,7 @@
 
 function t(key, deflt) {
   var pieces = key.split('.');
-  var loc = cforum.l10n[cforum.locale];
+  var loc = cforum.l10n;
 
   for(var i = 0; i < pieces.length; ++i) {
     if(loc[pieces[i]]) {
