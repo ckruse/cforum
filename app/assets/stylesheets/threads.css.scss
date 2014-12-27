@@ -41,7 +41,7 @@
     list-style-type:none;
     margin:0;
     overflow:visible;
-    margin: 0.25em -1em -0.25em;
+    margin: 0em -1em 0em;
 
     li {
       padding:0;
@@ -50,6 +50,8 @@
   }
 
   header {
+    line-height:1.4em;
+
     h2, h3 {
       font-size:1em;
       display:inline;
@@ -62,24 +64,11 @@
       font-weight:bold;
     }
 
-    details, summary, ul, li {
+    .details {
       display:inline;
-    }
-
-    details, ul, li:first-of-type {
       list-style-type:none;
       margin-bottom:0;
-      line-height:1em;
       margin-left:0;
-    }
-
-    li {
-      margin-left:0.5em;
-      margin-bottom:0;
-      line-height:1em;
-    }
-
-    details {
       font-size:0.9em;
     }
 

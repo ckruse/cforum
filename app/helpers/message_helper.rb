@@ -131,8 +131,7 @@ module MessageHelper
     end
 
     html << %q{
-  <details open>
-    <summary>
+  <div class="details">
       }
 
     html << " " + %q{
@@ -178,8 +177,6 @@ module MessageHelper
       html << text.html_safe
     end
 
-    html << "</summary>"
-
     unless message.tags.blank?
       html << %q{
 
@@ -203,7 +200,7 @@ module MessageHelper
     end
 
     html << %q{
-  </details>
+  </div>
 </header>}
 
     html.html_safe

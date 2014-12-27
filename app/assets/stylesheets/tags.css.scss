@@ -1,6 +1,6 @@
 /* -*- coding: utf-8 -*- */
 
-.tags-list, header details .tags-list, .thread header ul.tags-list  {
+.tags-list, header .details .tags-list, .thread header ul.tags-list  {
   display:inline;
   list-style-type:none;
   margin:0;
@@ -8,7 +8,6 @@
 
   .tag {
     display:inline;
-    margin-left:2px;
     background-color: #777;
     margin-top:1px;
     margin-bottom:1px;
