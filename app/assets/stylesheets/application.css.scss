@@ -12,6 +12,91 @@
  *= require_tree .
  */
 
+.box-gray {
+    background: none #f1f3f4;
+    border: 1px solid #d5d5d5;
+    border-radius: 0 .7em .7em;
+}
+
+html {
+	margin: 0;
+	padding: 0;
+	background: white;
+	font-size: 1em;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Calibri, 'PT Sans', sans-serif;
+	color: #333333;
+	background: white;
+}
+
+h1, h2, h3, h4, h5, h6 { 
+    font-weight: normal;
+}
+
+h2 {
+	font-size: 1.25em;
+	border-top: 2px solid #c4d4da;
+	padding: .7em 0 0;
+	margin: 1em 0em;
+}
+h3 {
+    font-size: 1em; 
+}
+
+code,kbd,tt {
+	font-family: Consolas, Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Andale Mono', 'Droid Sans Mono', 'Lucida Console', monospace;
+	color:#0000C0;
+}
+
+label { 
+    font-weight: bold;
+}
+
+label.normal {
+    font-weight: normal;
+}
+
+a, a:hover, a:focus {
+	font-weight: normal;
+	text-decoration: none;
+	transition: all .2s ease-in-out 0s;
+}
+
+a:link, a:visited { 
+    color: #3481cd; 
+}
+
+a:hover, a:focus , a:active {
+    color: #990909;
+}
+
+a img {
+    border: 0 none;
+}
+
+input {
+    margin: .5em .5em .2em 0;
+}
+
+/* eof */
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
 
 html {
 	margin: 0;

@@ -1,10 +1,11 @@
 /* -*- coding: utf-8 -*- */
 
+/* Bitte beachten, dass ich die Syntax noch nicht testen kann */
 
 /* obere Navigation einschließlich Suche */
 #top {
 	background-color: #699CB3;
-	background-image: linear-gradient(to right, #75b0ca 0%,#4089aa 100%);
+	background-image: linear-gradient(to right, #75b0ca, #4089aa);
 	border-bottom: 3px double #FFFFFF;
 	border-top: 1px solid #0070A2;
 	padding-left: 2em;
@@ -12,70 +13,69 @@
 	font-size: 1.25em;
 	line-height: 2.25em;
 
-  a, input { opacity: .75; }
-  a:hover, a:focus, input:focus, input:hover { opacity: 1; }
-  a {
-	  display: inline-block;
-	  margin-right: 3em;
-	  color: white;
-  }
-
-  ul.selflinks {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-
-    li { display: inline; }
-  }
-
-  a:hover { text-decoration: none; }
+    a {
+        display: inline-block;
+        margin-right: 3em;
+        color: white;
+    }
+    
+    a, input { 
+        opacity: .75;
+    }
+    a:hover, a:focus, input:focus, input:hover {
+        opacity: 1;
+    }
   
-  #suche {
-  	p {
-		 margin: 0; 
-	  	 float: right;
-  	}
-	 label {
-	  	display: inline;
-	  	margin-right: -3.75em;
-	  	color: white;
-	  	font-weight: normal;
-  	}
-  
-  	label {
-		display: none; 
-  	}
+    ul.selflinks {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        li { 
+            display: inline;
+        }
+    }
+
+    #suche {
+        p {
+            margin: 0; 
+            float: right;
+        }
+          
+        label {
+            display: none; 
+        }
   	
-  	#suchausdruck {
-	  	border: 0 none;
-	  	color: white;
-	  	font-size: 1em;
-	  	font-family: Calibri, sans-serif;
-	  	width: 2.5em;
-	  	margin: 7px 1.5em 0 0;
-	  	padding: .2em 0 .2em 1.2em; 
-		background: url("http://src.selfhtml.org/search-white.png") no-repeat scroll 0 center transparent;
-		border-radius: 6px;
-	  	cursor: pointer;
-  	}
+        #suchausdruck {
+            border: 0 none;
+            color: white;
+            font-size: 1em;
+            font-family: Calibri, sans-serif;
+            width: 2.5em;
+            margin: 7px 1.5em 0 0;
+            padding: .2em 0 .2em 1.2em; 
+            background: url("http://src.selfhtml.org/search-white.png") no-repeat scroll 0 center transparent;
+            border-radius: 6px;
+            cursor: pointer;
+        }
 
-  	#suchausdruck:focus {
-	  	background: white;
-	  	color: #afafaf;
-	  	width: 10em;
-	  	padding-right: 2em;
-	  	background: url("http://src.selfhtml.org/search-lightgrey.png") no-repeat scroll .2em center white;
-	  	cursor: text;
-  	}
+        #suchausdruck:focus {
+            background: white;
+            color: #afafaf;
+            width: 10em;
+            padding-right: 2em;
+            background: url("http://src.selfhtml.org/search-lightgrey.png") no-repeat scroll .2em center white;
+            cursor: text;
+        }
 
-  	::-webkit-input-placeholder { color: white; }
-  	::-moz-placeholder { color: white; } /* firefox 19+ */
-  	:-ms-input-placeholder { color: white; }
+        ::-webkit-input-placeholder { color: white; }
+        ::-moz-placeholder { color: white; } /* firefox 19+ */
+        :-ms-input-placeholder { color: white; }
   
-  	#suchausdruck, #suchausdruck:hover {
-		transition: all .2s ease-in-out 0s;
-	}
-  } 
+        #suchausdruck, #suchausdruck:hover {
+            transition: all .2s ease-in-out 0s;
+        }
+    } 
 }
 
 #kopf {
@@ -84,79 +84,76 @@
 	margin: 1em 2em 2.5em;
 	position: relative;
 
-  .sociallinks {
-	  position: absolute;
-	  right: 0;
-	  padding: 0;
-	  margin: 1em 0 0;
-	  border: 0 none;
-	  width: auto;
-	  background: transparent;
-	  display: inline;
-  }
+   .sociallinks {
+        position: absolute;
+        right: 0;
+        padding: 0;
+        margin: 1em 0 0;
+        border: 0 none;
+        width: auto;
+        background: transparent;
+        display: inline;
+   
+        li {
+            float: left;
+            padding: 0;
+            margin: 0 0 0 .7em;
+        }
 
-  .sociallinks {
-    li {
-	    float: left;
-	    padding: 0;
-	    margin: 0 0 0 .7em;
+        a {
+            text-indent: 100%;
+            background: url("http://src.selfhtml.org/social.png") no-repeat scroll left top transparent;
+            display: block;
+            width: 37px;
+            height: 37px;
+            margin-top: 6px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        a, a:hover {
+            transition: none;
+        }	
+
+        a.atom { background-position: -40px 0; }
+        a.github { background-position: -80px 0; }
+        a.twitter { background-position: -120px 0; }
+        a.flattr { background-position: -160px 0; }
+        a.trello { background-position: -200px 0; }
+        a.donate { background-position: -240px 0; }
+        a.rss:hover, a.rss:focus { background-position: 0 -40px; }
+        a.atom:hover, a.atom:focus { background-position: -40px -40px; }
+        a.github:hover, a.github:focus { background-position: -80px -40px; }
+        a.twitter:hover, a.twitter:focus { background-position: -120px -40px; }
+        a.flattr:hover, a.flattr:focus { background-position: -160px -40px; }
+        a.trello:hover, a.trello:focus { background-position: -200px -40px; }
+        a.donate:hover, a.donate:focus { background-position: -240px -40px; }
     }
 
-    a {
-	    text-indent: 100%;
-	    background: url("http://src.selfhtml.org/social.png") no-repeat scroll left top transparent;
-	    display: block;
-	    width: 37px;
-	    height: 37px;
-	    margin-top: 6px;
-	    overflow: hidden;
-	    white-space: nowrap;
+    h1 {
+        font-size: 1.55em;
+        margin: 1em 0 -.25em .5em;
+        display: inline-block;
+        vertical-align: bottom;
     }
 
-    a, a:hover {
-	    transition: none;
-    }	
-
-    a.atom { background-position: -40px 0; }
-    a.github { background-position: -80px 0; }
-    a.twitter { background-position: -120px 0; }
-    a.flattr { background-position: -160px 0; }
-    a.trello { background-position: -200px 0; }
-    a.donate { background-position: -240px 0; }
-    a.rss:hover, a.rss:focus { background-position: 0 -40px; }
-    a.atom:hover, a.atom:focus { background-position: -40px -40px; }
-    a.github:hover, a.github:focus { background-position: -80px -40px; }
-    a.twitter:hover, a.twitter:focus { background-position: -120px -40px; }
-    a.flattr:hover, a.flattr:focus { background-position: -160px -40px; }
-    a.trello:hover, a.trello:focus { background-position: -200px -40px; }
-    a.donate:hover, a.donate:focus { background-position: -240px -40px; }
-  }
-
-  h1 {
-	  font-size: 1.55em;
-	  margin: 1em 0 -.25em .5em;
-	  display: inline-block;
-	  vertical-align: bottom;
-  }
-
-  /* Korrektur neue Nachricht, da dort keine Navi ist */
-  .sociallinks + h1 {
-	  margin: 0;
-	  padding-top: 92px;
-  }
+    /* Korrektur neue Nachricht, da dort keine Navi ist */
+    /** Prüfen, ob noch notwendig **/
+    .sociallinks + h1 {
+        margin: 0;
+        padding-top: 92px;
+    }
 }
 
 /* seitliches Menu und Navigationen */
 #side-menu, #kopf ul {
+    @extend .box-gray;
 	line-height: 1em;
 	float: left;
 	text-align: left;
-	background: #f1f3f4;
 	width: 9em;
 	margin-left: 2em;
-	padding: .5em 1em 1.3em 1.3em;
-	border-radius: 0 .7em .7em;
-	border: 1px solid #d5d5d5;
+    padding: .5em 1em 1.3em 1.3em;
 	list-style: none outside none;
 }
 /* Korrektur float */
@@ -167,7 +164,7 @@
 }
 
 #side-menu li, #kopf ul li {
-	padding: 0 0;
+	padding: 0;
 	margin-top: .5em;
 }
 
@@ -177,31 +174,35 @@
 }
 
 #side-menu {
-  ul {
-	  list-style: none outside none;
-	  margin: 0;
-	  padding: 0;
-	  border: 0 none;
-  }
+    margin-bottom: .1em;
 
-  li div a { display:inline; }
+    ul {
+        list-style: none outside none;
+        margin: 0;
+        padding: 0;
+        border: 0 none;
+    }
 
-  h3 {
-	  text-transform: uppercase;
-	  font-weight: bold;
-	  letter-spacing: .2em;
-	  margin: 1.2em 0 .9em;
-  }
+    li div a {
+        display:inline;
+    }
 
-  h3:first-child { margin-top: .7em; }
+    h3 {
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: .2em;
+        margin: 1.2em 0 .9em;
+    }
 
-	margin-bottom: .1em;
-
-  ul + ul {
-    margin-top:.5em;
-    border-top:1px solid #0070A2;
-    border-radius:0;
-  }
+    h3:first-child {
+        margin-top: .7em;
+    }
+    
+    ul + ul { /* wird dies benötigt ? */
+        margin-top: .5em;
+        border-top: 1px solid #0070A2;
+        border-radius: 0;
+    }
 }
 
 
@@ -221,34 +222,28 @@
 	width: 29%;
 	margin-right: 2em;
 
-  label {
-	  font-weight: normal;
-	  display: block;
-	  margin-bottom: 5px;
-  }
+    label {
+        font-weight: normal;
+        display: block;
+        margin-bottom: 5px;
+    }
 }
 
 .aktuelle-mitteilung {
+    @extend .box-gray;
 	font-size: 1em;
-	background: #f1f3f4;
 	padding: .6em .5em .6em .7em;
 	line-height: 1.2;
 	margin-bottom: 1.5em;
-	border-radius: 0 .7em .7em;
-	border: 1px solid #d5d5d5;
-}
-
-#beschreibung .aktuelle-mitteilung {
-	margin-bottom: 1.5em;
-}
-
-.aktuelle-mitteilung {
-  .img { min-height: 2.4em; }
-
-  img {
-	  float: left; 
-	  margin: .3em .5em 0 0;
-  }
+    
+    .img {
+        min-height: 2.4em; 
+    }
+    
+    img {
+        float: left; 
+        margin: .3em .5em 0 0;
+    }
 }
 
 /* Beschreibung des Forums */
@@ -260,53 +255,55 @@
 	margin-right: -webkit-calc(29% + 4em);
 	margin-right: calc(29% + 4em);
 
-  ul {
-	  list-style: none outside none;
-	  margin: -.5em 0 0;
-	  padding: 0;
-	  line-height: 1.5em;
-  }
+    ul {
+        list-style: none outside none;
+        margin: -.5em 0 0;
+        padding: 0;
+        line-height: 1.5em;
+    }
 
-  p {
-	  margin-top: 1em;
-	  margin-bottom: 1em;
-  }
+    p {
+        margin: 1em 0;
+	}
+  
+    .aktuelle-mitteilung {
+        margin-bottom: 1.5em;
+    }
 
-  nav + h3 { margin-top: 1.5em; }
+    nav + h3 {
+        margin-top: 1.5em; 
+    }
 }
 
 .mitmachen {
-  li {
-    display: inline-block;
-    margin: .7em .7em 0 0;
-  }
+    li {
+        display: inline-block;
+        margin: .7em .7em 0 0;
+    }
 
-  a {
-    background: #3983ab;
-    font-size: 0.9em;
-    color: #e6f2f7;
-    padding: .3em 1em .4em;
-    border-radius: 0 .5em .5em;
-  }
+    a {
+        background: #3983ab;
+        font-size: 0.9em;
+        color: #e6f2f7;
+        padding: .3em 1em .4em;
+        border-radius: 0 .5em .5em;
+    }
 
-  li:nth-child(n) a:hover {
-    color: #990909;
-  }
+    li:nth-child(n) a:hover,
+    li:nth-child(n) a:focus {
+        color: #990909;
+    }
 
-  li:nth-child(2) a {
-    background: #dfac20;
-    color: #FFFBF0;
-  }
+    li:nth-child(2) a {
+        background: #dfac20;
+        color: #FFFBF0;
+    }
 
-  .mitmachen li:nth-child(3) a {
-    background: #8a9da8;
-    color: #f6f9fc;
-  }
+    li:nth-child(3) a {
+        background: #8a9da8;
+        color: #f6f9fc;
+    }
 }
 
-.notifications.new {
-  font-weight:bold;
-  color:#31708F;
-}
 
 /* eof */
