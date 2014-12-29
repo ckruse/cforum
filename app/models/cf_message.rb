@@ -78,7 +78,7 @@ class CfMessage < ActiveRecord::Base
     return false if parent_id.blank?
 
     if parent_level.blank?
-      self.parent_level = CfMessage.find! parent_id
+      self.parent_level = CfMessage.find parent_id
     end
 
     parent_level.subject != subject
