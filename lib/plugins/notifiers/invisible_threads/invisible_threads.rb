@@ -41,6 +41,10 @@ class InvisibleThreadsPlugin < Plugin
       end
 
       return retval if has_all
+    else
+      thread.each do |t|
+        new_cache[t] = false
+      end
     end
 
     invisible_threads = []
@@ -49,7 +53,6 @@ class InvisibleThreadsPlugin < Plugin
     result.each do |row|
       t = row['thread_id'].to_i
       invisible_threads << t
-      new_cache[t] = true
     end
 
     @cache[user_id] ||= {}
@@ -97,13 +100,28 @@ class InvisibleThreadsPlugin < Plugin
   def modify_threadlist_query_obj()
     return unless current_user
 
-    return Proc.new { |threads| 
+    @modified = true
+
+    return Proc.new { |threads|
       threads.where("NOT EXISTS(SELECT thread_id FROM invisible_threads WHERE user_id = ? AND invisible_threads.thread_id = threads.thread_id)", current_user.user_id)
     }
   end
 
   def show_threadlist(threads)
     return unless current_user
+
+    # when we modified the query object we know that there can't be
+    # any invisible threads; so avoid the extra work and just mark
+    # them all as visible in the cache
+    if @modified
+      @cache[current_user.user_id] ||= {}
+      threads.each do |t|
+        @cache[current_user.user_id][t.thread_id] = false
+      end
+    else
+      # we build up the cache to avoid threads.length queries
+      is_invisible(threads, current_user)
+    end
 
     if params[:hide_thread]
       mark_invisible(params[:hide_thread], current_user)
