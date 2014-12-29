@@ -100,7 +100,7 @@ class CfMessageTest < ActiveSupport::TestCase
     assert_equal 0, msg.messages_tags.count()
     assert_equal 0, msg.tags.count()
 
-    ctt = CfMessageTag.create!(tag_id: tag.tag_id, message_id: msg.message_id)
+    CfMessageTag.create!(tag_id: tag.tag_id, message_id: msg.message_id)
     assert_equal 1, msg.messages_tags.count()
     assert_equal 1, msg.tags.count()
 
@@ -110,6 +110,219 @@ class CfMessageTest < ActiveSupport::TestCase
     assert_not_nil CfTag.find_by_tag_id tag.tag_id
   end
 
+  test "flag with subtree" do
+    msg1 = FactoryGirl.create(:cf_message)
+    msg2 = FactoryGirl.create(:cf_message,
+                              thread_id: msg1.thread_id,
+                              parent_id: msg1.message_id)
+
+    t = CfThread.find(msg1.thread_id)
+    t.gen_tree
+
+    t.message.flag_with_subtree('test_flag', 'test_value')
+
+    msg1.reload
+    msg2.reload
+
+    assert_equal 'test_value', msg1.flags['test_flag']
+    assert_equal 'test_value', msg2.flags['test_flag']
+  end
+
+  test "flag with subtree shouldn't flag sibling" do
+    msg1 = FactoryGirl.create(:cf_message)
+    msg2 = FactoryGirl.create(:cf_message,
+                              thread_id: msg1.thread_id,
+                              parent_id: msg1.message_id)
+    msg3 = FactoryGirl.create(:cf_message,
+                              thread_id: msg1.thread_id,
+                              parent_id: msg2.message_id)
+    msg4 = FactoryGirl.create(:cf_message,
+                              thread_id: msg1.thread_id,
+                              parent_id: msg1.message_id)
+
+    t = CfThread.find(msg1.thread_id)
+    t.gen_tree
+
+    t.message.messages[0].flag_with_subtree('test_flag', 'test_value')
+
+    msg1.reload
+    msg2.reload
+    msg3.reload
+    msg4.reload
+
+    assert_nil msg1.flags['test_flag']
+    assert_nil msg1.flags['test_flag']
+    assert_equal 'test_value', msg2.flags['test_flag']
+    assert_equal 'test_value', msg3.flags['test_flag']
+  end
+
+  test "del flag with subtree" do
+    msg1 = FactoryGirl.create(:cf_message)
+    msg2 = FactoryGirl.create(:cf_message,
+                              thread_id: msg1.thread_id,
+                              parent_id: msg1.message_id)
+
+    t = CfThread.find(msg1.thread_id)
+    t.gen_tree
+
+    t.message.flag_with_subtree('test_flag', 'test_value')
+
+    msg1.reload
+    msg2.reload
+
+    assert_equal 'test_value', msg1.flags['test_flag']
+    assert_equal 'test_value', msg2.flags['test_flag']
+
+    t.reload
+    t.gen_tree
+
+    t.message.del_flag_with_subtree('test_flag')
+
+    msg1.reload
+    msg2.reload
+
+    assert_nil msg1.flags['test_flag']
+    assert_nil msg2.flags['test_flag']
+  end
+
+  test "del flag with subtree shouldn't del flag on sibling" do
+    msg1 = FactoryGirl.create(:cf_message)
+    msg2 = FactoryGirl.create(:cf_message,
+                              thread_id: msg1.thread_id,
+                              parent_id: msg1.message_id)
+    msg3 = FactoryGirl.create(:cf_message,
+                              thread_id: msg1.thread_id,
+                              parent_id: msg2.message_id)
+    msg4 = FactoryGirl.create(:cf_message,
+                              thread_id: msg1.thread_id,
+                              parent_id: msg1.message_id)
+
+
+    t = CfThread.find(msg1.thread_id)
+    t.gen_tree
+
+    t.message.flag_with_subtree('test_flag', 'test_value')
+
+    msg1.reload
+    msg2.reload
+    msg3.reload
+    msg4.reload
+
+    assert_equal 'test_value', msg1.flags['test_flag']
+    assert_equal 'test_value', msg2.flags['test_flag']
+    assert_equal 'test_value', msg3.flags['test_flag']
+    assert_equal 'test_value', msg4.flags['test_flag']
+
+    t.reload
+    t.gen_tree
+
+    t.message.messages[0].del_flag_with_subtree('test_flag')
+
+    msg1.reload
+    msg2.reload
+    msg3.reload
+    msg4.reload
+
+    assert_equal 'test_value', msg1.flags['test_flag']
+    assert_equal 'test_value', msg4.flags['test_flag']
+    assert_nil msg2.flags['test_flag']
+    assert_nil msg3.flags['test_flag']
+  end
+
+  test "should be open" do
+    msg = FactoryGirl.create(:cf_message)
+    assert msg.open?
+  end
+
+  test "should not be open due to vote" do
+    msg = FactoryGirl.create(:cf_message)
+    msg.flags['no-answer'] = 'yes'
+
+    assert !msg.open?
+  end
+
+  test "should not be open due to admin decision" do
+    msg = FactoryGirl.create(:cf_message)
+    msg.flags['no-answer-admin'] = 'yes'
+
+    assert !msg.open?
+  end
+
+  test "should be open due to vote" do
+    msg = FactoryGirl.create(:cf_message)
+    msg.flags['no-answer'] = 'no'
+
+    assert msg.open?
+  end
+
+  test "should be open due to admin decision" do
+    msg = FactoryGirl.create(:cf_message)
+    msg.flags['no-answer-admin'] = 'no'
+
+    assert msg.open?
+  end
+
+  test "should not be open despite vote due to admin decision" do
+    msg = FactoryGirl.create(:cf_message)
+    msg.flags['no-answer-admin'] = 'yes'
+    msg.flags['no-answer'] = 'no'
+
+    assert !msg.open?
+  end
+
+  test "should be open despite vote due to admin decision" do
+    msg = FactoryGirl.create(:cf_message)
+    msg.flags['no-answer-admin'] = 'no'
+    msg.flags['no-answer'] = 'yes'
+
+    assert msg.open?
+  end
+
+  test "subject should be changed" do
+    msg1 = FactoryGirl.create(:cf_message, subject: 'Subject 1')
+    FactoryGirl.create(:cf_message,
+                       thread_id: msg1.thread_id,
+                       parent_id: msg1.message_id,
+                       subject: 'Subject 2')
+
+    t = CfThread.find(msg1.thread_id)
+    t.gen_tree
+
+    assert t.message.messages[0].subject_changed?
+  end
+
+  test "subject should not be changed" do
+    msg1 = FactoryGirl.create(:cf_message, subject: 'Subject 1')
+    FactoryGirl.create(:cf_message,
+                       thread_id: msg1.thread_id,
+                       parent_id: msg1.message_id,
+                       subject: 'Subject 1')
+
+    t = CfThread.find(msg1.thread_id)
+    t.gen_tree
+
+    assert !t.message.messages[0].subject_changed?
+  end
+
+  test "subject_changed shouldn't fail on thread message" do
+    msg = FactoryGirl.create(:cf_message)
+    assert_nothing_raised do
+      assert !msg.subject_changed?
+    end
+  end
+
+  test "subject_changed should fetch parent automatically" do
+    msg1 = FactoryGirl.create(:cf_message, subject: 'Subject 1')
+    msg2 = FactoryGirl.create(:cf_message,
+                              thread_id: msg1.thread_id,
+                              parent_id: msg1.message_id,
+                              subject: 'Subject 2')
+
+    assert_nothing_raised do
+      assert msg2.subject_changed?
+    end
+
+  end
 end
 
 
