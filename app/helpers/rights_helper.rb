@@ -164,14 +164,17 @@ module RightsHelper
       edit_it = true
 
     elsif current_user
-      if not current_forum.moderator?(current_user) and
-          current_user.user_id == message.user_id
+      is_mod = current_forum.moderator?(current_user)
+      is_owner = current_user.user_id == message.user_id
+      is_thread_msg = message.message_id == thread.message.message_id
+
+      if not is_mod and is_owner and is_thread_msg
         edit_it = true
-      elsif may?(EDIT_QUESTION) and message.message_id == thread.message.message_id
+      elsif may?(EDIT_QUESTION) and is_thread_msg
         edit_it = true
       elsif may?(EDIT_ANSWER)
         edit_it = true
-      elsif current_forum.moderator?(current_user)
+      elsif is_mod
         edit_it = true
       end
     end
