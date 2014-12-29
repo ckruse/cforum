@@ -5,7 +5,7 @@ module RightsHelper
   UPVOTE                   = "upvote"
   DOWNVOTE                 = "downvote"
   FLAG                     = "flag"
-  RETAG                    = "right_retag"
+  RETAG                    = "retag"
   VISIT_CLOSE_REOPEN       = "visit_close_reopen"
   CREATE_TAGS              = "create_tag"
   CREATE_TAG_SYNONYM       = "create_tag_synonym"
