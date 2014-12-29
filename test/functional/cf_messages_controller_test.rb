@@ -1069,6 +1069,9 @@ class CfMessagesControllerTest < ActionController::TestCase
     end
   end
 
+
+
+
   test "should edit" do
     user    = FactoryGirl.create(:cf_user, admin: false)
     forum   = FactoryGirl.create(:cf_write_forum)
@@ -1223,12 +1226,381 @@ class CfMessagesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  # TODO check if editing works for
-  # - answers w/o the right to do so
-  # - answers w/ the right to do so
-  # - questions w/o the right to do so
-  # - questions w/ the right to do so
+  test "should not edit answer wo badge" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+    msg1    = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user, parent_id: message.message_id)
+
+    sign_in user
+
+    get :edit, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: msg1.message_id.to_s
+        }
+
+    assert_not_nil flash[:error]
+    assert_redirected_to cf_message_url(msg1.thread, msg1)
+  end
+
+  test "should edit answer w badge" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+    msg1    = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user, parent_id: message.message_id)
+    b       = FactoryGirl.create(:cf_badge, badge_type: 'edit_answer')
+
+    user.badges_users.create(badge: b)
+
+    sign_in user
+
+    get :edit, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: msg1.message_id.to_s
+        }
+
+    assert_not_nil assigns(:thread)
+    assert_not_nil assigns(:message)
+    assert_response :success
+  end
+
+
+
+
   # - do all tests for update as well
+  test "should update" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+
+    sign_in user
+
+    post :update, {
+           curr_forum: forum.slug,
+           year: '2012',
+           mon: 'dec',
+           day: '6',
+           tid: 'obi-wan-kenobi',
+           mid: message.message_id.to_s,
+           cf_message: {
+             subject: 'Fighters of the world',
+             content: 'Long live the imperator! Down with the rebellion!'
+           }
+         }
+
+    assert_not_nil assigns(:thread)
+    assert_not_nil assigns(:message)
+    assert_redirected_to cf_message_url(message.thread, message)
+
+    message.reload
+
+    assert_equal 'Fighters of the world', message.subject
+    assert_equal 'Long live the imperator! Down with the rebellion!', message.content
+  end
+
+  test "should fail to update because anonymous" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+
+    post :update, {
+           curr_forum: forum.slug,
+           year: '2012',
+           mon: 'dec',
+           day: '6',
+           tid: 'obi-wan-kenobi',
+           mid: message.message_id.to_s,
+           cf_message: {
+             subject: 'Fighters of the world',
+             content: 'Long live the imperator! Down with the rebellion!'
+           }
+         }
+
+    assert_redirected_to cf_message_url(thread, message)
+    assert_not_nil flash[:error]
+  end
+
+  test "should fail to update because message is too old" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user,
+                                 created_at: Time.now - 11 * 60)
+
+    sign_in user
+
+    post :update, {
+           curr_forum: forum.slug,
+           year: '2012',
+           mon: 'dec',
+           day: '6',
+           tid: 'obi-wan-kenobi',
+           mid: message.message_id.to_s,
+           cf_message: {
+             subject: 'Fighters of the world',
+             content: 'Long live the imperator! Down with the rebellion!'
+           }
+         }
+
+    assert_redirected_to cf_message_url(thread, message)
+    assert_not_nil flash[:error]
+  end
+
+  test "should fail to update because message has an answer" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+    FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user,
+                       parent_id: message.message_id)
+
+    sign_in user
+
+    post :update, {
+           curr_forum: forum.slug,
+           year: '2012',
+           mon: 'dec',
+           day: '6',
+           tid: 'obi-wan-kenobi',
+           mid: message.message_id.to_s,
+           cf_message: {
+             subject: 'Fighters of the world',
+             content: 'Long live the imperator! Down with the rebellion!'
+           }
+         }
+
+    assert_redirected_to cf_message_url(thread, message)
+    assert_not_nil flash[:error]
+  end
+
+  test "should fail to update because editing is disabled" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+
+    CfSetting.create!(forum_id: forum.forum_id, options: {'editing_enabled' => 'no'})
+
+    sign_in user
+
+    post :update, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: message.message_id.to_s,
+          cf_message: {
+            subject: 'Fighters of the world',
+            content: 'Long live the imperator! Down with the rebellion!'
+          }
+        }
+
+    assert_redirected_to cf_message_url(thread, message)
+    assert_not_nil flash[:error]
+  end
+
+  test "should update as anonymous because is owner" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
+
+    cookies[:cforum_user] = 'aaa'
+
+    post :update, {
+          curr_forum: forum.slug,
+          year: '2012',
+          mon: 'dec',
+          day: '6',
+          tid: 'obi-wan-kenobi',
+          mid: message.message_id.to_s,
+          cf_message: {
+            subject: 'Fighters of the world',
+            content: 'Long live the imperator! Down with the rebellion!'
+          }
+        }
+
+    assert_not_nil assigns(:thread)
+    assert_not_nil assigns(:message)
+    assert_redirected_to cf_message_url(message.thread, message)
+
+    message.reload
+
+    assert_equal 'Fighters of the world', message.subject
+    assert_equal 'Long live the imperator! Down with the rebellion!', message.content
+  end
+
+  test "should not update answer wo badge" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+    msg1    = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user, parent_id: message.message_id)
+
+    sign_in user
+
+    post :update, {
+           curr_forum: forum.slug,
+           year: '2012',
+           mon: 'dec',
+           day: '6',
+           tid: 'obi-wan-kenobi',
+           mid: msg1.message_id.to_s,
+           cf_message: {
+             subject: 'Fighters of the world',
+             content: 'Long live the imperator! Down with the rebellion!'
+           }
+         }
+
+    assert_not_nil flash[:error]
+    assert_redirected_to cf_message_url(msg1.thread, msg1)
+  end
+
+  test "should update answer w badge" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+    msg1    = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user, parent_id: message.message_id)
+    b       = FactoryGirl.create(:cf_badge, badge_type: 'edit_answer')
+
+    user.badges_users.create(badge: b)
+
+    sign_in user
+
+    post :update, {
+           curr_forum: forum.slug,
+           year: '2012',
+           mon: 'dec',
+           day: '6',
+           tid: 'obi-wan-kenobi',
+           mid: msg1.message_id.to_s,
+           cf_message: {
+             subject: 'Fighters of the world',
+             content: 'Long live the imperator! Down with the rebellion!'
+           }
+         }
+
+    assert_not_nil assigns(:thread)
+    assert_not_nil assigns(:message)
+    assert_nil flash[:error]
+    assert_redirected_to cf_message_url(msg1.thread, msg1)
+
+    msg1.reload
+
+    assert_equal 'Fighters of the world', msg1.subject
+    assert_equal 'Long live the imperator! Down with the rebellion!', msg1.content
+  end
+
+  test "should update answer as admin" do
+    user    = FactoryGirl.create(:cf_user, admin: true)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+    msg1    = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user, parent_id: message.message_id)
+
+    sign_in user
+
+    post :update, {
+           curr_forum: forum.slug,
+           year: '2012',
+           mon: 'dec',
+           day: '6',
+           tid: 'obi-wan-kenobi',
+           mid: msg1.message_id.to_s,
+           cf_message: {
+             subject: 'Fighters of the world',
+             content: 'Long live the imperator! Down with the rebellion!'
+           }
+         }
+
+    assert_not_nil assigns(:thread)
+    assert_not_nil assigns(:message)
+    assert_nil flash[:error]
+    assert_redirected_to cf_message_url(msg1.thread, msg1)
+
+    msg1.reload
+
+    assert_equal 'Fighters of the world', msg1.subject
+    assert_equal 'Long live the imperator! Down with the rebellion!', msg1.content
+  end
+
+  test "should not update answer with too many tags" do
+    user    = FactoryGirl.create(:cf_user, admin: true)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+    msg1    = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user, parent_id: message.message_id)
+    tags    = []
+
+    20.times do
+      tags << FactoryGirl.create(:cf_tag, forum: forum)
+    end
+
+    sign_in user
+
+    post :update, {
+           curr_forum: forum.slug,
+           year: '2012',
+           mon: 'dec',
+           day: '6',
+           tid: 'obi-wan-kenobi',
+           mid: msg1.message_id.to_s,
+           cf_message: {
+             subject: 'Fighters of the world',
+             content: 'Long live the imperator! Down with the rebellion!'
+           },
+           tags: tags.map { |t| t.tag_name }
+         }
+
+    assert_not_nil flash[:error]
+    assert_response :success
+  end
+
+  test "should not update answer with invalid tag" do
+    user    = FactoryGirl.create(:cf_user, admin: false)
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
+    msg1    = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user, parent_id: message.message_id)
+    b       = FactoryGirl.create(:cf_badge, badge_type: 'edit_answer')
+
+    user.badges_users.create(badge: b)
+    sign_in user
+
+    post :update, {
+           curr_forum: forum.slug,
+           year: '2012',
+           mon: 'dec',
+           day: '6',
+           tid: 'obi-wan-kenobi',
+           mid: msg1.message_id.to_s,
+           cf_message: {
+             subject: 'Fighters of the world',
+             content: 'Long live the imperator! Down with the rebellion!'
+           },
+           tags: ['lalwf']
+         }
+
+    assert_not_nil flash[:error]
+    assert_response :success
+  end
+
+
+
+
 
 
 
