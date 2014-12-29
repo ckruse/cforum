@@ -184,15 +184,16 @@ cforum.tags = {
 
     $(document.getElementById('cf_thread_message_content') ? "#cf_thread_message_content" : "#cf_message_content").on('keyup', cforum.tags.handleSuggestionsKeyUp);
     $("#tags-suggestions").on('click', cforum.tags.addTagSuggestion);
-  },
 
-  handleSuggestionsKeyUp: function() {
-    // cforum.tags.suggestTags
-    if(cforum.tags.suggestionsTimeout) {
-      window.clearTimeout(cforum.tags.suggestionsTimeout);
-    }
+    el.autocomplete({
+      source: cforum.baseUrl + '/' + cforum.currentForum.slug + '/tags/autocomplete.json',
+      minLength: 0,
+      select: function(event, ui) {
+        $("#replaced_tag_input").val(ui.item.label);
+        cforum.tags.addTag.call($("#replaced_tag_input"), event);
+      }
+    });
 
-    cforum.tags.suggestionsTimeout = window.setTimeout(cforum.tags.suggestTags, 800);
   },
 
   handleTagsKeyUp: function(ev) {

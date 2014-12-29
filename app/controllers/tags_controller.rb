@@ -35,16 +35,23 @@ class TagsController < ApplicationController
   end
 
   def autocomplete
-    if not params[:s].blank?
-      clean_tag = params[:s].strip + '%'
-      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))", current_forum.forum_id, clean_tag, clean_tag)
+    term = (params[:s] || params[:term]).to_s.strip
+
+    if not term.blank?
+      clean_tag = term.strip + '%'
+      @tags = CfTag.
+              preload(:synonyms).
+              where("forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))",
+                    current_forum.forum_id,
+                    clean_tag,
+                    clean_tag)
     else
       @tags = CfTag.preload(:synonyms).where(forum_id: current_forum.forum_id)
     end
 
     @tags_list = {}
     rx = nil
-    rx = Regexp.new('^' + params[:s].strip.downcase, Regexp::IGNORECASE) unless params[:s].blank?
+    rx = Regexp.new('^' + term.downcase, Regexp::IGNORECASE) unless term.blank?
 
     @tags.each do |t|
       if rx.blank? or rx.match(t.tag_name)

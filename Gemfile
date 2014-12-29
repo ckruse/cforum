@@ -13,6 +13,7 @@ gem 'kramdown'
 gem 'coderay'
 
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'autoprefixer-rails'
 
 gem 'daemons'
