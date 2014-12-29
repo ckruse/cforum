@@ -1,5 +1,5 @@
 <%
-content_for(:title, t('essages.retag') + ": " + @message.subject + " " +
+content_for(:title, t('messages.retag') + ": " + @message.subject + " " +
             I18n.t('messages.by') + " " + @message.author + ", " +
             I18n.l(@message.created_at, format: date_format('date_format_post')))
 content_for(:body_id, "message")
