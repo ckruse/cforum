@@ -10,7 +10,7 @@ FactoryGirl.define do
   end
 
   sequence :tag_name do |n|
-    "Tag #{n}"
+    "tag #{n}"
   end
 
   sequence(:random_string) do |n|

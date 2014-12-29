@@ -353,7 +353,7 @@ class TagsControllerTest < ActionController::TestCase
     end
 
     tag.reload
-    assert_equal 'Tag Lala new', tag.tag_name
+    assert_equal 'tag lala new', tag.tag_name
     assert_equal 'tag-lala-new', tag.slug
   end
 
