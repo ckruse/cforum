@@ -30,17 +30,6 @@ class CfThreadsController < ApplicationController
     end
   end
 
-  def show
-    @thread, _, _ = get_thread_w_post
-
-    respond_to do |format|
-      format.html { render partial: 'thread', layout: false, locals: {thread: @thread} }
-      format.json { render json: @thread, include: {messages: {include: [:owner, :tags]} } }
-      format.rss
-      format.atom
-    end
-  end
-
   def message_params
     params.require(:cf_thread).require(:message).permit(:subject, :content, :author, :email, :homepage)
   end
