@@ -19,7 +19,7 @@ class InterestingThreadsPlugin < Plugin
 
   def mark_interesting(thread, user)
     return if user.blank?
-    thread = [thread] unless thread.is_a?(Array)
+    thread = [thread] if not thread.is_a?(Array) and not thread.is_a?(ActiveRecord::Relation)
 
     sql = "INSERT INTO intesting_threads (user_id, thread_id) VALUES (" + user.user_id.to_s + ", "
 
@@ -35,7 +35,7 @@ class InterestingThreadsPlugin < Plugin
 
   def mark_boring(thread, user)
     return if user.blank?
-    thread = [thread] unless thread.is_a?(Array)
+    thread = [thread] if not thread.is_a?(Array) and not thread.is_a?(ActiveRecord::Relation)
     thread = thread.map { |t| t.is_a?(CfThread) ? t.thread_id : t.to_i }
 
     sql = "DELETE FROM intesting_threads WHERE user_id =  " + current_user.user_id.to_s +
@@ -49,7 +49,7 @@ class InterestingThreadsPlugin < Plugin
   def is_interesting(thread, user)
     return if user.blank?
 
-    thread = [thread] unless thread.is_a?(Array)
+    thread = [thread] if not thread.is_a?(Array) and not thread.is_a?(ActiveRecord::Relation)
     thread = thread.map { |t| t.is_a?(CfThread) ? t.thread_id : t.to_i }
 
     user_id = user.is_a?(CfUser) ? user.user_id : user

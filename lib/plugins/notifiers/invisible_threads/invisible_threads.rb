@@ -20,7 +20,7 @@ class InvisibleThreadsPlugin < Plugin
   def is_invisible(thread, user)
     return if user.blank?
 
-    thread = [thread] unless thread.is_a?(Array)
+    thread = [thread] if not thread.is_a?(Array) and not thread.is_a?(ActiveRecord::Relation)
     thread = thread.map {|t| t.is_a?(CfThread) ? t.thread_id : t.to_i}
 
     user_id = user.is_a?(CfUser) ? user.user_id : user

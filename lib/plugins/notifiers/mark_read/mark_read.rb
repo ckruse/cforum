@@ -17,7 +17,7 @@ class MarkReadPlugin < Plugin
   def is_read(message, user)
     return if user.blank? || message.blank?
 
-    message = [message] unless message.is_a?(Array)
+    message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
     message = message.map {|m| m.is_a?(CfMessage) ? m.message_id : m.to_i}
 
     user_id = user.is_a?(CfUser) ? user.user_id : user
@@ -57,7 +57,7 @@ class MarkReadPlugin < Plugin
 
   def mark_read(message, user)
     return if user.blank?
-    message = [message] unless message.is_a?(Array)
+    message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
 
     sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + user.user_id.to_s + ", "
 
