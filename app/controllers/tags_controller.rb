@@ -3,7 +3,7 @@
 class TagsController < ApplicationController
   authorize_controller { authorize_forum(permission: :read?) }
   authorize_action([:new, :create]) { may?(RightsHelper::CREATE_TAGS) }
-  authorize_action([:edit, :update, :destroy]) { authorize_admin }
+  authorize_action([:edit, :update, :destroy, :merge, :do_merge]) { authorize_admin }
 
   # GET /collections
   # GET /collections.json
@@ -12,7 +12,7 @@ class TagsController < ApplicationController
       clean_tag = params[:s].strip + '%'
       @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))", current_forum.forum_id, clean_tag, clean_tag).order('num_messages DESC')
     elsif not params[:tags].blank?
-      tags = params[:tags].split(',')
+      tags = params[:tags].split(',').map { |t| t.downcase }
       @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) IN (?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) IN (?)))", current_forum.forum_id, tags, tags).order('num_messages DESC')
     else
       @tags = CfTag.preload(:synonyms).order('tag_name ASC').where(forum_id: current_forum.forum_id)
@@ -39,18 +39,21 @@ class TagsController < ApplicationController
       clean_tag = params[:s].strip + '%'
       @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))", current_forum.forum_id, clean_tag, clean_tag)
     else
-      @tags = CfTag.preload(:synonyms).find_all_by_forum_id current_forum.forum_id
+      @tags = CfTag.preload(:synonyms).where(forum_id: current_forum.forum_id)
     end
 
     @tags_list = {}
+    rx = nil
+    rx = Regexp.new('^' + params[:s].strip.downcase, Regexp::IGNORECASE) unless params[:s].blank?
+
     @tags.each do |t|
-      if params[:s].blank? or t.tag_name =~ Regexp.new('^' + params[:s].strip.downcase)
+      if rx.blank? or rx.match(t.tag_name)
         @tags_list[t.tag_name] ||= 0
         @tags_list[t.tag_name] += t.num_messages
       end
 
       t.synonyms.each do |s|
-        if params[:s].blank? or s.synonym =~ Regexp.new('^' + params[:s].strip.downcase)
+        if rx.blank? or rx.match(s.synonym)
           @tags_list[s.synonym] ||= 0
           @tags_list[s.synonym] += t.num_messages - 1
         end
@@ -116,7 +119,10 @@ class TagsController < ApplicationController
     @tag = CfTag.where('tags.forum_id = ? AND slug = ?',
                        current_forum.forum_id, params[:id]).first!
 
-    if @tag.update_attributes(tag_params)
+    @tag.attributes = tag_params
+    @tag.slug = @tag.tag_name.parameterize
+
+    if @tag.save
       redirect_to tags_url(current_forum.slug), notice: t("tags.updated")
     else
       render :edit
