@@ -2,6 +2,7 @@
 /* global cforum, Mustache */
 
 cforum.tags = {
+  events: $({}),
   views: {
     tag: "<li class=\"tag\" style=\"display:none\"><input name=\"tags[]\" type=\"hidden\" value=\"{{tag}}\"><i class=\"icon-del-tag del-tag\"> </i> {{tag}}</li>",
     tagSuggestion: "<li class=\"tag\" style=\"display:none\" data-tag=\"{{tag}}\"><i class=\"icon-tag-ok del-tag\"> </i> {{tag}}</li>"
@@ -82,7 +83,8 @@ cforum.tags = {
 
         for(var i = 0; i < data.length && i < cforum.tags.maxTags; ++i) {
           if(!cforum.tags.hasTag(data[i].tag_name)) {
-            cforum.tags.appendTag(data[i].tag_name, tag_list, cforum.tags.views.tagSuggestion);
+            cforum.tags.appendTag(data[i].tag_name, tag_list,
+                                  cforum.tags.views.tagSuggestion);
           }
         }
 
@@ -100,11 +102,12 @@ cforum.tags = {
 
     if(!cforum.tags.hasTag(tag)) {
       cforum.tags.appendTag(tag);
+      cforum.tags.events.trigger('tags:add-tag', [tag]);
     }
   },
 
   hasTag: function(name) {
-    var tags = $("#tags-list input[type=hidden]")
+    var tags = $("#tags-list input[type=hidden]");
 
     for(var i = 0; i < tags.length; ++i) {
       if($(tags[i]).val().toLowerCase() == name) {
@@ -124,6 +127,7 @@ cforum.tags = {
 
       if(!cforum.tags.hasTag(val)) {
         cforum.tags.appendTag(val);
+        cforum.tags.events.trigger('tags:add-tag', val);
       }
 
       var v = $this.val();
@@ -147,10 +151,14 @@ cforum.tags = {
 
   removeTag: function(ev) {
     var $this = $(ev.target);
+    var tag = $this.text();
 
     if($this.hasClass('del-tag')) {
       ev.preventDefault();
-      $this.closest("li.tag").fadeOut('fast', function() { $(this).remove(); });
+      $this.closest("li.tag").fadeOut('fast', function() {
+        $(this).remove();
+        cforum.tags.events.trigger('tags:remove', tag);
+      });
     }
   },
 
@@ -182,7 +190,10 @@ cforum.tags = {
     el.on('focusout', cforum.tags.addTag);
     $("#tags-list").on('click', cforum.tags.removeTag);
 
-    $(document.getElementById('cf_thread_message_content') ? "#cf_thread_message_content" : "#cf_message_content").on('keyup', cforum.tags.handleSuggestionsKeyUp);
+    $(document.getElementById('cf_thread_message_content') ?
+      "#cf_thread_message_content" :
+      "#cf_message_content").on('keyup', cforum.tags.handleSuggestionsKeyUp);
+
     $("#tags-suggestions").on('click', cforum.tags.addTagSuggestion);
 
     el.autocomplete({
@@ -194,19 +205,51 @@ cforum.tags = {
       }
     });
 
+    cforum.tags.events.on('tags:add-tag', cforum.tags.checkForInvalidTag);
+    cforum.tags.events.on('tags:remove', cforum.tags.hideInvalidWarnings);
   },
 
   handleTagsKeyUp: function(ev) {
-    if(cforum.tags.autocomplete_timeout) {
-      window.clearTimeout(cforum.tags.autocomplete_timeout);
-    }
-
     if(ev.keyCode == 188 || ev.keyCode == 32) {
       cforum.tags.addTag.call($("#replaced_tag_input"), ev);
     }
-    else {
-      cforum.tags.autocomplete_timeout = window.setTimeout(cforum.tags.autocomplete, 800);
-    }
+  },
+
+  checkForInvalidTag: function(event, tag) {
+    $.get(cforum.baseUrl + '/' + cforum.currentForum.slug + '/tags.json',
+          'tags=' + encodeURIComponent(tag),
+          function(data) {
+            // if we don't get back json this might be an error
+            if(typeof data == 'object') {
+              if(data.length === 0) {
+                var el = $("#replaced_tag_input").closest(".cntrls").find(".errors");
+
+                if(el.length === 0) {
+                  $("#replaced_tag_input").
+                    closest(".cntrls").append("<div class=\"errors\"><div></div></div>");
+                  el = $("#replaced_tag_input").closest(".cntrls").find(".errors");
+                }
+
+                el.find("div").fadeOut("fast", function() {
+                  el.html("<div class=\"cf-error\" style=\"display:none\">Dieser Tag existiert nicht. Bitte wählen Sie einen anderen.</div>");
+                  el.find("div").fadeIn("fast");
+                });
+              }
+              else {
+                $("#replaced_tag_input").
+                  closest(".cntrls").
+                  find(".errors div").
+                  fadeOut("fast", function() { $(this).remove(); });
+              }
+            }
+          });
+  },
+
+  hideInvalidWarnings: function(ev, tag) {
+    $("#replaced_tag_input").
+      closest(".cntrls").
+      find(".errors div").
+      fadeOut("fast", function() { $(this).remove(); });
   }
 };
 
