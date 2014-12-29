@@ -1229,6 +1229,311 @@ class CfMessagesControllerTest < ActionController::TestCase
   # - questions w/o the right to do so
   # - questions w/ the right to do so
   # - do all tests for update as well
+
+
+
+  test "should not show retag as anonymous" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
+
+
+    assert_raise CForum::ForbiddenException do
+      get :show_retag, {
+            curr_forum: forum.slug,
+            year: '2012',
+            mon: 'dec',
+            day: '6',
+            tid: 'obi-wan-kenobi',
+            mid: message.message_id.to_s
+          }
+    end
+  end
+
+  test "should not show retag wo badge" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
+    usr     = FactoryGirl.create(:cf_user, admin: false)
+
+    sign_in usr
+
+    assert_raise CForum::ForbiddenException do
+      get :show_retag, {
+            curr_forum: forum.slug,
+            year: '2012',
+            mon: 'dec',
+            day: '6',
+            tid: 'obi-wan-kenobi',
+            mid: message.message_id.to_s
+          }
+    end
+  end
+
+  test "should show retag w badge" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
+    usr     = FactoryGirl.create(:cf_user, admin: false)
+    b       = FactoryGirl.create(:cf_badge, badge_type: 'retag')
+
+    usr.badges_users.create!(badge: b)
+
+    sign_in usr
+
+    assert_nothing_raised do
+      get :show_retag, {
+            curr_forum: forum.slug,
+            year: '2012',
+            mon: 'dec',
+            day: '6',
+            tid: 'obi-wan-kenobi',
+            mid: message.message_id.to_s
+          }
+      assert_response :success
+    end
+  end
+
+  test "should show retag as admin" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
+    usr     = FactoryGirl.create(:cf_user, admin: true)
+
+    sign_in usr
+
+    assert_nothing_raised do
+      get :show_retag, {
+            curr_forum: forum.slug,
+            year: '2012',
+            mon: 'dec',
+            day: '6',
+            tid: 'obi-wan-kenobi',
+            mid: message.message_id.to_s
+          }
+      assert_response :success
+    end
+  end
+
+
+
+  test "should not retag as anonymous" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
+    t1      = FactoryGirl.create(:cf_tag, forum: forum)
+
+
+    assert_raise CForum::ForbiddenException do
+      post :retag, {
+            curr_forum: forum.slug,
+            year: '2012',
+            mon: 'dec',
+            day: '6',
+            tid: 'obi-wan-kenobi',
+            mid: message.message_id.to_s,
+            tags: [t1.tag_name]
+           }
+    end
+
+    message.reload
+    assert_empty message.tags
+  end
+
+  test "should not retag as wo badge" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
+    t1      = FactoryGirl.create(:cf_tag, forum: forum)
+    usr     = FactoryGirl.create(:cf_user, admin: false)
+
+    sign_in usr
+
+    assert_raise CForum::ForbiddenException do
+      post :retag, {
+            curr_forum: forum.slug,
+            year: '2012',
+            mon: 'dec',
+            day: '6',
+            tid: 'obi-wan-kenobi',
+            mid: message.message_id.to_s,
+            tags: [t1.tag_name]
+           }
+    end
+
+    message.reload
+    assert_empty message.tags
+  end
+
+  test "should retag w badge" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
+    t1      = FactoryGirl.create(:cf_tag, forum: forum)
+    usr     = FactoryGirl.create(:cf_user, admin: false)
+    b       = FactoryGirl.create(:cf_badge, badge_type: 'retag')
+
+    usr.badges_users.create!(badge: b)
+
+    sign_in usr
+
+    assert_nothing_raised CForum::ForbiddenException do
+      post :retag, {
+            curr_forum: forum.slug,
+            year: '2012',
+            mon: 'dec',
+            day: '6',
+            tid: 'obi-wan-kenobi',
+            mid: message.message_id.to_s,
+            tags: [t1.tag_name]
+           }
+      assert_redirected_to cf_message_url(message.thread, message)
+    end
+
+    message.reload
+    assert_not_empty message.tags
+  end
+
+  test "should retag as admin" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
+    t1      = FactoryGirl.create(:cf_tag, forum: forum)
+    usr     = FactoryGirl.create(:cf_user, admin: true)
+
+    sign_in usr
+
+    assert_nothing_raised CForum::ForbiddenException do
+      post :retag, {
+            curr_forum: forum.slug,
+            year: '2012',
+            mon: 'dec',
+            day: '6',
+            tid: 'obi-wan-kenobi',
+            mid: message.message_id.to_s,
+            tags: [t1.tag_name]
+           }
+      assert_redirected_to cf_message_url(message.thread, message)
+    end
+
+    message.reload
+    assert_not_empty message.tags
+  end
+
+  test "should not retag with too many tags" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
+    usr     = FactoryGirl.create(:cf_user, admin: true)
+    tags    = []
+
+    20.times do
+      tags << FactoryGirl.create(:cf_tag, forum: forum)
+    end
+
+    sign_in usr
+
+    assert_nothing_raised CForum::ForbiddenException do
+      post :retag, {
+            curr_forum: forum.slug,
+            year: '2012',
+            mon: 'dec',
+            day: '6',
+            tid: 'obi-wan-kenobi',
+            mid: message.message_id.to_s,
+            tags: tags.map { |t| t.tag_name }
+           }
+      assert_response :success
+      assert_not_nil flash[:error]
+    end
+
+    message.reload
+    assert_empty message.tags
+  end
+
+  test "should not retag with unknown tag wo badge" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
+    usr     = FactoryGirl.create(:cf_user, admin: false)
+    b       = FactoryGirl.create(:cf_badge, badge_type: 'retag')
+
+    usr.badges_users.create!(badge: b)
+
+    sign_in usr
+
+    assert_nothing_raised CForum::ForbiddenException do
+      post :retag, {
+            curr_forum: forum.slug,
+            year: '2012',
+            mon: 'dec',
+            day: '6',
+            tid: 'obi-wan-kenobi',
+            mid: message.message_id.to_s,
+            tags: ['abc']
+           }
+      assert_response :success
+      assert_not_nil flash[:error]
+    end
+
+    message.reload
+    assert_empty message.tags
+  end
+
+  test "should retag with unknown tag w badge" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
+    usr     = FactoryGirl.create(:cf_user, admin: false)
+    b       = FactoryGirl.create(:cf_badge, badge_type: 'retag')
+    b1      = FactoryGirl.create(:cf_badge, badge_type: 'create_tag')
+
+    usr.badges_users.create!(badge: b)
+    usr.badges_users.create!(badge: b1)
+
+    sign_in usr
+
+    assert_nothing_raised CForum::ForbiddenException do
+      post :retag, {
+            curr_forum: forum.slug,
+            year: '2012',
+            mon: 'dec',
+            day: '6',
+            tid: 'obi-wan-kenobi',
+            mid: message.message_id.to_s,
+            tags: ['abc']
+           }
+      assert_redirected_to cf_message_url(message.thread, message)
+    end
+
+    message.reload
+    assert_not_empty message.tags
+  end
+
+  test "should retag with unknown tag as admin" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
+    usr     = FactoryGirl.create(:cf_user)
+
+    sign_in usr
+
+    assert_nothing_raised CForum::ForbiddenException do
+      post :retag, {
+            curr_forum: forum.slug,
+            year: '2012',
+            mon: 'dec',
+            day: '6',
+            tid: 'obi-wan-kenobi',
+            mid: message.message_id.to_s,
+            tags: ['abc']
+           }
+      assert_redirected_to cf_message_url(message.thread, message)
+    end
+
+    message.reload
+    assert_not_empty message.tags
+  end
 end
 
 # eof
