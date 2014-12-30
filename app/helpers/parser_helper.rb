@@ -24,7 +24,9 @@ module ParserHelper
       coderay_css: :class,
       coderay_line_numbers: nil,
       header_offset: app.conf('header_start_index', 2),
-      auto_id_prefix: id_prefix + '-'
+      auto_id_prefix: id_prefix + '-',
+      no_follow: true,
+      root_url: app.root_url
     )
 
     if @doc.blank?

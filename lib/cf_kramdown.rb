@@ -55,6 +55,14 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
     "<span class=\"signature\"><br />\n-- <br />\n" + inner(el, indent) + "</span>"
   end
 
+  def convert_a(el, indent)
+    if @options[:no_follow]
+      if @options[:root_url].blank? or not el.attr['href'].start_with?(@options[:root_url])
+        el.attr['rel'] = 'nofollow'
+      end
+    end
+    super(el, indent)
+  end
 end
 
 # eof
