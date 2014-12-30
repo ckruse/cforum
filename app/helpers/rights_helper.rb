@@ -52,9 +52,9 @@ module RightsHelper
     end
 
     thread = CfThread.
-             preload(:forum, messages: [:owner, :tags,
-                                        {close_vote: :voters,
-                                         open_vote: :voters}]).
+             preload(:forum,
+                     messages: [:owner, :tags,
+                                {votes: :voters}]).
       includes(messages: :owner).
       where(std_conditions(id, tid)).
       references(messages: :owner).

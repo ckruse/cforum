@@ -56,7 +56,7 @@ module ThreadsHelper
     sql << " ORDER BY threads.sticky DESC, #{order} LIMIT #{@limit} OFFSET #{@limit * @page}"
 
     @threads = CfThread.
-               preload(:forum, messages: [:owner, :tags, :close_vote, :open_vote]).
+               preload(:forum, messages: [:owner, :tags, votes: :voters]).
                includes(messages: :owner).
                where(conditions).
                where("threads.thread_id IN (#{sql})").
