@@ -58,12 +58,16 @@ class MarkReadPlugin < Plugin
   def mark_read(message, user)
     return if user.blank?
     message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
+    @cache[user.user_id] ||= {}
 
     sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + user.user_id.to_s + ", "
 
     message.each do |m|
+      next if @cache[user.user_id][m.message_id]
+
       begin
         CfMessage.connection.execute(sql + m.message_id.to_s + ")")
+        @cache[user.user_id][m.message_id] = true
       rescue ActiveRecord::RecordNotUnique
       end
     end
@@ -112,13 +116,16 @@ class MarkReadPlugin < Plugin
     return if current_user.blank? or @app_controller.is_prefetch
 
     mark_read_moment = uconf('mark_read_moment', 'before_render')
-
     check_thread(thread) if mark_read_moment == 'after_render'
+    @cache[current_user.user_id] ||= {}
 
     sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", "
     thread.sorted_messages.each do |m|
+      next if @cache[current_user.user_id][m.message_id]
+
       begin
         CfMessage.connection.execute(sql + m.message_id.to_s + ")")
+        @cache[current_user.user_id][m.message_id] = true
       rescue ActiveRecord::RecordNotUnique
       end
     end
@@ -129,12 +136,16 @@ class MarkReadPlugin < Plugin
   def show_message(thread, message, votes)
     return if current_user.blank? or @app_controller.is_prefetch
     mark_read_moment = uconf('mark_read_moment', 'before_render')
+    @cache[current_user.user_id] ||= {}
 
     check_thread(thread) if mark_read_moment == 'after_render'
 
-    begin
-      CfMessage.connection.execute("INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", " + message.message_id.to_s + ")")
-    rescue ActiveRecord::RecordNotUnique
+    if not @cache[current_user.user_id][message.message_id]
+      begin
+        CfMessage.connection.execute("INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", " + message.message_id.to_s + ")")
+        @cache[current_user.user_id][message.message_id] = true
+      rescue ActiveRecord::RecordNotUnique
+      end
     end
 
     check_thread(thread) if mark_read_moment == 'before_render'
