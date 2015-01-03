@@ -1,11 +1,40 @@
 <header>
   <nav>
-    <div id="top" class="clearfix">
+    <div id="top">
       <ul class="selflinks">
         <li><a href="http://selfhtml.org/">SELFHTML</a></li>
         <li><a href="http://wiki.selfhtml.org/">Doku</a></li>
 	      <li><%= link_to "Forum", root_path %></li>
 	      <li><a href="http://blog.selfhtml.org/">Blog</a></li>
+      </ul>
+      <ul class="personallinks">
+      <% if user_signed_in? %>
+        <li id="user-info"><%= link_to(image_tag(current_user.avatar(:thumb)) + current_user.username, user_path(current_user), id: 'username') %> <span class="score" title="<%= current_user.score %> Bewertungen">(<%= current_user.score %>)</span></li>
+        <li id="optionen-myadmin"><%= link_to "Einstellungen", edit_user_path(current_user) %></li>
+        <li id="user-notifications"><%= link_to "Benachrichtigungen", notifications_path %> (<span class="notifications<% if @new_notifications.length > 0 %> new<% end %>" id="notifications" title="<%= @new_notifications.length %> neue Benachrichtigungen"><%= @new_notifications.length %></span>)</li>
+        <li id="post-link"><%= link_to t("layout.mail"), mails_path %> (<span class="mails new" id="mails" title="12 ungelesene Nachrichten">12</span>)</li>
+
+ 
+
+        <!--
+        <li id="optionen-myadmin">
+            <div>(<%= link_to notifications_path do %><span class="notifications<% if @new_notifications.length > 0 %> new<% end %>" id="notifications"><%= @new_notifications.length %></span><% end %>
+
+            /
+
+            <%= link_to user_path(current_user) do %><span class="score"><%= current_user.score %></span><% end %>) 
+
+
+            <%= link_to(current_user.username, edit_user_path(current_user), id: 'username') %></div>
+
+        </li>
+
+        -->
+        <li id="optionen-logout"><%= link_to(t('layout.logout'), destroy_user_session_path, method: :delete) %></li>
+      <% else %>
+        <li id="optionen-my"><%= link_to(t('layout.login'), new_user_session_path) %></li>
+        <li id="optionen-myadmin"><%= link_to t("layout.register"), new_user_registration_path %></li>
+      <% end %>
       </ul>
     </div>
 
@@ -18,21 +47,14 @@
                         title: t("layout.rss_feed",
                                  forum: current_forum ?
                                  t('layout.forum', name: current_forum.name) :
-                                 t('layout.all_forums'))) %>
-
-                                 <%= image_tag("http://foo/img.jpg", alt: forum: current_forum ?
-              t('layout.forum', name: current_forum.name) :
-              t('layout.all_forums')) %>
-
-            </li>
+                                 t('layout.all_forums'))) %></li>
         <li><%= link_to('Atom-Feed',
                         cf_forum_url(current_forum, format: :atom),
                         class: 'atom',
                         title: t("layout.atom_feed",
                                  forum: current_forum ?
                                  t('layout.forum', name: current_forum.name) :
-                                 t('layout.all_forums'))) %>
-             </li>
+                                 t('layout.all_forums'))) %></li>
 			  <li><a href="https://github.com/selfhtml" class="github" title="GitHub">
           <span class="alt">GitHub</span>
           <img src="http://src.selfhtml.org/social.png" alt="GitHub"></a></li>
