@@ -28,38 +28,50 @@ body {
   color: #333333;
   background: white;
 }
-
-h1, h2, h3, h4, h5, h6 { font-weight: normal; }
-body > p { margin: 1em 2em; }
-
+h1, h2, h3, h4, h5, h6 { 
+  font-weight: normal; 
+}
 h2 {
   font-size: 1.25em;
   border-top: 2px solid #c4d4da;
   padding: .7em 0 0;
   margin: 1em 0em;
 }
-h3 { font-size: 1em; }
-
+h3 { 
+  font-size: 1em;
+}
+body > p { 
+  margin: 1em 2em; 
+}
 code,kbd,tt {
   font-family: Consolas, Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Andale Mono', 'Droid Sans Mono', 'Lucida Console', monospace;
-  color:#0000C0;
+  color: #0000C0;
 }
+label { 
+  font-weight: bold; 
 
-label { font-weight:bold; }
-label.normal { font-weight:normal; }
-
+  .normal {
+    font-weight: normal; 
+  }
+}
 a, a:hover {
   font-weight: normal;
   text-decoration: none;
-  -o-transition: all .2s ease-in-out 0s;
-  -webkit-transition: all .2s ease-in-out 0s;
-  -moz-transition: all .2s ease-in-out 0s;
   transition: all .2s ease-in-out 0s;
-}
+  border: 0 none;
 
-a:link, a:visited { color: #3481cd; }
-a:hover, a:focus , a:active { color: #990909; }
-a, a img { border: 0 none; }
-input { margin: .5em .5em .2em 0; }
+  img {
+    border: 0 none;
+  }
+}
+a:link, a:visited { 
+  color: #3481cd; 
+}
+a:hover, a:focus , a:active { 
+  color: #990909; 
+}
+input { 
+  margin: .5em .5em .2em 0; 
+}
 
 /* eof */
