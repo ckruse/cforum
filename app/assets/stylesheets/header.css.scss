@@ -11,26 +11,49 @@
   min-height: 2.25em;
   font-size: 1.25em;
   line-height: 2.25em;
+  position: relative;
 
-  a, input { opacity: .75; }
-  a:hover, a:focus, input:focus, input:hover { opacity: 1; }
-  a {
-    display: inline-block;
-    margin-right: 3em;
-    color: white;
-  }
-
-  ul.selflinks {
+  ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
 
-    li { display: inline; }
+    li { 
+      display: inline;
+      margin-right: 3em; 
+    }
   }
+
+  .selflinks {
+    a, input { opacity: .75; }
+    a:hover, a:focus, input:focus, input:hover { opacity: 1; }
+    a {
+      display: inline-block;
+      color: white;
+    }
+  }
+
+  .personallinks {
+    position: absolute;
+    right: 1em;
+    bottom: -2.6em;
+    font-size: .8em;
+    z-index: 100;
+
+    li {
+      margin-right: 1em;
+    }
+
+    img {
+      margin-right: .2em;
+    }
+  }
+  
+
 }
 
 #kopf {
-  margin: 0 2em;
+  margin: 1em 2em;
   position: relative;
 
   .sociallinks {
