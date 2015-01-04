@@ -239,7 +239,8 @@ def handle_doc(doc, opts = {})
     forum_id: forum.forum_id,
     slug: thread_id(the_date, subject),
     created_at: the_date,
-    updated_at: the_date
+    updated_at: the_date,
+    latest_message: the_date
   )
 
   i = 0
