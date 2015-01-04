@@ -181,7 +181,7 @@ module MessageHelper
     html << "</span>
       "
 
-    text = "<time datetime=\"" + message.created_at.to_s + '">' +
+    text = "<time datetime=\"" + message.created_at.strftime("%FT%T%:z") + '">' +
            encode_entities(l(message.created_at, format: opts[:tree] ?
                                                    date_format("date_format_index") :
                                                    date_format("date_format_post"))) +
