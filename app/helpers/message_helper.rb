@@ -29,8 +29,11 @@ module MessageHelper
     html << ' id="m' + message.message_id.to_s + '"' if opts[:id]
     html << ">\n"
 
+    opened = []
+
     if opts[:first] and current_user and opts[:show_icons]
       html << "<span class=\"thread-icons\">"
+      opened << 'span'
 
       html << '  <a class="icon-thread '
       if thread.attribs['open_state'] == 'closed'
@@ -66,6 +69,11 @@ module MessageHelper
 
     if not current_user.blank? and not current_forum.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons] and @view_all
       if opts[:first]
+        unless opened.include?('span')
+          html << "<span class=\"thread-icons\">"
+          opened << 'span'
+        end
+
         html << " " + link_to('', move_cf_thread_path(thread), class: 'icon-thread move', title: t('threads.move_thread'))
         html << " " + link_to('', sticky_cf_thread_path(thread), method: :post, class: 'icon-thread sticky', title: thread.sticky ? t('threads.mark_unsticky') : t('threads.mark_sticky'))
 
@@ -76,9 +84,12 @@ module MessageHelper
         end
 
         html << "</span>"
+        opened.pop
       end
 
       html << "<span class=\"message-icons\">"
+      opened << 'span'
+
       if not opts[:prev_deleted]
         if message.deleted?
           html << " " + link_to('', restore_cf_message_path(thread, message), :method => :post, :class => 'icon-message restore', title: t('messages.restore_message'))
@@ -95,12 +106,19 @@ module MessageHelper
     end
 
     if current_user and opts[:show_icons] and not get_plugin_api(:is_read).call(message, current_user).blank?
+      unless opened.include?('span')
+        html << "<span class=\"message-icons\">"
+        opened << 'span'
+      end
+
       html << " " + link_to('', unread_cf_message_path(thread, message),
                             method: :post, class: 'icon-message unread',
                             title: t('plugins.mark_read.mark_unread'))
     end
 
-    html << "</span>" if opts[:show_icons]
+    opened.each do |el|
+      html << '</' + el + '>'
+    end
 
     if current_forum.blank?
       html << "  " + link_to(thread.forum.short_name, cf_forum_path(thread.forum), class: 'thread-forum-plate') + "\n"
