@@ -9,27 +9,25 @@
       </ul>
       <ul class="personallinks">
       <% if user_signed_in? %>
-        <li id="user-info"><%= link_to(image_tag(current_user.avatar(:thumb)) + current_user.username, user_path(current_user), id: 'username') %> <span class="score" title="<%= current_user.score %> Bewertungen">(<%= current_user.score %>)</span></li>
-        <li id="optionen-myadmin"><%= link_to "Einstellungen", edit_user_path(current_user) %></li>
-        <li id="user-notifications"><%= link_to "Benachrichtigungen", notifications_path %> (<span class="notifications<% if @new_notifications.length > 0 %> new<% end %>" id="notifications" title="<%= @new_notifications.length %> neue Benachrichtigungen"><%= @new_notifications.length %></span>)</li>
-        <li id="post-link"><%= link_to t("layout.mail"), mails_path %> (<span class="mails new" id="mails" title="12 ungelesene Nachrichten">12</span>)</li>
-
- 
-
-        <!--
-        <li id="optionen-myadmin">
-            <div>(<%= link_to notifications_path do %><span class="notifications<% if @new_notifications.length > 0 %> new<% end %>" id="notifications"><%= @new_notifications.length %></span><% end %>
-
-            /
-
-            <%= link_to user_path(current_user) do %><span class="score"><%= current_user.score %></span><% end %>) 
-
-
-            <%= link_to(current_user.username, edit_user_path(current_user), id: 'username') %></div>
-
+        <li id="user-info"><%= link_to(image_tag(current_user.avatar(:thumb)) + current_user.username,
+                                       user_path(current_user),
+                                       id: 'username',
+                                       title: t("users.score_num", num: current_user.score)) %>
+          <span class="score" title="<%= t("users.score_num", num: current_user.score) %>">(<%= current_user.score %>)</span>
         </li>
-
-        -->
+        <li id="optionen-myadmin"><%= link_to t("layout.settings"), edit_user_path(current_user) %></li>
+        <li id="user-notifications"><%= link_to(t("notifications.notifications"),
+                                                notifications_path,
+                                                title: t("notifications.new_notifications", num: @new_notifications.length)) %>
+          (<span class="notifications<% if @new_notifications.length > 0 %> new<% end %>"
+                 id="notifications"
+                 title="<%= t("notifications.new_notifications", num: @new_notifications.length) %>"><%= @new_notifications.length %></span>)
+        </li>
+        <li id="post-link"><%= link_to(t("layout.mail"),
+                                       mails_path,
+                                       title: t("mails.new_mails_num", num: @new_mails.length)) %>
+          (<span class="mails new" id="mails"
+                 title="<%= t("mails.new_mails_num", num: @new_mails.length) %>"><%= @new_mails.length %></span>)</li>
         <li id="optionen-logout"><%= link_to(t('layout.logout'), destroy_user_session_path, method: :delete) %></li>
       <% else %>
         <li id="optionen-my"><%= link_to(t('layout.login'), new_user_session_path) %></li>

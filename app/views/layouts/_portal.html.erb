@@ -15,9 +15,11 @@
     <% if current_forum %>
 		  <li id="optionen-neuenachricht"><%= link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
       <li id="optionen-tags"><%= link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
-      <li id="mark-all-read"><%= link_to(t("plugins.mark_read.mark_all_read"),
-                                         mark_all_read_path(current_forum),
-                                         method: :post) %></li>
+      <% if current_user %>
+        <li id="mark-all-read"><%= link_to(t("plugins.mark_read.mark_all_read"),
+                                           mark_all_read_path(current_forum),
+                                           method: :post) %></li>
+      <% end %>
     <% end %>
 
     <% if current_user and current_user.moderate?(current_forum) and (@threads or @message) %>
@@ -36,7 +38,7 @@
       <% end %>
     <% end %>
 
-    <% if @threads %>
+    <% if @threads and current_user %>
       <li id="optionen-close-all-threads"><%= link_to t('plugins.open_close.close_all_threads'), cf_forum_path(current_forum, close_all: 'yes') %></li>
       <li id="optionen-open-all-threads"><%= link_to t('plugins.open_close.open_all_threads'), cf_forum_path(current_forum, open_all: 'yes') %></li>
     <% end %>
