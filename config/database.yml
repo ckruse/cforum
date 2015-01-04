@@ -8,7 +8,7 @@ development:
   database: cforum_development
   pool: 5
   timeout: 5000
-  username: ckruse
+  username: matthias
   password:
   schema_search_path: cforum
 
