@@ -23,7 +23,10 @@ module NotifyHelper
   end
 
   def notifications
-    @new_notifications = CfNotification.where(recipient_id: current_user.user_id, is_read: false) if current_user
+    if current_user
+      @new_notifications = CfNotification.where(recipient_id: current_user.user_id, is_read: false)
+      @new_mails = CfPrivMessage.where(owner: current_user.user_id, is_read: false)
+    end
   end
 
 end
