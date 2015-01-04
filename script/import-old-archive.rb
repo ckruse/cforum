@@ -121,6 +121,13 @@ def convert_content(txt)
   txt
 end
 
+def check_null_bytes(msg)
+  msg.content.gsub!(/\0/, '')
+  msg.subject.gsub!(/\0/, '')
+  msg.author.gsub!(/\0/, '')
+  msg.email.gsub!(/\0/, '') unless msg.email.blank?
+  msg.homepage.gsub!(/\0/, '') unless msg.homepage.blank?
+end
 
 def handle_messages(old_msg, x_msg, thread)
   the_date = Time.at(x_msg.find_first('./Header/Date')['longSec'].force_encoding('utf-8').to_i)
@@ -152,6 +159,8 @@ def handle_messages(old_msg, x_msg, thread)
   # msg.category        = cat      unless cat.empty?
   msg.email    = email    unless email.blank?
   msg.homepage = homepage unless homepage.blank?
+
+  check_null_bytes(msg)
 
   msg.save(validate: false)
 
