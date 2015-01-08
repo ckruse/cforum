@@ -27,6 +27,8 @@ body {
   font-size: 1em;
   color: #333333;
   background: white;
+  display: flex;
+  flex-direction: column;
 }
 h1, h2, h3, h4, h5, h6 { 
   font-weight: normal; 

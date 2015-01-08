@@ -5,8 +5,8 @@
   width:100%;
 
   th, td {
-    padding:0.2em 0.5em 0.2em 0.5em;
-    border-bottom:1px solid grey;
+    padding:0.4em 0.5em 0.4em 0.5em;
+    border-bottom:1px solid #d5d5d5;
   }
 
   tr {
@@ -14,8 +14,14 @@
     padding:0;
   }
 
-  tr:hover, tr:nth-child(2n):hover { background-color:grey; }
-  tr:nth-child(2n) { background-color:#ddd; }
+  tbody {
+    tr:nth-child(2n) {
+      background-color: #f1f3f4;
+    }
+    tr:hover {
+      background-color: #d5d5d5;
+    }
+  }
 
   th { text-align:left; }
   tfoot th { border-bottom:0; }
