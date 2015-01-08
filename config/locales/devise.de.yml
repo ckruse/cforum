@@ -2,7 +2,7 @@ de:
   devise:
     confirmation_instructions: Bestätigung
     sign_in: anmelden
-    sign_up: registrieren
+    sign_up: Benutzerkonto erstellen
     forgot_your_password: Passwort vergessen?
     unlock_instructions: Entsperrungsanweisungen
     resend_confirmation_instructions: Bestätigungsanweisungen erneut senden
