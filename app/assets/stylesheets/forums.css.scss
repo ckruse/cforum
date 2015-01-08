@@ -12,15 +12,17 @@
   tr {
     margin:0;
     padding:0;
-  }
-
-  tbody {
-    tr:nth-child(2n) {
+  
+    &:nth-child(2n) {
       background-color: #f1f3f4;
     }
-    tr:hover {
+    &:hover {
       background-color: #d5d5d5;
     }
+  }
+
+  thead tr:hover {
+    background-color: inherit;
   }
 
   th { text-align:left; }
