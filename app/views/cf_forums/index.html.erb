@@ -46,9 +46,10 @@ content_for :title, t('global.forums')
       <% unless msg.blank? %>
         <th>
           <% if msg.user_id %>
-            <%= link_to(image_tag(msg.owner.avatar(:thumb)), user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username)) %>
+            <%= link_to(image_tag(msg.owner.avatar(:thumb)) + msg.author, user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username)) %>
+          <% else %>
+              <%= msg.author %>
           <% end %>
-          <%= msg.author %>
         </th>
         <th><%= link_to msg.subject, cf_message_path(msg.thread, msg) %></th>
       <% end %>
@@ -59,7 +60,7 @@ content_for :title, t('global.forums')
     <% @forums.each do |forum| %>
       <% msg = @activities[forum.forum_id] %>
       <tr<% if msg and not msg.attribs['classes'].blank? %> class="<%= msg.attribs['classes'].join(" ") %>"<% end %>>
-        <td><%= link_to forum.name, forum %></td>
+        <th><%= link_to forum.name, forum %></th>
         <td class="nummeric"><%= @counts[forum.forum_id][:threads] %></td>
         <td class="nummeric"><%= @counts[forum.forum_id][:messages] %></td>
         <td<% if msg.blank? %> colspan="3" class="no-data"<% end %>>
@@ -72,9 +73,10 @@ content_for :title, t('global.forums')
         <% unless msg.blank? %>
           <td>
             <% if msg.user_id %>
-              <%= link_to(image_tag(msg.owner.avatar(:thumb)), user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username)) %>
+              <%= link_to(image_tag(msg.owner.avatar(:thumb)) + msg.author, user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username)) %>
+            <% else %>
+              <%= msg.author %>
             <% end %>
-            <%= msg.author %>
           </td>
           <td><%= link_to msg.subject, cf_message_path(msg.thread, msg) %></td>
         <% end %>

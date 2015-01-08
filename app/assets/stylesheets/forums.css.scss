@@ -27,6 +27,14 @@
 
   th { text-align:left; }
   tfoot th { border-bottom:0; }
+
+  a:not([href^="/users/"]) {
+    display: block;    
+  }
+
+  a img {
+    margin-right: .2em;
+  }
 }
 
 /* eof */
