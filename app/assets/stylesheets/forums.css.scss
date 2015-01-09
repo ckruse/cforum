@@ -5,20 +5,36 @@
   width:100%;
 
   th, td {
-    padding:0.2em 0.5em 0.2em 0.5em;
-    border-bottom:1px solid grey;
+    padding:0.4em 0.5em 0.4em 0.5em;
+    border-bottom:1px solid #d5d5d5;
   }
 
   tr {
     margin:0;
     padding:0;
+  
+    &:nth-child(2n) {
+      background-color: #f1f3f4;
+    }
+    &:hover {
+      background-color: #d5d5d5;
+    }
   }
 
-  tr:hover, tr:nth-child(2n):hover { background-color:grey; }
-  tr:nth-child(2n) { background-color:#ddd; }
+  thead tr:hover {
+    background-color: inherit;
+  }
 
   th { text-align:left; }
   tfoot th { border-bottom:0; }
+
+  a:not([href^="/users/"]) {
+    display: block;    
+  }
+
+  a img {
+    margin-right: .2em;
+  }
 }
 
 /* eof */

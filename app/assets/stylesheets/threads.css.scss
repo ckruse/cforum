@@ -12,7 +12,12 @@
 }
 
 .visited, a.visited, .visited a {
-	color: #888;
+	color: #888; 
+}
+
+a.visited:hover, a.visited:active,
+.visited a:hover, .visited a:active {
+  color: #990909;
 }
 
 .thread-forum-plate {
