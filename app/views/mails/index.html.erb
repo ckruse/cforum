@@ -22,7 +22,7 @@ content_for :h1, "<h1>".html_safe + (@user ? t('mails.post_from', name: @user.us
     <% @mails.each do |m| %>
     <tr>
       <td><input type="checkbox" name="ids[]" value="<%= m.priv_message_id %>" class="mid-checkbox"></td>
-      <td class="unread-mark"><% unless m.is_read? %><span class="status-unread">&nbsp;</span><% end %></td>
+      <td class="unread-mark"><% unless m.is_read? %><span class="status-unread" title="<%= t('mails.unread') %>">&nbsp;</span><% end %></td>
       <td><%= link_to m.sender.username, mail_path(m.sender.username, m) %></td>
       <td><%= link_to m.recipient.username, mail_path(m.sender.username, m) %></td>
       <td><%= link_to m.subject, mail_path(m.sender.username, m) %></td>
@@ -39,7 +39,7 @@ content_for :h1, "<h1>".html_safe + (@user ? t('mails.post_from', name: @user.us
 </table>
 
 <p class="form-actions">
-  <button class="cf-primary-btn">Löschen</button>
+  <button class="cf-primary-btn"><%= t('mails.delete_selected') %></button>
 </p>
 
 <%= paginate @mails, params: { sort: sort_column, dir: sort_direction } %>

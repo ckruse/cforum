@@ -8,7 +8,6 @@ de:
     move_thread: Thread verschieben
     new_thread: neuer Thread
 
-
   errors:
     unknown_error: unbekannter Fehler
     unknown_error_message: "Irgendwas ist passiert. Keine Ahnung, was. Am besten, Sie schicken Ihren Nutzer-Namen zusammen mit dem, was genau Sie genau gemacht haben, an cforum@wwwtech.de."
@@ -18,7 +17,3 @@ de:
     not_allowed_error_message: "Sie haben auf eine Resource zugegriffen, auf die der Zugriff verboten ist."
     not_allowed_maybe_you_want_to: Vielleicht möchten Sie sich erst
     login: anmelden
-
-  notifications:
-    delete: Benachrichtigung löschen
-

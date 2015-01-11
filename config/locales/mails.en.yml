@@ -14,3 +14,5 @@ en:
     post_from_to_from: Mail from
     post_from_to_to: to
     at: at
+    unread: unread
+    delete_selected: delete selected mails

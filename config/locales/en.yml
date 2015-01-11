@@ -17,8 +17,3 @@ en:
     not_allowed_error_message: "You tried to access a ressource for which access is denied."
     not_allowed_maybe_you_want_to: Maybe first you want to
     login: login
-
-  notifications:
-    delete: Delete notification
-
-

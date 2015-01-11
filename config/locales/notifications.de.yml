@@ -5,6 +5,9 @@ de:
     new_answer: "Eine neue Antwort auf Ihr Posting wurde von %{nick} geschrieben: %{subject}"
     new_message: "Eine neue Nachricht wurde von %{nick} geschrieben: %{subject}"
     destroyed: Die Benachrichtigung wurde erfolgreich gelöscht.
-    mark_unread: ungelesen markieren
-    marked_unread: Die Benachrichtigung wurde als ungelesen markiert!
+    unread: ungelesen
+    mark_unread: als ungelesen markieren
+    delete: löschen
+    delete_selected: markierte Benachrichtigungen löschen
+    marked_unread: Die Benachrichtigung wurde als ungelesen markiert.
     new_notifications: "%{num} neue Benachrichtigungen"

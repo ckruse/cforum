@@ -8,10 +8,12 @@ de:
     new_mail: neue Mail
     new_mails_num: "%{num} neue Nachrichten"
     post_from: Kommunikation mit %{name}
-    delete: Post löschen
+    delete: Nachricht löschen
     answer_mail: Nachricht beantworten
     answer_mail_wo_quote: Nachricht ohne Zitat beantworten
     send: senden
     post_from_to_from: Post von
     post_from_to_to: an
     at: am
+    unread: ungelesen
+    delete_selected: markierte Nachrichten löschen
