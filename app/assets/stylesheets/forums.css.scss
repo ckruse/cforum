@@ -28,7 +28,7 @@
   th { text-align:left; }
   tfoot th { border-bottom:0; }
 
-  a:not([href^="/users/"]) {
+  a:not([href^="/users/"]):not([class^="icon"]):not([href*="?dir"]) {
     display: block;    
   }
 
