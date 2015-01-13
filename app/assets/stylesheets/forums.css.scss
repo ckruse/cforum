@@ -2,31 +2,30 @@
 
 .forums-table, .cf-default-table {
   border-collapse: collapse;
-  width:100%;
+  width: 100%;
 
   th, td {
-    padding:0.4em 0.5em 0.4em 0.5em;
-    border-bottom:1px solid #d5d5d5;
+    padding: .4em  .5em  .4em  .5em;
+    border-bottom: 1px solid #d5d5d5;
   }
 
-  tr {
-    margin:0;
-    padding:0;
-  
-    &:nth-child(2n) {
-      background-color: #f1f3f4;
-    }
-    &:hover {
-      background-color: #d5d5d5;
-    }
+  tr:nth-child(2n) {
+    background-color: #f1f3f4;
+  }
+  tr:hover {
+    background-color: #FFFBF0;
   }
 
   thead tr:hover {
     background-color: inherit;
   }
 
-  th { text-align:left; }
-  tfoot th { border-bottom:0; }
+  th { 
+    text-align: left; 
+  }
+  tfoot th {
+    border-bottom: 0;
+  }
 
   a:not([href^="/users/"]):not([class^="icon"]):not([href*="?dir"]) {
     display: block;    
