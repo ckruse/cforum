@@ -20,7 +20,7 @@
                                                 notifications_path,
                                                 title: t("notifications.new_notifications", num: @new_notifications.length)) %>
           (<span class="notifications<% if @new_notifications.length > 0 %> new<% end %>"
-                 id="notifications"
+                 id="notifications-currentuser"
                  title="<%= t("notifications.new_notifications", num: @new_notifications.length) %>"><%= @new_notifications.length %></span>)
         </li>
         <li id="post-link"><%= link_to(t("layout.mail"),
