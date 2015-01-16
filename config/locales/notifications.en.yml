@@ -9,4 +9,5 @@
     marked_unread: Notification marked unread!
     delete: delete
     delete_selected: delete selected notifications
+    new_notification: "%{num} new notification"
     new_notifications: "%{num} new notifications"

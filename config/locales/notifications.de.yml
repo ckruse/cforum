@@ -10,4 +10,5 @@ de:
     delete: löschen
     delete_selected: markierte Benachrichtigungen löschen
     marked_unread: Die Benachrichtigung wurde als ungelesen markiert.
+    new_notification: "%{num} neue Benachrichtigung"
     new_notifications: "%{num} neue Benachrichtigungen"

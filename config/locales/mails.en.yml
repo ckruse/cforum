@@ -6,6 +6,8 @@ en:
     define_recipient_please: Please specify an recipient!
     post: Mail
     new_mail: New mail
+    new_mail_num: "%{num} new mail"
+    new_mails_num: "%{num} new mails"
     post_from: Mail from %{name}
     delete: Delete mail
     answer_mail: Reply mail
