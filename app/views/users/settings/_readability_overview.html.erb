@@ -23,19 +23,19 @@
       <label class="radio"><input type="radio" value="yes"
                                   name="settings[mark_suspicious]"<%= disabled %>
         <% if @settings.conf('mark_suspicious') == 'yes' %> checked="checked"<% end %>>
-        Ja</label>
+        ja</label>
       <label class="radio"><input type="radio" value="no"
                                   name="settings[mark_suspicious]"<%= disabled %>
         <% if @settings.conf('mark_suspicious') == 'no' %> checked="checked"<% end %>>
-        Nein</label>
+        nein</label>
     </div>
   </div>
 
   <div class="cf-cgroup">
     <label><%= t('users.settings.sort_threads') %></label>
     <div class="cntrls">
-      <label class="radio"><input type="radio" value="ascending" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'ascending' %> checked="checked"<% end %>> Aufsteigend</label>
-      <label class="radio"><input type="radio" value="descending" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'descending' || !@settings.conf('sort_threads') %> checked="checked"<% end %>> Absteigend</label>
+      <label class="radio"><input type="radio" value="ascending" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'ascending' %> checked="checked"<% end %>> aufsteigend</label>
+      <label class="radio"><input type="radio" value="descending" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'descending' || !@settings.conf('sort_threads') %> checked="checked"<% end %>> absteigend</label>
       <label class="radio"><input type="radio" value="newest-first" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'newest-first' %> checked="checked"<% end %>> Threads mit letzter Aktivität zuerst</label>
     </div>
   </div>
@@ -43,8 +43,8 @@
   <div class="cf-cgroup">
     <label><%= t('users.settings.sort_messages') %></label>
     <div class="cntrls">
-      <label class="radio"><input type="radio" value="ascending" name="settings[sort_messages]"<%= disabled %><% if @settings.conf('sort_messages') == 'ascending' %> checked="checked"<% end %>> Aufsteigend</label>
-      <label class="radio"><input type="radio" value="descending" name="settings[sort_messages]"<%= disabled %><% if @settings.conf('sort_messages') == 'descending' || !@settings.conf('sort_messages') %> checked="checked"<% end %>> Absteigend</label>
+      <label class="radio"><input type="radio" value="ascending" name="settings[sort_messages]"<%= disabled %><% if @settings.conf('sort_messages') == 'ascending' %> checked="checked"<% end %>> aufsteigend</label>
+      <label class="radio"><input type="radio" value="descending" name="settings[sort_messages]"<%= disabled %><% if @settings.conf('sort_messages') == 'descending' || !@settings.conf('sort_messages') %> checked="checked"<% end %>> absteigend</label>
     </div>
   </div>
 
