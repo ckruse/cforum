@@ -46,7 +46,7 @@ if @page_type == 'page'
   </ul>
 </div>
 
-<% if content_for?(:h1) %><%= content_for(:h1) %><% end %>
+<% if content_for?(:h1) %><h1><%= content_for(:h1) %></h1><% end %>
 <% end
 end %>
 

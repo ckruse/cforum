@@ -1,8 +1,7 @@
 <%
 content_for :title, t('users.user', name: @user.username)
-content_for :h1, "<h1>".html_safe +
-  (!@user.avatar.blank? ? image_tag(@user.avatar.url(:medium)) : "") +
-  t('users.user', name: @user.username) + "</h1>".html_safe
+content_for :h1, (!@user.avatar.blank? ? image_tag(@user.avatar.url(:medium)) : "") +
+  t('users.user', name: @user.username)
 %>
 
 <%= form_for @user, url: user_path(@user), html: {:class => 'form-horizontal'} do |f| %>

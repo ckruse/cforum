@@ -1,9 +1,7 @@
 <%
 content_for :title, t('tags.new_tag')
-content_for :h1, "<h1>".html_safe + t('tags.new_tag') + "</h1>".html_safe
+content_for :h1, t('tags.new_tag')
 %>
-
-<h2><%= t('tags.new_tag') %></h2>
 
 <%= form_for @tag , url: tags_path(current_forum.slug), html: {class: 'form-horizontal'} do |f| %>
 

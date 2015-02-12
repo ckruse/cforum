@@ -1,9 +1,7 @@
 <%
 content_for :title, t('admin.users.user_administration')
-content_for :h1, "<h1>".html_safe + t('admin.users.user_administration') + "</h1>".html_safe
+content_for :h1, t('admin.users.user_administration')
 %>
-
-<h2><%= t('admin.users.user_administration') %></h2>
 
 <%= form_tag admin_users_path, method: :get, class: 'form-search' do |t| %>
   <input type="search" class="cf-search-query" name="s" placeholder="<%= t('global.search') %>">

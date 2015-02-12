@@ -1,6 +1,6 @@
 <%
 content_for :title, @user ? t('mails.post_from', name: @user.username) : t('mails.post')
-content_for :h1, "<h1>".html_safe + (@user ? t('mails.post_from', name: @user.username) : t('mails.post')) + "</h1>".html_safe
+content_for :h1, @user ? t('mails.post_from', name: @user.username) : t('mails.post')
 %>
 
 <%= form_tag mails_path, class: 'form-horizontal', :method => :delete do %>

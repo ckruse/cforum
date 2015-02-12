@@ -1,6 +1,6 @@
 <%
 content_for :title, t('admin.forums.merge', forum: @cf_forum.name)
-content_for :h1, "<h1>".html_safe + t('admin.forums.merge', forum: @cf_forum.name) + "</h1>".html_safe
+content_for :h1, t('admin.forums.merge', forum: @cf_forum.name)
 forum_opts = @forums.map { |f| [f.name, f.forum_id] }
 %>
 

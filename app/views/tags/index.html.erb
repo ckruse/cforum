@@ -10,10 +10,8 @@ def get_size(count)
 end
 
 content_for :title, t("tags.tags_for_forum", forum: current_forum.name)
-content_for :h1, "<h1>".html_safe + t("tags.tags_for_forum", forum: current_forum.name) + "</h1>".html_safe
+content_for :h1, t("tags.tags_for_forum", forum: current_forum.name)
 %>
-
-<h2><%= t("tags.tags_for_forum", forum: current_forum.name) %></h2>
 
 <ul class="tags-list">
   <% @tags.each do |t| %>

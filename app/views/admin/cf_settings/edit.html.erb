@@ -1,6 +1,6 @@
 <%
 content_for :title, t('admin.settings.global_settings')
-content_for :h1, "<h1>".html_safe + t('admin.settings.global_settings') + "</h1>".html_safe
+content_for :h1, t('admin.settings.global_settings')
 %>
 
 <%= form_for @settings, method: 'post', url: admin_cf_settings_path, html: {:class => 'form-horizontal'} do |t| %>

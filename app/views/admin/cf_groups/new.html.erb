@@ -1,6 +1,6 @@
 <%
 content_for :title, t("admin.groups.new_group")
-content_for :h1, "<h1>".html_safe + t("admin.groups.new_group") + "</h1>".html_safe
+content_for :h1, t("admin.groups.new_group")
 %>
 
 <%= form_for @group, url: admin_groups_path, html: {class: 'form-horizontal'} do |t| %>

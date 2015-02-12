@@ -1,6 +1,6 @@
 <%
 content_for :title, current_forum.name + ": " + @tag.tag_name
-content_for :h1, "<h1>".html_safe + current_forum.name + ": " + @tag.tag_name + "</h1>".html_safe
+content_for :h1, current_forum.name + ": " + @tag.tag_name
 %>
 
 <h2><%= t('tags.synonyms') %>:</h2>

@@ -1,6 +1,6 @@
 <%
 content_for :title, t('admin.forums.new')
-content_for :h1, "<h1>".html_safe + t('admin.forums.new') + "</h1>".html_safe
+content_for :h1, t('admin.forums.new')
 %>
 
 <%= form_for @cf_forum, url: admin_forums_path, html: {class: 'form-horizontal'} do |f| %>

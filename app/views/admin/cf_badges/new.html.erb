@@ -1,6 +1,6 @@
 <%
 content_for :title, t('admin.badges.new_badge')
-content_for :h1, "<h1>".html_safe + t('admin.badges.new_badge') + "</h1>".html_safe
+content_for :h1, t('admin.badges.new_badge')
 %>
 
 <%= form_for @badge, url: admin_badges_path, html: {class: 'form-horizontal'} do |f| %>
