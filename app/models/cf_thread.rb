@@ -88,7 +88,7 @@ class CfThread < ActiveRecord::Base
 
     s = now.strftime("/%Y/%b/%d/").downcase
     s << num.to_s unless num.blank?
-    s + thread.message.subject.parameterize
+    s + thread.message.subject.to_url
   end
 
   def self.make_id(year, mon = nil, day = nil, tid = nil)

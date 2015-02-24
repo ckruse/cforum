@@ -43,4 +43,6 @@ gem 'email_validator'
 
 gem "paperclip"
 
+gem "stringex"
+
 # eof

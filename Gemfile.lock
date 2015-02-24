@@ -144,6 +144,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    stringex (2.5.2)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
@@ -185,5 +186,6 @@ DEPENDENCIES
   rails-i18n
   sass-rails (> 4.0.0)
   simplecov
+  stringex
   therubyracer
   uglifier (>= 1.0.3)

@@ -113,7 +113,21 @@ class CfThreadTest < ActiveSupport::TestCase
     assert msg.thread.acceptance_forbidden?(nil, nil)
     assert msg.thread.acceptance_forbidden?(nil, '')
     assert msg.thread.acceptance_forbidden?('', '')
+  end
 
+  test "should not generate empty slug" do
+    thread = CfThread.new
+    thread.created_at = Date.parse('2015-02-24')
+
+    thread.message = CfMessage.new(subject: '您好！')
+
+    id = CfThread.gen_id(thread)
+    assert_not_equal '/2015/feb/24/', id
+    assert_equal "/2015/feb/24/nin-hao", id
+
+    thread.message.subject = "Льаборэж чингюльищ кончэктэтюы"
+    id = CfThread.gen_id(thread)
+    assert_equal '/2015/feb/24/laborezh-chinghiulishch-konchektetiuy', id
   end
 end
 
