@@ -54,6 +54,11 @@ class CfThreadsController < ApplicationController
     @thread.message  =  @message
     @thread.slug     = CfThread.gen_id(@thread)
 
+    if @thread.slug =~ /\/$/
+      flash[:error] = t("errors.could_not_generate_slug")
+      invalid = true
+    end
+
     @thread.forum_id    = @forum.forum_id
     @message.forum_id   = @forum.forum_id
     @message.user_id    = current_user.user_id unless current_user.blank?

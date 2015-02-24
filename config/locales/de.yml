@@ -18,6 +18,7 @@ de:
     not_allowed_error_message: "Sie haben auf eine Resource zugegriffen, auf die der Zugriff verboten ist."
     not_allowed_maybe_you_want_to: Vielleicht möchten Sie sich erst
     login: anmelden
+    could_not_generate_slug: Es konnte kein Slug generiert werden!
 
   notifications:
     delete: Benachrichtigung löschen
