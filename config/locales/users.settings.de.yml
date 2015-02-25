@@ -12,9 +12,9 @@ de:
       own_js_file: eigene JS-Datei
       own_css: eigenes Inline-CSS
       own_js: eigenes Inline-JS
-      delete_read_notifications_on_answer: Gelesene Benachrichtigungen für neue Antworten automatisch löschen
-      delete_read_notifications_on_activity: Gelesene Benachrichtigungen bei Thread-Aktivität automatisch löschen
-      delete_read_notifications_on_new_mail: Gelesene Benachrichtigungen für neue Privat-Nachrichten automatisch löschen
+      delete_read_notifications_on_answer: gelesene Benachrichtigungen für neue Antworten automatisch löschen
+      delete_read_notifications_on_activity: gelesene Benachrichtigungen bei Thread-Aktivität automatisch löschen
+      delete_read_notifications_on_new_mail: gelesene Benachrichtigungen für neue Privat-Nachrichten automatisch löschen
       notify_on_new_mail: Benachrichtigung bei neuer Post
       notification_on_activity: Benachrichtigung bei Aktivität im Thread
       notification_on_answer: Benachrichtigung bei Antwort
@@ -32,8 +32,8 @@ de:
       standard_thread_view: Standard-Ansicht für Threads
       highlighted_users: hervorgehobene Benutzer
       show_unread_pms_in_title: zeige Anzahl ungelesener Post im Titel
-      show_unread_notifications_in_title: Zeige Anzahl ungelesener Benachrichtigungen im Titel
-      show_new_messages_since_last_visit_in_title: Zeige Anzahl ungelesener Postings seit letztem Besuch im Titel
+      show_unread_notifications_in_title: zeige Anzahl ungelesener Benachrichtigungen im Titel
+      show_new_messages_since_last_visit_in_title: zeige Anzahl ungelesener Postings seit letztem Besuch im Titel
       instance_locked: Instanz sperren
       forum_locked: Forum sperren
       mark_suspicious: Namen mit Zeichen außerhalb ISO-8859-1 markieren
@@ -46,7 +46,7 @@ de:
       flattr: Flattr-ID
       css_styles: alternatives CSS (pro Zeile eine URL)
       motd: Nachricht des Tages
-      hide_subjects_when_unchanged: Gleiche Betreffe ausblenden
+      hide_subjects_when_unchanged: gleiche Betreffe ausblenden
       sort_threads: Thread-Sortierung
       sort_messages: Nachrichten-Sortierung
 

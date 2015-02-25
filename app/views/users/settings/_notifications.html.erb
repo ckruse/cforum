@@ -14,7 +14,7 @@
     <label><%= t('users.settings.delete_read_notifications_on_new_mail') %></label>
     <div class="cntrls">
       <input type="hidden" name="settings[delete_read_notifications_on_new_mail]" value="no">
-      <label class="checkbox"><input type="checkbox" value="yes" name="settings[delete_read_notifications_on_new_mail]"<%= disabled %><% if @settings.conf('delete_read_notifications_on_new_mail') == 'yes' %> checked="checked"<% end %>></label>
+      <label class="checkbox"><input type="checkbox" value="yes" name="settings[delete_read_notifications_on_new_mail]"<%= disabled %><% if @settings.conf('delete_read_notifications_on_new_mail') == 'yes' %> checked="checked"<% end %>> ja</label>
     </div>
   </div>
 
@@ -32,7 +32,7 @@
     <label><%= t('users.settings.delete_read_notifications_on_answer') %></label>
     <div class="cntrls">
       <input type="hidden" name="settings[delete_read_notifications_on_answer]" value="no">
-      <label class="checkbox"><input type="checkbox" value="yes" name="settings[delete_read_notifications_on_answer]"<%= disabled %><% if @settings.conf('delete_read_notifications_on_answer') == 'yes' %> checked="checked"<% end %>></label>
+      <label class="checkbox"><input type="checkbox" value="yes" name="settings[delete_read_notifications_on_answer]"<%= disabled %><% if @settings.conf('delete_read_notifications_on_answer') == 'yes' %> checked="checked"<% end %>> ja</label>
     </div>
   </div>
 
@@ -50,7 +50,7 @@
     <label><%= t('users.settings.delete_read_notifications_on_activity') %></label>
     <div class="cntrls">
       <input type="hidden" name="settings[delete_read_notifications_on_activity]" value="no">
-      <label class="checkbox"><input type="checkbox" value="yes" name="settings[delete_read_notifications_on_activity]"<%= disabled %><% if @settings.conf('delete_read_notifications_on_activity') == 'yes' %> checked="checked"<% end %>></label>
+      <label class="checkbox"><input type="checkbox" value="yes" name="settings[delete_read_notifications_on_activity]"<%= disabled %><% if @settings.conf('delete_read_notifications_on_activity') == 'yes' %> checked="checked"<% end %>> ja</label>
     </div>
   </div>
 

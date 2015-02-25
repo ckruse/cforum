@@ -4,5 +4,10 @@
     new_answer: "A new answer for your posting from %{nick}: %{subject}"
     new_message: "A new message from %{nick}: %{subject}"
     destroyed: Notification has successfully been deleted!
+    unread: unread
     mark_unread: mark unread
     marked_unread: Notification marked unread!
+    delete: delete
+    delete_selected: delete selected notifications
+    new_notification: "%{num} new notification"
+    new_notifications: "%{num} new notifications"

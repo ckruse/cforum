@@ -21,7 +21,7 @@ content_for :h1, t('notifications.notifications')
     <% @notifications.each do |n| %>
     <tr>
       <td><input class="nid-checkbox" type="checkbox" name="ids[]" value="<%= n.notification_id %>"></td>
-      <td><% unless n.is_read? %><span class="status-unread">&nbsp;</span><% end %></td>
+      <td class="unread-mark"><% unless n.is_read? %><span class="status-unread" title="<%= t('notifications.unread') %>">&nbsp;</span><% end %></td>
       <td><% unless n.icon.blank? %><%= link_to '', n.path, class: 'icon ' + n.icon %><% end %></td>
       <td><a href="<%= n.path %>"><%= n.subject %></a></td>
       <td><%= l(n.created_at, format: date_format) %></td>
@@ -43,7 +43,7 @@ content_for :h1, t('notifications.notifications')
 </table>
 
 <p class="form-actions">
-  <button class="cf-primary-btn" name="delete" value="yes"><%= t('global.delete') %></button>
+  <button class="cf-primary-btn" name="delete" value="yes"><%= t('notifications.delete_selected') %></button>
 </p>
 
 <% end %>
