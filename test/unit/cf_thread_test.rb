@@ -119,15 +119,14 @@ class CfThreadTest < ActiveSupport::TestCase
     thread = CfThread.new
     thread.created_at = Date.parse('2015-02-24')
 
-    thread.message = CfMessage.new(subject: '您好！')
+    thread.message = CfMessage.new(subject: '您好！', created_at: thread.created_at)
 
     id = CfThread.gen_id(thread)
     assert_not_equal '/2015/feb/24/', id
-    assert_equal "/2015/feb/24/nin-hao", id
 
     thread.message.subject = "Льаборэж чингюльищ кончэктэтюы"
     id = CfThread.gen_id(thread)
-    assert_equal '/2015/feb/24/laborezh-chinghiulishch-konchektetiuy', id
+    assert_not_equal '/2015/feb/24/', id
   end
 end
 

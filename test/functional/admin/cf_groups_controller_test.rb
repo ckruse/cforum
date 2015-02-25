@@ -210,7 +210,7 @@ class Admin::CfGroupsControllerTest < ActionController::TestCase
     sign_in u
 
     assert_difference 'CfGroup.count' do
-      post :create, cf_group: {name: 'blahblah'}, users: [u.user_id], users: [u.user_id], forums: [f.forum_id, ''], permissions: ['read', '']
+      post :create, cf_group: {name: 'blahblah'}, users: [u.user_id], forums: [f.forum_id, ''], permissions: ['read', '']
     end
 
     assert_redirected_to edit_admin_group_url(assigns(:group))
