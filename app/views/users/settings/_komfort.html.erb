@@ -25,36 +25,32 @@
   <div class="cf-cgroup">
     <label for="settings_quote_signature"><%= t('users.settings.quote_signature') %></label>
     <div class="cntrls">
-    <label class="checkbox">
       <%= hidden_field_tag 'settings[quote_signature]', 'no', id: '' %>
-      <%= check_box_tag 'settings[quote_signature]', 'yes', @settings.conf('quote_signature') == 'yes' %> ja</label>
+      <%= check_box_tag 'settings[quote_signature]', 'yes', @settings.conf('quote_signature') == 'yes' %>
     </div>
   </div>
 
   <div class="cf-cgroup">
     <label for="settings_show_unread_notifications_in_title"><%= t('users.settings.show_unread_notifications_in_title') %></label>
     <div class="cntrls">
-    <label class="checkbox">
       <%= hidden_field_tag 'settings[show_unread_notifications_in_title]', 'no', id: '' %>
-      <%= check_box_tag 'settings[show_unread_notifications_in_title]', 'yes', @settings.conf('show_unread_notifications_in_title') == 'yes' %> ja</label>
+      <%= check_box_tag 'settings[show_unread_notifications_in_title]', 'yes', @settings.conf('show_unread_notifications_in_title') == 'yes' %>
     </div>
   </div>
 
   <div class="cf-cgroup">
     <label for="settings_show_unread_pms_in_title"><%= t('users.settings.show_unread_pms_in_title') %></label>
     <div class="cntrls">
-    <label class="checkbox">
       <%= hidden_field_tag 'settings[show_unread_pms_in_title]', 'no', id: '' %>
-      <%= check_box_tag 'settings[show_unread_pms_in_title]', 'yes', @settings.conf('show_unread_pms_in_title') == 'yes' %> ja</label>
+      <%= check_box_tag 'settings[show_unread_pms_in_title]', 'yes', @settings.conf('show_unread_pms_in_title') == 'yes' %>
     </div>
   </div>
 
   <div class="cf-cgroup">
     <label for="settings_show_new_messages_since_last_visit_in_title"><%= t('users.settings.show_new_messages_since_last_visit_in_title') %></label>
     <div class="cntrls">
-    <label class="checkbox">
       <%= hidden_field_tag 'settings[show_new_messages_since_last_visit_in_title]', 'no', id: '' %>
-      <%= check_box_tag 'settings[show_new_messages_since_last_visit_in_title]', 'yes', @settings.conf('show_new_messages_since_last_visit_in_title') == 'yes' %> ja</label>
+      <%= check_box_tag 'settings[show_new_messages_since_last_visit_in_title]', 'yes', @settings.conf('show_new_messages_since_last_visit_in_title') == 'yes' %>
     </div>
   </div>
 </fieldset>

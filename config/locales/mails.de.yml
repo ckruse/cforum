@@ -5,16 +5,13 @@ de:
     error_message: "Fehler verhinderten, dass diese Nachricht gespeichert werden konnte:"
     define_recipient_please: Bitte geben Sie einen Empfänger an.
     post: Post
-    new_mail: neue Nachricht
-    new_mail_num: "%{num} neue Nachricht"
+    new_mail: neue Mail
     new_mails_num: "%{num} neue Nachrichten"
     post_from: Kommunikation mit %{name}
-    delete: Nachricht löschen
+    delete: Post löschen
     answer_mail: Nachricht beantworten
     answer_mail_wo_quote: Nachricht ohne Zitat beantworten
     send: senden
     post_from_to_from: Post von
     post_from_to_to: an
     at: am
-    unread: ungelesen
-    delete_selected: markierte Nachrichten löschen

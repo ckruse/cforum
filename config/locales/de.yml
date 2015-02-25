@@ -8,6 +8,7 @@ de:
     move_thread: Thread verschieben
     new_thread: neuer Thread
 
+
   errors:
     unknown_error: unbekannter Fehler
     unknown_error_message: "Irgendwas ist passiert. Keine Ahnung, was. Am besten, Sie schicken Ihren Nutzer-Namen zusammen mit dem, was genau Sie genau gemacht haben, an cforum@wwwtech.de."
@@ -21,3 +22,4 @@ de:
 
   notifications:
     delete: Benachrichtigung löschen
+

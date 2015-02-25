@@ -20,7 +20,7 @@
                                                 notifications_path,
                                                 title: t("notifications.new_notifications", num: @new_notifications.length)) %>
           (<span class="notifications<% if @new_notifications.length > 0 %> new<% end %>"
-                 id="notifications-currentuser"
+                 id="notifications"
                  title="<%= t("notifications.new_notifications", num: @new_notifications.length) %>"><%= @new_notifications.length %></span>)
         </li>
         <li id="post-link"><%= link_to(t("layout.mail"),
@@ -70,67 +70,7 @@
           <img src="http://src.selfhtml.org/social.png" alt="Spendenseite"></a></li>
 		  </ul>
 
-      
+      <% if content_for?(:div_kopf) %><%= content_for(:div_kopf) %><% end %>
     </div>
   </nav>
 </header>
-
-<nav id="main-nav">
-  <ul class="quick-links">
-    <li id="quicklink-hilfe"><a href="http://wiki.selfhtml.org/wiki/SELFHTML:Forum">Forums-Hilfe</a></li>
-    <li id="quicklink-hilfe-faq"><a href="http://wiki.selfhtml.org/wiki/SELFHTML:Forum/FAQ">FAQ</a></li>
-    <li id="quicklink-suche"><a href="http://suche.de.selfhtml.org/">Suche</a></li>
-    <li id="quicklink-zitatesammlung"><a href="http://community.de.selfhtml.org/<% if current_user %>my/<% end %>zitatesammlung/">Zitatesammlung</a></li>
-  </ul>
-
-  <ul class="options">
-    <li><%= link_to t('layout.home'), root_url %></li>
-    <% if current_user and current_user.admin %><li><%= link_to t('layout.administration'), admin_users_path %></li><% end %>
-
-    <% if current_forum %>
-      <li id="optionen-neuenachricht"><%= link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
-      <li id="optionen-tags"><%= link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
-      <% if current_user %>
-        <li id="mark-all-read"><%= link_to(t("plugins.mark_read.mark_all_read"),
-                                           mark_all_read_path(current_forum),
-                                           method: :post) %></li>
-      <% end %>
-    <% end %>
-
-    <%
-subnav = capture do
-  begin %>
-<%= render 'subnav' %><% @has_subnav = true
-  rescue ActionView::MissingTemplate
-    @has_subnav = false
-  end
-end %>
-
-    <% if current_forum %>
-      <li><%= link_to current_forum.name, cf_threads_path(current_forum) %></li>
-    <% end %>
-
-    <% if current_user and current_user.moderate?(current_forum) and (@threads or @message) %>
-      <%
-      path = nil
-      if @message.blank?
-        path = cf_threads_path(current_forum, view_all: @view_all ? nil : "yes")
-      else
-        path = cf_message_path(@thread, @message, view_all: @view_all ? nil : "yes")
-      end
-      %>
-      <% if @view_all %>
-        <li id="admin-view"><%= link_to t("forums.normal_view"), path %></li>
-      <% else %>
-        <li id="admin-view"><%= link_to t("forums.admin_view"), path %></li>
-      <% end %>
-    <% end %>
-
-    <% if @threads and current_user %>
-      <li id="optionen-close-all-threads"><%= link_to t('plugins.open_close.close_all_threads'), cf_forum_path(current_forum, close_all: 'yes') %></li>
-      <li id="optionen-open-all-threads"><%= link_to t('plugins.open_close.open_all_threads'), cf_forum_path(current_forum, open_all: 'yes') %></li>
-    <% end %>
-   
-  </ul>
-</nav>
-

@@ -16,7 +16,7 @@ cforum.notifications = {
   },
 
   notifyNew: function(data) {
-    var noti = $("#notifications-currentuser");
+    var noti = $("#notifications");
     var txt = noti.text();
     noti.addClass('new');
 
