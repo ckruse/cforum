@@ -1254,7 +1254,12 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
     msg1    = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user, parent_id: message.message_id)
-    b       = FactoryGirl.create(:cf_badge, badge_type: 'edit_answer')
+
+    begin
+      b = FactoryGirl.create(:cf_badge, badge_type: 'edit_answer')
+    rescue
+      b = CfBadge.where(badge_type: 'edit_answer').first
+    end
 
     user.badges_users.create(badge: b)
 
@@ -1474,7 +1479,12 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
     msg1    = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user, parent_id: message.message_id)
-    b       = FactoryGirl.create(:cf_badge, badge_type: 'edit_answer')
+
+    begin
+      b = FactoryGirl.create(:cf_badge, badge_type: 'edit_answer')
+    rescue
+      b = CfBadge.where(badge_type: 'edit_answer').first
+    end
 
     user.badges_users.create(badge: b)
 
@@ -1575,7 +1585,12 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user)
     msg1    = FactoryGirl.create(:cf_message, forum: forum, thread: thread, owner: user, parent_id: message.message_id)
-    b       = FactoryGirl.create(:cf_badge, badge_type: 'edit_answer')
+
+    begin
+      b = FactoryGirl.create(:cf_badge, badge_type: 'edit_answer')
+    rescue
+      b = CfBadge.where(badge_type: 'edit_answer').first
+    end
 
     user.badges_users.create(badge: b)
     sign_in user
@@ -1647,7 +1662,12 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
     usr     = FactoryGirl.create(:cf_user, admin: false)
-    b       = FactoryGirl.create(:cf_badge, badge_type: 'retag')
+
+    begin
+      b = FactoryGirl.create(:cf_badge, badge_type: 'retag')
+    rescue
+      b = CfBadge.where(badge_type: 'retag').first
+    end
 
     usr.badges_users.create!(badge: b)
 
@@ -1743,7 +1763,12 @@ class CfMessagesControllerTest < ActionController::TestCase
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
     t1      = FactoryGirl.create(:cf_tag, forum: forum)
     usr     = FactoryGirl.create(:cf_user, admin: false)
-    b       = FactoryGirl.create(:cf_badge, badge_type: 'retag')
+
+    begin
+      b = FactoryGirl.create(:cf_badge, badge_type: 'retag')
+    rescue
+      b = CfBadge.where(badge_type: 'retag').first
+    end
 
     usr.badges_users.create!(badge: b)
 
@@ -1828,7 +1853,12 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
     usr     = FactoryGirl.create(:cf_user, admin: false)
-    b       = FactoryGirl.create(:cf_badge, badge_type: 'retag')
+
+    begin
+      b = FactoryGirl.create(:cf_badge, badge_type: 'retag')
+    rescue
+      b = CfBadge.where(badge_type: 'retag').first
+    end
 
     usr.badges_users.create!(badge: b)
 
@@ -1857,8 +1887,16 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, uuid: 'aaa')
     usr     = FactoryGirl.create(:cf_user, admin: false)
-    b       = FactoryGirl.create(:cf_badge, badge_type: 'retag')
-    b1      = FactoryGirl.create(:cf_badge, badge_type: 'create_tag')
+
+    b = b1 = nil
+
+    begin
+      b = FactoryGirl.create(:cf_badge, badge_type: 'retag')
+      b1 = FactoryGirl.create(:cf_badge, badge_type: 'create_tag')
+    rescue
+      b = CfBadge.where(badge_type: 'retag').first if b.nil?
+      b1 = CfBadge.where(badge_type: 'create_tag').first if b1.nil?
+    end
 
     usr.badges_users.create!(badge: b)
     usr.badges_users.create!(badge: b1)

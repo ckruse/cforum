@@ -130,7 +130,13 @@ class TagsControllerTest < ActionController::TestCase
   test "should show new with badge" do
     forum = FactoryGirl.create(:cf_write_forum)
     usr = FactoryGirl.create(:cf_user, admin: false)
-    b = FactoryGirl.create(:cf_badge, badge_type: 'create_tag')
+
+    begin
+      b = FactoryGirl.create(:cf_badge, badge_type: 'create_tag')
+    rescue
+      b = CfBadge.where(badge_type: 'create_tag').first
+    end
+
     usr.badges_users.create!(badge: b)
 
     sign_in usr
@@ -196,7 +202,13 @@ class TagsControllerTest < ActionController::TestCase
   test "should create with badge" do
     forum = FactoryGirl.create(:cf_write_forum)
     usr = FactoryGirl.create(:cf_user, admin: false)
-    b = FactoryGirl.create(:cf_badge, badge_type: 'create_tag')
+
+    begin
+      b = FactoryGirl.create(:cf_badge, badge_type: 'create_tag')
+    rescue
+      b = CfBadge.where(badge_type: 'create_tag').first
+    end
+
     usr.badges_users.create!(badge: b)
 
     sign_in usr

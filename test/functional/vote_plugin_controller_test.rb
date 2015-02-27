@@ -51,7 +51,13 @@ class VotePluginControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     usr     = FactoryGirl.create(:cf_user, admin: false)
-    badge   = FactoryGirl.create(:cf_badge, badge_type: RightsHelper::UPVOTE)
+    badge   = nil
+
+    begin
+      badge = FactoryGirl.create(:cf_badge, badge_type: RightsHelper::UPVOTE)
+    rescue
+      badge = CfBadge.where(badge_type: RightsHelper::UPVOTE).first
+    end
 
     usr.badges_users.create(badge_id: badge.badge_id)
     assert usr.has_badge?(RightsHelper::UPVOTE)
@@ -133,7 +139,12 @@ class VotePluginControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     usr     = FactoryGirl.create(:cf_user, admin: false)
-    badge   = FactoryGirl.create(:cf_badge, badge_type: RightsHelper::DOWNVOTE)
+
+    begin
+      badge = FactoryGirl.create(:cf_badge, badge_type: RightsHelper::DOWNVOTE)
+    rescue
+      badge = CfBadge.where(badge_type: RightsHelper::DOWNVOTE).first
+    end
 
     usr.badges_users.create(badge_id: badge.badge_id)
     assert usr.has_badge?(RightsHelper::DOWNVOTE)
