@@ -39,20 +39,20 @@
 	  <div id="kopf">
       <h1><span>selfhtml-Forum - Ergänzung zur <a href="http://wiki.selfhtml.org">Dokumentation</a></span><img src="http://src.selfhtml.org/selfhtml_forum.png" alt="SELFHTML-Forum"></h1>
 		  <ul class="sociallinks">
-        <li><%= link_to('RSS-Feed',
-                        cf_forum_url(current_forum, format: :rss),
+        <li><%= link_to(cf_forum_url(current_forum, format: :rss),
                         class: 'rss',
                         title: t("layout.rss_feed",
                                  forum: current_forum ?
                                  t('layout.forum', name: current_forum.name) :
-                                 t('layout.all_forums'))) %></li>
-        <li><%= link_to('Atom-Feed',
-                        cf_forum_url(current_forum, format: :atom),
+                                 t('layout.all_forums'))) do %><img src="http://src.selfhtml.org/social.png"
+                                                                    alt="GitHub"><% end %></li>
+        <li><%= link_to(cf_forum_url(current_forum, format: :atom),
                         class: 'atom',
                         title: t("layout.atom_feed",
                                  forum: current_forum ?
                                  t('layout.forum', name: current_forum.name) :
-                                 t('layout.all_forums'))) %></li>
+                                 t('layout.all_forums'))) do %><img src="http://src.selfhtml.org/social.png"
+                                                                    alt="GitHub"><% end %></li>
 			  <li><a href="https://github.com/selfhtml" class="github" title="GitHub">
           <span class="alt">GitHub</span>
           <img src="http://src.selfhtml.org/social.png" alt="GitHub"></a></li>
