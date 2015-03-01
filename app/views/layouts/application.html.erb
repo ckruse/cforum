@@ -1,4 +1,12 @@
-<% @page_type ||= 'page' %><!DOCTYPE html>
+<%
+subnav = capture do
+  begin %>
+<%= render 'subnav' %><% @has_subnav = true
+  rescue ActionView::MissingTemplate
+    @has_subnav = false
+  end
+end
+%><!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -76,35 +84,175 @@
   </head>
 
   <body data-controller="<%= controller_path %>" data-action="<%= action_name %>"<% if content_for?(:body_id) %> id="<%= yield(:body_id) %>"<% end %>>
+    <div class="flex-container">
+      <main class="flex-item">
+        <div id="alerts-container">
+          <% flash.each do |name,msg|
+          next if not msg.is_a?(String) or name == :timedout # needed because there seem to be messages like „true“ %>
+            <div class="cf-<%= name.to_s == 'notice' ? "success" : "error" %> fade in">
+              <%= msg %>
+            </div>
+          <% end %>
+        </div>
 
-    <%= render 'layouts/page' %>
-    <%= render 'layouts/header' %>
 
-    <% if @page_type == 'portal' %>
-      <%= render 'layouts/news' %>
-      <%= render 'layouts/portal' %>
-    <% end %>
+        <% if content_for?(:h1) %><h1><%= content_for(:h1) %></h1><% end %>
 
-    <main>
-      <div id="alerts-container">
-        <% flash.each do |name,msg|
-        next if not msg.is_a?(String) or name == :timedout # needed because there seem to be messages like „true“ %>
-          <div class="cf-<%= name.to_s == 'notice' ? "success" : "error" %> fade in">
-            <%= msg %>
-          </div>
+        <div id="content">
+          <%= yield %>
+        </div>
+      </main>
+
+      <header class="flex-item">
+        <div id="top">
+          <ul class="selflinks">
+            <li><a href="http://selfhtml.org/">SELFHTML</a></li>
+            <li><a href="http://wiki.selfhtml.org/">Doku</a></li>
+	          <li><%= link_to "Forum", root_path %></li>
+	          <li><a href="http://blog.selfhtml.org/">Blog</a></li>
+          </ul>
+
+          <ul class="personallinks">
+            <% if user_signed_in? %>
+              <li id="user-info"><%= link_to(image_tag(current_user.avatar(:thumb)) + current_user.username,
+                                             user_path(current_user),
+                                             id: 'username',
+                                             title: t("users.score_num", num: current_user.score)) %>
+                <span class="score" title="<%= t("users.score_num", num: current_user.score) %>">(<%= current_user.score %>)</span>
+              </li>
+              <li id="optionen-myadmin"><%= link_to t("layout.settings"), edit_user_path(current_user) %></li>
+              <li id="user-notifications"><%= link_to(t("notifications.notifications"),
+                                                      notifications_path,
+                                                      title: t("notifications.new_notifications", num: @new_notifications.length)) %>
+                (<span class="notifications<% if @new_notifications.length > 0 %> new<% end %>"
+                       id="notifications-display"
+                       title="<%= t("notifications.new_notifications", num: @new_notifications.length) %>"><%= @new_notifications.length %></span>)
+              </li>
+              <li id="post-link"><%= link_to(t("layout.mail"),
+                                             mails_path,
+                                             title: t("mails.new_mails_num", num: @new_mails.length)) %>
+                (<span class="mails new" id="mails"
+                       title="<%= t("mails.new_mails_num", num: @new_mails.length) %>"><%= @new_mails.length %></span>)</li>
+              <li id="optionen-logout"><%= link_to(t('layout.logout'), destroy_user_session_path, method: :delete) %></li>
+            <% else %>
+              <li id="optionen-my"><%= link_to(t('layout.login'), new_user_session_path) %></li>
+              <li id="optionen-myadmin"><%= link_to t("layout.register"), new_user_registration_path %></li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div id="kopf">
+          <h1><span>selfhtml-Forum - Ergänzung zur <a href="http://wiki.selfhtml.org">Dokumentation</a></span><img src="http://src.selfhtml.org/selfhtml_forum.png" alt="SELFHTML-Forum"></h1>
+		      <ul class="sociallinks">
+            <li><%= link_to(cf_forum_url(current_forum, format: :rss),
+                            class: 'rss',
+                            title: t("layout.rss_feed",
+                                     forum: current_forum ?
+                                     t('layout.forum', name: current_forum.name) :
+                                     t('layout.all_forums'))) do %><span class="alt">RSS</span>
+              <img src="http://src.selfhtml.org/social.png" alt="RSS"><% end %></li>
+              <li><%= link_to(cf_forum_url(current_forum, format: :atom),
+                              class: 'atom',
+                              title: t("layout.atom_feed",
+                                       forum: current_forum ?
+                                       t('layout.forum', name: current_forum.name) :
+                                       t('layout.all_forums'))) do %><span class="alt">Atom</span>
+                <img src="http://src.selfhtml.org/social.png" alt="Atom"><% end %></li>
+			          <li><a href="https://github.com/selfhtml" class="github" title="GitHub">
+                  <span class="alt">GitHub</span>
+                  <img src="http://src.selfhtml.org/social.png" alt="GitHub"></a></li>
+			          <li><a href="https://twitter.com/selfhtml" class="twitter" title="Twitter">
+                  <span class="alt">Twitter</span>
+                  <img src="http://src.selfhtml.org/social.png" alt="Twitter"></a></li>
+			          <li><a href="https://flattr.com/thing/41584/SELFHTML" class="flattr" title="Flattr">
+                  <span class="alt">Flattr</span>
+                  <img src="http://src.selfhtml.org/social.png" alt="Flattr"></a></li>
+			          <li><a href="https://trello.com/selfhtml" class="trello" title="Trello">
+                  <span class="alt">Trello</span>
+                  <img src="http://src.selfhtml.org/social.png" alt="Trello"></a></li>
+			          <li><a href="http://selfhtml.org/spenden.html" class="donate" title="spenden">
+                  <span class="alt">Spendenseite</span>
+                  <img src="http://src.selfhtml.org/social.png" alt="Spendenseite"></a></li>
+		      </ul>
+        </div>
+      </header>
+
+      <nav class="flex-item">
+        <% if @has_subnav and not subnav.blank? %>
+          <%= subnav %>
         <% end %>
-      </div>
 
-      <% if not @motds.blank? %>
-        <% @motds.each do |motd| %>
-          <div class="cf-motd">
-            <%= motd %>
-          </div>
+        <ul>
+          <li><%= link_to t('layout.home'), root_url %></li>
+          <% if current_forum %>
+            <li><%= link_to current_forum.name, cf_threads_path(current_forum) %></li>
+          <% end %>
+
+          <% if current_user and current_user.admin %><li><%= link_to t('layout.administration'), admin_users_path %></li><% end %>
+
+          <% if current_forum %>
+            <% if not controller_path == 'cf_threads' %>
+		          <li id="optionen-neuenachricht"><%= link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
+            <% end %>
+
+            <li id="optionen-tags"><%= link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
+            <% if current_user %>
+              <li id="mark-all-read"><%= link_to(t("plugins.mark_read.mark_all_read"),
+                                                 mark_all_read_path(current_forum),
+                                                 method: :post) %></li>
+            <% end %>
+          <% end %>
+
+          <% if current_user and current_user.moderate?(current_forum) and (@threads or @message) %>
+            <%
+            path = nil
+            if @message.blank?
+              path = cf_threads_path(current_forum, view_all: @view_all ? nil : "yes")
+            else
+              path = cf_message_path(@thread, @message, view_all: @view_all ? nil : "yes")
+            end
+            %>
+            <% if @view_all %>
+              <li id="admin-view"><%= link_to t("forums.normal_view"), path %></li>
+            <% else %>
+              <li id="admin-view"><%= link_to t("forums.admin_view"), path %></li>
+            <% end %>
+          <% end %>
+
+          <% if @threads and current_user %>
+            <li id="optionen-close-all-threads"><%= link_to t('plugins.open_close.close_all_threads'), cf_forum_path(current_forum, close_all: 'yes') %></li>
+            <li id="optionen-open-all-threads"><%= link_to t('plugins.open_close.open_all_threads'), cf_forum_path(current_forum, open_all: 'yes') %></li>
+          <% end %>
+
+          <% if current_user and current_user.moderate?(current_forum) %>
+            <%
+            path = nil
+            if @message.blank?
+              path = cf_threads_path(current_forum, view_all: @view_all ? nil : "yes")
+            else
+              path = cf_message_path(@thread, @message, view_all: @view_all ? nil : "yes")
+            end
+            %>
+            <% if @view_all %>
+              <li id="admin-view"><%= link_to t("forums.normal_view"), path %></li>
+            <% else %>
+              <li id="admin-view"><%= link_to t("forums.admin_view"), path %></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </nav>
+
+      <aside class="flex-item">
+        <% if not @motds.blank? %>
+          <% @motds.each do |motd| %>
+            <p class="aktuelle-mitteilung"><%= motd %></p>
+          <% end %>
         <% end %>
-      <% end %>
 
-      <%= yield %>
-    </main>
+        <%= content_for :aside %>
+      </aside>
+
+    </div>
 
     <footer>
       <ul>

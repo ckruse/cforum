@@ -1,9 +1,7 @@
 <%
-@page_type = "portal"
 content_for :title, current_forum.blank? ? t('threads.threadlist_all') : t('threads.threadlist', name: current_forum.name)
+content_for :h1, current_forum.blank? ? t('threads.threadlist_all') : t('threads.threadlist', name: current_forum.name)
 %>
-
-<h2 id="aktuellenachrichten"><%= current_forum.blank? ? t('threads.threads_all') : t('threads.threads_forum', name: current_forum.name) %></h2>
 
 <div class="root" data-js="threadlist">
   <% @threads.each do |thread| %>
