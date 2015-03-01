@@ -4,25 +4,36 @@ content_for :h1, t('users.user', name: @user.username)
 
 %>
 
-<table class="user-info-table">
-  <tr>
-    <td rowspan="<% if current_user == @user %>5<% else %>4<% end %>"><%= image_tag @user.avatar.url(:medium) %></td>
-    <th><%= t('users.name') %>:</th>
-    <td><%= @settings.conf('name', @user.username) %></td>
-  </tr>
-  <tr>
-    <th><%= t('users.score') %>:</th>
-    <td class="<% if @user_score < 0 %>score-down<% else %>score-up<% end %>"><%= @user_score %></td>
-  </tr>
-  <% if current_user == @user %><tr>
-    <th><%= CfUser.human_attribute_name("email") %>:</th>
-    <td><%= @user.email %></td>
-  </tr><% end %>
-  <tr>
-    <th><%= t('users.registered_since') %>:</th>
-    <td><%= l(@user.created_at, format: date_format) %></td>
-  </tr>
-</table>
+<div class="user-info-table">
+  <table>
+    <tr>
+      <td rowspan="<% if current_user == @user %>5<% else %>4<% end %>"><%= image_tag @user.avatar.url(:medium) %></td>
+      <th><%= t('users.name') %>:</th>
+      <td><%= @settings.conf('name', @user.username) %></td>
+    </tr>
+    <tr>
+      <th><%= t('users.score') %>:</th>
+      <td class="<% if @user_score < 0 %>score-down<% else %>score-up<% end %>"><%= @user_score %></td>
+    </tr>
+    <% if current_user == @user %><tr>
+      <th><%= CfUser.human_attribute_name("email") %>:</th>
+      <td><%= @user.email %></td>
+    </tr><% end %>
+    <tr>
+      <th><%= t('users.registered_since') %>:</th>
+      <td><%= l(@user.created_at, format: date_format) %></td>
+    </tr>
+  </table>
+</div>
+
+<div class="user-info-tags">
+  <ul>
+    <% @tags_cnts.each do |t| %>
+      <li><%= link_to t.tag.tag_name, tag_path(t.tag.forum.slug, t.tag), class: 'tag' %>
+        <span class="cnt"><%= t.cnt %></span></li>
+    <% end %>
+  </ul>
+</div>
 
 
 <h2><%= t('users.newest_messages') %></h2>
@@ -38,21 +49,6 @@ content_for :h1, t('users.user', name: @user.username)
   </article>
 <% end %>
 
-
-<h2><%= t('users.tags') %></h2>
-
-<% if @tags_cnts.blank? %>
-  <p><%= t('users.no_tagged_messages_so_far') %>.</p>
-<% else %>
-  <table class="users-tags-list">
-    <% @tags_cnts.each do |t| %>
-      <tr>
-        <th><%= link_to t.tag.tag_name, tag_path(t.tag.forum.slug, t.tag) %></th>
-        <td><%= t.cnt %></td>
-      </tr>
-    <% end %>
-  </table>
-<% end %>
 
 <h2><%= t('users.best_scored') %></h2>
 

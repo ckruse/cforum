@@ -1,15 +1,55 @@
 /* -*- coding: utf-8 -*- */
 
-.user-info-table {
-  border-collapse: collapse;
+.box {
+  background-color: #F1F3F4;
+  border-radius: 0px 0.4em 0.4em;
+  border:1px solid #D5D5D5;
+  padding: 1em 1em 1em 1em;
+  display:inline-block;
+}
 
-  th { text-align:right; }
-  th, td {
-    border-bottom:1px solid grey;
-    padding-left:.5em;
-    padding-right:.5em;
+.user-info-table {
+  vertical-align:top;
+  @extend .box;
+
+  img { margin-right:1em; }
+
+  table {
+    border-collapse: collapse;
+
+    th {
+      text-align:right;
+      color: #5D7380;
+    }
+    th, td {
+      padding-left:.5em;
+      padding-right:.5em;
+    }
   }
-  tr:last-of-type th, tr:last-of-type td { border-bottom:0; }
+}
+
+.user-info-tags {
+  display:inline-block;
+  vertical-align:top;
+
+  ul {
+    list-style-type:none;
+    margin-left:0;
+
+    li {
+      display:inline;
+    }
+
+    .cnt {
+      font-weight:bold;
+      display:inline-block;
+      text-align:center;
+      padding: 0.1em 0.6em 0.1em;
+      border-radius: 0px 0.4em 0.4em;
+      color:#999ca7;
+      border:1px solid #999ca7;
+    } 
+  }
 }
 
 #username.connected {
