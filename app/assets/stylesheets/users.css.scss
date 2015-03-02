@@ -9,6 +9,7 @@
 }
 
 .user-info-table {
+  float:left;
   vertical-align:top;
   @extend .box;
 
@@ -29,28 +30,26 @@
 }
 
 .user-info-tags {
-  display:inline-block;
   vertical-align:top;
+  list-style-type:none;
+  margin-left:0;
 
-  ul {
-    list-style-type:none;
-    margin-left:0;
+  li {
+    display:inline-block;
+    margin-bottom:0.2em;
+  }
 
-    li {
-      display:inline;
-    }
-
-    .cnt {
-      font-weight:bold;
-      display:inline-block;
-      text-align:center;
-      padding: 0.1em 0.6em 0.1em;
-      border-radius: 0px 0.4em 0.4em;
-      color:#999ca7;
-      border:1px solid #999ca7;
-    } 
+  .cnt {
+    font-weight:bold;
+    display:inline-block;
+    text-align:center;
+    padding: 0.1em 0.6em 0.1em;
+    border-radius: 0px 0.4em 0.4em;
+    color:#999ca7;
+    border:1px solid #999ca7;
   }
 }
+
 
 #username.connected {
   color:#3C763D;

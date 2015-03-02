@@ -26,14 +26,12 @@ content_for :h1, t('users.user', name: @user.username)
   </table>
 </div>
 
-<div class="user-info-tags">
-  <ul>
-    <% @tags_cnts.each do |t| %>
-      <li><%= link_to t.tag.tag_name, tag_path(t.tag.forum.slug, t.tag), class: 'tag' %>
-        <span class="cnt"><%= t.cnt %></span></li>
-    <% end %>
-  </ul>
-</div>
+<ul class="user-info-tags clearfix">
+  <% @tags_cnts.each do |t| %>
+    <li><%= link_to t.tag.tag_name, tag_path(t.tag.forum.slug, t.tag), class: 'tag' %>
+      <span class="cnt"><%= t.cnt %></span></li>
+  <% end %>
+</ul>
 
 
 <h2><%= t('users.newest_messages') %></h2>
