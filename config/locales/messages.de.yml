@@ -53,6 +53,8 @@ de:
     retagged: Die Tags wurden erfolgreich neu vergeben.
 
     close_vote:
+      agreeing: Sehe ich auch so
+      take_back: Stimme zurücknehmen
       created: Die Abstimmung wurde erstellt.
       voted: Sie haben erfolgreich abgestimmt.
       vote_deleted: Ihre Stimme wurde erfolgreich zurückgenommen.

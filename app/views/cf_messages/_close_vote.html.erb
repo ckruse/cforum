@@ -17,8 +17,11 @@
 
 <% if may?(RightsHelper::VISIT_CLOSE_REOPEN) and not m.close_vote.finished %>
   <p>
-     <%= link_to("Sehe ich auch so", close_cf_message_path(@thread, m),
-                 class:  (m.close_vote.has_voted?(current_user) ? "cf-primary-btn" : 'cf-btn'),
-                 method: :patch) %>
+    <%= link_to(m.close_vote.has_voted?(current_user) ?
+                  t('messages.close_vote.take_back') :
+                  t('messages.close_vote.agreeing'),
+                close_cf_message_path(@thread, m),
+                class:  (m.close_vote.has_voted?(current_user) ? "cf-primary-btn" : 'cf-btn'),
+                method: :patch) %>
   </p>
 <% end %>

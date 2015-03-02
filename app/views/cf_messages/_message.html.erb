@@ -69,7 +69,6 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
           <% end %>
           <%
           # allow open vote if
-            # - user has the rights to do so
             # - message is closed
             # - message hasn't got an open vote already
             if not m.open? and m.open_vote.blank?
