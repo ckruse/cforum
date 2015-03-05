@@ -1,5 +1,3 @@
-<h3><%= t('mails.post') %></h3>
-
 <ul>
   <% @mail_users.each do |uname, vals| %>
     <li><%= link_to user_mails_path(uname) do %><%= uname %> <span class="status-read"><%= vals[:read] || 0 %></span> <% if vals[:unread] > 0 %><span class="status-unread"><%= vals[:unread] || 0 %></span><% end %><% end %></li>
