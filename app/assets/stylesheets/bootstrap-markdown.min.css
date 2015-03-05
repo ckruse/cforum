@@ -82,6 +82,10 @@
   display: none;
 }
 
+.md-fullscreen-mode {
+  box-sizing:border-box;
+}
+
 .md-editor.md-fullscreen-mode .md-input,.md-editor.md-fullscreen-mode .md-preview {
   margin: 0 auto!important;
   height: 100%!important;
