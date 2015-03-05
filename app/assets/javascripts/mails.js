@@ -13,6 +13,10 @@ cforum.mails = {
       }
 
     });
+  },
+
+  init: function() {
+    cforum.cf_messages.initMarkdown("cf_priv_message_body");
   }
 };
 

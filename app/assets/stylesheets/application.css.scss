@@ -74,6 +74,9 @@ input {
   margin: .5em .5em .2em 0; 
 }
 
+.hidden, .btn.hidden, .cf-btn.hidden, .cf-primary-btn.hidden {
+  display:none;
+}
 
 .flex-container {
   display: flex;
@@ -127,6 +130,20 @@ main {
     border-top: 2px solid #C4D4DA;
     padding: 0.7em 0px 0px;
     margin: 1em 0em;
+  }
+}
+
+.form-horizontal .cf-cgroup .cntrls .md-editor {
+  width:43%;
+
+  .btn-group {
+    display:inline-block;
+  }
+
+  textarea.big.md-input {
+    width:90%;
+    margin:auto;
+    margin-bottom:1em;
   }
 }
 /* eof */

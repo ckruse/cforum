@@ -57,8 +57,7 @@ cforum.tags = {
   },
 
   suggestTags: function() {
-    var node = $(document.getElementById('cf_thread_message_content') ?
-                 "#cf_thread_message_content" : "#cf_message_content");
+    var node = $("#message_input");
     var mcnt;
 
     if(node.val()) {
@@ -190,9 +189,7 @@ cforum.tags = {
     el.on('focusout', cforum.tags.addTag);
     $("#tags-list").on('click', cforum.tags.removeTag);
 
-    $(document.getElementById('cf_thread_message_content') ?
-      "#cf_thread_message_content" :
-      "#cf_message_content").on('keyup', cforum.tags.handleSuggestionsKeyUp);
+    $("#message_input").on('keyup', cforum.tags.handleSuggestionsKeyUp);
 
     $("#tags-suggestions").on('click', cforum.tags.addTagSuggestion);
 

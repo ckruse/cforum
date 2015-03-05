@@ -25,7 +25,7 @@
 <fieldset>
   <div class="cf-cgroup cf-textarea-only">
     <div class="cntrls">
-      <%= f.text_area :content, class: 'big', maxlength: 12288, value: f.object.to_txt %>
+      <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt %>
     </div>
   </div>
 </fieldset>

@@ -8,10 +8,14 @@ cforum.cf_threads = {
   new: function() {
     cforum.tags.initTags();
     cforum.cf_threads.initCursor();
+
+    cforum.cf_messages.initMarkdown("message_input");
   },
   create: function() {
     cforum.tags.initTags();
     cforum.cf_threads.initCursor();
+
+    cforum.cf_messages.initMarkdown("message_input");
   },
 
   index: function() {
