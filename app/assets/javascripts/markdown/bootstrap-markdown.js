@@ -90,7 +90,7 @@
           var z,
               buttons = btnGroups[y].data,
               btnGroupContainer = $('<div/>', {
-                                    'class': 'btn-group'
+                                    'class': 'btn-group ' + btnGroups[y].name
                                   });
 
           for (z=0;z<buttons.length;z++) {
@@ -267,16 +267,16 @@
               });
         }
 
-        // Build the buttons
-        if (allBtnGroups.length > 0) {
-          editorHeader = this.__buildButtons([allBtnGroups], editorHeader);
-        }
-
         if (options.fullscreen.enable) {
           editorHeader.append('<div class="md-controls"><a class="md-control md-control-fullscreen" href="#"><span class="'+this.__getIcon(options.fullscreen.icons.fullscreenOn)+'"></span></a></div>').on('click', '.md-control-fullscreen', function(e) {
               e.preventDefault();
               instance.setFullscreen(true);
           });
+        }
+
+        // Build the buttons
+        if (allBtnGroups.length > 0) {
+          editorHeader = this.__buildButtons([allBtnGroups], editorHeader);
         }
 
         editor.append(editorHeader);
