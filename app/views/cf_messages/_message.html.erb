@@ -131,9 +131,9 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
 
         <% if current_user and current_user.moderate?(current_forum) %>
           <% if @view_all %>
-            <li id="admin-view"><%= link_to t("forums.normal_view"), cf_threads_path(current_forum, view_all: nil) %></li>
+            <li><%= link_to t("forums.normal_view"), cf_threads_path(current_forum, view_all: nil) %></li>
           <% else %>
-            <li id="admin-view"><%= link_to t("forums.admin_view"), cf_threads_path(current_forum, view_all: true) %></li>
+            <li><%= link_to t("forums.admin_view"), cf_threads_path(current_forum, view_all: true) %></li>
           <% end %>
         <% end %>
       </ul>
