@@ -6,6 +6,8 @@ cforum.cf_messages = {
     var elem = $("#" + elem_id);
 
     if(elem.length) {
+      cforum.markdown_buttons.l10n();
+
       elem.markdown({autofocus: false, savable: false, iconlibrary: 'fa',
                      language: 'de', hiddenButtons: 'cmdPreview',
                      disabledButtons: 'cmdPreview',
@@ -40,7 +42,7 @@ cforum.cf_messages = {
 
   new: function() {
     if(cforum.cf_messages.quotedMessage) {
-      var obj = $(".form-actions").append("<button class=\"cf-btn\">Zitat einfügen</button>");
+      var obj = $(".form-actions").append("<button class=\"cf-btn\">" + t('add_quote') + "</button>");
       obj.on('click', cforum.cf_messages.quoteMessage);
     }
   },

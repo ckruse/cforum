@@ -4,7 +4,7 @@ cforum.markdown_buttons = {
   hellip: {
     name: 'cmdHellips',
     toggle: false,
-    title: "Horizontale Ellipse",
+    title: "… (Horizontal Ellipsis)",
     btnText: "…",
     callback: function(e) {
       var cursor, selected = e.getSelection();
@@ -19,7 +19,7 @@ cforum.markdown_buttons = {
   mdash: {
     name: 'cmdMdash',
     toggle: false,
-    title: "Gedankenstrich",
+    title: "– (em dash)",
     btnText: "–",
     callback: function(e) {
       var cursor, selected = e.getSelection();
@@ -34,7 +34,7 @@ cforum.markdown_buttons = {
   almostEqualTo: {
     name: 'cmdAlmostEqualTo',
     toggle: false,
-    title: "ungefähr gleich/circa",
+    title: "≈ (almost equal to)",
     btnText: "≈",
     callback: function(e) {
       var cursor, selected = e.getSelection();
@@ -49,7 +49,7 @@ cforum.markdown_buttons = {
   unequal: {
     name: 'cmdUnequal',
     toggle: false,
-    title: "ungleich",
+    title: "≠ (unequal)",
     btnText: "≠",
     callback: function(e) {
       var cursor, selected = e.getSelection();
@@ -64,7 +64,7 @@ cforum.markdown_buttons = {
   times: {
     name: 'cmdTimes',
     toggle: false,
-    title: "× (mal)",
+    title: "× (times)",
     btnText: "×",
     callback: function(e) {
       var cursor, selected = e.getSelection();
@@ -79,7 +79,7 @@ cforum.markdown_buttons = {
   arrowRight: {
     name: 'cmdArrowRight',
     toggle: false,
-    title: "Pfeil nach rechts einfügen",
+    title: "→ (arrow right)",
     btnText: "→",
     callback: function(e) {
       var cursor, selected = e.getSelection();
@@ -94,7 +94,7 @@ cforum.markdown_buttons = {
   arrowUp: {
     name: 'cmdArrowUp',
     toggle: false,
-    title: "Pfeil nach oben einfügen",
+    title: "↑ (arrow up)",
     btnText: "↑",
     callback: function(e) {
       var cursor, selected = e.getSelection();
@@ -109,7 +109,7 @@ cforum.markdown_buttons = {
   blackUpPointingTriangle: {
     name: 'cmdBlackUpPointingTriangle',
     toggle: false,
-    title: "▲ einfügen",
+    title: "▲ (Black up pointing triangle)",
     btnText: "▲",
     callback: function(e) {
       var cursor, selected = e.getSelection();
@@ -124,7 +124,7 @@ cforum.markdown_buttons = {
   rightwardsDoubleArrow: {
     name: 'cmdRightwardsDoubleArrow',
     toggle: false,
-    title: "⇒ einfügen",
+    title: "⇒ (Rightwards double arrow)",
     btnText: "⇒",
     callback: function(e) {
       var cursor, selected = e.getSelection();
@@ -139,7 +139,7 @@ cforum.markdown_buttons = {
   trademark: {
     name: 'cmdTrademark',
     toggle: false,
-    title: "™ einfügen",
+    title: "™ (trademark)",
     btnText: "™",
     callback: function(e) {
       var cursor, selected = e.getSelection();
@@ -153,7 +153,7 @@ cforum.markdown_buttons = {
 
   doublePunctuationMarks: {
     name: 'cmdDoublePunctuationMarks',
-    title: "„“ einfügen",
+    title: "„“ (double punctuation marks)",
     btnText: "„“",
     callback: function(e) {
       var chunk = "", cursor, selected = e.getSelection(), content = e.getContent();
@@ -178,7 +178,7 @@ cforum.markdown_buttons = {
 
   singlePunctuationMarks: {
     name: 'cmdSingleePunctuationMarks',
-    title: "‚‘ einfügen",
+    title: "‚‘ (single punctuation marks)",
     btnText: "‚‘",
     callback: function(e) {
       var chunk = "", cursor, selected = e.getSelection(), content = e.getContent();
@@ -199,7 +199,17 @@ cforum.markdown_buttons = {
 
       e.setSelection(cursor, cursor + chunk.length);
     }
+  },
+
+  l10n: function() {
+    for(var button in cforum.markdown_buttons) {
+      if(button != 'l10n') {
+        cforum.markdown_buttons[button].title = t("buttons." + button + ".title");
+        cforum.markdown_buttons[button].text = t("buttons." + button + ".text");
+      }
+    }
   }
 };
+
 
 /* eof */

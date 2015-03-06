@@ -228,7 +228,7 @@ cforum.tags = {
                 }
 
                 el.find("div").fadeOut("fast", function() {
-                  el.html("<div class=\"cf-error\" style=\"display:none\">Dieser Tag existiert nicht. Bitte wählen Sie einen anderen.</div>");
+                  el.html("<div class=\"cf-error\" style=\"display:none\">" + t('tags.tag_doesnt_exist') + "</div>");
                   el.find("div").fadeIn("fast");
                 });
               }

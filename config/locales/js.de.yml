@@ -2,3 +2,45 @@ de:
   js:
     messages:
       messages_threads: "Es gibt {{messages}} neue Nachrichten und {{threads}} neue Threads."
+      add_quote: Zitat einfügen
+
+      buttons:
+        hellip:
+          title: … (horizontale Ellipse)
+          text: …
+        mdash:
+          title: – (Gedankenstrich)
+          text: –
+        almostEqualTo:
+          title: ≈ (ungefähr gleich/circa)
+          text: ≈
+        unequal:
+          title: ≠ (ungleich)
+          text: ≠
+        times:
+          title: × (mal)
+          text: ×
+        arrowRight:
+          title: → (Pfeil nach rechts)
+          text: →
+        arrowUp:
+          title: ↑ (Pfeil nach oben)
+          text: ↑
+        blackUpPointingTriangle:
+          title: ▲ (schwarzes Dreieck nach oben)
+          text: ▲
+        rightwardsDoubleArrow:
+          title: ⇒ (Doppelpfeil nach rechts)
+          text: ⇒
+        trademark:
+          title: ™ (Trademark)
+          text: ™
+        doublePunctuationMarks:
+          title: „“ (doppelte Anführungszeichen oben/unten)
+          text: „“
+        singlePunctuationMarks:
+          title: ‚‘ (einfache Anführungszeichen oben/unten)
+          text: ‚‘
+
+      tags:
+        tag_doesnt_exist: Dieser Tag existiert nicht. Bitte wählen Sie einen anderen.
