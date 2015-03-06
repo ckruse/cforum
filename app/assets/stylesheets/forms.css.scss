@@ -122,7 +122,7 @@
     outline-offset: -2px;
 }
 
-.cf-btn {
+.cf-btn, .message-links .cf-btn {
   @extend .btn;
   color: #333;
   background-color: #FFF;
