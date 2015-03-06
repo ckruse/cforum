@@ -115,3 +115,27 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
       <%= render 'open_vote', m: m %>
     <% end %>
   </div>
+
+  <div class="forum-links">
+    <nav>
+      <ul>
+        <li><%= link_to t('layout.home'), root_path %></li>
+        <% if current_forum %>
+          <li><%= link_to current_forum.name, cf_threads_path(current_forum) + "#t" + m.thread_id.to_s %></li>
+        <% end %>
+
+        <% if current_user.blank? %>
+          <li><%= link_to(t('layout.login'), new_user_session_path) %></li>
+          <li><%= link_to t("layout.register"), new_user_registration_path %></li>
+        <% end %>
+
+        <% if current_user and current_user.moderate?(current_forum) %>
+          <% if @view_all %>
+            <li id="admin-view"><%= link_to t("forums.normal_view"), cf_threads_path(current_forum, view_all: nil) %></li>
+          <% else %>
+            <li id="admin-view"><%= link_to t("forums.admin_view"), cf_threads_path(current_forum, view_all: true) %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
