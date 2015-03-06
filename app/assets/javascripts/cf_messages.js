@@ -38,6 +38,19 @@ cforum.cf_messages = {
     cforum.cf_messages.initMarkdown("message_input");
   },
 
+  new: function() {
+    if(cforum.cf_messages.quotedMessage) {
+      var obj = $(".form-actions").append("<button class=\"cf-btn\">Zitat einfügen</button>");
+      obj.on('click', cforum.cf_messages.quoteMessage);
+    }
+  },
+
+  quoteMessage: function(ev) {
+    ev.preventDefault();
+    $("#message_input").val($("#message_input").val() + cforum.cf_messages.quotedMessage);
+    $(".form-actions button:last").fadeOut('fast', function() { $(this).remove(); });
+  },
+
   initCursor: function() {
     var content = $("#message_input");
     var subj = $("#cf_message_subject");
