@@ -41,6 +41,14 @@ function t(key, deflt) {
 }
 
 $(function() {
+  $("[data-dismiss]").click(function() {
+    var $this = $(this);
+    var clss = $this.attr('data-dismiss');
+
+    var elem = $this.closest("." + clss);
+    elem.fadeOut('fast', function() { $(this).remove(); });
+  });
+
   $("#forum-list select").on('change', function() {
     if($(this).val() != "") {
       $("#forum-list form").submit();

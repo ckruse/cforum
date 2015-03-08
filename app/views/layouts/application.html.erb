@@ -89,7 +89,11 @@ end
         <div id="alerts-container">
           <% flash.each do |name,msg|
           next if not msg.is_a?(String) or name == :timedout # needed because there seem to be messages like „true“ %>
-            <div class="cf-<%= name.to_s == 'notice' ? "success" : "error" %> fade in">
+            <div class="cf-<%= name.to_s == 'notice' ? "success" : "error" %> cf-alert fade in">
+              <button type="button" class="close" data-dismiss="cf-alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+
               <%= msg %>
             </div>
           <% end %>
