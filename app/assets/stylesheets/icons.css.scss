@@ -116,4 +116,14 @@
 }
 
 
+.author-email {
+  @extend .fa;
+  @extend .fa-envelope;
+}
+
+.author-homepage {
+  @extend .fa;
+  @extend .fa-external-link;
+}
+
 /* eof */

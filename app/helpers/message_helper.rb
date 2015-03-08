@@ -169,6 +169,13 @@ module MessageHelper
     html << encode_entities(message.author)
     html << '</span>' if message.user_id
 
+    if not opts[:tree] and (not message.email.blank? or not message.homepage.blank?)
+      html << ' <span class="author-infos">'
+      html << ' ' + link_to('', 'mailto:' + message.email, class: 'author-email') if not message.email.blank?
+      html << ' ' + link_to('', message.homepage, class: 'author-homepage') if not message.homepage.blank?
+      html << "</span>"
+    end
+
     if current_user and (current_user.admin? or (current_forum and current_user.moderate?(current_forum))) and @view_all
       if not message.ip.blank?
         html << " <span class=\"admin-infos ip\">" + message.ip + "</span>"
