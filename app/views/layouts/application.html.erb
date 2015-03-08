@@ -254,6 +254,16 @@ end
         <% end %>
 
         <%= content_for :aside %>
+
+        <% if not current_forum.blank? %>
+          <form id="forum-list" action="<%= forum_redirector_path %>">
+            <select name="f" class="select2">
+              <% @forums.each do |f| %>
+                <option value="<%= f.slug %>"<% if f.slug == current_forum.slug %> selected="selected"<% end %>><%= f.name %></option>
+              <% end %>
+            </select>
+          </form>
+        <% end %>
       </aside>
 
     </div>

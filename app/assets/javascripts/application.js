@@ -49,9 +49,11 @@ $(function() {
     elem.fadeOut('fast', function() { $(this).remove(); });
   });
 
+  $(".select2").select2();
+
   $("#forum-list select").on('change', function() {
     if($(this).val() != "") {
-      $("#forum-list form").submit();
+      $("#forum-list").submit();
     }
   });
 });
