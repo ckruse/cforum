@@ -5,8 +5,8 @@ content_for(:title, @message.subject + " " + I18n.t('messages.by') + " " +
 content_for(:body_id, "message")
 content_for(:h1) do
 %>
-<h1><span class="author" id="posting-author"><%= @message.author %>:</span><br>
-  <span class="title" id="posting-title"><%= @message.subject %></span></h1>
+<span class="author block" id="posting-author"><%= @message.author %>:</span>
+<span class="title" id="posting-title"><%= @message.subject %></span>
 <% end %>
 
 <h2><%= t("layout.read_message") %></h2>
