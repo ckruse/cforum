@@ -20,7 +20,7 @@ content_for :h1, t('admin.forums.index')
     <tr>
       <% msg = @activities[forum.forum_id] %>
       <tr<% if msg and not msg.attribs['classes'].blank? %> class="<%= msg.attribs['classes'].join(" ") %>"<% end %>>
-        <td><%= link_to forum.name, edit_admin_forum_path(forum.forum_id) %></td>
+        <td><%= link_to forum.name, edit_admin_forum_path(forum.forum_id), class: 'block' %></td>
         <td class="nummeric"><%= @counts[forum.forum_id][:threads] %></td>
         <td class="nummeric"><%= @counts[forum.forum_id][:messages] %></td>
         <td<% if msg.blank? %> colspan="3" class="no-data"<% end %>>
@@ -37,7 +37,7 @@ content_for :h1, t('admin.forums.index')
             <% end %>
             <%= msg.author %>
           </td>
-          <td><%= link_to msg.subject, cf_message_path(msg.thread, msg) %></td>
+          <td><%= link_to msg.subject, cf_message_path(msg.thread, msg), class: 'block' %></td>
         <% end %>
         <td>
           <%= link_to '', edit_admin_forum_path(forum.forum_id), class: "icon-edit-forum", title: t('admin.forums.edit') %>

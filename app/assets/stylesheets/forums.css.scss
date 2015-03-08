@@ -29,8 +29,8 @@
   thead th { color: #5D7380; }
   tfoot th { border-bottom:0; }
 
-  a:not([href^="/users/"]):not([class^="icon"]):not([href*="?dir"]) {
-    display: block;    
+  a.block {
+    display: block;
   }
 
   a img {

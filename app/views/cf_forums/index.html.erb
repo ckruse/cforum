@@ -65,7 +65,7 @@ content_for :h1, t('global.forums')
     <% @forums.each do |forum| %>
       <% msg = @activities[forum.forum_id] %>
       <tr<% if msg and not msg.attribs['classes'].blank? %> class="<%= msg.attribs['classes'].join(" ") %>"<% end %>>
-        <th><%= link_to forum.name, forum %></th>
+        <th><%= link_to forum.name, forum, class: 'block' %></th>
         <td class="nummeric"><%= @counts[forum.forum_id][:threads] %></td>
         <td class="nummeric"><%= @counts[forum.forum_id][:messages] %></td>
         <td<% if msg.blank? %> colspan="3" class="no-data"<% end %>>
@@ -83,7 +83,7 @@ content_for :h1, t('global.forums')
               <%= msg.author %>
             <% end %>
           </td>
-          <td><%= link_to msg.subject, cf_message_path(msg.thread, msg) %></td>
+          <td><%= link_to msg.subject, cf_message_path(msg.thread, msg), class: 'block' %></td>
         <% end %>
       </tr>
     <% end %>
