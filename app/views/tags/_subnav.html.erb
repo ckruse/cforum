@@ -1,5 +1,4 @@
 <% if current_user and (may?(RightsHelper::CREATE_TAGS) or current_user.admin?) %>
-  <h3><%= t('tags.tags') %></h3>
   <ul>
     <% if may?(RightsHelper::CREATE_TAGS) %>
       <li<% if action_name == 'new' or action_name == 'create' %> class="active"<% end %>><%= link_to t('tags.new_tag'), new_tag_path(current_forum.slug) %></li>

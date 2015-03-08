@@ -1,4 +1,3 @@
-<h3><%= t('admin.administration') %></h3>
 <ul>
   <li<% if controller_name == 'cf_users' and action_name != 'new' %> class="active"<% end %>><%= link_to t('global.users'), admin_users_path %></li>
   <li<% if controller_name == 'cf_settings' %> class="active"<% end %>><%= link_to t('admin.settings_menu'), admin_settings_path %></li>
