@@ -2,7 +2,12 @@
 content_for :title, @thread.message.subject + " " +
   I18n.t('messages.by') + " " + @thread.message.author + ", " +
   I18n.l(@thread.message.created_at, format: date_format('date_format_post'))
+
+content_for(:h1) do
 %>
+<span class="author block" id="posting-author"><%= @thread.message.author %>:</span>
+<span class="title" id="posting-title"><%= @thread.message.subject %></span>
+<% end %>
 
 <article class="thread posting tree">
   <%= message_header(@thread, @thread.message, first: true, show_icons: true, id: false) %>
