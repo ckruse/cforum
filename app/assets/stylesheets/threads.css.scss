@@ -103,6 +103,14 @@ a.visited:hover, a.visited:active,
   .active, .active .visited a {
 	  color:#00a1e2;
 	  font-weight:bold;
+    position:relative;
+
+    & > header:before {
+      content: "►";
+      color: #00A1E2;
+      left: -0.5em;
+      position: absolute;
+    }
   }
   .active ol, .active ol a {
 	  color:#3481cd;
