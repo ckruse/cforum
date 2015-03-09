@@ -90,6 +90,13 @@ a.visited:hover, a.visited:active,
       text-align:right;
     }
 
+    .num-infos:before, .num-unread:before {
+      content:"|";
+      color:#888;
+      opacity: 0.5;
+      margin-left:2px;
+      margin-right:2px;
+    }
     .votes { margin-left:1em; }
   }
 

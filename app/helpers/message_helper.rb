@@ -130,9 +130,9 @@ module MessageHelper
 
     if opts[:first]
       if opts[:show_icons]
-        html << " <span class=\"num-infos\"><span class=\"num-msgs\" title=\"" + t("messages.num_messages", num: thread.messages.length) + "\">" + thread.messages.length.to_s + "</span>"
+        html << "<span class=\"num-infos\"><span class=\"num-msgs\" title=\"" + t("messages.num_messages", num: thread.messages.length) + "\">" + thread.messages.length.to_s + "</span>"
         unless thread.attribs[:msgs].blank?
-          html << " <span class=\"num-unread\" title=\"" + t("plugins.mark_read.num_unread", num: thread.attribs[:msgs][:unread]) + "\">" + thread.attribs[:msgs][:unread].to_s + "</span>"
+          html << "<span class=\"num-unread\" title=\"" + t("plugins.mark_read.num_unread", num: thread.attribs[:msgs][:unread]) + "\">" + thread.attribs[:msgs][:unread].to_s + "</span>"
         end
         html << "</span>"
       end
