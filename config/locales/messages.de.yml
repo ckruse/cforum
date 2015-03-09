@@ -2,7 +2,7 @@ de:
   messages:
     messages: Beiträge
     by: von
-    num_messages: Anzahl Beiträge
+    num_messages: "%{num} Beiträge"
     created: Beitrag wurde erfolgreich erstellt.
     destroyed: Beitrag wurde erfolgreich gelöscht.
     updated: Beitrag wurde erfolgreich geändert.
@@ -23,7 +23,7 @@ de:
     write_new_answer: neue Antwort verfassen
     restore_message: Beitrag wiederherstellen
     delete_message: Beitrag löschen
-    votes: Bewertungen
+    votes: "%{num} Bewertungen"
     all_msgs_num: Anzahl aller Beiträge
     unread_messages_num: Anzahl ungelesener Beiträge
     user_link: Benutzer %{user}

@@ -125,14 +125,14 @@ module MessageHelper
     end
 
     if opts[:show_icons]
-      html << ' <span class="votes" title="' + t('messages.votes') + '">' + (message.upvotes - message.downvotes).to_s + '</span>'
+      html << ' <span class="votes" title="' + t('messages.votes', num: message.upvotes - message.downvotes) + '">' + (message.upvotes - message.downvotes).to_s + '</span>'
     end
 
     if opts[:first]
       if opts[:show_icons]
-        html << " <span class=\"num-infos\"><span class=\"num-msgs\" title=\"" + t("messages.num_messages") + "\">" + thread.messages.length.to_s + "</span>"
+        html << " <span class=\"num-infos\"><span class=\"num-msgs\" title=\"" + t("messages.num_messages", num: thread.messages.length) + "\">" + thread.messages.length.to_s + "</span>"
         unless thread.attribs[:msgs].blank?
-          html << " <span class=\"num-unread\" title=\"" + t("plugins.mark_read.num_unread") + "\">" + thread.attribs[:msgs][:unread].to_s + "</span>"
+          html << " <span class=\"num-unread\" title=\"" + t("plugins.mark_read.num_unread", num: thread.attribs[:msgs][:unread]) + "\">" + thread.attribs[:msgs][:unread].to_s + "</span>"
         end
         html << "</span>"
       end
@@ -216,11 +216,9 @@ module MessageHelper
 
     unless opts[:show_icons]
       html << ', <span class="votes" title="' +
-        t('messages.votes') +
+        t('messages.votes', num: message.upvotes - message.downvotes) +
         '">' +
-        (message.upvotes - message.downvotes).to_s +
-        ' ' +
-        t('messages.votes') +
+        t('messages.votes', num: message.upvotes - message.downvotes) +
         '</span>'
     end
 

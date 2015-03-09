@@ -39,7 +39,7 @@ de:
       marked_all_read: Alle Nachrichten der Hauptseite wurden als gelesen markiert.
       mark_all_read: Alle Nachrichten als gelesen markieren
       mark_unread: ungelesen markieren
-      num_unread: Anzahl ungelesener Beiträge
+      num_unread: "%{num} ungelesene Beiträge"
 
     interesting_threads:
       marked_interesting: Der Thread wurde als interessant markiert.
