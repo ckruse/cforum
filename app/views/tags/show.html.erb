@@ -46,7 +46,13 @@ content_for :h1, current_forum.name + ": " + @tag.tag_name
               <%= msg.author %>
             <% end %>
           </td>
-          <td><%= (msg.tags.map {|t| link_to(t.tag_name, tag_path(current_forum.slug, t), class: 'tag')}).join("").html_safe %></td>
+          <td>
+            <ul class="tags-list">
+              <% msg.tags.each do |tag| %>
+                <li class="tag"><%= link_to(tag.tag_name, tag_path(current_forum.slug, tag)) %></li>
+              <% end %>
+            </ul>
+          </td>
           <td><%= l(msg.created_at, format: date_format) %></td>
         </tr>
       <% end %>
