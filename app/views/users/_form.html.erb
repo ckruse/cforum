@@ -1,12 +1,3 @@
-<ul class="user-links">
-  <li class="active"><a href="#user-data" data-toggle="tab"><%= t('users.user_information') %></a></li>
-  <li><a href="#personal_information" data-toggle="tab"><%= t('users.personal_information') %></a></li>
-  <li><a href="#comfort" data-toggle="tab"><%= t('users.comfort') %></a></li>
-  <li><a href="#notifications" data-toggle="tab"><%= t('users.notifications') %></a></li>
-  <li><a href="#adoption" data-toggle="tab"><%= t('users.personalization') %></a></li>
-  <li><a href="#readability" data-toggle="tab"><%= t('users.readability_overview') %></a></li>
-</ul>
-
 <div class="cf-tab-content">
   <%= render 'user_information', f: f %>
   <%= render 'settings', f: f %>
