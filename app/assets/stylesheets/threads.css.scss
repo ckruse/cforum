@@ -160,7 +160,7 @@ a.visited:hover, a.visited:active,
 	  overflow: hidden;
   }
 
-  article ol header:before {
+  ol header:before {
 	  content: '';
 	  font-size: 1.6px;
 	  font-size: 0rem;
@@ -173,15 +173,15 @@ a.visited:hover, a.visited:active,
 	  background: asset-data-url("posting-pfeil1.png") no-repeat left bottom;
   }
 
-  article > header, article ol li:only-child > header {
+  article > header, & > header, article ol li:only-child > header {
     background:none;
   }
 
-  article ol li:last-child > header:before {
+  ol li:last-child > header:before {
 	  background: asset-data-url("posting-linie.png") repeat-y left top;
   }
 
-  article ol li:first-child > header:before {
+  ol li:first-child > header:before {
 	  background-image: none;
   }
 }
