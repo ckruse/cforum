@@ -42,6 +42,8 @@ a.visited:hover, a.visited:active,
     float:right;
   }
 
+  .message-icons { margin-left:0.5em; }
+
   ol {
     list-style-type:none;
     margin:0;
@@ -97,8 +99,11 @@ a.visited:hover, a.visited:active,
       margin-left:2px;
       margin-right:2px;
     }
-    .votes { margin-left:1em; }
+    .votes { margin-left:0.5em; }
   }
+
+  & > header > .votes { margin-left:0; }
+
 
   .active, .active .visited a {
 	  color:#00a1e2;
