@@ -108,15 +108,18 @@ a.visited:hover, a.visited:active,
   .active, .active .visited a {
 	  color:#00a1e2;
 	  font-weight:bold;
-    position:relative;
-
-    & > header:before {
-      content: "►";
-      color: #00A1E2;
-      left: -1em;
-      position: absolute;
-    }
   }
+
+  .active > header .message-icons { margin-left:0; }
+
+  .active > header:before {
+    content: "►";
+    color: #00A1E2;
+    margin-left:1.2em;
+    font-size:1em;
+    margin-right:0;
+  }
+
   .active ol, .active ol a {
 	  color:#3481cd;
 	  font-weight:normal;
