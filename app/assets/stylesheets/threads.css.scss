@@ -151,4 +151,39 @@ a.visited:hover, a.visited:active,
   max-height:1em;
 }
 
+
+
+
+
+.root {
+  ol {
+	  overflow: hidden;
+  }
+
+  article ol header:before {
+	  content: '';
+	  font-size: 1.6px;
+	  font-size: 0rem;
+	  vertical-align: top;
+	  padding: 500% 1px 0;
+	  margin-right: 10px;
+  }
+
+  header {
+	  background: asset-data-url("posting-pfeil1.png") no-repeat left bottom;
+  }
+
+  article > header, article ol li:only-child > header {
+    background:none;
+  }
+
+  article ol li:last-child > header:before {
+	  background: asset-data-url("posting-linie.png") repeat-y left top;
+  }
+
+  article ol li:first-child > header:before {
+	  background-image: none;
+  }
+}
+
 /* eof */
