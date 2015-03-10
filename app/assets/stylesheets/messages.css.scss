@@ -72,8 +72,10 @@ main h2 { margin-left:0; }
   }
 }
 
-.thread-nested ol {
-  list-style-type:none;
+.thread-nested {
+  display:inline-block;
+
+  ol { list-style-type:none; }
 }
 
 
