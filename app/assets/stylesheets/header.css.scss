@@ -174,6 +174,70 @@ nav {
 
 
 
+@media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
+  #top {
+    padding-left: 1em;
+
+    .personallinks {
+      position:absolute;
+      top:9em;
+      left:1em;
+
+      li {
+        display:block;
+        margin-top:0.5em;
+        line-height:1em;
+      }
+    }
+  }
+
+  #kopf {
+    margin-right:1em;
+    margin-left:1em;
+
+    h1 {
+      display:block;
+      margin-top:-0.2em;
+
+      img { max-width:100%; }
+    }
+
+    .sociallinks {
+      position:static;
+      margin-top:8.2em;
+
+      li {
+        margin-bottom:0.2em;
+        margin-left:0;
+        margin-right:0.2em;
+      }
+    }
+  }
+  
+  nav {
+    ul {
+      li {
+        display: block;
+        a { display: block; }
+      }
+    }
+  }
+
+}
+
+@media only screen and (max-width : 800px) {
+  #kopf {
+    .sociallinks {
+      position:static;
+      display:block;
+      float:right;
+    }
+
+    h1 {
+      margin-bottom:0.1em;
+    }
+  }
+}
 
 
 /* eof */

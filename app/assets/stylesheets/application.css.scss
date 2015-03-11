@@ -144,4 +144,25 @@ input {
   display: block;
 }
 
+
+/* smartphones */
+@media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
+  .flex-container {
+    main.flex-item { order: 3; }
+    nav.flex-item {
+      order: 2;
+      padding-left:1em;
+      padding-right:1em;
+    }
+    aside.flex-item {
+      order: 4;
+      padding-left: 1em;
+      margin-top:0.2em;
+    }
+  }
+}
+
+
+
+
 /* eof */
