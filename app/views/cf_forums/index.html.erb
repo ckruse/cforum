@@ -51,7 +51,7 @@ content_for :h1, t('global.forums')
       <% unless msg.blank? %>
         <th>
           <% if msg.user_id %>
-            <%= link_to(image_tag(msg.owner.avatar(:thumb)) + msg.author, user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username)) %>
+            <%= link_to(image_tag(msg.owner.avatar(:thumb), class: 'avatar') + msg.author, user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username), class: 'user-link') %>
           <% else %>
               <%= msg.author %>
           <% end %>
@@ -78,7 +78,7 @@ content_for :h1, t('global.forums')
         <% unless msg.blank? %>
           <td>
             <% if msg.user_id %>
-              <%= link_to(image_tag(msg.owner.avatar(:thumb)) + msg.author, user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username)) %>
+              <%= link_to(image_tag(msg.owner.avatar(:thumb), class: 'avatar') + msg.author, user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username), class: 'user-link') %>
             <% else %>
               <%= msg.author %>
             <% end %>

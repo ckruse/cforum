@@ -160,7 +160,7 @@ module MessageHelper
       if not message.message_id == thread.message.message_id and message.user_id == thread.message.user_id
         html << " original-poster"
       end
-      html << "\">" + link_to(image_tag(message.owner.avatar(:thumb)), user_path(message.owner), title: t('messages.user_link', user: message.owner.username)) + " "
+      html << "\">" + link_to(image_tag(message.owner.avatar(:thumb), class: 'avatar'), user_path(message.owner), title: t('messages.user_link', user: message.owner.username), class: 'user-link') + " "
     else
       if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
         html << '<span class="icon-message original-poster" title="' + t('messages.original_poster') + '"><em>' + t("messages.original_poster") + '</em></span>'

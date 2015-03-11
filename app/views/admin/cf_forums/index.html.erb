@@ -32,7 +32,7 @@ content_for :h1, t('admin.forums.index')
         <% unless msg.blank? %>
           <td>
             <% if msg.user_id %>
-              <%= link_to(image_tag(msg.owner.avatar(:thumb)), user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username)) %>
+              <%= link_to(image_tag(msg.owner.avatar(:thumb), class: 'avatar'), user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username), class: 'user-link') %>
             <% end %>
             <%= msg.author %>
           </td>
