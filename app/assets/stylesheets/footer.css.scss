@@ -14,16 +14,37 @@ footer {
   li { 
     display: inline; 
 
-    &:not(:first-child) { 
+    &:not(:first-child) {
       border-left: 2px solid #c4d4da;
       padding-left: .2em;
     }
+  }
+
+  .termitel-sponsor {
+    margin-top:-1.5em;
+    float:right;
+    margin-bottom:1em;
+    font-size:0.8em;
   }
 }
 
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
   footer {
     margin:1em;
+
+    li {
+      display:block;
+
+      &:not(:first-child) {
+        border:0;
+        padding-left:0;
+      }
+    }
+
+    .termitel-sponsor {
+      float:none;
+      margin-top:0.5em;
+    }
   }
 }
 
