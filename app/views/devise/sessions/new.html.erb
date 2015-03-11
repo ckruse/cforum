@@ -1,9 +1,7 @@
 <%
 content_for(:title, t('devise.sign_in'))
-content_for(:h1, "<h1>".html_safe + t('devise.sign_in') + "</h1>".html_safe)
+content_for(:h1, t('devise.sign_in'))
 %>
-
-<h2><%= t('devise.sign_in') %></h2>
 
 <%= form_for(resource, as: 'user', url: session_path(resource_name), html: {class: 'form-horizontal'}) do |f| %>
   <div class="cf-cgroup">

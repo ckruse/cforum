@@ -1,8 +1,7 @@
 <%
 content_for(:title, t('devise.resend_confirmation_instructions'))
-content_for(:h1, "<h1>".html_safe + t('devise.resend_confirmation_instructions') + "</h1>".html_safe)
+content_for(:h1, t('devise.resend_confirmation_instructions'))
 %>
-<h2><%= t('devise.resend_confirmation_instructions') %></h2>
 
 <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post, class: 'form-horizontal' }) do |f| %>
   <%= devise_error_messages! %>
