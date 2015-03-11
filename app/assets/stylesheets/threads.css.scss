@@ -181,7 +181,7 @@ a.visited:hover, a.visited:active,
 	  background: asset-data-url("posting-pfeil1.png") no-repeat left bottom;
   }
 
-  article > header, & > header, article ol li:only-child > header {
+  article > header, & > header, article ol li:only-child > header, &.posting ol li:only-child > header {
     background:none;
   }
 
