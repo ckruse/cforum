@@ -23,7 +23,7 @@ content_for :h1, t('messages.new_answer_to', name: @parent.author)
 <%= form_for @message, :url => cf_message_path(@thread, @parent), html: {:class => 'form-horizontal'} do |f| %>
   <% if @message.errors.any? %>
     <div id="error_explanation" class="cf-error">
-      <h4><%= t('messages.error_message', :errors_count => pluralize(@message.errors.count, t("global.error"), t('global.errors'))) %></h4>
+      <h4><%= t('messages.error_message', errors_count: pluralize(@message.errors.count, t("global.error"), t('global.errors'))) %></h4>
 
       <ul>
         <% @message.errors.full_messages.each do |msg| %>
