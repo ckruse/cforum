@@ -8,34 +8,35 @@
   }
 
   .cf-cgroup {
-    margin-right: -15px;
-    margin-left: -15px;
     margin-bottom: 15px;
+    max-width:55em;
 
     label {
       padding-top: 7px;
       margin-bottom: 0px;
       text-align: right;
-      width: 16.6667%;
-      float: left;
-      position: relative;
-      min-height: 1px;
-      padding-right: 15px;
-      padding-left: 15px;
-      display: inline-block;
+
+      width: 26%;
       max-width: 100%;
+      min-height: 1px;
+      float: left;
+
+      position: relative;
+      padding-right: 1%;
+      padding-left: 1%;
+      display: inline-block;
       font-weight: bold;
       line-height: 1.42857em;
       vertical-align: middle;
     }
 
     .cntrls {
-      width: 80%;
+      width: 70%;
       float: left;
       position: relative;
       min-height: 1px;
-      padding-right: 15px;
-      padding-left: 15px;
+      padding-left:1%;
+      padding-right:1%;
       line-height: 1.42857em;
       vertical-align: middle;
 
@@ -46,7 +47,8 @@
       }
 
       input, select, textarea {
-        width:20%;
+        width:100%;
+        max-width:400px;
         display: block;
         padding: 6px 12px;
         line-height: 1.42857em;
@@ -60,7 +62,8 @@
       }
 
       textarea.big {
-        width:43%;
+        width:100%;
+        max-width:100%;
         height:20em;
       }
 
@@ -214,20 +217,50 @@ legend {
 
 /* markdown editor adjustments */
 
-.form-horizontal .cf-cgroup .cntrls .md-editor {
-  width:43%;
+.form-horizontal .cf-cgroup.cf-textarea-only {
+  max-width:100%;
 
-  .btn-group {
-    display:inline-block;
-  }
+  .cntrls {
+    width: 100%;
 
-  textarea.big.md-input {
-    width:90%;
-    margin:auto;
-    margin-bottom:1em;
+    .md-editor {
+      width:55em;
+      max-width:100%;
+
+      .btn-group {
+        display:inline-block;
+      }
+
+      textarea.big.md-input {
+        width:90%;
+        margin:auto;
+        margin-bottom:1em;
+      }
+    }
   }
 }
 
+@media only screen and (max-width : 800px) {
+  .form-horizontal {
+    .cf-cgroup {
+      label {
+        padding-right: 0em;
+        padding-left: 0em;
+        text-align:left;
+        float:none;
+      }
+      .cntrls {
+        float:none;
+        padding-right: 0em;
+        padding-left: 0em;
+        width:92%;
 
+        input, select, textarea {
+
+        }
+      }
+    }
+  }
+}
 
 /* eof */
