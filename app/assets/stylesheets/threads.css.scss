@@ -22,11 +22,15 @@ a.visited:hover, a.visited:active,
 
 .thread-forum-plate {
   font-size: 80%;
-  font-weight: normal;
+  font-weight: bold;
   background-color: #9AAAB3;
   border-radius: 0px 0.4em 0.4em;
-  color: #F1F3F4;
-  padding: 0.25em 0.6em 0.1em;
+  color: #fff;
+  padding: 0.25em 0.6em 0.25em;
+}
+
+a.thread-forum-plate, a.thread-forum-plate:visited {
+  color:#fff;
 }
 
 .thread {
