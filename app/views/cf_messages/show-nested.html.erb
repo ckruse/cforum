@@ -34,12 +34,14 @@ content_for(:h1) do
   </ol>
 <% end %>
 
-<article class="thread-nested">
-  <div class="posting-nested thread-message">
-    <%= render 'message', m: @thread.message, first: true %>
-  </div>
+<div>
+  <article class="thread-nested">
+    <div class="posting-nested thread-message">
+      <%= render 'message', m: @thread.message, first: true %>
+    </div>
 
-  <% unless @thread.message.messages.blank? %>
-    <% whole_thread(@thread, @thread.message.messages) %>
-  <% end %>
-</article>
+    <% unless @thread.message.messages.blank? %>
+      <% whole_thread(@thread, @thread.message.messages) %>
+    <% end %>
+  </article>
+</div>
