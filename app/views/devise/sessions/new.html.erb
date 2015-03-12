@@ -22,7 +22,7 @@ content_for(:h1, t('devise.sign_in'))
   <div class="cf-cgroup">
     <%= f.label :remember_me %>
     <div class="cntrls">
-      <%= f.check_box :remember_me %>
+      <label class="checkbox"><%= f.check_box :remember_me %></label>
     </div>
   </div>
 <% end -%>
