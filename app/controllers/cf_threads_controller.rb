@@ -54,7 +54,7 @@ class CfThreadsController < ApplicationController
     @thread.message  =  @message
     @thread.slug     = CfThread.gen_id(@thread)
 
-    if @thread.slug =~ /\/$/
+    if @thread.slug =~ /\/$/ and not @thread.message.subject.blank?
       flash[:error] = t("errors.could_not_generate_slug")
       invalid = true
     end
