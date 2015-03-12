@@ -59,9 +59,9 @@ de:
       voted: Sie haben erfolgreich abgestimmt.
       vote_deleted: Ihre Stimme wurde erfolgreich zurückgenommen.
       error_message: "%{errors_count} verhinderten, dass diese Sperr-Abstimmung gespeichert werden konnte:"
-      close_message: Beitrag „%{subject}” von %{author} schließen
+      close_message: Beitrag „%{subject}” von %{author} sperren
       open_message: Beitrag „%{subject}” von %{author} entsperren
-      close_message_button: Beitrag missbilligen
+      close_message_button: Beitrag sperren
       open_message_button: Sperre widerrufen
       close_vote_already_exists: Es existiert bereits eine Sperr-Abstimmung.
       open_vote_already_exists: Es existiert bereits eine Entsperr-Abstimmung.
