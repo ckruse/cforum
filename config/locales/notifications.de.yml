@@ -8,3 +8,4 @@ de:
     mark_unread: ungelesen markieren
     marked_unread: Die Benachrichtigung wurde als ungelesen markiert!
     new_notifications: "%{num} neue Benachrichtigungen"
+    unread: ungelesen
