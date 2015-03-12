@@ -146,7 +146,7 @@ end
         </div>
 
         <div id="kopf">
-          <h1><span>selfhtml-Forum - Ergänzung zur <a href="http://wiki.selfhtml.org">Dokumentation</a></span><img src="http://src.selfhtml.org/selfhtml_forum.png" alt="SELFHTML-Forum"></h1>
+          <h1><span>selfhtml-Forum - Ergänzung zur <a href="http://wiki.selfhtml.org">Dokumentation</a></span><%= link_to root_path do %><img src="http://src.selfhtml.org/selfhtml_forum.png" alt="SELFHTML-Forum"><% end %></h1>
 		      <ul class="sociallinks">
             <li><%= link_to(cf_forum_url(current_forum, format: :rss),
                             class: 'rss',
