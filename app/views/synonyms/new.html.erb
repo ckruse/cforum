@@ -1,6 +1,7 @@
 <%
 content_for :title, t('tags.new_tag_synonym_for_tag', tag: @tag.tag_name)
-%><h1><%= t('tags.new_tag_synonym_for_tag', tag: @tag.tag_name) %></h1>
+content_for :h1, t('tags.new_tag_synonym_for_tag', tag: @tag.tag_name)
+%>
 
 <%= form_for @synonym , url: tag_synonyms_path(current_forum.slug, @tag), html: {class: 'form-horizontal'} do |f| %>
 

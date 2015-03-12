@@ -1,6 +1,7 @@
 <%
 content_for :title, t('tags.edit_tag', name: @tag.tag_name)
-%><h1><%= t('tags.edit_tag', name: @tag.tag_name) %></h1>
+content_for :h1, t('tags.edit_tag', name: @tag.tag_name)
+%>
 
 <%= form_for @tag, url: tag_path(current_forum.slug, @tag), html: {class: 'form-horizontal'} do |f| %>
 

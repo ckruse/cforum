@@ -1,9 +1,12 @@
-<% content_for :title do %><%= t("messages.close_vote.close_message",
-                                 subject: @message.subject,
-                                 author: @message.author) %><% end %>
+<%
+content_for :title, t("messages.close_vote.close_message",
+                      subject: @message.subject,
+                      author: @message.author)
 
-<h1><%= t("messages.close_vote.close_message", subject: @message.subject,
-          author: @message.author) %></h1>
+content_for :h1, t("messages.close_vote.close_message",
+                   subject: @message.subject,
+                   author: @message.author)
+%>
 
 <% if @close_vote.errors.any? %>
   <div id="error_explanation" class="cf-error">

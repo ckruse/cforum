@@ -1,6 +1,7 @@
 <%
 content_for :title, t('users.users')
-%><h1><%= t('users.users') %></h1>
+content_for :h1, t('users.users')
+%>
 
 <form class="form-search">
 <input name="s" value="<%= @search_term %>" type="text" placeholder="username" class="cf-search-query">

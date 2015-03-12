@@ -2,11 +2,12 @@
 content_for :title, t('badges.badge_w_name',
                       mtype: t("badges.badge_medal_types." + @badge.badge_medal_type),
                       name: @badge.name)
-
-%><h1><%= image_tag @badge.badge_medal_type + '.png' %>
+content_for :h1 do
+%><%= image_tag @badge.badge_medal_type + '.png' %>
   <%= t('badges.badge_w_name',
         mtype: t("badges.badge_medal_types." + @badge.badge_medal_type),
-        name: @badge.name) %></h1>
+        name: @badge.name) %>
+<% end %>
 
 <p>
   <%= @badge.to_html(self) %>
