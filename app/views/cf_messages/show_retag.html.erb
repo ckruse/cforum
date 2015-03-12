@@ -5,8 +5,8 @@ content_for(:title, t('messages.retag') + ": " + @message.subject + " " +
 content_for(:body_id, "message")
 content_for(:h1) do
 %>
-<h1><%= t('essages.retag') %>: <span class="author" id="posting-author"><%= @message.author %>:</span><br>
-  <span class="title" id="posting-title"><%= @message.subject %></span></h1>
+<%= t('essages.retag') %>: <span class="author" id="posting-author"><%= @message.author %>:</span><br>
+<span class="title" id="posting-title"><%= @message.subject %></span>
 <% end %>
 
 <%= form_tag retag_cf_message_path(@thread, @message), class: 'form-horizontal' do %>
