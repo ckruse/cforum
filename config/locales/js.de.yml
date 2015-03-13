@@ -6,7 +6,7 @@ de:
 
       buttons:
         tab:
-          title: Tabulator
+          title: Tabulator (Alt+1)
           text: Tabulator
         hellip:
           title: … (horizontale Ellipse)
