@@ -67,6 +67,7 @@ $(function() {
   });
 
   autohideAlerts();
+  $("textarea").tabEnable();
 });
 
 // eof

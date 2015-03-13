@@ -1,6 +1,21 @@
 /* -*- coding: utf-8 -*- */
 
 cforum.markdown_buttons = {
+  tab: {
+    name: 'cmdTab',
+    toggle: false,
+    title: "Tabulator",
+    icon: 'fa fa-indent',
+    callback: function(e) {
+      var cursor, selected = e.getSelection();
+
+      e.replaceSelection("\t");
+      cursor = selected.start;
+
+      e.setSelection(cursor, cursor + 1);
+    }
+  },
+
   hellip: {
     name: 'cmdHellips',
     toggle: false,

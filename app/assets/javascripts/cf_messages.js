@@ -15,6 +15,7 @@ cforum.cf_messages = {
                        {
                          name: 'groupCustom',
                          data: [
+                           cforum.markdown_buttons.tab,
                            cforum.markdown_buttons.hellip,
                            cforum.markdown_buttons.mdash,
                            cforum.markdown_buttons.almostEqualTo,
