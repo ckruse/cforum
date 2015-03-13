@@ -78,5 +78,17 @@ main h2 { margin-left:0; }
   ol { list-style-type:none; }
 }
 
+blockquote {
+  border-left: .3em solid #d5d5d5;
+  margin-left: 0;
+  padding-left: 1em;
+}
+
+blockquote blockquote {
+  border-width: .25em;
+  padding-left: .5em;
+}
+
+
 
 /* eof */
