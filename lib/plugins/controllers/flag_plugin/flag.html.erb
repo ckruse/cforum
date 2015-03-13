@@ -26,7 +26,7 @@ content_for :h1, "<h1>".html_safe + t('plugins.flag_plugin.only_flag_message') +
       <%= t('messages.close_vote.duplicate') %>
     </label>
 
-    <%= url_field_tag :duplicate_slug, params[:duplicate_slug] %>
+    <%= url_field_tag :duplicate_slug, params[:duplicate_slug],  placeholder: t('layout.placeholders.duplicate') %>
   </div>
 
   <div class="cf-radio-only">

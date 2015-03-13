@@ -34,5 +34,6 @@ de:
       inline_css: ".avatar { border: 1px solid red; }"
       inline_js: "$('.avatar').css({border: '1px solid red'});"
       date_format: "%d.%m.%Y %H:%M"
+      duplicate: http://forum.selfhtml.org/zu-diesem-forum/2001/may/28/test-bitte-ignorieren/572405
       
 
