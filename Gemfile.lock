@@ -48,7 +48,7 @@ GEM
       execjs
     coffee-script-source (1.9.1)
     content_for_in_controllers (0.0.2)
-    daemons (1.1.9)
+    daemons (1.2.1)
     devise (3.4.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -149,7 +149,7 @@ GEM
       libv8 (~> 3.16.14.0)
       ref
     thor (0.19.1)
-    thread_safe (0.3.4)
+    thread_safe (0.3.5)
     tilt (1.4.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
