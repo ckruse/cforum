@@ -32,7 +32,7 @@ cforum.cf_threads = {
     var append = false;
 
     if(!alert.length) {
-      alert = $("<div class=\"cf-success\" id=\"new_messages_arrived\"></div>");
+      alert = $("<div class=\"cf-success cf-alert\" id=\"new_messages_arrived\"><button type=\"button\" class=\"close\" data-dismiss=\"cf-alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>");
       append = true;
     }
 
@@ -43,6 +43,8 @@ cforum.cf_threads = {
 
     if(append) {
       $("#alerts-container").append(alert);
+      setDismissHandlers();
+      autohideAlerts();
     }
   },
 

@@ -40,7 +40,7 @@ function t(key, deflt) {
   return loc;
 }
 
-$(function() {
+function setDismissHandlers() {
   $("[data-dismiss]").click(function() {
     var $this = $(this);
     var clss = $this.attr('data-dismiss');
@@ -48,7 +48,16 @@ $(function() {
     var elem = $this.closest("." + clss);
     elem.fadeOut('fast', function() { $(this).remove(); });
   });
+}
 
+function autohideAlerts() {
+  window.setTimeout(function() {
+    $(".cf-success").fadeOut('fast', function() { $(this).remove(); });
+  }, 3000);
+}
+
+$(function() {
+  setDismissHandlers();
   $(".select2").select2();
 
   $("#forum-list select").on('change', function() {
@@ -56,6 +65,8 @@ $(function() {
       $("#forum-list").submit();
     }
   });
+
+  autohideAlerts();
 });
 
 // eof
