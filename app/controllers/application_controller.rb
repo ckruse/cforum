@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   include SortingHelper
 
   before_filter :do_init, :locked?, :set_forums, :notifications,
-                :run_before_handler, :check_authorizations
+                :run_before_handler, :check_authorizations, :store_location
   after_filter :run_after_handler
 
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -119,6 +119,25 @@ class ApplicationController < ActionController::Base
     end
 
     return false
+  end
+
+  def store_location
+    return unless request.get?
+    if (request.path != "/users/login" &&
+        request.path != "/users/sign_up" &&
+        request.path != "/users/password/new" &&
+        request.path != "/users/password/edit" &&
+        request.path != "/users/confirmation" &&
+        request.path != "/users/logout" &&
+        !request.xhr? && !is_prefetch &&
+        (request.format == "text/html" ||
+         request.content_type == "text/html"))
+      session[:previous_url] = request.fullpath
+    end
+  end
+
+  def after_sign_in_path_for(resource)
+    session[:previous_url] || root_path
   end
 
   protected
