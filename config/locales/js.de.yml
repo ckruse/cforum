@@ -5,6 +5,9 @@ de:
       add_quote: Zitat einfügen
 
       buttons:
+        tab:
+          title: Tabulator
+          text: Tabulator
         hellip:
           title: … (horizontale Ellipse)
           text: …
