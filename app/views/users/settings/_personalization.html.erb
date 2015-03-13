@@ -35,28 +35,28 @@
   <div class="cf-cgroup">
     <label for="settings_own_css_file"><%= t('users.settings.own_css_file') %></label>
     <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('own_css_file') %>" name="settings[own_css_file]" id="settings_own_css_file"<%= disabled %>>
+      <input type="text" value="<%= @settings.conf('own_css_file') %>" name="settings[own_css_file]" id="settings_own_css_file" placeholder="<%= t('layout.placeholders.css_file') %>"<%= disabled %>>
     </div>
   </div>
 
   <div class="cf-cgroup">
     <label for="settings_own_js_file"><%= t('users.settings.own_js_file') %></label>
     <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('own_js_file') %>" name="settings[own_js_file]" id="settings_own_js_file"<%= disabled %>>
+      <input type="text" value="<%= @settings.conf('own_js_file') %>" name="settings[own_js_file]" id="settings_own_js_file" placeholder="<%= t('layout.placeholders.js_file') %>"<%= disabled %>>
     </div>
   </div>
 
   <div class="cf-cgroup">
     <label for="settings_own_css"><%= t('users.settings.own_css') %></label>
     <div class="cntrls">
-      <textarea name="settings[own_css]" id="settings_own_css"<%= disabled %>><%= @settings.conf('own_css') %></textarea>
+      <textarea name="settings[own_css]" id="settings_own_css" placeholder="<%= t('layout.placeholders.inline_css') %>"<%= disabled %>><%= @settings.conf('own_css') %></textarea>
     </div>
   </div>
 
   <div class="cf-cgroup">
     <label for="settings_own_js"><%= t('users.settings.own_js') %></label>
     <div class="cntrls">
-      <textarea name="settings[own_js]" id="settings_own_js"<%= disabled %>><%= @settings.conf('own_js') %></textarea>
+      <textarea name="settings[own_js]" id="settings_own_js" placeholder="<%= t('layout.placeholders.inline_js') %>"<%= disabled %>><%= @settings.conf('own_js') %></textarea>
     </div>
   </div>
 
@@ -64,14 +64,14 @@
   <div class="cf-cgroup">
     <label><%= t('users.settings.date_format_index') %></label>
     <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('date_format_index') %>" name="settings[date_format_index]" id="settings_date_format_index"<%= disabled %>>
+      <input type="text" value="<%= @settings.conf('date_format_index') %>" name="settings[date_format_index]" id="settings_date_format_index" placeholder="<%= t('layout.placeholders.date_format') %>"<%= disabled %>>
     </div>
   </div>
 
   <div class="cf-cgroup">
     <label><%= t('users.settings.date_format_post') %></label>
     <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('date_format_post') %>" name="settings[date_format_post]" id="settings_date_format_post"<%= disabled %>>
+      <input type="text" value="<%= @settings.conf('date_format_post') %>" name="settings[date_format_post]" id="settings_date_format_post" placeholder="<%= t('layout.placeholders.date_format') %>"<%= disabled %>>
     </div>
   </div>
 
@@ -79,7 +79,7 @@
   <div class="cf-cgroup">
     <label><%= t('users.settings.date_format_default') %></label>
     <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('date_format_default') %>" name="settings[date_format_default]" id="settings_date_format_default"<%= disabled %>>
+      <input type="text" value="<%= @settings.conf('date_format_default') %>" name="settings[date_format_default]" id="settings_date_format_default" placeholder="<%= t('layout.placeholders.date_format') %>"<%= disabled %>>
     </div>
   </div>
 

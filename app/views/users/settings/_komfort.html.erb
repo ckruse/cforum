@@ -4,21 +4,21 @@
   <div class="cf-cgroup">
     <label for="settings_greeting"><%= t('users.settings.greeting') %></label>
     <div class="cntrls">
-      <textarea name="settings[greeting]" id="settings_greeting"<%= disabled %>><%= @settings.conf('greeting') %></textarea>
+      <textarea name="settings[greeting]" id="settings_greeting" placeholder="<%= t('layout.placeholders.greeting') %>"<%= disabled %>><%= @settings.conf('greeting') %></textarea>
     </div>
   </div>
 
   <div class="cf-cgroup">
     <label for="settings_farewell"><%= t('users.settings.farewell') %></label>
     <div class="cntrls">
-      <textarea name="settings[farewell]" id="settings_farewell"<%= disabled %>><%= @settings.conf('farewell') %></textarea>
+      <textarea name="settings[farewell]" id="settings_farewell" placeholder="<%= t('layout.placeholders.farewell') %>"<%= disabled %>><%= @settings.conf('farewell') %></textarea>
     </div>
   </div>
 
   <div class="cf-cgroup">
     <label for="settings_signature"><%= t('users.settings.signature') %></label>
     <div class="cntrls">
-      <textarea name="settings[signature]" id="settings_signature"<%= disabled %>><%= @settings.conf('signature') %></textarea>
+      <textarea name="settings[signature]" id="settings_signature" placeholder="<%= t('layout.placeholders.signature') %>"<%= disabled %>><%= @settings.conf('signature') %></textarea>
     </div>
   </div>
 

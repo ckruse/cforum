@@ -4,14 +4,14 @@
   <div class="cf-cgroup">
     <label class="control-label" for="settings_email"><%= t('users.settings.email_form') %></label>
     <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('email') %>" name="settings[email]" id="settings_email"<%= disabled %>>
+      <input type="email" value="<%= @settings.conf('email') %>" name="settings[email]" id="settings_email" placeholder="mail@example.com"<%= disabled %>>
     </div>
   </div>
 
   <div class="cf-cgroup">
     <label class="control-label" for="settings_url"><%= t('users.settings.homepage') %></label>
     <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('url') %>" name="settings[url]" id="settings_url"<%= disabled %>>
+      <input type="url" value="<%= @settings.conf('url') %>" name="settings[url]" id="settings_url" placeholder="http://example.com/"<%= disabled %>>
     </div>
   </div>
 
