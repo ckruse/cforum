@@ -8,40 +8,8 @@ cforum.tags = {
     tagSuggestion: "<li class=\"tag\" style=\"display:none\" data-tag=\"{{tag}}\"><i class=\"icon-tag-ok del-tag\"> </i> {{tag}}</li>"
   },
 
-  autocomplete_timeout: null,
   suggestionsTimeout: null,
   maxTags: 4,
-
-  autocomplete: function() {
-    cforum.tags.autocomplete_timeout = null;
-
-    var $tag_input = $("#replaced_tag_input");
-
-    if($tag_input.val().length >= 2) {
-      $.get(
-        cforum.baseUrl + '/' + cforum.currentForum.slug + '/tags/autocomplete.json',
-        's=' + encodeURIComponent($tag_input.val()),
-        function(data) {
-          if(data.length > 0) {
-            var val = $tag_input.val();
-            var val_l = $.trim(val.toLowerCase());
-
-            for(var i = 0; i < data.length; ++i) {
-              if(val_l == data[i].toLowerCase()) {
-                return;
-              }
-            }
-
-            var tag = data[0];
-
-            $tag_input.val(val + tag.substring(val.length));
-            $tag_input.selection(val.length, tag.length);
-          }
-        }
-      );
-
-    }
-  },
 
   suggestions: function(text) {
     var tokens = text.split(/[^a-z0-9äöüß-]+/i);
