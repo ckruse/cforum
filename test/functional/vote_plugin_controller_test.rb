@@ -108,11 +108,51 @@ class VotePluginControllerTest < ActionController::TestCase
     assert_equal 0, message.upvotes
   end
 
+  test "shouldnt downvote with zero or less points" do
+    forum   = FactoryGirl.create(:cf_write_forum)
+    thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
+    message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
+    usr     = FactoryGirl.create(:cf_user)
+
+    sign_in usr
+
+    assert_no_difference 'CfVote.count' do
+      post :vote, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s,
+        type: 'down'
+      }
+    end
+
+    assert_redirected_to cf_message_url(thread, message)
+
+    CfScore.create!(user_id: usr.user_id, value: -10)
+
+    assert_no_difference 'CfVote.count' do
+      post :vote, {
+        curr_forum: forum.slug,
+        year: '2012',
+        mon: 'dec',
+        day: '6',
+        tid: 'obi-wan-kenobi',
+        mid: message.message_id.to_s,
+        type: 'down'
+      }
+    end
+
+    assert_redirected_to cf_message_url(thread, message)
+  end
+
   test "should downvote" do
     forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     usr     = FactoryGirl.create(:cf_user)
+    CfScore.create!(user_id: usr.user_id, value: 10)
 
     sign_in usr
 
@@ -139,6 +179,7 @@ class VotePluginControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
     usr     = FactoryGirl.create(:cf_user, admin: false)
+    CfScore.create!(user_id: usr.user_id, value: 10)
 
     begin
       badge = FactoryGirl.create(:cf_badge, badge_type: RightsHelper::DOWNVOTE)
@@ -201,6 +242,7 @@ class VotePluginControllerTest < ActionController::TestCase
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, upvotes: 1)
     usr     = FactoryGirl.create(:cf_user)
     CfVote.create!(user_id: usr.user_id, message_id: message.message_id, vtype: CfVote::UPVOTE)
+    CfScore.create!(user_id: usr.user_id, value: 10)
 
     sign_in usr
 
@@ -281,6 +323,7 @@ class VotePluginControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi', archived: true)
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, downvotes: 1)
     usr     = FactoryGirl.create(:cf_user)
+    CfScore.create!(user_id: usr.user_id, value: 10)
 
     sign_in usr
 
@@ -296,11 +339,11 @@ class VotePluginControllerTest < ActionController::TestCase
       }
     end
 
-    s = CfScore.find_by_user_id! usr.user_id
-    assert_equal -1, s.value
+    s = CfScore.where(user_id: usr.user_id).sum(:value)
+    assert_equal(9, s)
 
-    s = CfScore.find_by_user_id! message.user_id
-    assert_equal -1, s.value
+    s = CfScore.where(user_id: message.user_id).sum(:value)
+    assert_equal(-1, s)
   end
 
   test "revote up should score x points to bevoted user and remove -score from voter" do

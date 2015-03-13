@@ -68,6 +68,12 @@ class VotePluginController < ApplicationController
       return
     end
 
+    if current_user.score <= 0 and vtype == CfVote::DOWNVOTE
+      flash[:error] = t('messages.not_enough_score')
+      redirect_to cf_message_url(@thread, @message)
+      return
+    end
+
     notification_center.notify(VOTING_MESSAGE, @message)
     CfVote.transaction do
       if @vote
