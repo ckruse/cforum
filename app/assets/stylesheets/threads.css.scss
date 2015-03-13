@@ -114,14 +114,11 @@ a.thread-forum-plate, a.thread-forum-plate:visited {
 	  font-weight:bold;
   }
 
-  .active > header .message-icons { margin-left:0; }
-
-  .active > header:before {
+  .active > header .votes:before {
     content: "►";
     color: #00A1E2;
-    margin-left:1.2em;
     font-size:1em;
-    margin-right:0;
+    margin-right:0.3em;
   }
 
   .active ol, .active ol a {
