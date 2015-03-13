@@ -1,6 +1,0 @@
-== Classic Forum
-
-The Classic Forum is a modern and flexible threaded forum software written
-in Ruby on rails.
-
-TODO: more infos
