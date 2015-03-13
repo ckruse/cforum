@@ -7,14 +7,14 @@ content_for(:h1, t('devise.sign_in'))
   <div class="cf-cgroup">
     <%= f.label :login %>
     <div class="cntrls">
-      <%= f.text_field :login %>
+      <%= f.text_field :login, placeholder: CfUser.human_attribute_name(:login) %>
     </div>
   </div>
 
   <div class="cf-cgroup">
     <%= f.label :password %>
     <div class="cntrls">
-      <%= f.password_field :password %>
+      <%= f.password_field :password, placeholder: CfUser.human_attribute_name(:password) %>
     </div>
   </div>
 

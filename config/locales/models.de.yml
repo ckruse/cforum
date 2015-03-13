@@ -70,6 +70,7 @@ de:
         created_at: erstellt
         updated_at: geändert
         remember_me: Login merken
+        login: Benutzername oder E-Mail
 
       cf_forum_access:
         permission: Zugriffsrecht
