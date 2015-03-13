@@ -195,8 +195,19 @@ cforum.tags = {
                   el = $("#replaced_tag_input").closest(".cntrls").find(".errors");
                 }
 
+                var text = '';
+                var clss = '';
+                if(cforum.tags.mayCreateTag(cforum.currentUser)) {
+                  text = t('tags.tag_will_be_created');
+                  clss = 'cf-warning';
+                }
+                else {
+                  text = t('tags.tag_doesnt_exist');
+                  clss = 'cf-error';
+                }
+
                 el.find("div").fadeOut("fast", function() {
-                  el.html("<div class=\"cf-error\" style=\"display:none\">" + t('tags.tag_doesnt_exist') + "</div>");
+                  el.html("<div class=\"cf-alert " + clss + "\" style=\"display:none\">" + text + "</div>");
                   el.find("div").fadeIn("fast");
                 });
               }
@@ -215,6 +226,30 @@ cforum.tags = {
       closest(".cntrls").
       find(".errors div").
       fadeOut("fast", function() { $(this).remove(); });
+  },
+
+  mayCreateTag: function(user) {
+    if(!user) {
+      return false;
+    }
+
+    if(user.admin) {
+      return true;
+    }
+
+    if(user.badges) {
+      for(var i = 0; i < user.badges.length; ++i) {
+        var b = user.badges[i];
+
+        switch(b.badge_type) {
+        case 'create_tag':
+        case 'create_tag_synonym':
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 };
 
