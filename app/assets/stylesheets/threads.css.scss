@@ -40,7 +40,9 @@ a.thread-forum-plate, a.thread-forum-plate:visited {
   border-bottom:0;
   border-radius: 0px 0.5em 0.5em;
   min-width: 44em;
-  padding: 0.35em 1em 0.25em;
+  padding: .35em 1em 0;
+
+  & > ol { border-radius: 0 0 .5em .5em; }
 
   & > header > .thread-icons {
     float:right;
