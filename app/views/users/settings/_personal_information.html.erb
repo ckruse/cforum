@@ -2,7 +2,7 @@
   <legend><%= t('users.settings.personal_information') %></legend>
 
   <div class="cf-cgroup">
-    <label class="control-label" for="settings_email"><%= t('users.settings.email') %></label>
+    <label class="control-label" for="settings_email"><%= t('users.settings.email_form') %></label>
     <div class="cntrls">
       <input type="text" value="<%= @settings.conf('email') %>" name="settings[email]" id="settings_email"<%= disabled %>>
     </div>

@@ -26,7 +26,8 @@ de:
       quote_old_message: alte Nachricht zitieren
       quote_signature: Signatur zitieren
       personal_information: persönliche Informationen
-      email: E-Mail
+      email: E-Mail (intern)
+      email_form: E-Mail (Formular-Feld)
       homepage: Homepage
       readability_overview: Lesbarkeit / Übersicht
       standard_thread_view: Standard-Ansicht für Threads
