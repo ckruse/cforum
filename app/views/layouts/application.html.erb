@@ -187,20 +187,27 @@ end
         <% end %>
 
         <ul>
+          <% if current_forum %>
+		        <li id="link-neuenachricht"><%= link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
+          <% end %>
+
           <li><%= link_to t('layout.home'), root_url %></li>
           <% if current_forum %>
             <li><%= link_to current_forum.name, cf_threads_path(current_forum) %></li>
           <% end %>
 
-          <% if current_user and current_user.admin %><li><%= link_to t('layout.administration'), admin_users_path %></li><% end %>
+          <% if @thread %>
+            <li id="nachricht-feed-atom"><%= link_to t("layout.msg_atom_feed"), cf_thread_url(@thread, format: :atom) %></li>
+            <li id="nachricht-feed-rss"><%= link_to t("layout.msg_rss_feed"), cf_thread_url(@thread, format: :rss) %></li>
+          <% end %>
+
+          <% if current_user and current_user.admin %>
+            <li><%= link_to t('layout.administration'), admin_users_path %></li>
+          <% end %>
 
           <% if current_forum %>
-            <% if not controller_path == 'cf_threads' %>
-		          <li id="optionen-neuenachricht"><%= link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
-            <% end %>
-
             <li id="optionen-tags"><%= link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
-            <% if current_user %>
+            <% if current_user and not @thread %>
               <li id="mark-all-read"><%= link_to(t("plugins.mark_read.mark_all_read"),
                                                  mark_all_read_path(current_forum),
                                                  method: :post) %></li>

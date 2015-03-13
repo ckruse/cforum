@@ -1,8 +1,0 @@
-<h3><%= t('layout.participate') %></h3>
-
-<ul class="mitmachen">
-  <% if current_forum %>
-		<li id="link-neuenachricht"><%= link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
-  <% end %>
-</ul>
-
