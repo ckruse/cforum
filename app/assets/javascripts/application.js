@@ -58,7 +58,7 @@ function autohideAlerts() {
 
 $(function() {
   setDismissHandlers();
-  $(".select2").select2();
+  $(".select2").select2({minimumResultsForSearch: -1});
 
   $("#forum-list select").on('change', function() {
     if($(this).val() != "") {
