@@ -42,7 +42,11 @@ a.thread-forum-plate, a.thread-forum-plate:visited {
   min-width: 44em;
   padding: .35em 1em 0;
 
-  & > ol { border-radius: 0 0 .5em .5em; }
+  & > ol { 
+    border-radius: 0 0 .5em .5em;
+    margin: 0 -1em;
+    padding: .25em 1.5em .5em 4.5em;
+  }
 
   & > header > .thread-icons {
     float:right;
@@ -52,10 +56,8 @@ a.thread-forum-plate, a.thread-forum-plate:visited {
 
   ol {
     list-style-type:none;
-    margin:0;
     overflow:visible;
-    margin: 0em -1em 0em;
-
+        
     li {
       padding:0;
       margin:0;
