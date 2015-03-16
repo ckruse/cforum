@@ -52,13 +52,34 @@ class CfForumsController < ApplicationController
   end
 
   def redirect_archive
-    thread = CfThread.find_by_tid(params[:tid][1..-1].to_i)
+    thread = CfThread.where(tid: params[:tid][1..-1].to_i).all
+    t = nil
 
-    if thread
-      sort_thread(thread)
-      redirect_to cf_message_url(thread, thread.message), status: 301
-    else
+    if thread.length == 1
+      t = thread.first
+      sort_thread(t)
+
+    elsif thread.length > 1
+      thread.each do |thr|
+        sort_thread(thr)
+
+        if thr.created_at.year == params[:year].to_i
+          t = thr
+          break
+        end
+      end
+
+      if t.nil?
+        @threads = thread
+        render 'redirect_archive'
+        return
+      end
+    end
+
+    if t.nil?
       raise CForum::NotFoundException.new # TODO: add message
+    else
+      redirect_to cf_message_url(t, t.message), status: 301
     end
   end
 

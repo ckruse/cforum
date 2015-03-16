@@ -29,6 +29,7 @@ de:
     author: Autor
     subject: Betreff
     user_profile: Benutzer-Profil
+    redirect_thread_multiple: mehrere mögliche Threads gefunden
 
     scores:
       right_upvote: Upvote-Recht
