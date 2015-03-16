@@ -196,7 +196,7 @@ end
             <li><%= link_to current_forum.name, cf_threads_path(current_forum) %></li>
           <% end %>
 
-          <% if @thread %>
+          <% if @thread and not @thread.new_record? %>
             <li id="nachricht-feed-atom"><%= link_to t("layout.msg_atom_feed"), cf_thread_url(@thread, format: :atom) %></li>
             <li id="nachricht-feed-rss"><%= link_to t("layout.msg_rss_feed"), cf_thread_url(@thread, format: :rss) %></li>
           <% end %>
