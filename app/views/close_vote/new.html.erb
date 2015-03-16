@@ -23,43 +23,49 @@ content_for :h1, t("messages.close_vote.close_message",
 <%= form_for(@close_vote, url: close_cf_message_path(@thread, @message),
              html: {:class => 'form-horizontal'}, method: :put) do |f| %>
 
-  <div class="cf-radio-only">
-    <label>
-      <%= f.radio_button :reason, "off-topic" %>
-      <%= t('messages.close_vote.off-topic') %>
-    </label>
+  <div class="cf-cgroup">
+    <%= f.label :reason %>
+    <div class="cntrls">
+      <label class="radio">
+        <%= f.radio_button :reason, "off-topic" %>
+        <%= t('messages.close_vote.off-topic') %>
+      </label>
+
+      <label class="radio">
+        <%= f.radio_button :reason, "not-constructive" %>
+        <%= t('messages.close_vote.not-constructive') %>
+      </label>
+
+      <label class="radio">
+        <%= f.radio_button :reason, "illegal" %>
+        <%= t('messages.close_vote.illegal') %>
+      </label>
+
+      <label class="radio">
+        <%= f.radio_button :reason, "duplicate" %>
+        <%= t('messages.close_vote.duplicate') %>
+      </label>
+
+      <label class="radio">
+        <%= f.radio_button :reason, "custom" %>
+        <%= t('messages.close_vote.custom') %>
+      </label>
+    </div>
   </div>
 
-  <div class="cf-radio-only">
-    <label>
-      <%= f.radio_button :reason, "not-constructive" %>
-      <%= t('messages.close_vote.not-constructive') %>
-    </label>
+
+  <div class="cf-cgroup" data-depends-on="cf_close_vote[reason]=duplicate">
+    <%= f.label :duplicate_slug %>
+    <div class="cntrls">
+      <%= f.url_field :duplicate_slug, placeholder: t('layout.placeholders.duplicate') %>
+    </div>
   </div>
 
-  <div class="cf-radio-only">
-    <label>
-      <%= f.radio_button :reason, "illegal" %>
-      <%= t('messages.close_vote.illegal') %>
-    </label>
-  </div>
-
-  <div class="cf-radio-only">
-    <label>
-      <%= f.radio_button :reason, "duplicate" %>
-      <%= t('messages.close_vote.duplicate') %>
-    </label>
-
-    <%= f.url_field :duplicate_slug %>
-  </div>
-
-  <div class="cf-radio-only">
-    <label>
-      <%= f.radio_button :reason, "custom" %>
-      <%= t('messages.close_vote.custom') %>
-    </label>
-
-    <%= f.text_field :custom_reason %>
+   <div class="cf-cgroup" data-depends-on="cf_close_vote[reason]=custom">
+     <%= f.label :custom_reason %>
+     <div class="cntrls">
+       <%= f.text_field :custom_reason %>
+     </div>
    </div>
 
 
