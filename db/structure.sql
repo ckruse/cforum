@@ -690,7 +690,8 @@ CREATE TABLE forums (
     name character varying NOT NULL,
     description character varying,
     standard_permission character varying(50) DEFAULT 'private'::character varying NOT NULL,
-    keywords character varying(255)
+    keywords character varying(255),
+    "position" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2622,6 +2623,8 @@ INSERT INTO schema_migrations (version) VALUES ('54');
 INSERT INTO schema_migrations (version) VALUES ('55');
 
 INSERT INTO schema_migrations (version) VALUES ('56');
+
+INSERT INTO schema_migrations (version) VALUES ('57');
 
 INSERT INTO schema_migrations (version) VALUES ('6');
 

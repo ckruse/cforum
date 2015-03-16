@@ -22,6 +22,13 @@
   </div>
 
   <div class="cf-cgroup">
+    <%= f.label :postition %>
+    <div class="cntrls">
+      <%= f.number_field :position %>
+    </div>
+  </div>
+
+  <div class="cf-cgroup">
     <%= f.label :standard_permissions %>
     <div class="cntrls">
       <%= f.select :standard_permission, [

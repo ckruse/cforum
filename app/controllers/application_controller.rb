@@ -93,10 +93,10 @@ class ApplicationController < ActionController::Base
       @forums = CfForum.where("standard_permission = ? OR standard_permission = ?",
                               CfForumGroupPermission::ACCESS_READ,
                               CfForumGroupPermission::ACCESS_WRITE).
-        order('UPPER(name) ASC')
+        order('position ASC, UPPER(name) ASC')
 
     elsif current_user and current_user.admin
-      @forums = CfForum.order('UPPER(name) ASC')
+      @forums = CfForum.order('position ASC, UPPER(name) ASC')
 
     else
       @forums = CfForum.where(
@@ -106,7 +106,7 @@ class ApplicationController < ActionController::Base
         CfForumGroupPermission::ACCESS_KNOWN_READ,
         CfForumGroupPermission::ACCESS_KNOWN_WRITE,
         current_user.user_id
-      ).order('UPPER(name) ASC')
+      ).order('position ASC, UPPER(name) ASC')
     end
   end
 
