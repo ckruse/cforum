@@ -66,7 +66,7 @@ class OpenCloseThreadPlugin < Plugin
     end
 
     if not ids.blank?
-      result = CfThread.connection.execute("SELECT thread_id, state FROM cforum.opened_closed_threads WHERE thread_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+      result = CfThread.connection.execute("SELECT thread_id, state FROM opened_closed_threads WHERE thread_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
       result.each do |row|
         thread_map[row['thread_id']].attribs['open_state'] = row['state'] if thread_map[row['thread_id']]
       end
@@ -90,7 +90,7 @@ class OpenCloseThreadPlugin < Plugin
 
     CfThread.transaction do
       rslt = CfThread.connection.execute(
-        "SELECT thread_id, state FROM cforum.opened_closed_threads WHERE thread_id = " +
+        "SELECT thread_id, state FROM opened_closed_threads WHERE thread_id = " +
         tid +
         " AND user_id = " +
         current_user.user_id.to_s +
@@ -99,7 +99,7 @@ class OpenCloseThreadPlugin < Plugin
 
       if rslt.ntuples == 0
         if uconf('open_close_default', 'open') != state || uconf('open_close_close_when_read', 'no') == 'yes'
-          CfThread.connection.execute("INSERT INTO cforum.opened_closed_threads (user_id, thread_id, state) VALUES (" +
+          CfThread.connection.execute("INSERT INTO opened_closed_threads (user_id, thread_id, state) VALUES (" +
             current_user.user_id.to_s +
             ", " +
             tid +
@@ -108,7 +108,7 @@ class OpenCloseThreadPlugin < Plugin
         end
       else
         CfThread.connection.execute(
-          "DELETE FROM cforum.opened_closed_threads WHERE user_id = " +
+          "DELETE FROM opened_closed_threads WHERE user_id = " +
           current_user.user_id.to_s +
           " AND thread_id = " +
           tid

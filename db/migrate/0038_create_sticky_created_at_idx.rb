@@ -3,7 +3,7 @@
 class CreateStickyCreatedAtIdx < ActiveRecord::Migration
   def up
     execute <<-SQL
-CREATE INDEX threads_sticky_created_at_idx ON cforum.threads (sticky, created_at);
+CREATE INDEX threads_sticky_created_at_idx ON threads (sticky, created_at);
     SQL
   end
 

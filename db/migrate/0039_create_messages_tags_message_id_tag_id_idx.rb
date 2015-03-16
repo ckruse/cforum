@@ -3,7 +3,7 @@
 class CreateMessagesTagsMessageIdTagIdIdx < ActiveRecord::Migration
   def up
     execute <<-SQL
- CREATE INDEX messages_tags_tag_id_message_id_idx ON cforum.messages_tags (tag_id, message_id);
+ CREATE INDEX messages_tags_tag_id_message_id_idx ON messages_tags (tag_id, message_id);
     SQL
   end
 
