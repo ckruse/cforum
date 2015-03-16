@@ -8,7 +8,7 @@
       if('key' in event && (event.key == "1" || event.key == "¡") && event.altKey) {
         insertTab = true;
       }
-      else if(event.keyCode == 49 && event.ctrlKey) {
+      else if(event.keyCode == 49 && event.altKey) {
         insertTab = true;
       }
 
