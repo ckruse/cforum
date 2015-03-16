@@ -3,29 +3,28 @@
 
 require 'libxml'
 require 'htmlentities'
+require 'pg'
 
 require File.join(File.dirname(__FILE__), "..", "config", "boot")
 require File.join(File.dirname(__FILE__), "..", "config", "environment")
 
 ActiveRecord::Base.record_timestamps = false
-Rails.logger = Logger.new('log/archive_import.log')
+Rails.logger = Logger.new('/dev/null')
 ActiveRecord::Base.logger = Rails.logger
+
+$old_db = PG.connect(dbname: 'oldusers')
 
 directory = "/home/ckruse/dev/archiv/archiv/"
 directory = ARGV[0] if ARGV.length >= 1
 
-if ARGV[1] != 'forums'
-  $forum = CfForum.find_by_slug 'default'
-
-  $forum = CfForum.create!(
-    :name => 'Default-Forum',
-    :short_name => 'Default-Forum',
-    :slug => 'default',
-    :standard_permission => 'write',
-    :created_at => DateTime.now,
-    :updated_at => DateTime.now
-  ) if $forum.blank?
-end
+$default_forum = CfForum.where(slug: 'self').first!
+meta = CfForum.where(slug: 'meta').first!
+$map = {
+  # meta forums
+  'ZU DIESEM FORUM' => meta,
+  'SELFHTML' => meta,
+  'SELFHTML-WIKI' => meta
+}
 
 $ids = {}
 $coder = HTMLEntities.new
@@ -164,20 +163,18 @@ def handle_messages(old_msg, x_msg, thread)
 
   msg.save(validate: false)
 
-  if ARGV[1] != 'forums'
-    category = x_msg.find_first("./Header/Category").content.force_encoding('utf-8')
+  category = x_msg.find_first("./Header/Category").content.force_encoding('utf-8')
 
-    if not category.blank?
-      category = category.downcase.strip
+  if not category.blank?
+    category = category.downcase.strip
 
-      t = CfTag.find_by_forum_id_and_tag_name thread.forum_id, category
-      t = CfTag.create!(:tag_name => category, forum_id: thread.forum_id) if t.blank?
+    t = CfTag.find_by_forum_id_and_tag_name thread.forum_id, category
+    t = CfTag.create!(:tag_name => category, forum_id: thread.forum_id) if t.blank?
 
-      CfMessageTag.create!(
-        tag_id: t.tag_id,
-        message_id: msg.message_id
-      )
-    end
+    CfMessageTag.create!(
+      tag_id: t.tag_id,
+      message_id: msg.message_id
+    )
   end
 
   x_msg.find('./Header/Flags/Flag').each do |f|
@@ -186,9 +183,22 @@ def handle_messages(old_msg, x_msg, thread)
 
       usr = CfUser.find_by_username(uname)
       if !usr then
-        usr = CfUser.new(:username => uname, created_at: the_date, updated_at: the_date)
+        email = nil
+        $old_db.exec("SELECT email FROM auth WHERE username = '" + uname + "'") do |result|
+          result.each do |row|
+            email = row.values_at('email').first
+          end
+        end
+
+        usr = CfUser.new(username: uname, created_at: the_date, updated_at: the_date, email: email)
         usr.skip_confirmation!
-        usr.save!(validate: false)
+
+        begin
+          usr.save!(validate: false)
+        rescue ActiveRecord::RecordNotUnique
+          usr.email = nil
+          usr.save!(validate: false)
+        end
       end
 
       msg.user_id = usr.id
@@ -210,37 +220,12 @@ def handle_doc(doc, opts = {})
 
   forum_name = x_thread.find_first("./Message/Header/Category").content.force_encoding('utf-8')
 
-  if ARGV[1] == 'forums'
-    forum_name = "Default-Forum" if forum_name.blank?
-    forum_slug = forum_name.downcase.gsub /\s+/, '-'
-
-    forum_slug.gsub! /[^a-zA-Z0-9_-]/, '-'
-    forum_slug.gsub! /-{2,}/, '-'
-
-    forum_slug = 'default-forum' if forum_slug.empty? or forum_slug.length < 3
-    forum_slug = forum_slug[0..19] if forum_slug.length > 20
-  end
-
   the_date = Time.at(x_thread.find_first('./Message/Header/Date')['longSec'].force_encoding('utf-8').to_i)
   subject = x_thread.find_first('./Message/Header/Subject').content.force_encoding('utf-8')
 
   the_date = DateTime.parse("1970-01-01 00:00:00").to_time if the_date.blank?
 
-  if ARGV[1] == 'forums'
-    forum = CfForum.find_by_slug(forum_slug)
-    unless forum
-      forum = CfForum.create!(
-        name: forum_name,
-        short_name: forum_name,
-        standard_permission: 'write',
-        slug: forum_slug,
-        created_at: the_date,
-        updated_at: the_date
-      )
-    end
-  else
-    forum = $forum
-  end
+  forum = $map[forum_name] || $default_forum
 
   thread = CfThread.new(
     tid: x_thread['id'].force_encoding('utf-8')[1..-1],
@@ -295,8 +280,7 @@ def find_in_dir(dir)
       next
     end
 
-    next unless ent =~ /^t(\d+)\.xml$/
-    tid = $1
+    next unless ent =~ /^t\d+\.xml$/
 
     begin
       # do not use Parser.file since there seems to be a problem with open files
