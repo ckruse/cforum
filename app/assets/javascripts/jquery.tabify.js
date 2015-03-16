@@ -18,7 +18,7 @@
         var $this = $(this);
         var sel = $this.getSelection();
         $this.replaceSelection("\t");
-        $this.setSelection(sel.start+1, sel.end+1);
+        $this.setSelection(sel.start, sel.start+1);
       }
     });
   };
