@@ -61,6 +61,11 @@
         transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
       }
 
+      label.radio, label.checkbox {
+        width:100%;
+        max-width:55em;
+      }
+
       textarea.big {
         width:100%;
         max-width:100%;
