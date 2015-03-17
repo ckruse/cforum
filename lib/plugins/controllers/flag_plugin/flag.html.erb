@@ -1,6 +1,6 @@
 <%
 content_for :title, t('plugins.flag_plugin.flag_message', subject: @message.subject, author: @message.author)
-content_for :h1, "<h1>".html_safe + t('plugins.flag_plugin.only_flag_message') + "</h1>".html_safe
+content_for :h1, t('plugins.flag_plugin.only_flag_message')
 %>
 <h2><%= t('plugins.flag_plugin.flag_message', subject: @message.subject, author: @message.author) %></h2>
 
