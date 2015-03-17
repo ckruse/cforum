@@ -1,24 +1,24 @@
 <fieldset>
   <div class="cf-cgroup">
     <%= f.label :subject %>
-    <div class="cntrls"><%= f.text_field :subject, :placeholder => 'Subject', maxlength: 250 %></div>
+    <div class="cntrls"><%= f.text_field :subject, placeholder: t('layout.placeholders.subject'), maxlength: 250 %></div>
   </div>
 
   <% unless current_user %>
   <div class="cf-cgroup">
     <%= f.label :author %>
-    <div class="cntrls"><%= f.text_field :author, :placeholder => 'Author', maxlength: 60 %></div>
+    <div class="cntrls"><%= f.text_field :author, placeholder: t('layout.placeholders.username'), maxlength: 60 %></div>
   </div>
   <% end %>
 
   <div class="cf-cgroup">
     <%= f.label :email %>
-    <div class="cntrls"><%= f.email_field :email, :placeholder => 'e mail', maxlength: 60 %></div>
+    <div class="cntrls"><%= f.email_field :email, placeholder: t('layout.placeholders.email_optional'), maxlength: 60 %></div>
   </div>
 
   <div class="cf-cgroup">
     <%= f.label :homepage %>
-    <div class="cntrls"><%= f.text_field :homepage, :placeholder => 'Homepage', maxlength: 250 %></div>
+    <div class="cntrls"><%= f.text_field :homepage, placeholder: t('layout.placeholders.homepage_optional'), maxlength: 250 %></div>
   </div>
 </fieldset>
 
