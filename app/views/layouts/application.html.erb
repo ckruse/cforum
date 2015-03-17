@@ -214,9 +214,14 @@ end
             <% end %>
           <% end %>
 
-          <% if @threads and current_user %>
+          <% if @threads and current_user and not controller_path == 'interesting_threads_plugin' %>
             <li id="optionen-close-all-threads"><%= link_to t('plugins.open_close.close_all_threads'), cf_forum_path(current_forum, close_all: 'yes') %></li>
             <li id="optionen-open-all-threads"><%= link_to t('plugins.open_close.open_all_threads'), cf_forum_path(current_forum, open_all: 'yes') %></li>
+          <% end %>
+
+          <% if current_user %>
+            <li id="interesting-links"><%= link_to t('plugins.interesting_threads.interesting_threads'), interesting_threads_path %></li>
+            <li id="invisible-links"><%= link_to t('plugins.invisible_threads.invisible_threads'), hidden_threads_path %></li>
           <% end %>
 
           <% if current_user and current_user.moderate?(current_forum) %>
