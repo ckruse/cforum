@@ -27,11 +27,11 @@ de:
       arc: archivieren
 
     invisible_threads:
-      thread_marked_invisible: Thread wurde erfolgreich versteckt.
+      thread_marked_invisible: Thread wurde erfolgreich ausgeblendet.
       thread_marked_visible: Thread wird jetzt wieder angezeigt.
       mark_thread_invisible: Thread verstecken
       mark_thread_visible: Thread wieder anzeigen
-      invisible_threads: Versteckte Threads
+      invisible_threads: ausgeblendete Threads
       no_threads: Bisher keine ausgeblendeten Threads.
 
     mark_read:
