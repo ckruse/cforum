@@ -129,6 +129,7 @@ class ApplicationController < ActionController::Base
         request.path != "/users/password/edit" &&
         request.path != "/users/confirmation" &&
         request.path != "/users/logout" &&
+        request.path != "/users/registration" &&
         !request.xhr? && !is_prefetch &&
         (request.format == "text/html" ||
          request.content_type == "text/html"))
