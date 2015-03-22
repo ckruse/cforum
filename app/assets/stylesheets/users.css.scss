@@ -27,6 +27,11 @@
       padding-right:.5em;
     }
   }
+
+  & ~ .thread {
+    border: 1px solid #d5d5d5;
+    padding: .35em 1em;
+  }
 }
 
 .user-info-tags {
@@ -42,7 +47,7 @@
   .cnt {
     display:inline-block;
     text-align:center;
-    padding: 0.1em 0.6em 0.1em;
+    padding: 0 .6em;
     border-radius: 0px 0.4em 0.4em;
     color:#999ca7;
     border:1px solid #999ca7;

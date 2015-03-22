@@ -29,6 +29,13 @@ a.visited:hover, a.visited:active,
   padding: 0.25em 0.6em 0.25em;
 }
 
+a.thread-forum-plate:hover,
+a.thread-forum-plate:focus,
+a.thread-forum-plate:active {
+  font-weight: bold;
+  color: #990909;
+}
+
 a.thread-forum-plate, a.thread-forum-plate:visited {
   color:#fff;
 }
