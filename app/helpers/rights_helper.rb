@@ -122,6 +122,16 @@ module RightsHelper
     # editing is always possible when user is an admin
     return true if current_user and current_user.admin?
 
+    # not possible if thread is archived
+    if conf('use_archive') == 'yes' and thread.archived?
+      if redirect
+        flash[:error] = t('messages.editing_disabled')
+        redirect_to cf_message_url(thread, message)
+      end
+
+      return
+    end
+
     # editing isn't possible when disabled
     if conf('editing_enabled', 'yes') != 'yes'
       if redirect
@@ -221,6 +231,10 @@ module RightsHelper
     return false
   end
 
+  def may_answer(m)
+    return false if conf('use_archive') == 'yes' and m.thread.archived?
+    return m.open?
+  end
 
 end
 
