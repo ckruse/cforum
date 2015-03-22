@@ -11,7 +11,10 @@ module Peon
 
         # first: max messages per thread (to avoid monster threads like „Test, bitte ignorieren”)
         CfThread.transaction do
-          threads = CfThread.select('threads.thread_id, COUNT(*) AS cnt, flags').joins(:messages).where(archived: false, forum_id: forum.forum_id).group('threads.thread_id')
+          threads = CfThread.select('threads.thread_id, COUNT(*) AS cnt, threads.flags').
+                    joins(:messages).
+                    where(archived: false, forum_id: forum.forum_id).
+                    group('threads.thread_id')
 
           threads.each do |t|
             if t.cnt.to_i > max_messages
