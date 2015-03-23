@@ -169,7 +169,12 @@ def handle_messages(old_msg, x_msg, thread)
     category = category.downcase.strip
 
     t = CfTag.find_by_forum_id_and_tag_name thread.forum_id, category
-    t = CfTag.create!(:tag_name => category, forum_id: thread.forum_id) if t.blank?
+
+    begin
+      t = CfTag.create!(:tag_name => category, forum_id: thread.forum_id) if t.blank?
+    rescue ActiveRecord::RecordNotUnique
+      t = CfTag.find_by_forum_id_and_tag_name! thread.forum_id, category
+    end
 
     CfMessageTag.create!(
       tag_id: t.tag_id,
@@ -196,8 +201,12 @@ def handle_messages(old_msg, x_msg, thread)
         begin
           usr.save!(validate: false)
         rescue ActiveRecord::RecordNotUnique
-          usr.email = nil
-          usr.save!(validate: false)
+          usr = CfUser.where(username: uname).first
+
+          if usr.blank?
+            usr.email = nil
+            usr.save!(validate: false)
+          end
         end
       end
 
