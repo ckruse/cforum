@@ -5,7 +5,14 @@ content_for :h1, current_forum.blank? ? t('threads.threadlist_all') : t('threads
 
 <div class="root" data-js="threadlist">
   <% @threads.each do |thread| %>
-    <%= render 'thread', thread: thread %>
+    <article class="thread threadlist<% if thread.sticky %> sticky<% end %><% unless thread.attribs['classes'].blank? %> <%= thread.attribs['classes'].join(' ') %><% end %>" id="t<%= thread.thread_id %>">
+      <%= message_header(thread, thread.message, first: true, show_icons: true) %>
+
+      <% if not thread.message.messages.blank? and thread.attribs['open_state'] != 'closed' %>
+        <%= message_tree(thread, thread.message.messages, show_icons: true,
+                         hide_repeating_subjects: uconf('hide_subjects_unchanged', 'yes') == 'yes') %>
+      <% end %>
+    </article>
   <% end %>
 </div>
 
