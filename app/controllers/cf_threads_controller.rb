@@ -30,6 +30,15 @@ class CfThreadsController < ApplicationController
     end
   end
 
+  def show
+    @thread, @id = get_thread
+
+    respond_to do |format|
+      format.rss
+      format.atom
+    end
+  end
+
   def message_params
     params.require(:cf_thread).require(:message).permit(:subject, :content, :author, :email, :homepage)
   end
