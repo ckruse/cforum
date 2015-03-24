@@ -280,8 +280,15 @@ end
 
 def find_in_dir(dir)
   puts "Handling #{dir}"
+  entries = Dir.entries(dir).sort { |a,b|
+    if a =~ /^\d+$/ and b =~ /^\d+$/
+      a.to_i <=> b.to_i
+    else
+      a <=> b
+    end
+  }
 
-  Dir.open(dir).each do |ent|
+  entries.each do |ent|
     next if ent[0] == '.' # ignore ., .. and dot files
 
     if File.directory?(dir + '/' + ent) then
