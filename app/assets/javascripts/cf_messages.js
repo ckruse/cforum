@@ -43,7 +43,7 @@ cforum.cf_messages = {
 
   new: function() {
     if(cforum.cf_messages.quotedMessage) {
-      var obj = $(".form-actions").append("<button class=\"cf-btn quote-message\">" + t('add_quote') + "</button>");
+      $(".form-actions").append("<button class=\"cf-btn quote-message\">" + t('add_quote') + "</button>");
       $('.form-actions .quote-message').on('click', cforum.cf_messages.quoteMessage);
     }
   },
