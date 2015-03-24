@@ -44,7 +44,7 @@ content_for :h1, t('messages.new_answer_to', name: @parent.author)
   <p class="form-actions">
     <%= f.submit t('messages.preview'), :class => 'cf-btn', name: 'preview' %>
     <%= f.submit t('global.save'), :class => 'cf-primary-btn' %>
-    <%= link_to t('global.cancel'), @parent ? cf_message_path(@thread, @parent) : cf_forum_path(current_forum), :class => 'cf-btn' %>
+    <%= link_to t('global.cancel'), cf_forum_path(current_forum), :class => 'cf-btn' %>
   </p>
 <% end %>
 
