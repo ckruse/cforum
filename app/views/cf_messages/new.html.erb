@@ -35,7 +35,7 @@ content_for :h1, t('messages.new_answer_to', name: @parent.author)
 
   <%= render "form", f: f %>
 
-  <% if @parent and @message.content.blank? %>
+  <% if @parent and not params.has_key?(:quote_old_message) %>
     <script>
      cforum.cf_messages.quotedMessage = <%== @parent.to_quote(self).to_json %>;
     </script>
