@@ -27,6 +27,14 @@ class HighlightPlugin < Plugin
     end
   end
 
+  def show_message(thread, message, votes)
+    show_threadlist([thread])
+  end
+
+  def show_thread(thread, message, votes)
+    show_threadlist([thread])
+  end
+
   def showing_settings(user)
     users = CfUser.where(username: user.conf('highlighted_users', '').split(/\s*,\s*/))
     set('highlighted_users_list', users)
@@ -44,6 +52,8 @@ end
 ApplicationController.init_hooks << Proc.new do |app_controller|
   hl_plugin = HighlightPlugin.new(app_controller)
   app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, hl_plugin)
+  app_controller.notification_center.register_hook(CfMessagesController::SHOW_MESSAGE, hl_plugin)
+  app_controller.notification_center.register_hook(CfMessagesController::SHOW_THREAD, hl_plugin)
 
   app_controller.notification_center.register_hook(UsersController::SHOWING_SETTINGS, hl_plugin)
   app_controller.notification_center.register_hook(UsersController::SAVING_SETTINGS, hl_plugin)
