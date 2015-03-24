@@ -14,9 +14,6 @@ ActiveRecord::Base.logger = Rails.logger
 
 $old_db = PG.connect(dbname: 'oldusers')
 
-directory = "/home/ckruse/dev/archiv/archiv/"
-directory = ARGV[0] if ARGV.length >= 1
-
 $default_forum = CfForum.where(slug: 'self').first!
 meta = CfForum.where(slug: 'meta').first!
 $map = {
@@ -320,6 +317,8 @@ def find_in_dir(dir)
   end
 end
 
-find_in_dir(directory)
+ARGV.each do |directory|
+  find_in_dir(directory)
+end
 
 # eof
