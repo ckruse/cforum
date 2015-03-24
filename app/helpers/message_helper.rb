@@ -163,7 +163,7 @@ module MessageHelper
       html << "\">" + link_to(image_tag(message.owner.avatar(:thumb), class: 'avatar'), user_path(message.owner), title: t('messages.user_link', user: message.owner.username), class: 'user-link') + " "
     else
       if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
-        html << '<span class="icon-message original-poster" title="' + t('messages.original_poster') + '"><em>' + t("messages.original_poster") + '</em></span>'
+        html << '<span class="icon-message original-poster" title="' + t('messages.original_poster') + '"> </span>'
       end
     end
     html << encode_entities(message.author)
