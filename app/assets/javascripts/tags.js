@@ -46,13 +46,19 @@ cforum.tags = {
       'tags=' + encodeURIComponent(suggestions.join(",")),
       function(data) {
         var tag_list = $("#tags-suggestions");
+        var tags_set = false;
         tag_list.html("");
 
         for(var i = 0; i < data.length && i < cforum.tags.maxTags; ++i) {
           if(!cforum.tags.hasTag(data[i].tag_name)) {
             cforum.tags.appendTag(data[i].tag_name, tag_list,
                                   cforum.tags.views.tagSuggestion);
+            tags_set = true;
           }
+        }
+
+        if(!tags_set) {
+          tag_list.closest(".cf-cgroup").css({'display': 'none'});
         }
 
       }
