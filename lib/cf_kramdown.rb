@@ -12,7 +12,7 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
     super(*args)
 
     @block_parsers.unshift :email_style_sig
-    @span_parsers.unshift :email_style_sig
+    @span_parsers.unshift :email_style_sig_span
 
     idx = @block_parsers.index(:setext_header)
     @block_parsers[idx] = :cf_setext_header
@@ -29,14 +29,27 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
   }
   def parse_email_style_sig
     @src.pos += @src.matched_size
+    result = @src.scan(/.*/m)
+
     el = new_block_el(:email_style_sig)
 
+    @tree.children << el
+    add_text(result, el)
+
+    true
+  end
+  define_parser(:email_style_sig, SIGNATURE_START) unless @@parsers.has_key?(:email_style_sig)
+
+
+  def parse_email_style_sig_span
+    @src.pos += @src.matched_size
+    el = new_block_el(:email_style_sig)
     @tree.children << el
     parse_spans(el)
 
     true
   end
-  define_parser(:email_style_sig, SIGNATURE_START) unless @@parsers.has_key?(:email_style_sig)
+  define_parser(:email_style_sig_span, SIGNATURE_START) unless @@parsers.has_key?(:email_style_sig_span)
 
   define_parser(:span_html, /\0/) unless @@parsers.has_key?(:pan_html)
   define_parser(:block_html, /\0/) unless @@parsers.has_key?(:block_html)
