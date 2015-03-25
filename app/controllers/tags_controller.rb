@@ -90,7 +90,7 @@ class TagsController < ApplicationController
       where('messages_tags.tag_id' => @tag.tag_id,
             forum_id: current_forum.forum_id,
             deleted: false).
-      order('messages.created_at DESC').page(params[:p]).per(@limit)
+      order('messages.created_at DESC').page(params[:page]).per(@limit)
 
     respond_to do |format|
       format.html # show.html.erb
