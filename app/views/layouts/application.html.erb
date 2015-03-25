@@ -67,7 +67,7 @@ end
     </style><% end %>
 
     <% if @own_js %><script>
-    <%= @own_js %>
+    <%= @own_js.html_safe %>
     </script><% end %>
 
     <script>
