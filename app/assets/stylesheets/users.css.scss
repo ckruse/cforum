@@ -59,20 +59,34 @@
   color:#3C763D;
 }
 
-td.score-up, td.score-down {
-  vertical-align:top;
+.score-table {
+  width: 100%;
+  
+    td.score-up, td.score-down {
+      vertical-align: top;
 
-  span {
-    color:#31708F;
-    background-color: #DFF0D8;
-    display:inline-block;
-    vertical-align:middle;
-    line-height:2em;
-    padding-left:5px;
-    padding-right:1px;
-    border-radius:4px;
+      span {
+        color:#31708F;
+        background-color: #DFF0D8;
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 2em;
+        padding-left: 5px;
+        padding-right: 1px;
+        border-radius: 0 .5em .5em;
+     }
+     
+     > span {
+        border: 1px solid #8db243;
+     }
+  }
+  
+  .thread {
+    padding: .35em 1em;
   }
 }
+
+
 
 td.score-down span {
   color: #A94442;
