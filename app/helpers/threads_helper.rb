@@ -9,7 +9,7 @@ module ThreadsHelper
 
     conditions = {}
     conditions[:forum_id] = forum.forum_id if forum
-    conditions[:archived] = false if conf('use_archive') == 'yes'
+    #conditions[:archived] = false if conf('use_archive') == 'yes'
     conditions[:messages] = {deleted: false} unless @view_all
 
     order = uconf('sort_threads', 'descending')

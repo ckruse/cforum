@@ -27,11 +27,11 @@ de:
       arc: archivieren
 
     invisible_threads:
-      thread_marked_invisible: Thread wurde erfolgreich versteckt.
+      thread_marked_invisible: Thread wurde erfolgreich ausgeblendet.
       thread_marked_visible: Thread wird jetzt wieder angezeigt.
       mark_thread_invisible: Thread verstecken
       mark_thread_visible: Thread wieder anzeigen
-      invisible_threads: Versteckte Threads
+      invisible_threads: ausgeblendete Threads
       no_threads: Bisher keine ausgeblendeten Threads.
 
     mark_read:
@@ -40,6 +40,8 @@ de:
       mark_all_read: Alle Nachrichten als gelesen markieren
       mark_unread: ungelesen markieren
       num_unread: "%{num} ungelesene Beiträge"
+      mark_thread_read: Thread als gelesen markieren
+      thread_marked_read: Der Thread wurde als gelesen markiert.
 
     interesting_threads:
       marked_interesting: Der Thread wurde als interessant markiert.

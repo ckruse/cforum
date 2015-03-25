@@ -15,6 +15,12 @@ class AcceptPluginController < ApplicationController
       return
     end
 
+    if not may_answer(@message)
+      flash[:error] = t('messages.only_op_may_accept')
+      redirect_to cf_message_url(@thread, @message)
+      return
+    end
+
     notification_center.notify(ACCEPTING_MESSAGE, @thread, @message)
     CfMessage.transaction do
       @message.flags_will_change!

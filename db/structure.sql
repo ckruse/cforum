@@ -10,13 +10,6 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- Name: cforum; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA cforum;
-
-
---
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -34,7 +27,7 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 -- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
 --
 
-CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA cforum;
+CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
 
 
 --
@@ -44,10 +37,10 @@ CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA cforum;
 COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
 
 
-SET search_path = cforum, pg_catalog;
+SET search_path = public, pg_catalog;
 
 --
--- Name: badge_medal_type_t; Type: TYPE; Schema: cforum; Owner: -
+-- Name: badge_medal_type_t; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE badge_medal_type_t AS ENUM (
@@ -58,7 +51,7 @@ CREATE TYPE badge_medal_type_t AS ENUM (
 
 
 --
--- Name: badge_type_t; Type: TYPE; Schema: cforum; Owner: -
+-- Name: badge_type_t; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE badge_type_t AS ENUM (
@@ -78,7 +71,7 @@ CREATE TYPE badge_type_t AS ENUM (
 
 
 --
--- Name: count_messages_delete_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: count_messages_delete_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION count_messages_delete_trigger() RETURNS trigger
@@ -96,7 +89,7 @@ $$;
 
 
 --
--- Name: count_messages_insert_forum_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: count_messages_insert_forum_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION count_messages_insert_forum_trigger() RETURNS trigger
@@ -113,7 +106,7 @@ $$;
 
 
 --
--- Name: count_messages_insert_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: count_messages_insert_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION count_messages_insert_trigger() RETURNS trigger
@@ -131,7 +124,7 @@ $$;
 
 
 --
--- Name: count_messages_tag_delete_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: count_messages_tag_delete_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION count_messages_tag_delete_trigger() RETURNS trigger
@@ -145,7 +138,7 @@ $$;
 
 
 --
--- Name: count_messages_tag_insert_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: count_messages_tag_insert_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION count_messages_tag_insert_trigger() RETURNS trigger
@@ -159,7 +152,7 @@ $$;
 
 
 --
--- Name: count_messages_truncate_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: count_messages_truncate_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION count_messages_truncate_trigger() RETURNS trigger
@@ -180,7 +173,7 @@ $$;
 
 
 --
--- Name: count_messages_update_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: count_messages_update_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION count_messages_update_trigger() RETURNS trigger
@@ -228,7 +221,7 @@ $$;
 
 
 --
--- Name: count_threads_delete_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: count_threads_delete_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION count_threads_delete_trigger() RETURNS trigger
@@ -246,7 +239,7 @@ $$;
 
 
 --
--- Name: count_threads_insert_forum_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: count_threads_insert_forum_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION count_threads_insert_forum_trigger() RETURNS trigger
@@ -263,7 +256,7 @@ $$;
 
 
 --
--- Name: count_threads_insert_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: count_threads_insert_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION count_threads_insert_trigger() RETURNS trigger
@@ -281,7 +274,7 @@ $$;
 
 
 --
--- Name: count_threads_truncate_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: count_threads_truncate_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION count_threads_truncate_trigger() RETURNS trigger
@@ -302,7 +295,7 @@ $$;
 
 
 --
--- Name: count_threads_update_trigger(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: count_threads_update_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION count_threads_update_trigger() RETURNS trigger
@@ -341,7 +334,7 @@ $$;
 
 
 --
--- Name: counter_table_get_count(name, bigint); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: counter_table_get_count(name, bigint); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION counter_table_get_count(v_table_name name, v_group_crit bigint) RETURNS bigint
@@ -428,7 +421,7 @@ $$;
 
 
 --
--- Name: messages__thread_set_latest_insert(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: messages__thread_set_latest_insert(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION messages__thread_set_latest_insert() RETURNS trigger
@@ -442,7 +435,7 @@ $$;
 
 
 --
--- Name: messages__thread_set_latest_update_delete(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: messages__thread_set_latest_update_delete(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION messages__thread_set_latest_update_delete() RETURNS trigger
@@ -456,7 +449,7 @@ $$;
 
 
 --
--- Name: settings_unique_check__insert(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: settings_unique_check__insert(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION settings_unique_check__insert() RETURNS trigger
@@ -485,7 +478,7 @@ $$;
 
 
 --
--- Name: settings_unique_check__update(); Type: FUNCTION; Schema: cforum; Owner: -
+-- Name: settings_unique_check__update(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION settings_unique_check__update() RETURNS trigger
@@ -518,7 +511,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: badges; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: badges; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE badges (
@@ -535,7 +528,7 @@ CREATE TABLE badges (
 
 
 --
--- Name: badges_badge_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: badges_badge_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE badges_badge_id_seq
@@ -547,14 +540,14 @@ CREATE SEQUENCE badges_badge_id_seq
 
 
 --
--- Name: badges_badge_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: badges_badge_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE badges_badge_id_seq OWNED BY badges.badge_id;
 
 
 --
--- Name: badges_users; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: badges_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE badges_users (
@@ -567,7 +560,7 @@ CREATE TABLE badges_users (
 
 
 --
--- Name: badges_users_badge_user_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: badges_users_badge_user_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE badges_users_badge_user_id_seq
@@ -579,14 +572,14 @@ CREATE SEQUENCE badges_users_badge_user_id_seq
 
 
 --
--- Name: badges_users_badge_user_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: badges_users_badge_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE badges_users_badge_user_id_seq OWNED BY badges_users.badge_user_id;
 
 
 --
--- Name: close_votes; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: close_votes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE close_votes (
@@ -603,7 +596,7 @@ CREATE TABLE close_votes (
 
 
 --
--- Name: close_votes_close_vote_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: close_votes_close_vote_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE close_votes_close_vote_id_seq
@@ -615,14 +608,14 @@ CREATE SEQUENCE close_votes_close_vote_id_seq
 
 
 --
--- Name: close_votes_close_vote_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: close_votes_close_vote_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE close_votes_close_vote_id_seq OWNED BY close_votes.close_vote_id;
 
 
 --
--- Name: close_votes_voters; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: close_votes_voters; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE close_votes_voters (
@@ -635,7 +628,7 @@ CREATE TABLE close_votes_voters (
 
 
 --
--- Name: close_votes_voters_close_votes_voter_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: close_votes_voters_close_votes_voter_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE close_votes_voters_close_votes_voter_id_seq
@@ -647,14 +640,14 @@ CREATE SEQUENCE close_votes_voters_close_votes_voter_id_seq
 
 
 --
--- Name: close_votes_voters_close_votes_voter_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: close_votes_voters_close_votes_voter_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE close_votes_voters_close_votes_voter_id_seq OWNED BY close_votes_voters.close_votes_voter_id;
 
 
 --
--- Name: counter_table; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: counter_table; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE counter_table (
@@ -666,7 +659,7 @@ CREATE TABLE counter_table (
 
 
 --
--- Name: counter_table_count_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: counter_table_count_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE counter_table_count_id_seq
@@ -678,14 +671,14 @@ CREATE SEQUENCE counter_table_count_id_seq
 
 
 --
--- Name: counter_table_count_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: counter_table_count_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE counter_table_count_id_seq OWNED BY counter_table.count_id;
 
 
 --
--- Name: forums; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: forums; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE forums (
@@ -697,12 +690,13 @@ CREATE TABLE forums (
     name character varying NOT NULL,
     description character varying,
     standard_permission character varying(50) DEFAULT 'private'::character varying NOT NULL,
-    keywords character varying(255)
+    keywords character varying(255),
+    "position" integer DEFAULT 0 NOT NULL
 );
 
 
 --
--- Name: forums_forum_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: forums_forum_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE forums_forum_id_seq
@@ -714,14 +708,14 @@ CREATE SEQUENCE forums_forum_id_seq
 
 
 --
--- Name: forums_forum_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: forums_forum_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE forums_forum_id_seq OWNED BY forums.forum_id;
 
 
 --
--- Name: forums_groups_permissions; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: forums_groups_permissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE forums_groups_permissions (
@@ -733,7 +727,7 @@ CREATE TABLE forums_groups_permissions (
 
 
 --
--- Name: forums_groups_permissions_forum_group_permission_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: forums_groups_permissions_forum_group_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE forums_groups_permissions_forum_group_permission_id_seq
@@ -745,14 +739,14 @@ CREATE SEQUENCE forums_groups_permissions_forum_group_permission_id_seq
 
 
 --
--- Name: forums_groups_permissions_forum_group_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: forums_groups_permissions_forum_group_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE forums_groups_permissions_forum_group_permission_id_seq OWNED BY forums_groups_permissions.forum_group_permission_id;
 
 
 --
--- Name: groups; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE groups (
@@ -764,7 +758,7 @@ CREATE TABLE groups (
 
 
 --
--- Name: groups_group_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: groups_group_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE groups_group_id_seq
@@ -776,14 +770,14 @@ CREATE SEQUENCE groups_group_id_seq
 
 
 --
--- Name: groups_group_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: groups_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE groups_group_id_seq OWNED BY groups.group_id;
 
 
 --
--- Name: groups_users; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: groups_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE groups_users (
@@ -794,7 +788,7 @@ CREATE TABLE groups_users (
 
 
 --
--- Name: groups_users_group_user_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: groups_users_group_user_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE groups_users_group_user_id_seq
@@ -806,14 +800,14 @@ CREATE SEQUENCE groups_users_group_user_id_seq
 
 
 --
--- Name: groups_users_group_user_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: groups_users_group_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE groups_users_group_user_id_seq OWNED BY groups_users.group_user_id;
 
 
 --
--- Name: interesting_threads; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: interesting_threads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE interesting_threads (
@@ -826,7 +820,7 @@ CREATE TABLE interesting_threads (
 
 
 --
--- Name: interesting_threads_interesting_thread_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: interesting_threads_interesting_thread_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE interesting_threads_interesting_thread_id_seq
@@ -838,14 +832,14 @@ CREATE SEQUENCE interesting_threads_interesting_thread_id_seq
 
 
 --
--- Name: interesting_threads_interesting_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: interesting_threads_interesting_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE interesting_threads_interesting_thread_id_seq OWNED BY interesting_threads.interesting_thread_id;
 
 
 --
--- Name: invisible_threads; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: invisible_threads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE invisible_threads (
@@ -856,7 +850,7 @@ CREATE TABLE invisible_threads (
 
 
 --
--- Name: invisible_threads_invisible_thread_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: invisible_threads_invisible_thread_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE invisible_threads_invisible_thread_id_seq
@@ -868,14 +862,14 @@ CREATE SEQUENCE invisible_threads_invisible_thread_id_seq
 
 
 --
--- Name: invisible_threads_invisible_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: invisible_threads_invisible_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE invisible_threads_invisible_thread_id_seq OWNED BY invisible_threads.invisible_thread_id;
 
 
 --
--- Name: messages; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE messages (
@@ -902,7 +896,7 @@ CREATE TABLE messages (
 
 
 --
--- Name: messages_message_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: messages_message_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE messages_message_id_seq
@@ -914,14 +908,14 @@ CREATE SEQUENCE messages_message_id_seq
 
 
 --
--- Name: messages_message_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: messages_message_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE messages_message_id_seq OWNED BY messages.message_id;
 
 
 --
--- Name: messages_tags; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages_tags; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE messages_tags (
@@ -932,7 +926,7 @@ CREATE TABLE messages_tags (
 
 
 --
--- Name: messages_tags_message_tag_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: messages_tags_message_tag_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE messages_tags_message_tag_id_seq
@@ -944,14 +938,14 @@ CREATE SEQUENCE messages_tags_message_tag_id_seq
 
 
 --
--- Name: messages_tags_message_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: messages_tags_message_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE messages_tags_message_tag_id_seq OWNED BY messages_tags.message_tag_id;
 
 
 --
--- Name: notifications; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: notifications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE notifications (
@@ -969,7 +963,7 @@ CREATE TABLE notifications (
 
 
 --
--- Name: notifications_notification_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: notifications_notification_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE notifications_notification_id_seq
@@ -981,14 +975,14 @@ CREATE SEQUENCE notifications_notification_id_seq
 
 
 --
--- Name: notifications_notification_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: notifications_notification_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE notifications_notification_id_seq OWNED BY notifications.notification_id;
 
 
 --
--- Name: opened_closed_threads; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: opened_closed_threads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE opened_closed_threads (
@@ -1000,7 +994,7 @@ CREATE TABLE opened_closed_threads (
 
 
 --
--- Name: opened_closed_threads_opened_closed_thread_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: opened_closed_threads_opened_closed_thread_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE opened_closed_threads_opened_closed_thread_id_seq
@@ -1012,14 +1006,14 @@ CREATE SEQUENCE opened_closed_threads_opened_closed_thread_id_seq
 
 
 --
--- Name: opened_closed_threads_opened_closed_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: opened_closed_threads_opened_closed_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE opened_closed_threads_opened_closed_thread_id_seq OWNED BY opened_closed_threads.opened_closed_thread_id;
 
 
 --
--- Name: peon_jobs; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: peon_jobs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE peon_jobs (
@@ -1036,7 +1030,7 @@ CREATE TABLE peon_jobs (
 
 
 --
--- Name: peon_jobs_peon_job_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: peon_jobs_peon_job_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE peon_jobs_peon_job_id_seq
@@ -1048,14 +1042,14 @@ CREATE SEQUENCE peon_jobs_peon_job_id_seq
 
 
 --
--- Name: peon_jobs_peon_job_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: peon_jobs_peon_job_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE peon_jobs_peon_job_id_seq OWNED BY peon_jobs.peon_job_id;
 
 
 --
--- Name: priv_messages; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: priv_messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE priv_messages (
@@ -1072,7 +1066,7 @@ CREATE TABLE priv_messages (
 
 
 --
--- Name: priv_messages_priv_message_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: priv_messages_priv_message_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE priv_messages_priv_message_id_seq
@@ -1084,14 +1078,14 @@ CREATE SEQUENCE priv_messages_priv_message_id_seq
 
 
 --
--- Name: priv_messages_priv_message_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: priv_messages_priv_message_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE priv_messages_priv_message_id_seq OWNED BY priv_messages.priv_message_id;
 
 
 --
--- Name: read_messages; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: read_messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE read_messages (
@@ -1102,7 +1096,7 @@ CREATE TABLE read_messages (
 
 
 --
--- Name: read_messages_read_message_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: read_messages_read_message_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE read_messages_read_message_id_seq
@@ -1114,14 +1108,14 @@ CREATE SEQUENCE read_messages_read_message_id_seq
 
 
 --
--- Name: read_messages_read_message_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: read_messages_read_message_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE read_messages_read_message_id_seq OWNED BY read_messages.read_message_id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE schema_migrations (
@@ -1130,7 +1124,7 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: scores; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: scores; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE scores (
@@ -1144,7 +1138,7 @@ CREATE TABLE scores (
 
 
 --
--- Name: scores_score_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: scores_score_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE scores_score_id_seq
@@ -1156,14 +1150,14 @@ CREATE SEQUENCE scores_score_id_seq
 
 
 --
--- Name: scores_score_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: scores_score_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE scores_score_id_seq OWNED BY scores.score_id;
 
 
 --
--- Name: settings; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: settings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE settings (
@@ -1175,7 +1169,7 @@ CREATE TABLE settings (
 
 
 --
--- Name: settings_setting_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: settings_setting_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE settings_setting_id_seq
@@ -1187,14 +1181,14 @@ CREATE SEQUENCE settings_setting_id_seq
 
 
 --
--- Name: settings_setting_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: settings_setting_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE settings_setting_id_seq OWNED BY settings.setting_id;
 
 
 --
--- Name: tag_synonyms; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: tag_synonyms; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE tag_synonyms (
@@ -1206,7 +1200,7 @@ CREATE TABLE tag_synonyms (
 
 
 --
--- Name: tag_synonyms_tag_synonym_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: tag_synonyms_tag_synonym_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE tag_synonyms_tag_synonym_id_seq
@@ -1218,14 +1212,14 @@ CREATE SEQUENCE tag_synonyms_tag_synonym_id_seq
 
 
 --
--- Name: tag_synonyms_tag_synonym_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: tag_synonyms_tag_synonym_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE tag_synonyms_tag_synonym_id_seq OWNED BY tag_synonyms.tag_synonym_id;
 
 
 --
--- Name: tags; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: tags; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE tags (
@@ -1238,7 +1232,7 @@ CREATE TABLE tags (
 
 
 --
--- Name: tags_tag_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: tags_tag_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE tags_tag_id_seq
@@ -1250,14 +1244,14 @@ CREATE SEQUENCE tags_tag_id_seq
 
 
 --
--- Name: tags_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: tags_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE tags_tag_id_seq OWNED BY tags.tag_id;
 
 
 --
--- Name: threads; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: threads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE threads (
@@ -1277,7 +1271,7 @@ CREATE TABLE threads (
 
 
 --
--- Name: threads_thread_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: threads_thread_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE threads_thread_id_seq
@@ -1289,14 +1283,14 @@ CREATE SEQUENCE threads_thread_id_seq
 
 
 --
--- Name: threads_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: threads_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE threads_thread_id_seq OWNED BY threads.thread_id;
 
 
 --
--- Name: users; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE users (
@@ -1330,7 +1324,7 @@ CREATE TABLE users (
 
 
 --
--- Name: users_user_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: users_user_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE users_user_id_seq
@@ -1342,14 +1336,14 @@ CREATE SEQUENCE users_user_id_seq
 
 
 --
--- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE users_user_id_seq OWNED BY users.user_id;
 
 
 --
--- Name: votes; Type: TABLE; Schema: cforum; Owner: -; Tablespace: 
+-- Name: votes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE votes (
@@ -1361,7 +1355,7 @@ CREATE TABLE votes (
 
 
 --
--- Name: votes_vote_id_seq; Type: SEQUENCE; Schema: cforum; Owner: -
+-- Name: votes_vote_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE votes_vote_id_seq
@@ -1373,189 +1367,189 @@ CREATE SEQUENCE votes_vote_id_seq
 
 
 --
--- Name: votes_vote_id_seq; Type: SEQUENCE OWNED BY; Schema: cforum; Owner: -
+-- Name: votes_vote_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE votes_vote_id_seq OWNED BY votes.vote_id;
 
 
 --
--- Name: badge_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: badge_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges ALTER COLUMN badge_id SET DEFAULT nextval('badges_badge_id_seq'::regclass);
 
 
 --
--- Name: badge_user_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: badge_user_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges_users ALTER COLUMN badge_user_id SET DEFAULT nextval('badges_users_badge_user_id_seq'::regclass);
 
 
 --
--- Name: close_vote_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: close_vote_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes ALTER COLUMN close_vote_id SET DEFAULT nextval('close_votes_close_vote_id_seq'::regclass);
 
 
 --
--- Name: close_votes_voter_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: close_votes_voter_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes_voters ALTER COLUMN close_votes_voter_id SET DEFAULT nextval('close_votes_voters_close_votes_voter_id_seq'::regclass);
 
 
 --
--- Name: count_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: count_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY counter_table ALTER COLUMN count_id SET DEFAULT nextval('counter_table_count_id_seq'::regclass);
 
 
 --
--- Name: forum_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: forum_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forums ALTER COLUMN forum_id SET DEFAULT nextval('forums_forum_id_seq'::regclass);
 
 
 --
--- Name: forum_group_permission_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: forum_group_permission_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forums_groups_permissions ALTER COLUMN forum_group_permission_id SET DEFAULT nextval('forums_groups_permissions_forum_group_permission_id_seq'::regclass);
 
 
 --
--- Name: group_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: group_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups ALTER COLUMN group_id SET DEFAULT nextval('groups_group_id_seq'::regclass);
 
 
 --
--- Name: group_user_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: group_user_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups_users ALTER COLUMN group_user_id SET DEFAULT nextval('groups_users_group_user_id_seq'::regclass);
 
 
 --
--- Name: interesting_thread_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: interesting_thread_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY interesting_threads ALTER COLUMN interesting_thread_id SET DEFAULT nextval('interesting_threads_interesting_thread_id_seq'::regclass);
 
 
 --
--- Name: invisible_thread_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: invisible_thread_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY invisible_threads ALTER COLUMN invisible_thread_id SET DEFAULT nextval('invisible_threads_invisible_thread_id_seq'::regclass);
 
 
 --
--- Name: message_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: message_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages ALTER COLUMN message_id SET DEFAULT nextval('messages_message_id_seq'::regclass);
 
 
 --
--- Name: message_tag_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: message_tag_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages_tags ALTER COLUMN message_tag_id SET DEFAULT nextval('messages_tags_message_tag_id_seq'::regclass);
 
 
 --
--- Name: notification_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: notification_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY notifications ALTER COLUMN notification_id SET DEFAULT nextval('notifications_notification_id_seq'::regclass);
 
 
 --
--- Name: opened_closed_thread_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: opened_closed_thread_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY opened_closed_threads ALTER COLUMN opened_closed_thread_id SET DEFAULT nextval('opened_closed_threads_opened_closed_thread_id_seq'::regclass);
 
 
 --
--- Name: peon_job_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: peon_job_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY peon_jobs ALTER COLUMN peon_job_id SET DEFAULT nextval('peon_jobs_peon_job_id_seq'::regclass);
 
 
 --
--- Name: priv_message_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: priv_message_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY priv_messages ALTER COLUMN priv_message_id SET DEFAULT nextval('priv_messages_priv_message_id_seq'::regclass);
 
 
 --
--- Name: read_message_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: read_message_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY read_messages ALTER COLUMN read_message_id SET DEFAULT nextval('read_messages_read_message_id_seq'::regclass);
 
 
 --
--- Name: score_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: score_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY scores ALTER COLUMN score_id SET DEFAULT nextval('scores_score_id_seq'::regclass);
 
 
 --
--- Name: setting_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: setting_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY settings ALTER COLUMN setting_id SET DEFAULT nextval('settings_setting_id_seq'::regclass);
 
 
 --
--- Name: tag_synonym_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: tag_synonym_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tag_synonyms ALTER COLUMN tag_synonym_id SET DEFAULT nextval('tag_synonyms_tag_synonym_id_seq'::regclass);
 
 
 --
--- Name: tag_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: tag_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tags ALTER COLUMN tag_id SET DEFAULT nextval('tags_tag_id_seq'::regclass);
 
 
 --
--- Name: thread_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: thread_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY threads ALTER COLUMN thread_id SET DEFAULT nextval('threads_thread_id_seq'::regclass);
 
 
 --
--- Name: user_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: user_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_seq'::regclass);
 
 
 --
--- Name: vote_id; Type: DEFAULT; Schema: cforum; Owner: -
+-- Name: vote_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY votes ALTER COLUMN vote_id SET DEFAULT nextval('votes_vote_id_seq'::regclass);
 
 
 --
--- Name: badges_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: badges_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY badges
@@ -1563,7 +1557,7 @@ ALTER TABLE ONLY badges
 
 
 --
--- Name: badges_slug_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: badges_slug_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY badges
@@ -1571,7 +1565,7 @@ ALTER TABLE ONLY badges
 
 
 --
--- Name: badges_users_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: badges_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY badges_users
@@ -1579,7 +1573,7 @@ ALTER TABLE ONLY badges_users
 
 
 --
--- Name: badges_users_user_id_badge_id_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: badges_users_user_id_badge_id_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY badges_users
@@ -1587,7 +1581,7 @@ ALTER TABLE ONLY badges_users
 
 
 --
--- Name: close_votes_message_id_vote_type_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: close_votes_message_id_vote_type_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY close_votes
@@ -1595,7 +1589,7 @@ ALTER TABLE ONLY close_votes
 
 
 --
--- Name: close_votes_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: close_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY close_votes
@@ -1603,7 +1597,7 @@ ALTER TABLE ONLY close_votes
 
 
 --
--- Name: close_votes_voters_close_vote_id_user_id_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: close_votes_voters_close_vote_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY close_votes_voters
@@ -1611,7 +1605,7 @@ ALTER TABLE ONLY close_votes_voters
 
 
 --
--- Name: close_votes_voters_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: close_votes_voters_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY close_votes_voters
@@ -1619,7 +1613,7 @@ ALTER TABLE ONLY close_votes_voters
 
 
 --
--- Name: counter_table_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: counter_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY counter_table
@@ -1627,7 +1621,7 @@ ALTER TABLE ONLY counter_table
 
 
 --
--- Name: forums_groups_permissions_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: forums_groups_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY forums_groups_permissions
@@ -1635,7 +1629,7 @@ ALTER TABLE ONLY forums_groups_permissions
 
 
 --
--- Name: forums_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: forums_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY forums
@@ -1643,7 +1637,7 @@ ALTER TABLE ONLY forums
 
 
 --
--- Name: groups_name_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: groups_name_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY groups
@@ -1651,7 +1645,7 @@ ALTER TABLE ONLY groups
 
 
 --
--- Name: groups_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY groups
@@ -1659,7 +1653,7 @@ ALTER TABLE ONLY groups
 
 
 --
--- Name: groups_users_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: groups_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY groups_users
@@ -1667,7 +1661,7 @@ ALTER TABLE ONLY groups_users
 
 
 --
--- Name: interesting_threads_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: interesting_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY interesting_threads
@@ -1675,7 +1669,7 @@ ALTER TABLE ONLY interesting_threads
 
 
 --
--- Name: interesting_threads_thread_id_user_id_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: interesting_threads_thread_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY interesting_threads
@@ -1683,7 +1677,7 @@ ALTER TABLE ONLY interesting_threads
 
 
 --
--- Name: invisible_threads_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: invisible_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY invisible_threads
@@ -1691,7 +1685,7 @@ ALTER TABLE ONLY invisible_threads
 
 
 --
--- Name: messages_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY messages
@@ -1699,7 +1693,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: messages_tags_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY messages_tags
@@ -1707,7 +1701,7 @@ ALTER TABLE ONLY messages_tags
 
 
 --
--- Name: notifications_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY notifications
@@ -1715,7 +1709,7 @@ ALTER TABLE ONLY notifications
 
 
 --
--- Name: opened_closed_threads_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: opened_closed_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY opened_closed_threads
@@ -1723,7 +1717,7 @@ ALTER TABLE ONLY opened_closed_threads
 
 
 --
--- Name: peon_jobs_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: peon_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY peon_jobs
@@ -1731,7 +1725,7 @@ ALTER TABLE ONLY peon_jobs
 
 
 --
--- Name: priv_messages_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: priv_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY priv_messages
@@ -1739,7 +1733,7 @@ ALTER TABLE ONLY priv_messages
 
 
 --
--- Name: read_messages_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: read_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY read_messages
@@ -1747,7 +1741,7 @@ ALTER TABLE ONLY read_messages
 
 
 --
--- Name: scores_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY scores
@@ -1755,7 +1749,7 @@ ALTER TABLE ONLY scores
 
 
 --
--- Name: settings_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY settings
@@ -1763,7 +1757,7 @@ ALTER TABLE ONLY settings
 
 
 --
--- Name: tag_synonyms_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: tag_synonyms_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY tag_synonyms
@@ -1771,7 +1765,7 @@ ALTER TABLE ONLY tag_synonyms
 
 
 --
--- Name: tags_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY tags
@@ -1779,7 +1773,7 @@ ALTER TABLE ONLY tags
 
 
 --
--- Name: threads_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY threads
@@ -1787,7 +1781,7 @@ ALTER TABLE ONLY threads
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY users
@@ -1795,7 +1789,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: users_websocket_token_key; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: users_websocket_token_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY users
@@ -1803,7 +1797,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: votes_pkey; Type: CONSTRAINT; Schema: cforum; Owner: -; Tablespace: 
+-- Name: votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY votes
@@ -1811,413 +1805,413 @@ ALTER TABLE ONLY votes
 
 
 --
--- Name: badges_badge_type_uniqueness; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: badges_badge_type_uniqueness; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX badges_badge_type_uniqueness ON badges USING btree (badge_type) WHERE (badge_type <> 'custom'::badge_type_t);
 
 
 --
--- Name: counter_table_table_name_group_crit_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: counter_table_table_name_group_crit_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX counter_table_table_name_group_crit_idx ON counter_table USING btree (table_name, group_crit);
 
 
 --
--- Name: forums_slug_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: forums_slug_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX forums_slug_idx ON forums USING btree (slug);
 
 
 --
--- Name: invisible_threads_thread_id_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: invisible_threads_thread_id_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX invisible_threads_thread_id_user_id_idx ON invisible_threads USING btree (thread_id, user_id);
 
 
 --
--- Name: messages_forum_id_created_at_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages_forum_id_created_at_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX messages_forum_id_created_at_idx ON messages USING btree (forum_id, created_at);
 
 
 --
--- Name: messages_mid_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages_mid_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX messages_mid_idx ON messages USING btree (mid);
 
 
 --
--- Name: messages_parent_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages_parent_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX messages_parent_id_idx ON messages USING btree (parent_id);
 
 
 --
--- Name: messages_tags_message_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages_tags_message_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX messages_tags_message_id_idx ON messages_tags USING btree (message_id);
 
 
 --
--- Name: messages_tags_tag_id_message_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages_tags_tag_id_message_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX messages_tags_tag_id_message_id_idx ON messages_tags USING btree (tag_id, message_id);
 
 
 --
--- Name: messages_thread_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages_thread_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX messages_thread_id_idx ON messages USING btree (thread_id);
 
 
 --
--- Name: messages_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: messages_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX messages_user_id_idx ON messages USING btree (user_id);
 
 
 --
--- Name: notifications_recipient_id_oid_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: notifications_recipient_id_oid_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX notifications_recipient_id_oid_idx ON notifications USING btree (recipient_id, oid);
 
 
 --
--- Name: opened_closed_threads_thread_id_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: opened_closed_threads_thread_id_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX opened_closed_threads_thread_id_user_id_idx ON opened_closed_threads USING btree (thread_id, user_id);
 
 
 --
--- Name: peon_jobs_work_done_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: peon_jobs_work_done_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX peon_jobs_work_done_idx ON peon_jobs USING btree (work_done);
 
 
 --
--- Name: priv_messages_owner_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: priv_messages_owner_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX priv_messages_owner_id_idx ON priv_messages USING btree (owner_id);
 
 
 --
--- Name: priv_messages_recipient_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: priv_messages_recipient_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX priv_messages_recipient_id_idx ON priv_messages USING btree (recipient_id);
 
 
 --
--- Name: priv_messages_sender_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: priv_messages_sender_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX priv_messages_sender_id_idx ON priv_messages USING btree (sender_id);
 
 
 --
--- Name: read_messages_message_id_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: read_messages_message_id_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX read_messages_message_id_user_id_idx ON read_messages USING btree (message_id, user_id);
 
 
 --
--- Name: scores_user_id_message_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: scores_user_id_message_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX scores_user_id_message_id_idx ON scores USING btree (user_id, message_id) WHERE (message_id IS NOT NULL);
 
 
 --
--- Name: scores_user_id_vote_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: scores_user_id_vote_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX scores_user_id_vote_id_idx ON scores USING btree (user_id, vote_id) WHERE (vote_id IS NOT NULL);
 
 
 --
--- Name: settings_forum_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: settings_forum_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX settings_forum_id_idx ON settings USING btree (forum_id);
 
 
 --
--- Name: settings_forum_id_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: settings_forum_id_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX settings_forum_id_user_id_idx ON settings USING btree (forum_id, user_id);
 
 
 --
--- Name: settings_user_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: settings_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX settings_user_id_idx ON settings USING btree (user_id);
 
 
 --
--- Name: tag_synonyms_forum_id_synonym_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: tag_synonyms_forum_id_synonym_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX tag_synonyms_forum_id_synonym_idx ON tag_synonyms USING btree (forum_id, synonym);
 
 
 --
--- Name: tag_synonyms_synonym_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: tag_synonyms_synonym_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX tag_synonyms_synonym_idx ON tag_synonyms USING btree (synonym);
 
 
 --
--- Name: tag_synonyms_tag_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: tag_synonyms_tag_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX tag_synonyms_tag_id_idx ON tag_synonyms USING btree (tag_id);
 
 
 --
--- Name: tags_forum_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: tags_forum_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX tags_forum_id_idx ON tags USING btree (forum_id);
 
 
 --
--- Name: tags_tag_name_forum_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: tags_tag_name_forum_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX tags_tag_name_forum_id_idx ON tags USING btree (tag_name, forum_id);
 
 
 --
--- Name: threads_archived_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: threads_archived_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX threads_archived_idx ON threads USING btree (archived);
 
 
 --
--- Name: threads_created_at_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: threads_created_at_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX threads_created_at_idx ON threads USING btree (created_at);
 
 
 --
--- Name: threads_forum_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: threads_forum_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX threads_forum_id_idx ON threads USING btree (forum_id);
 
 
 --
--- Name: threads_message_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: threads_message_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX threads_message_id_idx ON threads USING btree (message_id);
 
 
 --
--- Name: threads_slug_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: threads_slug_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX threads_slug_idx ON threads USING btree (slug);
 
 
 --
--- Name: threads_sticky_created_at_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: threads_sticky_created_at_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX threads_sticky_created_at_idx ON threads USING btree (sticky, created_at);
 
 
 --
--- Name: threads_tid_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: threads_tid_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX threads_tid_idx ON threads USING btree (tid);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
 
 
 --
--- Name: users_authentication_token_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: users_authentication_token_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX users_authentication_token_idx ON users USING btree (authentication_token);
 
 
 --
--- Name: users_confirmation_token_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: users_confirmation_token_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX users_confirmation_token_idx ON users USING btree (confirmation_token);
 
 
 --
--- Name: users_email_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: users_email_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX users_email_idx ON users USING btree (email);
 
 
 --
--- Name: users_reset_password_token_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: users_reset_password_token_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX users_reset_password_token_idx ON users USING btree (reset_password_token);
 
 
 --
--- Name: users_username_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: users_username_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX users_username_idx ON users USING btree (username);
 
 
 --
--- Name: votes_user_id_message_id_idx; Type: INDEX; Schema: cforum; Owner: -; Tablespace: 
+-- Name: votes_user_id_message_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX votes_user_id_message_id_idx ON votes USING btree (user_id, message_id);
 
 
 --
--- Name: messages__count_delete_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: messages__count_delete_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages__count_delete_trigger AFTER DELETE ON messages FOR EACH ROW EXECUTE PROCEDURE count_messages_delete_trigger();
 
 
 --
--- Name: messages__count_insert_forum_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: messages__count_insert_forum_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages__count_insert_forum_trigger AFTER INSERT ON forums FOR EACH ROW EXECUTE PROCEDURE count_messages_insert_forum_trigger();
 
 
 --
--- Name: messages__count_insert_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: messages__count_insert_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages__count_insert_trigger AFTER INSERT ON messages FOR EACH ROW EXECUTE PROCEDURE count_messages_insert_trigger();
 
 
 --
--- Name: messages__count_truncate_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: messages__count_truncate_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages__count_truncate_trigger AFTER TRUNCATE ON messages FOR EACH STATEMENT EXECUTE PROCEDURE count_messages_truncate_trigger();
 
 
 --
--- Name: messages__count_update_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: messages__count_update_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages__count_update_trigger AFTER UPDATE ON messages FOR EACH ROW EXECUTE PROCEDURE count_messages_update_trigger();
 
 
 --
--- Name: messages__thread_set_latest_trigger_insert; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: messages__thread_set_latest_trigger_insert; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages__thread_set_latest_trigger_insert AFTER INSERT ON messages FOR EACH ROW EXECUTE PROCEDURE messages__thread_set_latest_insert();
 
 
 --
--- Name: messages__thread_set_latest_trigger_update; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: messages__thread_set_latest_trigger_update; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages__thread_set_latest_trigger_update AFTER DELETE OR UPDATE ON messages FOR EACH ROW EXECUTE PROCEDURE messages__thread_set_latest_update_delete();
 
 
 --
--- Name: messages_tags__count_delete_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: messages_tags__count_delete_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages_tags__count_delete_trigger AFTER DELETE ON messages_tags FOR EACH ROW EXECUTE PROCEDURE count_messages_tag_delete_trigger();
 
 
 --
--- Name: messages_tags__count_insert_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: messages_tags__count_insert_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages_tags__count_insert_trigger AFTER INSERT ON messages_tags FOR EACH ROW EXECUTE PROCEDURE count_messages_tag_insert_trigger();
 
 
 --
--- Name: settings_unique_check_insert; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: settings_unique_check_insert; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER settings_unique_check_insert BEFORE INSERT ON settings FOR EACH ROW EXECUTE PROCEDURE settings_unique_check__insert();
 
 
 --
--- Name: settings_unique_check_update; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: settings_unique_check_update; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER settings_unique_check_update BEFORE UPDATE ON settings FOR EACH ROW EXECUTE PROCEDURE settings_unique_check__update();
 
 
 --
--- Name: threads__count_delete_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: threads__count_delete_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER threads__count_delete_trigger AFTER DELETE ON threads FOR EACH ROW EXECUTE PROCEDURE count_threads_delete_trigger();
 
 
 --
--- Name: threads__count_insert_forum_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: threads__count_insert_forum_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER threads__count_insert_forum_trigger AFTER INSERT ON forums FOR EACH ROW EXECUTE PROCEDURE count_threads_insert_forum_trigger();
 
 
 --
--- Name: threads__count_insert_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: threads__count_insert_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER threads__count_insert_trigger AFTER INSERT ON threads FOR EACH ROW EXECUTE PROCEDURE count_threads_insert_trigger();
 
 
 --
--- Name: threads__count_truncate_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: threads__count_truncate_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER threads__count_truncate_trigger AFTER TRUNCATE ON threads FOR EACH STATEMENT EXECUTE PROCEDURE count_threads_truncate_trigger();
 
 
 --
--- Name: threads__count_update_trigger; Type: TRIGGER; Schema: cforum; Owner: -
+-- Name: threads__count_update_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER threads__count_update_trigger AFTER UPDATE ON threads FOR EACH ROW EXECUTE PROCEDURE count_threads_update_trigger();
 
 
 --
--- Name: badges_users_badge_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: badges_users_badge_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges_users
@@ -2225,7 +2219,7 @@ ALTER TABLE ONLY badges_users
 
 
 --
--- Name: badges_users_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: badges_users_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges_users
@@ -2233,7 +2227,7 @@ ALTER TABLE ONLY badges_users
 
 
 --
--- Name: close_votes_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: close_votes_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes
@@ -2241,7 +2235,7 @@ ALTER TABLE ONLY close_votes
 
 
 --
--- Name: close_votes_voters_close_vote_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: close_votes_voters_close_vote_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes_voters
@@ -2249,7 +2243,7 @@ ALTER TABLE ONLY close_votes_voters
 
 
 --
--- Name: forums_groups_permissions_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: forums_groups_permissions_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forums_groups_permissions
@@ -2257,7 +2251,7 @@ ALTER TABLE ONLY forums_groups_permissions
 
 
 --
--- Name: forums_groups_permissions_group_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: forums_groups_permissions_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forums_groups_permissions
@@ -2265,7 +2259,7 @@ ALTER TABLE ONLY forums_groups_permissions
 
 
 --
--- Name: groups_users_group_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: groups_users_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups_users
@@ -2273,7 +2267,7 @@ ALTER TABLE ONLY groups_users
 
 
 --
--- Name: groups_users_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: groups_users_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups_users
@@ -2281,7 +2275,7 @@ ALTER TABLE ONLY groups_users
 
 
 --
--- Name: interesting_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: interesting_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY interesting_threads
@@ -2289,7 +2283,7 @@ ALTER TABLE ONLY interesting_threads
 
 
 --
--- Name: interesting_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: interesting_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY interesting_threads
@@ -2297,7 +2291,7 @@ ALTER TABLE ONLY interesting_threads
 
 
 --
--- Name: invisible_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: invisible_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY invisible_threads
@@ -2305,7 +2299,7 @@ ALTER TABLE ONLY invisible_threads
 
 
 --
--- Name: invisible_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: invisible_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY invisible_threads
@@ -2313,7 +2307,7 @@ ALTER TABLE ONLY invisible_threads
 
 
 --
--- Name: messages_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: messages_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -2321,7 +2315,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: messages_parent_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: messages_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -2329,7 +2323,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: messages_tags_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: messages_tags_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages_tags
@@ -2337,7 +2331,7 @@ ALTER TABLE ONLY messages_tags
 
 
 --
--- Name: messages_tags_tag_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: messages_tags_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages_tags
@@ -2345,7 +2339,7 @@ ALTER TABLE ONLY messages_tags
 
 
 --
--- Name: messages_thread_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: messages_thread_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -2353,7 +2347,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: messages_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: messages_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -2361,7 +2355,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: notifications_recipient_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: notifications_recipient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY notifications
@@ -2369,7 +2363,7 @@ ALTER TABLE ONLY notifications
 
 
 --
--- Name: opened_closed_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: opened_closed_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY opened_closed_threads
@@ -2377,7 +2371,7 @@ ALTER TABLE ONLY opened_closed_threads
 
 
 --
--- Name: opened_closed_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: opened_closed_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY opened_closed_threads
@@ -2385,7 +2379,7 @@ ALTER TABLE ONLY opened_closed_threads
 
 
 --
--- Name: priv_messages_owner_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: priv_messages_owner_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY priv_messages
@@ -2393,7 +2387,7 @@ ALTER TABLE ONLY priv_messages
 
 
 --
--- Name: priv_messages_recipient_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: priv_messages_recipient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY priv_messages
@@ -2401,7 +2395,7 @@ ALTER TABLE ONLY priv_messages
 
 
 --
--- Name: priv_messages_sender_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: priv_messages_sender_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY priv_messages
@@ -2409,7 +2403,7 @@ ALTER TABLE ONLY priv_messages
 
 
 --
--- Name: read_messages_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: read_messages_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY read_messages
@@ -2417,7 +2411,7 @@ ALTER TABLE ONLY read_messages
 
 
 --
--- Name: read_messages_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: read_messages_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY read_messages
@@ -2425,7 +2419,7 @@ ALTER TABLE ONLY read_messages
 
 
 --
--- Name: scores_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: scores_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY scores
@@ -2433,7 +2427,7 @@ ALTER TABLE ONLY scores
 
 
 --
--- Name: scores_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: scores_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY scores
@@ -2441,7 +2435,7 @@ ALTER TABLE ONLY scores
 
 
 --
--- Name: scores_vote_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: scores_vote_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY scores
@@ -2449,7 +2443,7 @@ ALTER TABLE ONLY scores
 
 
 --
--- Name: settings_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: settings_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY settings
@@ -2457,7 +2451,7 @@ ALTER TABLE ONLY settings
 
 
 --
--- Name: settings_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: settings_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY settings
@@ -2465,7 +2459,7 @@ ALTER TABLE ONLY settings
 
 
 --
--- Name: tag_synonyms_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: tag_synonyms_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tag_synonyms
@@ -2473,7 +2467,7 @@ ALTER TABLE ONLY tag_synonyms
 
 
 --
--- Name: tag_synonyms_tag_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: tag_synonyms_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tag_synonyms
@@ -2481,7 +2475,7 @@ ALTER TABLE ONLY tag_synonyms
 
 
 --
--- Name: tags_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: tags_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tags
@@ -2489,7 +2483,7 @@ ALTER TABLE ONLY tags
 
 
 --
--- Name: threads_forum_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: threads_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY threads
@@ -2497,7 +2491,7 @@ ALTER TABLE ONLY threads
 
 
 --
--- Name: threads_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: threads_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY threads
@@ -2505,7 +2499,7 @@ ALTER TABLE ONLY threads
 
 
 --
--- Name: votes_message_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: votes_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY votes
@@ -2513,7 +2507,7 @@ ALTER TABLE ONLY votes
 
 
 --
--- Name: votes_user_id_fkey; Type: FK CONSTRAINT; Schema: cforum; Owner: -
+-- Name: votes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY votes
@@ -2523,6 +2517,8 @@ ALTER TABLE ONLY votes
 --
 -- PostgreSQL database dump complete
 --
+
+SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('1');
 
@@ -2628,6 +2624,8 @@ INSERT INTO schema_migrations (version) VALUES ('55');
 
 INSERT INTO schema_migrations (version) VALUES ('56');
 
+INSERT INTO schema_migrations (version) VALUES ('57');
+
 INSERT INTO schema_migrations (version) VALUES ('6');
 
 INSERT INTO schema_migrations (version) VALUES ('7');
@@ -2635,3 +2633,4 @@ INSERT INTO schema_migrations (version) VALUES ('7');
 INSERT INTO schema_migrations (version) VALUES ('8');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
+

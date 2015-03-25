@@ -11,7 +11,10 @@ module Peon
 
         # first: max messages per thread (to avoid monster threads like „Test, bitte ignorieren”)
         CfThread.transaction do
-          threads = CfThread.select('threads.thread_id, COUNT(*) AS cnt, flags').joins(:messages).where(archived: false, forum_id: forum.forum_id).group('threads.thread_id')
+          threads = CfThread.select('threads.thread_id, COUNT(*) AS cnt, threads.flags').
+                    joins(:messages).
+                    where(archived: false, forum_id: forum.forum_id).
+                    group('threads.thread_id')
 
           threads.each do |t|
             if t.cnt.to_i > max_messages
@@ -31,7 +34,7 @@ module Peon
         # second: max threads per forum
         CfThread.transaction do
           while CfThread.where(forum_id: forum.forum_id, archived: false).count > max_threads
-            rslt = CfThread.connection.execute 'SELECT threads.thread_id, MAX(messages.created_at) AS created_at FROM threads INNER JOIN cforum.messages USING(thread_id) WHERE threads.forum_id = ' + forum.forum_id.to_s + ' AND archived = false GROUP BY threads.thread_id ORDER BY MAX(messages.created_at) ASC LIMIT 1'
+            rslt = CfThread.connection.execute 'SELECT threads.thread_id, MAX(messages.created_at) AS created_at FROM threads INNER JOIN messages USING(thread_id) WHERE threads.forum_id = ' + forum.forum_id.to_s + ' AND archived = false GROUP BY threads.thread_id ORDER BY MAX(messages.created_at) ASC LIMIT 1'
             tid = rslt[0]['thread_id']
 
             t = CfThread.find tid

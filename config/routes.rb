@@ -62,6 +62,7 @@ Cforum::Application.routes.draw do
 
   scope ":curr_forum" do
     get 'tags/autocomplete' => 'tags#autocomplete'
+    post 'tags/suggestions' => 'tags#suggestions'
     get 'tags/:id/merge' => 'tags#merge', as: :merge_tag
     post 'tags/:id/merge' => 'tags#do_merge'
     resources :tags do
@@ -90,7 +91,8 @@ Cforum::Application.routes.draw do
          mon: /\w{3}/, day: /\d{1,2}/
     post '/:year/:mon/:day/:tid/no_archive' => 'no_answer_no_archive_plugin#no_archive',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_archive_cf_thread'
-
+    post '/:year/:mon/:day/:tid/mark_read' => 'mark_read_plugin#mark_thread_read', year: /\d{4}/,
+         mon: /\w{3}/, day: /\d{1,2}/, as: :mark_thread_read
 
     post '/:year/:mon/:day/:tid/interesting' => 'interesting_threads_plugin#mark_interesting',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'interesting_cf_thread'

@@ -63,7 +63,7 @@ class CfMessagesController < ApplicationController
   def new
     @thread, @message, @id = get_thread_w_post
 
-    raise CForum::ForbiddenException.new if not @message.open?
+    raise CForum::ForbiddenException.new if not may_answer(@message)
 
     @parent  = @message
     @message = CfMessage.new
@@ -81,7 +81,7 @@ class CfMessagesController < ApplicationController
   def create
     @thread, @message, @id = get_thread_w_post
 
-    raise CForum::ForbiddenException.new if not @message.open?
+    raise CForum::ForbiddenException.new if not may_answer(@message)
 
     invalid  = false
 

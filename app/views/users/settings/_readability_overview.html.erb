@@ -48,6 +48,15 @@
     </div>
   </div>
 
+  <div class="cf-cgroup">
+    <label><%= t('users.settings.highlight_self') %></label>
+    <div class="cntrls">
+      <%= hidden_field_tag 'settings[highlight_self]', 'no', id: '' %>
+      <label class="checkbox"><%= check_box_tag 'settings[highlight_self]', 'yes', @settings.conf('highlight_self', 'yes') == 'yes' %></label>
+    </div>
+  </div>
+
+
   <%= render 'widgets/users_selector', desc: t('users.settings.highlighted_users'), name: "settings[highlighted_users][]", id: "settings_highlighted_users", users: @highlighted_users_list %>
 
 </fieldset>

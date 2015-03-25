@@ -29,6 +29,7 @@
   &.mark-visible { @extend .fa-recycle; }
   &.mark-interesting { @extend .fa-star; }
   &.mark-boring { @extend .fa-star-o; }
+  &.mark-thread-read { @extend .fa-check; }
 }
 
 .icon-registered-user {

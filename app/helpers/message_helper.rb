@@ -37,34 +37,40 @@ module MessageHelper
 
       html << '  <a class="icon-thread '
       if thread.attribs['open_state'] == 'closed'
-        html << 'closed" title="' + t('plugins.open_close.open_thread') + '" href="' + cf_forum_path(current_forum, :open => thread.thread_id)
+        html << 'closed" title="' + t('plugins.open_close.open_thread') + '" href="' + cf_forum_path(current_forum, :open => thread.thread_id, p: params[:p])
       else
-        html << 'open" title="' + t('plugins.open_close.close_thread') + '" href="' + cf_forum_path(current_forum, :close => thread.thread_id)
+        html << 'open" title="' + t('plugins.open_close.close_thread') + '" href="' + cf_forum_path(current_forum, :close => thread.thread_id, p: params[:p])
       end
       html << '"> </a>'
 
       if get_plugin_api(:is_invisible).call(thread, current_user).blank?
-        html << link_to('', cf_forum_path(current_forum, hide_thread: thread.thread_id),
+        html << link_to('', cf_forum_path(current_forum, hide_thread: thread.thread_id, p: params[:p]),
                         class: 'icon-thread mark-invisible',
                         title: t('plugins.invisible_threads.mark_thread_invisible'))
       else
-        html << ' ' + link_to('', unhide_thread_path(thread.thread_id),
+        html << ' ' + link_to('', unhide_thread_path(thread.thread_id, p: params[:p]),
                               class: 'icon-thread mark-visible',
                               title: t('plugins.invisible_threads.mark_thread_visible'),
                               method: :post)
       end
 
       if get_plugin_api(:is_interesting).call(thread, current_user).blank?
-        html << ' ' + link_to('', interesting_cf_thread_path(thread),
+        html << ' ' + link_to('', interesting_cf_thread_path(thread, p: params[:p]),
                               class: 'icon-thread mark-interesting',
                               title: t('plugins.interesting_threads.mark_thread_interesting'),
                               method: :post)
       else
-        html << ' ' + link_to('', boring_cf_thread_path(thread),
+        html << ' ' + link_to('', boring_cf_thread_path(thread, p: params[:p]),
                               class: 'icon-thread mark-boring',
                               title: t('plugins.interesting_threads.mark_thread_boring'),
                               method: :post)
       end
+
+      html << ' ' + link_to('', mark_cf_thread_read_path(thread, p: params[:p]),
+                            class: 'icon-thread mark-thread-read',
+                            title: t('plugins.mark_read.mark_thread_read'),
+                            method: :post)
+
     end
 
     if not current_user.blank? and not current_forum.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons] and @view_all
@@ -78,9 +84,9 @@ module MessageHelper
         html << " " + link_to('', sticky_cf_thread_path(thread), method: :post, class: 'icon-thread sticky', title: thread.sticky ? t('threads.mark_unsticky') : t('threads.mark_sticky'))
 
         if thread.flags['no-archive'] == 'yes'
-          html << " " + link_to('', no_archive_cf_thread_path(thread), method: :post, class: 'icon-thread archive', title: t('plugins.no_answer_no_archive.arc'))
+          html << " " + link_to('', no_archive_cf_thread_path(thread, p: params[:p]), method: :post, class: 'icon-thread archive', title: t('plugins.no_answer_no_archive.arc'))
         else
-          html << " " + link_to('', no_archive_cf_thread_path(thread), method: :post, class: 'icon-thread no-archive', title: t('plugins.no_answer_no_archive.no_arc'))
+          html << " " + link_to('', no_archive_cf_thread_path(thread, p: params[:p]), method: :post, class: 'icon-thread no-archive', title: t('plugins.no_answer_no_archive.no_arc'))
         end
 
         html << "</span>"
@@ -111,7 +117,7 @@ module MessageHelper
         opened << 'span'
       end
 
-      html << " " + link_to('', unread_cf_message_path(thread, message),
+      html << " " + link_to('', unread_cf_message_path(thread, message, p: params[:p]),
                             method: :post, class: 'icon-message unread',
                             title: t('plugins.mark_read.mark_unread'))
     end
@@ -163,7 +169,7 @@ module MessageHelper
       html << "\">" + link_to(image_tag(message.owner.avatar(:thumb), class: 'avatar'), user_path(message.owner), title: t('messages.user_link', user: message.owner.username), class: 'user-link') + " "
     else
       if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
-        html << '<span class="icon-message original-poster" title="' + t('messages.original_poster') + '"><em>' + t("messages.original_poster") + '</em></span>'
+        html << '<span class="icon-message original-poster" title="' + t('messages.original_poster') + '"> </span>'
       end
     end
     html << encode_entities(message.author)

@@ -43,15 +43,15 @@ cforum.cf_messages = {
 
   new: function() {
     if(cforum.cf_messages.quotedMessage) {
-      var obj = $(".form-actions").append("<button class=\"cf-btn\">" + t('add_quote') + "</button>");
-      obj.on('click', cforum.cf_messages.quoteMessage);
+      $(".form-actions").append("<button class=\"cf-btn quote-message\">" + t('add_quote') + "</button>");
+      $('.form-actions .quote-message').on('click', cforum.cf_messages.quoteMessage);
     }
   },
 
   quoteMessage: function(ev) {
     ev.preventDefault();
     $("#message_input").val($("#message_input").val() + cforum.cf_messages.quotedMessage);
-    $(".form-actions button:last").fadeOut('fast', function() { $(this).remove(); });
+    $(".form-actions .quote-message").fadeOut('fast', function() { $(this).remove(); });
   },
 
   initCursor: function() {

@@ -8,7 +8,7 @@ class Admin::CfForumsController < ApplicationController
   SHOW_FORUMLIST = "show_forumlist"
 
   def index
-    @forums = CfForum.order('UPPER(name) ASC')
+    @forums = CfForum.order('position ASC, UPPER(name) ASC')
 
     results = CfForum.connection.execute("SELECT table_name, group_crit, SUM(difference) AS diff FROM counter_table WHERE table_name = 'threads' OR table_name = 'messages' GROUP BY table_name, group_crit")
 
@@ -49,7 +49,7 @@ class Admin::CfForumsController < ApplicationController
   end
 
   def forum_params
-    params.require(:cf_forum).permit(:slug, :name, :short_name, :description, :standard_permission, :keywords)
+    params.require(:cf_forum).permit(:slug, :name, :short_name, :description, :standard_permission, :keywords, :position)
   end
 
   def update

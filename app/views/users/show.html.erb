@@ -17,7 +17,7 @@ content_for :h1, t('users.user', name: @user.username)
     </tr>
     <% if current_user == @user %><tr>
       <th><%= CfUser.human_attribute_name("email") %>:</th>
-      <td><%= @user.email %></td>
+      <td><%= @user.email %> <em>(<%= t('global.only_visible_for_you') %>)</em></td>
     </tr><% end %>
     <tr>
       <th><%= t('users.registered_since') %>:</th>

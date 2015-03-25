@@ -101,7 +101,9 @@ class UsersController < ApplicationController
 
     @score_msgs = CfScore.
       preload(:vote => {:message => [:thread, :tags]}).
+      joins(vote: :message).
       where(:user_id => @user.user_id).
+      where("messages.deleted = false AND forum_id IN (#{sql})").
       limit(10).
       order('created_at DESC')
 

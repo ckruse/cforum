@@ -8,7 +8,7 @@ class MarkReadPluginController < ApplicationController
   def mark_unread
     if current_user.blank?
       flash[:error] = t('global.only_as_user')
-      redirect_to cf_forum_url(current_forum)
+      redirect_to cf_forum_url(current_forum, p: params[:p])
       return :redirected
     end
 
@@ -18,24 +18,43 @@ class MarkReadPluginController < ApplicationController
       execute("DELETE FROM read_messages WHERE user_id = " +
               current_user.user_id.to_s + " AND message_id = " +
               @message.message_id.to_s)
-    redirect_to cf_forum_url(@thread.forum.slug), notice: t('plugins.mark_read.marked_unread')
+    redirect_to cf_forum_url(@thread.forum.slug, p: params[:p]), notice: t('plugins.mark_read.marked_unread')
+  end
+
+  def mark_thread_read
+    if current_user.blank?
+      flash[:error] = t('global.only_as_user')
+      redirect_to cf_forum_url(current_forum, p: params[:p])
+      return :redirected
+    end
+
+    @thread, @id = get_thread
+
+    sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ', '
+
+    @thread.messages.each do |m|
+      begin
+        CfMessage.connection.execute(sql + m.message_id.to_s + ")")
+      rescue ActiveRecord::RecordNotUnique
+      end
+    end
+
+    redirect_to cf_forum_url(@thread.forum.slug, p: params[:p]), notice: t('plugins.mark_read.thread_marked_read')
   end
 
   def mark_all_read
     index_threads
 
-    sql = "INSERT INTO read_messages (message_id, user_id) VALUES"
-    parts = []
+    sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ', '
 
     @threads.each do |t|
       t.messages.each do |m|
-        parts << " (" + m.message_id.to_s + ", " + current_user.user_id.to_s + ")"
+        begin
+          CfMessage.connection.execute(sql + m.message_id.to_s + ")")
+        rescue ActiveRecord::RecordNotUnique
+        end
       end
     end
-
-    sql << ' ' + parts.join(", ")
-
-    CfMessage.connection.execute(sql)
 
     redirect_to cf_threads_url(current_forum),
                 notice: t('plugins.mark_read.marked_all_read')

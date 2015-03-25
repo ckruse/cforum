@@ -29,6 +29,8 @@ de:
     author: Autor
     subject: Betreff
     user_profile: Benutzer-Profil
+    redirect_thread_multiple: mehrere mögliche Threads gefunden
+    only_visible_for_you: Nur für Sie sichtbar
 
     scores:
       right_upvote: Upvote-Recht

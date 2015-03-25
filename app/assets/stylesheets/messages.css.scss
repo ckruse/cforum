@@ -35,6 +35,8 @@ main h2 { margin-left:0; }
     border-radius: 0px 0.5em 0.5em;
     font-size: 0.9em;
     line-height: 1.4em;
+
+    img { max-width:100%; }
   }
 
   .message-links {
@@ -46,7 +48,7 @@ main h2 { margin-left:0; }
 
 #message {
   .root {
-    width:54em;
+    min-width:54em;
     max-width:100%;
   }
 }
@@ -88,6 +90,43 @@ blockquote blockquote {
   border-width: .25em;
   padding-left: .5em;
 }
+
+
+/* Code-Blöcke */
+code.block {
+	display: block;
+	white-space: pre;
+	white-space: pre-wrap;
+	max-height: 50em;
+	overflow: auto;
+	background: #fcfcfc;
+	border: 1px solid #8a9da8;
+	border-radius: 0 .4em .4em;
+	margin-top: .5em;
+	padding: .3em .4em .3em .5em;
+}
+code.block code.block {
+	border: 0 none;
+	margin: 0;
+	padding: 0;
+	max-height: none;
+	background: transparent;
+}
+* html code.block {
+	width: 61em;
+	overflow: visible;
+	overflow-x: auto;
+}
+code.q.block, .q code.block { /* zitierter Code-Block */
+	background-image: url(http://src.selfhtml.org/forum/quote.png), linear-gradient(to bottom, #d5d5d5, #d5d5d5);
+	background-repeat: no-repeat, no-repeat;
+	background-position: 2px .3em, 0 0;
+	background-size: auto, 22px 100%;
+	padding-left: 30px;
+	padding-left: calc(.5em + 22px);
+	border-color: #d5d5d5;
+}
+/* end Code-Blöcke */
 
 
 

@@ -35,7 +35,7 @@ content_for :h1, t('messages.new_answer_to', name: @parent.author)
 
   <%= render "form", f: f %>
 
-  <% if @parent and @message.content.blank? %>
+  <% if @parent and not params.has_key?(:quote_old_message) %>
     <script>
      cforum.cf_messages.quotedMessage = <%== @parent.to_quote(self).to_json %>;
     </script>
@@ -44,7 +44,7 @@ content_for :h1, t('messages.new_answer_to', name: @parent.author)
   <p class="form-actions">
     <%= f.submit t('messages.preview'), :class => 'cf-btn', name: 'preview' %>
     <%= f.submit t('global.save'), :class => 'cf-primary-btn' %>
-    <%= link_to t('global.cancel'), @parent ? cf_message_path(@thread, @parent) : cf_forum_path(current_forum), :class => 'cf-btn' %>
+    <%= link_to t('global.cancel'), cf_forum_path(current_forum), :class => 'cf-btn' %>
   </p>
 <% end %>
 

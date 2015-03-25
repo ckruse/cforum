@@ -22,14 +22,24 @@ content_for :h1, t("messages.close_vote.open_message",
 <%= form_for(@open_vote, url: open_cf_message_path(@thread, @message),
              html: {:class => 'form-horizontal'}, method: :put) do |f| %>
 
-  <div class="cf-radio-only">
-    <label>
-      <%= f.hidden_field :reason, value: "custom" %>
-      <%= t('messages.close_vote.custom') %>
-    </label>
+  <div class="cf-cgroup">
+    <%= f.label :reason %>
 
-    <%= f.text_field :custom_reason %>
-   </div>
+    <div class="cntrls">
+      <label class="radio">
+        <%= f.hidden_field :reason, value: "custom" %>
+        <%= t('messages.close_vote.custom') %>
+      </label>
+    </div>
+  </div>
+
+  <div class="cf-cgroup" data-depends-on="cf_close_vote[reason]=custom">
+    <%= f.label :custom_reason %>
+
+    <div class="cntrls">
+      <%= f.text_field :custom_reason %>
+    </div>
+  </div>
 
 
    <p class="form-actions">

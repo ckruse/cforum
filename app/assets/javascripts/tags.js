@@ -41,18 +41,27 @@ cforum.tags = {
 
     var suggestions = cforum.tags.suggestions(mcnt);
 
-    $.get(
-      cforum.baseUrl + cforum.currentForum.slug + '/tags.json',
+    $.post(
+      cforum.baseUrl + cforum.currentForum.slug + '/tags/suggestions.json',
       'tags=' + encodeURIComponent(suggestions.join(",")),
       function(data) {
         var tag_list = $("#tags-suggestions");
+        var tags_set = false;
         tag_list.html("");
 
         for(var i = 0; i < data.length && i < cforum.tags.maxTags; ++i) {
           if(!cforum.tags.hasTag(data[i].tag_name)) {
             cforum.tags.appendTag(data[i].tag_name, tag_list,
                                   cforum.tags.views.tagSuggestion);
+            tags_set = true;
           }
+        }
+
+        if(!tags_set) {
+          tag_list.closest(".cf-cgroup").css({'display': 'none'});
+        }
+        else {
+          tag_list.closest(".cf-cgroup").fadeIn('fast');
         }
 
       }
@@ -90,7 +99,7 @@ cforum.tags = {
     var $this = $(this);
 
     if($.trim($this.val()) && $this.val() != ',' && $("#tags-list .tag").length < cforum.tags.maxTags) {
-      var val = $.trim($this.val().replace(/[, ].*/, '').toLowerCase());
+      var val = $.trim($this.val().replace(/,.*/, '').toLowerCase());
 
       if(!cforum.tags.hasTag(val)) {
         cforum.tags.appendTag(val);
@@ -175,7 +184,7 @@ cforum.tags = {
   },
 
   handleTagsKeyUp: function(ev) {
-    if(ev.keyCode == 188 || ev.keyCode == 32) {
+    if(ev.keyCode == 188) {
       cforum.tags.addTag.call($("#replaced_tag_input"), ev);
     }
   },

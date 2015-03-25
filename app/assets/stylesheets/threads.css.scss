@@ -6,7 +6,6 @@
 
 .thread > ol {
   background:#fff;
-  border-bottom: 1px solid #D5D5D5;
   border-radius: 0px 0.5em 0.5em;
   padding-bottom:0.25em;
 }
@@ -29,7 +28,14 @@ a.visited:hover, a.visited:active,
   padding: 0.25em 0.6em 0.25em;
 }
 
-a.thread-forum-plate, a.thread-forum-plate:visited {
+a.thread-forum-plate:hover,
+a.thread-forum-plate:focus,
+a.thread-forum-plate:active {
+  font-weight: bold;
+  color: #990909;
+}
+
+a.thread-forum-plate {
   color:#fff;
 }
 
@@ -41,6 +47,7 @@ a.thread-forum-plate, a.thread-forum-plate:visited {
   border-radius: 0px 0.5em 0.5em;
   min-width: 44em;
   padding: .35em 1em 0;
+  border: 1px solid #d5d5d5;
 
   & > ol { 
     border-radius: 0 0 .5em .5em;
@@ -135,8 +142,12 @@ a.thread-forum-plate, a.thread-forum-plate:visited {
     color: #888;
   }
 
-  header.highlighted-user {
+  header.highlighted-user .author {
     color:#8ab337;
+  }
+
+  header.highlighted-self .author {
+    color:#c32e04;
   }
 
   header.open-vote-active, header.close-vote-active {

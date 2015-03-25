@@ -18,12 +18,12 @@ content_for(:h1, t('devise.sign_up'))
 
   <div class="cf-cgroup">
     <%= f.label :username %>
-    <div class="cntrls"><%= f.text_field :username %></div>
+    <div class="cntrls"><%= f.text_field :username, placeholder: t("layout.placeholders.username") %></div>
   </div>
 
   <div class="cf-cgroup">
     <%= f.label :email %>
-    <div class="cntrls"><%= f.email_field :email %></div>
+    <div class="cntrls"><%= f.email_field :email, placeholder: t("layout.placeholders.email") %></div>
   </div>
 
   <div class="cf-cgroup">

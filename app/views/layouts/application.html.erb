@@ -66,9 +66,9 @@ end
     <%= @own_css.html_safe %>
     </style><% end %>
 
-    <% if @own_js %><style>
-    <%= @own_js %>
-    </style><% end %>
+    <% if @own_js %><script>
+    <%= @own_js.html_safe %>
+    </script><% end %>
 
     <script>
       <% if current_user %>cforum.currentUser = <%= current_user.to_json(include: :badges).html_safe %>;<% end %>
@@ -114,6 +114,7 @@ end
             <li><a href="http://wiki.selfhtml.org/">Doku</a></li>
 	          <li><%= link_to "Forum", root_path %></li>
 	          <li><a href="http://blog.selfhtml.org/">Blog</a></li>
+            <li class="search"><a href="http://suche.de.selfhtml.org/">Suche</a></li>
           </ul>
 
           <ul class="personallinks">
@@ -196,7 +197,7 @@ end
             <li><%= link_to current_forum.name, cf_threads_path(current_forum) %></li>
           <% end %>
 
-          <% if @thread %>
+          <% if @thread and not @thread.new_record? %>
             <li id="nachricht-feed-atom"><%= link_to t("layout.msg_atom_feed"), cf_thread_url(@thread, format: :atom) %></li>
             <li id="nachricht-feed-rss"><%= link_to t("layout.msg_rss_feed"), cf_thread_url(@thread, format: :rss) %></li>
           <% end %>
@@ -214,9 +215,14 @@ end
             <% end %>
           <% end %>
 
-          <% if @threads and current_user %>
+          <% if @threads and current_user and not controller_path == 'interesting_threads_plugin' %>
             <li id="optionen-close-all-threads"><%= link_to t('plugins.open_close.close_all_threads'), cf_forum_path(current_forum, close_all: 'yes') %></li>
             <li id="optionen-open-all-threads"><%= link_to t('plugins.open_close.open_all_threads'), cf_forum_path(current_forum, open_all: 'yes') %></li>
+          <% end %>
+
+          <% if current_user %>
+            <li id="interesting-links"><%= link_to t('plugins.interesting_threads.interesting_threads'), interesting_threads_path %></li>
+            <li id="invisible-links"><%= link_to t('plugins.invisible_threads.invisible_threads'), hidden_threads_path %></li>
           <% end %>
 
           <% if current_user and current_user.moderate?(current_forum) %>
@@ -240,7 +246,7 @@ end
       <aside class="flex-item">
         <% if not @motds.blank? %>
           <% @motds.each do |motd| %>
-            <p class="aktuelle-mitteilung"><%= motd %></p>
+            <div class="aktuelle-mitteilung"><%= motd %></div>
           <% end %>
         <% end %>
 
@@ -267,7 +273,7 @@ end
         <li>Software: <a href="https://github.com/ckruse/cforum">Classic Forum <%= $CF_VERSION %></a></li>
       </ul>
 
-      <p class="termitel-sponsor">Unterstützt von <a href="https://termitel.de/"><%= image_tag 'termitel-fuer-ihren-vertrieb.jpg', alt: "Termitel - für Ihren Vertrieb" %></a></p>
+      <p class="termitel-sponsor"><a href="https://termitel.de/"><%= image_tag 'termitel-fuer-ihren-vertrieb.jpg', alt: "Termitel - für Ihren Vertrieb" %></a></p>
     </footer>
   </body>
 </html>

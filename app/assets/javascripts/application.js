@@ -48,6 +48,15 @@ function setDismissHandlers() {
     var elem = $this.closest("." + clss);
     elem.fadeOut('fast', function() { $(this).remove(); });
   });
+
+  $("[data-dismiss]").each(function() {
+    var $this = $(this);
+    var clss = $this.attr('data-dismiss');
+
+    $this.closest("." + clss).on('click', function() {
+      $(this).fadeOut('fast', function() { $(this).remove(); });
+    });
+  });
 }
 
 function autohideAlerts() {
@@ -59,6 +68,7 @@ function autohideAlerts() {
 $(function() {
   setDismissHandlers();
   $(".select2").select2({minimumResultsForSearch: -1});
+  $("form").dependentQuestions();
 
   $("#forum-list select").on('change', function() {
     if($(this).val() != "") {
