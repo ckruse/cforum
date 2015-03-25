@@ -4,8 +4,8 @@
 cforum.tags = {
   events: $({}),
   views: {
-    tag: "<li class=\"tag\" style=\"display:none\"><input name=\"tags[]\" type=\"hidden\" value=\"{{tag}}\"><i class=\"icon-del-tag del-tag\"> </i> {{tag}}</li>",
-    tagSuggestion: "<li class=\"tag\" style=\"display:none\" data-tag=\"{{tag}}\"><i class=\"icon-tag-ok del-tag\"> </i> {{tag}}</li>"
+    tag: "<li class=\"cf-tag\" style=\"display:none\"><input name=\"tags[]\" type=\"hidden\" value=\"{{tag}}\"><i class=\"icon-del-tag del-tag\"> </i> {{tag}}</li>",
+    tagSuggestion: "<li class=\"cf-tag\" style=\"display:none\" data-tag=\"{{tag}}\"><i class=\"icon-tag-ok del-tag\"> </i> {{tag}}</li>"
   },
 
   suggestionsTimeout: null,
@@ -72,7 +72,7 @@ cforum.tags = {
     ev.preventDefault();
     var tag = $(ev.target).closest("li").attr("data-tag");
 
-    if($("#tags-list .tag").length >= cforum.tags.maxTags) {
+    if($("#tags-list .cf-tag").length >= cforum.tags.maxTags) {
       return;
     }
 
@@ -98,7 +98,7 @@ cforum.tags = {
     ev.preventDefault();
     var $this = $(this);
 
-    if($.trim($this.val()) && $this.val() != ',' && $("#tags-list .tag").length < cforum.tags.maxTags) {
+    if($.trim($this.val()) && $this.val() != ',' && $("#tags-list .cf-tag").length < cforum.tags.maxTags) {
       var val = $.trim($this.val().replace(/,.*/, '').toLowerCase());
 
       if(!cforum.tags.hasTag(val)) {
@@ -122,7 +122,7 @@ cforum.tags = {
     }
 
     list.append(Mustache.render(view, {tag: tag}));
-    list.find(".tag").last().fadeIn('fast');
+    list.find(".cf-tag").last().fadeIn('fast');
   },
 
   removeTag: function(ev) {
@@ -131,7 +131,7 @@ cforum.tags = {
 
     if($this.hasClass('del-tag')) {
       ev.preventDefault();
-      $this.closest("li.tag").fadeOut('fast', function() {
+      $this.closest("li.cf-tag").fadeOut('fast', function() {
         $(this).remove();
         cforum.tags.events.trigger('tags:remove', tag);
       });

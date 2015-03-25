@@ -214,7 +214,7 @@ module MessageHelper
     in <ul class="cf-tags-list">}
 
       message.tags.each do |t|
-        html << "<li class=\"tag\">" + link_to(t.tag_name, tag_path(thread.forum.slug, t)) + "</li>"
+        html << "<li class=\"cf-tag\">" + link_to(t.tag_name, tag_path(thread.forum.slug, t)) + "</li>"
       end
 
       html << "</ul>"

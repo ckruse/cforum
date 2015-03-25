@@ -28,7 +28,7 @@ content_for :h1, t('users.user', name: @user.username)
 
 <ul class="user-info-tags clearfix">
   <% @tags_cnts.each do |t| %>
-    <li><%= link_to t.tag.tag_name, tag_path(t.tag.forum.slug, t.tag), class: 'tag' %>
+    <li><%= link_to t.tag.tag_name, tag_path(t.tag.forum.slug, t.tag), class: 'cf-tag' %>
       <span class="cnt"><%= t.cnt %></span></li>
   <% end %>
 </ul>

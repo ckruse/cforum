@@ -7,7 +7,7 @@
   padding:0;
 }
 
-.tag, .thread ol li.tag {
+.cf-tag, .thread ol li.cf-tag {
   display:inline;
   background-color: #e6f2f7;
   margin-top:1px;
@@ -27,8 +27,8 @@
   a:hover, a:focus, a:active { color: #990909; }
 }
 
-a.tag { font-weight:inherit; }
-a.tag:hover, a.tag:focus, a.tag:active { border:1px solid #5983ab; }
+a.cf-tag { font-weight:inherit; }
+a.cf-tag:hover, a.cf-tag:focus, a.cf-tag:active { border:1px solid #5983ab; }
 
 .form-horizontal .cf-cgroup .cntrls input[type="text"].tags-input {
   width:10%;

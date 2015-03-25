@@ -49,7 +49,7 @@ content_for :h1, current_forum.name + ": " + @tag.tag_name
           <td>
             <ul class="cf-tags-list">
               <% msg.tags.each do |tag| %>
-                <li class="tag"><%= link_to(tag.tag_name, tag_path(current_forum.slug, tag)) %></li>
+                <li class="cf-tag"><%= link_to(tag.tag_name, tag_path(current_forum.slug, tag)) %></li>
               <% end %>
             </ul>
           </td>
