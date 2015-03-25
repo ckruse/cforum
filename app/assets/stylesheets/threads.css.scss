@@ -121,9 +121,9 @@ a.thread-forum-plate {
   & > header > .votes { margin-left:0; }
 
 
-  .active, .active .visited a {
-	  color:#00a1e2;
-	  font-weight:bold;
+  .active > header a {
+	  color: #00a1e2;
+	  font-weight: bold;
   }
 
   .active > header .votes:before {
@@ -131,15 +131,6 @@ a.thread-forum-plate {
     color: #00A1E2;
     font-size:1em;
     margin-right:0.3em;
-  }
-
-  .active ol, .active ol a {
-	  color:#3481cd;
-	  font-weight:normal;
-  }
-
-  .active ol .visited a {
-    color: #888;
   }
 
   header.highlighted-user .author {
