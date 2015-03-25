@@ -53,4 +53,11 @@
       <label class="checkbox"><%= check_box_tag 'settings[show_new_messages_since_last_visit_in_title]', 'yes', @settings.conf('show_new_messages_since_last_visit_in_title') == 'yes' %></label>
     </div>
   </div>
+
+  <div class="cf-cgroup">
+    <label for="settings_autorefresh"><%= t('users.settings.autorefresh') %></label>
+    <div class="cntrls">
+      <input type="number" step="5" value="<%= @settings.conf('autorefresh', 0) %>" name="settings[autorefresh]" id="settings_autorefresh"<%= disabled %>>
+    </div>
+  </div>
 </fieldset>

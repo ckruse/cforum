@@ -51,4 +51,5 @@ de:
       sort_threads: Thread-Sortierung
       sort_messages: Nachrichten-Sortierung
       highlight_self: Eigene Postings hervorheben
+      autorefresh: Automatischer Reload (in Minuten)
 
