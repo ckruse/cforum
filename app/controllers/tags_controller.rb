@@ -34,6 +34,11 @@ class TagsController < ApplicationController
     end
   end
 
+  # just a post wrapper
+  def suggestions
+    index
+  end
+
   def autocomplete
     term = (params[:s] || params[:term]).to_s.strip
 

@@ -41,8 +41,8 @@ cforum.tags = {
 
     var suggestions = cforum.tags.suggestions(mcnt);
 
-    $.get(
-      cforum.baseUrl + cforum.currentForum.slug + '/tags.json',
+    $.post(
+      cforum.baseUrl + cforum.currentForum.slug + '/tags/suggestions.json',
       'tags=' + encodeURIComponent(suggestions.join(",")),
       function(data) {
         var tag_list = $("#tags-suggestions");
