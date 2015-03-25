@@ -92,6 +92,11 @@ module CForum
       _cf_thread_path(thread) + "/boring" + query_string(args)
     end
 
+    def mark_cf_thread_read_path(thread, args = {})
+      _cf_thread_path(thread) + "/mark_read" + query_string(args)
+    end
+
+
     #
     # message path helpers
     #
@@ -193,6 +198,10 @@ module CForum
 
     def boring_cf_thread_url(thread, args = {})
       _cf_thread_url(thread) + '/boring' + query_string(args)
+    end
+
+    def mark_cf_thread_read_url(thread, args = {})
+      _cf_thread_url(thread) + '/mark_read' + query_string(args)
     end
 
     def _cf_message_url_wo_anchor(thread, message)

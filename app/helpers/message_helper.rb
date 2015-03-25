@@ -65,6 +65,12 @@ module MessageHelper
                               title: t('plugins.interesting_threads.mark_thread_boring'),
                               method: :post)
       end
+
+      html << ' ' + link_to('', mark_cf_thread_read_path(thread),
+                            class: 'icon-thread mark-thread-read',
+                            title: t('plugins.mark_read.mark_thread_read'),
+                            method: :post)
+
     end
 
     if not current_user.blank? and not current_forum.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons] and @view_all

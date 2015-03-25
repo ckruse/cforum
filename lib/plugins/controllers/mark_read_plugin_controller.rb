@@ -21,6 +21,27 @@ class MarkReadPluginController < ApplicationController
     redirect_to cf_forum_url(@thread.forum.slug), notice: t('plugins.mark_read.marked_unread')
   end
 
+  def mark_thread_read
+    if current_user.blank?
+      flash[:error] = t('global.only_as_user')
+      redirect_to cf_forum_url(current_forum)
+      return :redirected
+    end
+
+    @thread, @id = get_thread
+
+    sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ', '
+
+    @thread.messages.each do |m|
+      begin
+        CfMessage.connection.execute(sql + m.message_id.to_s + ")")
+      rescue ActiveRecord::RecordNotUnique
+      end
+    end
+
+    redirect_to cf_forum_url(@thread.forum.slug), notice: t('plugins.mark_read.thread_marked_read')
+  end
+
   def mark_all_read
     index_threads
 

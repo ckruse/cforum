@@ -90,7 +90,8 @@ Cforum::Application.routes.draw do
          mon: /\w{3}/, day: /\d{1,2}/
     post '/:year/:mon/:day/:tid/no_archive' => 'no_answer_no_archive_plugin#no_archive',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_archive_cf_thread'
-
+    post '/:year/:mon/:day/:tid/mark_read' => 'mark_read_plugin#mark_thread_read', year: /\d{4}/,
+         mon: /\w{3}/, day: /\d{1,2}/, as: :mark_thread_read
 
     post '/:year/:mon/:day/:tid/interesting' => 'interesting_threads_plugin#mark_interesting',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'interesting_cf_thread'
