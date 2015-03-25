@@ -34,8 +34,10 @@ module ParserHelper
         load Rails.root + 'lib/cf_kramdown.rb'
       end
 
+      cnt = get_content.gsub(/^(>[^\n]+)\n([^\n]+)/, "\\1\n\n\\2")
+
       @doc = Kramdown::Document.new(
-        get_content,
+        cnt,
         opts
       )
     end
