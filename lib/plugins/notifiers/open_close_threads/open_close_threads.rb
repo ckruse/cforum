@@ -75,13 +75,13 @@ class OpenCloseThreadPlugin < Plugin
 
   def open_thread(tid)
     check_existance_and_delete_or_set(tid, 'open')
-    redirect_to cf_forum_url(current_forum)
+    redirect_to cf_forum_url(current_forum, p: params[:p])
     return :redirected
   end
 
   def close_thread(tid)
     check_existance_and_delete_or_set(tid, 'closed')
-    redirect_to cf_forum_url(current_forum)
+    redirect_to cf_forum_url(current_forum, p: params[:p])
     return :redirected
   end
 

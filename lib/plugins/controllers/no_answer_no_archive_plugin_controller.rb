@@ -72,7 +72,7 @@ class NoAnswerNoArchivePluginController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(
-          cf_forum_url(current_forum),
+          cf_forum_url(current_forum, p: params[:p]),
           notice: I18n.t(
             @thread.flags['no-archive'] == 'yes' ? 'plugins.no_answer_no_archive.no_archived' : 'plugins.no_answer_no_archive.no_archive_removed'
           )
