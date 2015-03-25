@@ -11,16 +11,28 @@ class HighlightPlugin < Plugin
 
     highlighted_users = uconf('highlighted_users')
     highlighted_users ||= ''
+    highlight_self = uconf('highlight_self', 'yes') == 'yes'
+
+    return if highlighted_users.blank? and not highlight_self
 
     user_map = {}
     highlighted_users.split(',').each do |s|
       user_map[s.strip.downcase] = true
     end
 
+    cu_nam = current_user.username.strip.downcase
+
     threads.each do |t|
       t.sorted_messages.each do |m|
-        if user_map[m.author.strip.downcase]
+        n = m.author.strip.downcase
+
+        if user_map[n]
           m.attribs['classes'] << 'highlighted-user'
+          m.attribs['classes'] << to_class_name(m.author)
+        end
+
+        if highlight_self and n == cu_nam
+          m.attribs['classes'] << 'highlighted-self'
           m.attribs['classes'] << to_class_name(m.author)
         end
       end
