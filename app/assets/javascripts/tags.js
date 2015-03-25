@@ -90,7 +90,7 @@ cforum.tags = {
     var $this = $(this);
 
     if($.trim($this.val()) && $this.val() != ',' && $("#tags-list .tag").length < cforum.tags.maxTags) {
-      var val = $.trim($this.val().replace(/[, ].*/, '').toLowerCase());
+      var val = $.trim($this.val().replace(/,.*/, '').toLowerCase());
 
       if(!cforum.tags.hasTag(val)) {
         cforum.tags.appendTag(val);
@@ -175,7 +175,7 @@ cforum.tags = {
   },
 
   handleTagsKeyUp: function(ev) {
-    if(ev.keyCode == 188 || ev.keyCode == 32) {
+    if(ev.keyCode == 188) {
       cforum.tags.addTag.call($("#replaced_tag_input"), ev);
     }
   },
