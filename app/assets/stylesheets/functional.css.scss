@@ -4,9 +4,11 @@ summary::-webkit-details-marker {
   display:none;
 }
 
-input:-moz-placeholder {
-  color: #999;
-}
+input:-moz-placeholder { color: #c5c5c5; }
+::-webkit-input-placeholder { color: #c5c5c5; }
+::-webkit-input-placeholder { color: #c5c5c5; }
+::-moz-placeholder { color: #c5c5c5; }
+::-ms-input-placeholder { color: #c5c5c5; }
 
 th.nummeric, td.nummeric {
   text-align:right;
