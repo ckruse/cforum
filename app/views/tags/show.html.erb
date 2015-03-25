@@ -8,7 +8,7 @@ content_for :h1, current_forum.name + ": " + @tag.tag_name
 <% if @tag.synonyms.blank? %>
   <p><%= t('tags.no_synonyms') %></p>
 <% else %>
-  <ul class="tags-list">
+  <ul class="cf-tags-list">
     <% @tag.synonyms.each do |syn| %>
       <li class="tags"><%= syn.synonym %><% if current_user.admin %>
         <%= link_to "", edit_tag_synonym_path(current_forum.slug, @tag, syn), class: 'icon-edit-tag-synonym' %>
@@ -47,7 +47,7 @@ content_for :h1, current_forum.name + ": " + @tag.tag_name
             <% end %>
           </td>
           <td>
-            <ul class="tags-list">
+            <ul class="cf-tags-list">
               <% msg.tags.each do |tag| %>
                 <li class="tag"><%= link_to(tag.tag_name, tag_path(current_forum.slug, tag)) %></li>
               <% end %>

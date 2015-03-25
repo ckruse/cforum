@@ -13,7 +13,7 @@ content_for :title, t("tags.tags_for_forum", forum: current_forum.name)
 content_for :h1, t("tags.tags_for_forum", forum: current_forum.name)
 %>
 
-<ul class="tags-list">
+<ul class="cf-tags-list">
   <% @tags.each do |t| %>
     <li class="tag" style="font-size: <%= get_size(t.num_messages).to_s %>em"><%= link_to t.tag_name, tag_path(current_forum.slug, t) %></li>
   <% end %>

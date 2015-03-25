@@ -211,7 +211,7 @@ module MessageHelper
     unless message.tags.blank?
       html << %q{
 
-    in <ul class="tags-list">}
+    in <ul class="cf-tags-list">}
 
       message.tags.each do |t|
         html << "<li class=\"tag\">" + link_to(t.tag_name, tag_path(thread.forum.slug, t)) + "</li>"
