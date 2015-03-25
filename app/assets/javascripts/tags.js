@@ -60,6 +60,9 @@ cforum.tags = {
         if(!tags_set) {
           tag_list.closest(".cf-cgroup").css({'display': 'none'});
         }
+        else {
+          tag_list.closest(".cf-cgroup").fadeIn('fast');
+        }
 
       }
     );
