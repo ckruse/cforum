@@ -10,6 +10,7 @@ module MessageHelper
     classes += message.attribs['classes']
     classes << 'first' if opts[:first]
     classes << 'deleted' if message.deleted?
+    classes << 'active' if @message and @message.message_id == message.message_id
 
     if thread.accepted
       classes << "accepted-answer" if thread.accepted.message_id == message.message_id
@@ -242,7 +243,6 @@ module MessageHelper
     html = "<ol>\n"
     messages.each do |message|
       classes = []
-      classes << 'active' if @message and @message.message_id == message.message_id
 
       html << "<li"
       html << " class=\"" + classes.join(" ") + "\"" unless classes.blank?

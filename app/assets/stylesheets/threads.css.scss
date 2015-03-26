@@ -121,12 +121,12 @@ a.thread-forum-plate {
   & > header > .votes { margin-left:0; }
 
 
-  .active > header a {
+  .active a {
 	  color: #00a1e2;
 	  font-weight: bold;
   }
 
-  .active > header .votes:before {
+  .active .votes:before {
     content: "►";
     color: #00A1E2;
     font-size:1em;
