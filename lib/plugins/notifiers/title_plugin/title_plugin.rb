@@ -7,7 +7,7 @@ class TitlePlugin < Plugin
     title = []
 
     if uconf('show_unread_notifications_in_title', 'no') == 'yes'
-      notifications = get('notifications') || []
+      notifications = get('new_notifications') || []
       title << notifications.length.to_s
     end
 
