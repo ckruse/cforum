@@ -25,7 +25,7 @@ module Peon
       @jobs    = {}
 
       @notification_center = NotificationCenter.new
-      @config_manager      = ConfigManager.new
+      @config_manager      = ConfigManager.new(false)
 
       db_conf  = Rails.application.config.database_configuration[Rails.env]
       @db_conn = PG::Connection.open(

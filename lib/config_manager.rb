@@ -5,7 +5,8 @@
 # therefor we use some manual timeout.
 
 class ConfigManager
-  def initialize
+  def initialize(use_cache = true)
+    @use_cache = use_cache
     @value_cache = {:users => {}, :forums => {}}
   end
 
@@ -24,6 +25,9 @@ class ConfigManager
   end
 
   def get(name, default = nil, user = nil, forum = nil)
+    # reset cache before each setting query when cache is disabled
+    @value_cache = {:users => {}, :forums => {}} unless @use_cache
+
     unless user.blank?
       user = CfUser.find_by_username(user.to_s) if not user.is_a?(CfUser) and not user.is_a?(Integer)
       user = user.user_id if user.is_a?(CfUser)
