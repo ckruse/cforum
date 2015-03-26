@@ -161,13 +161,13 @@ module CForum
         query_string(args)
     end
 
-    def cf_badges_path
-      root_path + 'badges'
+    def cf_badges_path(args = {})
+      root_path + 'badges' + query_string(args)
     end
 
-    def cf_badge_path(badge)
+    def cf_badge_path(badge, args = {})
       badge = badge.slug unless badge.is_a?(String)
-      cf_badges_path + '/' + badge
+      cf_badges_path + '/' + badge + query_string(args)
     end
 
     #
