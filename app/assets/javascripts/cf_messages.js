@@ -10,7 +10,7 @@ cforum.cf_messages = {
 
       elem.markdown({autofocus: false, savable: false, iconlibrary: 'fa',
                      language: 'de', hiddenButtons: 'cmdPreview',
-                     disabledButtons: 'cmdPreview',
+                     disabledButtons: 'cmdPreview', resize: 'both',
                      additionalButtons: [
                        {
                          name: 'groupCustom',
