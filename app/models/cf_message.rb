@@ -12,7 +12,7 @@ class CfMessage < ActiveRecord::Base
   belongs_to :parent, class_name: 'CfMessage', foreign_key: :message_id
 
   has_many :messages_tags, class_name: 'CfMessageTag', :foreign_key => :message_id, :dependent => :destroy
-  has_many :tags, class_name: 'CfTag', :through => :messages_tags
+  has_many :tags, ->{ order(:tag_name) }, class_name: 'CfTag', :through => :messages_tags
 
   attr_accessor :messages, :attribs, :parent_level
 
