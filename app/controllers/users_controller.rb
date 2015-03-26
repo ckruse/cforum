@@ -99,13 +99,32 @@ class UsersController < ApplicationController
       order('upvotes DESC').
       limit(10)
 
-    @score_msgs = CfScore.
-      preload(:vote => {:message => [:thread, :tags]}).
-      joins(vote: :message).
-      where(:user_id => @user.user_id).
-      where("messages.deleted = false AND forum_id IN (#{sql})").
+    scored_msgs = CfScore.
+      preload(:message, vote: {message: [:thread, :tags]}).
+      joins("LEFT JOIN messages m1 USING(message_id)
+             LEFT JOIN votes USING(vote_id)
+             LEFT JOIN messages m2 ON votes.message_id = m2.message_id").
+      where(user_id: @user.user_id).
+      where("m1.message_id IS NULL OR m1.forum_id IN (#{sql})").
+      where("m2.message_id IS NULL OR m2.forum_id IN (#{sql})").
+      where("m1.message_id IS NULL OR m1.deleted = false").
+      where("m2.message_id IS NULL OR m2.deleted = false").
       limit(10).
       order('created_at DESC')
+
+    @score_msgs = {}
+    scored_msgs.each do |score|
+      m = score.vote ? score.vote.message : score.message
+      @score_msgs[m.message_id] ||= []
+      @score_msgs[m.message_id] << score
+    end
+
+    @score_msgs = @score_msgs.values.sort { |a,b|
+      m = a.first.vote ? a.first.vote.message : a.first.message
+      m1 = b.first.vote ? b.first.vote.message : b.first.message
+
+      m.created_at <=> m1.created_at
+    }
 
     if (@user.confirmed_at.blank? or not @user.unconfirmed_email.blank?) and (not current_user.blank? and current_user.username == @user.username)
       flash[:error] = I18n.t('users.confirm_first')

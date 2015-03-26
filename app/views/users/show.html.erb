@@ -70,13 +70,17 @@ content_for :h1, t('users.user', name: @user.username)
   <table class="score-table">
     <% @score_msgs.each do |s| %>
       <tr>
-        <td class="<% if s.value < 0 %>score-down<% else %>score-up<% end %>"><span><%= s.value %><span></td>
-        <td><article class="threadlist thread"><%= if s.vote then
-                                                 s.vote.message.thread.message = s.vote.message
-                                                 message_header(s.vote.message.thread, s.vote.message)
+        <td class="score">
+          <% s.each do |s| %>
+            <span class="<% if s.value < 0 %>score-down<% else %>score-up<% end %>"><%= s.value %></span>
+          <% end %>
+        </td>
+        <td><article class="threadlist thread"><%= if s.first.vote then
+                                                 s.first.vote.message.thread.message = s.first.vote.message
+                                                 message_header(s.first.vote.message.thread, s.first.vote.message)
                                                else
-                                                 s.message.thread.message = s.message
-                                                 message_header(s.message.thread, s.message)
+                                                 s.first.message.thread.message = s.first.message
+                                                 message_header(s.first.message.thread, s.first.message)
                                                end %></article></td>
       </tr>
     <% end %>
