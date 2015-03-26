@@ -24,19 +24,15 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
     <% end %>
     <% end %>
 
-    <% if m.open? and @thread.forum.write?(current_user) %>
-      <%= form_tag vote_cf_message_path(@thread, m), :method => :post, class: 'form-inline' do %>
-        <p>
+    <p>
+      <% if m.open? and @thread.forum.write?(current_user) %>
+        <%= form_tag vote_cf_message_path(@thread, m), :method => :post, class: 'form-inline' do %>
           <% if may_answer(m) %>
             <%= link_to t("messages.new_answer"), new_cf_message_path(@thread, m, 'quote_old_message' => 'yes'), class: 'cf-btn' %>
             <%= link_to t("messages.new_answer_wo_quote"), new_cf_message_path(@thread, m), class: 'cf-btn' %>
 
             <% if not @thread.acceptance_forbidden?(current_user, cookies[:cforum_user]) and not @thread.message.message_id == m.message_id %>
               <%= link_to m.flags['accepted'] == 'yes' ? t('messages.unaccept_answer') : t('messages.accept_answer'), accept_cf_message_path(@thread, m), method: 'post', class: 'cf-btn' %>
-            <% end %>
-
-            <% if check_editable(@thread, m, false) %>
-              <%= link_to t('messages.edit_message'), edit_cf_message_path(@thread, m), class: 'cf-btn' %>
             <% end %>
           <% end %>
 
@@ -54,9 +50,13 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
           <% if not current_user.blank? and may?(RightsHelper::DOWNVOTE) %>
             <button name="type" value="down" title="<%= t(has_downvote ? 'messages.unvote' : 'messages.vote_down') %>" class="cf-btn vote icon-vote-down<% if has_downvote %> active<% end %>"> </button>
           <% end %>
-        </p>
-      <% end
-      end %>
+        <% end %>
+      <% end %>
+
+      <% if check_editable(@thread, m, false) %>
+        <%= link_to t('messages.edit_message'), edit_cf_message_path(@thread, m), class: 'cf-btn' %>
+      <% end %>
+    </p>
 
       <% if may?(RightsHelper::CREATE_CLOSE_REOPEN_VOTE) and
         m.flags['no-answer-admin'] != 'yes' %>

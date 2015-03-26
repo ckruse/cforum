@@ -148,7 +148,7 @@ module RightsHelper
 
     edit_it = false
 
-    if not message.open?
+    if not message.open? or not may_answer?(m)
       raise CForum::ForbiddenException.new if redirect
       return
     end
