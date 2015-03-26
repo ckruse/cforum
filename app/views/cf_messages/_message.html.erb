@@ -12,6 +12,7 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
 
   <div class="message-links">
     <% if not m.flags['flattr_id'].blank? %>
+      <%= t('layout.flattr_author') %>
       <%= link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(m.flags['flattr_id']) +
       "&url=" + CGI.escape(cf_message_url(@thread, m)) +
       "&title=" + CGI.escape(m.subject) do %>
@@ -93,6 +94,7 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
 
           <p>
             <% if not @thread.accepted.flags['flattr_id'].blank? %>
+              <%= t('layout.flattr_author') %>
               <%= link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(@thread.accepted.flags['flattr_id']) +
               "&url=" + CGI.escape(cf_message_url(@thread, @thread.accepted)) +
               "&title=" + CGI.escape(@thread.accepted.subject) do %>

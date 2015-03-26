@@ -25,6 +25,8 @@ de:
     msg_atom_feed: Atom-Feed
     read_message: Beitrag lesen
     participate: Mitmachen!
+    flattr_author: "Dem Autor danken:"
+
     placeholders:
       greeting: Hallo {$vname},
       farewell: "Bis bald!\nOtto"
