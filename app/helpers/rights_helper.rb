@@ -142,6 +142,8 @@ module RightsHelper
       return
     end
 
+    return true if current_forum.moderator?(current_user)
+
     @max_editable_age = conf('max_editable_age', 10).to_i
 
     edit_it = false
@@ -176,17 +178,14 @@ module RightsHelper
       edit_it = true
 
     elsif current_user
-      is_mod = current_forum.moderator?(current_user)
       is_owner = current_user.user_id == message.user_id
       is_thread_msg = message.message_id == thread.message.message_id
 
-      if not is_mod and is_owner and is_thread_msg
+      if is_owner
         edit_it = true
       elsif may?(EDIT_QUESTION) and is_thread_msg
         edit_it = true
       elsif may?(EDIT_ANSWER)
-        edit_it = true
-      elsif is_mod
         edit_it = true
       end
     end
