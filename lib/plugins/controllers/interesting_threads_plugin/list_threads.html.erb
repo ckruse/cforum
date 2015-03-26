@@ -7,7 +7,7 @@ content_for :h1, t('plugins.interesting_threads.interesting_threads')
   <% if @threads.empty? %>
     <p><%= t('plugins.interesting_threads.no_threads') %></p>
   <% end %>
-  <% @threads.each do |t| %>
-    <%=  render 'cf_threads/thread', thread: t %>
+  <% @threads.each do |thread| %>
+    <%=  render 'cf_threads/thread', thread: thread %>
   <% end %>
 </div>

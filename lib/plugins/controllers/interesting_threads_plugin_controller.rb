@@ -41,10 +41,14 @@ class InterestingThreadsPluginController < ApplicationController
     @limit = conf('pagination', 50).to_i
 
     @threads = CfThread.
-      preload(:forum, messages: [:owner, :tags, {close_vote: :voters}]).
+      preload(:forum, messages: [:owner, :tags, {votes: :voters}]).
       joins('INNER JOIN interesting_threads USING(thread_id)').
       where('interesting_threads.user_id = ?', current_user.user_id).
       order(:created_at).page(params[:p]).per(@limit)
+
+    @threads.each do |thread|
+      sort_thread(thread)
+    end
 
     respond_to do |format|
       format.html
