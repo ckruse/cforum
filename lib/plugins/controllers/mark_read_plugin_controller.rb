@@ -56,7 +56,7 @@ class MarkReadPluginController < ApplicationController
       end
     end
 
-    redirect_to cf_threads_url(current_forum),
+    redirect_to cf_threads_url(current_forum, p: params[:p]),
                 notice: t('plugins.mark_read.marked_all_read')
   end
 end

@@ -216,7 +216,7 @@ end
             <li id="optionen-tags"><%= link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
             <% if current_user and not @thread %>
               <li id="mark-all-read"><%= link_to(t("plugins.mark_read.mark_all_read"),
-                                                 mark_all_read_path(current_forum),
+                                                 mark_all_read_path(current_forum, p: params[:p]),
                                                  method: :post) %></li>
             <% end %>
           <% end %>
