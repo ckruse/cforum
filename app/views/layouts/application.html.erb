@@ -210,6 +210,8 @@ end
             <li><%= link_to t('layout.administration'), admin_users_path %></li>
           <% end %>
 
+          <li><%= link_to t('badges.badges'), cf_badges_path %></li>
+
           <% if current_forum %>
             <li id="optionen-tags"><%= link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
             <% if current_user and not @thread %>
