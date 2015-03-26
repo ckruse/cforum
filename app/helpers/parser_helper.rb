@@ -42,7 +42,10 @@ module ParserHelper
       )
     end
 
-    @doc.to_cf_html.html_safe
+    html = @doc.to_cf_html
+
+    html.gsub!(/<\/blockquote>\s*<blockquote>/m, '')
+    html.html_safe
   end
 
   def to_quote(app, opts = {})
