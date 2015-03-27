@@ -85,6 +85,8 @@ cforum.tags = {
   hasTag: function(name) {
     var tags = $("#tags-list input[type=hidden]");
 
+    name = name.toLowerCase();
+
     for(var i = 0; i < tags.length; ++i) {
       if($(tags[i]).val().toLowerCase() == name) {
         return true;

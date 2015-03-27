@@ -110,10 +110,7 @@ class TagsController < ApplicationController
     @tag = CfTag.new(tag_params)
     @tag.forum_id = current_forum.forum_id
 
-    if @tag.tag_name
-      @tag.tag_name = @tag.tag_name.downcase
-      @tag.slug = @tag.tag_name.parameterize
-    end
+    @tag.slug = @tag.tag_name.parameterize unless @tag.tag_name.blank?
 
     if @tag.save
       redirect_to tags_url(current_forum.slug), notice: t("tags.created")
@@ -133,10 +130,7 @@ class TagsController < ApplicationController
 
     @tag.attributes = tag_params
 
-    unless @tag.tag_name.blank?
-      @tag.tag_name = @tag.tag_name.downcase
-      @tag.slug = @tag.tag_name.parameterize
-    end
+    @tag.slug = @tag.tag_name.parameterize unless @tag.tag_name.blank?
 
     if @tag.save
       redirect_to tags_url(current_forum.slug), notice: t("tags.updated")
