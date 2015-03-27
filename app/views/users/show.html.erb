@@ -33,6 +33,21 @@ content_for :h1, t('users.user', name: @user.username)
   <% end %>
 </ul>
 
+<% unless @settings.conf('flattr').blank? %>
+  <p>
+    <%= t('layout.flattr_author') %>
+    <%= link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(@settings.conf('flattr')) +
+    "&url=" + CGI.escape(user_url(@user)) +
+    "&title=" + CGI.escape(t('users.selfforum_user', name: @user.username)) do %>
+    <img src="https://flattr.com/_img/icons/flattr_logo_16.png"
+         alt=""
+         title=""
+         width="16"
+         height="16">&nbsp;Flattr this!
+    <% end %>
+  </p>
+<% end %>
+
 
 <h2><%= t('users.newest_messages') %></h2>
 

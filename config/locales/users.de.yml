@@ -1,6 +1,7 @@
 de:
   users:
     user: "Benutzer %{name}"
+    selfforum_user: "SELFHTML-Forumsbenutzer: %{name}"
     users: Benutzer
     new_user: neuer Benutzer
     signed_up: Benutzer erfolgreich erstellt.
