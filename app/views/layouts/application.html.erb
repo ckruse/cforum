@@ -222,8 +222,8 @@ end
           <% end %>
 
           <% if @threads and current_user and not controller_path == 'interesting_threads_plugin' %>
-            <li id="optionen-close-all-threads"><%= link_to t('plugins.open_close.close_all_threads'), cf_forum_path(current_forum, close_all: 'yes') %></li>
-            <li id="optionen-open-all-threads"><%= link_to t('plugins.open_close.open_all_threads'), cf_forum_path(current_forum, open_all: 'yes') %></li>
+            <li id="optionen-close-all-threads"><%= link_to t('plugins.open_close.close_all_threads'), cf_forum_path(current_forum, close_all: 'yes', p: params[:p]) %></li>
+            <li id="optionen-open-all-threads"><%= link_to t('plugins.open_close.open_all_threads'), cf_forum_path(current_forum, open_all: 'yes', p: params[:p]) %></li>
           <% end %>
 
           <% if current_user %>
