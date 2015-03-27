@@ -22,8 +22,17 @@ module SortablesHelper
 
   def sortable(colname, col, method)
     html = ERB::Util.h(colname) + ' ' # TODO use a better method to escape
-    html << link_to('↓', self.send(method, sort: col, dir: 'asc'))
-    html << link_to('↑', self.send(method, sort: col, dir: 'desc'))
+
+    if method.is_a?(Proc)
+      link_asc = method.call(col, 'asc')
+      link_desc = method.call(col, 'desc')
+    else
+      link_asc = self.send(method, sort: col, dir: 'asc')
+      link_desc = self.send(method, sort: col, dir: 'desc')
+    end
+
+    html << link_to('↓', link_asc)
+    html << link_to('↑', link_desc)
     html.html_safe
   end
 
