@@ -1,6 +1,6 @@
 <%
-content_for :title, t('mails.post_from', name: @mail.sender.username)
-content_for :h1, t('mails.post_from', name: @mail.sender.username)
+content_for :title, t('mails.post_from', name: @mail.partner(current_user))
+content_for :h1, t('mails.post_from', name: @mail.partner(current_user))
 %>
 
 <article class="thread-message mail">

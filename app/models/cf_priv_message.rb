@@ -16,6 +16,10 @@ class CfPrivMessage < ActiveRecord::Base
   validates :sender_id, presence: true
   validates :recipient_id, presence: true
   validates :owner_id, presence: true
+
+  def partner(myself)
+    sender_id == myself.user_id ? recipient.username : sender.username
+  end
 end
 
 # eof
