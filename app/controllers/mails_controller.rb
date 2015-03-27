@@ -31,7 +31,8 @@ class MailsController < ApplicationController
 
     else
       @mails = CfPrivMessage.
-               includes(:sender, :recipient).
+               preload(:sender, :recipient).
+               joins("INNER JOIN users AS senders ON senders.user_id = sender_id INNER JOIN users AS recipients ON recipients.user_id = recipient_id").
                where(owner_id: current_user.user_id)
     end
 
