@@ -27,6 +27,16 @@
   a:hover, a:focus, a:active { color: #990909; }
 }
 
+.thread .visited li.cf-tag {
+  background-color: #f1f3f4;
+  border-color: #d5d5d5;
+
+  a:visited, a { color: #888;}
+
+  a:hover, a:focus, a:active { color: #990909; }
+
+}
+
 a.cf-tag { font-weight:inherit; }
 a.cf-tag:hover, a.cf-tag:focus, a.cf-tag:active { border:1px solid #5983ab; }
 
