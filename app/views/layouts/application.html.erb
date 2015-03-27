@@ -85,6 +85,9 @@ end
     </script>
 
     <title><%= @title_infos %><% if content_for?(:title) %><%= yield(:title) %> - <% end %><%= t "layout.title" %></title>
+
+    <script src="http://src.selfhtml.org/cforum/temp.js"></script>
+    <link href="http://src.selfhtml.org/cforum/temp.css" rel="stylesheet" media="all">
   </head>
 
   <body data-controller="<%= controller_path %>" data-action="<%= action_name %>"<% if content_for?(:body_id) %> id="<%= yield(:body_id) %>"<% end %>>
