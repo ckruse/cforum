@@ -31,6 +31,18 @@ class CfMessagesController < ApplicationController
 
     @parent = @message.parent_level
 
+    # parameter overwrites cookie overwrites config; validation
+    # overwrites everything
+    @read_mode = uconf('standard_view', 'thread-view')
+    @read_mode = cookies[:cf_readmode] unless cookies[:cf_readmode].blank?
+    @read_mode = params[:rm] unless params[:rm].blank?
+    @read_mode = 'thread-view' unless %w(thread-view nested-view).include?(@read_mode)
+
+    if not params[:rm].blank? and current_user.blank?
+      cookies[:cf_readmode] = {value: @read_mode, expires: 1.year.from_now}
+    end
+
+
     if current_user
       mids = @thread.messages.map {|m| m.message_id}
       votes = CfVote.where(user_id: current_user.user_id, message_id: mids)
@@ -43,7 +55,7 @@ class CfMessagesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        if uconf('standard_view', 'thread-view') == 'thread-view'
+        if @read_mode == 'thread-view'
           notification_center.notify(SHOW_MESSAGE, @thread, @message, @votes)
           render 'show-thread'
         else

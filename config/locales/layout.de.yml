@@ -26,6 +26,8 @@ de:
     read_message: Beitrag lesen
     participate: Mitmachen!
     flattr_author: "Dem Autor danken:"
+    thread_view: Thread-Ansicht
+    nested_view: Nested-Ansicht
 
     placeholders:
       greeting: Hallo {$vname},
