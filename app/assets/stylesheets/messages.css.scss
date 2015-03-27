@@ -37,6 +37,12 @@ main h2 { margin-left:0; }
     line-height: 1.4em;
 
     img { max-width:100%; }
+
+    ul { list-style-type: disc;}
+
+    ul ul { list-style-type: circle;}
+
+    ul ul ul { list-style-type: square;}
   }
 
   .message-links {
@@ -129,6 +135,8 @@ code.q.block, .q code.block { /* zitierter Code-Block */
 }
 /* end Code-Blöcke */
 
-
+.signature {
+  color: #808080;
+}
 
 /* eof */

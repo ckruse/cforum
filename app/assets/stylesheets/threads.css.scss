@@ -41,7 +41,7 @@ a.thread-forum-plate {
 
 .thread {
   background: #F1F3F4;
-  margin-bottom: 1em;
+  margin-bottom: .75em;
   border: 1px solid #D5D5D5;
   border-bottom:0;
   border-radius: 0px 0.5em 0.5em;
@@ -57,6 +57,10 @@ a.thread-forum-plate {
 
   & > header > .thread-icons {
     float:right;
+
+    a {
+      margin-left: .5em;
+    }
   }
 
   .message-icons { margin-left:0.5em; }
@@ -72,8 +76,8 @@ a.thread-forum-plate {
   }
 
   header {
-    line-height:1.4em;
-    white-space:nowrap;
+    line-height: 1.6em;
+    white-space: nowrap;
 
     h2, h3 {
       font-size:1em;
@@ -118,6 +122,10 @@ a.thread-forum-plate {
     .votes { margin-left:0.5em; }
   }
 
+  header.visited .author {
+    color: #8da3b0;
+  }
+
   & > header > .votes { margin-left:0; }
 
 
@@ -137,18 +145,23 @@ a.thread-forum-plate {
     color:#8ab337;
   }
 
+  header.visited.highlighted-user .author {
+    color: #bae367;
+  }
+
   header.highlighted-self .author {
     color:#c32e04;
   }
 
+  header.visited.highlighted-self .author {
+    color: #f36e44;
+  }
   header.open-vote-active, header.close-vote-active {
     /* TODO style */
   }
   .open-vote-finished {
     /* TODO style */
   }
-
-  margin-bottom:2em;
 
   h2 { border:0; }
 }
@@ -166,10 +179,6 @@ a.thread-forum-plate {
 .registered-user img {
   max-height:1em;
 }
-
-
-
-
 
 .root {
   ol {
