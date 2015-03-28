@@ -48,7 +48,7 @@ de:
     do_not_vote_yourself: Sie dürfen sich nicht selbst bewerten.
     insufficient_rights_to_upvote: Sie haben nicht das Recht, einen Beitrag positiv zu bewerten.
     insufficient_rights_to_downvote: Sie haben nicht das Recht, einen Beitrag negativ zu bewerten.
-    not_enough_score: Sie haben zu wenig Punkte!
+    not_enough_score: Sie haben zu wenig Punkte.
 
     retag: Tags neu vergeben
     retagged: Die Tags wurden erfolgreich neu vergeben.
@@ -74,7 +74,7 @@ de:
       custom: sonstiger Grund
       vote_already_closed: Die Abstimmung ist bereits abgeschlossen.
       moderator_decision: Ein Moderator hat eingegriffen. Damit wurden die Abstimmungsmöglichkeiten deaktiviert.
-      notification_created_open: Eine Entsperr-Abstimmung bei der Nachricht „%{subject}” von %{author} wurde erstellt.
-      notification_created_close: Eine Sperr-Abstimmung bei der Nachricht „%{subject}” von %{author} wurde erstellt.
-      notification_finished_open: Eine Entsperr-Abstimmung bei der Nachricht „%{subject}” von %{author} wurde beendet.
-      notification_finished_close: Eine Sperr-Abstimmung bei der Nachricht „%{subject}” von %{author} wurde beendet.
+      notification_created_open: Eine Entsperr-Abstimmung für die Nachricht „%{subject}” von %{author} wurde erstellt.
+      notification_created_close: Eine Sperr-Abstimmung für die Nachricht „%{subject}” von %{author} wurde erstellt.
+      notification_finished_open: Die Entsperr-Abstimmung für die Nachricht „%{subject}” von %{author} wurde beendet.
+      notification_finished_close: Die Sperr-Abstimmung für die Nachricht „%{subject}” von %{author} wurde beendet.
