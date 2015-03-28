@@ -57,7 +57,7 @@
   <div class="cf-cgroup">
     <label for="settings_autorefresh"><%= t('users.settings.autorefresh') %></label>
     <div class="cntrls">
-      <input type="number" step="5" value="<%= @settings.conf('autorefresh') %>" name="settings[autorefresh]" id="settings_autorefresh"<%= disabled %>>
+      <input type="number" min="0" max="60" step="5" value="<%= @settings.conf('autorefresh') %>" name="settings[autorefresh]" id="settings_autorefresh"<%= disabled %>>
     </div>
   </div>
 </fieldset>
