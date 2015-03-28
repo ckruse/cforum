@@ -46,12 +46,12 @@ a.thread-forum-plate {
   border-bottom:0;
   border-radius: 0px 0.5em 0.5em;
   min-width: 44em;
-  padding: .35em 1em 0;
+  padding: .35em 1em 0 .5em;
   border: 1px solid #d5d5d5;
 
   & > ol { 
     border-radius: 0 0 .5em .5em;
-    margin: 0 -1em;
+    margin: 0 -1em 0 -.5em;
     padding: .25em 1.5em .5em 4.5em;
   }
 
@@ -63,7 +63,7 @@ a.thread-forum-plate {
     }
   }
 
-  .message-icons { margin-left:0.5em; }
+  .message-icons  a { margin-left:0.5em; }
 
   ol {
     list-style-type:none;
@@ -125,9 +125,6 @@ a.thread-forum-plate {
   header.visited .author {
     color: #8da3b0;
   }
-
-  & > header > .votes { margin-left:0; }
-
 
   .active a {
 	  color: #00a1e2;
