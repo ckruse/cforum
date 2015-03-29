@@ -10,17 +10,17 @@
 .cf-tag, .thread ol li.cf-tag {
   display:inline;
   background-color: #e6f2f7;
-  margin-top:1px;
-  margin-bottom:1px;
-  margin-left:0.5em;
-  padding: 0 .6em;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  margin-left: .5em;
+  padding: 0 .4em;
   font-weight: bold;
-  color: #5983ab;
+  color: #3983ab;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  border:1px solid #5983ab;
-  border-radius: 0px 0.4em 0.4em;
+  border: 1px solid #a1c6d7;
+  border-radius: 0 .3em .3em;
 
   a:visited, a { color:inherit; }
 
@@ -29,9 +29,9 @@
 
 .thread .visited li.cf-tag {
   background-color: #f1f3f4;
-  border-color: #d5d5d5;
+  border-color: #c4c4c4;
 
-  a:visited, a { color: #888;}
+  a:visited, a { color: #999;}
 
   a:hover, a:focus, a:active { color: #990909; }
 
