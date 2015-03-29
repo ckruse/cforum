@@ -1226,7 +1226,7 @@ class CfMessagesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should not edit answer wo badge" do
+  test "should edit own answer wo badge" do
     user    = FactoryGirl.create(:cf_user, admin: false)
     forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
@@ -1244,8 +1244,9 @@ class CfMessagesControllerTest < ActionController::TestCase
           mid: msg1.message_id.to_s
         }
 
-    assert_not_nil flash[:error]
-    assert_redirected_to cf_message_url(msg1.thread, msg1)
+    assert_not_nil assigns(:thread)
+    assert_not_nil assigns(:message)
+    assert_response :success
   end
 
   test "should edit answer w badge" do
@@ -1447,7 +1448,7 @@ class CfMessagesControllerTest < ActionController::TestCase
     assert_equal 'Long live the imperator! Down with the rebellion!', message.content
   end
 
-  test "should not update answer wo badge" do
+  test "should update own answer wo badge" do
     user    = FactoryGirl.create(:cf_user, admin: false)
     forum   = FactoryGirl.create(:cf_write_forum)
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
@@ -1469,8 +1470,15 @@ class CfMessagesControllerTest < ActionController::TestCase
            }
          }
 
-    assert_not_nil flash[:error]
+    assert_not_nil assigns(:thread)
+    assert_not_nil assigns(:message)
+    assert_nil flash[:error]
     assert_redirected_to cf_message_url(msg1.thread, msg1)
+
+    msg1.reload
+
+    assert_equal 'Fighters of the world', msg1.subject
+    assert_equal 'Long live the imperator! Down with the rebellion!', msg1.content
   end
 
   test "should update answer w badge" do
