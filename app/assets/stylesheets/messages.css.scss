@@ -50,6 +50,12 @@ main h2 { margin-left:0; }
 
     a, button { margin-right:1em; }
   }
+
+  .deleted + .posting-content,
+  .deleted + .posting-content * {
+    color: #900;
+    border-color: #900;
+  }
 }
 
 #message {

@@ -153,6 +153,13 @@ a.thread-forum-plate {
   header.visited.highlighted-self .author {
     color: #f36e44;
   }
+  /* gelöschte Beiträge */
+  header.deleted .details .author,
+  .deleted, a.deleted, .deleted a {
+    color: #900;
+  }
+
+  
   header.open-vote-active, header.close-vote-active {
     /* TODO style */
   }
