@@ -116,10 +116,8 @@ class InterestingThreadsPlugin < Plugin
     @cache[current_user.user_id] ||= {}
     @cache[current_user.user_id] = @cache[current_user.user_id].merge(new_cache)
   end
-
-  def show_archive_threadlist(threads)
-    return show_threadlist(threads)
-  end
+  alias show_archive_threadlist show_threadlist
+  alias show_invisible_threadlist show_threadlist
 
   def show_thread(thread, message, votes)
   end
@@ -155,6 +153,9 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(CfMessagesController::SHOW_MESSAGE, interesting_threads)
   app_controller.notification_center.
     register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST, interesting_threads)
+  app_controller.notification_center.
+    register_hook(InvisibleThreadsPluginController::SHOW_INVISIBLE_THREADLIST,
+                  interesting_threads)
 end
 
 # eof

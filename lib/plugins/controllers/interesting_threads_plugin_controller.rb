@@ -3,6 +3,8 @@
 class InterestingThreadsPluginController < ApplicationController
   authorize_controller { authorize_user && authorize_forum(permission: :read?) }
 
+  SHOW_INTERESTING_THREADLIST = "show_interesting_threadlist"
+
   def mark_interesting
     if current_user.blank?
       flash[:error] = t('global.only_as_user')
@@ -50,9 +52,13 @@ class InterestingThreadsPluginController < ApplicationController
       sort_thread(thread)
     end
 
-    respond_to do |format|
-      format.html
-      format.json { render @threads }
+    ret = notification_center.notify(SHOW_INTERESTING_THREADLIST, @threads)
+
+    unless ret.include?(:redirected)
+      respond_to do |format|
+        format.html
+        format.json { render @threads }
+      end
     end
   end
 end

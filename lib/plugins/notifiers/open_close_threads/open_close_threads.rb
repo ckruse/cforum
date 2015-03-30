@@ -72,6 +72,9 @@ class OpenCloseThreadPlugin < Plugin
       end
     end
   end
+  alias show_archive_threadlist show_threadlist
+  alias show_invisible_threadlist show_threadlist
+  alias show_interesting_threadlist show_threadlist
 
   def open_thread(tid)
     check_existance_and_delete_or_set(tid, 'open')
@@ -123,6 +126,13 @@ end
 ApplicationController.init_hooks << Proc.new do |app_controller|
   oc_plugin = OpenCloseThreadPlugin.new(app_controller)
   app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, oc_plugin)
+  app_controller.notification_center.register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST, oc_plugin)
+  app_controller.notification_center.register_hook(InvisibleThreadsPluginController::SHOW_INVISIBLE_THREADLIST,
+                                                   oc_plugin)
+
+  app_controller.notification_center.
+    register_hook(InterestingThreadsPluginController::SHOW_INTERESTING_THREADLIST,
+                  oc_plugin)
 end
 
 # eof

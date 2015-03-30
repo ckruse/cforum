@@ -3,6 +3,8 @@
 class InvisibleThreadsPluginController < ApplicationController
   authorize_controller { authorize_user }
 
+  SHOW_INVISIBLE_THREADLIST = "show_invisible_threadlist"
+
   def list_threads
     @limit = conf('pagination', 50).to_i
 
@@ -16,9 +18,13 @@ class InvisibleThreadsPluginController < ApplicationController
       sort_thread(thread)
     end
 
-    respond_to do |format|
-      format.html
-      format.json { render @threads }
+    ret = notification_center.notify(SHOW_INVISIBLE_THREADLIST, @threads)
+
+    unless ret.include?(:redirected)
+      respond_to do |format|
+        format.html
+        format.json { render @threads }
+      end
     end
   end
 

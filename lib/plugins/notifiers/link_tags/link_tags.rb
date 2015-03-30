@@ -45,6 +45,9 @@ class LinkTagsPlugin < Plugin
   def show_threadlist(threads)
     set('link_tags', top_link.html_safe)
   end
+  alias show_archive_threadlist show_threadlist
+  alias show_invisible_threadlist show_threadlist
+  alias show_interesting_threadlist show_threadlist
 
   def show_thread(thread, message = nil, votes = nil)
     msgs = []
@@ -76,9 +79,26 @@ end
 ApplicationController.init_hooks << Proc.new do |app_controller|
   lt_plugin = LinkTagsPlugin.new(app_controller)
 
-  app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, lt_plugin)
-  app_controller.notification_center.register_hook(CfMessagesController::SHOW_THREAD, lt_plugin)
-  app_controller.notification_center.register_hook(CfMessagesController::SHOW_MESSAGE, lt_plugin)
+  app_controller.notification_center.
+    register_hook(CfThreadsController::SHOW_THREADLIST,
+                  lt_plugin)
+  app_controller.notification_center.
+    register_hook(CfMessagesController::SHOW_THREAD,
+                  lt_plugin)
+  app_controller.notification_center.
+    register_hook(CfMessagesController::SHOW_MESSAGE,
+                  lt_plugin)
+
+  app_controller.notification_center.
+    register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST,
+                  lt_plugin)
+  app_controller.notification_center.
+    register_hook(InvisibleThreadsPluginController::SHOW_INVISIBLE_THREADLIST,
+                  lt_plugin)
+
+  app_controller.notification_center.
+    register_hook(InterestingThreadsPluginController::SHOW_INTERESTING_THREADLIST,
+                  lt_plugin)
 end
 
 # eof

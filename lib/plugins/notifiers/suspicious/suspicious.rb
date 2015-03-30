@@ -14,6 +14,9 @@ class SuspiciousPoster < Plugin
       end
     end
   end
+  alias show_archive_threadlist show_threadlist
+  alias show_invisible_threadlist show_threadlist
+  alias show_interesting_threadlist show_threadlist
 
   def show_thread(thread, message = nil, votes = nil)
     return if not current_user.blank? and uconf('mark_suspicious') == 'no'
@@ -47,6 +50,16 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(CfMessagesController::SHOW_THREAD, suspicious_plugin)
   app_controller.notification_center.
     register_hook(CfMessagesController::SHOW_MESSAGE, suspicious_plugin)
+
+  app_controller.notification_center.
+    register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST,
+                  suspicious_plugin)
+  app_controller.notification_center.
+    register_hook(InvisibleThreadsPluginController::SHOW_INVISIBLE_THREADLIST,
+                  suspicious_plugin)
+  app_controller.notification_center.
+    register_hook(InterestingThreadsPluginController::SHOW_INTERESTING_THREADLIST,
+                  suspicious_plugin)
 end
 
 # eof
