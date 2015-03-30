@@ -19,8 +19,8 @@ class ApplicationController < ActionController::Base
   include SortingHelper
 
   before_filter :do_init, :locked?, :set_forums, :notifications,
-                :run_before_handler, :check_authorizations, :store_location
-  after_filter :run_after_handler
+                :run_before_handler, :check_authorizations
+  after_filter :run_after_handler, :store_location
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
