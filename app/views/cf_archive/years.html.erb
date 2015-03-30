@@ -1,0 +1,10 @@
+<%
+content_for :title, t('archive.archive_years')
+content_for :h1, t('archive.archive_years')
+%>
+
+<ul>
+  <% (@first_year..@last_year).each do |year| %>
+    <li><%= link_to year, cf_archive_year_path(current_forum, year) %></li>
+  <% end %>
+</ul>

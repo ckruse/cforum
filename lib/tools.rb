@@ -170,6 +170,18 @@ module CForum
       cf_badges_path + '/' + badge + query_string(args)
     end
 
+    def cf_archive_path(forum)
+      cf_forum_path(forum) + 'archive'
+    end
+
+    def cf_archive_year_path(forum, year)
+      cf_forum_path(forum) + '/' + year.to_s
+    end
+
+    def cf_archive_month_path(forum, month)
+      cf_forum_path(forum) + '/' + month.strftime('%Y/%b').downcase
+    end
+
     #
     # URL helpers
     #
@@ -243,6 +255,19 @@ module CForum
       badge = badge.slug unless badge.is_a?(String)
       cf_badges_url + '/' + badge
     end
+
+    def cf_archive_url(forum)
+      cf_forum_url(forum) + 'archive'
+    end
+
+    def cf_archive_year_url(forum, year)
+      cf_forum_url(forum) + '/' + year.to_s
+    end
+
+    def cf_archive_month_url(forum, month)
+      cf_forum_url(forum) + '/' + month.strftime('%Y/%b').downcase
+    end
+
   end
 end
 

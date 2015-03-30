@@ -1,0 +1,5 @@
+de:
+  archive:
+    archive_years: "SELFHTML-Archiv: Jahresübersicht"
+    archive_year: "SELFHTML-Archiv: Jahr %{year}"
+    archive_month: "SELFHTML-Archiv: %{month}"

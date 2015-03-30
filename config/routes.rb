@@ -74,6 +74,10 @@ Cforum::Application.routes.draw do
     post '/mark_all_visited' => 'mark_read_plugin#mark_all_read',
          as: 'mark_all_read'
 
+    get '/archive' => 'cf_archive#years', as: :cf_archive
+    get '/:year' => 'cf_archive#year', as: :cf_archive_year, year: /\d{4}/
+    get '/:year/:month' => 'cf_archive#month', as: :cf_archive_month, year: /\d{4}/, mon: /\w{3}/
+
     #
     # thread urls
     #
