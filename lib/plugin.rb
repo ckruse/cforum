@@ -38,6 +38,10 @@ class Plugin
     @app_controller.params
   end
 
+  def session
+    @app_controller.session
+  end
+
   def cookies
     @app_controller.get_cookies
   end
