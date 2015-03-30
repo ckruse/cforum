@@ -11,13 +11,13 @@ class AcceptPluginController < ApplicationController
 
     if @thread.acceptance_forbidden?(current_user, cookies[:cforum_user])
       flash[:error] = t('messages.only_op_may_accept')
-      redirect_to cf_message_url(@thread, @message)
+      redirect_to session[:previous_url] || cf_message_url(@thread, @message)
       return
     end
 
     if not may_answer(@message)
       flash[:error] = t('messages.only_op_may_accept')
-      redirect_to cf_message_url(@thread, @message)
+      redirect_to session[:previous_url] || cf_message_url(@thread, @message)
       return
     end
 
@@ -55,7 +55,7 @@ class AcceptPluginController < ApplicationController
     end
     notification_center.notify(ACCEPTED_MESSAGE, @thread, @message)
 
-    redirect_to cf_message_url(@thread, @message), notice: (@message.flags['accepted'] == 'yes' ? t('messages.accepted') : t('messages.unaccepted'))
+    redirect_to session[:previous_url] || cf_message_url(@thread, @message), notice: (@message.flags['accepted'] == 'yes' ? t('messages.accepted') : t('messages.unaccepted'))
   end
 end
 

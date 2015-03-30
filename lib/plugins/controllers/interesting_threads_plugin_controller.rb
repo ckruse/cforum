@@ -8,7 +8,7 @@ class InterestingThreadsPluginController < ApplicationController
   def mark_interesting
     if current_user.blank?
       flash[:error] = t('global.only_as_user')
-      redirect_to cf_forum_url(current_forum, p: params[:p])
+      redirect_to session[:previous_url] || cf_forum_url(current_forum, p: params[:p])
       return :redirected
     end
 
@@ -17,14 +17,14 @@ class InterestingThreadsPluginController < ApplicationController
     CfInterestingThread.create!(thread_id: @thread.thread_id,
                                 user_id: current_user.user_id)
 
-    redirect_to cf_forum_url(current_forum, p: params[:p]),
+    redirect_to session[:previous_url] || cf_forum_url(current_forum, p: params[:p]),
       notice: t('plugins.interesting_threads.marked_interesting')
   end
 
   def mark_boring
     if current_user.blank?
       flash[:error] = t('global.only_as_user')
-      redirect_to cf_forum_url(current_forum, p: params[:p])
+      redirect_to session[:previous_url] || cf_forum_url(current_forum, p: params[:p])
       return :redirected
     end
 
@@ -35,7 +35,7 @@ class InterestingThreadsPluginController < ApplicationController
 
     it.destroy
 
-    redirect_to cf_forum_url(current_forum, p: params[:p]),
+    redirect_to session[:previous_url] || cf_forum_url(current_forum, p: params[:p]),
       notice: t('plugins.interesting_threads.unmarked_interesting')
   end
 

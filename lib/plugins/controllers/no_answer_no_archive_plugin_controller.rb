@@ -33,6 +33,7 @@ class NoAnswerNoArchivePluginController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(
+          session[:previous_url] ||
           cf_message_url(
             @thread,
             @message,
@@ -72,6 +73,7 @@ class NoAnswerNoArchivePluginController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(
+          session[:previous_url] ||
           cf_forum_url(current_forum, p: params[:p]),
           notice: I18n.t(
             @thread.flags['no-archive'] == 'yes' ? 'plugins.no_answer_no_archive.no_archived' : 'plugins.no_answer_no_archive.no_archive_removed'
