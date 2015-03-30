@@ -126,37 +126,6 @@ class InterestingThreadsPlugin < Plugin
 
   def show_message(thread, message, votes)
   end
-  # def show_thread(thread, message = nil, votes = nil)
-  #   return unless current_user
-
-  #   mark_read_moment = uconf('mark_read_moment', 'before_render')
-
-  #   check_thread(thread) if mark_read_moment == 'after_render'
-
-  #   sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", "
-  #   thread.sorted_messages.each do |m|
-  #     begin
-  #       CfMessage.connection.execute(sql + m.message_id.to_s + ")")
-  #     rescue ActiveRecord::RecordNotUnique
-  #     end
-  #   end
-
-  #   check_thread(thread) if mark_read_moment == 'before_render'
-  # end
-
-  # def show_message(thread, message, votes)
-  #   return unless current_user
-  #   mark_read_moment = uconf('mark_read_moment', 'before_render')
-
-  #   check_thread(thread) if mark_read_moment == 'after_render'
-
-  #   begin
-  #     CfMessage.connection.execute("INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", " + message.message_id.to_s + ")")
-  #   rescue ActiveRecord::RecordNotUnique
-  #   end
-
-  #   check_thread(thread) if mark_read_moment == 'before_render'
-  # end
 
   private
   def check_thread(thread)
@@ -184,7 +153,7 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(CfMessagesController::SHOW_THREAD, interesting_threads)
   app_controller.notification_center.
     register_hook(CfMessagesController::SHOW_MESSAGE, interesting_threads)
-    app_controller.notification_center.
+  app_controller.notification_center.
     register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST, interesting_threads)
 end
 
