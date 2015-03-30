@@ -130,6 +130,10 @@ class InvisibleThreadsPlugin < Plugin
       return :redirected
     end
   end
+
+  def show_archive_threadlist(threads)
+    return show_threadlist(threads)
+  end
 end
 
 ApplicationController.init_hooks << Proc.new do |app_controller|
@@ -140,6 +144,9 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
                   inv_threads_plugin)
   app_controller.notification_center.
     register_hook(CfThreadsController::SHOW_THREADLIST,
+                  inv_threads_plugin)
+  app_controller.notification_center.
+    register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST,
                   inv_threads_plugin)
 end
 

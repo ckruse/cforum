@@ -112,6 +112,10 @@ class MarkReadPlugin < Plugin
     @cache[current_user.user_id] = @cache[current_user.user_id].merge(new_cache)
   end
 
+  def show_archive_threadlist(threads)
+    return show_threadlist(threads)
+  end
+
   def show_thread(thread, message = nil, votes = nil)
     return if current_user.blank? or @app_controller.is_prefetch
 
@@ -196,6 +200,8 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(CfMessagesController::SHOW_MESSAGE, mr_plugin)
   app_controller.notification_center.
     register_hook(CfForumsController::SHOW_FORUMLIST, mr_plugin)
+  app_controller.notification_center.
+    register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST, mr_plugin)
 end
 
 # eof
