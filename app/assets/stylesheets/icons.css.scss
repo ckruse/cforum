@@ -12,7 +12,7 @@
   &.answer { @extend .fa-unlock; }
   &.no-answer { @extend .fa-lock; }
   &.original-poster { @extend .fa-exclamation; }
-  &.unread { @extend .fa-ban; }
+  &.unread { @extend .fa-eye-slash; }
 }
 
 .icon-thread {
