@@ -212,7 +212,7 @@ module MessageHelper
     unless message.tags.blank?
       html << %q{
 
-    in <ul class="cf-tags-list">}
+    <ul class="cf-tags-list">}
 
       message.tags.each do |t|
         html << "<li class=\"cf-tag\">" + link_to(t.tag_name, tag_path(thread.forum.slug, t)) + "</li>"
@@ -222,7 +222,7 @@ module MessageHelper
     end
 
     unless opts[:show_icons]
-      html << ', <span class="votes" title="' +
+      html << ' <span class="votes" title="' +
         t('messages.votes', num: message.upvotes - message.downvotes) +
         '">' +
         t('messages.votes', num: message.upvotes - message.downvotes) +
