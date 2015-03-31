@@ -30,6 +30,7 @@ class SuspiciousPoster < Plugin
     return if not current_user.blank? and uconf('mark_suspicious') == 'no'
     show_thread(thread)
   end
+  alias show_new_message show_message
 
   private
   def check_name(name)
@@ -50,6 +51,8 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(CfMessagesController::SHOW_THREAD, suspicious_plugin)
   app_controller.notification_center.
     register_hook(CfMessagesController::SHOW_MESSAGE, suspicious_plugin)
+  app_controller.notification_center.
+    register_hook(CfMessagesController::SHOW_NEW_MESSAGE, suspicious_plugin)
 
   app_controller.notification_center.
     register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST,

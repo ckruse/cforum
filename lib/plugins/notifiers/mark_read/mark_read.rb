@@ -153,6 +153,7 @@ class MarkReadPlugin < Plugin
 
     check_thread(thread) if mark_read_moment == 'before_render'
   end
+  alias show_new_message show_message
 
   def show_forumlist(counts, activities, admin = false)
     return if current_user.blank? or activities.values.blank?
@@ -197,6 +198,8 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(CfMessagesController::SHOW_THREAD, mr_plugin)
   app_controller.notification_center.
     register_hook(CfMessagesController::SHOW_MESSAGE, mr_plugin)
+  app_controller.notification_center.
+    register_hook(CfMessagesController::SHOW_NEW_MESSAGE, mr_plugin)
   app_controller.notification_center.
     register_hook(CfForumsController::SHOW_FORUMLIST, mr_plugin)
   app_controller.notification_center.

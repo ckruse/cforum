@@ -45,6 +45,7 @@ class HighlightPlugin < Plugin
   def show_message(thread, message, votes)
     show_threadlist([thread])
   end
+  alias show_new_message show_message
 
   def show_thread(thread, message, votes)
     show_threadlist([thread])
@@ -68,6 +69,7 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
   hl_plugin = HighlightPlugin.new(app_controller)
   app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, hl_plugin)
   app_controller.notification_center.register_hook(CfMessagesController::SHOW_MESSAGE, hl_plugin)
+  app_controller.notification_center.register_hook(CfMessagesController::SHOW_NEW_MESSAGE, hl_plugin)
   app_controller.notification_center.register_hook(CfMessagesController::SHOW_THREAD, hl_plugin)
 
   app_controller.notification_center.
