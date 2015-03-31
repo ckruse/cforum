@@ -46,9 +46,13 @@ main h2 { margin-left:0; }
   }
 
   .message-links {
-    font-size:0.8em;
+    font-size: .8em;
 
-    a, button { margin-right:1em; }
+    a, button { margin-right: 1em; }
+  }
+
+  .forum-links a {
+    color: #3481CD;
   }
 
   .deleted + .posting-content,
