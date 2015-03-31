@@ -119,12 +119,6 @@ class InterestingThreadsPlugin < Plugin
   alias show_archive_threadlist show_threadlist
   alias show_invisible_threadlist show_threadlist
 
-  def show_thread(thread, message, votes)
-  end
-
-  def show_message(thread, message, votes)
-  end
-
   private
   def check_thread(thread)
     ids = []
@@ -147,10 +141,6 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
 
   app_controller.notification_center.
     register_hook(CfThreadsController::SHOW_THREADLIST, interesting_threads)
-  app_controller.notification_center.
-    register_hook(CfMessagesController::SHOW_THREAD, interesting_threads)
-  app_controller.notification_center.
-    register_hook(CfMessagesController::SHOW_MESSAGE, interesting_threads)
   app_controller.notification_center.
     register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST, interesting_threads)
   app_controller.notification_center.
