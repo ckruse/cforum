@@ -45,6 +45,17 @@ main h2 { margin-left:0; }
     ul ul ul { list-style-type: square;}
   }
 
+  hr {
+    width: 95%;
+    margin: 2em 0px 2em 0;
+    padding: 0em 1em 0;
+    border-left:0;
+  }
+
+  .accepted > header > h3 {
+    margin-top: 0;
+  }
+
   .message-links {
     font-size:0.8em;
 

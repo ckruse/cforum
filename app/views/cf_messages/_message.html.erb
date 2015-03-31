@@ -58,57 +58,28 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
       <% end %>
     </p>
 
-      <% if may?(RightsHelper::CREATE_CLOSE_REOPEN_VOTE) and
-        m.flags['no-answer-admin'] != 'yes' %>
-        <p>
-          <%
-          # allow close vote if
-            # - message is not closed
-            # - message hasn't got a close vote already
-            if m.open? and m.close_vote.blank?
-          %>
-            <%= link_to(t('messages.close_vote.close_message_button'),
-                        close_cf_message_path(@thread, m), class: 'cf-btn') %>
-          <% end %>
-          <%
-          # allow open vote if
-            # - message is closed
-            # - message hasn't got an open vote already
-            if not m.open? and m.open_vote.blank?
-          %>
-            <%= link_to(t('messages.close_vote.open_message_button'),
-                        open_cf_message_path(@thread, m), class: 'cf-btn') %>
-          <% end %>
-        </p>
-      <% end %>
-
-      <% if m.message_id == @thread.message.message_id and @thread.accepted %>
-        <article class="accepted">
-          <%= message_header(@thread, @thread.accepted, first: false, do_parent: false) %>
-
-          <div class="posting-content">
-            <%= @thread.accepted.to_html(self) %>
-          </div>
-
-          <p class="small"><%= t('messages.accepted_answer') %></p>
-
-          <p>
-            <% if not @thread.accepted.flags['flattr_id'].blank? %>
-              <%= t('layout.flattr_author') %>
-              <%= link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(@thread.accepted.flags['flattr_id']) +
-              "&url=" + CGI.escape(cf_message_url(@thread, @thread.accepted)) +
-              "&title=" + CGI.escape(@thread.accepted.subject) do %>
-              <img src="https://flattr.com/_img/icons/flattr_logo_16.png"
-                   alt=""
-                   title=""
-                   width="16"
-                   height="16">&nbsp;Flattr this!
-            <% end %>
-      <% end %>
-          </p>
-
-        </p>
-        </article>
+    <% if may?(RightsHelper::CREATE_CLOSE_REOPEN_VOTE) and
+      m.flags['no-answer-admin'] != 'yes' %>
+      <p>
+        <%
+        # allow close vote if
+          # - message is not closed
+          # - message hasn't got a close vote already
+          if m.open? and m.close_vote.blank?
+        %>
+          <%= link_to(t('messages.close_vote.close_message_button'),
+                      close_cf_message_path(@thread, m), class: 'cf-btn') %>
+        <% end %>
+        <%
+        # allow open vote if
+          # - message is closed
+          # - message hasn't got an open vote already
+          if not m.open? and m.open_vote.blank?
+        %>
+          <%= link_to(t('messages.close_vote.open_message_button'),
+                      open_cf_message_path(@thread, m), class: 'cf-btn') %>
+        <% end %>
+      </p>
     <% end %>
 
     <% unless m.close_vote.blank? %>
@@ -119,6 +90,36 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
       <%= render 'open_vote', m: m %>
     <% end %>
   </div>
+
+  <% if m.message_id == @thread.message.message_id and @thread.accepted %>
+    <hr>
+
+    <article class="accepted">
+      <%= message_header(@thread, @thread.accepted, first: false, do_parent: false) %>
+
+      <p class="small"><%= t('messages.accepted_answer') %></p>
+
+      <div class="posting-content">
+        <%= @thread.accepted.to_html(self) %>
+      </div>
+
+      <p>
+        <% if not @thread.accepted.flags['flattr_id'].blank? %>
+          <%= t('layout.flattr_author') %>
+          <%= link_to("https://flattr.com/submit/auto?user_id=" + CGI.escape(@thread.accepted.flags['flattr_id']) +
+                      "&url=" + CGI.escape(cf_message_url(@thread, @thread.accepted)) +
+                      "&title=" + CGI.escape(@thread.accepted.subject)) do %>
+            <img src="https://flattr.com/_img/icons/flattr_logo_16.png"
+                 alt=""
+                 title=""
+                 width="16"
+                 height="16">&nbsp;Flattr this!
+          <% end %>
+        <% end %>
+      </p>
+    </article>
+  <% end %>
+
 
   <div class="forum-links">
     <nav>
