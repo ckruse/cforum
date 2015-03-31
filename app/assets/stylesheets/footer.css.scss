@@ -26,6 +26,10 @@ footer {
     margin-bottom:1em;
     font-size:0.8em;
   }
+
+  a:link, a:visited {
+    color: #3481cd;
+  }
 }
 
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {

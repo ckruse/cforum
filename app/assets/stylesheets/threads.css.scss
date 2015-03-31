@@ -10,12 +10,13 @@
   padding-bottom:0.25em;
 }
 
-.visited, a.visited, .visited a {
+.visited, a.visited, .visited a, a:visited {
 	color: #999; 
 }
 
 a.visited:hover, a.visited:active,
-.visited a:hover, .visited a:active {
+.visited a:hover, .visited a:active,
+a:visited:hover, a:visited:hover {
   color: #990909;
 }
 
@@ -126,6 +127,7 @@ a.thread-forum-plate {
     color: #8a9da8;
   }
 
+  
   .active a {
 	  color: #00a1e2;
 	  font-weight: bold;
