@@ -68,23 +68,21 @@ cforum.cf_threads = {
   },
 
   setCursor: function(author, subject, content) {
-    if(content.length > 0) {
-      if(!subject.val()) {
-        subject.focus();
+    if(!subject.val()) {
+      subject.focus();
+    }
+    else {
+      if(cforum.currentUser) {
+        content.focus();
+        cforum.cf_threads.setCursorInContent(content);
       }
       else {
-        if(cforum.currentUser) {
-          content.focus();
-          cforum.cf_threads.setCursorInContent(content);
+        if(!author.val()) {
+          author.focus();
         }
         else {
-          if(!author.val()) {
-            author.focus();
-          }
-          else {
-            content.focus();
-            cforum.cf_threads.setCursorInContent(content);
-          }
+          content.focus();
+          cforum.cf_threads.setCursorInContent(content);
         }
       }
     }
@@ -98,7 +96,7 @@ cforum.cf_threads = {
       if(cnt.substr(i, 1) == '>' &&
          (i === 0 || cnt.substr(i - 1, 1) == "\n") &&
          cnt.substr(i + 1, 1) == ' ') {
-        content.setCursorPosition(i);
+        content.setSelection(i, i);
         return;
       }
     }
