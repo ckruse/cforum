@@ -34,16 +34,39 @@ module ParserHelper
         load Rails.root + 'lib/cf_kramdown.rb'
       end
 
-      cnt = get_content.gsub(/^(>[^\n]+)\n([^\n]+)/, "\\1\n\n\\2")
+      cnt = get_content
+      ncnt = ''
+      quote_level = 0
+
+      cnt.lines.each do |l|
+        current_ql = 0
+        scanner = StringScanner.new(l)
+        while scanner.scan(/^> /)
+          current_ql += 1
+        end
+
+        if current_ql < quote_level and l !~ /^(?:> )*\s*$/m
+          ncnt << ('> ' * current_ql) + "\n"
+        end
+        quote_level = current_ql
+
+        ncnt << l
+      end
 
       @doc = Kramdown::Document.new(
-        cnt,
+        ncnt,
         opts
       )
     end
 
     html = @doc.to_cf_html
 
+    # some users do things like this
+    # > > > text
+    # >
+    # > > text
+    # This produces a break in the block quote; to fix this we join
+    # consecutive block quotes
     html.gsub!(/<\/blockquote>\s*<blockquote>/m, '')
     html.html_safe
   end
