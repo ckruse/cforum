@@ -69,19 +69,19 @@ cforum.cf_threads = {
 
   setCursor: function(author, subject, content) {
     if(!subject.val()) {
-      subject.focus();
+      setTimeout(function() { subject.focus(); }, 0);
     }
     else {
       if(cforum.currentUser) {
-        content.focus();
+        setTimeout(function() { content.focus(); }, 0);
         cforum.cf_threads.setCursorInContent(content);
       }
       else {
         if(!author.val()) {
-          author.focus();
+          setTimeout(function() { author.focus(); }, 0);
         }
         else {
-          content.focus();
+          setTimeout(function() { content.focus(); }, 0);
           cforum.cf_threads.setCursorInContent(content);
         }
       }
