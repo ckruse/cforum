@@ -127,7 +127,7 @@ module MessageHelper
       html << '</' + el + '>'
     end
 
-    if current_forum.blank?
+    if opts[:first] and current_forum.blank?
       html << "  " + link_to(thread.forum.short_name, cf_forum_path(thread.forum), class: 'thread-forum-plate') + "\n"
     end
 
