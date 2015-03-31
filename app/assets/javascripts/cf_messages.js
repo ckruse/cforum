@@ -1,5 +1,5 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum */
+/* global cforum, t */
 
 cforum.cf_messages = {
   initMarkdown: function(elem_id) {

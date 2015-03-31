@@ -1,5 +1,5 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum, Mustache, t */
+/* global cforum, Mustache, t, setDismissHandlers, autohideAlerts */
 
 cforum.cf_threads = {
   numThreads: 0,
