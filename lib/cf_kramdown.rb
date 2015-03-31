@@ -59,9 +59,10 @@ end
 class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
   def convert_codeblock(el, indent)
     ret = super(el, indent)
-    ret.gsub!(/^<div[^>]*>\n?(.*)<\/div>/m, '\1')
+    ret.gsub!(/^(\s*)<div[^>]*>\n?(.*)<\/div>/m, '\1<code class="block"><pre>\2</pre></code>')
+    ret.gsub!(/<pre><code>(.*)<\/code><\/pre>/m, '<code class="block"><pre>\1</pre></code>')
 
-    '<code class="block"><pre>' + ret + '</pre></code>'
+    ret
   end
 
   def convert_email_style_sig(el, indent)
