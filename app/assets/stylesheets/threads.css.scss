@@ -10,12 +10,13 @@
   padding-bottom:0.25em;
 }
 
-.visited, a.visited, .visited a {
-	color: #888; 
+.visited, a.visited, .visited a, a:visited {
+	color: #999; 
 }
 
 a.visited:hover, a.visited:active,
-.visited a:hover, .visited a:active {
+.visited a:hover, .visited a:active,
+a:visited:hover, a:visited:hover {
   color: #990909;
 }
 
@@ -46,12 +47,12 @@ a.thread-forum-plate {
   border-bottom:0;
   border-radius: 0px 0.5em 0.5em;
   min-width: 44em;
-  padding: .35em 1em 0;
+  padding: .35em 1em 0 .5em;
   border: 1px solid #d5d5d5;
 
   & > ol { 
     border-radius: 0 0 .5em .5em;
-    margin: 0 -1em;
+    margin: 0 -1em 0 -.5em;
     padding: .25em 1.5em .5em 4.5em;
   }
 
@@ -63,7 +64,7 @@ a.thread-forum-plate {
     }
   }
 
-  .message-icons { margin-left:0.5em; }
+  .message-icons  a { margin-left:0.5em; }
 
   ol {
     list-style-type:none;
@@ -114,7 +115,7 @@ a.thread-forum-plate {
 
     .num-infos:before, .num-unread:before {
       content:"|";
-      color:#888;
+      color:#999;
       opacity: 0.5;
       margin-left:2px;
       margin-right:2px;
@@ -123,12 +124,10 @@ a.thread-forum-plate {
   }
 
   header.visited .author {
-    color: #8da3b0;
+    color: #8a9da8;
   }
 
-  & > header > .votes { margin-left:0; }
-
-
+  
   .active a {
 	  color: #00a1e2;
 	  font-weight: bold;
@@ -146,7 +145,7 @@ a.thread-forum-plate {
   }
 
   header.visited.highlighted-user .author {
-    color: #bae367;
+    color: #bdd886;
   }
 
   header.highlighted-self .author {
@@ -156,6 +155,13 @@ a.thread-forum-plate {
   header.visited.highlighted-self .author {
     color: #f36e44;
   }
+  /* gelöschte Beiträge */
+  header.deleted .details .author,
+  .deleted, a.deleted, .deleted a {
+    color: #900;
+  }
+
+  
   header.open-vote-active, header.close-vote-active {
     /* TODO style */
   }

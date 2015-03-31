@@ -29,7 +29,7 @@
   }
 
   .selflinks {
-    a, input { opacity: .75; }
+    a:link, a:visited, input { opacity: .75; }
     a:hover, a:focus, input:focus, input:hover { opacity: 1; }
     a {
       display: inline-block;
@@ -50,6 +50,10 @@
 
     img {
       margin-right: .2em;
+    }
+
+    a:link, a:visited {
+      color: #3481cd;
     }
   }
   

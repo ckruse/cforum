@@ -2,9 +2,9 @@
 
 .box {
   background-color: #F1F3F4;
-  border-radius: 0px 0.4em 0.4em;
-  border:1px solid #D5D5D5;
-  padding: 1em 1em 1em 1em;
+  border-radius: 0 .4em .4em;
+  border: 1px solid #D5D5D5;
+  padding: 1em .7em .7em 1em;
   display:inline-block;
 }
 
@@ -23,8 +23,8 @@
       color: #5D7380;
     }
     th, td {
-      padding-left:.5em;
-      padding-right:.5em;
+      padding-left: .2em;
+      padding-right: .2em;
     }
   }
 
@@ -35,22 +35,23 @@
 }
 
 .user-info-tags {
-  vertical-align:top;
-  list-style-type:none;
-  margin-left:0;
+  vertical-align: top;
+  list-style-type: none;
+  margin-left: 0;
 
   li {
-    display:inline-block;
-    margin-bottom:0.2em;
+    display: inline-block;
+    font-size: .9em;
+    margin-bottom: .5em;
   }
 
   .cnt {
-    display:inline-block;
-    text-align:center;
-    padding: 0 .6em;
-    border-radius: 0px 0.4em 0.4em;
-    color:#999ca7;
-    border:1px solid #999ca7;
+    display: inline-block;
+    text-align: center;
+    padding: .1em .6em 0 .6em;
+    border-radius: 0 .3em .3em;
+    color: #5d7380;
+    border: 1px solid #c4c4c4;
   }
 }
 

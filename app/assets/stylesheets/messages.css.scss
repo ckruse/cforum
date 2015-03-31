@@ -36,6 +36,10 @@ main h2 { margin-left:0; }
     font-size: 0.9em;
     line-height: 1.4em;
 
+    a {
+      text-decoration: underline;
+    }
+
     img { max-width:100%; }
 
     ul { list-style-type: disc;}
@@ -46,9 +50,19 @@ main h2 { margin-left:0; }
   }
 
   .message-links {
-    font-size:0.8em;
+    font-size: .8em;
 
-    a, button { margin-right:1em; }
+    a, button { margin-right: 1em; }
+  }
+
+  .forum-links a {
+    color: #3481CD;
+  }
+
+  .deleted + .posting-content,
+  .deleted + .posting-content * {
+    color: #900;
+    border-color: #900;
   }
 }
 
@@ -118,11 +132,6 @@ code.block code.block {
 	padding: 0;
 	max-height: none;
 	background: transparent;
-}
-* html code.block {
-	width: 61em;
-	overflow: visible;
-	overflow-x: auto;
 }
 code.q.block, .q code.block { /* zitierter Code-Block */
 	background-image: url(http://src.selfhtml.org/forum/quote.png), linear-gradient(to bottom, #d5d5d5, #d5d5d5);
