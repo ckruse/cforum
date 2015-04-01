@@ -184,17 +184,18 @@ nav {
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
   #top {
     padding-left: 1em;
+  }
 
-    .personallinks {
-      position:absolute;
-      top:9em;
-      left:1em;
+  .personallinks {
+    margin-left:1em;
+    margin-right:1em;
+    float:none;
 
-      li {
-        display:block;
-        margin-top:0.5em;
-        line-height:1em;
-      }
+    li {
+      display:block;
+      margin-top:0.5em;
+      line-height:1em;
+      text-align:left;
     }
   }
 
@@ -210,14 +211,7 @@ nav {
     }
 
     .sociallinks {
-      position:static;
-      margin-top:8.2em;
-
-      li {
-        margin-bottom:0.2em;
-        margin-left:0;
-        margin-right:0.2em;
-      }
+      display:none;
     }
   }
   
