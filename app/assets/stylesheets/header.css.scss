@@ -180,6 +180,20 @@ nav {
 }
 
 
+@media only screen and (max-width : 800px) {
+  #kopf {
+    .sociallinks {
+      position:static;
+      display:block;
+      float:right;
+    }
+
+    h1 {
+      margin-bottom:0.1em;
+    }
+  }
+}
+
 
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
   #top {
@@ -224,20 +238,6 @@ nav {
     }
   }
 
-}
-
-@media only screen and (max-width : 800px) {
-  #kopf {
-    .sociallinks {
-      position:static;
-      display:block;
-      float:right;
-    }
-
-    h1 {
-      margin-bottom:0.1em;
-    }
-  }
 }
 
 
