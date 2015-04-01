@@ -13,21 +13,6 @@
   line-height: 2.25em;
   position: relative;
 
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-
-    li { 
-      display: inline;
-      margin-right: 3em; 
-    }
-
-    li.search {
-      float:right;
-    }
-  }
-
   .selflinks {
     a, input { opacity: .75; }
     a:hover, a:focus, input:focus, input:hover { opacity: 1; }
@@ -36,24 +21,34 @@
       color: white;
     }
   }
+}
 
-  .personallinks {
-    position: absolute;
-    right: 1em;
-    bottom: -2.6em;
-    font-size: .8em;
-    z-index: 100;
+#top ul,
+.personallinks {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 
-    li {
-      margin-right: 1em;
-    }
-
-    img {
-      margin-right: .2em;
-    }
+  li {
+    display: inline;
+    margin-right: 3em; 
   }
-  
 
+  li.search {
+    float:right;
+  }
+}
+
+.personallinks {
+  float:right;
+
+  li {
+    margin-right: 1em;
+  }
+
+  img {
+    margin-right: .2em;
+  }
 }
 
 #kopf {
