@@ -2,6 +2,7 @@
   <label for="settings-close_vote_votes"><%= t('admin.forums.settings.close_vote_votes') %></label>
   <div class="cntrls">
     <%= number_field_tag 'settings[close_vote_votes]', @settings.options['close_vote_votes'], id: 'settings-close_vote_votes' %>
+    <label class="checkbox"><%= check_box_tag 'settings[close_vote_votes]', '_DEFAULT_', @settings.options['close_vote_votes'].blank?, id: 'settings-close_vote_votes-default' %> <%= t('global.default_value') %></label>
   </div>
 </div>
 
@@ -9,8 +10,9 @@
 <div class="cf-cgroup">
   <label for="settings-close_vote-<%= r %>"><%= t('admin.forums.settings.close_vote_' + r) %></label>
   <div class="cntrls">
-    <label class="radio"><%= radio_button_tag 'settings[close_vote_action_' + r + ']', 'close', @settings.conf('close_vote_action_' + r, 'close') == 'close' %> <%= t('admin.forums.settings.close_subtree') %></label>
-    <label class="radio"><%= radio_button_tag 'settings[close_vote_action_' + r + ']', 'hide', @settings.conf('close_vote_action_' + r, 'close') == 'hide' %> <%= t('admin.forums.settings.hide_subtree') %></label>
+    <label class="radio"><%= radio_button_tag 'settings[close_vote_action_' + r + ']', 'close', @settings.conf('close_vote_action_' + r) == 'close' %> <%= t('admin.forums.settings.close_subtree') %></label>
+    <label class="radio"><%= radio_button_tag 'settings[close_vote_action_' + r + ']', 'hide', @settings.conf('close_vote_action_' + r) == 'hide' %> <%= t('admin.forums.settings.hide_subtree') %></label>
+    <label class="radio"><%= radio_button_tag 'settings[close_vote_action_' + r + ']', '_DEFAULT_', @settings.conf('close_vote_action_' + r).blank? %> <%= t('global.default_value') %></label>
   </div>
 </div>
   

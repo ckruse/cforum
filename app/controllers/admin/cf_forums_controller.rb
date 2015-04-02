@@ -55,8 +55,18 @@ class Admin::CfForumsController < ApplicationController
   def update
     saved = false
     @settings = CfSetting.find_by_forum_id(@cf_forum.forum_id) || CfSetting.new
-    @settings.options  = params[:settings] || {}
+    @settings.options ||= {}
     @settings.forum_id = @cf_forum.forum_id
+
+    unless params[:settings].blank?
+      params[:settings].each do |k,v|
+        if v == '_DEFAULT_'
+          @settings.options.delete(k)
+        else
+          @settings.options[k] = v
+        end
+      end
+    end
 
     CfForum.transaction do
       if @cf_forum.update_attributes(forum_params)
@@ -79,8 +89,18 @@ class Admin::CfForumsController < ApplicationController
   def create
     @cf_forum = CfForum.new(forum_params)
     @settings = CfSetting.new
-    @settings.options  = params[:settings] || {}
+    @settings.options ||= {}
     @settings.forum_id = @cf_forum.forum_id
+
+    unless params[:settings].blank?
+      params[:settings].each do |k,v|
+        if v == '_DEFAULT_'
+          @settings.options.delete(k)
+        else
+          @settings.options[k] = v
+        end
+      end
+    end
 
     saved = false
     CfForum.transaction do

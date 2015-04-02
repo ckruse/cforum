@@ -12,7 +12,17 @@ class Admin::CfSettingsController < ApplicationController
   # PUT /collections/1.json
   def update
     @settings = CfSetting.where(user_id: nil, forum_id: nil).first || CfSetting.new
-    @settings.options = params[:settings]
+    @settings.options ||= {}
+
+    params[:settings].each do |k, v|
+      if v == '_DEFAULT_'
+        @settings.options.delete(k)
+      else
+        @settings.options[k] = v
+      end
+    end
+
+    @settings.options_will_change!
 
     respond_to do |format|
       if @settings.save
