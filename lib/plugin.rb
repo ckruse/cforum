@@ -46,12 +46,12 @@ class Plugin
     @app_controller.get_cookies
   end
 
-  def conf(name, default = nil)
-    @app_controller.conf(name, default)
+  def conf(name)
+    @app_controller.conf(name)
   end
 
-  def uconf(name, default = nil)
-    @app_controller.uconf(name, default)
+  def uconf(name)
+    @app_controller.uconf(name)
   end
 
   def register_plugin_api(name, &block)

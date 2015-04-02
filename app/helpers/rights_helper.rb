@@ -123,7 +123,7 @@ module RightsHelper
     return true if current_user and current_user.admin?
 
     # editing isn't possible when disabled
-    if conf('editing_enabled', 'yes') != 'yes'
+    if conf('editing_enabled') != 'yes'
       if redirect
         flash[:error] = t('messages.editing_disabled')
         redirect_to cf_message_url(thread, message)
@@ -144,7 +144,7 @@ module RightsHelper
 
     return true if current_forum.moderator?(current_user)
 
-    @max_editable_age = conf('max_editable_age', 10).to_i
+    @max_editable_age = conf('max_editable_age').to_i
 
     edit_it = false
 
@@ -153,7 +153,7 @@ module RightsHelper
       return
     end
 
-    if conf('edit_until_has_answer', 'yes') == 'yes' and not message.messages.empty?
+    if conf('edit_until_has_answer') == 'yes' and not message.messages.empty?
       if redirect
         flash[:error] = t('messages.editing_not_allowed_with_answer')
         redirect_to cf_message_url(thread, message)

@@ -30,11 +30,11 @@ class CfUser < ActiveRecord::Base
            foreign_key: :user_id
   has_many :badges, through: :badges_users
 
-  def conf(nam, default = nil)
+  def conf(nam)
     vals = settings.options unless settings.blank?
     vals ||= {}
 
-    vals[nam.to_s] || default
+    vals[nam.to_s] || ConfigManager::DEFAULTS[nam]
   end
 
   def self.find_first_by_auth_conditions(conditions = {})

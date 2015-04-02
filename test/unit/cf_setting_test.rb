@@ -191,19 +191,22 @@ class CfSettingTest < ActiveSupport::TestCase
   end
 
   test "conf should return default value because of nil" do
-    assert_equal 'Alderan', CfSetting.new.conf('location_of_rebellion', 'Alderan')
+    ConfigManager::DEFAULTS['location_of_rebellion'] = 'Alderan'
+    assert_equal 'Alderan', CfSetting.new.conf('location_of_rebellion')
   end
 
   test "conf should return default value because opt not set" do
+    ConfigManager::DEFAULTS['location_of_rebellion'] = 'Alderan'
     s = CfSetting.new
     s.options = {'secret_location' => 'Balduin'}
-    assert_equal 'Alderan', s.conf('location_of_rebellion', 'Alderan')
+    assert_equal 'Alderan', s.conf('location_of_rebellion')
   end
 
   test "conf should return real value" do
+    ConfigManager::DEFAULTS['location_of_rebellion'] = 'Alderan'
     s = CfSetting.new
     s.options = {'location_of_rebellion' => 'Tentuin'}
-    assert_equal 'Tentuin', s.conf('location_of_rebellion', 'Alderan')
+    assert_equal 'Tentuin', s.conf('location_of_rebellion')
   end
 
 end

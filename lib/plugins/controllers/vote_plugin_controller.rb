@@ -21,11 +21,11 @@ class VotePluginController < ApplicationController
       return
     end
 
-    vote_down_value = conf('vote_down_value', -1).to_i
+    vote_down_value = conf('vote_down_value').to_i
 
     # we may use a different vote_up_value if user is the author of the OP
-    vote_up_value = conf('vote_up_value', 10).to_i
-    vote_up_value = conf('vote_up_value_user', 10).to_i unless @thread.acceptance_forbidden?(current_user, cookies[:cforum_user])
+    vote_up_value = conf('vote_up_value').to_i
+    vote_up_value = conf('vote_up_value_user').to_i unless @thread.acceptance_forbidden?(current_user, cookies[:cforum_user])
 
     vtype    = params[:type] == 'up' ? CfVote::UPVOTE : CfVote::DOWNVOTE
 

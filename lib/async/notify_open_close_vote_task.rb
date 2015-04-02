@@ -12,7 +12,7 @@ class Peon::Tasks::NotifyOpenCloseVoteTask < Peon::Tasks::PeonTask
                            RightsHelper::MODERATOR_TOOLS)
 
       users.each do |u|
-        if uconf('notify_on_open_close_vote', u, @message.forum, 'no') != 'no'
+        if uconf('notify_on_open_close_vote', u, @message.forum) != 'no'
           trans_key = 'messages.close_vote.notification'
           noti_type = 'message:open_close_vote'
 
@@ -39,7 +39,7 @@ class Peon::Tasks::NotifyOpenCloseVoteTask < Peon::Tasks::PeonTask
                       cf_message_path(@message.thread, @message),
                       @message.message_id, noti_type, nil)
 
-          if uconf('notify_on_open_close_vote', u, @message.forum, 'no') == 'email'
+          if uconf('notify_on_open_close_vote', u, @message.forum) == 'email'
             m = trans_key.gsub(/messages\.close_vote\./, '')
             NotifyOpenCloseVoteMailer.send(m, u, @message).deliver
           end

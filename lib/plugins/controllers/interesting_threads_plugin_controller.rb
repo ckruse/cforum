@@ -40,7 +40,7 @@ class InterestingThreadsPluginController < ApplicationController
   end
 
   def list_threads
-    @limit = conf('pagination', 50).to_i
+    @limit = conf('pagination').to_i
 
     @threads = CfThread.
       preload(:forum, messages: [:owner, :tags, {votes: :voters}]).

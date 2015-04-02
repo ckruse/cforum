@@ -2,7 +2,7 @@
 
 class CssChooserPluginController < ApplicationController
   def choose_css
-    @css_styles = conf("css_styles", '').split(/\015\012|\012|\015/)
+    @css_styles = conf("css_styles").split(/\015\012|\012|\015/)
   end
 
   def css_chosen

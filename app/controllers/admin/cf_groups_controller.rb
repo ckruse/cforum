@@ -4,7 +4,7 @@ class Admin::CfGroupsController < ApplicationController
   authorize_controller { authorize_admin }
 
   def index
-    @limit = conf('pagination', 50).to_i
+    @limit = conf('pagination').to_i
     @limit = 50 if @limit <= 0
 
     @groups = CfGroup.select("*, (SELECT COUNT(*) FROM groups_users WHERE group_id = groups.group_id) AS members_cnt")

@@ -13,11 +13,11 @@ class CfSetting < ActiveRecord::Base
     self.options ||= {} if attributes.has_key? 'options'
   end
 
-  def conf(nam, default = nil)
+  def conf(nam)
     vals = options
     vals ||= {}
 
-    vals[nam.to_s] || default
+    vals[nam.to_s] || ConfigManager::DEFAULTS[nam]
   end
 
 end

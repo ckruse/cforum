@@ -4,7 +4,7 @@ class NotificationsController < ApplicationController
   authorize_controller { authorize_user }
 
   def index
-    @limit = uconf('pagination', 50).to_i
+    @limit = uconf('pagination').to_i
     @limit = 50 if @limit <= 0
 
     @notifications = CfNotification.where(recipient_id: current_user.user_id).

@@ -3,7 +3,7 @@
         <div class="cntrls">
           <label class="radio"><%= radio_button_tag 'settings[locked]', 'yes', @settings.options['locked'] == 'yes', id: 'settings-locked-yes' %> <%= t('global.yeah') %></label>
           <label class="radio"><%= radio_button_tag 'settings[locked]', 'no', @settings.options['locked'] == 'no', id: 'settings-locked-no' %> <%= t('global.nope') %></label>
-          <label class="radio"><%= radio_button_tag 'settings[locked]', '_DEFAULT_', @settings.options['locked'].blank?, id: 'settings-locked-default' %> <%= t('global.default_value') %></label>
+          <label class="radio"><%= radio_button_tag 'settings[locked]', '_DEFAULT_', @settings.options['locked'].blank?, id: 'settings-locked-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('locked'))) %></label>
         </div>
       </div>
 
@@ -11,7 +11,7 @@
         <label for="settings-pagination"><%= t('admin.forums.settings.items_per_page') %></label>
         <div class="cntrls">
           <%= text_field_tag 'settings[pagination]', @settings.options['pagination'], id: 'settings-pagination' %>
-          <label class="checkbox"><%= check_box_tag 'settings[pagination]', '_DEFAULT_', @settings.options['pagination'].blank?, id: 'settings-pagination-default' %> <%= t('global.default_value') %></label>
+          <label class="checkbox"><%= check_box_tag 'settings[pagination]', '_DEFAULT_', @settings.options['pagination'].blank?, id: 'settings-pagination-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('pagination'))) %></label>
         </div>
       </div>
 
@@ -19,7 +19,7 @@
         <label for="settings-pagination-users"><%= t('admin.forums.settings.users_per_page') %></label>
         <div class="cntrls">
           <%= text_field_tag 'settings[pagination_users]', @settings.options['pagination_users'], id: 'settings-pagination-users' %>
-          <label class="checkbox"><%= check_box_tag 'settings[pagination_users]', '_DEFAULT_', @settings.options['pagination_users'].blank?, id: 'settings-pagination-users-default' %> <%= t('global.default_value') %></label></label>
+          <label class="checkbox"><%= check_box_tag 'settings[pagination_users]', '_DEFAULT_', @settings.options['pagination_users'].blank?, id: 'settings-pagination-users-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('pagination_users'))) %></label></label>
         </div>
       </div>
 
@@ -28,7 +28,7 @@
         <div class="cntrls">
           <label class="radio"><%= radio_button_tag 'settings[use_archive]', 'yes', @settings.options['use_archive'] == 'yes', id: 'settings-use_archive-yes' %> <%= t('global.yeah') %></label>
           <label class="radio"><%= radio_button_tag 'settings[use_archive]', 'no', @settings.options['use_archive'] == 'no', id: 'settings-use_archive-no' %> <%= t('global.nope') %></label>
-          <label class="radio"><%= radio_button_tag 'settings[use_archive]', '_DEFAULT_', @settings.options['use_archive'].blank?, id: 'settings-use_archive-default' %> <%= t('global.default_value') %></label>
+          <label class="radio"><%= radio_button_tag 'settings[use_archive]', '_DEFAULT_', @settings.options['use_archive'].blank?, id: 'settings-use_archive-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('use_archive'))) %></label>
         </div>
       </div>
 
@@ -36,7 +36,7 @@
         <label for="settings-max_threads"><%= t('admin.forums.settings.max_threads') %></label>
         <div class="cntrls">
           <%= text_field_tag 'settings[max_threads]', @settings.options['max_threads'], id: 'settings-max_threads' %>
-          <label class="checkbox"><%= check_box_tag 'settings[max_threads]', '_DEFAULT_', @settings.options['max_threads'].blank?, id: 'settings-max_threads-default' %> <%= t('global.default_value') %></label>
+          <label class="checkbox"><%= check_box_tag 'settings[max_threads]', '_DEFAULT_', @settings.options['max_threads'].blank?, id: 'settings-max_threads-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('max_threads'))) %></label>
         </div>
       </div>
 
@@ -44,7 +44,7 @@
         <label for="settings-max_messages_per_thread"><%= t('admin.forums.settings.max_messages_per_thread') %></label>
         <div class="cntrls">
           <%= text_field_tag 'settings[max_messages_per_thread]', @settings.options['max_messages_per_thread'], id: 'settings-max_messages_per_thread' %>
-          <label class="checkbox"><%= check_box_tag 'settings[max_messages_per_thread]', '_DEFAULT_', @settings.options['max_messages_per_thread'].blank?, id: 'settings-max_messages_per_thread-default' %> <%= t('global.default_value') %></label>
+          <label class="checkbox"><%= check_box_tag 'settings[max_messages_per_thread]', '_DEFAULT_', @settings.options['max_messages_per_thread'].blank?, id: 'settings-max_messages_per_thread-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('max_messages_per_thread'))) %></label>
         </div>
       </div>
 
@@ -52,7 +52,7 @@
         <label for="settings-max_tags_per_message"><%= t('admin.forums.settings.max_tags_per_message') %></label>
         <div class="cntrls">
           <%= text_field_tag 'settings[max_tags_per_message]', @settings.options['max_tags_per_message'], id: 'settings-max_tags_per_message' %>
-          <label class="checkbox"><%= check_box_tag 'settings[max_tags_per_message]', '_DEFAULT_', @settings.options['max_tags_per_message'].blank?, id: 'settings-max_tags_per_message-default' %> <%= t('global.default_value') %></label>
+          <label class="checkbox"><%= check_box_tag 'settings[max_tags_per_message]', '_DEFAULT_', @settings.options['max_tags_per_message'].blank?, id: 'settings-max_tags_per_message-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('max_tags_per_message'))) %></label>
         </div>
       </div>
 
@@ -60,7 +60,7 @@
         <label for="settings-header_start_index"><%= t('admin.forums.settings.header_start_index') %></label>
         <div class="cntrls">
           <%= text_field_tag 'settings[header_start_index]', @settings.options['header_start_index'], id: 'settings-header_start_index' %>
-          <label class="checkbox"><%= check_box_tag 'settings[header_start_index]', '_DEFAULT_', @settings.options['header_start_index'].blank?, id: 'settings-header_start_index-default' %> <%= t('global.default_value') %></label>
+          <label class="checkbox"><%= check_box_tag 'settings[header_start_index]', '_DEFAULT_', @settings.options['header_start_index'].blank?, id: 'settings-header_start_index-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('header_start_index'))) %></label>
         </div>
       </div>
 
@@ -69,7 +69,7 @@
         <div class="cntrls">
           <label class="radio"><%= radio_button_tag 'settings[editing_enabled]', 'yes', @settings.options['editing_enabled'] == 'yes', id: 'settings-editing_enabled-yes' %> <%= t('global.yeah') %></label>
           <label class="radio"><%= radio_button_tag 'settings[editing_enabled]', 'no', @settings.options['editing_enabled'] == 'no', id: 'settings-editing_enabled-no' %> <%= t('global.nope') %></label>
-          <label class="radio"><%= radio_button_tag 'settings[editing_enabled]', '_DEFAULT_', @settings.options['editing_enabled'].blank?, id: 'settings-editing_enabled-default' %> <%= t('global.default_value') %></label>
+          <label class="radio"><%= radio_button_tag 'settings[editing_enabled]', '_DEFAULT_', @settings.options['editing_enabled'].blank?, id: 'settings-editing_enabled-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('editing_enabled'))) %></label>
         </div>
       </div>
 
@@ -77,7 +77,7 @@
         <label for="settings-max_editable_age"><%= t('admin.forums.settings.max_editable_age') %></label>
         <div class="cntrls">
           <%= number_field_tag 'settings[max_editable_age]', @settings.options['max_editable_age'], id: 'settings-max_editable_age' %>
-          <label class="checkbox"><%= check_box_tag 'settings[max_editable_age]', '_DEFAULT_', @settings.options['max_editable_age'].blank?, id: 'settings-max_editable_age-default' %> <%= t('global.default_value') %></label>
+          <label class="checkbox"><%= check_box_tag 'settings[max_editable_age]', '_DEFAULT_', @settings.options['max_editable_age'].blank?, id: 'settings-max_editable_age-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('max_editable_age'))) %></label>
         </div>
       </div>
 
@@ -86,46 +86,46 @@
         <div class="cntrls">
           <label class="radio"><%= radio_button_tag 'settings[edit_until_has_answer]', 'yes', @settings.options['edit_until_has_answer'] == 'yes', id: 'settings-edit_until_has_answer-yes' %> <%= t('global.yeah') %></label>
           <label class="radio"><%= radio_button_tag 'settings[edit_until_has_answer]', 'no', @settings.options['edit_until_has_answer'] == 'yes', id: 'settings-edit_until_has_answer-no' %> <%= t('global.nope') %></label>
-          <label class="radio"><%= radio_button_tag 'settings[edit_until_has_answer]', '_DEFAULT_', @settings.options['edit_until_has_answer'].blank?, id: 'settings-edit_until_has_answer-default' %> <%= t('global.default_value') %></label>
+          <label class="radio"><%= radio_button_tag 'settings[edit_until_has_answer]', '_DEFAULT_', @settings.options['edit_until_has_answer'].blank?, id: 'settings-edit_until_has_answer-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('edit_until_has_answer'))) %></label>
         </div>
       </div>
 
       <div class="cf-cgroup">
         <label for="settings-date_format_index"><%= t('users.settings.date_format_index') %></label>
         <div class="cntrls">
-          <%= text_field_tag 'settings[date_format_index]', @settings.conf('date_format_index', "%d.%m.%Y %H:%M"), id: 'settings-date_format_index' %>
-          <label class="checkbox"><%= check_box_tag 'settings[date_format_index]', '_DEFAULT_', @settings.options['date_format_index'].blank?, id: 'settings-date_format_index-default' %> <%= t('global.default_value') %></label>
+          <%= text_field_tag 'settings[date_format_index]', @settings.options['date_format_index'], id: 'settings-date_format_index' %>
+          <label class="checkbox"><%= check_box_tag 'settings[date_format_index]', '_DEFAULT_', @settings.options['date_format_index'].blank?, id: 'settings-date_format_index-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('date_format_index'))) %></label>
         </div>
       </div>
 
       <div class="cf-cgroup">
         <label for="settings-date_format_post"><%= t('users.settings.date_format_post') %></label>
         <div class="cntrls">
-          <%= text_field_tag 'settings[date_format_post]', @settings.conf('date_format_post', "%d.%m.%Y %H:%M"), id: 'settings-date_format_post' %>
-          <label class="checkbox"><%= check_box_tag 'settings[ate_format_post]', '_DEFAULT_', @settings.options['ate_format_post'].blank?, id: 'settings-ate_format_post-default' %> <%= t('global.default_value') %></label>
+          <%= text_field_tag 'settings[date_format_post]', @settings.options['date_format_post'], id: 'settings-date_format_post' %>
+          <label class="checkbox"><%= check_box_tag 'settings[ate_format_post]', '_DEFAULT_', @settings.options['ate_format_post'].blank?, id: 'settings-ate_format_post-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('date_format_post'))) %></label>
         </div>
       </div>
 
       <div class="cf-cgroup">
         <label for="settings-date_format_default"><%= t('users.settings.date_format_default') %></label>
         <div class="cntrls">
-          <%= text_field_tag 'settings[date_format_default]', @settings.conf('date_format_default', "%d.%m.%Y %H:%M"), id: 'settings-date_format_default' %>
-          <label class="checkbox"><%= check_box_tag 'settings[date_format_default]', '_DEFAULT_', @settings.options['date_format_default'].blank?, id: 'settings-date_format_default-default' %> <%= t('global.default_value') %></label>
+          <%= text_field_tag 'settings[date_format_default]', @settings.options['date_format_default'], id: 'settings-date_format_default' %>
+          <label class="checkbox"><%= check_box_tag 'settings[date_format_default]', '_DEFAULT_', @settings.options['date_format_default'].blank?, id: 'settings-date_format_default-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('date_format_default'))) %></label>
         </div>
       </div>
 
       <div class="cf-cgroup">
         <label for="settings-css_styles"><%= t('users.settings.css_styles') %></label>
         <div class="cntrls">
-          <%= text_area_tag 'settings[css_styles]', @settings.conf('css_styles'), id: 'settings-css_styles' %>
-          <label class="checkbox"><%= check_box_tag 'settings[css_styles]', '_DEFAULT_', @settings.options['css_styles'].blank?, id: 'settings-css_styles-default' %> <%= t('global.default_value') %></label>
+          <%= text_area_tag 'settings[css_styles]', @settings.options['css_styles'], id: 'settings-css_styles' %>
+          <label class="checkbox"><%= check_box_tag 'settings[css_styles]', '_DEFAULT_', @settings.options['css_styles'].blank?, id: 'settings-css_styles-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('css_styles'))) %></label>
         </div>
       </div>
 
       <div class="cf-cgroup">
         <label for="settings-motd"><%= t('users.settings.motd') %></label>
         <div class="cntrls">
-          <%= text_area_tag 'settings[motd]', @settings.conf('motd'), id: 'settings-motd' %>
-          <label class="checkbox"><%= check_box_tag 'settings[motd]', '_DEFAULT_', @settings.options['motd'].blank?, id: 'settings-motd-default' %> <%= t('global.default_value') %></label>
+          <%= text_area_tag 'settings[motd]', @settings.options['motd'], id: 'settings-motd' %>
+          <label class="checkbox"><%= check_box_tag 'settings[motd]', '_DEFAULT_', @settings.options['motd'].blank?, id: 'settings-motd-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('motd'))) %></label>
         </div>
       </div>

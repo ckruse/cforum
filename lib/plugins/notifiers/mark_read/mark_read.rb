@@ -118,7 +118,7 @@ class MarkReadPlugin < Plugin
   def show_thread(thread, message = nil, votes = nil)
     return if current_user.blank? or @app_controller.is_prefetch
 
-    mark_read_moment = uconf('mark_read_moment', 'before_render')
+    mark_read_moment = uconf('mark_read_moment')
     check_thread(thread) if mark_read_moment == 'after_render'
     @cache[current_user.user_id] ||= {}
 
@@ -138,7 +138,7 @@ class MarkReadPlugin < Plugin
 
   def show_message(thread, message, votes)
     return if current_user.blank? or @app_controller.is_prefetch
-    mark_read_moment = uconf('mark_read_moment', 'before_render')
+    mark_read_moment = uconf('mark_read_moment')
     @cache[current_user.user_id] ||= {}
 
     check_thread(thread) if mark_read_moment == 'after_render'

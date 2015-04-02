@@ -6,8 +6,8 @@ class OpenCloseThreadPlugin < Plugin
     return if application_controller.view_all
 
     # default state is setable via user config
-    default_state   = uconf('open_close_default', 'open')
-    close_when_read = uconf('open_close_close_when_read', 'no') == 'yes'
+    default_state   = uconf('open_close_default')
+    close_when_read = uconf('open_close_close_when_read') == 'yes'
 
     is_read = get_plugin_api :is_read
 
@@ -101,7 +101,7 @@ class OpenCloseThreadPlugin < Plugin
       )
 
       if rslt.ntuples == 0
-        if uconf('open_close_default', 'open') != state || uconf('open_close_close_when_read', 'no') == 'yes'
+        if uconf('open_close_default') != state || uconf('open_close_close_when_read') == 'yes'
           CfThread.connection.execute("INSERT INTO opened_closed_threads (user_id, thread_id, state) VALUES (" +
             current_user.user_id.to_s +
             ", " +

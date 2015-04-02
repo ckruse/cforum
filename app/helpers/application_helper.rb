@@ -13,8 +13,26 @@ module ApplicationHelper
     @_current_forum = nil
   end
 
-  def date_format(type = 'date_format_default', standard = '%d.%m.%Y %H:%M')
-    uconf(type, standard)
+  def date_format(type = 'date_format_default')
+    val = uconf(type)
+    val.blank? ? '%d.%m.%Y %H:%M' : val
+  end
+
+  def human_val(val)
+    case val
+    when 'yes'
+      t('global.yeah')
+    when 'no'
+      t('global.nope')
+    when 'close', 'hide'
+      t('admin.forums.settings.' + val + '_subtree')
+    else
+      val
+    end
+  end
+
+  def conf_val_or_default(name)
+    @cf_forum ? conf(name) : ConfigManager::DEFAULTS[name]
   end
 end
 

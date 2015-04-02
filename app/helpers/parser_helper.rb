@@ -23,7 +23,7 @@ module ParserHelper
       coderay_wrap: nil,
       coderay_css: :class,
       coderay_line_numbers: nil,
-      header_offset: app.conf('header_start_index', 2),
+      header_offset: app.conf('header_start_index'),
       auto_id_prefix: id_prefix + '-',
       no_follow: true,
       root_url: app.root_url
@@ -72,7 +72,7 @@ module ParserHelper
   end
 
   def to_quote(app, opts = {})
-    opts.symbolize_keys!.reverse_merge!(:quote_signature => app.uconf('quote_signature', 'no'))
+    opts.symbolize_keys!.reverse_merge!(:quote_signature => app.uconf('quote_signature'))
 
     c = get_content
 

@@ -2,7 +2,7 @@
 
 module SortingHelper
   def sort_thread(thread, message = nil, direction = nil)
-    direction = uconf('sort_messages', 'ascending') if direction.blank?
+    direction = uconf('sort_messages') if direction.blank?
 
     if message.blank?
       thread.gen_tree

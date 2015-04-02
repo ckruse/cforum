@@ -11,7 +11,7 @@ class HighlightPlugin < Plugin
 
     highlighted_users = uconf('highlighted_users')
     highlighted_users ||= ''
-    highlight_self = uconf('highlight_self', 'yes') == 'yes'
+    highlight_self = uconf('highlight_self') == 'yes'
 
     return if highlighted_users.blank? and not highlight_self
 
@@ -52,7 +52,7 @@ class HighlightPlugin < Plugin
   end
 
   def showing_settings(user)
-    users = CfUser.where(username: user.conf('highlighted_users', '').split(/\s*,\s*/))
+    users = CfUser.where(username: user.conf('highlighted_users').split(/\s*,\s*/))
     set('highlighted_users_list', users)
   end
 

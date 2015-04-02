@@ -25,16 +25,16 @@ module Peon
         @notification_center = Peon::Grunt.instance.notification_center
       end
 
-      def conf(name, forum, default = nil)
-        @config_manager.get(name, default, nil, forum)
+      def conf(name, forum)
+        @config_manager.get(name, nil, forum)
       end
 
-      def uconf(name, user, forum, default = nil)
-        @config_manager.get(name, default, user, forum)
+      def uconf(name, user, forum)
+        @config_manager.get(name, user, forum)
       end
 
-      def notify_user(user, hook, subject, path, oid, otype, icon = nil, default = 'yes')
-        return if not hook.blank? and @config_manager.get(hook, default, user) != 'yes'
+      def notify_user(user, hook, subject, path, oid, otype, icon = nil)
+        return if not hook.blank? and @config_manager.get(hook, user) != 'yes'
 
         n = CfNotification.create!(
           recipient_id: user.user_id,

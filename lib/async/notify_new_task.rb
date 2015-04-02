@@ -6,16 +6,16 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     return if usr.blank?
 
     Rails.logger.debug "notify new task: checking on #{usr.username}: notify_on_activity=" +
-      uconf('notify_on_activity', usr, thread.forum, 'no') +
-      ", notify_on_answer=" + uconf('notify_on_answer', usr, thread.forum, 'no')
+      uconf('notify_on_activity', usr, thread.forum) +
+      ", notify_on_answer=" + uconf('notify_on_answer', usr, thread.forum)
 
     return if @sent_mails[usr.email] or @notified[usr.user_id] # do not send duplicate notifications
     return if usr.user_id == message.user_id # do not notify user about own messages
 
-    return true if uconf('notify_on_activity', usr, thread.forum, 'no') != 'no' # do not notify when not wanted
+    return true if uconf('notify_on_activity', usr, thread.forum) != 'no' # do not notify when not wanted
 
     return unless parent # do not notify if new thread
-    return unless uconf('notify_on_answer', usr, thread.forum, 'no') != 'no' # do not notify if not wanted
+    return unless uconf('notify_on_answer', usr, thread.forum) != 'no' # do not notify if not wanted
 
     return true if parent.owner.user_id == usr.user_id # notify if parent is from looked-at user
 
@@ -60,7 +60,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
       Rails.logger.debug "notify new task: perform_message: owner: " + m.owner.inspect
 
       if check_notify(m.owner, @thread, @message, @parent)
-        if uconf('notify_on_activity', m.owner, @thread.forum, 'no') == 'email' || uconf('notify_on_answer', m.owner, @thread.forum, 'no') == 'email'
+        if uconf('notify_on_activity', m.owner, @thread.forum) == 'email' || uconf('notify_on_answer', m.owner, @thread.forum) == 'email'
           send_notify_message(m.owner, @thread, @parent, @message)
         end
 

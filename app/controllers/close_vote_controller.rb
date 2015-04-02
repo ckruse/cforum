@@ -187,7 +187,7 @@ class CloseVoteController < ApplicationController
       end
     end
 
-    if vote.voters.length >= conf("close_vote_votes", 5).to_i
+    if vote.voters.length >= conf("close_vote_votes").to_i
       CfMessage.transaction do
         vote.update_attributes(finished: true)
 
@@ -220,7 +220,7 @@ class CloseVoteController < ApplicationController
   private
 
   def finish_action_close(msg, vote)
-    action = conf('close_vote_action_' + vote.reason, 'close')
+    action = conf('close_vote_action_' + vote.reason)
 
     if action == 'close'
       @message.flag_with_subtree('no-answer', 'yes')
@@ -230,7 +230,7 @@ class CloseVoteController < ApplicationController
   end
 
   def finish_action_open(msg, vote)
-    action = conf('close_vote_action_' + vote.reason, 'close')
+    action = conf('close_vote_action_' + vote.reason)
 
     if action == 'close'
       @message.del_flag_with_subtree('no-answer')

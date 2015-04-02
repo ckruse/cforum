@@ -50,12 +50,12 @@ module ThreadsHelper
   def index_threads
     forum  = current_forum
     @page  = params[:p].to_i
-    @limit = uconf('pagination', 50).to_i
+    @limit = uconf('pagination').to_i
 
     @page  = 0 if @page < 0
     @limit = 50 if @limit <= 0
 
-    order = uconf('sort_threads', 'descending')
+    order = uconf('sort_threads')
     case order
     when 'ascending'
       order = 'threads.created_at ASC'

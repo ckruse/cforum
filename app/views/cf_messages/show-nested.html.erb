@@ -14,7 +14,7 @@ content_for(:h1) do
 
   <% if not @thread.message.messages.blank? %>
     <%= message_tree(@thread, @thread.message.messages, show_icons: true, id: false,
-                     hide_repeating_subjects: uconf('hide_subjects_unchanged', 'yes') == 'yes') %>
+                     hide_repeating_subjects: uconf('hide_subjects_unchanged') == 'yes') %>
   <% end %>
 </article>
 

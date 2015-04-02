@@ -39,7 +39,7 @@ class MailsController < ApplicationController
     @mails = sort_query(%w(created_at sender recipient subject),
                         @mails, {sender: "senders.username",
                                  recipient: 'recipients.username'}).
-             page(params[:page]).per(conf('pagination', 50).to_i)
+             page(params[:page]).per(conf('pagination').to_i)
   end
 
   def show
@@ -56,7 +56,7 @@ class MailsController < ApplicationController
                                     otype: 'mails:create', is_read: false).first
           @new_notifications -= [n]
 
-          if uconf('delete_read_notifications_on_new_mail', 'yes') == 'yes'
+          if uconf('delete_read_notifications_on_new_mail') == 'yes'
             n.destroy
           else
             n.is_read = true

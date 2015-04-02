@@ -26,7 +26,7 @@ content_for :h1, t('messages.new_answer_to', name: @parent.author)
 
   <% if not @thread.message.messages.blank? %>
     <%= message_tree(@thread, @thread.message.messages, show_icons: true,
-                     hide_repeating_subjects: uconf('hide_subjects_unchanged', 'yes') == 'yes') %>
+                     hide_repeating_subjects: uconf('hide_subjects_unchanged') == 'yes') %>
   <% end %>
 </article>
 <% end %>

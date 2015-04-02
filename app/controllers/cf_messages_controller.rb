@@ -33,7 +33,7 @@ class CfMessagesController < ApplicationController
 
     # parameter overwrites cookie overwrites config; validation
     # overwrites everything
-    @read_mode = uconf('standard_view', 'thread-view')
+    @read_mode = uconf('standard_view')
     @read_mode = cookies[:cf_readmode] unless cookies[:cf_readmode].blank?
     @read_mode = params[:rm] unless params[:rm].blank?
     @read_mode = 'thread-view' unless %w(thread-view nested-view).include?(@read_mode)
@@ -81,7 +81,7 @@ class CfMessagesController < ApplicationController
     @message = CfMessage.new
     @tags    = @parent.tags.map { |t| t.tag_name }
 
-    @max_tags = conf('max_tags_per_message', 3)
+    @max_tags = conf('max_tags_per_message')
 
     # inherit message and subject from previous post
     @message.subject = @parent.subject
@@ -124,7 +124,7 @@ class CfMessagesController < ApplicationController
     @preview = true if params[:preview]
     retvals  = notification_center.notify(CREATING_NEW_MESSAGE, @thread, @parent, @message, @tags)
 
-    @max_tags = conf('max_tags_per_message', 3).to_i
+    @max_tags = conf('max_tags_per_message').to_i
     if @tags.length > @max_tags
       invalid = true
       flash[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
@@ -171,7 +171,7 @@ class CfMessagesController < ApplicationController
     return unless check_editable(@thread, @message)
 
     @tags = @message.tags.map { |t| t.tag_name }
-    @max_tags = conf('max_tags_per_message', 3)
+    @max_tags = conf('max_tags_per_message')
 
   end
 
@@ -189,7 +189,7 @@ class CfMessagesController < ApplicationController
     @preview = true if params[:preview]
     retvals  = notification_center.notify(UPDATING_MESSAGE, @thread, @message,
                                           @tags)
-    @max_tags = conf('max_tags_per_message', 3).to_i
+    @max_tags = conf('max_tags_per_message').to_i
     if @tags.length > @max_tags
       invalid = true
       flash[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
@@ -264,7 +264,7 @@ class CfMessagesController < ApplicationController
   def show_retag
     @thread, @message, @id = get_thread_w_post
     @tags = @message.tags.map { |t| t.tag_name }
-    @max_tags = conf('max_tags_per_message', 3)
+    @max_tags = conf('max_tags_per_message')
   end
 
   def retag
@@ -272,7 +272,7 @@ class CfMessagesController < ApplicationController
     @tags = parse_tags
     invalid = false
 
-    @max_tags = conf('max_tags_per_message', 3).to_i
+    @max_tags = conf('max_tags_per_message').to_i
     if @tags.length > @max_tags
       invalid = true
       flash[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)

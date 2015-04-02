@@ -41,9 +41,9 @@ class NotificationsPlugin < Plugin
 
       unless n.blank?
         if (n.otype == 'message:create-answer' and
-            uconf('delete_read_notifications_on_answer', 'yes') == 'yes') or
+            uconf('delete_read_notifications_on_answer') == 'yes') or
             (n.otype == 'message:create-activity' and
-             uconf('delete_read_notifications_on_activity', 'yes') == 'yes')
+             uconf('delete_read_notifications_on_activity') == 'yes')
           n.destroy
         else
           n.is_read = true

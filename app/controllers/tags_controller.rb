@@ -78,7 +78,7 @@ class TagsController < ApplicationController
   # GET /collections/1
   # GET /collections/1.json
   def show
-    @limit = uconf('pagination', 100).to_i
+    @limit = uconf('pagination').to_i
     @tag = CfTag.preload(:synonyms).where('tags.forum_id = ? AND slug = ?',
                                           current_forum.forum_id, params[:id]).
       first!

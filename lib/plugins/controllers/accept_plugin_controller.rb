@@ -45,7 +45,7 @@ class AcceptPluginController < ApplicationController
           CfScore.create!(
             user_id: @message.user_id,
             message_id: @message.message_id,
-            value: conf('accept_value', 15).to_i
+            value: conf('accept_value').to_i
           )
         else
           scores = CfScore.where(user_id: @message.user_id, message_id: @message.message_id)

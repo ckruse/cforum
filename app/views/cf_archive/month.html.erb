@@ -10,7 +10,7 @@ content_for :h1, t('archive.archive_month', month: l(@month, format: '%B %Y'))
 
       <% if not thread.message.messages.blank? and thread.attribs['open_state'] != 'closed' %>
         <%= message_tree(thread, thread.message.messages, show_icons: true,
-                         hide_repeating_subjects: uconf('hide_subjects_unchanged', 'yes') == 'yes') %>
+                         hide_repeating_subjects: uconf('hide_subjects_unchanged') == 'yes') %>
       <% end %>
     </article>
   <% end %>

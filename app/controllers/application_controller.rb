@@ -74,16 +74,16 @@ class ApplicationController < ActionController::Base
     CForum::Tools.init
   end
 
-  def uconf(name, default = nil)
-    @config_manager.get(name, default, current_user, current_forum)
+  def uconf(name)
+    @config_manager.get(name, current_user, current_forum)
   end
 
-  def conf(name, default = nil)
-    @config_manager.get(name, default, nil, current_forum)
+  def conf(name)
+    @config_manager.get(name, nil, current_forum)
   end
 
   def locked?
-    if conf('locked', 'no') == "yes" and (not current_user or not current_user.admin?)
+    if conf('locked') == "yes" and (not current_user or not current_user.admin?)
       render :locked, status: 500, layout: nil
     end
   end

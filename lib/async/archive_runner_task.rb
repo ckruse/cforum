@@ -6,8 +6,8 @@ module Peon
       def archive_forum(forum)
         Rails.logger.info "ArchiveRunnerTask: running archiver for forum #{forum.name}"
 
-        max_threads  = conf('max_threads', forum, '150').to_i # max threads per forum
-        max_messages = conf('max_messages_per_thread', forum, '50').to_i # max messages per thread
+        max_threads  = conf('max_threads', forum).to_i # max threads per forum
+        max_messages = conf('max_messages_per_thread', forum).to_i # max messages per thread
 
         # first: max messages per thread (to avoid monster threads like „Test, bitte ignorieren”)
         CfThread.transaction do
@@ -56,7 +56,7 @@ module Peon
         forums = CfForum.all
 
         forums.each do |f|
-          archive_forum(f) if conf('use_archive', f, 'no') == 'yes'
+          archive_forum(f) if conf('use_archive', f) == 'yes'
         end
       end
     end

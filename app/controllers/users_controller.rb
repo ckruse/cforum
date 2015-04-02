@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    @limit = conf('pagination_users', 50).to_i
+    @limit = conf('pagination_users').to_i
 
     if params[:s].blank?
       @users = CfUser
