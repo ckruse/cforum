@@ -16,7 +16,7 @@ content_for :h1, t("threads.move_thread", thread: @thread.message.subject)
   </div>
 
   <p class="form-actions">
-    <%= t.submit :class => 'cf-primary-btn', :value => 'Move' %>
-    <%= link_to t('global.cancel'), cf_forum_path(current_forum.slug), :class => 'cf-btn' %>
+    <%= t.submit t('threads.move_thread'), class: 'cf-primary-btn' %>
+    <%= link_to t('global.cancel'), cf_forum_path(current_forum.slug), class: 'cf-btn' %>
   </p>
 <% end %>
