@@ -144,15 +144,6 @@ code.block code.block {
 	max-height: none;
 	background: transparent;
 }
-code.q.block, .q code.block { /* zitierter Code-Block */
-	background-image: url(http://src.selfhtml.org/forum/quote.png), linear-gradient(to bottom, #d5d5d5, #d5d5d5);
-	background-repeat: no-repeat, no-repeat;
-	background-position: 2px .3em, 0 0;
-	background-size: auto, 22px 100%;
-	padding-left: 30px;
-	padding-left: calc(.5em + 22px);
-	border-color: #d5d5d5;
-}
 /* end Code-Blöcke */
 
 .signature {
