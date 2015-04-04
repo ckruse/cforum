@@ -47,6 +47,8 @@ module ParserHelper
 
         if current_ql < quote_level and l !~ /^(?:> )*\s*$/m
           ncnt << ('> ' * current_ql) + "\n"
+        elsif current_ql > quote_level
+          ncnt << ('> ' * quote_level) + "\n"
         end
         quote_level = current_ql
 
