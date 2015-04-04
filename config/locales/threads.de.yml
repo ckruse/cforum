@@ -7,6 +7,7 @@ de:
     created: Der Thread wurde erfolgreich erstellt.
     moved: Der Thread wurde erfolgreich verschoben.
     move_thread: Thread verschieben
+    move_to_forum: In Forum verschieben
     stickied: Der Thread wurde erfolgreich angepinnt.
     sticky_error: Es gab einen internen Fehler beim Anpinnen.
     unstickied: Der Thread wurde erfolgreich gelöst.

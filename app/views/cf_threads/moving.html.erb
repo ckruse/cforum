@@ -5,7 +5,7 @@ content_for :h1, t("threads.move_thread", thread: @thread.message.subject)
 
 <%= form_for @thread, url: move_cf_thread_path(@thread), :method => :post, html: {:class => 'form-horizontal'} do |t| %>
   <div class="cf-cgroup">
-    <label for="forum_move_to">Move to forum</label>
+    <label for="forum_move_to"><%= t('threads.move_to_forum') %></label>
     <div class="cntrls">
       <select id="forum_move_to" name="move_to">
         <% @forums.each do |f| %>
