@@ -68,6 +68,8 @@ class Admin::CfForumsController < ApplicationController
       end
     end
 
+    @settings.options_will_change!
+
     CfForum.transaction do
       if @cf_forum.update_attributes(forum_params)
         raise ActiveRecord::Rollback.new unless saved = @settings.save
