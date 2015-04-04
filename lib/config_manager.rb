@@ -25,7 +25,7 @@ class ConfigManager
     'edit_until_has_answer' => 'yes',
     'max_editable_age' => 10,
     'use_archive' => 'no',
-    'hide_subjects_unchange' => 'yes',
+    'hide_subjects_unchanged' => 'yes',
     'css_styles' => nil,
 
     'max_threads' => 150,
