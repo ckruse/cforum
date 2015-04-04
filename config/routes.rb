@@ -60,6 +60,13 @@ Cforum::Application.routes.draw do
   post '/choose_css' => 'css_chooser_plugin#css_chosen'
 
 
+  # old archive url
+  get '/archiv' => 'cf_forums#redirect_archive'
+  get '/archiv/:year' => 'cf_forums#redirect_archive_year', year: /\d{4}/
+  get '/archiv/:year/:mon' => 'cf_forums#redirect_archive_mon', year: /\d{4}/, mon: /\d{1,2}/
+  get '/archiv/:year/:mon/:tid' => 'cf_forums#redirect_archive_thread', year: /\d{4}/, mon: /\d{1,2}/, tid: /t\d+/
+
+
   scope ":curr_forum" do
     get 'tags/autocomplete' => 'tags#autocomplete'
     post 'tags/suggestions' => 'tags#suggestions'
@@ -167,9 +174,6 @@ Cforum::Application.routes.draw do
     post '/:year/:mon/:day/:tid/:mid' => 'cf_messages#create', year: /\d{4}/,
          mon: /\w{3}/, day: /\d{1,2}/
   end
-
-  # old archive url
-  get '/archiv/:year/:mon/:tid' => 'cf_forums#redirect_archive'
 
   # show forum index in root
   root to: 'cf_forums#index'

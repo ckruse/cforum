@@ -52,6 +52,19 @@ class CfForumsController < ApplicationController
   end
 
   def redirect_archive
+    redirect_to cf_archive_url(CfForum.order(:position).first)
+  end
+
+  def redirect_archive_year
+    redirect_to cf_archive_year_url(CfForum.order(:position).first, params[:year])
+  end
+
+  def redirect_archive_mon
+    date = Date.civil(params[:year].to_i, params[:mon].to_i, 1)
+    redirect_to cf_archive_month_url(CfForum.order(:position).first, date)
+  end
+
+  def redirect_archive_thread
     thread = CfThread.where(tid: params[:tid][1..-1].to_i).all
     t = nil
 
