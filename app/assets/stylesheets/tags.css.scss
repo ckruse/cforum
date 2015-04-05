@@ -12,7 +12,7 @@
 }
 
 .cf-tag, .thread ol li.cf-tag {
-  display:inline;
+  display: inline;
   background-color: #e6f2f7;
   margin-top: 1px;
   margin-bottom: 1px;
@@ -24,7 +24,8 @@
   white-space: nowrap;
   vertical-align: baseline;
   border: 1px solid #a1c6d7;
-  border-radius: 0 .3em .3em;
+  border-radius: 0 .25em .25em;
+  font-size: .8em;
 
   a:visited, a { color:inherit; }
 

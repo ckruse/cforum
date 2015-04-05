@@ -93,11 +93,11 @@ a.thread-forum-plate {
     }
 
     .details {
-      display:inline;
-      list-style-type:none;
-      margin-bottom:0;
-      margin-left:0;
-      font-size:0.9em;
+      display: inline;
+      list-style-type: none;
+      margin-bottom: 0;
+      margin-left: 0;
+      font-size: 1em;
     }
 
     .author {
@@ -172,10 +172,15 @@ a.thread-forum-plate {
   h2 { border:0; }
 }
 
-#aktuellenachrichten {
-	clear:both;
-  margin-left:0;
-  margin-bottom:1em;
+/* angepinnte Threads */
+.thread.threadlist.sticky {
+  position: relative;
+}
+.thread.threadlist.sticky::after {
+  content: url("http://src.selfhtml.org/cforum/wichtig.png");
+  position: absolute;
+  left: .2em;
+  top: -.6em;
 }
 
 .admin-infos {
@@ -183,7 +188,7 @@ a.thread-forum-plate {
 }
 
 .registered-user img {
-  max-height:1em;
+  max-height: .9em;
 }
 
 .root {
