@@ -11,7 +11,7 @@
   margin-right:1em;
 }
 
-.cf-tag, .thread ol li.cf-tag {
+.cf-tag, .thread li.cf-tag {
   display: inline;
   background-color: #e6f2f7;
   margin-top: 1px;
@@ -25,11 +25,27 @@
   vertical-align: baseline;
   border: 1px solid #a1c6d7;
   border-radius: 0 .25em .25em;
-  font-size: .8em;
-
-  a:visited, a { color:inherit; }
 
   a:hover, a:focus, a:active { color: #990909; }
+}
+
+.cf-tag { font-weight: inherit; 
+  &:link, &:visited {
+    color: #3481cd;
+  }
+  &:hover, &:focus, &:active { 
+    border: 1px solid #5983ab;
+  }
+}
+
+
+.thread li.cf-tag {
+  font-size: .8em;
+
+  a, a:visited {
+    color: inherit;
+  }
+
 }
 
 .thread .visited li.cf-tag {
@@ -42,8 +58,7 @@
 
 }
 
-a.cf-tag { font-weight:inherit; }
-a.cf-tag:hover, a.cf-tag:focus, a.cf-tag:active { border:1px solid #5983ab; }
+
 
 .form-horizontal .cf-cgroup .cntrls input[type="text"].tags-input {
   width:10%;
