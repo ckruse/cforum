@@ -39,9 +39,13 @@ class CfArchiveController < ApplicationController
     last_month = last_month.first.created_at
 
     @months = []
+    q = ""
+    q = "forum_id = #{current_forum.forum_id} AND " unless current_forum.blank?
     mon = first_month
     loop do
-      @months << mon.to_date
+      if CfThread.exists?(["#{q}DATE_TRUNC('month', created_at) = DATE_TRUNC('month', ?::timestamp without time zone)", mon])
+        @months << mon.to_date
+      end
 
       break if mon.month == last_month.month
       mon = Date.civil(mon.year, mon.month + 1, mon.day)
