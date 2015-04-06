@@ -9,18 +9,34 @@ class CfArchiveController < ApplicationController
   SHOW_ARCHIVE_THREADLIST  = "show_archive_threadlist"
 
   def years
-    @first_year = CfThread.order('created_at ASC').limit(1).first.created_at.year
-    @last_year = CfThread.order('created_at DESC').limit(1).first.created_at.year
+    @first_year = CfThread.order('created_at ASC').limit(1)
+    @last_year = CfThread.order('created_at DESC').limit(1)
+
+    unless current_forum.blank?
+      @first_year = @first_year.where(forum_id: current_forum.forum_id)
+      @last_year = @last_year.where(forum_id: current_forum.forum_id)
+    end
+
+    @first_year = @first_year.first.created_at.year
+    @last_year = @last_year.first.created_at.year
   end
 
   def year
     tmzone = Time.zone.parse(params[:year] + '-12-31 00:00:00')
     first_month = CfThread.where("EXTRACT(year FROM created_at + INTERVAL '? seconds') = ?", tmzone.utc_offset, params[:year]).
                   order('created_at ASC').
-                  limit(1).first.created_at
+                  limit(1)
     last_month = CfThread.where("EXTRACT(year FROM created_at + INTERVAL '? seconds') = ?", tmzone.utc_offset, params[:year]).
                  order('created_at DESC').
-                 limit(1).first.created_at
+                 limit(1)
+
+    if current_forum
+      first_month = first_month.where(forum_id: current_forum.forum_id)
+      last_month = last_month.where(forum_id: current_forum.forum_id)
+    end
+
+    first_month = first_month.first.created_at
+    last_month = last_month.first.created_at
 
     @months = []
     mon = first_month
