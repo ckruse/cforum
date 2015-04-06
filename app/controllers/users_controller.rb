@@ -120,10 +120,7 @@ class UsersController < ApplicationController
     end
 
     @score_msgs = @score_msgs.values.sort { |a,b|
-      m = a.first.vote ? a.first.vote.message : a.first.message
-      m1 = b.first.vote ? b.first.vote.message : b.first.message
-
-      m.created_at <=> m1.created_at
+      b.last.created_at <=> a.last.created_at
     }
 
     if (@user.confirmed_at.blank? or not @user.unconfirmed_email.blank?) and (not current_user.blank? and current_user.username == @user.username)
