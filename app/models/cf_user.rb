@@ -16,8 +16,8 @@ class CfUser < ActiveRecord::Base
 
   validates_presence_of :password, :on => :create
   validates :password, length: {:minimum => 3}, confirmation: true, :if => :password, allow_blank: true
-  validates :username, presence: true, uniqueness: true
-  validates :email, presence: true, uniqueness: true, email: true
+  validates :username, presence: true, uniqueness: { case_sensitive: false }
+  validates :email, presence: true, uniqueness: { case_sensitive: false }, email: true
 
   attr_accessor :login
 
