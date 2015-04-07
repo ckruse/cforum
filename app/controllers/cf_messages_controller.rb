@@ -161,6 +161,7 @@ class CfMessagesController < ApplicationController
       notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message, @tags)
       redirect_to cf_message_path(@thread, @message), :notice => I18n.t('messages.created')
     else
+      notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
       render :new
     end
   end
@@ -173,6 +174,7 @@ class CfMessagesController < ApplicationController
     @tags = @message.tags.map { |t| t.tag_name }
     @max_tags = conf('max_tags_per_message')
 
+    notification_center.notify(SHOW_MESSAGE, @thread, @message, {})
   end
 
   def update
@@ -221,6 +223,7 @@ class CfMessagesController < ApplicationController
                                  @message, @tags)
       redirect_to cf_message_path(@thread, @message), notice: I18n.t('messages.updated')
     else
+      notification_center.notify(SHOW_MESSAGE, @thread, @message, {})
       render :edit
     end
   end

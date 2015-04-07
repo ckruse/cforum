@@ -152,6 +152,8 @@ class CfThreadsController < ApplicationController
         format.html { redirect_to cf_message_url(@thread, @message), notice: I18n.t("threads.created") }
         format.json { render json: @thread, status: :created, location: @thread }
       else
+        notification_center.notify(SHOW_NEW_THREAD, @thread)
+
         format.html { render action: "new" }
         format.json { render json: @thread.errors, status: :unprocessable_entity }
       end
