@@ -29,6 +29,11 @@ class CfMessagesController < ApplicationController
   def show
     @thread, @message, @id = get_thread_w_post
 
+    if not current_forum.blank? and @message.forum_id != current_forum.forum_id
+      redirect_to cf_message_url(@thread, @message), status: 301
+      return
+    end
+
     @parent = @message.parent_level
 
     # parameter overwrites cookie overwrites config; validation
