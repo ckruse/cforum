@@ -46,5 +46,5 @@ de:
           text: ‚‘
 
       tags:
-        tag_doesnt_exist: Dieser Tag existiert nicht. Bitte wählen Sie einen anderen.
-        tag_will_be_created: "Vorsicht: dieser Tag existiert noch nicht! Er würde erstellt werden."
+        tag_doesnt_exist: Dieses Tag existiert nicht. Bitte wählen Sie ein anderes.
+        tag_will_be_created: "Vorsicht: Dieses Tag existiert noch nicht! Es würde erstellt werden."
