@@ -23,8 +23,8 @@ content_for :h1, @user ? t('mails.post_from', name: @user.username) : t('mails.p
     <tr>
       <td><input type="checkbox" name="ids[]" value="<%= m.priv_message_id %>" class="mid-checkbox"></td>
       <td class="unread-mark"><% unless m.is_read? %><span class="status-unread">&nbsp;</span><% end %></td>
-      <td><%= link_to m.sender.username, mail_path(m.sender.username, m) %></td>
-      <td><%= link_to m.recipient.username, mail_path(m.sender.username, m) %></td>
+      <td><%= link_to image_tag(m.sender.avatar(:thumb)) + " " + m.sender.username, mail_path(m.sender.username, m) %></td>
+      <td><%= link_to image_tag(m.recipient.avatar(:thumb)) + " " + m.recipient.username, mail_path(m.sender.username, m) %></td>
       <td><%= link_to m.subject, mail_path(m.sender.username, m) %></td>
       <td><%= l(m.created_at, format: date_format) %></td>
       <td>
