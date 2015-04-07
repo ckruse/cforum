@@ -2,10 +2,12 @@
 
 class UserDataPlugin < Plugin
   def show_new_thread(thread)
+    return if get('preview')
     set_vars(thread.message, nil)
   end
 
   def show_new_message(thread, parent, message)
+    return if get('preview')
     set_vars(message, parent)
   end
 
