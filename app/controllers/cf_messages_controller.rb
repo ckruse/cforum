@@ -164,7 +164,7 @@ class CfMessagesController < ApplicationController
       publish('/messages/all', {type: 'message', thread: @thread, message: @message, parent: @parent})
 
       notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message, @tags)
-      redirect_to cf_message_path(@thread, @message), :notice => I18n.t('messages.created')
+      redirect_to cf_message_url(@thread, @message), :notice => I18n.t('messages.created')
     else
       notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
       render :new
@@ -226,7 +226,7 @@ class CfMessagesController < ApplicationController
 
       notification_center.notify(UPDATED_MESSAGE, @thread, @parent,
                                  @message, @tags)
-      redirect_to cf_message_path(@thread, @message), notice: I18n.t('messages.updated')
+      redirect_to cf_message_url(@thread, @message), notice: I18n.t('messages.updated')
     else
       notification_center.notify(SHOW_MESSAGE, @thread, @message, {})
       render :edit
