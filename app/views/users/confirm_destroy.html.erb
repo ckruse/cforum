@@ -1,0 +1,19 @@
+<%
+content_for :title, t('users.delete_user', name: @user.username)
+content_for :h1, (!@user.avatar.blank? ? image_tag(@user.avatar.url(:medium)) : "") +
+  t('users.delete_user', name: @user.username)
+%>
+
+<%= form_for @user, url: user_path(@user), method: :delete, html: {:class => 'form-horizontal'} do |f| %>
+
+  <p><strong>Achtung:</strong> das Löschen dieses Accounts kann nicht
+    rückgängig gemacht werden. Wenn das Profil erst einmal gelöscht
+    worden ist, dann ist es endgültig weg. Sind Sie sicher, dass Sie
+    das wollen?</p>
+
+  <p class="form-actions">
+    <%= f.submit t('global.yeah'), class: 'cf-primary-btn' %>
+    <%= link_to t('global.nope'), user_path(@user), class: 'cf-btn' %>
+  </p>
+
+<% end %>

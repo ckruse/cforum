@@ -18,6 +18,7 @@ de:
 
     edit: Profil bearbeiten
     delete: Profil löschen
+    delete_user: "Benutzer %{name} löschen"
 
     name: Name
     score: Punkte

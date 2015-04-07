@@ -27,6 +27,7 @@ Cforum::Application.routes.draw do
   get '/badges' => 'badges#index', as: :cf_badges
   get '/badges/:slug' => 'badges#show', as: :cf_badge
 
+  get '/users/:id/destroy' => 'users#confirm_destroy', as: :users_confirm_destroy
   resources :users, except: [:new, :create]
   resources :notifications, except: [:show, :edit, :new, :create]
   delete 'notifications' => 'notifications#batch_destroy'

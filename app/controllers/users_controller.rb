@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   DESTROYING_USER = "destroying_user"
   DESTROYED_USER  = "destroyed_user"
 
-  authorize_action([:edit, :update, :destroy]) do
+  authorize_action([:edit, :update, :confirm_destroy, :destroy]) do
     not current_user.blank? and (current_user.admin? or current_user.user_id.to_s == params[:id])
   end
 
@@ -181,6 +181,10 @@ class UsersController < ApplicationController
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def confirm_destroy
+    @user = CfUser.find(params[:id])
   end
 
   def destroy
