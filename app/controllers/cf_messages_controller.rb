@@ -101,7 +101,7 @@ class CfMessagesController < ApplicationController
     @message = CfMessage.new(message_params)
 
     @message.parent_id  = @parent.message_id
-    @message.forum_id   = current_forum.forum_id
+    @message.forum_id   = @thread.forum_id
     @message.user_id    = current_user.user_id unless current_user.blank?
     @message.thread_id  = @thread.thread_id
 
