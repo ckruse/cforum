@@ -109,7 +109,7 @@ class OpenCloseThreadPlugin < Plugin
             ", '" + state + "')"
           )
         end
-      else
+      elsif rslt.first['state'] != state
         CfThread.connection.execute(
           "DELETE FROM opened_closed_threads WHERE user_id = " +
           current_user.user_id.to_s +
