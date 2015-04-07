@@ -17,7 +17,7 @@ module SortablesHelper
                    @_sort_column
                  end
 
-    return query_object.order("#{order_name} #{@_sort_direction}")
+    return query_object.order("(#{order_name}) #{@_sort_direction}")
   end
 
   def sortable(colname, col, method)
