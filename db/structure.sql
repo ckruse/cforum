@@ -1228,7 +1228,8 @@ CREATE TABLE tags (
     slug character varying NOT NULL,
     forum_id bigint NOT NULL,
     num_messages bigint DEFAULT 0 NOT NULL
-);
+)
+WITH (fillfactor=90);
 
 
 --
@@ -2074,7 +2075,7 @@ CREATE UNIQUE INDEX users_confirmation_token_idx ON users USING btree (confirmat
 -- Name: users_email_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX users_email_idx ON users USING btree (email);
+CREATE UNIQUE INDEX users_email_idx ON users USING btree (lower((email)::text));
 
 
 --
@@ -2088,7 +2089,7 @@ CREATE UNIQUE INDEX users_reset_password_token_idx ON users USING btree (reset_p
 -- Name: users_username_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX users_username_idx ON users USING btree (username);
+CREATE UNIQUE INDEX users_username_idx ON users USING btree (lower((username)::text));
 
 
 --
@@ -2625,6 +2626,8 @@ INSERT INTO schema_migrations (version) VALUES ('55');
 INSERT INTO schema_migrations (version) VALUES ('56');
 
 INSERT INTO schema_migrations (version) VALUES ('57');
+
+INSERT INTO schema_migrations (version) VALUES ('58');
 
 INSERT INTO schema_migrations (version) VALUES ('6');
 
