@@ -60,7 +60,7 @@ cforum.cf_threads = {
   },
 
   initCursor: function() {
-    var content = $("#cf_thread_message_content");
+    var content = $("#message_input");
     var subj = $("#cf_thread_message_subject");
     var author = $("#cf_thread_message_author");
 
