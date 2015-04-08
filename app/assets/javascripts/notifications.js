@@ -21,9 +21,13 @@ cforum.notifications = {
     noti.addClass('new');
 
     if(txt) {
-      txt = parseInt(txt);
+      txt = parseInt(txt, 10);
       txt += 1;
       noti.text(txt);
+
+      var title = noti.attr('title');
+      title = title.replace(/\d+/, txt);
+      noti.parent().children().attr('title', title);
     }
 
     noti.animate({'font-size': '1.3em'}, 200, function() {
