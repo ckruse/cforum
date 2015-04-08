@@ -3,7 +3,7 @@ content_for :title, t('badges.badges')
 content_for :h1, t('badges.badges')
 %>
 
-<table class="cf-table-condensed-striped-hover">
+<table class="cf-default-table">
   <thead>
     <tr>
       <th><%= sortable CfBadge.human_attribute_name(:badge_medal_type), :badge_medal_type, :cf_badges_path %></th>
