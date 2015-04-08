@@ -2,6 +2,7 @@ de:
   threads:
     threadlist: Forum %{name}
     threadlist_all: alle Foren
+    threadlist_title: Übersicht
     threads_forum: Aktuelle Beiträge im Forum %{name}
     threads_all: Aktuelle Beiträge
     created: Der Thread wurde erfolgreich erstellt.
