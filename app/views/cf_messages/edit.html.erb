@@ -39,6 +39,12 @@ content_for :h1, t('messages.edit_posting')
 
   <%= render "form", f: f %>
 
+  <ul id="charta">
+    <li>Formuliere <a href="http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Charta_des_SELFHTML-Forums"><strong>höflich und wertschätzend</strong></a>.</li>
+    <li><strong>Vermeide</strong> <a href="http://de.wikipedia.org/wiki/Fullquote">Vollzitate</a>.</li>
+    <li>Dein Beitrag wird <strong>dauerhaft</strong> <a href="http://forum.selfhtml.org/self/archive">archiviert</a>.</li>
+  </ul>
+
   <p>
     <%= f.submit t('messages.preview'), :class => 'cf-btn', name: 'preview' %>
     <%= f.submit t('global.save'), :class => 'cf-primary-btn' %>

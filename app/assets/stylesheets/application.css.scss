@@ -139,6 +139,24 @@ a.forgotten-password-link {
   font-size:.9em;
 }
 
+#tree-functions {
+    border-left: 5px solid #8db243;
+    list-style-type: none;
+    margin: 0 0 2em 2em;
+    padding-left: 1em;
+    position: relative;
+    z-index: 10;
+}
+
+#charta {
+    border-left: 5px solid #c32e04;
+    list-style-type: none;
+    margin: 0;
+    padding-left: 1em;
+    position: relative;
+    z-index: 10;
+}
+
 
 /* smartphones */
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
