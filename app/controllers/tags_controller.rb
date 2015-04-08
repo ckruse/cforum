@@ -12,8 +12,23 @@ class TagsController < ApplicationController
       clean_tag = params[:s].strip + '%'
       @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))", current_forum.forum_id, clean_tag, clean_tag).order('num_messages DESC')
     elsif not params[:tags].blank?
-      tags = params[:tags].split(',').map { |t| t.downcase }
-      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) IN (?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) IN (?)))", current_forum.forum_id, tags, tags).order('num_messages DESC')
+      @tags = CfTag.preload(:synonyms).where("forum_id = ?", current_forum.forum_id)
+      sql_parts = []
+      sql_sub_parts = []
+      sql_params = []
+
+      params[:tags].split(',').each do |tnam|
+        tnam = tnam.downcase
+        sql_parts << 'LOWER(tag_name) LIKE ?'
+        sql_sub_parts << 'LOWER(synonym) LIKE ?'
+        sql_params << tnam + '%'
+      end
+
+      sql_params = sql_params + sql_params
+      @tags = @tags.where('(' + sql_parts.join(' OR ') + ') ' +
+                          ' OR (tag_id IN (SELECT tag_id FROM tag_synonyms WHERE ' + sql_sub_parts.join(' OR ') + '))',
+                          *sql_params)
+              .order('num_messages DESC')
     else
       @tags = CfTag.preload(:synonyms).order('tag_name ASC').where(forum_id: current_forum.forum_id)
     end

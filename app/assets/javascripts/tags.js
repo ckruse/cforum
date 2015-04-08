@@ -11,12 +11,20 @@ cforum.tags = {
   suggestionsTimeout: null,
   maxTags: 4,
 
+  handleSuggestionsKeyUp: function() {
+    if(cforum.tags.suggestionsTimeout) {
+      window.clearTimeout(cforum.tags.suggestionsTimeout);
+    }
+
+    cforum.tags.suggestionsTimeout = window.setTimeout(cforum.tags.suggestTags, 1500);
+  },
+
   suggestions: function(text) {
     var tokens = text.split(/[^a-z0-9äöüß-]+/i);
     var words = {};
 
     for(var i = 0; i < tokens.length; ++i) {
-      if(tokens[i].match(/^[a-z0-9äöüß-]+$/i) && tokens[i].length > 2) {
+      if(tokens[i].match(/^[a-z0-9äöüß-]+$/i)) {
         words[tokens[i].toLowerCase()] = 1;
       }
     }
@@ -49,7 +57,7 @@ cforum.tags = {
         var tags_set = false;
         tag_list.html("");
 
-        for(var i = 0; i < data.length && i < cforum.tags.maxTags; ++i) {
+        for(var i = 0; i < data.length && i < 5; ++i) {
           if(!cforum.tags.hasTag(data[i].tag_name)) {
             cforum.tags.appendTag(data[i].tag_name, tag_list,
                                   cforum.tags.views.tagSuggestion);
