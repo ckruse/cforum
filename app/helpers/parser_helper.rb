@@ -26,7 +26,8 @@ module ParserHelper
       header_offset: app.conf('header_start_index'),
       auto_id_prefix: id_prefix + '-',
       no_follow: true,
-      root_url: app.root_url
+      root_url: app.root_url,
+      smart_quotes: ["apos", "apos", 'quot', 'quot']
     )
 
     if @doc.blank?
