@@ -30,7 +30,7 @@ class TagsController < ApplicationController
                           *sql_params)
               .order('num_messages DESC')
     else
-      @tags = CfTag.preload(:synonyms).order('tag_name ASC').where(forum_id: current_forum.forum_id)
+      @tags = CfTag.preload(:synonyms).order('num_messages DESC, tag_name ASC').where(forum_id: current_forum.forum_id)
     end
 
     respond_to do |format|
