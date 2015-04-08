@@ -29,6 +29,25 @@ class NotificationsPlugin < Plugin
     application_controller.notifications if had_one
   end
 
+  def show_badge(badge)
+    return if current_user.blank?
+
+    had_one = false
+    notifications = CfNotification.where(otype: 'badge',
+                                         oid: badge.badge_id,
+                                         recipient_id: current_user.user_id,
+                                         is_read: false).all
+
+    notifications.each do |n|
+      n.is_read = true
+      n.save
+
+      had_one = true
+    end
+
+    application_controller.notifications if had_one
+  end
+
   private
   def check_for_deleting_notification(message)
     if user = current_user
@@ -71,6 +90,8 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(CfMessagesController::SHOW_MESSAGE, notifications_plugin)
   app_controller.notification_center.
     register_hook(CfMessagesController::SHOW_THREAD, notifications_plugin)
+  app_controller.notification_center.
+    register_hook(BadgesController::SHOW_BADGE, notifications_plugin)
 end
 
 # eof
