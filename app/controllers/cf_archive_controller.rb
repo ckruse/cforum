@@ -38,6 +38,7 @@ class CfArchiveController < ApplicationController
     first_month = first_month.first.created_at
     last_month = last_month.first.created_at
 
+    @year = first_month
     @months = []
     q = ""
     q = "forum_id = #{current_forum.forum_id} AND " unless current_forum.blank?

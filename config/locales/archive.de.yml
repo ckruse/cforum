@@ -1,5 +1,6 @@
 de:
   archive:
-    archive_years: "SELFHTML-Archiv: Jahresübersicht"
-    archive_year: "SELFHTML-Archiv: Jahr %{year}"
-    archive_month: "SELFHTML-Archiv: %{month}"
+    archive_years: "Archiv %{forum}: Jahresübersicht"
+    archive_year: "Archiv %{forum}: Jahr %{year}"
+    archive_month: "Archiv %{forum}: %{month}"
+    all_forums: alle Foren

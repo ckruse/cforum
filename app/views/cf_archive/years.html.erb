@@ -1,6 +1,6 @@
 <%
-content_for :title, t('archive.archive_years')
-content_for :h1, t('archive.archive_years')
+content_for :title, t('archive.archive_years', forum: current_forum ? current_forum.name : t('archive.all_forums'))
+content_for :h1, t('archive.archive_years', forum: current_forum ? current_forum.name : t('archive.all_forums'))
 %>
 
 <ul>

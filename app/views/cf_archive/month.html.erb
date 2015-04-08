@@ -1,6 +1,6 @@
 <%
-content_for :title, t('archive.archive_month', month: l(@month, format: '%B %Y'))
-content_for :h1, t('archive.archive_month', month: l(@month, format: '%B %Y'))
+content_for :title, t('archive.archive_month', month: l(@month, format: '%B %Y'), forum: current_forum ? current_forum.name : t('archive.all_forums'))
+content_for :h1, t('archive.archive_month', month: l(@month, format: '%B %Y'), forum: current_forum ? current_forum.name : t('archive.all_forums'))
 %>
 
 <div class="root" data-js="threadlist">

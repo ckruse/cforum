@@ -1,6 +1,8 @@
 <%
-content_for :title, t('archive.archive_year', year: @year)
-content_for :h1, t('archive.archive_year', year: @year)
+content_for(:title, t('archive.archive_year', year: l(@year, format: "%Y"),
+                      forum: current_forum ? current_forum.name : t('archive.all_forums')))
+content_for(:h1, t('archive.archive_year', year: l(@year, format: "%Y"),
+                   forum: current_forum ? current_forum.name : t('archive.all_forums')))
 %>
 
 <ul>
