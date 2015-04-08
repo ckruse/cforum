@@ -32,7 +32,7 @@ module MessageHelper
 
     opened = []
 
-    if opts[:first] and current_user and opts[:show_icons]
+    if opts[:first] and current_user and opts[:show_icons] and not @view_all
       html << "<span class=\"thread-icons\">"
       opened << 'span'
 
@@ -55,6 +55,7 @@ module MessageHelper
                               method: :post)
       end
 
+
       if get_plugin_api(:is_interesting).call(thread, current_user).blank?
         html << ' ' + link_to('', interesting_cf_thread_path(thread, p: params[:p]),
                               class: 'icon-thread mark-interesting',
@@ -71,7 +72,6 @@ module MessageHelper
                             class: 'icon-thread mark-thread-read',
                             title: t('plugins.mark_read.mark_thread_read'),
                             method: :post)
-
     end
 
     if not current_user.blank? and not current_forum.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons] and @view_all
@@ -112,7 +112,7 @@ module MessageHelper
       end
     end
 
-    if current_user and opts[:show_icons] and not get_plugin_api(:is_read).call(message, current_user).blank?
+    if current_user and opts[:show_icons] and not get_plugin_api(:is_read).call(message, current_user).blank? and not @view_all
       unless opened.include?('span')
         html << "<span class=\"message-icons\">"
         opened << 'span'
