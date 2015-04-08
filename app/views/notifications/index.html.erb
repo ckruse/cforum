@@ -18,6 +18,10 @@ content_for :h1, t('notifications.notifications')
   </thead>
 
   <tbody>
+    <% if @notifications.blank? %>
+      <tr class="no-data"><td colspan="6"><%= t('notifications.no_notifications') %></td></tr>
+    <% end %>
+
     <% @notifications.each do |n| %>
     <tr>
       <td><input class="nid-checkbox" type="checkbox" name="ids[]" value="<%= n.notification_id %>"></td>

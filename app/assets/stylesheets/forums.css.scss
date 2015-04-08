@@ -28,6 +28,15 @@
   th { text-align:left; }
   thead th { color: #5D7380; }
   tfoot th { border-bottom:0; }
+
+  tr.no-data {
+    td {
+      text-align:center;
+      padding-top:2em;
+      padding-bottom:2em;
+      background-color:#f1f3f4;
+    }
+  }
 }
 
 /* eof */

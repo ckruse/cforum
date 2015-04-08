@@ -19,6 +19,12 @@ content_for :h1, @user ? t('mails.post_from', name: @user.username) : t('mails.p
   </thead>
 
   <tbody>
+    <% if @mails.blank? %>
+      <tr class="no-data">
+        <td colspan="7"><%= t('mails.no_mails') %></td>
+      </tr>
+    <% end %>
+
     <% @mails.each do |m| %>
     <tr>
       <td><input type="checkbox" name="ids[]" value="<%= m.priv_message_id %>" class="mid-checkbox"></td>
