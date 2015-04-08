@@ -129,7 +129,7 @@ cforum.tags = {
 
   removeTag: function(ev) {
     var $this = $(ev.target);
-    var tag = $this.text();
+    var tag = $this.parent().find('input').val();
 
     if($this.hasClass('del-tag')) {
       ev.preventDefault();
