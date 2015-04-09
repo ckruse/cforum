@@ -76,7 +76,7 @@ class CfArchiveController < ApplicationController
 
     @month = Date.civil(params[:year].to_i, month_num, 1)
 
-    @threads = get_threads(current_forum, order, current_user, archived: true)
+    _, @threads = get_threads(current_forum, order, current_user, false, archived: true)
     @threads = @threads.
                where("DATE_TRUNC('month', threads.created_at) = ?",
                      params[:year] + '-' + sprintf("%02d", month_num.to_i) + '-01 00:00').

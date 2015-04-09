@@ -1,5 +1,5 @@
 module ThreadsHelper
-  def get_threads(forum, order = 'threads.created_at DESC', user = current_user, thread_conditions = {})
+  def get_threads(forum, order = 'threads.created_at DESC', user = current_user, with_sticky = false, thread_conditions = {})
     conditions = {}
     conditions[:forum_id] = forum.forum_id if forum
     conditions[:archived] = false if conf('use_archive') == 'yes'
@@ -11,14 +11,24 @@ module ThreadsHelper
 
     conditions.merge!(thread_conditions)
 
+    @sticky_threads = nil
     @threads = CfThread.
                preload(:forum, messages: [:owner, :tags, votes: :voters]).
                includes(messages: :owner).
                where(conditions)
 
+    if with_sticky
+      @threads = @threads.where(sticky: false)
+      @sticky_threads = CfThread.
+                        preload(:forum, messages: [:owner, :tags, votes: :voters]).
+                        includes(messages: :owner).
+                        where(conditions).
+                        where(sticky: true)
+    end
 
     if forum
       @threads = @threads.where(forum_id: forum.forum_id)
+      @sticky_threads = @sticky_threads.where(forum_id: forum.forum_id) if with_sticky
     else
       if not user or not user.admin?
         crits = []
@@ -33,21 +43,24 @@ module ThreadsHelper
           "'))"
 
         @threads = @threads.where(crits.join(" OR "))
+        @sticky_threads = @sticky_threads.where(crits.join(" OR ")) if with_sticky
       end
     end
 
-    @threads = @threads.order("threads.sticky DESC, #{order}")
+    @threads = @threads.order(order)
+    @sticky_threads = @sticky_threads.order(order) if with_sticky
 
     ret = notification_center.notify(CfThreadsController::MODIFY_THREADLIST_QUERY_OBJ)
     ret.each do |b|
       next if b.blank?
       @threads = b.call(@threads)
+      @sticky_threads = b.call(@sticky_threads) if with_sticky
     end
 
-    @threads
+    [@sticky_threads, @threads]
   end
 
-  def index_threads
+  def index_threads(with_sticky = true)
     forum  = current_forum
     @page  = params[:p].to_i
     @limit = uconf('pagination').to_i
@@ -65,13 +78,23 @@ module ThreadsHelper
       order = 'threads.created_at DESC'
     end
 
-    @threads = get_threads(forum, order)
+    @sticky_threads, @threads = get_threads(forum, order, current_user, with_sticky)
+
+    @limit -= @sticky_threads.length if with_sticky
 
     @all_threads_count = @threads.count
     @threads = @threads.limit(@limit).offset(@limit * @page)
 
     @threads.each do |t|
       sort_thread(t)
+    end
+
+    if with_sticky
+      @sticky_threads.each do |t|
+        sort_thread(t)
+      end
+
+      @threads = @sticky_threads + @threads
     end
 
     @threads
