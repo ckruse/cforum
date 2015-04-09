@@ -12,7 +12,7 @@ class TitlePlugin < Plugin
     end
 
     if uconf('show_unread_pms_in_title') == 'yes'
-      priv_msgs = CfPrivMessage.where(owner_id: current_user.user_id, is_read: false).count
+      priv_msgs = get('new_mails').length
       title << priv_msgs.to_s
     end
 
