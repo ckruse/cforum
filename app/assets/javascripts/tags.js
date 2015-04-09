@@ -147,17 +147,14 @@ cforum.tags = {
       var val = $.trim($this.val().replace(/,.*/, '').toLowerCase());
 
       if(!cforum.tags.hasTag(val)) {
-        cforum.tags.appendTag(val);
+        cforum.tags.appendTag(val, null, null, true);
         cforum.tags.events.trigger('tags:add-tag', val);
       }
-
-      var v = $this.val();
-      $this.val(v.indexOf(String.fromCharCode(ev.keyCode)) == -1 ? '' : v.replace(/.*[, ]?/, ''));
     }
 
   },
 
-  appendTag: function(tag, list, view) {
+  appendTag: function(tag, list, view, hidden) {
     if(!list) {
       list = $("#tags-list");
     }
@@ -167,7 +164,9 @@ cforum.tags = {
     }
 
     list.append(Mustache.render(view, {tag: tag}));
-    list.find(".cf-tag").last().fadeIn('fast');
+    if(!hidden) {
+      list.find(".cf-tag").last().fadeIn('fast');
+    }
   },
 
   removeTag: function(ev) {
@@ -241,6 +240,8 @@ cforum.tags = {
           'tags=' + encodeURIComponent(tag),
           function(data) {
             // if we don't get back json this might be an error
+            var show = true;
+
             if(typeof data == 'object') {
               if(data.length === 0) {
                 var el = $("#replaced_tag_input").closest(".cntrls").find(".errors");
@@ -260,6 +261,8 @@ cforum.tags = {
                 else {
                   text = t('tags.tag_doesnt_exist');
                   clss = 'cf-error';
+                  $("#tags-list").find('.cf-tag:last').remove();
+                  show = false;
                 }
 
                 el.find("div").fadeOut("fast", function() {
@@ -273,6 +276,14 @@ cforum.tags = {
                   find(".errors div").
                   fadeOut("fast", function() { $(this).remove(); });
               }
+            }
+
+            if(show) {
+              var $this = $("#replaced_tag_input");
+              var v = $this.val();
+              $this.val(v.replace(/.*,?/, ''));
+
+              $("#tags-list").find('.cf-tag:last').fadeIn('fast');
             }
           });
   },
