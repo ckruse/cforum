@@ -179,6 +179,8 @@ cforum.tags = {
 
       $this.closest("li.cf-tag").fadeOut('fast', function() {
         $(this).remove();
+        $("#replaced_tag_input").fadeIn('fast');
+        $("#replaced_tag_input").focus();
         cforum.tags.events.trigger('tags:remove', tag);
       });
     }
@@ -284,6 +286,10 @@ cforum.tags = {
               $this.val(v.replace(/.*,?/, ''));
 
               $("#tags-list").find('.cf-tag:last').fadeIn('fast');
+
+              if($("#tags-list").find('.cf-tag').length >= cforum.tags.maxTags) {
+                $("#replaced_tag_input").fadeOut('fast');
+              }
             }
           });
   },
