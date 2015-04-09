@@ -5,7 +5,7 @@ content_for :h1, t('threads.write_new_thread')
 
 <% if @preview %>
   <article class="thread-message">
-    <%= message_header(@thread, @message) %>
+    <%= message_header(@thread, @message, first: true, show_icons: false) %>
 
     <div class="posting-content">
       <%= @message.to_html(self) %>

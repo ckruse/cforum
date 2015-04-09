@@ -18,8 +18,6 @@ class MarkReadPlugin < Plugin
     return if user.blank? || message.blank?
 
     message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
-    # in preview mode it might be nil
-    message = message.delete_if { |m| m.blank? or (m.is_a?(CfMessage) and m.message_id.blank?) }
     message = message.map {|m| m.is_a?(CfMessage) ? m.message_id : m.to_i}
 
     return if message.blank?

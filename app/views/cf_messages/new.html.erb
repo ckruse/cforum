@@ -12,7 +12,7 @@ content_for :h1, t('messages.new_answer_to', name: @parent.author)
     </div>
 
   <% elsif @preview %>
-    <%= message_header(@thread, @message) %>
+    <%= message_header(@thread, @message, first: true, show_icons: false) %>
 
     <div class="posting-content">
       <%= @message.to_html(self) %>
