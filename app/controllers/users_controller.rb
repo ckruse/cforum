@@ -80,13 +80,13 @@ class UsersController < ApplicationController
 
 
     @last_messages = CfMessage.
-      preload(:owner, :tags, :thread => :forum).
+      preload(:owner, :tags, votes: :voters, thread: :forum).
       where("user_id = ? AND deleted = false AND forum_id IN (#{sql})", @user.user_id).
       order('created_at DESC').
       limit(5)
 
     @tags_cnts = CfMessageTag.
-      preload(:tag => :forum).
+      preload(tag: :forum).
       joins("INNER JOIN messages USING(message_id)").
       select("tag_id, COUNT(*) AS cnt").
       where("deleted = false AND user_id = ? AND forum_id IN (#{sql})", @user.user_id).
@@ -95,13 +95,13 @@ class UsersController < ApplicationController
       limit(10)
 
     @point_msgs = CfMessage.
-      preload(:owner, :tags, :thread => :forum).
+      preload(:owner, :tags, votes: :voters, thread: :forum).
       where("deleted = false AND upvotes > 0 AND user_id = ? AND forum_id IN (#{sql})", @user.user_id).
       order('upvotes DESC').
       limit(10)
 
     scored_msgs = CfScore.
-      preload(:message, vote: {message: [:thread, :tags]}).
+      preload(message: [:owner, :tags, {thread: :forum, votes: :voters}], vote: {message: [:owner, :tags, {thread: :forum, votes: :voters}]}).
       joins("LEFT JOIN messages m1 USING(message_id)
              LEFT JOIN votes USING(vote_id)
              LEFT JOIN messages m2 ON votes.message_id = m2.message_id").
