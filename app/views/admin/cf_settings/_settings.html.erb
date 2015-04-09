@@ -57,6 +57,14 @@
       </div>
 
       <div class="cf-cgroup">
+        <label for="settings-min_tags_per_message"><%= t('admin.forums.settings.min_tags_per_message') %></label>
+        <div class="cntrls">
+          <%= text_field_tag 'settings[min_tags_per_message]', @settings.options['min_tags_per_message'], id: 'settings-min_tags_per_message' %>
+          <label class="checkbox"><%= check_box_tag 'settings[min_tags_per_message]', '_DEFAULT_', @settings.options['min_tags_per_message'].blank?, id: 'settings-min_tags_per_message-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('min_tags_per_message'))) %></label>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
         <label for="settings-header_start_index"><%= t('admin.forums.settings.header_start_index') %></label>
         <div class="cntrls">
           <%= text_field_tag 'settings[header_start_index]', @settings.options['header_start_index'], id: 'settings-header_start_index' %>

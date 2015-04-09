@@ -10,6 +10,7 @@ de:
     error_message: "%{errors_count} verhinderten, dass dieser Beitrag gespeichert werden konnte:"
     tags_invalid: Das Tag ist fehlerhaft.
     too_many_tags: "Sie dürfen nur maximal %{max_tags} Tags verwenden."
+    not_enough_tags: "Sie müssen mindestens %{min_tags} Tags verwenden."
     invalid_tags: "Sie dürfen keine neuen Tags erstellen und diese Tags existieren bisher nicht: %{tags}."
     only_author_or_mod_may_edit: Nur der Autor oder ein Moderator kann eine Antwort editieren.
     message_too_old_to_edit: Beiträge dürfen nur in einem Zeitraum von %{minutes} Minuten editiert werden.

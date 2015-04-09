@@ -13,6 +13,7 @@ class ConfigManager
     'sort_messages' => 'ascending',
     'standard_view' => 'thread-view',
     'max_tags_per_message' => 3,
+    'min_tags_per_message' => 1,
     'close_vote_votes' => 5,
     'close_vote_action_off-topic' => 'close',
     'close_vote_action_not-constructive' => 'close',
