@@ -6,6 +6,46 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
 %>
   <%= message_header(@thread, m, first: first, do_parent: do_parent, tree: false) %>
 
+  <div class="voting">
+
+  <% if m.open? and @thread.forum.write?(current_user) %>
+
+    <% if may_answer(m) %>
+
+      <%= form_tag vote_cf_message_path(@thread, m), :method => :post, class: 'form-inline' do %>
+
+        <%if not @thread.message.message_id == m.message_id %>
+
+          <%if not @thread.acceptance_forbidden?(current_user, cookies[:cforum_user]) %>
+
+            <%= link_to "", accept_cf_message_path(@thread, m), method: 'post', class: (m.flags['accepted'] == 'yes' ? 'accepted-answer' : 'unaccepted-answer') + ' cf-btn accept' , title: m.flags['accepted'] == 'yes' ? t('messages.unaccept_answer') : t('messages.accept_answer') %>
+
+          <% else %>
+
+            <% if m.flags['accepted'] == 'yes' %>
+
+              <span class="accept" title="<% t('messages.accepted_answer') %>"><% t('messages.accepted_answer') %></span>
+
+            <% end %>
+
+          <% end %>
+
+        <% end %>
+
+        <button name="type" value="down" title="<%= (current_user.blank? or not may?(RightsHelper::DOWNVOTE)) ? 'zum Bewerten anmelden' : t(has_downvote ? 'messages.unvote' : 'messages.vote_down') %>" <% if current_user.blank? or not may?(RightsHelper::DOWNVOTE) %>disabled="disabled"<% end %> class="cf-btn vote icon-vote-down<% if has_downvote %> active<% end %><% if current_user.blank? or not may?(RightsHelper::DOWNVOTE) %> disabled<% end %>">‒</button>
+        
+        <%= message_header(@thread, m, votes_only: true) %>
+          
+        <button name="type" value="up" title="<%= (current_user.blank? or not may?(RightsHelper::UPVOTE)) ? 'zum Bewerten anmelden' : t(has_upvote ? 'messages.unvote' : 'messages.vote_up') %>" <% if current_user.blank? or not may?(RightsHelper::UPVOTE) %>disabled="disabled"<% end %> class="cf-btn vote icon-vote-up<% if has_upvote %> active<% end %><% if current_user.blank? or not may?(RightsHelper::UPVOTE) %> disabled<% end %>">+</button>
+          
+      <% end %>
+
+    <% end %>
+
+<% end %>
+
+</div>
+
   <div class="posting-content">
     <%= m.to_html(self) %>
   </div>
@@ -30,10 +70,6 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
           <% if may_answer(m) %>
             <%= link_to t("messages.new_answer"), new_cf_message_path(@thread, m, 'quote_old_message' => 'yes'), class: 'cf-btn' %>
             <%= link_to t("messages.new_answer_wo_quote"), new_cf_message_path(@thread, m), class: 'cf-btn' %>
-
-            <% if not @thread.acceptance_forbidden?(current_user, cookies[:cforum_user]) and not @thread.message.message_id == m.message_id %>
-              <%= link_to m.flags['accepted'] == 'yes' ? t('messages.unaccept_answer') : t('messages.accept_answer'), accept_cf_message_path(@thread, m), method: 'post', class: 'cf-btn' %>
-            <% end %>
           <% end %>
 
           <% if may?(RightsHelper::RETAG) %>
@@ -43,13 +79,7 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
           <% if not current_user.blank? and may?(RightsHelper::FLAG) and m.flags['flagged'].blank? %>
             <%= link_to '', flag_cf_message_path(@thread, m), class: 'cf-btn icon-flag-message' %>
           <% end %>
-
-          <% if not current_user.blank? and may?(RightsHelper::UPVOTE) %>
-            <button name="type" value="up" title="<%= t(has_upvote ? 'messages.unvote' : 'messages.vote_up') %>" class="cf-btn vote icon-vote-up<% if has_upvote %> active<% end %>"> </button>
-          <% end %>
-          <% if not current_user.blank? and may?(RightsHelper::DOWNVOTE) %>
-            <button name="type" value="down" title="<%= t(has_downvote ? 'messages.unvote' : 'messages.vote_down') %>" class="cf-btn vote icon-vote-down<% if has_downvote %> active<% end %>"> </button>
-          <% end %>
+         
         <% end %>
       <% end %>
 

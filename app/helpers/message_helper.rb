@@ -4,7 +4,7 @@ module MessageHelper
   def message_header(thread, message, opts = {})
     opts = {first: false, prev_deleted: false,
       show_icons: false, do_parent: false,
-      tree: true, id: true, hide_repeating_subjects: false}.merge(opts)
+      tree: true, id: true, hide_repeating_subjects: false, votes_only: false}.merge(opts)
 
     classes = ['message']
     classes += message.attribs['classes']
@@ -32,7 +32,7 @@ module MessageHelper
 
     opened = []
 
-    if opts[:first] and current_user and opts[:show_icons] and not @view_all
+    if opts[:first] and current_user and opts[:show_icons]
       html << "<span class=\"thread-icons\">"
       opened << 'span'
 
@@ -55,7 +55,6 @@ module MessageHelper
                               method: :post)
       end
 
-
       if get_plugin_api(:is_interesting).call(thread, current_user).blank?
         html << ' ' + link_to('', interesting_cf_thread_path(thread, p: params[:p]),
                               class: 'icon-thread mark-interesting',
@@ -72,6 +71,7 @@ module MessageHelper
                             class: 'icon-thread mark-thread-read',
                             title: t('plugins.mark_read.mark_thread_read'),
                             method: :post)
+
     end
 
     if not current_user.blank? and not current_forum.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons] and @view_all
@@ -112,7 +112,7 @@ module MessageHelper
       end
     end
 
-    if current_user and opts[:show_icons] and not get_plugin_api(:is_read).call(message, current_user).blank? and not @view_all
+    if current_user and opts[:show_icons] and not get_plugin_api(:is_read).call(message, current_user).blank?
       unless opened.include?('span')
         html << "<span class=\"message-icons\">"
         opened << 'span'
@@ -221,17 +221,18 @@ module MessageHelper
       html << "</ul>"
     end
 
-    unless opts[:show_icons]
-      html << ' <span class="votes" title="' +
-        t('messages.votes', num: message.upvotes - message.downvotes) +
-        '">' +
-        t('messages.votes', num: message.upvotes - message.downvotes) +
-        '</span>'
-    end
-
     html << %q{
   </div>
 </header>}
+
+
+  if opts[:votes_only]
+    html = '<span class="votes" title="' +
+        t('messages.votes', num: message.upvotes - message.downvotes) +
+        '">' +
+        t(message.upvotes - message.downvotes) +
+        '</span>'
+  end
 
     html.html_safe
   end
