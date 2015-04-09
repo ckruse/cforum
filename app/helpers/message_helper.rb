@@ -116,7 +116,7 @@ module MessageHelper
       html << '</' + el + '>'
     end
 
-    if current_user and not get_plugin_api(:is_read).call(message, current_user).blank? and not @view_all
+    if current_user and opts[:show_icons] and not @view_all and not get_plugin_api(:is_read).call(message, current_user).blank?
       html << "<span class=\"message-icons\">"
       html << " " + link_to('', unread_cf_message_path(thread, message, p: params[:p]),
                             method: :post, class: 'icon-message unread',
