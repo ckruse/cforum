@@ -123,6 +123,7 @@ has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].
     <nav>
       <ul>
         <li><%= link_to t('layout.home'), root_path %></li>
+        <li><%= link_to t('forums.all_forums'), cf_forum_path(nil) %></li>
         <% if current_forum %>
           <li><%= link_to current_forum.name, cf_threads_path(current_forum) + "#t" + m.thread_id.to_s %></li>
         <% end %>
