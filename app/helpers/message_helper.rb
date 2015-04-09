@@ -112,20 +112,18 @@ module MessageHelper
       end
     end
 
-    if current_user and opts[:show_icons] and not get_plugin_api(:is_read).call(message, current_user).blank? and not @view_all
-      unless opened.include?('span')
-        html << "<span class=\"message-icons\">"
-        opened << 'span'
-      end
-
-      html << " " + link_to('', unread_cf_message_path(thread, message, p: params[:p]),
-                            method: :post, class: 'icon-message unread',
-                            title: t('plugins.mark_read.mark_unread'))
-    end
-
     opened.each do |el|
       html << '</' + el + '>'
     end
+
+    if current_user and not get_plugin_api(:is_read).call(message, current_user).blank? and not @view_all
+      html << "<span class=\"message-icons\">"
+      html << " " + link_to('', unread_cf_message_path(thread, message, p: params[:p]),
+                            method: :post, class: 'icon-message unread',
+                            title: t('plugins.mark_read.mark_unread'))
+      html << "</span>"
+    end
+
 
     if opts[:first] and current_forum.blank?
       html << "  " + link_to(thread.forum.short_name, cf_forum_path(thread.forum), class: 'thread-forum-plate') + "\n"
