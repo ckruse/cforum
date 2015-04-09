@@ -43,7 +43,7 @@ class UsersController < ApplicationController
     @settings.options ||= {}
     @user_score = CfScore.where(user_id: @user.user_id).sum('value')
 
-    #@messages_count = CfMessage.where(user_id: @user.user_id).count()
+    @messages_count = CfMessage.where(user_id: @user.user_id).count()
 
     if current_user
       if current_user.admin?

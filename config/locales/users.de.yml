@@ -22,6 +22,7 @@ de:
 
     name: Name
     score: Punkte
+    num_messages: Beiträge
     score_num: "%{num} Punkte"
     registered_since: registriert seit
     newest_messages: neueste Nachrichten

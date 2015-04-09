@@ -7,13 +7,17 @@ content_for :h1, t('users.user', name: @user.username)
 <div class="user-info-table">
   <table>
     <tr>
-      <td rowspan="<% if current_user == @user %>5<% else %>4<% end %>"><%= image_tag @user.avatar.url(:medium) %></td>
+      <td rowspan="<% if current_user == @user %>6<% else %>5<% end %>"><%= image_tag @user.avatar.url(:medium) %></td>
       <th><%= t('users.name') %>:</th>
       <td><%= @user.username %></td>
     </tr>
     <tr>
       <th><%= t('users.score') %>:</th>
       <td class="<% if @user_score < 0 %>score-down<% else %>score-up<% end %>"><%= @user_score %></td>
+    </tr>
+    <tr>
+      <th><%= t('users.num_messages') %>:</th>
+      <td><%= @messages_count %></td>
     </tr>
     <% if current_user == @user %><tr>
       <th><%= CfUser.human_attribute_name("email") %>:</th>
