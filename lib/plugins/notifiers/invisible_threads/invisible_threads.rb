@@ -125,8 +125,10 @@ class InvisibleThreadsPlugin < Plugin
 
     if params[:hide_thread]
       mark_invisible(params[:hide_thread], current_user)
-      redirect_to session[:previous_url] || cf_forum_url(current_forum, p: params[:p]),
-        notice: t('plugins.invisible_threads.thread_marked_invisible')
+      t = CfThread.preload(:messages, :forum).find(params[:hide_thread])
+
+      redirect_to cf_return_url(t),
+                  notice: t('plugins.invisible_threads.thread_marked_invisible')
       return :redirected
     end
   end

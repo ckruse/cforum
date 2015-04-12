@@ -33,7 +33,8 @@ class InvisibleThreadsPluginController < ApplicationController
 
     get_plugin_api(:mark_visible).call(@thread, current_user)
 
-    redirect_to hidden_threads_url, notice: t('plugins.invisible_threads.thread_marked_visible')
+    redirect_to cf_return_url(@thread),
+                notice: t('plugins.invisible_threads.thread_marked_visible')
   end
 end
 

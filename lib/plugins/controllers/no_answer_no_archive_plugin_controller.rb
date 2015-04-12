@@ -33,16 +33,10 @@ class NoAnswerNoArchivePluginController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(
-          session[:previous_url] ||
-          cf_message_url(
-            @thread,
-            @message,
-            :view_all => true
-          ),
-          notice: I18n.t(
-            @message.flags['no-answer-admin'] == 'yes' ? 'plugins.no_answer_no_archive.no_answered' : 'plugins.no_answer_no_archive.no_answer_removed'
-          )
-        )
+          cf_return_url(@thread, @message, view_all: true),
+          notice: I18n.t(@message.flags['no-answer-admin'] == 'yes' ?
+                           'plugins.no_answer_no_archive.no_answered' :
+                           'plugins.no_answer_no_archive.no_answer_removed'))
       end
 
       format.json { head :no_content }
@@ -72,13 +66,10 @@ class NoAnswerNoArchivePluginController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to(
-          session[:previous_url] ||
-          cf_forum_url(current_forum, p: params[:p]),
-          notice: I18n.t(
-            @thread.flags['no-archive'] == 'yes' ? 'plugins.no_answer_no_archive.no_archived' : 'plugins.no_answer_no_archive.no_archive_removed'
-          )
-        )
+        redirect_to(cf_return_url(@thread, nil, view_all: true),
+                    notice: I18n.t(@thread.flags['no-archive'] == 'yes' ?
+                                     'plugins.no_answer_no_archive.no_archived' :
+                                     'plugins.no_answer_no_archive.no_archive_removed'))
       end
 
       format.json { head :no_content }

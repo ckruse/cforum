@@ -8,23 +8,26 @@ class InterestingThreadsPluginController < ApplicationController
   def mark_interesting
     if current_user.blank?
       flash[:error] = t('global.only_as_user')
-      redirect_to session[:previous_url] || cf_forum_url(current_forum, p: params[:p])
+      redirect_to cf_return_url
       return :redirected
     end
 
     @thread, @id = get_thread
 
-    CfInterestingThread.create!(thread_id: @thread.thread_id,
-                                user_id: current_user.user_id)
+    begin
+      CfInterestingThread.create!(thread_id: @thread.thread_id,
+                                  user_id: current_user.user_id)
+    rescue ActiveRecord::RecordNotUnique
+    end
 
-    redirect_to session[:previous_url] || cf_forum_url(current_forum, p: params[:p]),
-      notice: t('plugins.interesting_threads.marked_interesting')
+    redirect_to cf_return_url(@thread, @thread.message),
+                notice: t('plugins.interesting_threads.marked_interesting')
   end
 
   def mark_boring
     if current_user.blank?
       flash[:error] = t('global.only_as_user')
-      redirect_to session[:previous_url] || cf_forum_url(current_forum, p: params[:p])
+      redirect_to cf_return_url
       return :redirected
     end
 
@@ -35,8 +38,8 @@ class InterestingThreadsPluginController < ApplicationController
 
     it.destroy
 
-    redirect_to session[:previous_url] || cf_forum_url(current_forum, p: params[:p]),
-      notice: t('plugins.interesting_threads.unmarked_interesting')
+    redirect_to cf_return_url(@thread, @thread.message),
+                notice: t('plugins.interesting_threads.unmarked_interesting')
   end
 
   def list_threads

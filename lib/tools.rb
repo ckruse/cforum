@@ -65,6 +65,10 @@ module CForum
       when 'cf_messages'
         args.delete(:p)
         cf_message_url(thread, message || thread.messages.first, args)
+      when 'interesting_threads_plugin'
+        (@app_controller || self).interesting_threads_url(args)
+      when 'invisible_threads_plugin'
+        (@app_controller || self).hidden_threads_url(args)
       end
     end
 

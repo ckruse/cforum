@@ -17,7 +17,7 @@ class VotePluginController < ApplicationController
 
     if @message.user_id == current_user.user_id
       flash[:error] = t('messages.do_not_vote_yourself')
-      redirect_to session[:previous_url] || cf_message_url(@thread, @message)
+      redirect_to cf_message_url(@thread, @message)
       return
     end
 
@@ -34,7 +34,7 @@ class VotePluginController < ApplicationController
 
       unless may?(RightsHelper::UPVOTE)
         flash[:error] = t('messages.insufficient_rights_to_upvote')
-        redirect_to session[:previous_url] || cf_message_url(@thread, @message)
+        redirect_to cf_message_url(@thread, @message)
         return
       end
     else
@@ -42,7 +42,7 @@ class VotePluginController < ApplicationController
 
       unless may?(RightsHelper::DOWNVOTE)
         flash[:error] = t('messages.insufficient_rights_to_downvote')
-        redirect_to session[:previous_url] || cf_message_url(@thread, @message)
+        redirect_to cf_message_url(@thread, @message)
         return
       end
     end
@@ -64,13 +64,13 @@ class VotePluginController < ApplicationController
       notification_center.notify(UNVOTED_MESSAGE, @message, @vote)
 
       # flash[:error] = t('messages.already_voted')
-      redirect_to session[:previous_url] || cf_message_url(@thread, @message), notice: t('messages.vote_removed')
+      redirect_to cf_message_url(@thread, @message), notice: t('messages.vote_removed')
       return
     end
 
     if current_user.score <= 0 and vtype == CfVote::DOWNVOTE
       flash[:error] = t('messages.not_enough_score')
-      redirect_to session[:previous_url] || cf_message_url(@thread, @message)
+      redirect_to cf_message_url(@thread, @message)
       return
     end
 
@@ -137,7 +137,7 @@ class VotePluginController < ApplicationController
     notification_center.notify(VOTED_MESSAGE, @message)
 
     flash[:notice] = t('messages.successfully_voted')
-    redirect_to session[:previous_url] || cf_message_url(@thread, @message)
+    redirect_to cf_message_url(@thread, @message)
   end
 end
 
