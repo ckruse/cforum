@@ -108,6 +108,11 @@ class CfMessage < ActiveRecord::Base
 
     flags["no-answer"] != "yes"
   end
+
+  def score
+    upvotes - downvotes
+  end
+
 end
 
 # eof

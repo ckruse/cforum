@@ -130,7 +130,7 @@ module MessageHelper
     end
 
     if opts[:show_icons]
-      html << ' <span class="votes" title="' + t('messages.votes', num: message.upvotes - message.downvotes) + '">' + (message.upvotes - message.downvotes).to_s + '</span>'
+      html << ' <span class="votes" title="' + t('messages.votes', num: message.score) + '">' + (message.score).to_s + '</span>'
     end
 
     if opts[:first]
