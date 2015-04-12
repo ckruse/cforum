@@ -46,6 +46,28 @@ module CForum
       return retval
     end
 
+    def cf_return_url(thread = nil, message = nil, args = {})
+      args = {p: params[:p]}.merge(args)
+
+      if thread.blank? and message.blank?
+        cf_forum_url(current_forum, args)
+      end
+
+      f = params[:f].gsub(/[^a-z0-9_-]/, '') if not params[:f].blank?
+      f = current_forum.try(:slug) if f.blank?
+      raise CForum::NotFoundException.new if f.blank?
+
+      case params[:r]
+      when nil
+        cf_forum_url(f, args)
+      when 'cf_threads'
+        cf_forum_url(f, args) + "#t" + thread.thread_id.to_s
+      when 'cf_messages'
+        args.delete(:p)
+        cf_message_url(thread, message || thread.messages.first, args)
+      end
+    end
+
     def _cf_forum_path(forum)
       forum = 'all' if forum.blank?
       forum = forum.slug unless forum.is_a?(String)
