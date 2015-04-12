@@ -219,14 +219,6 @@ module MessageHelper
       html << "</ul>"
     end
 
-    unless opts[:show_icons]
-      html << ' <span class="votes" title="' +
-        t('messages.votes', num: message.upvotes - message.downvotes) +
-        '">' +
-        t('messages.votes', num: message.upvotes - message.downvotes) +
-        '</span>'
-    end
-
     html << %q{
   </div>
 </header>}
