@@ -7,7 +7,7 @@ class CfThread < ActiveRecord::Base
   attr_accessor :sorted_messages
 
   belongs_to :forum, class_name: 'CfForum', :foreign_key => :forum_id
-  has_many :messages, class_name: 'CfMessage', :foreign_key => :thread_id, :dependent => :destroy
+  has_many :messages, ->{ order(:created_at) }, class_name: 'CfMessage', foreign_key: :thread_id, dependent: :destroy
 
   validates :slug, uniqueness: true, allow_blank: false, format: {with: /\A[a-z0-9_\/-]+\z/}
   validates_presence_of :forum_id
