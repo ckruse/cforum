@@ -16,8 +16,15 @@ class VotePluginController < ApplicationController
     @thread, @message, @id = get_thread_w_post
 
     if @message.user_id == current_user.user_id
-      flash[:error] = t('messages.do_not_vote_yourself')
-      redirect_to cf_message_url(@thread, @message)
+      respond_to do |format|
+        format.html do
+          flash[:error] = t('messages.do_not_vote_yourself')
+          redirect_to cf_message_url(@thread, @message)
+        end
+
+        format.json { render json: { status: 'error', message: t('messages.do_not_vote_yourself') } }
+      end
+
       return
     end
 
@@ -33,16 +40,30 @@ class VotePluginController < ApplicationController
       vtype = CfVote::UPVOTE
 
       unless may?(RightsHelper::UPVOTE)
-        flash[:error] = t('messages.insufficient_rights_to_upvote')
-        redirect_to cf_message_url(@thread, @message)
+        respond_to do |format|
+          format.html do
+            flash[:error] = t('messages.insufficient_rights_to_upvote')
+            redirect_to cf_message_url(@thread, @message)
+          end
+
+          format.json { render json: { status: 'error', message: t('messages.insufficient_rights_to_upvote') } }
+        end
+
         return
       end
     else
       vtype = CfVote::DOWNVOTE
 
       unless may?(RightsHelper::DOWNVOTE)
-        flash[:error] = t('messages.insufficient_rights_to_downvote')
-        redirect_to cf_message_url(@thread, @message)
+        respond_to do |format|
+          format.html do
+            flash[:error] = t('messages.insufficient_rights_to_downvote')
+            redirect_to cf_message_url(@thread, @message)
+          end
+
+          format.json { render json: { status: 'error', message: t('messages.insufficient_rights_to_downvote') } }
+        end
+
         return
       end
     end
@@ -63,14 +84,27 @@ class VotePluginController < ApplicationController
       end
       notification_center.notify(UNVOTED_MESSAGE, @message, @vote)
 
-      # flash[:error] = t('messages.already_voted')
-      redirect_to cf_message_url(@thread, @message), notice: t('messages.vote_removed')
+      respond_to do |format|
+        format.html { redirect_to cf_message_url(@thread, @message), notice: t('messages.vote_removed') }
+        format.json do
+          @message.reload
+          render json: { status: 'success', score: @message.score, message: t('messages.vote_removed') }
+        end
+      end
+
       return
     end
 
     if current_user.score <= 0 and vtype == CfVote::DOWNVOTE
-      flash[:error] = t('messages.not_enough_score')
-      redirect_to cf_message_url(@thread, @message)
+      respond_to do |format|
+        format.html do
+          flash[:error] = t('messages.not_enough_score')
+          redirect_to cf_message_url(@thread, @message)
+        end
+
+        format.json { render json: { status: 'error', message: t('messages.not_enough_score') } }
+      end
+
       return
     end
 
@@ -136,8 +170,17 @@ class VotePluginController < ApplicationController
     end
     notification_center.notify(VOTED_MESSAGE, @message)
 
-    flash[:notice] = t('messages.successfully_voted')
-    redirect_to cf_message_url(@thread, @message)
+    respond_to do |format|
+      format.html do
+        flash[:notice] = t('messages.successfully_voted')
+        redirect_to cf_message_url(@thread, @message)
+      end
+
+      format.json do
+        @message.reload
+        render json: { status: 'success', score: @message.score, message: t('messages.successfully_voted') }
+      end
+    end
   end
 end
 
