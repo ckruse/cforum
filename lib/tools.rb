@@ -82,6 +82,14 @@ module CForum
       _cf_forum_path(forum) + query_string(args)
     end
 
+    def open_all_threads_path(forum, args = {})
+      _cf_forum_path(forum) + '/open_all' + query_string(args)
+    end
+
+    def close_all_threads_path(forum, args = {})
+      _cf_forum_path(forum) + '/close_all' + query_string(args)
+    end
+
     def _cf_thread_path(thread)
       _cf_forum_path(thread.forum) + thread.slug
     end
@@ -122,6 +130,13 @@ module CForum
       _cf_thread_path(thread) + "/mark_read" + query_string(args)
     end
 
+    def open_cf_thread_path(thread, args = {})
+      _cf_thread_path(thread) + "/open" + query_string(args)
+    end
+
+    def close_cf_thread_path(thread, args = {})
+      _cf_thread_path(thread) + "/close" + query_string(args)
+    end
 
     #
     # message path helpers
@@ -241,6 +256,16 @@ module CForum
     def mark_cf_thread_read_url(thread, args = {})
       _cf_thread_url(thread) + '/mark_read' + query_string(args)
     end
+
+    def open_cf_thread_url(thread, args = {})
+      _cf_thread_url(thread) + '/open' + query_string(args)
+    end
+
+    def close_cf_thread_url(thread, args = {})
+      _cf_thread_url(thread) + '/close' + query_string(args)
+    end
+
+
 
     def _cf_message_url_wo_anchor(thread, message)
       _cf_thread_url(thread) + '/' + message.message_id.to_s

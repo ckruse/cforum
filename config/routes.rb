@@ -82,6 +82,11 @@ Cforum::Application.routes.draw do
     post '/mark_all_visited' => 'mark_read_plugin#mark_all_read',
          as: 'mark_all_read'
 
+    post '/close_all' => 'open_close_threads_plugin#close_all',
+         as: 'close_all_threads'
+    post '/open_all' => 'open_close_threads_plugin#open_all',
+         as: 'open_all_threads'
+
     get '/archive' => 'cf_archive#years', as: :cf_archive
     get '/:year' => 'cf_archive#year', as: :cf_archive_year, year: /\d{4}/
     get '/:year/:month' => 'cf_archive#month', as: :cf_archive_month, year: /\d{4}/, mon: /\w{3}/
@@ -110,6 +115,11 @@ Cforum::Application.routes.draw do
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'interesting_cf_thread'
     post '/:year/:mon/:day/:tid/boring' => 'interesting_threads_plugin#mark_boring',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'boring_cf_thread'
+
+    post '/:year/:mon/:day/:tid/open' => 'open_close_threads_plugin#open',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'open_cf_thread'
+    post '/:year/:mon/:day/:tid/close' => 'open_close_threads_plugin#close',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'close_cf_thread'
 
     #
     # message urls
