@@ -90,6 +90,10 @@ module CForum
       _cf_forum_path(forum) + '/close_all' + query_string(args)
     end
 
+    def mark_all_read_path(forum, args = {})
+      _cf_forum_path(forum) + '/mark_all_visited' + query_string(args)
+    end
+
     def _cf_thread_path(thread)
       _cf_forum_path(thread.forum) + thread.slug
     end

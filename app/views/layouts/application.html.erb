@@ -230,14 +230,12 @@ end
 
           <% if current_forum %>
             <li id="optionen-tags"><%= link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
-            <% if current_user and not @thread %>
-              <li id="mark-all-read"><%= link_to(t("plugins.mark_read.mark_all_read"),
-                                                 mark_all_read_path(current_forum, p: params[:p]),
-                                                 method: :post) %></li>
-            <% end %>
           <% end %>
 
           <% if @threads and current_user and not controller_path == 'interesting_threads_plugin' %>
+            <li id="mark-all-read"><%= link_to(t("plugins.mark_read.mark_all_read"),
+                                               mark_all_read_path(current_forum, std_args),
+                                               method: :post) %></li>
             <li id="optionen-close-all-threads"><%= link_to t('plugins.open_close.close_all_threads'), close_all_threads_path(current_forum, std_args), method: :post %></li>
             <li id="optionen-open-all-threads"><%= link_to t('plugins.open_close.open_all_threads'), open_all_threads_path(current_forum, std_args), method: :post %></li>
           <% end %>
