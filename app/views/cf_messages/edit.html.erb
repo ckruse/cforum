@@ -21,7 +21,7 @@ content_for :h1, t('messages.edit_posting')
   <% end %>
 </article>
 
-<%= form_for(@message, url: cf_message_path(@thread, @message),
+<%= form_for(@message, url: cf_message_path_wo_anchor(@thread, @message),
              html: {class: 'form-horizontal'}) do |f| %>
   <% if @message.errors.any? %>
     <div id="error_explanation" class="cf-error">
