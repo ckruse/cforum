@@ -1,5 +1,5 @@
 /* -*- coding: utf-8 -*- */
-/* global alert */
+/* global cforum */
 
 $(function() {
   $('.root').on('click', function(ev) {
@@ -50,11 +50,11 @@ $(function() {
         else {
           $.get(data.location).
             success(function(content) { article.replaceWith(content); }).
-            error(function() { alert.error('Etwas ist schief gegangen!'); });
+            error(function() { cforum.alert.error('Etwas ist schief gegangen!'); });
         }
       }).
       error(function() {
-        alert.error('Etwas ist schief gegangen!');
+        cforum.alert.error('Etwas ist schief gegangen!');
       });
   });
 });

@@ -80,4 +80,24 @@ $(function() {
   $("textarea").tabEnable();
 });
 
+cforum.alert = {
+  alert: function(text, type) {
+    var alrt = $("<div class=\"" + type + " cf-alert\"><button type=\"button\" class=\"close\" data-dismiss=\"cf-alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>");
+    alrt.text(text);
+    $("#alerts-container").append(alrt);
+    setDismissHandlers();
+
+    window.setTimeout(function () { alrt.fadeOut('fast', function() { $(this).remove(); }); }, 3000);
+  },
+
+  error: function(text) {
+    cforum.alert.alert(text, 'cf-error');
+  },
+
+  success: function(text) {
+    cforum.alert.alert(text, 'cf-success');
+  }
+};
+
+
 // eof
