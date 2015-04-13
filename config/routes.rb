@@ -96,7 +96,7 @@ Cforum::Application.routes.draw do
     get '/new' => 'cf_threads#new', as: 'new_cf_thread'
 
     get '/:year/:mon/:day/:tid' => 'cf_threads#show', year: /\d{4}/,
-        mon: /\w{3}/, day: /\d{1,2}/, format: /rss|atom/, as: 'show_cf_thread_feed'
+        mon: /\w{3}/, day: /\d{1,2}/, as: 'show_cf_thread_feed'
 
     get '/:year/:mon/:day/:tid/move' => 'cf_threads#moving', year: /\d{4}/,
         mon: /\w{3}/, day: /\d{1,2}/, as: 'move_cf_thread'

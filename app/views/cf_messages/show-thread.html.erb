@@ -15,14 +15,16 @@ content_for(:h1) do
   <%= render 'message', m: @message, first: true, do_parent: true %>
 </article>
 
-<article class="thread posting root">
-  <%= message_header(@thread, @thread.message, first: true, show_icons: true) %>
+<div class="root">
+  <article class="thread posting">
+    <%= message_header(@thread, @thread.message, first: true, show_icons: true) %>
 
-  <% if not @thread.message.messages.blank? %>
-    <%= message_tree(@thread, @thread.message.messages, show_icons: true,
-                     hide_repeating_subjects: uconf('hide_subjects_unchanged') == 'yes') %>
-  <% end %>
-</article>
+    <% if not @thread.message.messages.blank? %>
+      <%= message_tree(@thread, @thread.message.messages, show_icons: true,
+                       hide_repeating_subjects: uconf('hide_subjects_unchanged') == 'yes') %>
+    <% end %>
+  </article>
+</div>
 
 <img src="http://www.browser-statistik.de/browser.png?style=0"
      width="1" height="1" style="border: 0px;" alt="">

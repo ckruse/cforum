@@ -42,8 +42,11 @@ class InvisibleThreadsPluginController < ApplicationController
 
     get_plugin_api(:mark_invisible).call(@thread, current_user)
 
-    redirect_to cf_return_url(@thread),
-                notice: t('plugins.invisible_threads.thread_marked_invisible')
+    respond_to do |format|
+      format.html { redirect_to cf_return_url(@thread),
+                                notice: t('plugins.invisible_threads.thread_marked_invisible') }
+      format.json { head :no_content }
+    end
   end
 end
 

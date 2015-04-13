@@ -33,7 +33,10 @@ class CfThreadsController < ApplicationController
   def show
     @thread, @id = get_thread
 
+    notification_center.notify(SHOW_THREADLIST, [@thread])
+
     respond_to do |format|
+      format.html { render partial: 'thread', layout: false, locals: { thread: @thread } }
       format.rss
       format.atom
     end

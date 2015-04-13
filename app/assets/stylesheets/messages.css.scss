@@ -123,8 +123,11 @@ main h2 { margin-left:0; }
 
 }
 
-.thread.root {
+.root {
+  min-width: 54.5em;
+  .thread {
     min-width: 54.5em;
+  }
 }
 
 .posting-nested {

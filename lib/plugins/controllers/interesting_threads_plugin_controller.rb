@@ -20,8 +20,11 @@ class InterestingThreadsPluginController < ApplicationController
     rescue ActiveRecord::RecordNotUnique
     end
 
-    redirect_to cf_return_url(@thread, @thread.message),
-                notice: t('plugins.interesting_threads.marked_interesting')
+    respond_to do |format|
+      format.html { redirect_to cf_return_url(@thread, @thread.message),
+                                notice: t('plugins.interesting_threads.marked_interesting') }
+      format.json { render json: {status: :success, location: cf_thread_url(@thread) } }
+    end
   end
 
   def mark_boring
@@ -38,8 +41,11 @@ class InterestingThreadsPluginController < ApplicationController
 
     it.destroy
 
-    redirect_to cf_return_url(@thread, @thread.message),
-                notice: t('plugins.interesting_threads.unmarked_interesting')
+    respond_to do |format|
+      format.html { redirect_to cf_return_url(@thread, @thread.message),
+                                notice: t('plugins.interesting_threads.unmarked_interesting') }
+      format.json { render json: {status: :success, location: cf_thread_url(@thread) } }
+    end
   end
 
   def list_threads

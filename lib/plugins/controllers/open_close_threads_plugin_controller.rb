@@ -8,13 +8,21 @@ class OpenCloseThreadsPluginController < ApplicationController
   def open
     @thread, @id = get_thread
     check_existance_and_delete_or_set(@thread.thread_id, 'open')
-    redirect_to cf_return_url(@thread)
+
+    respond_to do |format|
+      format.html { redirect_to cf_return_url(@thread) }
+      format.json { render json: {status: :success, location: cf_thread_url(@thread) } }
+    end
   end
 
   def close
     @thread, @id = get_thread
     check_existance_and_delete_or_set(@thread.thread_id, 'closed')
-    redirect_to cf_return_url(@thread)
+
+    respond_to do |format|
+      format.html { redirect_to cf_return_url(@thread) }
+      format.json { render json: {status: :success, location: cf_thread_url(@thread) } }
+    end
   end
 
   def open_all
