@@ -53,8 +53,6 @@ Cforum::Application.routes.draw do
       as: :interesting_threads
   get '/invisible' => 'invisible_threads_plugin#list_threads',
       as: :hidden_threads
-  post '/invisible/:id' => 'invisible_threads_plugin#unhide_thread',
-       as: :unhide_thread
 
   get '/choose_css' => 'css_chooser_plugin#choose_css',
       as: :choose_css
@@ -120,6 +118,11 @@ Cforum::Application.routes.draw do
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'open_cf_thread'
     post '/:year/:mon/:day/:tid/close' => 'open_close_threads_plugin#close',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'close_cf_thread'
+
+    post '/:year/:mon/:day/:tid/hide' => 'invisible_threads_plugin#hide_thread',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'hide_cf_thread'
+    post '/:year/:mon/:day/:tid/unhide' => 'invisible_threads_plugin#unhide_thread',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: :unhide_cf_thread
 
     #
     # message urls

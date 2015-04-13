@@ -144,6 +144,14 @@ module CForum
       _cf_thread_path(thread) + "/close" + query_string(args)
     end
 
+    def hide_cf_thread_path(thread, args = {})
+      _cf_thread_path(thread) + "/hide" + query_string(args)
+    end
+
+    def unhide_cf_thread_path(thread, args = {})
+      _cf_thread_path(thread) + "/unhide" + query_string(args)
+    end
+
     #
     # message path helpers
     #
@@ -269,6 +277,14 @@ module CForum
 
     def close_cf_thread_url(thread, args = {})
       _cf_thread_url(thread) + '/close' + query_string(args)
+    end
+
+    def hide_cf_thread_url(thread, args = {})
+      _cf_thread_url(thread) + '/hide' + query_string(args)
+    end
+
+    def unhide_cf_thread_url(thread, args = {})
+      _cf_thread_url(thread) + '/unhide' + query_string(args)
     end
 
 

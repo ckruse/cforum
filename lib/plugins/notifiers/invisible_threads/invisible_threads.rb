@@ -122,15 +122,6 @@ class InvisibleThreadsPlugin < Plugin
       # we build up the cache to avoid threads.length queries
       is_invisible(threads, current_user)
     end
-
-    if params[:hide_thread]
-      mark_invisible(params[:hide_thread], current_user)
-      t = CfThread.preload(:messages, :forum).find(params[:hide_thread])
-
-      redirect_to cf_return_url(t),
-                  notice: t('plugins.invisible_threads.thread_marked_invisible')
-      return :redirected
-    end
   end
   alias show_archive_threadlist show_threadlist
   alias show_interesting_threadlist show_threadlist

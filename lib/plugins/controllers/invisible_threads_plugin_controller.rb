@@ -29,12 +29,21 @@ class InvisibleThreadsPluginController < ApplicationController
   end
 
   def unhide_thread
-    @thread = CfThread.find(params[:id])
+    @thread, @id = get_thread
 
     get_plugin_api(:mark_visible).call(@thread, current_user)
 
     redirect_to cf_return_url(@thread),
                 notice: t('plugins.invisible_threads.thread_marked_visible')
+  end
+
+  def hide_thread
+    @thread, @id = get_thread
+
+    get_plugin_api(:mark_invisible).call(@thread, current_user)
+
+    redirect_to cf_return_url(@thread),
+                notice: t('plugins.invisible_threads.thread_marked_invisible')
   end
 end
 
