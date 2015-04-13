@@ -172,6 +172,7 @@ class CfMessagesController < ApplicationController
       notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message, @tags)
       redirect_to cf_message_url(@thread, @message), :notice => I18n.t('messages.created')
     else
+      @preview = true
       notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
       render :new
     end
