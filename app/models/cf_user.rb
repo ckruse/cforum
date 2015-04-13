@@ -126,6 +126,11 @@ class CfUser < ActiveRecord::Base
 
     @score
   end
+
+  def to_class_name
+    nam = username.strip.downcase
+    'author-' + nam.gsub(/[^a-zA-Z0-9]/, '-')
+  end
 end
 
 # eof

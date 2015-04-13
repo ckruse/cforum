@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 
 class HighlightPlugin < Plugin
-  def to_class_name(nam)
-    nam = nam.strip.downcase
-    'author-' + nam.gsub(/[^a-zA-Z0-9]/, '-')
-  end
-
   def show_threadlist(threads)
     return unless current_user
 
@@ -28,12 +23,12 @@ class HighlightPlugin < Plugin
 
         if user_map[n]
           m.attribs['classes'] << 'highlighted-user'
-          m.attribs['classes'] << to_class_name(m.author)
+          m.attribs['classes'] << m.owner.to_class_name
         end
 
         if highlight_self and n == cu_nam
           m.attribs['classes'] << 'highlighted-self'
-          m.attribs['classes'] << to_class_name(m.author)
+          m.attribs['classes'] << m.owner.to_class_name
         end
       end
     end
