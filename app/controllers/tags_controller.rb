@@ -114,7 +114,7 @@ class TagsController < ApplicationController
   end
 
   def tag_params
-    params.require(:cf_tag).permit(:tag_name)
+    params.require(:cf_tag).permit(:tag_name, :suggest)
   end
 
   def new

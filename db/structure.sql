@@ -1227,7 +1227,8 @@ CREATE TABLE tags (
     tag_name character varying NOT NULL,
     slug character varying NOT NULL,
     forum_id bigint NOT NULL,
-    num_messages bigint DEFAULT 0 NOT NULL
+    num_messages bigint DEFAULT 0 NOT NULL,
+    suggest boolean DEFAULT true NOT NULL
 )
 WITH (fillfactor=90);
 
@@ -2632,6 +2633,8 @@ INSERT INTO schema_migrations (version) VALUES ('58');
 INSERT INTO schema_migrations (version) VALUES ('59');
 
 INSERT INTO schema_migrations (version) VALUES ('6');
+
+INSERT INTO schema_migrations (version) VALUES ('60');
 
 INSERT INTO schema_migrations (version) VALUES ('7');
 
