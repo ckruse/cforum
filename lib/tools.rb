@@ -61,7 +61,9 @@ module CForum
       when nil
         cf_forum_url(f, args)
       when 'cf_threads'
-        cf_forum_url(f, args) + "#t" + thread.thread_id.to_s
+        r = cf_forum_url(f, args)
+        r << "#t" + thread.thread_id.to_s if not thread.blank? and not thread.thread_id.blank?
+        r
       when 'cf_messages'
         args.delete(:p)
         cf_message_url(thread, message || thread.messages.first, args)
