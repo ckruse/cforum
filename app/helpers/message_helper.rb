@@ -34,9 +34,11 @@ module MessageHelper
 
     html = "<header"
     html << ' class="' + classes.join(" ") + '"' unless classes.blank?
-    html << ' id="'
-    html << opts[:id_prefix] unless opts[:id_prefix].blank?
-    html << 'm' + message.message_id.to_s + '"' if opts[:id]
+    if opts[:id]
+      html << ' id="'
+      html << opts[:id_prefix] unless opts[:id_prefix].blank?
+      html << 'm' + message.message_id.to_s + '"'
+    end
     html << ">\n"
 
     opened = []
