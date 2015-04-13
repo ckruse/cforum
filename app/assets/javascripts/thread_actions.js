@@ -37,8 +37,10 @@ $(function() {
 
     form.find('input[type=hidden]').each(function() {
       var $f = $(this);
-      data += encodeURIComponent($f.attr('name')) + '=' + encodeURIComponent($f.attr('value'));
+      data += '&' + encodeURIComponent($f.attr('name')) + '=' + encodeURIComponent($f.attr('value'));
     });
+
+    data = data.substring(1);
 
     $.post(action + '.json', data).
       success(function(data) {
