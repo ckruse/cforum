@@ -11,8 +11,9 @@ class TagsController < ApplicationController
     if not params[:s].blank?
       clean_tag = params[:s].strip + '%'
       @tags = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))", current_forum.forum_id, clean_tag, clean_tag).order('num_messages DESC')
-    elsif not params[:tags].blank?
-      @tags = CfTag.preload(:synonyms).where("forum_id = ?", current_forum.forum_id)
+
+    elsif not params[:tags].blank? # tags param is set when we should suggest tags
+      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND suggest = true", current_forum.forum_id)
       sql_parts = []
       sql_sub_parts = []
       sql_params = []
