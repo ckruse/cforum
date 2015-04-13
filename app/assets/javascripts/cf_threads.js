@@ -13,8 +13,6 @@ cforum.cf_threads = {
   },
   create: function() {
     cforum.tags.initTags();
-    cforum.cf_threads.initCursor();
-
     cforum.cf_messages.initMarkdown("message_input");
   },
 

@@ -35,8 +35,12 @@ cforum.cf_messages = {
   },
 
   init: function() {
+    var action = $('body').attr('data-action');
     cforum.tags.initTags();
-    cforum.cf_messages.initCursor();
+
+    if(action != 'create' && action != 'update') {
+      cforum.cf_messages.initCursor();
+    }
 
     cforum.cf_messages.initMarkdown("message_input");
   },
