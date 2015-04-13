@@ -5,7 +5,7 @@ cforum.tags = {
   events: $({}),
   views: {
     tag: "<li class=\"cf-tag\" style=\"display:none\"><input name=\"tags[]\" type=\"hidden\" value=\"{{tag}}\"><i class=\"icon-del-tag del-tag\"> </i> {{tag}}</li>",
-    tagSuggestion: "<li class=\"cf-tag\" style=\"display:none\" data-tag=\"{{tag}}\"><i class=\"icon-tag-ok del-tag\"> </i> {{tag}}</li>"
+    tagSuggestion: "<li class=\"cf-tag pointer\" style=\"display:none\" data-tag=\"{{tag}}\"><i class=\"icon-tag-ok del-tag\"> </i> {{tag}}</li>"
   },
 
   suggestionsTimeout: null,
