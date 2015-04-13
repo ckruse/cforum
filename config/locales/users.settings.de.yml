@@ -52,4 +52,5 @@ de:
       sort_messages: Nachrichten-Sortierung
       highlight_self: Eigene Postings hervorheben
       autorefresh: Automatischer Reload (in Minuten)
+      page_messages: Nachrichten auf mehrere Seiten verteilen
 

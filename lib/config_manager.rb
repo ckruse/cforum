@@ -71,7 +71,8 @@ class ConfigManager
     'own_js_file' => nil,
     'own_css' => nil,
     'own_js' => nil,
-    'mark_suspicious' => 'no'
+    'mark_suspicious' => 'no',
+    'page_messages' => 'yes'
   }
 
   def initialize(use_cache = true)

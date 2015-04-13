@@ -62,11 +62,6 @@ module ThreadsHelper
 
   def index_threads(with_sticky = true)
     forum  = current_forum
-    @page  = params[:p].to_i
-    @limit = uconf('pagination').to_i
-
-    @page  = 0 if @page < 0
-    @limit = 50 if @limit <= 0
 
     order = uconf('sort_threads')
     case order
@@ -80,10 +75,18 @@ module ThreadsHelper
 
     @sticky_threads, @threads = get_threads(forum, order, current_user, with_sticky)
 
-    @limit -= @sticky_threads.length if with_sticky
+    if uconf('page_messages') == 'yes'
+      @page  = params[:p].to_i
+      @limit = uconf('pagination').to_i
 
-    @all_threads_count = @threads.count
-    @threads = @threads.limit(@limit).offset(@limit * @page)
+      @page  = 0 if @page < 0
+      @limit = 50 if @limit <= 0
+
+      @limit -= @sticky_threads.length if with_sticky
+
+      @all_threads_count = @threads.count
+      @threads = @threads.limit(@limit).offset(@limit * @page)
+    end
 
     @threads.each do |t|
       sort_thread(t)

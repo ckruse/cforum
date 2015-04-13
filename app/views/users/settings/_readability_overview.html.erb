@@ -32,6 +32,14 @@
   </div>
 
   <div class="cf-cgroup">
+    <label><%= t('users.settings.page_messages') %></label>
+    <div class="cntrls">
+      <%= hidden_field_tag 'settings[page_messages]', 'no', id: '' %>
+      <label class="checkbox"><input type="checkbox" value="ascending" name="settings[page_messages]"<%= disabled %><% if @settings.conf('page_messages') == 'yes' %> checked="checked"<% end %>></label>
+    </div>
+  </div>
+
+  <div class="cf-cgroup">
     <label><%= t('users.settings.sort_threads') %></label>
     <div class="cntrls">
       <label class="radio"><input type="radio" value="ascending" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'ascending' %> checked="checked"<% end %>> Aufsteigend</label>
