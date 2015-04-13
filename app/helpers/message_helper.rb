@@ -8,7 +8,8 @@ module MessageHelper
   def message_header(thread, message, opts = {})
     opts = {first: false, prev_deleted: false,
       show_icons: false, do_parent: false,
-      tree: true, id: true, hide_repeating_subjects: false}.merge(opts)
+      tree: true, id: true, hide_repeating_subjects: false,
+      id_prefix: nil}.merge(opts)
 
     classes = ['message']
     classes += message.attribs['classes']
@@ -31,7 +32,9 @@ module MessageHelper
 
     html = "<header"
     html << ' class="' + classes.join(" ") + '"' unless classes.blank?
-    html << ' id="m' + message.message_id.to_s + '"' if opts[:id]
+    html << ' id="'
+    html << opts[:id_prefix] unless opts[:id_prefix].blank?
+    html << 'm' + message.message_id.to_s + '"' if opts[:id]
     html << ">\n"
 
     opened = []

@@ -76,7 +76,7 @@
 
   <% if m.message_id == @thread.message.message_id and @thread.accepted %>
     <article class="accepted">
-      <%= message_header(@thread, @thread.accepted, first: false, do_parent: false) %>
+      <%= message_header(@thread, @thread.accepted, first: false, do_parent: false, id_prefix: 'accepted-') %>
 
       <p class="small"><%= t('messages.accepted_answer') %></p>
 
