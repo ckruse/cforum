@@ -1,6 +1,8 @@
 <%
 content_for :title, t('messages.write_new_answer')
 content_for :h1, t('messages.new_answer_to', name: @parent.author)
+content_for :body_id, 'messages-new'
+content_for :body_classes, 'messages new forum-' + (current_forum.try(:slug) || 'all') + (@preview ? ' preview' : '')
 %>
 
 <article class="thread-message">

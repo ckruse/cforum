@@ -1,6 +1,8 @@
 <%
 content_for :title, t('threads.write_new_thread')
 content_for :h1, t('threads.write_new_thread')
+content_for :body_id, 'threads-new'
+content_for :body_classes, 'threads new forum-' + (current_forum.try(:slug) || 'all') + (@preview ? ' preview' : '')
 %>
 
 <% if @preview %>

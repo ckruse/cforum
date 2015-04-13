@@ -1,6 +1,8 @@
 <%
 content_for :title, current_forum.name + ": " + @tag.tag_name
 content_for :h1, current_forum.name + ": " + @tag.tag_name
+content_for(:body_id, "tags-" + @tag.slug)
+content_for(:body_classes, 'tags show forum-' + (current_forum.try(:slug) || 'all') + ' tag-' + @tag.slug)
 %>
 
 <h2><%= t('tags.synonyms') %>:</h2>

@@ -11,6 +11,8 @@ end
 
 content_for :title, t("tags.tags_for_forum", forum: current_forum.name)
 content_for :h1, t("tags.tags_for_forum", forum: current_forum.name)
+content_for(:body_id, "tags-index")
+content_for(:body_classes, 'tags index forum-' + (current_forum.try(:slug) || 'all'))
 %>
 
 <ul class="cf-tags-list">

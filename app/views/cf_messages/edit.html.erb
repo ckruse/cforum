@@ -1,6 +1,8 @@
 <%
 content_for :title, t('messages.edit_posting')
 content_for :h1, t('messages.edit_posting')
+content_for :body_id, 'messages-edit'
+content_for :body_classes, 'messages edit forum-' + (current_forum.try(:slug) || 'all') + (@preview ? ' preview' : '')
 %>
 
 <article class="thread-message">

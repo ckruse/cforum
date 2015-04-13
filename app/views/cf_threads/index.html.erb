@@ -1,6 +1,8 @@
 <%
 content_for :title, t('threads.threadlist_title')
 content_for :h1, current_forum.blank? ? t('threads.threadlist_all') : t('threads.threadlist', name: current_forum.name)
+content_for :body_id, 'threads-index'
+content_for :body_classes, 'threads forum-' + (current_forum.try(:slug) || 'all')
 %>
 
 <div class="root" data-js="threadlist">

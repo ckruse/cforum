@@ -1,6 +1,8 @@
 <%
 content_for :title, t('notifications.notifications')
 content_for :h1, t('notifications.notifications')
+content_for(:body_id, "notifications-index")
+content_for(:body_classes, 'notifications index'')
 %>
 
 <%= form_tag notifications_path, :method => :delete, class: 'form-horizontal' do %>

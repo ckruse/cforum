@@ -1,6 +1,8 @@
 <%
 content_for :title, t('mails.new_mail')
 content_for :h1, t('mails.new_mail')
+content_for(:body_id, "mail-new")
+content_for(:body_classes, 'mail new')
 %>
 
 <%= form_for @mail, url: mails_path, html: {class: 'form-horizontal'} do |t| %>

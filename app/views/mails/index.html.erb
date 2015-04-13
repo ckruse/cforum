@@ -1,6 +1,8 @@
 <%
 content_for :title, @user ? t('mails.post_from', name: @user.username) : t('mails.post')
 content_for :h1, @user ? t('mails.post_from', name: @user.username) : t('mails.post')
+content_for(:body_id, "mail-index")
+content_for(:body_classes, 'mail index' + (@user ?  ' ' +  @user.to_class_name : ''))
 %>
 
 <%= form_tag mails_path, class: 'form-horizontal', :method => :delete do %>

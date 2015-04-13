@@ -1,6 +1,8 @@
 <%
 content_for :title, t('mails.post_from', name: @mail.partner(current_user))
 content_for :h1, t('mails.post_from', name: @mail.partner(current_user))
+content_for(:body_id, "mail-show")
+content_for(:body_classes, 'mail show recipient-' + @mail.recipient.to_class_name + ' sender-' + @mail.sender.to_class_name)
 %>
 
 <article class="thread-message mail">

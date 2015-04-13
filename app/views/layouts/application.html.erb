@@ -89,7 +89,7 @@ end
     <link href="http://src.selfhtml.org/cforum/temp.css" rel="stylesheet" media="all">
   </head>
 
-  <body data-controller="<%= controller_path %>" data-action="<%= action_name %>"<% if content_for?(:body_id) %> id="<%= yield(:body_id) %>"<% end %>>
+  <body data-controller="<%= controller_path %>" data-action="<%= action_name %>"<% if content_for?(:body_id) %> id="<%= yield(:body_id) %>"<% end %><% if content_for?(:body_classes) %> class="<%= yield(:body_classes) %>"<% end %>>
     <div class="flex-container">
       <main class="flex-item">
         <div id="alerts-container">
