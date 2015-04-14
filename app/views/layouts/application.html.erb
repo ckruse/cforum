@@ -230,6 +230,7 @@ end
 
           <% if current_forum %>
             <li id="optionen-tags"><%= link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
+            <li id="link-archiv"><%= link_to t("threads.archive"), cf_archive_path(current_forum.slug) %></li>
           <% end %>
 
           <% if @threads and current_user and not controller_path == 'interesting_threads_plugin' %>
