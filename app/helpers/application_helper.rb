@@ -34,6 +34,15 @@ module ApplicationHelper
   def conf_val_or_default(name)
     @cf_forum ? conf(name) : ConfigManager::DEFAULTS[name]
   end
+
+  def user_to_class_name(user)
+    'author-' + to_class_name(user.is_a?(String) ? user : user.username)
+  end
+
+  def to_class_name(nam)
+    nam = nam.strip.downcase
+    nam.gsub(/[^a-zA-Z0-9]/, '-')
+  end
 end
 
 require 'pp'

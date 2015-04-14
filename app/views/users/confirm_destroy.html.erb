@@ -3,7 +3,7 @@ content_for :title, t('users.delete_user', name: @user.username)
 content_for :h1, (!@user.avatar.blank? ? image_tag(@user.avatar.url(:medium)) : "") +
   t('users.delete_user', name: @user.username)
 content_for(:body_id, "users-destroy")
-content_for(:body_classes, 'users destroy ' + @user.to_class_name)
+content_for(:body_classes, 'users destroy ' + user_to_class_name(@user))
 %>
 
 <%= form_for @user, url: user_path(@user), method: :delete, html: {:class => 'form-horizontal'} do |f| %>

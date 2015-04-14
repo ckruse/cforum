@@ -2,7 +2,7 @@
 content_for :title, t('users.user', name: @user.username)
 content_for :h1, t('users.user', name: @user.username)
 content_for(:body_id, "users-show")
-content_for(:body_classes, 'users show ' + @user.to_class_name)
+content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 %>
 
 <div class="user-info-table">
