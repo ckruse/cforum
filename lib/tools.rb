@@ -226,7 +226,7 @@ module CForum
     end
 
     def cf_archive_path(forum)
-      cf_forum_path(forum) + 'archive'
+      cf_forum_path(forum) + '/archive'
     end
 
     def cf_archive_year_path(forum, year)
