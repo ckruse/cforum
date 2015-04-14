@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 class HighlightPlugin < Plugin
+  include ApplicationHelper
+
   def show_threadlist(threads)
     return unless current_user
 
@@ -23,12 +25,12 @@ class HighlightPlugin < Plugin
 
         if user_map[n]
           m.attribs['classes'] << 'highlighted-user'
-          m.attribs['classes'] << m.owner.to_class_name
+          m.attribs['classes'] << user_to_class_name(m.author)
         end
 
         if highlight_self and n == cu_nam
           m.attribs['classes'] << 'highlighted-self'
-          m.attribs['classes'] << m.owner.to_class_name
+          m.attribs['classes'] << user_to_class_name(m.author)
         end
       end
     end
