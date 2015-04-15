@@ -35,7 +35,7 @@
     <label><%= t('users.settings.page_messages') %></label>
     <div class="cntrls">
       <%= hidden_field_tag 'settings[page_messages]', 'no', id: '' %>
-      <label class="checkbox"><input type="checkbox" value="ascending" name="settings[page_messages]"<%= disabled %><% if @settings.conf('page_messages') == 'yes' %> checked="checked"<% end %>></label>
+      <label class="checkbox"><input type="checkbox" value="yes" name="settings[page_messages]"<%= disabled %><% if @settings.conf('page_messages') == 'yes' %> checked="checked"<% end %>></label>
     </div>
   </div>
 
