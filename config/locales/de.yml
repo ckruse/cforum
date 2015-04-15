@@ -11,7 +11,7 @@ de:
 
   errors:
     unknown_error: unbekannter Fehler
-    unknown_error_message: "Irgendwas ist passiert. Keine Ahnung, was. Am besten, Sie schicken Ihren Nutzer-Namen zusammen mit dem, was genau Sie genau gemacht haben, an cforum@wwwtech.de."
+    unknown_error_message: "Irgendwas ist passiert. Keine Ahnung, was. Am besten, Sie schicken Ihren Nutzer-Namen und eine Beschreibung dessen, was genau Sie gemacht haben, an forum@selfhtml.org."
     not_found_error: Ressource konnte nicht gefunden werden
     not_found_error_message: Die angeforderte Ressource konnte nicht gefunden werden.
     not_allowed_error: Zugriff verboten
