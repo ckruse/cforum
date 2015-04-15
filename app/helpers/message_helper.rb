@@ -48,45 +48,38 @@ module MessageHelper
       opened << 'span'
 
       if thread.attribs['open_state'] == 'closed'
-        html << button_to(open_cf_thread_path(thread), params: std_args) do
-          ('<em class="icon-thread closed" title="' +
-           t('plugins.open_close.open_thread') + '"' + "> </em>").html_safe
+        html << button_to(open_cf_thread_path(thread), params: std_args, title: t('plugins.open_close.open_thread'), class: 'icon-thread closed') do
+          ''
         end
       else
-        html << button_to(close_cf_thread_path(thread), params: std_args) do
-          ('<em class="icon-thread open" title="' +
-           t('plugins.open_close.close_thread') + '"' + "> </em>").html_safe
+        html << button_to(close_cf_thread_path(thread), params: std_args, title: t('plugins.open_close.close_thread'), class: 'icon-thread open') do
+          ''
         end
       end
 
       if get_plugin_api(:is_invisible).call(thread, current_user).blank?
-        html << button_to(hide_cf_thread_path(thread), params: std_args) do
-          ('<em class="icon-thread mark-invisible" title="' +
-           t('plugins.invisible_threads.mark_thread_invisible') + '"' + "> </em>").html_safe
+        html << button_to(hide_cf_thread_path(thread), params: std_args, class: 'icon-thread mark-invisible', title: t('plugins.invisible_threads.mark_thread_invisible')) do
+          ''
         end
       else
-        html << button_to(unhide_cf_thread_path(thread), params: std_args) do
-          ('<em class="icon-thread mark-visible" title="' +
-           t('plugins.invisible_threads.mark_thread_visible') + '"' + "> </em>").html_safe
+        html << button_to(unhide_cf_thread_path(thread), params: std_args, class: 'icon-thread mark-visible', title: t('plugins.invisible_threads.mark_thread_visible')) do
+          ''
         end
       end
 
 
       if get_plugin_api(:is_interesting).call(thread, current_user).blank?
-        html << button_to(interesting_cf_thread_path(thread), params: std_args) do
-          ('<em class="icon-thread mark-interesting" title="' +
-           t('plugins.interesting_threads.mark_thread_interesting') + '"' + "> </em>").html_safe
+        html << button_to(interesting_cf_thread_path(thread), params: std_args, class: "icon-thread mark-interesting", title: t('plugins.interesting_threads.mark_thread_interesting')) do
+          ''
         end
       else
-        html << button_to(boring_cf_thread_path(thread), params: std_args) do
-          ('<em class="icon-thread mark-boring" title="' +
-           t('plugins.interesting_threads.mark_thread_boring') + '"' + "> </em>").html_safe
+        html << button_to(boring_cf_thread_path(thread), params: std_args, class: "icon-thread mark-boring", title: t('plugins.interesting_threads.mark_thread_boring')) do
+          ''
         end
       end
 
-      html << button_to(mark_cf_thread_read_path(thread), params: std_args) do
-        ('<em class="icon-thread mark-thread-read" title="' +
-         t('plugins.mark_read.mark_thread_read') + '"' + "> </em>").html_safe
+      html << button_to(mark_cf_thread_read_path(thread), params: std_args, class: 'icon-thread mark-thread-read', title: t('plugins.mark_read.mark_thread_read')) do
+        ''
       end
     end
 
@@ -99,20 +92,17 @@ module MessageHelper
 
         html << " " + link_to('', move_cf_thread_path(thread), class: 'icon-thread move', title: t('threads.move_thread'))
 
-        html << button_to(sticky_cf_thread_path(thread), params: std_args) do
-          ('<em class="icon-thread sticky" title="' +
-           (thread.sticky ? t('threads.mark_unsticky') : t('threads.mark_sticky')) + '"' + "> </em>").html_safe
+        html << button_to(sticky_cf_thread_path(thread), params: std_args, class: 'icon-thread sticky', title: (thread.sticky ? t('threads.mark_unsticky') : t('threads.mark_sticky'))) do
+          ''
         end
 
         if thread.flags['no-archive'] == 'yes'
-          html << button_to(no_archive_cf_thread_path(thread), params: std_args) do
-            ('<em class="icon-thread archive" title="' +
-             t('plugins.no_answer_no_archive.arc') + '"' + "> </em>").html_safe
+          html << button_to(no_archive_cf_thread_path(thread), params: std_args, class: 'icon-thread archive', title: t('plugins.no_answer_no_archive.arc')) do
+            ''
           end
         else
-          html << button_to(no_archive_cf_thread_path(thread), params: std_args) do
-            ('<em class="icon-thread no-archive" title="' +
-             t('plugins.no_answer_no_archive.no_arc') + '"' + "> </em>").html_safe
+          html << button_to(no_archive_cf_thread_path(thread), params: std_args, class: 'icon-thread no-archive', title: t('plugins.no_answer_no_archive.no_arc')) do
+            ''
           end
         end
 
@@ -125,27 +115,23 @@ module MessageHelper
 
       if not opts[:prev_deleted]
         if message.deleted?
-          html << button_to(restore_cf_message_path(thread, message), params: std_args) do
-            ('<em class="icon-message restore" title="' +
-             t('messages.restore_message') + '"' + "> </em>").html_safe
+          html << button_to(restore_cf_message_path(thread, message), params: std_args, class: 'icon-message restore', title: t('messages.restore_message')) do
+            ''
           end
         else
-          html << button_to(cf_message_path(thread, message), method: :delete, params: std_args) do
-            ('<em class="icon-message delete" title="' +
-             t('messages.delete_message') + '"' + "> </em>").html_safe
+          html << button_to(cf_message_path(thread, message), method: :delete, params: std_args, class: 'icon-message delete', title: t('messages.delete_message')) do
+            ''
           end
         end
       end
 
       if not message.open?
-        html << button_to(no_answer_cf_message_path(thread, message), params: std_args) do
-          ('<em class="icon-message answer" title="' +
-           t('plugins.no_answer_no_archive.answer') + '"' + "> </em>").html_safe
+        html << button_to(no_answer_cf_message_path(thread, message), params: std_args, class: 'icon-message answer', title: t('plugins.no_answer_no_archive.answer')) do
+          ''
         end
       else
-        html << button_to(no_answer_cf_message_path(thread, message), params: std_args) do
-          ('<em class="icon-message no-answer" title="' +
-           t('plugins.no_answer_no_archive.no_answer') + '"' + "> </em>").html_safe
+        html << button_to(no_answer_cf_message_path(thread, message), params: std_args, class: 'icon-message no-answer', title: t('plugins.no_answer_no_archive.no_answer')) do
+          ''
         end
       end
     end
@@ -156,9 +142,8 @@ module MessageHelper
 
     if current_user and opts[:show_icons] and not @view_all and not get_plugin_api(:is_read).call(message, current_user).blank?
       html << "<span class=\"message-icons\">"
-      html << button_to(unread_cf_message_path(thread, message), params: std_args) do
-        ('<em class="icon-message unread" title="' +
-         t('plugins.mark_read.mark_unread') + '"' + "> </em>").html_safe
+      html << button_to(unread_cf_message_path(thread, message), params: std_args, class: 'icon-message unread', title: t('plugins.mark_read.mark_unread')) do
+        ''
       end
       html << "</span>"
     end
