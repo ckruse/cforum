@@ -59,6 +59,7 @@ upvote_msg = if current_user.blank?
                 class="cf-btn vote icon-vote-up<% if has_upvote %> active<% end %>
                 <% if current_user.blank? or not may?(RightsHelper::UPVOTE) %> disabled<% end %>">+</button>
 
+        <a href="http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bewertungsregeln" class="infos" title="Informationen zu den Bewertungsregeln"> </a>
       <% end %>
     <% end %>
   <% end %>

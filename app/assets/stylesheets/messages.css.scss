@@ -99,7 +99,7 @@ main h2 { margin-left:0; }
       color: #8a9da8;
     }
 
-    .vote, .accept {
+    .vote, .accept, .infos {
       border: none;
       margin: 0;
       padding: 0;
@@ -118,6 +118,9 @@ main h2 { margin-left:0; }
     .icon-vote-up.disabled  { background-image: asset-data-url("bewertung-plus-grau.png"); }
     .unaccepted-answer, .accepted-answer:hover { background-image: asset-data-url("bewertung-ok-grau.png"); }
     .accepted-answer, .unaccepted-answer:hover { background-image: asset-data-url("bewertung-ok-gruen.png"); }
+
+    .infos { background-image: asset-data-url('bewertung-info-blaugrau.png'); }
+    .infos:hover { background-image: asset-data-url('bewertung-info-rot.png'); }
   }
 
 
