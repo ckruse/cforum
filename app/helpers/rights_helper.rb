@@ -53,7 +53,7 @@ module RightsHelper
 
     thread = CfThread.
              preload(:forum,
-                     messages: [:owner, :tags,
+                     messages: [:owner, :tags, :thread,
                                 {votes: :voters}]).
       includes(messages: :owner).
       where(std_conditions(id, tid)).
