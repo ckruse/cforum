@@ -1,5 +1,5 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum */
+/* global cforum, t */
 
 $(function() {
   $('.icon-vote-down, .icon-vote-up').on('click', function(ev) {
@@ -29,8 +29,22 @@ $(function() {
           var votes = form.find('.votes');
           votes.text(data.score);
 
-          var other_vote = form.find($this.is('.icon-vote-down') ? '.icon-vote-up' : '.icon-vote-down');
+          var other_vote, title, title_this;
+
+          if($this.is('.icon-vote-down')) {
+            other_vote = form.find('.icon-vote-up');
+            title = t('vote_up');
+            title_this = $this.hasClass('active') ? t('take_back_vote') : t('vote_down');
+          }
+          else {
+            other_vote = form.find('.icon-vote-down');
+            title = t('vote_down');
+            title_this = $this.hasClass('active') ? t('take_back_vote') : t('vote_up');
+          }
+
           other_vote.removeClass('active');
+          other_vote.attr('title', title);
+          $this.attr('title', title_this);
         }
         else {
           cforum.alert.error(data.message);

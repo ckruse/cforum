@@ -3,6 +3,9 @@ de:
     messages:
       messages_threads: "Es gibt {{messages}} neue Nachrichten und {{threads}} neue Threads."
       add_quote: Zitat einfügen
+      take_back_vote: Bewertung zurücknehmen
+      vote_up: positiv bewerten
+      vote_down: negativ bewerten
 
       buttons:
         tab:
