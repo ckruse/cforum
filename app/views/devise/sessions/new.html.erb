@@ -7,7 +7,7 @@ content_for(:h1, t('devise.sign_in'))
   <div class="cf-cgroup">
     <%= f.label :login %>
     <div class="cntrls">
-      <%= f.text_field :login, placeholder: CfUser.human_attribute_name(:login) %>
+      <%= f.text_field :login, placeholder: CfUser.human_attribute_name(:login), autofocus: true %>
     </div>
   </div>
 
