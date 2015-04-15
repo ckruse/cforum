@@ -258,6 +258,15 @@ module MessageHelper
       html << "</ul>"
     end
 
+    if opts[:show_votes]
+      html << ' <span class="votes" title="' +
+        t('messages.votes', num: message.score) +
+        '">' +
+        t('messages.votes', num: message.score) +
+        '</span>'
+    end
+
+
     html << %q{
   </div>
 </header>}

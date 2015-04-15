@@ -63,7 +63,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 <% @last_messages.each do |m|
   m.thread.message = m %>
   <article class="thread threadlist">
-    <%= message_header(m.thread, m) %>
+    <%= message_header(m.thread, m, show_votes: true) %>
   </article>
 <% end %>
 
@@ -76,7 +76,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 <% @point_msgs.each do |m|
   m.thread.message = m %>
   <article class="thread threadlist">
-    <%= message_header(m.thread, m) %>
+    <%= message_header(m.thread, m, show_votes: true) %>
   </article>
 <% end %>
 
@@ -97,10 +97,10 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
         </td>
         <td><article class="threadlist thread"><%= if s.first.vote then
                                                  s.first.vote.message.thread.message = s.first.vote.message
-                                                 message_header(s.first.vote.message.thread, s.first.vote.message)
+                                                 message_header(s.first.vote.message.thread, s.first.vote.message, show_votes: true)
                                                else
                                                  s.first.message.thread.message = s.first.message
-                                                 message_header(s.first.message.thread, s.first.message)
+                                                 message_header(s.first.message.thread, s.first.message, show_votes: true)
                                                end %></article></td>
       </tr>
     <% end %>
