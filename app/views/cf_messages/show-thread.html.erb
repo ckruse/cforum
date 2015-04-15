@@ -3,7 +3,9 @@ content_for(:title, @message.subject + " " + I18n.t('messages.by') + " " +
             @message.author + ", " + I18n.l(@message.created_at,
                                             format: date_format('date_format_post')))
 content_for(:body_id, "message-thread")
-content_for(:body_classes, 'messages thread-view forum-' + (current_forum.try(:slug) || 'all'))
+content_for(:body_classes, 'messages thread-view forum-' +
+            (current_forum.try(:slug) || 'all') +
+            (@thread.archived ? ' archive' : ''))
 content_for(:h1) do
 %>
 <span class="author block" id="posting-author"><%= @message.author %>:</span>

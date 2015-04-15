@@ -4,7 +4,9 @@ content_for :title, @thread.message.subject + " " +
   I18n.l(@thread.message.created_at, format: date_format('date_format_post'))
 
 content_for(:body_id, "message-nested")
-content_for(:body_classes, 'messages nested-view forum-' + (current_forum.try(:slug) || 'all'))
+content_for(:body_classes, 'messages nested-view forum-' +
+            (current_forum.try(:slug) || 'all') +
+            (@thread.archived ? ' archive' : ''))
 content_for(:h1) do
 %>
 <span class="author block" id="posting-author"><%= @thread.message.author %>:</span>
@@ -12,7 +14,7 @@ content_for(:h1) do
 <% end %>
 
 <div class="root">
-  <article class="thread posting tree">
+  <article class="thread posting tree<% if @thread.archived %> archived<% end %>">
     <%= message_header(@thread, @thread.message, first: true, show_icons: true, id: false) %>
 
     <% if not @thread.message.messages.blank? %>
@@ -39,7 +41,7 @@ content_for(:h1) do
 <% end %>
 
 <div>
-  <article class="thread-nested">
+  <article class="thread-nested<% if @thread.archived %> archived<% end %>">
     <div class="posting-nested thread-message">
       <%= render 'message', m: @thread.message, first: true %>
     </div>

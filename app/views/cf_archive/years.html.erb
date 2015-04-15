@@ -1,6 +1,8 @@
 <%
 content_for :title, t('archive.archive_years', forum: current_forum ? current_forum.name : t('archive.all_forums'))
 content_for :h1, t('archive.archive_years', forum: current_forum ? current_forum.name : t('archive.all_forums'))
+content_for :body_id, 'archive-years'
+content_for :body_classes, 'archive years forum-' + (current_forum.try(:slug) || 'all')
 %>
 
 <ul>
