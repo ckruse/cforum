@@ -3,6 +3,6 @@
     <li><%= link_to user_mails_path(uname) do %><%= uname %> <span class="status-read"><%= vals[:read] || 0 %></span> <% if vals[:unread] > 0 %><span class="status-unread"><%= vals[:unread] || 0 %></span><% end %><% end %></li>
     <% end %>
 
-    <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('mails.new_mail'), @user ? new_mail_path(cf_priv_message: {recipient_id: @user.user_id}) : new_mail_path %></li>
+    <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('mails.new_mail'), @user_object ? new_mail_path(cf_priv_message: {recipient_id: @user_object.user_id}) : new_mail_path %></li>
 </ul>
 
