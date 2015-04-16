@@ -217,6 +217,33 @@ cforum.markdown_buttons = {
     }
   },
 
+  noMarkdown: {
+    name: 'cmdNoMarkdown',
+    title: "no markdown",
+    btnText: "no markdown",
+    callback: function(e) {
+      var chunk = "", cursor, selected = e.getSelection(), content = e.getContent();
+      var starting = "{::nomarkdown}";
+      var ending = "{:/}";
+
+      if(selected.length !== 0) {
+        chunk = selected.text;
+      }
+
+      if(content.substr(selected.start - starting.length, starting.length) == starting && content.substr(selected.end, ending.length) == ending) {
+        e.setSelection(selected.start - starting.length, selected.end + ending.length);
+        e.replaceSelection(chunk);
+        cursor = selected.start - starting.length;
+      }
+      else {
+        e.replaceSelection(starting + chunk + ending);
+        cursor = selected.start + starting.length;
+      }
+
+      e.setSelection(cursor, cursor + chunk.length);
+    }
+  },
+
   l10n: function() {
     for(var button in cforum.markdown_buttons) {
       if(button != 'l10n') {

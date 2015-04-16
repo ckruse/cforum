@@ -47,6 +47,9 @@ de:
         singlePunctuationMarks:
           title: ‚‘ (einfache Anführungszeichen oben/unten)
           text: ‚‘
+        noMarkdown:
+          title: kein Markdown
+          text: kein Markdown
 
       tags:
         tag_doesnt_exist: Dieses Tag existiert nicht. Bitte wählen Sie ein anderes.
