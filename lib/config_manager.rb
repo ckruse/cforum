@@ -79,6 +79,8 @@ class ConfigManager
   def initialize(use_cache = true)
     @use_cache = use_cache
     @value_cache = {:users => {}, :forums => {}}
+
+    @mutex = Mutex.new unless use_cache
   end
 
   def read_settings(user = nil, forum = nil)
@@ -96,6 +98,8 @@ class ConfigManager
   end
 
   def get(name, user = nil, forum = nil)
+    @mutex.lock if @mutex
+
     Rails.logger.warn "unknown key: '#{name}'" unless DEFAULTS.has_key?(name)
 
     # reset cache before each setting query when cache is disabled
@@ -126,6 +130,8 @@ class ConfigManager
     end
 
     DEFAULTS[name]
+  ensure
+    @mutex.unlock if @mutex
   end
 
 end
