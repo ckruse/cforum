@@ -73,7 +73,8 @@ class ConfigManager
     'own_css' => nil,
     'own_js' => nil,
     'mark_suspicious' => 'no',
-    'page_messages' => 'yes'
+    'page_messages' => 'yes',
+    'fold_quotes' => 'no'
   }
 
   def initialize(use_cache = true)

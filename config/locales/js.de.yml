@@ -6,6 +6,7 @@ de:
       take_back_vote: Bewertung zurücknehmen
       vote_up: positiv bewerten
       vote_down: negativ bewerten
+      unfold_quote: '- zitierten Text anzeigen -'
 
       buttons:
         tab:

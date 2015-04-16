@@ -35,9 +35,37 @@ cforum.cf_messages = {
     }
   },
 
+  maxLen: function(text) {
+    return text.length > 100;
+  },
+
+  initQuotes: function() {
+    if(!cforum.currentUser || cforum.currentUser.settings.options.fold_quotes != 'yes') {
+      return;
+    }
+
+    $(".posting-content blockquote").each(function() {
+      var $this = $(this);
+
+      if(cforum.cf_messages.maxLen($this.text())) {
+        $this.css('display', 'none');
+        $this.before('<blockquote class="show-quotes">' + t('unfold_quote') + '</blockquote>');
+      }
+    });
+
+    $(".posting-content").click(function(ev) {
+      var trg = $(ev.target);
+      if(trg.hasClass('show-quotes')) {
+        trg.next().fadeIn('fast');
+        trg.remove();
+      }
+    });
+  },
+
   init: function() {
     var action = $('body').attr('data-action');
     cforum.tags.initTags();
+    cforum.cf_messages.initQuotes();
 
     if(action != 'create' && action != 'update') {
       cforum.cf_messages.initCursor();
