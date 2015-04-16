@@ -17,6 +17,6 @@ content_for(:body_classes, 'tags index forum-' + (current_forum.try(:slug) || 'a
 
 <ul class="cf-tags-list">
   <% @tags.each do |t| %>
-    <li class="cf-tag" style="font-size: <%= get_size(t.num_messages).to_s %>em"><%= link_to t.tag_name, tag_path(current_forum.slug, t) %></li>
+    <li class="cf-tag<% unless t.suggest %> cf-tag-hidden<% end %>" style="font-size: <%= get_size(t.num_messages).to_s %>em"<% unless t.suggest %> title="<%= t('tags.not_used_for_suggestions') %>"<% end %>><%= link_to t.tag_name, tag_path(current_forum.slug, t) %></li>
   <% end %>
 </ul>

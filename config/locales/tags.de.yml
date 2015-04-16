@@ -13,6 +13,7 @@ de:
     new_tag_synonym_for_tag: "Tag „%{tag}“: Neues Synonym erstellen"
     tags_for_forum: "%{forum}: Tags"
     merge: Tag zusammenführen
+    not_used_for_suggestions: Der Tag wird nicht für Vorschläge benutzt.
 
     no_synonyms: Bisher sind keine Synonyme bekannt.
     no_messages: Bisher sind keine Beiträge mit diesem Tag geschrieben worden.
