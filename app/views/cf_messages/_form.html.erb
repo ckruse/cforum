@@ -1,10 +1,13 @@
+<%
+with_name ||= false
+%>
 <fieldset>
   <div class="cf-cgroup">
     <%= f.label :subject %>
     <div class="cntrls"><%= f.text_field :subject, placeholder: t('layout.placeholders.subject'), maxlength: 250 %></div>
   </div>
 
-  <% unless current_user %>
+  <% if not current_user or (with_name and current_user.admin?) %>
   <div class="cf-cgroup">
     <%= f.label :author %>
     <div class="cntrls"><%= f.text_field :author, placeholder: t('layout.placeholders.username'), maxlength: 60 %></div>
