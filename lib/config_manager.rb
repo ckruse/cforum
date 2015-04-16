@@ -58,6 +58,7 @@ class ConfigManager
     'notify_on_answer' => 'no',
     'notify_on_flagged' => 'no',
     'notify_on_open_close_vote' => 'no',
+    'notify_on_move' => 'no',
     'highlighted_users' => '',
     'highlight_self' => 'yes',
     'mark_read_moment' => 'before_render',

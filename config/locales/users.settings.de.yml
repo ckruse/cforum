@@ -20,6 +20,7 @@ de:
       notification_on_answer: Benachrichtigung bei Antwort
       notification_on_flagged: Benachrichtigung bei Moderator-Aufmerksamkeit („Flag“)
       notification_on_open_close_vote: Benachrichtigung bei Sperr-/Entsperr-Abstimmung
+      notification_on_move: Benachrichtigung, wenn ein Thread, an dem sie beteiligt sind, verschoben wird
       greeting: Begrüßung
       farewell: Verabschiedung
       signature: Signatur

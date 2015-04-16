@@ -5,6 +5,10 @@ class NotificationsPlugin < Plugin
     peon(class_name: 'NotifyNewTask', arguments: {type: 'message', thread: thread.thread_id, message: message.message_id})
   end
 
+  def thread_moved(thread, old_forum, new_forum)
+    peon(class_name: 'ThreadMovedTask', arguments: {thread: thread.thread_id, old_forum: old_forum.forum_id, new_forum: new_forum.forum_id})
+  end
+
   def deleted_message(thread, message)
     CfNotification.
       delete_all(["oid = ? AND otype IN ('message:create-answer', 'message:create-activity')",
@@ -16,14 +20,14 @@ class NotificationsPlugin < Plugin
   end
 
   def show_message(thread, message, votes)
-    application_controller.notifications if check_for_deleting_notification(message)
+    application_controller.notifications if check_for_deleting_notification(thread, message)
   end
 
   def show_thread(thread, message = nil, votes = nil)
     had_one = false
 
     thread.sorted_messages.each do |m|
-      had_one = true if check_for_deleting_notification(m)
+      had_one = true if check_for_deleting_notification(thread, m)
     end
 
     application_controller.notifications if had_one
@@ -49,7 +53,9 @@ class NotificationsPlugin < Plugin
   end
 
   private
-  def check_for_deleting_notification(message)
+  def check_for_deleting_notification(thread, message)
+    had_one = false
+
     if user = current_user
       n = CfNotification.
         where(recipient_id: user.user_id,
@@ -59,6 +65,8 @@ class NotificationsPlugin < Plugin
         first
 
       unless n.blank?
+        had_one = true
+
         if (n.otype == 'message:create-answer' and
             uconf('delete_read_notifications_on_answer') == 'yes') or
             (n.otype == 'message:create-activity' and
@@ -68,12 +76,23 @@ class NotificationsPlugin < Plugin
           n.is_read = true
           n.save!
         end
+      end
 
-        return true
+      n = CfNotification.
+          where(recipient_id: user.user_id,
+              oid: thread.thread_id,
+              is_read: false).
+          where("otype IN ('thread:moved')").
+          first
+
+      unless n.blank?
+        had_one = true
+        n.is_read = true
+        n.save!
       end
     end
 
-    return false
+    return had_one
   end
 end
 
@@ -92,6 +111,8 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(CfMessagesController::SHOW_THREAD, notifications_plugin)
   app_controller.notification_center.
     register_hook(BadgesController::SHOW_BADGE, notifications_plugin)
+  app_controller.notification_center.
+    register_hook(CfThreadsController::THREAD_MOVED, notifications_plugin)
 end
 
 # eof

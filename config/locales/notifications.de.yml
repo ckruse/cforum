@@ -10,3 +10,4 @@ de:
     new_notifications: "%{num} neue Benachrichtigungen"
     unread: ungelesen
     no_notifications: Keine Benachrichtigungen gefunden
+    thread_moved: Thread %{subject} von %{old_forum} nach %{new_forum} verschoben
