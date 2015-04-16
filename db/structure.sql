@@ -1061,7 +1061,9 @@ CREATE TABLE priv_messages (
     subject character varying(250) NOT NULL,
     body text NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    sender_name character varying NOT NULL,
+    recipient_name character varying NOT NULL
 );
 
 
@@ -2635,6 +2637,8 @@ INSERT INTO schema_migrations (version) VALUES ('59');
 INSERT INTO schema_migrations (version) VALUES ('6');
 
 INSERT INTO schema_migrations (version) VALUES ('60');
+
+INSERT INTO schema_migrations (version) VALUES ('61');
 
 INSERT INTO schema_migrations (version) VALUES ('7');
 

@@ -8,8 +8,7 @@ class MailsController < ApplicationController
   def index_users
     cu    = current_user
     mails = CfPrivMessage.
-            select("username, is_read, COUNT(*) AS cnt").
-            joins("INNER JOIN users ON user_id = case recipient_id when #{cu.user_id} then sender_id else recipient_id end").
+            select("(CASE recipient_id WHEN #{cu.user_id} THEN sender_name ELSE recipient_name END) AS username, is_read, COUNT(*) AS cnt").
             where('owner_id = ?', current_user.user_id).
             group("username, case recipient_id when #{cu.user_id} then sender_id else recipient_id end, is_read")
 
@@ -32,13 +31,12 @@ class MailsController < ApplicationController
     else
       @mails = CfPrivMessage.
                preload(:sender, :recipient).
-               joins("INNER JOIN users AS senders ON senders.user_id = sender_id INNER JOIN users AS recipients ON recipients.user_id = recipient_id").
                where(owner_id: current_user.user_id)
     end
 
     @mails = sort_query(%w(created_at sender recipient subject),
-                        @mails, {sender: "senders.username",
-                                 recipient: 'recipients.username'}).
+                        @mails, {sender: "sender_name",
+                                 recipient: "recipient_name"}).
              page(params[:page]).per(conf('pagination').to_i)
   end
 

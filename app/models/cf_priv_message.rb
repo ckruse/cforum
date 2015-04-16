@@ -6,9 +6,9 @@ class CfPrivMessage < ActiveRecord::Base
   self.primary_key = 'priv_message_id'
   self.table_name  = 'priv_messages'
 
-  belongs_to :sender, class_name: 'CfUser', :foreign_key => :sender_id
-  belongs_to :recipient, class_name: 'CfUser', :foreign_key => :recipient_id
-  belongs_to :owner, class_name: 'CfUser', :foreign_key => :owner_id
+  belongs_to :sender, class_name: 'CfUser', foreign_key: :sender_id
+  belongs_to :recipient, class_name: 'CfUser', foreign_key: :recipient_id
+  belongs_to :owner, class_name: 'CfUser', foreign_key: :owner_id
 
   validates :subject, presence: true, length: {in: 2..250}
   validates :body, presence: true, length: {in: 5..12288}
@@ -18,7 +18,11 @@ class CfPrivMessage < ActiveRecord::Base
   validates :owner_id, presence: true
 
   def partner(myself)
-    sender_id == myself.user_id ? recipient.username : sender.username
+    sender_id == myself.user_id ? recipient_name : sender_name
+  end
+
+  def partner_id(myself)
+    sender_id == myself.user_id ? recipient_id : sender_id
   end
 end
 

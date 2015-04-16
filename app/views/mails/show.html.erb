@@ -2,7 +2,7 @@
 content_for :title, t('mails.post_from', name: @mail.partner(current_user))
 content_for :h1, t('mails.post_from', name: @mail.partner(current_user))
 content_for(:body_id, "mail-show")
-content_for(:body_classes, 'mail show recipient-' + user_to_class_name(@mail.recipient) + ' sender-' + user_to_class_name(@mail.sender))
+content_for(:body_classes, 'mail show recipient-' + user_to_class_name(@mail.recipient_name) + ' sender-' + user_to_class_name(@mail.sender_name))
 %>
 
 <article class="thread-message mail">
@@ -11,9 +11,9 @@ content_for(:body_classes, 'mail show recipient-' + user_to_class_name(@mail.rec
 
     <details open>
       <summary><%= t('mails.post_from_to_from') %>
-        <span class="author"><span class="registered-user original-poster"><%= link_to('<em>'.html_safe + t('global.user_profile') + '</em>'.html_safe, user_path(@mail.sender), class: 'icon-registered-user', title: t('messages.user_link', user: @mail.sender.username)) %></span> <%= @mail.sender.username %></span>
+        <span class="author"><% if @mail.sender_id %><span class="registered-user original-poster"><%= link_to('<em>'.html_safe + t('global.user_profile') + '</em>'.html_safe, user_path(@mail.sender), class: 'icon-registered-user', title: t('messages.user_link', user: @mail.sender_name)) %></span><% end %> <%= @mail.sender_name %></span>
         <%= t('mails.post_from_to_to') %>
-        <span class="recipient"><span class="registered-user"><%= link_to('<em>'.html_safe + t('global.user_profile') + '</em>'.html_safe, user_path(@mail.recipient), class: 'icon-registered-user', title: t('messages.user_link', user: @mail.recipient.username)) %></span> <%= @mail.recipient.username %></span>
+        <span class="recipient"><span class="registered-user"><%= link_to('<em>'.html_safe + t('global.user_profile') + '</em>'.html_safe, user_path(@mail.recipient), class: 'icon-registered-user', title: t('messages.user_link', user: @mail.recipient_name)) %></span> <%= @mail.recipient_name %></span>
         <%= t('mails.at') %>
         <time datetime="<%= @mail.created_at.to_s %>"><%= l(@mail.created_at, format: date_format) %></time></summary>
     </details>
@@ -25,7 +25,10 @@ content_for(:body_classes, 'mail show recipient-' + user_to_class_name(@mail.rec
 </article>
 
 <div class="form-actions">
-  <%= link_to t('mails.answer_mail'), new_mail_path(priv_message_id: @mail.priv_message_id, quote_old_message: 'yes'), class: 'cf-btn' %>
-  <%= link_to t('mails.answer_mail_wo_quote'), new_mail_path('priv_message_id' => @mail.priv_message_id), class: 'cf-btn' %>
-  <%= link_to t('mails.delete'), mail_path(@mail.sender.username, @mail), method: :delete, data: {confirm: t('global.are_you_sure')}, class: 'cf-btn' %>
+  <% unless @mail.partner_id(current_user).blank? %>
+    <%= link_to t('mails.answer_mail'), new_mail_path(priv_message_id: @mail.priv_message_id, quote_old_message: 'yes'), class: 'cf-btn' %>
+    <%= link_to t('mails.answer_mail_wo_quote'), new_mail_path('priv_message_id' => @mail.priv_message_id), class: 'cf-btn' %>
+  <% end %>
+
+  <%= link_to t('mails.delete'), mail_path(@mail.sender_name, @mail), method: :delete, data: {confirm: t('global.are_you_sure')}, class: 'cf-btn' %>
 </div>
