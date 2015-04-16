@@ -11,13 +11,13 @@ module MessageHelper
     opts = {first: false, prev_deleted: false,
       show_icons: false, do_parent: false,
       tree: true, id: true, hide_repeating_subjects: false,
-      id_prefix: nil}.merge(opts)
+      id_prefix: nil, active_message: @message}.merge(opts)
 
     classes = ['message']
     classes += message.attribs['classes']
     classes << 'first' if opts[:first]
     classes << 'deleted' if message.deleted?
-    classes << 'active' if @message and @message.message_id == message.message_id
+    classes << 'active' if opts[:active_message] and opts[:active_message].message_id == message.message_id
 
     classes << thread.attribs['open_state'] == 'closed' ? 'closed' : 'open'
 
@@ -263,7 +263,8 @@ module MessageHelper
 
   def message_tree(thread, messages, opts = {})
     opts = {prev_deleted: false, show_icons: false, id: true,
-            hide_repeating_subjects: false}.merge(opts)
+            hide_repeating_subjects: false,
+            active_message: @message}.merge(opts)
 
     html = "<ol>\n"
     messages.each do |message|
@@ -276,12 +277,14 @@ module MessageHelper
                              prev_deleted: opts[:prev_deleted],
                              show_icons: opts[:show_icons],
                              id: opts[:id],
-                             hide_repeating_subjects: opts[:hide_repeating_subjects])
+                             hide_repeating_subjects: opts[:hide_repeating_subjects],
+                             active_message: opts[:active_message])
       html << message_tree(thread, message.messages, first: false,
                            prev_deleted: message.deleted?,
                            show_icons: opts[:show_icons],
                            id: opts[:id],
-                           hide_repeating_subjects: opts[:hide_repeating_subjects]) unless message.messages.blank?
+                           hide_repeating_subjects: opts[:hide_repeating_subjects],
+                           active_message: opts[:active_message]) unless message.messages.blank?
       html << "</li>"
     end
 
