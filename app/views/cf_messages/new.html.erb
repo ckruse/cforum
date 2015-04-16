@@ -58,14 +58,16 @@ content_for :body_classes, 'messages new forum-' + (current_forum.try(:slug) || 
 <% end %>
 
 <% if @parent %>
-  <article class="thread posting root">
-    <%= message_header(@thread, @thread.message, first: true,
-                       show_icons: true, active_message: @parent) %>
+  <div class="root">
+    <article class="thread posting">
+      <%= message_header(@thread, @thread.message, first: true,
+                         show_icons: true, active_message: @parent) %>
 
-    <% if not @thread.message.messages.blank? %>
-      <%= message_tree(@thread, @thread.message.messages, show_icons: true,
-                       hide_repeating_subjects: uconf('hide_subjects_unchanged') == 'yes',
-                       active_message: @parent) %>
-    <% end %>
-  </article>
+      <% if not @thread.message.messages.blank? %>
+        <%= message_tree(@thread, @thread.message.messages, show_icons: true,
+                         hide_repeating_subjects: uconf('hide_subjects_unchanged') == 'yes',
+                         active_message: @parent) %>
+      <% end %>
+    </article>
+  </div>
 <% end %>
