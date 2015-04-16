@@ -77,6 +77,42 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
     end
     super(el, indent)
   end
+
+  def convert_footnote(el, indent)
+    ret = super(el, indent)
+    ret = ret.gsub(/fnref:/, @options[:auto_id_prefix] + 'fnref:')
+    ret.gsub(/#fn:/, '#' + @options[:auto_id_prefix] + 'fn:')
+  end
+
+  def footnote_content
+    footnote_backlink_fmt = "%s<a href=\"#" + @options[:auto_id_prefix] + "fnref:%s\" class=\"reversefootnote\">%s</a>"
+
+    ol = Kramdown::Element.new(:ol)
+    ol.attr['start'] = @footnote_start if @footnote_start != 1
+    i = 0
+    while i < @footnotes.length
+      name, data, _, repeat = *@footnotes[i]
+      li = Kramdown::Element.new(:li, nil, {'id' => @options[:auto_id_prefix] + "fn:#{name}"})
+      li.children = Marshal.load(Marshal.dump(data.children))
+
+      if li.children.last.type == :p
+        para = li.children.last
+        insert_space = true
+      else
+        li.children << (para = Kramdown::Element.new(:p))
+        insert_space = false
+      end
+
+      para.children << Kramdown::Element.new(:raw, footnote_backlink_fmt % [insert_space ? ' ' : '', name, "&#8617;"])
+      (1..repeat).each do |index|
+        para.children << Kramdown::Element.new(:raw, footnote_backlink_fmt % [" ", "#{name}:#{index}", "&#8617;<sup>#{index+1}</sup>"])
+      end
+
+      ol.children << Kramdown::Element.new(:raw, convert(li, 4))
+      i += 1
+    end
+    (ol.children.empty? ? '' : format_as_indented_block_html('div', {:class => "footnotes"}, convert(ol, 2), 0))
+  end
 end
 
 # eof
