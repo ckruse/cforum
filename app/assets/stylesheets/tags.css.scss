@@ -29,11 +29,13 @@
   a:hover, a:focus, a:active { color: #990909; }
 }
 
-.cf-tag { font-weight: inherit; 
+.cf-tag {
+  font-weight: inherit;
+
   &:link, &:visited {
     color: #3481cd;
   }
-  &:hover, &:focus, &:active { 
+  &:hover, &:focus, &:active {
     border: 1px solid #5983ab;
   }
 }
@@ -52,7 +54,7 @@
   background-color: #f1f3f4;
   border-color: #c4c4c4;
 
-  a:visited, a { color: #999;}
+  a:visited, a { color: #999; }
 
   a:hover, a:focus, a:active { color: #990909; }
 
