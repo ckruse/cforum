@@ -19,6 +19,8 @@ module MessageHelper
     classes << 'deleted' if message.deleted?
     classes << 'active' if @message and @message.message_id == message.message_id
 
+    classes << thread.attribs['open_state'] == 'closed' ? 'closed' : 'open'
+
     if thread.accepted
       classes << "accepted-answer" if thread.accepted.message_id == message.message_id
       classes << "has-accepted-answer" if thread.message.message_id == message.message_id
