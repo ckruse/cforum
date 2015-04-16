@@ -26,7 +26,7 @@ class Peon::Tasks::ThreadMovedTask < Peon::Tasks::PeonTask
 
     @thread.messages.each do |m|
       Rails.logger.debug "thread moved task: owner: " + m.owner.inspect
-      next if m.owner.blank? or @notified[m.owner.user_id]
+      next if m.owner.blank? or @notified[m.owner.user_id] or not @new_forum.read?(m.owner)
 
       @notified[m.owner.user_id] = true
       notify_me = uconf('notify_on_move', m.owner, @thread.forum)
@@ -59,7 +59,7 @@ class Peon::Tasks::ThreadMovedTask < Peon::Tasks::PeonTask
     int_threads = CfInterestingThread.preload(:user).where(thread_id: @thread.thread_id).all
     int_threads.each do |it|
       Rails.logger.debug "thread moved task: owner: " + it.user.inspect
-      next if @notified[it.user_id]
+      next if @notified[it.user_id] or not @new_forum.read?(it.user)
 
       @notified[it.user_id] = true
       notify_me = uconf('notify_on_move', it.user, @thread.forum)
