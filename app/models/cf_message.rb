@@ -88,6 +88,12 @@ class CfMessage < ActiveRecord::Base
     end
   end
 
+  def all_answers(&block)
+    messages.each do |m|
+      block.call(m)
+      m.all_answers(&block)
+    end
+  end
 
   def subject_changed?
     return false if parent_id.blank?
