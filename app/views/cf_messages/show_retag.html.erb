@@ -33,6 +33,13 @@ content_for(:h1) do
           <input type="text" name="tag_list" value="<%= @tags.join(", ") %>" id="tags-input" class="tags-input"><noscript> <em>Komma-separierte Liste</em></noscript>
         </div>
       </div>
+
+      <div class="cf-cgroup">
+        <label>Auch an Antworten neu vergeben</label>
+        <div class="cntrls">
+          <label class="checkbox"><input type="checkbox" name="retag_answers" value="1"></label>
+        </div>
+      </div>
     </fieldset>
 
     <p>
