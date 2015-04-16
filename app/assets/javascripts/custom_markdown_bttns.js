@@ -221,7 +221,7 @@ cforum.markdown_buttons = {
     for(var button in cforum.markdown_buttons) {
       if(button != 'l10n') {
         cforum.markdown_buttons[button].title = t("buttons." + button + ".title");
-        cforum.markdown_buttons[button].text = t("buttons." + button + ".text");
+        cforum.markdown_buttons[button].btnText = t("buttons." + button + ".text");
       }
     }
   }
