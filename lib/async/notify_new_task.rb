@@ -17,7 +17,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     return unless parent # do not notify if new thread
     return unless uconf('notify_on_answer', usr, thread.forum) != 'no' # do not notify if not wanted
 
-    return true if parent.owner.user_id == usr.user_id # notify if parent is from looked-at user
+    return true if parent.owner and parent.owner.user_id == usr.user_id # notify if parent is from looked-at user
 
     return
   end
