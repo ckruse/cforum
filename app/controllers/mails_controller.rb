@@ -85,6 +85,7 @@ class MailsController < ApplicationController
   def create
     @mail           = CfPrivMessage.new(priv_message_params)
     @mail.sender_id = current_user.user_id
+    @mail.sender_name = current_user.username
     @mail.owner_id  = current_user.user_id
     @mail.is_read   = true
 
@@ -94,8 +95,12 @@ class MailsController < ApplicationController
     if not @mail.recipient_id.blank?
       recipient = CfUser.find(@mail.recipient_id)
 
+      @mail.recipient_name = recipient.username
+
       @mail_recipient           = CfPrivMessage.new(priv_message_params)
       @mail_recipient.sender_id = current_user.user_id
+      @mail_recipient.sender_name = current_user.username
+      @mail_recipient.recipient_name = recipient.username
       @mail_recipient.owner_id  = recipient.user_id
       @mail_recipient.body      = CfPrivMessage.to_internal(@mail_recipient.body)
 
