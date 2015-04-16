@@ -72,6 +72,13 @@ class CfMessagesController < ApplicationController
     end
   end
 
+  def edit_message_params
+    fields = [:subject, :content, :email, :homepage]
+    fields << :author if current_user.admin?
+
+    params.require(:cf_message).permit(fields)
+  end
+
   def message_params
     params.require(:cf_message).permit(:subject, :content, :author,
                                        :email, :homepage)
@@ -196,7 +203,7 @@ class CfMessagesController < ApplicationController
 
     invalid  = false
 
-    @message.attributes = message_params
+    @message.attributes = edit_message_params
     @message.content    = CfMessage.to_internal(@message.content)
 
     @tags    = parse_tags
