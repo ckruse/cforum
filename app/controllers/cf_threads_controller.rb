@@ -15,6 +15,7 @@ class CfThreadsController < ApplicationController
   NEW_THREAD       = "new_thread"
   NEW_THREAD_SAVED = "new_thread_saved"
   MODIFY_THREADLIST_QUERY_OBJ = 'modify_threadlist_query_obj'
+  THREAD_MOVED     = "thread_moved"
 
   def index
     index_threads
@@ -190,6 +191,7 @@ class CfThreadsController < ApplicationController
     moving
 
     @move_to = CfForum.find params[:move_to]
+    @forum   = @thread.forum
     raise CForum::ForbiddenException unless @forums.include?(@move_to)
 
     saved = false
@@ -208,6 +210,7 @@ class CfThreadsController < ApplicationController
 
     respond_to do |format|
       if saved
+        notification_center.notify(THREAD_MOVED, @thread, @forum, @move_to)
         format.html { redirect_to cf_message_url(@thread, @thread.message), notice: t('threads.moved') }
       else
         format.html { render :moving }
