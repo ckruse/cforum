@@ -20,7 +20,8 @@ class Admin::CfUsersController < ApplicationController
     end
 
     @users = sort_query(%w(username email admin active created_at updated_at),
-                        @users).page(params[:page]).per(@limit)
+                        @users, {admin: 'COALESCE(admin, false)'}).
+             page(params[:page]).per(@limit)
 
     respond_to do |format|
       format.html
