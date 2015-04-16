@@ -201,7 +201,7 @@ module MessageHelper
     if not opts[:tree] and (not message.email.blank? or not message.homepage.blank?)
       html << ' <span class="author-infos">'
       html << ' ' + link_to('', 'mailto:' + message.email, class: 'author-email') if not message.email.blank?
-      html << ' ' + link_to('', message.homepage, class: 'author-homepage') if not message.homepage.blank?
+      html << ' ' + link_to('', message.homepage, class: 'author-homepage', rel: 'nofollow') if not message.homepage.blank?
       html << "</span>"
     end
 
