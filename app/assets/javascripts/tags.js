@@ -1,5 +1,5 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum, Mustache */
+/* global cforum, Mustache, t */
 
 cforum.tags = {
   events: $({}),
@@ -224,6 +224,15 @@ cforum.tags = {
       select: function(event, ui) {
         $("#replaced_tag_input").val(ui.item.label);
         cforum.tags.addTag.call($("#replaced_tag_input"), event);
+      },
+      response: function(event, ui) {
+        if(ui.content.length == 1 && !cforum.tags.mayCreateTag(cforum.currentUser)) {
+          var tag = ui.content[0].label;
+          ui.content = [];
+
+          cforum.tags.appendTag(tag, null, null, true);
+          cforum.tags.events.trigger('tags:add-tag', tag);
+        }
       }
     });
 
