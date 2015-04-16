@@ -1,4 +1,5 @@
 /* -*- coding: utf-8 -*- */
+/* global cforum, t */
 
 cforum.markdown_buttons = {
   tab: {
@@ -12,7 +13,7 @@ cforum.markdown_buttons = {
       e.replaceSelection("\t");
       cursor = selected.start;
 
-      e.setSelection(cursor, cursor + 1);
+      e.setSelection(cursor + 1, cursor + 1);
     }
   },
 
@@ -27,7 +28,7 @@ cforum.markdown_buttons = {
       e.replaceSelection("…");
       cursor = selected.start;
 
-      e.setSelection(cursor, cursor + 1);
+      e.setSelection(cursor + 1, cursor + 1);
     }
   },
 
@@ -42,7 +43,7 @@ cforum.markdown_buttons = {
       e.replaceSelection("–");
       cursor = selected.start;
 
-      e.setSelection(cursor, cursor + 1);
+      e.setSelection(cursor + 1, cursor + 1);
     }
   },
 
@@ -57,7 +58,7 @@ cforum.markdown_buttons = {
       e.replaceSelection("≈");
       cursor = selected.start;
 
-      e.setSelection(cursor, cursor + 1);
+      e.setSelection(cursor + 1, cursor + 1);
     }
   },
 
@@ -72,7 +73,7 @@ cforum.markdown_buttons = {
       e.replaceSelection("≠");
       cursor = selected.start;
 
-      e.setSelection(cursor, cursor + 1);
+      e.setSelection(cursor + 1, cursor + 1);
     }
   },
 
@@ -87,7 +88,7 @@ cforum.markdown_buttons = {
       e.replaceSelection("×");
       cursor = selected.start;
 
-      e.setSelection(cursor, cursor + 1);
+      e.setSelection(cursor + 1, cursor + 1);
     }
   },
 
@@ -102,7 +103,7 @@ cforum.markdown_buttons = {
       e.replaceSelection("→");
       cursor = selected.start;
 
-      e.setSelection(cursor, cursor + 1);
+      e.setSelection(cursor + 1, cursor + 1);
     }
   },
 
@@ -117,7 +118,7 @@ cforum.markdown_buttons = {
       e.replaceSelection("↑");
       cursor = selected.start;
 
-      e.setSelection(cursor, cursor + 1);
+      e.setSelection(cursor + 1, cursor + 1);
     }
   },
 
@@ -132,7 +133,7 @@ cforum.markdown_buttons = {
       e.replaceSelection("▲");
       cursor = selected.start;
 
-      e.setSelection(cursor, cursor + 1);
+      e.setSelection(cursor + 1, cursor + 1);
     }
   },
 
@@ -147,7 +148,7 @@ cforum.markdown_buttons = {
       e.replaceSelection("⇒");
       cursor = selected.start;
 
-      e.setSelection(cursor, cursor + 1);
+      e.setSelection(cursor + 1, cursor + 1);
     }
   },
 
@@ -162,7 +163,7 @@ cforum.markdown_buttons = {
       e.replaceSelection("™");
       cursor = selected.start;
 
-      e.setSelection(cursor, cursor + 1);
+      e.setSelection(cursor + 1, cursor + 1);
     }
   },
 
