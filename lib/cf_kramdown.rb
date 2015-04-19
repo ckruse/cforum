@@ -54,6 +54,16 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
   define_parser(:span_html, /\0/) unless @@parsers.has_key?(:pan_html)
   define_parser(:block_html, /\0/) unless @@parsers.has_key?(:block_html)
   define_parser(:html_entity, /\0/) unless @@parsers.has_key?(:html_entity)
+
+
+  def handle_extension(name, opts, body, type, line_no = nil)
+    if name == 'nomarkdown'
+      add_text(body) if body.kind_of?(String)
+      true
+    else
+      super(name, opts, body, type, line_no)
+    end
+  end
 end
 
 class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
