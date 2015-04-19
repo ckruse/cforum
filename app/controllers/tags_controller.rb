@@ -160,8 +160,14 @@ class TagsController < ApplicationController
   end
 
   def destroy
-    @tag = CfTag.where('tags.forum_id = ? AND slug = ?',
-                       current_forum.forum_id, params[:id]).first!
+    @tag = CfTag.
+           where('tags.forum_id = ? AND slug = ?',
+                 current_forum.forum_id, params[:id]).first!
+
+    if @tag.messages.count > 0
+      redirect_to tag_url(current_forum.slug, @tag), alert: t('tags.tag_has_messages')
+      return
+    end
 
     @tag.destroy
 

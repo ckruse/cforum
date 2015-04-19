@@ -26,3 +26,5 @@ de:
     destroyed: Der Tag wurde erfolgreich gelöscht.
     synonym_destroyed: Das Synonym wurde erfolgreich gelöscht.
     merged: Die Tags wurden erfolgreich zusammengeführt.
+
+    tag_has_messages: Der Tag ist noch Nachrichten zugeordnet. Er kann nicht gelöscht werden.
