@@ -236,6 +236,10 @@ cforum.tags = {
       }
     });
 
+    el.on('focus', function() {
+      el.autocomplete("search", "");
+    });
+
     cforum.tags.events.on('tags:add-tag', cforum.tags.checkForInvalidTag);
     cforum.tags.events.on('tags:remove', cforum.tags.hideInvalidWarnings);
   },
