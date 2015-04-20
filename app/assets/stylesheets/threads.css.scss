@@ -124,6 +124,8 @@ a.thread-forum-plate:visited {
       color:#5D7380;
     }
 
+    .author a:hover { color: #990909; }
+
     .votes, .num-infos {
       display:inline-block;
       color: #8a9da8;
@@ -146,17 +148,21 @@ a.thread-forum-plate:visited {
   }
 
   
-  .active a {
-	  color: #00a1e2;
-	  font-weight: bold;
+  .active {
+    a, .author a {
+	    color: #00a1e2;
+	    font-weight: bold;
+    }
+
+    .votes:before {
+      content: "►";
+      color: #00A1E2;
+      font-size:1em;
+      margin-right:0.3em;
+    }
   }
 
-  .active .votes:before {
-    content: "►";
-    color: #00A1E2;
-    font-size:1em;
-    margin-right:0.3em;
-  }
+  header.visited.active .author a { color: #00a1e2; }
 
   header.highlighted-user .author, header.highlighted-user .author a {
     color:#8ab337;
