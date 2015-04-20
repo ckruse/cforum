@@ -110,7 +110,7 @@ class CfThreadsController < ApplicationController
     iv_tags = invalid_tags(@tags)
     if not iv_tags.blank?
       invalid = true
-      flash[:error] = I18n.t('messages.invalid_tags', tags: iv_tags.join(", "))
+      flash[:error] = t_numerus(iv_tags.length, 'messages.invalid_tags_s', 'messages.invalid_tags_p', tags: iv_tags.join(", "))
     end
 
     unless current_user

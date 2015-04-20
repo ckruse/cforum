@@ -10,7 +10,7 @@ content_for :h1, t("messages.close_vote.close_message",
 
 <% if @close_vote.errors.any? %>
   <div id="error_explanation" class="cf-error">
-    <h4><%= t('messages.close_vote.error_message', errors_count: pluralize(@close_vote.errors.count, t("global.error"), t('global.errors'))) %></h4>
+    <h4><%= t_numerus(@close_vote.errors.count, 'messages.close_vote.error_message_s', 'messages.close_vote.error_message_p', num: @close_vote.errors.count) %></h4>
 
       <ul>
       <% @close_vote.errors.full_messages.each do |msg| %>

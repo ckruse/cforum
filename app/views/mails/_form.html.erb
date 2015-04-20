@@ -1,6 +1,6 @@
   <% if @mail.errors.any? %>
     <div id="error_explanation">
-      <h2><%= t('mails.error_message') %></h2>
+      <h2><%= t_numerus(@mail.errors.count, 'mails.error_message_s', 'mails.error_message_p', num: @mail.errors.count) %></h2>
 
       <ul>
       <% @mail.errors.full_messages.each do |msg| %>

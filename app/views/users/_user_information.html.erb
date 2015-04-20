@@ -1,6 +1,6 @@
   <% if @user.errors.any? %>
     <div id="error_explanation" class="cf-error">
-      <h4><%= t('messages.error_message', errors_count: pluralize(@user.errors.count, t("global.error"), t('global.errors'))) %></h4>
+      <h4><%= t_numerus(@user.errors.count, 'users.error_message_s', 'users.error_message_p', num: @user.errors.count) %></h4>
 
       <ul>
       <% @user.errors.full_messages.each do |msg| %>

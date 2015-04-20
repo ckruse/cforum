@@ -1,7 +1,7 @@
 <%= form_for @thread, url: cf_threads_path(current_forum), html: {class: 'form-horizontal'} do |f| %>
   <% if @thread.message.errors.any? %>
     <div id="error_explanation" class="cf-error">
-      <h4><%= t('messages.error_message', errors_count: pluralize(@message.errors.count, t("global.error"), t('global.errors'))) %></h4>
+      <h4><%= t_numerus(@thread.message.errors.count, 'messages.error_message_s', 'messages.error_message_p', num: @thread.message.errors.count) %></h4>
 
       <ul>
       <% @thread.message.errors.full_messages.each do |msg| %>
