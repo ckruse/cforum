@@ -37,5 +37,6 @@ de:
 
     confirm_first: Sie müssen Ihr Profil erst bestätigen.
 
-    error_message_p: "%{num} verhinderten, dass dieser Benutzer gespeichert werden konnte:"
-    error_message_s: "%{num} verhindert, dass dieser Benutzer gespeichert werden konnte:"
+    error_message:
+      other: "%{count} verhinderten, dass dieser Benutzer gespeichert werden konnte:"
+      one: "%{count} verhindert, dass dieser Benutzer gespeichert werden konnte:"

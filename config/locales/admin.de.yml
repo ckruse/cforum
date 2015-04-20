@@ -18,8 +18,9 @@ de:
       settings_close_votes: Abstimmungen
       scores: Punkte
 
-      error_message_p: "%{num} Fehler verhinderten, dass dieses Forum gespeichert werden konnte:"
-      error_message_s: "%{num} Fehler verhindert, dass dieses Forum gespeichert werden konnte:"
+      error_message:
+        other: "%{count} Fehler verhinderten, dass dieses Forum gespeichert werden konnte:"
+        one: "%{count} Fehler verhindert, dass dieses Forum gespeichert werden konnte:"
       new_forum: neues Forum
       edit: "Forum %{name} bearbeiten"
       merge_forum: "Forum %{forum} zusammenführen"
@@ -65,8 +66,9 @@ de:
       created: Benutzer erfolgreich erstellt.
       deleted: Benutzer erfolgreich gelöscht.
 
-      error_message_p: "%{num} Fehler verhinderten, dass dieser Benutzer gespeichert werden konnte:"
-      error_message_s: "%{num} Fehler verhindert, dass dieser Benutzer gespeichert werden konnte:"
+      error_message:
+        other: "%{count} Fehler verhinderten, dass dieser Benutzer gespeichert werden konnte:"
+        one: "%{count} Fehler verhindert, dass dieser Benutzer gespeichert werden konnte:"
       new_user: Neuer Benutzer
       edit_user: "Benutzer %{username} bearbeiten"
       do_edit_user: Benutzer bearbeiten
@@ -78,8 +80,9 @@ de:
       created: Gruppe erfolgreich erstellt.
       deleted: Gruppe erfolgreich gelöscht.
 
-      error_message_p: "%{num} Fehler verhinderten, dass diese Gruppe gespeichert werden konnte:"
-      error_message_s: "%{num} Fehler verhindert, dass diese Gruppe gespeichert werden konnte:"
+      error_message:
+        other: "%{count} Fehler verhinderten, dass diese Gruppe gespeichert werden konnte:"
+        one: "%{count} Fehler verhindert, dass diese Gruppe gespeichert werden konnte:"
       new_group: neue Gruppe erstellen
       edit_group: "Gruppe %{name} bearbeiten"
       delete_group: "Gruppe %{name} löschen"
@@ -92,8 +95,9 @@ de:
       created: Abzeichen erfolgreich erstellt
       destroyed: Abzeichen erfolgreich gelöscht
 
-      error_message_p: "%{num} Fehler verhinderten, dass Dieses Abzeichen gespeichert werden konnte:"
-      error_message_s: "%{num} Fehler verhindert, dass Dieses Abzeichen gespeichert werden konnte:"
+      error_message:
+        other: "%{count} Fehler verhinderten, dass Dieses Abzeichen gespeichert werden konnte:"
+        one: "%{count} Fehler verhindert, dass Dieses Abzeichen gespeichert werden konnte:"
       new_badge: neues Abzeichen erstellen
       edit: "Abzeichen %{name} bearbeiten"
 

@@ -2,19 +2,22 @@ de:
   messages:
     messages: Beiträge
     by: von
-    num_messages_p: "%{num} Beiträge"
-    num_messages_s: "%{num} Beitrag"
+    num_messages:
+      other: "%{count} Beiträge"
+      one: "%{count} Beitrag"
     created: Beitrag wurde erfolgreich erstellt.
     destroyed: Beitrag wurde erfolgreich gelöscht.
     updated: Beitrag wurde erfolgreich geändert.
     restored: Beitrag wurde erfolgreich wiederhergestellt.
-    error_message_p: "%{num} verhinderten, dass dieser Beitrag gespeichert werden konnte:"
-    error_message_s: "%{num} verhindert, dass dieser Beitrag gespeichert werden konnte:"
+    error_message:
+      other: "%{count} verhinderten, dass dieser Beitrag gespeichert werden konnte:"
+      one: "%{count} verhindert, dass dieser Beitrag gespeichert werden konnte:"
     tags_invalid: Das Tag ist fehlerhaft.
     too_many_tags: "Sie dürfen nur maximal %{max_tags} Tags verwenden."
     not_enough_tags: "Sie müssen mindestens %{min_tags} Tags verwenden."
-    invalid_tags_p: "Sie dürfen keine neuen Tags erstellen und diese Tags existieren bisher nicht: %{tags}."
-    invalid_tags_s: "Sie dürfen keine neuen Tags erstellen und dieser Tag existiert bisher nicht: %{tags}."
+    invalid_tags:
+      other: "Sie dürfen keine neuen Tags erstellen und diese Tags existieren bisher nicht: %{tags}."
+      one: "Sie dürfen keine neuen Tags erstellen und dieser Tag existiert bisher nicht: %{tags}."
     only_author_or_mod_may_edit: Nur der Autor oder ein Moderator kann eine Antwort editieren.
     message_too_old_to_edit: Beiträge dürfen nur in einem Zeitraum von %{minutes} Minuten editiert werden.
     editing_disabled: Das Editieren von Beiträgen ist deaktiviert.
@@ -27,8 +30,9 @@ de:
     write_new_answer: neue Antwort verfassen
     restore_message: Beitrag wiederherstellen
     delete_message: Beitrag löschen
-    votes_p: "%{num} Bewertungen"
-    votes_s: "%{num} Bewertung"
+    votes:
+      other: "%{count} Bewertungen"
+      one: "%{count} Bewertung"
     all_msgs_num: Anzahl aller Beiträge
     unread_messages_num: Anzahl ungelesener Beiträge
     user_link: Benutzer %{user}
@@ -65,8 +69,9 @@ de:
       created: Die Abstimmung wurde erstellt.
       voted: Sie haben erfolgreich abgestimmt.
       vote_deleted: Ihre Stimme wurde erfolgreich zurückgenommen.
-      error_message_p: "%{num} verhinderten, dass diese Abstimmung gespeichert werden konnte:"
-      error_message_s: "%{num} verhindert, dass diese Abstimmung gespeichert werden konnte:"
+      error_message:
+        other: "%{count} verhinderten, dass diese Abstimmung gespeichert werden konnte:"
+        one: "%{count} verhindert, dass diese Abstimmung gespeichert werden konnte:"
       close_message: Beitrag „%{subject}” von %{author} sperren
       open_message: Beitrag „%{subject}” von %{author} entsperren
       close_message_button: Beitrag beanstanden

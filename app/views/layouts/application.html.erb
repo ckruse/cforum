@@ -135,28 +135,20 @@ end
             <li id="optionen-myadmin"><%= link_to t("layout.settings"), edit_user_path(current_user) %></li>
             <li id="user-notifications"><%= link_to(t("notifications.notifications"),
                                                     notifications_path,
-                                                    title: t_numerus(@new_notifications.length,
-                                                                     "notifications.new_notification",
-                                                                     "notifications.new_notifications",
-                                                                     num: @new_notifications.length)) %>
+                                                    title: t("notifications.new_notifications",
+                                                             count: @new_notifications.length)) %>
               (<span class="notifications<% if @new_notifications.length > 0 %> new<% end %>"
                      id="notifications-display"
-                     title="<%= t_numerus(@new_notifications.length,
-                                          "notifications.new_notification",
-                                          "notifications.new_notifications",
-                                          num: @new_notifications.length) %>"><%= @new_notifications.length %></span>)
+                     title="<%= t("notifications.new_notifications",
+                                  count: @new_notifications.length) %>"><%= @new_notifications.length %></span>)
             </li>
             <li id="post-link"><%= link_to(t("layout.mail"),
                                            mails_path,
-                                           title: t_numerus(@new_mails.length,
-                                                            "mails.new_mails_num_s",
-                                                            "mails.new_mails_num_p",
-                                                            num: @new_mails.length)) %>
+                                           title: t("mails.new_mails_num",
+                                                    count: @new_mails.length)) %>
               (<span class="mails new" id="mails"
-                     title="<%= t_numerus(@new_mails.length,
-                                          "mails.new_mails_num_s",
-                                          "mails.new_mails_num_p",
-                                          num: @new_mails.length) %>"><%= @new_mails.length %></span>)</li>
+                     title="<%= t("mails.new_mails_num",
+                                  count: @new_mails.length) %>"><%= @new_mails.length %></span>)</li>
             <li id="optionen-logout"><%= link_to(t('layout.logout'), destroy_user_session_path, method: :delete) %></li>
           <% else %>
             <li id="optionen-my"><%= link_to(t('layout.login'), new_user_session_path) %></li>

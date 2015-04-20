@@ -151,7 +151,7 @@ class CfMessagesController < ApplicationController
     iv_tags = invalid_tags(@tags)
     if not iv_tags.blank?
       invalid = true
-      flash[:error] = t_numerus(iv_tags.length, 'messages.invalid_tags_s', 'messages.invalid_tags_p', tags: iv_tags.join(", "))
+      flash[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
     end
 
     unless current_user
@@ -219,7 +219,7 @@ class CfMessagesController < ApplicationController
     iv_tags = invalid_tags(@tags)
     if not iv_tags.blank?
       invalid = true
-      flash[:error] = t_numerus(iv_tags.length, 'messages.invalid_tags_s', 'messages.invalid_tags_p', tags: iv_tags.join(", "))
+      flash[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
     end
 
     saved = false
@@ -309,7 +309,7 @@ class CfMessagesController < ApplicationController
     iv_tags = invalid_tags(@tags)
     if not iv_tags.blank?
       invalid = true
-      flash[:error] = t_numerus(iv_tags.length, 'messages.invalid_tags_s', 'messages.invalid_tags_p', tags: iv_tags.join(", "))
+      flash[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
     end
 
     saved = false

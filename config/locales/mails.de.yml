@@ -2,13 +2,15 @@ de:
   mails:
     destroyed: Die Nachricht wurde erfolgreich gelöscht.
     sent: Die Nachricht wurde erfolgreich verschickt.
-    error_message_p: "%{num} Fehler verhinderten, dass diese Nachricht gespeichert werden konnte:"
-    error_message_s: "%{num} Fehler verhindert, dass diese Nachricht gespeichert werden konnte:"
+    error_message:
+      other: "%{count} Fehler verhinderten, dass diese Nachricht gespeichert werden konnte:"
+      one: "%{count} Fehler verhindert, dass diese Nachricht gespeichert werden konnte:"
     define_recipient_please: Bitte geben Sie einen Empfänger an.
     post: Post
     new_mail: neue Mail
-    new_mails_num_s: "%{num} neue Nachricht"
-    new_mails_num_p: "%{num} neue Nachrichten"
+    new_mails_num:
+      one: "%{count} neue Nachricht"
+      other: "%{count} neue Nachrichten"
     post_from: Kommunikation mit %{name}
     delete: Post löschen
     answer_mail: Nachricht beantworten

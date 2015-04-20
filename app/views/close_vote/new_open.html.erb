@@ -9,7 +9,7 @@ content_for :h1, t("messages.close_vote.open_message",
 
 <% if @open_vote.errors.any? %>
   <div id="error_explanation" class="cf-error">
-    <h4><%= t_numerus(@open_vote.errors.count, 'messages.close_vote.error_message_s', 'messages.close_vote.error_message_p', num: @open_vote.errors.count) %></h4>
+    <h4><%= t('messages.close_vote.error_message', count: @open_vote.errors.count) %></h4>
 
       <ul>
       <% @open_vote.errors.full_messages.each do |msg| %>

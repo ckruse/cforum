@@ -43,14 +43,6 @@ module ApplicationHelper
     nam = nam.strip.downcase
     nam.gsub(/[^a-zA-Z0-9]/, '-')
   end
-
-  def pluralize_wo_count(num, singular, plural)
-    num == 1 ? singular : plural
-  end
-
-  def t_numerus(num, singular, plural, args = {})
-    t(pluralize_wo_count(num, singular, plural), args)
-  end
 end
 
 require 'pp'

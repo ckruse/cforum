@@ -1,9 +1,7 @@
 <% if @cf_forum.errors.any? or @settings.errors.any? %>
   <div id="error_explanation">
-    <h2><%= t_numerus(@cf_forum.errors.count + @settings.errors.count,
-                      'admin.forums.error_message_s',
-                      'admin.forums.error_message_p',
-                      num: @cf_forum.errors.count + @settings.errors.count) %></h2>
+    <h2><%= t('admin.forums.error_message',
+              count: @cf_forum.errors.count + @settings.errors.count) %></h2>
 
     <ul>
       <% @cf_forum.errors.full_messages.each do |msg| %>

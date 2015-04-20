@@ -156,17 +156,15 @@ module MessageHelper
     end
 
     if opts[:show_icons]
-      html << ' <span class="votes" title="' + t_numerus(message.score, 'messages.votes_s', 'messages.votes_p', num: message.score) + '">' + message.score.to_s + '</span>'
+      html << ' <span class="votes" title="' + t('messages.votes', count: message.score) + '">' + message.score.to_s + '</span>'
     end
 
     if opts[:first]
       if opts[:show_icons]
-        html << "<span class=\"num-infos\"><span class=\"num-msgs\" title=\"" + t_numerus(thread.messages.length,
-                                                                                          "messages.num_messages_s",
-                                                                                          "messages.num_messages_p",
-                                                                                          num: thread.messages.length) + "\">" + thread.messages.length.to_s + "</span>"
+        html << "<span class=\"num-infos\"><span class=\"num-msgs\" title=\"" + t("messages.num_messages",
+                                                                                  count: thread.messages.length) + "\">" + thread.messages.length.to_s + "</span>"
         unless thread.attribs[:msgs].blank?
-          html << "<span class=\"num-unread\" title=\"" + t("plugins.mark_read.num_unread", num: thread.attribs[:msgs][:unread]) + "\">" + thread.attribs[:msgs][:unread].to_s + "</span>"
+          html << "<span class=\"num-unread\" title=\"" + t("plugins.mark_read.num_unread", count: thread.attribs[:msgs][:unread]) + "\">" + thread.attribs[:msgs][:unread].to_s + "</span>"
         end
         html << "</span>"
       end
@@ -250,9 +248,9 @@ module MessageHelper
 
     if opts[:show_votes]
       html << ' <span class="votes" title="' +
-        t_numerus(message.score, 'messages.votes_s', 'messages.votes_p', num: message.score) +
+        t('messages.votes', count: message.score) +
         '">' +
-        t_numerus(message.score, 'messages.votes_s', 'messages.votes_p', num: message.score) +
+        t('messages.votes', count: message.score) +
         '</span>'
     end
 

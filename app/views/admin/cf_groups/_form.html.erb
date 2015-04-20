@@ -1,6 +1,6 @@
 <% if @group.errors.any? %>
   <div id="error_explanation">
-    <h2><%= t_numerus(@group.errors.count, 'admin.groups.error_message_s', 'admin.groups.error_message_p', num: @group.errors.count) %></h2>
+    <h2><%= t('admin.groups.error_message', count: @group.errors.count) %></h2>
 
     <ul>
       <% @group.errors.full_messages.each do |msg| %>

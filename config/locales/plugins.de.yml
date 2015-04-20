@@ -39,7 +39,9 @@ de:
       marked_all_read: Alle Nachrichten der Hauptseite wurden als gelesen markiert.
       mark_all_read: Alle Nachrichten als gelesen markieren
       mark_unread: ungelesen markieren
-      num_unread: "%{num} ungelesene Beiträge"
+      num_unread:
+        other: "%{count} ungelesene Beiträge"
+        one: "%{count} ungelesener Beitrag"
       mark_thread_read: Thread als gelesen markieren
       thread_marked_read: Der Thread wurde als gelesen markiert.
 
