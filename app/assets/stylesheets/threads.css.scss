@@ -118,7 +118,7 @@ a.thread-forum-plate:visited {
       font-size: 1em;
     }
 
-    .author {
+    .author, .author a {
       font-weight:bold;
       white-space:nowrap;
       color:#5D7380;
@@ -141,7 +141,7 @@ a.thread-forum-plate:visited {
     .votes { margin-left:0.5em; }
   }
 
-  header.visited .author {
+  header.visited .author, header.visited .author a {
     color: #8a9da8;
   }
 
@@ -158,23 +158,24 @@ a.thread-forum-plate:visited {
     margin-right:0.3em;
   }
 
-  header.highlighted-user .author {
+  header.highlighted-user .author, header.highlighted-user .author a {
     color:#8ab337;
   }
 
-  header.visited.highlighted-user .author {
+  header.visited.highlighted-user .author, header.visited.highlighted-user .author a {
     color: #bdd886;
   }
 
-  header.highlighted-self .author {
+  header.highlighted-self .author, header.highlighted-self .author a {
     color:#c32e04;
   }
 
-  header.visited.highlighted-self .author {
+  header.visited.highlighted-self .author, header.visited.highlighted-self .author a {
     color: #d37b6d;
   }
   /* gelöschte Beiträge */
   header.deleted .details .author,
+  header.deleted .details .author a,
   .deleted, a.deleted, .deleted a {
     color: #900;
   }
