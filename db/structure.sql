@@ -869,6 +869,40 @@ ALTER SEQUENCE invisible_threads_invisible_thread_id_seq OWNED BY invisible_thre
 
 
 --
+-- Name: media; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE media (
+    medium_id bigint NOT NULL,
+    filename character varying NOT NULL,
+    orig_name character varying NOT NULL,
+    content_type character varying NOT NULL,
+    owner_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: media_medium_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE media_medium_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: media_medium_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE media_medium_id_seq OWNED BY media.medium_id;
+
+
+--
 -- Name: messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1455,6 +1489,13 @@ ALTER TABLE ONLY invisible_threads ALTER COLUMN invisible_thread_id SET DEFAULT 
 
 
 --
+-- Name: medium_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media ALTER COLUMN medium_id SET DEFAULT nextval('media_medium_id_seq'::regclass);
+
+
+--
 -- Name: message_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1686,6 +1727,14 @@ ALTER TABLE ONLY interesting_threads
 
 ALTER TABLE ONLY invisible_threads
     ADD CONSTRAINT invisible_threads_pkey PRIMARY KEY (invisible_thread_id);
+
+
+--
+-- Name: media_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY media
+    ADD CONSTRAINT media_pkey PRIMARY KEY (medium_id);
 
 
 --
@@ -2311,6 +2360,14 @@ ALTER TABLE ONLY invisible_threads
 
 
 --
+-- Name: media_owner_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media
+    ADD CONSTRAINT media_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
 -- Name: messages_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2639,6 +2696,8 @@ INSERT INTO schema_migrations (version) VALUES ('6');
 INSERT INTO schema_migrations (version) VALUES ('60');
 
 INSERT INTO schema_migrations (version) VALUES ('61');
+
+INSERT INTO schema_migrations (version) VALUES ('62');
 
 INSERT INTO schema_migrations (version) VALUES ('7');
 
