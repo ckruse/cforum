@@ -127,4 +127,9 @@
   @extend .fa-external-link;
 }
 
+.icon-image {
+  @extend .fa;
+  &.delete { @extend .fa-trash; }
+}
+
 /* eof */

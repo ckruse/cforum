@@ -58,6 +58,7 @@ Cforum::Application.routes.draw do
       as: :choose_css
   post '/choose_css' => 'css_chooser_plugin#css_chosen'
 
+  resources 'images', except: [:new, :edit, :update]
 
   # old archive url
   get '/archiv' => 'cf_forums#redirect_archive'

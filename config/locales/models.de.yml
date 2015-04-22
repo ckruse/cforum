@@ -34,13 +34,15 @@ de:
   activerecord:
     errors:
       <<: *errors
-    models:
+
+      models:
       cf_message: Nachricht
       cf_thread: Thread
       cf_user: Benutzer
       cf_forum: Forum
       cf_close_vote: Sperr-Abstimmung
       cf_badge: Abzeichen
+      medium: Medium
 
     attributes:
       cf_message:
@@ -108,3 +110,7 @@ de:
         tag_name: Tag-Name
         slug: Slug
         suggest: Vorschlagen
+
+      medium:
+        orig_name: Name
+        created_at: erstellt
