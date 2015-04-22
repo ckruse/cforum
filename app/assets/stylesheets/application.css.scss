@@ -154,10 +154,20 @@ a.forgotten-password-link {
 }
 
 #charta {
-    border-left: 5px solid #c32e04;
-    list-style-type: none;
-    margin: 0;
-    padding-left: 1em;
+  border-left: 5px solid #c32e04;
+  list-style-type: none;
+  margin: 0;
+  padding-left: 1em;
+
+  a {
+    &:visited {
+      color: #3481cd;
+    }
+
+    &:hover, &:focus, &:active {
+      color: #990909;
+    }
+  }
 }
 
 
