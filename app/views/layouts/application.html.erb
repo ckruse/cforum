@@ -130,7 +130,7 @@ end
                                            user_path(current_user),
                                            id: 'username',
                                            title: t("users.score_num", num: current_user.score)) %>
-              <span class="score" title="<%= t("users.score_num", num: current_user.score) %>">(<%= current_user.score %>)</span>
+              <span class="score" title="<%= t("users.score_num", num: current_user.score) %>">(<%= number_with_delimiter(current_user.score) %>)</span>
             </li>
             <li id="optionen-myadmin"><%= link_to t("layout.settings"), edit_user_path(current_user) %></li>
             <li id="user-notifications"><%= link_to(t("notifications.notifications"),
