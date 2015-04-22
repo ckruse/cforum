@@ -281,6 +281,12 @@
 
         editor.append(editorHeader);
 
+        // Hänge einen Bearbeitungshinweis ein
+
+        var cf_markdown = "<p class='cf_markdown'>Dieses Forum nutzt <a href='http://markdown.de/syntax/index.html'>markdown</a> zur Formatierung der Postings. " +
+                 "<a href='http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bedienung'>Formatierungshilfe</a></p>";
+        editor.append(cf_markdown);
+
         // Wrap the textarea
         if (container.is('textarea')) {
           container.before(editor);
@@ -312,6 +318,12 @@
           // Set editor to blocked the original container
           container.replaceWith(editor);
         }
+
+        // Hänge Hinweis auf drag and drop ein
+
+          var cf_draganddrop = "<p class='cf_draganddrop'>Attach images by dragging &amp; dropping or <a href='#'>selected them</a>.</p>";
+
+          editor.append(cf_draganddrop);
 
         var editorFooter = $('<div/>', {
                            'class': 'md-footer'

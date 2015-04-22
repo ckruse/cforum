@@ -270,4 +270,34 @@ legend {
   }
 }
 
+.cf_markdown, .cf_draganddrop {
+  border: 1px solid #ccc;
+  padding: .3em;
+  font-size: 14px;
+}
+
+#message_input {
+  border-radius: 0;
+  border-top: 0;
+  border-bottom: 0;
+  margin-bottom: 0;
+  resize: vertical!important;
+  width: 95.5%;
+  margin: 0 .5em;
+}
+.cf_markdown {
+  margin: 1em .5em 0;
+  border-radius: .5em .5em 0 0;
+  border-bottom-style: dotted;
+}
+.cf_draganddrop {
+  margin: 0 .5em 1em;
+  border-radius: 0 0 .5em .5em;
+  border-top-style: dotted;
+}
+#message_input:focus {
+  box-shadow: none;
+  border-color: #ccc;
+}
+
 /* eof */
