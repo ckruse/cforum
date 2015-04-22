@@ -233,11 +233,21 @@ a.thread-forum-plate:active {
       margin-right: 0.3em;
     }
   }
+  .details .author a:hover,
+  .details .author a:focus,
+  .details .author a:active {
+    color: #990909;
+  }
   button {
     color: #3481cd;
   }
   .visited button {
     color: #999;
+  }
+  button:hover, 
+  button:focus, 
+  button:active {
+    color: #990909;
   }
   .deleted, .visited.deleted {
     a, .author a {

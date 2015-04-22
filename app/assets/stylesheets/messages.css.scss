@@ -69,7 +69,12 @@ main h2 { margin-left:0; }
 
   .forum-links a {
     color: #3481CD;
+
+    &:hover, &:active, &:focus {
+      color: #990909;
+    }
   }
+
 
   .deleted + .posting-content,
   .deleted + .posting-content * {
