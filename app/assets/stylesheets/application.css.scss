@@ -43,7 +43,7 @@ h3 {
 body > p { 
   margin: 1em 2em; 
 }
-code,kbd,tt {
+code, kbd {
   font-family: Consolas, Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Andale Mono', 'Droid Sans Mono', 'Lucida Console', monospace;
   color: #0000C0;
 }
@@ -54,7 +54,7 @@ label {
     font-weight: normal; 
   }
 }
-a, a:hover {
+a, a:hover, a:focus, a:active {
   font-weight: normal;
   text-decoration: none;
   transition: all .2s ease-in-out 0s;
@@ -67,7 +67,8 @@ a, a:hover {
 a:link, a:visited { 
   color: #3481cd; 
 }
-a:hover, a:focus , a:active { 
+a:hover, a:focus , a:active,
+button:hover, button:focus, button:active { 
   color: #990909; 
 }
 input { 
@@ -153,10 +154,20 @@ a.forgotten-password-link {
 }
 
 #charta {
-    border-left: 5px solid #c32e04;
-    list-style-type: none;
-    margin: 0;
-    padding-left: 1em;
+  border-left: 5px solid #c32e04;
+  list-style-type: none;
+  margin: 0;
+  padding-left: 1em;
+
+  a {
+    &:visited {
+      color: #3481cd;
+    }
+
+    &:hover, &:focus, &:active {
+      color: #990909;
+    }
+  }
 }
 
 

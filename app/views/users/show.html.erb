@@ -14,11 +14,10 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
     </tr>
     <tr>
       <th><%= t('users.score') %>:</th>
-      <td class="<% if @user_score < 0 %>score-down<% else %>score-up<% end %>"><%= @user_score %></td>
-    </tr>
+      <td class="<% if @user_score < 0 %>score-down<% else %>score-up<% end %>"><%= number_with_delimiter(@user_score) %></td>
     <tr>
       <th><%= t('users.num_messages') %>:</th>
-      <td><%= @messages_count %></td>
+      <td><%= number_with_delimiter(@messages_count) %></td>
     </tr>
     <% if current_user == @user %><tr>
       <th><%= CfUser.human_attribute_name("email") %>:</th>
@@ -34,7 +33,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 <ul class="user-info-tags clearfix">
   <% @tags_cnts.each do |t| %>
     <li><%= link_to t.tag.tag_name, tag_path(t.tag.forum.slug, t.tag), class: 'cf-tag' %>
-      <span class="cnt"><%= t.cnt %></span></li>
+      <span class="cnt"><%= number_with_delimiter(t.cnt) %></span></li>
   <% end %>
 </ul>
 

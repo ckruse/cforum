@@ -11,8 +11,8 @@
   clear:right;
 }
 
-.visited, a.visited, .visited a, a:visited, .thread header.visited .thread-icons form div button, .thread header.visited .message-icons form div button {
-	color: #999;
+.visited, a.visited, .visited a, a:visited {
+  color: #999;
 }
 
 a.visited:hover, a.visited:active,
@@ -21,27 +21,19 @@ a:visited:hover, a:visited:hover {
   color: #990909;
 }
 
-.thread-forum-plate {
+a.thread-forum-plate {
   font-size: 90%;
   font-weight: bold;
   background-color: #9AAAB3;
-  border-radius: 0px 0.3em 0.3em;
+  border-radius: 0 .3em .3em;
   color: #fff;
-  padding: 0.2em 0.6em 0.15em;
+  padding: .2em .6em .15em;
 }
 
 a.thread-forum-plate:hover,
 a.thread-forum-plate:focus,
 a.thread-forum-plate:active {
   color: #990909;
-}
-
-a.thread-forum-plate {
-  color:#fff;
-}
-
-a.thread-forum-plate:visited {
-  color: #f1f3f4;
 }
 
 .thread {
@@ -70,28 +62,29 @@ a.thread-forum-plate:visited {
       display:inline;
 
       button {
-        border:0;
-        padding:0;
-        background-color:inherit;
-        color:#3481cd;
+        border: 0;
+        padding: 0;
+        background-color: inherit;
       }
     }
   }
 
-  .message-icons button { margin-left:0.5em; }
+  .message-icons button {
+    margin-left: 0.5em; 
+  }
 
   ol {
-    list-style-type:none;
-    overflow:visible;
+    list-style-type: none;
+    overflow: visible;
         
     li {
-      padding:0;
-      margin:0;
+      padding: 0;
+      margin: 0;
     }
   }
 
   li ol {
-    margin-left:-0.75em;
+    margin-left: -0.75em;
   }
 
   header {
@@ -99,15 +92,12 @@ a.thread-forum-plate:visited {
     white-space: nowrap;
 
     h2, h3 {
-      font-size:1em;
-      display:inline;
-      line-height:inherit;
-      margin:0 0 0 0.325em;
-      font-weight:bold;
-    }
-
-    h2 a {
-      font-weight:bold;
+      font-size: 1em;
+      display: inline;
+      line-height: inherit;
+      margin: 0 0 0 0.325em;
+      font-weight: bold;
+      border: 0;
     }
 
     .details {
@@ -119,89 +109,39 @@ a.thread-forum-plate:visited {
     }
 
     .author, .author a {
-      font-weight:bold;
-      white-space:nowrap;
-      color:#5D7380;
+      white-space: nowrap;
     }
 
-    .author a:hover { color: #990909; }
-
     .votes, .num-infos {
-      display:inline-block;
+      display: inline-block;
       color: #8a9da8;
-      font-size:0.9em;
-      text-align:right;
+      font-size:  .9em;
+      text-align: right;
     }
 
     .num-infos:before, .num-unread:before {
       content:"|";
-      color:#999;
-      opacity: 0.5;
-      margin-left:2px;
-      margin-right:2px;
+      color: #999;
+      opacity:  .5;
+      margin-left: 2px;
+      margin-right: 2px;
     }
-    .votes { margin-left:0.5em; }
-  }
-
-  header.visited .author, header.visited .author a {
-    color: #8a9da8;
-  }
-
-  
-  .active {
-    a, .author a {
-	    color: #00a1e2;
-	    font-weight: bold;
+    .votes { 
+	     margin-left: .5em; 
     }
-
-    .votes:before {
-      content: "►";
-      color: #00A1E2;
-      font-size:1em;
-      margin-right:0.3em;
+    &.deleted {
+      h2, h3, .details {
+        text-decoration: line-through;
+      }
     }
   }
-
-  header.visited.active .author a { color: #00a1e2; }
-
-  header.highlighted-user .author, header.highlighted-user .author a {
-    color:#8ab337;
-  }
-
-  header.visited.highlighted-user .author, header.visited.highlighted-user .author a {
-    color: #bdd886;
-  }
-
-  header.highlighted-self .author, header.highlighted-self .author a {
-    color:#c32e04;
-  }
-
-  header.visited.highlighted-self .author, header.visited.highlighted-self .author a {
-    color: #d37b6d;
-  }
-  /* gelöschte Beiträge */
-  header.deleted .details .author,
-  header.deleted .details .author a,
-  .deleted, a.deleted, .deleted a {
-    color: #900;
-  }
-
-  
-  header.open-vote-active, header.close-vote-active {
-    /* TODO style */
-  }
-  .open-vote-finished {
-    /* TODO style */
-  }
-
-  h2 { border:0; }
 }
 
 /* angepinnte Threads */
-.thread.threadlist.sticky {
+.thread.sticky {
   position: relative;
 }
-.thread.threadlist.sticky::after {
+.thread.sticky::after {
   content: url("http://src.selfhtml.org/cforum/wichtig.png");
   position: absolute;
   left: .2em;
@@ -215,6 +155,8 @@ a.thread-forum-plate:visited {
 .registered-user img {
   max-height: .9em;
 }
+
+/* Posting-Linien */
 
 .root {
   ol {
@@ -244,6 +186,73 @@ a.thread-forum-plate:visited {
 
   ol li:first-child > header:before {
 	  background-image: none;
+  }
+}
+/* end Posting-Linien */
+
+/* Links im Threadbaum */
+
+.thread {
+  h2 a {
+    font-weight: bold;
+  }
+  .author a {
+    font-weight: bold;
+    color: #5D7380;
+  }
+  .visited .author a {
+    color: #8a9da8;
+  }
+  .highlighted-user .author a {
+    color:#8ab337;
+  }
+  .visited.highlighted-user .author a {
+    color: #bdd886;
+  }
+  .highlighted-self .author a {
+    color:#c32e04;
+  }
+  .visited.highlighted-self .author a {
+    color: #d37b6d;
+  }
+  .open-vote-active, .close-vote-active {
+    /* TODO style */
+  }
+  .open-vote-finished {
+    /* TODO style */
+  }
+  .active {
+    a, .author a {
+      color: #00a1e2;
+      font-weight: bold;
+    }
+    .votes::before {
+      content: "►";
+      color: #00A1E2;
+      font-size: 1em;
+      margin-right: 0.3em;
+    }
+  }
+  .details .author a:hover,
+  .details .author a:focus,
+  .details .author a:active {
+    color: #990909;
+  }
+  button {
+    color: #3481cd;
+  }
+  .visited button {
+    color: #999;
+  }
+  button:hover, 
+  button:focus, 
+  button:active {
+    color: #990909;
+  }
+  .deleted, .visited.deleted {
+    a, .author a {
+      color: #900;
+    }
   }
 }
 

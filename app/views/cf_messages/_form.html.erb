@@ -26,10 +26,12 @@ with_name ||= false
 </fieldset>
 
 <fieldset>
-  <p>Dieses Forum nutzt <%= link_to 'Markdown', 'http://markdown.de/syntax/index.html' %> zur Formatierung der Postings. <%= link_to 'Formatierungs-Hilfe', 'http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bedienung' %>
   <div class="cf-cgroup cf-textarea-only">
     <div class="cntrls">
+           
       <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt %>
+       
+    </span>
     </div>
   </div>
 </fieldset>

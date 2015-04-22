@@ -27,8 +27,8 @@ de:
     write_new_answer: neue Antwort verfassen
     restore_message: Beitrag wiederherstellen
     delete_message: Beitrag löschen
-    votes_p: "%{num} Bewertungen"
-    votes_s: "%{num} Bewertung"
+    votes_p: "%{num} Punkte"
+    votes_s: "%{num} Punkt"
     all_msgs_num: Anzahl aller Beiträge
     unread_messages_num: Anzahl ungelesener Beiträge
     user_link: Benutzer %{user}

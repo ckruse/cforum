@@ -29,6 +29,10 @@ footer {
 
   a:link, a:visited {
     color: #3481cd;
+
+    &:hover, &:active, &:focus {
+      color: #990909;
+    }
   }
 }
 
