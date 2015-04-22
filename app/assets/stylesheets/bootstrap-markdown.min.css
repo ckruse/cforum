@@ -13,6 +13,7 @@
 
 .md-editor>.md-header {
   margin: 0;
+  margin-bottom:1em;
 }
 
 .md-editor>.md-preview {

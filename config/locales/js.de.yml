@@ -7,6 +7,7 @@ de:
       vote_up: positiv bewerten
       vote_down: negativ bewerten
       unfold_quote: '- zitierten Text anzeigen -'
+      internal_error: Ein interner Fehler ist aufgetreten.
 
       buttons:
         tab:

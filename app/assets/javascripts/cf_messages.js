@@ -1,5 +1,5 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum, t */
+/* global cforum, t, Dropzone */
 
 cforum.cf_messages = {
   initMarkdown: function(elem_id) {
@@ -72,6 +72,41 @@ cforum.cf_messages = {
     }
 
     cforum.cf_messages.initMarkdown("message_input");
+
+    if($("#message_input").length > 0 && window.Dropzone) {
+      $("#message_input").after('<div class="image-upload">Bilder hierher ziehen oder klicken, um sie hochzuladen</div>');
+      $(".image-upload").dropzone({
+        createImageThumbnails: false,
+        maxFilesize: 2, // 2mb max filesize
+        url: cforum.baseUrl + 'images.json',
+        clickable: true,
+        acceptedFiles: 'image/*',
+        previewTemplate : '<div style="display:none"></div>',
+        init: function() {
+          this.on("success", function(file, rsp) {
+            var $msg = $("#message_input");
+            var selection = $msg.getSelection();
+            var md = '![Alternativ-Text](' + cforum.basePath + 'images/' + rsp.path + ')';
+
+            $msg.replaceSelection(md);
+            console.log(selection);
+
+            window.setTimeout(function() {
+              $msg.focus();
+              $msg.setSelection(selection.start + 2, selection.start + 17);
+            }, 0);
+          });
+
+          this.on('error', function(file, response) {
+            cforum.alert.error(response.error || t('internal_error'));
+          });
+
+          this.on('sending', function(file, xhr, formData) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+          });
+        }
+      });
+    }
   },
 
   new: function() {
