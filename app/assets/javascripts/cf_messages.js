@@ -106,6 +106,7 @@ cforum.cf_messages = {
         clickable: true,
         acceptedFiles: 'image/*',
         previewTemplate : '<div style="display:none"></div>',
+        fallback: function() { },
         init: function() {
           this.on("success", function(file, rsp) {
             var $msg = $("#message_input");
@@ -113,7 +114,6 @@ cforum.cf_messages = {
             var md = '![Alternativ-Text](' + cforum.basePath + 'images/' + rsp.path + ')';
 
             $msg.replaceSelection(md);
-            console.log(selection);
 
             window.setTimeout(function() {
               $msg.focus();
