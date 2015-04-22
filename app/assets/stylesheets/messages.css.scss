@@ -122,6 +122,9 @@ main h2 { margin-left:0; }
     }
     .accept { vertical-align: 0; }
 
+    .icon-vote-down[disabled], .icon-vote-down[disabled]:hover { background-image: asset-data-url("bewertung-minus-grau.png"); }
+    .icon-vote-up[disabled], .icon-vote-up[disabled]:hover { background-image: asset-data-url("bewertung-plus-grau.png"); }
+
     .icon-vote-down, .icon-vote-down.active:hover { background-image: asset-data-url("bewertung-minus-gelb.png"); }
     .icon-vote-up, .icon-vote-up.active:hover { background-image: asset-data-url("bewertung-plus-gelb.png"); }
     .icon-vote-down.active, .icon-vote-down:hover { background-image: asset-data-url("bewertung-minus-rot.png"); }

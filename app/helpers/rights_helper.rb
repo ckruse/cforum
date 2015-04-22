@@ -235,6 +235,16 @@ module RightsHelper
     return m.open?
   end
 
+  def may_vote(m, right, u = current_user)
+    if u.blank?
+      return t('messages.login_to_vote')
+    else
+      return t('messages.do_not_vote_yourself') if m.user_id == u.user_id
+      return t('messages.not_enough_score') unless may?(right, u)
+    end
+
+    return false
+  end
 end
 
 ApplicationController.extend RightsHelper

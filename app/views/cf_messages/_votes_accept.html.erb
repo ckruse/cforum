@@ -3,10 +3,11 @@ has_upvote = has_downvote = false
 has_upvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::UPVOTE
 has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == CfVote::DOWNVOTE
 
-downvote_msg = if current_user.blank?
-                 t('messages.login_to_vote')
-               elsif not may?(RightsHelper::DOWNVOTE)
-                 # TODO add message that user may not yet vote
+may_downvote_msg = may_vote(m, RightsHelper::DOWNVOTE)
+may_upvote_msg = may_vote(m, RightsHelper::UPVOTE)
+
+downvote_msg = if not may_downvote_msg.blank?
+                 may_downvote_msg
                else
                  if has_downvote
                    t('messages.unvote')
@@ -15,10 +16,8 @@ downvote_msg = if current_user.blank?
                  end
                end
 
-upvote_msg = if current_user.blank?
-               t('messages.login_to_vote')
-             elsif not may?(RightsHelper::UPVOTE)
-               # TODO add message that user may not yet vote
+upvote_msg = if not may_upvote_msg.blank?
+                 may_upvote_msg
              else
                if has_upvote
                  t('messages.unvote')
@@ -45,7 +44,7 @@ upvote_msg = if current_user.blank?
       <button name="type"
               value="down"
               title="<%= downvote_msg %>"
-              <% if current_user.blank? or not may?(RightsHelper::DOWNVOTE) %>disabled"<% end %>
+              <% unless may_downvote_msg.blank? %>disabled="disabled"<% end %>
               class="cf-btn vote icon-vote-down<% if has_downvote %> active<% end %>
                      <% if current_user.blank? or not may?(RightsHelper::DOWNVOTE) %> disabled<% end %>">‒</button>
 
@@ -54,7 +53,7 @@ upvote_msg = if current_user.blank?
       <button name="type"
               value="up"
               title="<%= upvote_msg %>"
-              <% if current_user.blank? or not may?(RightsHelper::UPVOTE) %>disabled="disabled"<% end %>
+              <% unless may_upvote_msg.blank? %>disabled="disabled"<% end %>
               class="cf-btn vote icon-vote-up<% if has_upvote %> active<% end %>
                      <% if current_user.blank? or not may?(RightsHelper::UPVOTE) %> disabled<% end %>">+</button>
 
