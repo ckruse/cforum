@@ -22,8 +22,8 @@
   </ul>
 
   <p>
-    <%= f.submit t('messages.preview'), :class => 'cf-btn', name: 'preview' %>
-    <%= f.submit :class => 'cf-primary-btn' %>
-    <%= link_to t('global.cancel'), cf_forum_path(current_forum), :class => 'cf-btn' %>
+    <%= f.submit t('messages.preview'), class: 'cf-btn', name: 'preview' %>
+    <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
+    <%= link_to t('global.cancel'), cf_forum_path(current_forum), class: 'cf-btn' %>
   </p>
 <% end %>
