@@ -54,6 +54,10 @@
 
   a:link, a:visited {
     color: #3481cd;
+
+    &:hover, &:active, &:focus {
+      color: #990909;
+    }
   }
 }
 
@@ -117,12 +121,6 @@
       display: none;
     }
   }
-
-  /* Korrektur neue Nachricht, da dort keine Navi ist */
-  .sociallinks + h1 {
-    margin: 0;
-    padding-top: 92px;
-  }
 }
 
 .aktuelle-mitteilung {
@@ -175,6 +173,10 @@ nav {
 
     a:link, a:visited {
       color: #3481cd;
+
+      &:hover, &:active, &:focus {
+        color: #990909;
+      }
     }
   }
 }
@@ -186,6 +188,10 @@ nav {
   a {
     color:#fff;
     font-weight:bold;
+
+    &:hover, &:active, &:focus {
+      color: #990909;
+    }
   }
 }
 
