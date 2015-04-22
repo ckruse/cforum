@@ -35,6 +35,9 @@ en:
     already_voted: You already voted!
     do_not_vote_yourself: You may not vote yourself!
     vote_removed: Voting has been removed!
+    insufficient_rights_to_upvote: You have insufficient rights to upvote.
+    insufficient_rights_to_downvote: You have insufficient rights to downvote.
+    
 
     retag: Retag message
     retagged: Message has been retagged successfully.
