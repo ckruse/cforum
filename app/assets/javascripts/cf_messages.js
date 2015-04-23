@@ -36,7 +36,23 @@ cforum.cf_messages = {
   },
 
   maxLen: function(text) {
-    return text.length > 100;
+    var newlines = 0;
+
+    for(var i = 0; i < text.length; ++i) {
+      if(text.charAt(i) == "\n") {
+        newlines++;
+
+        if(newlines >= 3 && i >= 100) {
+          return text.substr(0, i);
+        }
+      }
+
+      if(i > 300) {
+        return text.substr(0, i);
+      }
+    }
+
+    return null;
   },
 
   initQuotes: function() {
@@ -46,10 +62,11 @@ cforum.cf_messages = {
 
     $(".posting-content blockquote").each(function() {
       var $this = $(this);
-
-      if(cforum.cf_messages.maxLen($this.text())) {
+      var txt = cforum.cf_messages.maxLen($this.text());
+      console.log(txt);
+      if(txt) {
         $this.css('display', 'none');
-        $this.before('<blockquote class="show-quotes">' + t('unfold_quote') + '</blockquote>');
+        $this.before('<blockquote class="show-quotes">' + txt + "<br>\n" + t('unfold_quote') + '</blockquote>');
       }
     });
 
