@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 class ImagesController < ApplicationController
-  authorize_action([:show]) { authorize_forum(permission: :read?) }
-  authorize_action([:create]) { authorize_forum(permission: :write?) }
-  authorize_action([:index, :destroy]) { authorize_forum(permission: :moderator?) }
+  authorize_action([:index, :destroy]) { authorize_admin }
 
   def index
     @media = sort_query(%w(orig_name created_at), Medium).page(params[:page]).per(conf('pagination').to_i)
