@@ -83,6 +83,11 @@
         cursor:pointer;
       }
 
+      .image-upload.loading {
+        span { display:none; }
+        background:asset-data-url('ajax-loader.gif') center center no-repeat;
+      }
+
       input[type=radio], input[type=checkbox] { width:auto; }
 
       .radio, .checkbox {

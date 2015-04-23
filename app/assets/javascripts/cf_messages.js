@@ -98,7 +98,7 @@ cforum.cf_messages = {
 
   initUpload: function() {
     if($("#message_input").length > 0 && window.Dropzone) {
-      $("#message_input").after('<div class="image-upload">Bilder hierher ziehen oder klicken, um sie hochzuladen</div>');
+      $("#message_input").after('<div class="image-upload"><span>Bilder hierher ziehen oder klicken, um sie hochzuladen</span></div>');
       $(".image-upload").dropzone({
         createImageThumbnails: false,
         maxFilesize: 2, // 2mb max filesize
@@ -109,6 +109,7 @@ cforum.cf_messages = {
         fallback: function() { },
         init: function() {
           this.on("success", function(file, rsp) {
+            $('.image-upload').removeClass('loading');
             var $msg = $("#message_input");
             var selection = $msg.getSelection();
             var md = '![Alternativ-Text](' + cforum.basePath + 'images/' + rsp.path + ')';
@@ -122,10 +123,12 @@ cforum.cf_messages = {
           });
 
           this.on('error', function(file, response) {
+            $('.image-upload').removeClass('loading');
             cforum.alert.error(response.error || t('internal_error'));
           });
 
           this.on('sending', function(file, xhr, formData) {
+            $('.image-upload').addClass('loading');
             xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
           });
         }
