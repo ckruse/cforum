@@ -39,4 +39,21 @@
   }
 }
 
+
+@media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
+  .forums-table, .cf-default-table {
+    &, tr, th, td { display:block; }
+    thead, tfoot { display:none; }
+
+    th .block { display:inline; }
+
+    th, td { text-align:left; }
+    th:before,
+    td:before {
+      font-weight:bold;
+      content: attr(data-label) ": ";
+    }
+  }
+}
+
 /* eof */

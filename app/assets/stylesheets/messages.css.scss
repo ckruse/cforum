@@ -222,4 +222,32 @@ code.block code.block {
 }
 
 
+@media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
+  .thread-message {
+    margin-left:-.9em;
+    margin-right:-.9em;
+    max-width:none;
+    width:auto;
+    padding-left:.1em;
+    padding-right:.1em;
+
+    & > header, & > .voting  {
+      display:block;
+      width:auto;
+    }
+
+    & > .voting {
+      margin-top:1em;
+      text-align:right;
+    }
+
+    .posting-content {
+      width:auto;
+      padding-left:.1em;
+      padding-right:.1em;
+      overflow:scroll;
+    }
+  }
+}
+
 /* eof */

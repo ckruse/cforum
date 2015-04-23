@@ -35,4 +35,8 @@ th.no-data, td.no-data {
 }
 
 
+@media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
+  th.nummeric, td.nummeric { text-align:left; }
+}
+
 /* eof */

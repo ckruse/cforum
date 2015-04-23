@@ -223,9 +223,13 @@ nav {
 
     li {
       display:block;
-      margin-top:0.5em;
+      margin-bottom:1em;
       line-height:1em;
       text-align:left;
+    }
+
+    li:first-of-type {
+      margin-top:1em;
     }
   }
 
@@ -235,7 +239,6 @@ nav {
 
     h1 {
       display:block;
-      margin-top:-0.2em;
 
       img { max-width:100%; }
     }
@@ -249,6 +252,7 @@ nav {
     ul {
       li {
         display: block;
+        margin-bottom:.75em;
         a { display: block; }
       }
     }

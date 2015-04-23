@@ -256,4 +256,14 @@ a.thread-forum-plate:active {
   }
 }
 
+@media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
+  .root {
+    width:auto;
+    min-width:inherit;
+    overflow-x:scroll;
+    display:block;
+
+  }
+}
+
 /* eof */
