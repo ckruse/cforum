@@ -98,7 +98,7 @@ class InvisibleThreadsPlugin < Plugin
   end
 
   def modify_threadlist_query_obj()
-    return unless current_user
+    return if current_user.blank? or get('view_all')
 
     @modified = true
 
