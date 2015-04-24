@@ -9,14 +9,17 @@ class NotifyNewMailer < ActionMailer::Base
     @url     = url
     @txt     = txt_content
 
+    headers['Message-Id'] = '<t' + @message.thread_id.to_s + "m" +
+                            @message.message_id.to_s + "@" +
+                            Rails.application.config.mid_host + ">"
+    headers['In-Reply-To'] = '<t' + @parent.thread_id.to_s + 'm' +
+                             @parent.message_id.to_s + "@" +
+                             Rails.application.config.mid_host + ">"
+
     mail(
       from: Rails.application.config.mail_sender,
       to: user.email,
-      subject: I18n.t(
-        'notifications.new_message',
-        nick: message.author,
-        subject: message.subject
-      )
+      subject: 'RE: ' + @message.subject
     )
   end
 
@@ -28,14 +31,17 @@ class NotifyNewMailer < ActionMailer::Base
     @url     = url
     @txt     = txt_content
 
+    headers['Message-Id'] = '<t' + @message.thread_id.to_s + "m" +
+                            @message.message_id.to_s + "@" +
+                            Rails.application.config.mid_host + ">"
+    headers['In-Reply-To'] = '<t' + @parent.thread_id.to_s + 'm' +
+                             @parent.message_id.to_s + "@" +
+                             Rails.application.config.mid_host + ">"
+
     mail(
       from: Rails.application.config.mail_sender,
       to: user.email,
-      subject: I18n.t(
-        'notifications.new_answer',
-        nick: message.author,
-        subject: message.subject
-      )
+      subject: 'RE: ' + @message.subject
     )
   end
 end
