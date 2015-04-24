@@ -281,9 +281,32 @@ legend {
         padding-right: 0em;
         padding-left: 0em;
         width:92%;
+
+        input, select, textarea {
+          font-size:16px;
+        }
       }
     }
   }
+}
+
+@media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
+  .form-horizontal .cf-cgroup.cf-textarea-only {
+    .cntrls {
+      width: auto;
+      .md-editor {
+        width:auto;
+
+        textarea.big.md-input {
+          width:95.5%;
+          margin:0;
+          padding-left:.5em;
+          padding-right:.5em;
+        }
+      }
+    }
+  }
+
 }
 
 /* eof */

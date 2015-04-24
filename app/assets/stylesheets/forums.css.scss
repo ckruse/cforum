@@ -1,6 +1,6 @@
 /* -*- coding: utf-8 -*- */
 
-.forums-table, .cf-default-table {
+.cf-default-table {
   border-collapse: collapse;
   width:100%;
 
@@ -41,11 +41,12 @@
 
 
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
-  .forums-table, .cf-default-table {
+  .cf-default-table.responsive {
     &, tr, th, td { display:block; }
-    thead, tfoot { display:none; }
+    thead { display:none; }
+    tr { margin-bottom:2em; }
 
-    th .block { display:inline; }
+    th .block, td .block { display:inline; }
 
     th, td { text-align:left; }
     th:before,
@@ -53,6 +54,8 @@
       font-weight:bold;
       content: attr(data-label) ": ";
     }
+
+    td:last-of-type { border:0; }
   }
 }
 

@@ -177,14 +177,19 @@ a.forgotten-password-link {
     main.flex-item { order: 3; }
     nav.flex-item {
       order: 2;
-      padding-left:1em;
-      padding-right:1em;
+      padding-left:.5em;
+      padding-right:.5em;
     }
     aside.flex-item {
       order: 4;
-      padding-left: 1em;
+      padding-left: .5em;
+      padding-right: .5em;
       margin-top:0.2em;
     }
+  }
+
+  a, a:hover, a:focus, a:active {
+    transition:none;
   }
 }
 

@@ -20,7 +20,7 @@ content_for :body_classes, 'forums'
   <p class="aktuelle-mitteilung img"><img src="http://src.selfhtml.org/forum/icon-forum-mail.png" alt="Icon">Für Anregungen, Fehlermeldungen oder Kritik sende bitte eine E-Mail an <a href="mailto:forum@selfhtml.org">forum@selfhtml.org</a>.</p>
 <% end %>
 
-<table class="forums-table">
+<table class="cf-default-table responsive">
   <thead>
     <tr>
       <th><%= t('global.forum') %></th>
@@ -40,23 +40,23 @@ content_for :body_classes, 'forums'
     end
     %>
     <tr<% if msg and not msg.attribs['classes'].blank? %> class="<%= msg.attribs['classes'].join(" ") %>"<% end %>>
-      <th><%= link_to t('forums.all_forums'), cf_forum_path('all') %></th>
-      <th class="nummeric"><%= number_with_delimiter(aggregated[:threads]) %></th>
-      <th class="nummeric"><%= number_with_delimiter(aggregated[:messages]) %></th>
-      <th<% if msg.blank? %> colspan="3" class="no-data"<% end %>>
+      <th data-label="<%= t('global.forum') %>"><%= link_to t('forums.all_forums'), cf_forum_path('all') %></th>
+      <th data-label="<%= t('global.threads') %>" class="nummeric"><%= number_with_delimiter(aggregated[:threads]) %></th>
+      <th data-label="<%= t('global.messages') %>" class="nummeric"><%= number_with_delimiter(aggregated[:messages]) %></th>
+      <th data-label="<%= t('global.last_change') %>"<% if msg.blank? %> colspan="3" class="no-data"<% end %>>
         <% if msg.blank?  %><%= ('<em>' + t('global.never') + '</em>').html_safe %>
         <% else %><%= l(msg.updated_at, format: date_format) %>
         <% end %>
       </th>
       <% unless msg.blank? %>
-        <th>
+        <th data-label="<%= t('global.author') %>">
           <% if msg.user_id %>
             <%= link_to(image_tag(msg.owner.avatar(:thumb), class: 'avatar') + msg.author, user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username), class: 'user-link') %>
           <% else %>
               <%= msg.author %>
           <% end %>
         </th>
-        <th><%= link_to msg.subject, cf_message_path(msg.thread, msg) %></th>
+        <th data-label="<%= t('global.subject') %>"><%= link_to msg.subject, cf_message_path(msg.thread, msg) %></th>
       <% end %>
     </tr>
   </tfoot>

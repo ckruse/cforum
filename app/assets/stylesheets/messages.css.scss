@@ -224,8 +224,8 @@ code.block code.block {
 
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
   .thread-message {
-    margin-left:-.9em;
-    margin-right:-.9em;
+    margin-left:0;
+    margin-right:0;
     max-width:none;
     width:auto;
     padding-left:.1em;
