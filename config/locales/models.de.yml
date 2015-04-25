@@ -35,7 +35,7 @@ de:
     errors:
       <<: *errors
 
-      models:
+    models:
       cf_message: Nachricht
       cf_thread: Thread
       cf_user: Benutzer
