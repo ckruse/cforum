@@ -32,7 +32,10 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 
 <ul class="user-info-tags clearfix">
   <% @tags_cnts.each do |t| %>
-    <li><%= link_to t.tag.forum.short_name + ': ' + t.tag.tag_name, tag_path(t.tag.forum.slug, t.tag), class: 'cf-tag' %>
+    <li>
+      <%= link_to tag_path(t.tag.forum.slug, t.tag), class: 'cf-tag' do %>
+        <span><%= t.tag.forum.short_name %>:</span><%= t.tag.tag_name %>
+      <% end %>
       <span class="cnt"><%= number_with_delimiter(t.cnt) %></span></li>
   <% end %>
 </ul>

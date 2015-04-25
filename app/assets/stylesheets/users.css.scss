@@ -43,9 +43,14 @@
     display: inline-block;
     font-size: .9em;
     margin-bottom: .5em;
+
+    .cf-tag span {
+      margin-right:0.5em;
+    }
   }
 
   .cnt {
+    margin-left:.25em;
     display: inline-block;
     text-align: center;
     padding: .1em .6em 0 .6em;
