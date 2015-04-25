@@ -9,6 +9,7 @@ de:
     change_password: Passwort ändern
     new_password: neues Passwort
     confirm_new_password: Passwort-Bestätigung
+    email_is_used: Diese E-Mail-Adresse ist bereits vergeben.
 
     passwords:
       send_instructions: Rücksetzungsanweisungen wurden versendet.

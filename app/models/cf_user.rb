@@ -18,6 +18,7 @@ class CfUser < ActiveRecord::Base
   validates :password, length: {:minimum => 3}, confirmation: true, :if => :password, allow_blank: true
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :email, presence: true, uniqueness: { case_sensitive: false }, email: true
+  validate :has_unused_email
 
   attr_accessor :login
 
@@ -29,6 +30,13 @@ class CfUser < ActiveRecord::Base
   has_many :badges_users, class_name: CfBadgeUser, dependent: :delete_all,
            foreign_key: :user_id
   has_many :badges, through: :badges_users
+
+  def has_unused_email
+    if not unconfirmed_email.blank? and CfUser.exists?(['LOWER(email) = ?', unconfirmed_email])
+      errors[:base] << I18n.t('devise.email_is_used')
+    end
+  end
+
 
   def conf(nam)
     vals = settings.options unless settings.blank?
