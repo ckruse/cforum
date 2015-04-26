@@ -7,6 +7,21 @@
     <%= m.to_html(self) %>
   </div>
 
+  <% if not m.flags['flagged'].blank? and not current_user.blank? and current_user.moderate?(current_forum) %>
+    <div class="flagged-message">
+      <p>
+        <%= t('plugins.flag_plugin.message_is_flagged', reason: t('messages.close_vote.' + m.flags['flagged'])) %>
+        <% if m.flags['flagged'] == 'custom' %>
+          <br><%= t('messages.close_vote.' + m.flags['flagged']) %>: <%= m.flags['custom_reason'] %>
+        <% end %>
+        <% if m.flags['flagged'] == 'duplicate' %>
+          <%= link_to t('plugins.flag_plugin.duplicate_message'), m.flags['flagged_dup_url'] %>
+        <% end %>
+      </p>
+    </div>
+  <% end %>
+
+
   <div class="message-links">
     <% if not m.flags['flattr_id'].blank? %>
       <%= t('layout.flattr_author') %>

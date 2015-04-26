@@ -69,3 +69,7 @@ de:
       reason_invalid: Es wurde ein unbekannter Grund angegeben.
       message_has_been_flagged: Die Nachricht „%{subject}“ von %{author} erfordert Moderator-Aufmerksamkeit
       unflagged: Die Markierung der Nachricht wurde entfernt.
+      flag_message: Nachricht markieren
+      unflag_message: Markierung entfernen
+      message_is_flagged: "Diese Nachricht wurde mariert. Angegebener Grund: %{reason}"
+      duplicate_message: Doppelpost

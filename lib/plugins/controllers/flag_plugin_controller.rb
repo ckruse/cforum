@@ -32,20 +32,10 @@ class FlagPluginController < ApplicationController
     end
 
     if params[:reason] == 'duplicate'
-      if params[:duplicate_slug].blank?
+      if params[:duplicate_slug].blank? or not params[:duplicate_slug] =~ /^https?:\/\//
         flash[:error] = t("plugins.flag_plugin.dup_url_needed")
         render :flag
         return
-      end
-
-      if not params[:duplicate_slug].blank? and
-        params[:duplicate_slug] =~ /^https?/
-        begin
-          uri = URI.parse(params[:duplicate_slug])
-          # we have to remove the forum slug as well, thus the gsub
-          params[:duplicate_slug] = uri.path.gsub(/^\/[^\/]+/, '')
-        rescue
-        end
       end
 
       @message.flags[:flagged_dup_url] = params[:duplicate_slug]

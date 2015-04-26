@@ -18,6 +18,15 @@ main h2 { margin-left:0; }
   border: 1px solid #D5D5D5;
   max-width: 100%;
 
+  .flagged-message {
+    border:1px solid #EBCCD1;
+    border-radius: 0px 0.7em 0.7em;
+    color:#A94442;
+    width: 95%;
+    margin: 0.5em 0px;
+    padding: 0.8em 1em 1em;
+  }
+
   h2, header {
     border:0;
     margin:0;
@@ -220,7 +229,6 @@ code.block code.block {
   margin-right:.25em;
   margin-bottom:.25em;
 }
-
 
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
   .thread-message {
