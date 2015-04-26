@@ -68,3 +68,4 @@ de:
       custom_reason_needed: Die URL wird benötigt, um eine Nachricht als Duplicate zu markieren.
       reason_invalid: Es wurde ein unbekannter Grund angegeben.
       message_has_been_flagged: Die Nachricht „%{subject}“ von %{author} erfordert Moderator-Aufmerksamkeit
+      unflagged: Die Markierung der Nachricht wurde entfernt.

@@ -2,7 +2,7 @@
 
 class FlagPluginController < ApplicationController
   authorize_controller { authorize_forum(permission: :read?) }
-  authorize_controller { may?(RightsHelper::FLAG) }
+  authorize_action(:unflag) { authorize_forum(permission: :moderator?) }
 
   def flag
     @thread, @message, @id = get_thread_w_post
@@ -73,6 +73,18 @@ class FlagPluginController < ApplicationController
   end
 
   def flagged
+  end
+
+  def unflag
+    @thread, @message, @id = get_thread_w_post
+
+    @message.flags.delete('flagged')
+    @message.flags.delete('custom_reason')
+    @message.flags.delete('flagged_dup_url')
+    @message.flags_will_change!
+    @message.save
+
+    redirect_to cf_message_url(@thread, @message), notice: t('plugins.flag_plugin.unflagged')
   end
 end
 

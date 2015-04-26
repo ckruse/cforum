@@ -179,6 +179,8 @@ Cforum::Application.routes.draw do
         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'flag_cf_message'
     put '/:year/:mon/:day/:tid/:mid/flag' => 'flag_plugin#flagging',
         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+    delete '/:year/:mon/:day/:tid/:mid/unflag' => 'flag_plugin#unflag',
+           year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
 
     #

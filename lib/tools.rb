@@ -216,6 +216,11 @@ module CForum
         query_string(args)
     end
 
+    def unflag_cf_message_path(thread, message, args = {})
+      _cf_message_path_wo_anchor(thread, message) + "/unflag" +
+        query_string(args)
+    end
+
     def cf_badges_path(args = {})
       root_path + 'badges' + query_string(args)
     end

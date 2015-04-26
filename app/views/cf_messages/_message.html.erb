@@ -32,8 +32,15 @@
           <%= link_to t('messages.retag'), retag_cf_message_path(@thread, m), class: 'cf-btn' %>
         <% end %>
 
-        <% if not current_user.blank? and may?(RightsHelper::FLAG) and m.flags['flagged'].blank? %>
-          <%= link_to '', flag_cf_message_path(@thread, m), class: 'cf-btn icon-flag-message' %>
+        <% if m.flags['flagged'].blank? %>
+          <%= link_to('', flag_cf_message_path(@thread, m),
+                      class: 'cf-btn icon-flag-message',
+                      title: t('plugins.flag_plugin.flag_message')) %>
+        <% elsif current_user and current_user.moderate?(current_forum) %>
+          <%= link_to('', unflag_cf_message_path(@thread, m),
+                      method: :delete,
+                      class: 'cf-btn icon-flag-message active',
+                      title: t('plugins.flag_plugin.unflag_message')) %>
         <% end %>
 
       <% end %>
