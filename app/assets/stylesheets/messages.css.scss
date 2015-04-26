@@ -76,6 +76,9 @@ main h2 { margin-left:0; }
       border: 1px solid;
       padding: .1em .3em;
     }
+    tfoot td {
+      font-weight: bold;
+    }
 
     blockquote.show-quotes { cursor:pointer; }
   }
