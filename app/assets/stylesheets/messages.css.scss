@@ -36,6 +36,14 @@ main h2 { margin-left:0; }
     font-size: 0.9em;
     line-height: 1.4em;
 
+    & > :first-child {
+      margin-top: 0;
+    }
+
+    & > :last-child {
+      margin-bottom: 0;
+    }
+
     a {
       text-decoration: underline;
     }
@@ -47,6 +55,30 @@ main h2 { margin-left:0; }
     ul ul { list-style-type: circle;}
 
     ul ul ul { list-style-type: square;}
+
+    h3, h4 {
+      margin: 0;
+      font-weight: bold;
+    }
+    h3 {
+      font-size: 1.3em;
+    }
+    h4 {
+      font-size: 1.1em;
+    }
+    h3 + h4 {
+      margin-top: 1em;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid;
+      padding: .1em .3em;
+    }
+    tfoot td {
+      font-weight: bold;
+    }
 
     blockquote.show-quotes { cursor:pointer; }
   }
