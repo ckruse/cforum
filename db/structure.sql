@@ -51,26 +51,6 @@ CREATE TYPE badge_medal_type_t AS ENUM (
 
 
 --
--- Name: badge_type_t; Type: TYPE; Schema: public; Owner: -
---
-
-CREATE TYPE badge_type_t AS ENUM (
-    'custom',
-    'upvote',
-    'downvote',
-    'retag',
-    'flag',
-    'visit_close_reopen',
-    'create_tag',
-    'edit_question',
-    'edit_answer',
-    'create_tag_synonym',
-    'create_close_reopen_vote',
-    'moderator_tools'
-);
-
-
---
 -- Name: count_messages_delete_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -520,10 +500,10 @@ CREATE TABLE badges (
     name character varying NOT NULL,
     description text,
     slug character varying NOT NULL,
-    badge_type badge_type_t NOT NULL,
     badge_medal_type badge_medal_type_t DEFAULT 'bronze'::badge_medal_type_t NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    badge_type character varying(250) NOT NULL
 );
 
 
@@ -1858,13 +1838,6 @@ ALTER TABLE ONLY votes
 
 
 --
--- Name: badges_badge_type_uniqueness; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX badges_badge_type_uniqueness ON badges USING btree (badge_type) WHERE (badge_type <> 'custom'::badge_type_t);
-
-
---
 -- Name: counter_table_table_name_group_crit_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2698,6 +2671,8 @@ INSERT INTO schema_migrations (version) VALUES ('60');
 INSERT INTO schema_migrations (version) VALUES ('61');
 
 INSERT INTO schema_migrations (version) VALUES ('62');
+
+INSERT INTO schema_migrations (version) VALUES ('63');
 
 INSERT INTO schema_migrations (version) VALUES ('7');
 

@@ -14,7 +14,7 @@ class CfBadge < ActiveRecord::Base
   validate :score_needed, presence: true, numericality: { only_integer: true },
            allow_blank: false
   validate :badge_type, presence: true, allow_blank: false,
-           inclusion: { in: %w(custom upvote downvote retag flag
+           inclusion: { in: %w(custom upvote downvote retag
                                visit_close_reopen create_tag edit_question
                                edit_answer create_tag_synonym
                                create_close_reopen_vote moderator_tools) }
