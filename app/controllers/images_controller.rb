@@ -9,6 +9,9 @@ class ImagesController < ApplicationController
 
   def show
     @medium = Medium.where(filename: params[:id] + '.' + params[:format]).first!
+
+    expires_in 1.month, public: true
+
     send_file Rails.root + 'public/uploads' + @medium.filename, type: @medium.content_type, filename: @medium.orig_name, disposition: :inline
   end
 
