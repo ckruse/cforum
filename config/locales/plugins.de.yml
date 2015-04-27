@@ -71,5 +71,5 @@ de:
       unflagged: Die Markierung des Beitrages wurde entfernt.
       flag_message: Beitrag markieren
       unflag_message: Markierung entfernen
-      message_is_flagged: Dieser Beitrag wurde markiert. Angegebener Grund: %{reason}
+      message_is_flagged: "Dieser Beitrag wurde markiert. Angegebener Grund: %{reason}"
       duplicate_message: Doppelpost
