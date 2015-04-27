@@ -108,9 +108,10 @@ class TagsController < ApplicationController
     @messages = CfMessage.preload(:owner, tags: :synonyms, thread: :forum).
       joins('INNER JOIN messages_tags USING(message_id)').
       where('messages_tags.tag_id' => @tag.tag_id,
-            forum_id: current_forum.forum_id,
-            deleted: false).
+            forum_id: current_forum.forum_id).
       order('messages.created_at DESC').page(params[:page]).per(@limit)
+
+    @messages = @messages.where(deleted: false) unless @view_all
 
     respond_to do |format|
       format.html # show.html.erb
