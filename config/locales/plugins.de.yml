@@ -7,10 +7,10 @@ de:
       close_all_threads: alle Threads zuklappen
 
     link_tags:
-      first_msg: erste Nachricht
-      last_msg: letzte Nachricht
-      prev_msg: vorherige Nachricht
-      next_msg: nächste Nachricht
+      first_msg: erster Beitrag
+      last_msg: letzter Beitrag
+      prev_msg: vorheriger Beitrag
+      next_msg: nächster Beitrag
 
     user_data:
       all: alle
@@ -21,8 +21,8 @@ de:
       no_answered: Antworten ist jetzt verboten.
       no_answer_removed: Antworten ist jetzt wieder erlaubt.
       answer_not_allowed: Antworten ist nicht erlaubt.
-      no_archived: Nachricht wird beim Archivieren gelöscht.
-      no_archive_removed: Nachricht wird beim Archivieren nicht mehr gelöscht.
+      no_archived: Der Beitrag wird beim Archivieren gelöscht.
+      no_archive_removed: Der Beitrag bleibt beim Archivieren erhalten.
       no_arc: nicht archivieren
       arc: archivieren
 
@@ -35,9 +35,9 @@ de:
       no_threads: Bisher keine ausgeblendeten Threads.
 
     mark_read:
-      marked_unread: Die Nachricht wurde als ungelesen markiert.
-      marked_all_read: Alle Nachrichten der Hauptseite wurden als gelesen markiert.
-      mark_all_read: Alle Nachrichten als gelesen markieren
+      marked_unread: Der Beitrag wurde als ungelesen markiert.
+      marked_all_read: Alle Beiträge der Hauptseite wurden als gelesen markiert.
+      mark_all_read: alle Beiträge als gelesen markieren
       mark_unread: ungelesen markieren
       num_unread:
         other: "%{count} ungelesene Beiträge"
@@ -51,25 +51,25 @@ de:
       mark_thread_interesting: Thread als interessant markieren
       mark_thread_boring: Thread als uninteressant markieren
       interesting_threads: Interessante Threads
-      no_threads: Bisher keine als interessant markierten Threads.
+      no_threads: bisher keine als interessant markierten Threads
 
     choose_css:
-      choose_alternative_css: Alternatives CSS auswählen
+      choose_alternative_css: alternatives CSS auswählen
       alternative_css: alternatives CSS
-      default_css: Default-CSS
+      default_css: default-CSS
       css_chosen: alternatives CSS ausgewählt
 
     flag_plugin:
-      flagged: Die Nachricht wurde markiert und ein Moderator wird die Nachricht überprüfen.
-      flag_message: Nachricht „%{subject}“ von %{author} markieren
-      only_flag_message: Nachricht markieren
-      already_flagged: Die Nachricht wurde bereits markiert.
-      dup_url_needed: Die URL wird benötigt, um eine Nachricht als Duplicate zu markieren.
-      custom_reason_needed: Die URL wird benötigt, um eine Nachricht als Duplicate zu markieren.
+      flagged: Der Beitrag wurde markiert und ein Moderator wird den Beitrag überprüfen.
+      flag_message: Beitrag „%{subject}“ von %{author} markieren
+      only_flag_message: Beitrag markieren
+      already_flagged: Der Beitrag wurde bereits markiert.
+      dup_url_needed: Die URL wird benötigt, um einen Beitrag als Duplikat zu markieren.
+      custom_reason_needed: Die URL wird benötigt, um einen Beitrag als Duplikat zu markieren.
       reason_invalid: Es wurde ein unbekannter Grund angegeben.
-      message_has_been_flagged: Die Nachricht „%{subject}“ von %{author} erfordert Moderator-Aufmerksamkeit
-      unflagged: Die Markierung der Nachricht wurde entfernt.
-      flag_message: Nachricht markieren
+      message_has_been_flagged: Der Beitrag „%{subject}“ von %{author} erfordert Moderator-Aufmerksamkeit.
+      unflagged: Die Markierung des Beitrages wurde entfernt.
+      flag_message: Beitrag markieren
       unflag_message: Markierung entfernen
-      message_is_flagged: "Diese Nachricht wurde mariert. Angegebener Grund: %{reason}"
+      message_is_flagged: Dieser Beitrag wurde markiert. Angegebener Grund: %{reason}
       duplicate_message: Doppelpost
