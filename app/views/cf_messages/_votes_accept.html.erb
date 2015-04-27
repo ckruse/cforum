@@ -48,7 +48,7 @@ upvote_msg = if not may_upvote_msg.blank?
               class="cf-btn vote icon-vote-down<% if has_downvote %> active<% end %>
                      <% if current_user.blank? or not may?(RightsHelper::DOWNVOTE) %> disabled<% end %>">‒</button>
 
-      <span class="votes" title="<%= t('messages.votes', count: m.score) %>"><%= m.score %></span>
+      <span class="votes" title="<%= t('messages.votes_tree', count: m.upvotes + m.downvotes, score: m.score) %>"><%= m.upvotes + m.downvotes == 0 ? '–' : m.score_str %></span>
 
       <button name="type"
               value="up"
