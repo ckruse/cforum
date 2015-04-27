@@ -161,7 +161,8 @@ main h2 { margin-left:0; }
     .icon-vote-up.active, .icon-vote-up:hover { background-image: asset-data-url("bewertung-plus-gruen.png"); }
     .icon-vote-down.disabled { background-image: asset-data-url("bewertung-minus-grau.png"); }
     .icon-vote-up.disabled  { background-image: asset-data-url("bewertung-plus-grau.png"); }
-    .unaccepted-answer, .accepted-answer:hover { background-image: asset-data-url("bewertung-ok-grau.png"); }
+    
+    .unaccepted-answer, .accepted-answer:hover { background-image: asset-data-url("bewertung-ok-gelb.png"); }
     .accepted-answer, .unaccepted-answer:hover { background-image: asset-data-url("bewertung-ok-gruen.png"); }
 
     .infos { background-image: asset-data-url('bewertung-info-blaugrau.png'); }
