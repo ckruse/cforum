@@ -178,7 +178,7 @@ class VotePluginController < ApplicationController
 
       format.json do
         @message.reload
-        render json: { status: 'success', score: @message.score, message: t('messages.successfully_voted') }
+        render json: { status: 'success', score: @message.score_str, message: t('messages.successfully_voted') }
       end
     end
   end
