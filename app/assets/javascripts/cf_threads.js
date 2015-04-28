@@ -6,6 +6,20 @@ cforum.cf_threads = {
   numMessages: 0,
 
   new: function() {
+    if(!cforum.currentForum) {
+      $("#cf_thread_forum_id").on('change', function() {
+        var val = $(this).val();
+
+        for(var i = 0; i < cforum.forums.length; ++i) {
+          if(cforum.forums[i].forum_id == val) {
+            cforum.currentForum = cforum.forums[i];
+            break;
+          }
+        }
+      });
+      $("#cf_thread_forum_id").trigger('change');
+    }
+
     cforum.tags.initTags();
     cforum.cf_threads.initCursor();
 

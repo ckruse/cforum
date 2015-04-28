@@ -82,6 +82,7 @@ end
 
       cforum.l10n = <%= I18n.t('js.messages').to_json.html_safe %>;
       cforum.locale = <%== I18n.locale.to_json %>;
+      cforum.forums = <%== @forums.to_json %>;
     </script>
 
     <title><%= @title_infos %> <% if current_forum %><%= current_forum.short_name %> -<% else %><% if controller_path == 'cf_threads' %> <%= t('layout.all_forums') %> -<% end %><% end %> <% if content_for?(:title) %><%= yield(:title) %> - <% end %><%= t "layout.title" %></title>
