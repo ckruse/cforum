@@ -96,31 +96,14 @@
     <% end %>
   </div>
 
-  <% if m.message_id == @thread.message.message_id and @thread.accepted %>
-    <article class="accepted">
-      <%= message_header(@thread, @thread.accepted, first: false, do_parent: false, id_prefix: 'accepted-') %>
+  <% if m.message_id == @thread.message.message_id and not @thread.accepted.blank? %>
+    <h3><%= t('messages.accepted_answers') %></h3>
 
-      <p class="small"><%= t('messages.accepted_answer') %></p>
-
-      <div class="posting-content">
-        <%= @thread.accepted.to_html(self) %>
-      </div>
-
-      <p>
-        <% if not @thread.accepted.flags['flattr_id'].blank? %>
-          <%= t('layout.flattr_author') %>
-          <%= link_to("https://flattr.com/submit/auto?user_id=" + CGI.escape(@thread.accepted.flags['flattr_id']) +
-                      "&url=" + CGI.escape(cf_message_url(@thread, @thread.accepted)) +
-                      "&title=" + CGI.escape(@thread.accepted.subject)) do %>
-            <img src="https://flattr.com/_img/icons/flattr_logo_16.png"
-                 alt=""
-                 title=""
-                 width="16"
-                 height="16">&nbsp;Flattr this!
-          <% end %>
-        <% end %>
-      </p>
-    </article>
+    <div class="accepted">
+      <% @thread.accepted.each do |m| %>
+        <article class="thread threadlist"><%= message_header(@thread, m, first: false, do_parent: false, show_votes: true) %></article>
+      <% end %>
+    </div>
   <% end %>
 
 

@@ -21,8 +21,8 @@ module MessageHelper
 
     classes << thread.attribs['open_state'] == 'closed' ? 'closed' : 'open'
 
-    if thread.accepted
-      classes << "accepted-answer" if thread.accepted.message_id == message.message_id
+    if not thread.accepted.blank?
+      classes << "accepted-answer" if thread.accepted.include?(message)
       classes << "has-accepted-answer" if thread.message.message_id == message.message_id
     end
     unless message.close_vote.blank?

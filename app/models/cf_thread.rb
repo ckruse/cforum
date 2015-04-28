@@ -52,6 +52,7 @@ class CfThread < ActiveRecord::Base
   end
 
   def gen_tree
+    self.accepted = []
     @sorted_messages = messages.sort do |a,b|
       ret = a.created_at <=> b.created_at
       ret = a.message_id <=> b.message_id if ret == 0
@@ -63,7 +64,7 @@ class CfThread < ActiveRecord::Base
     @sorted_messages.map { |m| map[m.message_id] = m }
 
     @sorted_messages.each do |msg|
-      self.accepted = msg if msg.flags["accepted"] == 'yes'
+      self.accepted << msg if msg.flags["accepted"] == 'yes'
 
       map[msg.message_id] = msg
       msg.messages = [] unless msg.messages

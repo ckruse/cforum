@@ -24,24 +24,17 @@ class AcceptPluginController < ApplicationController
     notification_center.notify(ACCEPTING_MESSAGE, @thread, @message)
     CfMessage.transaction do
       @message.flags_will_change!
-      @message.flags['accepted'] = @message.flags['accepted'] == 'yes' ? 'no' : 'yes'
+
+      if @message.flags['accepted'] == 'yes'
+        @message.flags.delete('accepted')
+      else
+        @message.flags['accepted'] = 'yes'
+      end
+
       @message.save
 
       unless @message.user_id.blank?
         if @message.flags['accepted'] == 'yes'
-          @thread.sorted_messages.each do |m|
-            if m.message_id != @message.message_id and m.flags['accepted'] == 'yes'
-              m.flags_will_change!
-              m.flags.delete('accepted')
-              m.save
-
-              if not m.user_id.blank?
-                scores = CfScore.where(user_id: m.user_id, message_id: m.message_id)
-                scores.each { |score| score.destroy } if not scores.blank?
-              end
-            end
-          end
-
           CfScore.create!(
             user_id: @message.user_id,
             message_id: @message.message_id,
