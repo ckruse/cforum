@@ -124,7 +124,7 @@ class CfMessage < ActiveRecord::Base
     if score == 0
       '±' + s.to_s
     elsif score < 0
-      "-" + s.to_s
+      s.to_s
     else
       "+" + s.to_s
     end
