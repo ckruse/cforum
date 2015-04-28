@@ -9,8 +9,8 @@ $(function() {
       '.icon-message.unread',
       '.icon-thread.closed',
       '.icon-thread.open',
-      '.icon-thread.mark-interesting',
-      '.icon-thread.mark-boring',
+      '.icon-message.mark-interesting',
+      '.icon-message.mark-boring',
       '.icon-thread.mark-invisible'
     ];
 

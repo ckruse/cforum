@@ -45,13 +45,13 @@ de:
       mark_thread_read: Thread als gelesen markieren
       thread_marked_read: Der Thread wurde als gelesen markiert.
 
-    interesting_threads:
-      marked_interesting: Der Thread wurde als interessant markiert.
+    interesting_messages:
+      marked_interesting: Der Beitrag wurde als interessant markiert.
       unmarked_interesting: Die Interessant-Markierung wurde entfernt.
-      mark_thread_interesting: Thread als interessant markieren
-      mark_thread_boring: Thread als uninteressant markieren
-      interesting_threads: Interessante Threads
-      no_threads: bisher keine als interessant markierten Threads
+      mark_message_interesting: Beitrag als interessant markieren
+      mark_message_boring: Beitrag als uninteressant markieren
+      interesting_messages: Interessante Nachrichten
+      no_messages: bisher keine als interessant markierten Nachrichten
 
     choose_css:
       choose_alternative_css: alternatives CSS auswählen

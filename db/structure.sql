@@ -787,12 +787,12 @@ ALTER SEQUENCE groups_users_group_user_id_seq OWNED BY groups_users.group_user_i
 
 
 --
--- Name: interesting_threads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: interesting_messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE interesting_threads (
-    interesting_thread_id bigint NOT NULL,
-    thread_id bigint NOT NULL,
+CREATE TABLE interesting_messages (
+    interesting_message_id bigint NOT NULL,
+    message_id bigint NOT NULL,
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -800,10 +800,10 @@ CREATE TABLE interesting_threads (
 
 
 --
--- Name: interesting_threads_interesting_thread_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: interesting_messages_interesting_message_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE interesting_threads_interesting_thread_id_seq
+CREATE SEQUENCE interesting_messages_interesting_message_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -812,10 +812,10 @@ CREATE SEQUENCE interesting_threads_interesting_thread_id_seq
 
 
 --
--- Name: interesting_threads_interesting_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: interesting_messages_interesting_message_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE interesting_threads_interesting_thread_id_seq OWNED BY interesting_threads.interesting_thread_id;
+ALTER SEQUENCE interesting_messages_interesting_message_id_seq OWNED BY interesting_messages.interesting_message_id;
 
 
 --
@@ -1455,10 +1455,10 @@ ALTER TABLE ONLY groups_users ALTER COLUMN group_user_id SET DEFAULT nextval('gr
 
 
 --
--- Name: interesting_thread_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: interesting_message_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY interesting_threads ALTER COLUMN interesting_thread_id SET DEFAULT nextval('interesting_threads_interesting_thread_id_seq'::regclass);
+ALTER TABLE ONLY interesting_messages ALTER COLUMN interesting_message_id SET DEFAULT nextval('interesting_messages_interesting_message_id_seq'::regclass);
 
 
 --
@@ -1686,19 +1686,11 @@ ALTER TABLE ONLY groups_users
 
 
 --
--- Name: interesting_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: interesting_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY interesting_threads
-    ADD CONSTRAINT interesting_threads_pkey PRIMARY KEY (interesting_thread_id);
-
-
---
--- Name: interesting_threads_thread_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY interesting_threads
-    ADD CONSTRAINT interesting_threads_thread_id_user_id_key UNIQUE (thread_id, user_id);
+ALTER TABLE ONLY interesting_messages
+    ADD CONSTRAINT interesting_messages_pkey PRIMARY KEY (interesting_message_id);
 
 
 --
@@ -2301,19 +2293,19 @@ ALTER TABLE ONLY groups_users
 
 
 --
--- Name: interesting_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: interesting_messages_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY interesting_threads
-    ADD CONSTRAINT interesting_threads_thread_id_fkey FOREIGN KEY (thread_id) REFERENCES threads(thread_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY interesting_messages
+    ADD CONSTRAINT interesting_messages_message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- Name: interesting_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: interesting_messages_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY interesting_threads
-    ADD CONSTRAINT interesting_threads_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY interesting_messages
+    ADD CONSTRAINT interesting_messages_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -2673,6 +2665,8 @@ INSERT INTO schema_migrations (version) VALUES ('61');
 INSERT INTO schema_migrations (version) VALUES ('62');
 
 INSERT INTO schema_migrations (version) VALUES ('63');
+
+INSERT INTO schema_migrations (version) VALUES ('64');
 
 INSERT INTO schema_migrations (version) VALUES ('7');
 

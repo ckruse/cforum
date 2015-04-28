@@ -40,7 +40,6 @@ class OpenCloseThreadPlugin < Plugin
   end
   alias show_archive_threadlist show_threadlist
   alias show_invisible_threadlist show_threadlist
-  alias show_interesting_threadlist show_threadlist
 end
 
 ApplicationController.init_hooks << Proc.new do |app_controller|
@@ -49,10 +48,6 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
   app_controller.notification_center.register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST, oc_plugin)
   app_controller.notification_center.register_hook(InvisibleThreadsPluginController::SHOW_INVISIBLE_THREADLIST,
                                                    oc_plugin)
-
-  app_controller.notification_center.
-    register_hook(InterestingThreadsPluginController::SHOW_INTERESTING_THREADLIST,
-                  oc_plugin)
 end
 
 # eof

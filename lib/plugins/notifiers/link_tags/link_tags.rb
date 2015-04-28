@@ -47,7 +47,7 @@ class LinkTagsPlugin < Plugin
   end
   alias show_archive_threadlist show_threadlist
   alias show_invisible_threadlist show_threadlist
-  alias show_interesting_threadlist show_threadlist
+  alias show_interesting_messagelist show_threadlist
 
   def show_thread(thread, message = nil, votes = nil)
     msgs = []
@@ -97,7 +97,7 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
                   lt_plugin)
 
   app_controller.notification_center.
-    register_hook(InterestingThreadsPluginController::SHOW_INTERESTING_THREADLIST,
+    register_hook(InterestingMessagesPluginController::SHOW_INTERESTING_MESSAGELIST,
                   lt_plugin)
 end
 

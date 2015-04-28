@@ -124,7 +124,6 @@ class InvisibleThreadsPlugin < Plugin
     end
   end
   alias show_archive_threadlist show_threadlist
-  alias show_interesting_threadlist show_threadlist
 end
 
 ApplicationController.init_hooks << Proc.new do |app_controller|
@@ -138,10 +137,6 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
                   inv_threads_plugin)
   app_controller.notification_center.
     register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST,
-                  inv_threads_plugin)
-
-  app_controller.notification_center.
-    register_hook(InterestingThreadsPluginController::SHOW_INTERESTING_THREADLIST,
                   inv_threads_plugin)
 end
 

@@ -128,14 +128,6 @@ module CForum
       _cf_thread_path(thread) + "/no_archive" + query_string(args)
     end
 
-    def interesting_cf_thread_path(thread, args = {})
-      _cf_thread_path(thread) + "/interesting" + query_string(args)
-    end
-
-    def boring_cf_thread_path(thread, args = {})
-      _cf_thread_path(thread) + "/boring" + query_string(args)
-    end
-
     def mark_cf_thread_read_path(thread, args = {})
       _cf_thread_path(thread) + "/mark_read" + query_string(args)
     end
@@ -222,6 +214,16 @@ module CForum
 
     def unflag_cf_message_path(thread, message, args = {})
       _cf_message_path_wo_anchor(thread, message) + "/unflag" +
+        query_string(args)
+    end
+
+    def interesting_cf_message_path(thread, message, args = {})
+      _cf_message_path_wo_anchor(thread, message) + "/interesting" +
+        query_string(args)
+    end
+
+    def boring_cf_message_path(thread, message, args = {})
+      _cf_message_path_wo_anchor(thread, message) + "/boring" +
         query_string(args)
     end
 

@@ -49,8 +49,8 @@ Cforum::Application.routes.draw do
 
   get '/all' => 'cf_threads#index'
 
-  get '/interesting' => 'interesting_threads_plugin#list_threads',
-      as: :interesting_threads
+  get '/interesting' => 'interesting_messages_plugin#list_messages',
+      as: :interesting_messages
   get '/invisible' => 'invisible_threads_plugin#list_threads',
       as: :hidden_threads
 
@@ -110,11 +110,6 @@ Cforum::Application.routes.draw do
     post '/:year/:mon/:day/:tid/mark_read' => 'mark_read_plugin#mark_thread_read', year: /\d{4}/,
          mon: /\w{3}/, day: /\d{1,2}/, as: :mark_thread_read
 
-    post '/:year/:mon/:day/:tid/interesting' => 'interesting_threads_plugin#mark_interesting',
-         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'interesting_cf_thread'
-    post '/:year/:mon/:day/:tid/boring' => 'interesting_threads_plugin#mark_boring',
-         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'boring_cf_thread'
-
     post '/:year/:mon/:day/:tid/open' => 'open_close_threads_plugin#open',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'open_cf_thread'
     post '/:year/:mon/:day/:tid/close' => 'open_close_threads_plugin#close',
@@ -145,6 +140,12 @@ Cforum::Application.routes.draw do
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'vote_cf_message'
     post '/:year/:mon/:day/:tid/:mid/unread' => 'mark_read_plugin#mark_unread',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'unread_cf_message'
+
+    post '/:year/:mon/:day/:tid/:mid/interesting' => 'interesting_messages_plugin#mark_interesting',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'interesting_cf_message'
+    post '/:year/:mon/:day/:tid/:mid/boring' => 'interesting_messages_plugin#mark_boring',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'boring_cf_message'
+
 
     #
     # admin actions

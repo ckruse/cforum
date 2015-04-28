@@ -69,17 +69,6 @@ module MessageHelper
         end
       end
 
-
-      if get_plugin_api(:is_interesting).call(thread, current_user).blank?
-        html << button_to(interesting_cf_thread_path(thread), params: std_args, class: "icon-thread mark-interesting", title: t('plugins.interesting_threads.mark_thread_interesting')) do
-          ''
-        end
-      else
-        html << button_to(boring_cf_thread_path(thread), params: std_args, class: "icon-thread mark-boring", title: t('plugins.interesting_threads.mark_thread_boring')) do
-          ''
-        end
-      end
-
       html << button_to(mark_cf_thread_read_path(thread), params: std_args, class: 'icon-thread mark-thread-read', title: t('plugins.mark_read.mark_thread_read')) do
         ''
       end
@@ -144,6 +133,24 @@ module MessageHelper
 
     if current_user and opts[:show_icons] and not @view_all and not get_plugin_api(:is_read).call(message, current_user).blank?
       html << "<span class=\"message-icons\">"
+
+      if get_plugin_api(:is_interesting).call(message, current_user).blank?
+        html << button_to(interesting_cf_message_path(thread, message),
+                          params: std_args,
+                          class: "icon-message mark-interesting",
+                          title: t('plugins.interesting_messages.mark_message_interesting')) do
+          ''
+        end
+      else
+        html << button_to(boring_cf_message_path(thread, message),
+                          params: std_args,
+                          class: "icon-message mark-boring",
+                          title: t('plugins.interesting_messages.mark_message_boring')) do
+          ''
+        end
+      end
+
+
       html << button_to(unread_cf_message_path(thread, message), params: std_args, class: 'icon-message unread', title: t('plugins.mark_read.mark_unread')) do
         ''
       end

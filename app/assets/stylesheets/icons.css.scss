@@ -13,6 +13,8 @@
   &.no-answer { @extend .fa-lock; }
   &.original-poster { @extend .fa-exclamation; }
   &.unread { @extend .fa-eye-slash; }
+  &.mark-interesting { @extend .fa-star; }
+  &.mark-boring { @extend .fa-star-o; }
 }
 
 .icon-thread {
@@ -27,8 +29,6 @@
   &.no-archive { @extend .fa-sign-out; }
   &.mark-invisible { @extend .fa-remove; }
   &.mark-visible { @extend .fa-recycle; }
-  &.mark-interesting { @extend .fa-star; }
-  &.mark-boring { @extend .fa-star-o; }
   &.mark-thread-read { @extend .fa-check; }
 }
 

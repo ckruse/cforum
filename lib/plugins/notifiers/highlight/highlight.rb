@@ -37,7 +37,38 @@ class HighlightPlugin < Plugin
   end
   alias show_archive_threadlist show_threadlist
   alias show_invisible_threadlist show_threadlist
-  alias show_interesting_threadlist show_threadlist
+
+
+  def show_interesting_messagelist(messages)
+    return unless current_user
+
+    highlighted_users = uconf('highlighted_users')
+    highlighted_users ||= ''
+    highlight_self = uconf('highlight_self') == 'yes'
+
+    return if highlighted_users.blank? and not highlight_self
+
+    user_map = {}
+    highlighted_users.split(',').each do |s|
+      user_map[s.strip.downcase] = true
+    end
+
+    cu_nam = current_user.username.strip.downcase
+
+    messages.each do |m|
+      n = m.author.strip.downcase
+
+      if user_map[n]
+        m.attribs['classes'] << 'highlighted-user'
+        m.attribs['classes'] << user_to_class_name(m.author)
+      end
+
+      if highlight_self and n == cu_nam
+        m.attribs['classes'] << 'highlighted-self'
+        m.attribs['classes'] << user_to_class_name(m.author)
+      end
+    end
+  end
 
   def show_message(thread, message, votes)
     show_threadlist([thread])
@@ -75,7 +106,7 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(InvisibleThreadsPluginController::SHOW_INVISIBLE_THREADLIST,
                   hl_plugin)
   app_controller.notification_center.
-    register_hook(InterestingThreadsPluginController::SHOW_INTERESTING_THREADLIST,
+    register_hook(InterestingMessagesPluginController::SHOW_INTERESTING_MESSAGELIST,
                   hl_plugin)
 
   app_controller.notification_center.register_hook(UsersController::SHOWING_SETTINGS, hl_plugin)

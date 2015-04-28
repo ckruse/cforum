@@ -115,7 +115,6 @@ class MarkReadPlugin < Plugin
   end
   alias show_archive_threadlist show_threadlist
   alias show_invisible_threadlist show_threadlist
-  alias show_interesting_threadlist show_threadlist
 
   def show_thread(thread, message = nil, votes = nil)
     return if current_user.blank? or @app_controller.is_prefetch
@@ -157,6 +156,11 @@ class MarkReadPlugin < Plugin
   end
   alias show_new_message show_message
 
+  def show_interesting_messagelist(messages)
+    return if current_user.blank?
+    check_messages(messages)
+  end
+
   def show_forumlist(counts, activities, admin = false)
     return if current_user.blank? or activities.values.blank?
 
@@ -172,12 +176,17 @@ class MarkReadPlugin < Plugin
   end
 
   private
+
   def check_thread(thread)
+    check_messages(thread.messages)
+  end
+
+  def check_messages(messages)
     ids = []
     msgs = {}
     @cache[current_user.user_id] ||= {}
 
-    thread.messages.each do |m|
+    messages.each do |m|
       ids << m.message_id
       msgs[m.message_id.to_s] = m
       @cache[current_user.user_id][m.message_id] = false
@@ -210,7 +219,7 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(InvisibleThreadsPluginController::SHOW_INVISIBLE_THREADLIST,
                   mr_plugin)
   app_controller.notification_center.
-    register_hook(InterestingThreadsPluginController::SHOW_INTERESTING_THREADLIST,
+    register_hook(InterestingMessagesPluginController::SHOW_INTERESTING_MESSAGELIST,
                   mr_plugin)
 end
 

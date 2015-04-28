@@ -1,0 +1,17 @@
+<%
+content_for :title, t('plugins.interesting_messages.interesting_messages')
+content_for :h1, t('plugins.interesting_messages.interesting_messages')
+content_for(:body_id, "interesting-messages-list")
+content_for(:body_classes, 'interesting-messages list')
+%>
+
+<% if @messages.empty? %>
+  <p><%= t('plugins.interesting_message.no_message') %></p>
+<% end %>
+
+<% @messages.each do |message| %>
+  <% message.thread.message = message %>
+  <article class="thread threadlist"><%= message_header(message.thread, message,
+                                                        first: false, do_parent: false,
+                                                        show_votes: true) %></article>
+<% end %>
