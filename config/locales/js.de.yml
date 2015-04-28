@@ -9,7 +9,7 @@ de:
       unfold_quote: '- zitierten Text anzeigen -'
       internal_error: Ein interner Fehler ist aufgetreten.
       upload:
-        image_area: 'Bilder hierher ziehen oder klicken, um sie hochzuladen. Beachten Sie die <a href="http://selfhtml.org/impressum.html#upload">Nutzungsbedingungen</a>!'
+        image_area: 'Bilder hierher ziehen oder klicken, um sie hochzuladen. Beachten Sie die <a href="http://selfhtml.org/impressum.html#upload">Nutzungsbedingungen</a>.'
         alternative_text: Alternativ-Text
 
       buttons:
@@ -58,4 +58,4 @@ de:
 
       tags:
         tag_doesnt_exist: Dieses Tag existiert nicht. Bitte wählen Sie ein anderes.
-        tag_will_be_created: "Vorsicht: Dieses Tag existiert noch nicht! Es würde erstellt werden."
+        tag_will_be_created: "Vorsicht: Dieses Tag existiert noch nicht. Es würde erstellt werden."
