@@ -258,6 +258,14 @@ legend {
         margin:auto;
         margin-bottom:1em;
       }
+      
+      .image-upload a {
+        color: #3481cd;
+        
+        &:hover {
+          color: #990909;
+        }
+      }
     }
 
     .md-editor.md-fullscreen-mode {
