@@ -8,6 +8,9 @@ de:
       vote_down: negativ bewerten
       unfold_quote: '- zitierten Text anzeigen -'
       internal_error: Ein interner Fehler ist aufgetreten.
+      upload:
+        image_area: 'Bilder hierher ziehen oder klicken, um sie hochzuladen. Beachten Sie die <a href="http://selfhtml.org/impressum.html#upload">Nutzungsbedingungen</a>!'
+        alternative_text: Alternativ-Text
 
       buttons:
         tab:
