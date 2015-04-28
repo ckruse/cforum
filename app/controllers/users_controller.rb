@@ -45,39 +45,7 @@ class UsersController < ApplicationController
 
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
 
-    if current_user
-      if current_user.admin?
-        sql = "SELECT forum_id FROM forums"
-      else
-        sql = "
-        SELECT
-            DISTINCT forums.forum_id
-          FROM
-              forums
-            INNER JOIN
-              forums_groups_permissions USING(forum_id)
-            INNER JOIN
-              groups_users USING(group_id)
-          WHERE
-              (standard_permission = 'read' OR standard_permission = 'write')
-            OR
-              (
-                (
-                    permission = 'read'
-                  OR
-                    permission = 'write'
-                  OR
-                    permission = 'moderate'
-                )
-                AND
-                  user_id = #{current_user.user_id}
-              )
-        "
-      end
-    else
-      sql = "SELECT forum_id FROM forums WHERE standard_permission = 'read' OR standard_permission = 'write'"
-    end
-
+    sql = CfForum.visible_sql(current_user)
 
     @last_messages = CfMessage.
       preload(:owner, :tags, votes: :voters, thread: :forum).
