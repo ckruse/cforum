@@ -25,3 +25,4 @@ coverage
 TAGS
 
 /public/system/
+/public/uploads/*
