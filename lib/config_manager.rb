@@ -53,6 +53,7 @@ class ConfigManager
     'show_unread_notifications_in_title' => 'no',
     'show_unread_pms_in_title' => 'no',
     'show_new_messages_since_last_visit_in_title' => 'no',
+    'use_javascript_notifications' => 'yes',
     'notify_on_new_mail' => 'no',
     'notify_on_activity' => 'no',
     'notify_on_answer' => 'no',

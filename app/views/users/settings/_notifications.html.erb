@@ -2,6 +2,14 @@
   <legend><%= t('users.settings.notifications') %></legend>
 
   <div class="cf-cgroup">
+    <label><%= t('users.settings.use_javascript_notifications') %></label>
+    <div class="cntrls">
+      <input type="hidden" name="settings[use_javascript_notifications]" value="no">
+      <label class="checkbox"><input type="checkbox" value="yes" name="settings[use_javascript_notifications]"<%= disabled %><% if @settings.conf('use_javascript_notifications') == 'yes' %> checked="checked"<% end %>></label>
+    </div>
+  </div>
+
+  <div class="cf-cgroup">
     <label><%= t('users.settings.notify_on_new_mail') %></label>
     <div class="cntrls">
       <label class="radio"><input type="radio" value="yes" name="settings[notify_on_new_mail]"<%= disabled %><% if @settings.conf('notify_on_new_mail') == 'yes' %> checked="checked"<% end %>> <%= t("global.yeah") %></label>

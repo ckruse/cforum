@@ -27,7 +27,7 @@ module ParserHelper
       auto_id_prefix: id_prefix + '-',
       no_follow: true,
       root_url: app.root_url,
-      smart_quotes: ["apos", "apos", 'quot', 'quot']
+      smart_quotes: ["sbquo", "lsquo", "bdquo", "ldquo"]
     )
 
     if @doc.blank?

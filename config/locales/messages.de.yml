@@ -31,8 +31,13 @@ de:
     restore_message: Beitrag wiederherstellen
     delete_message: Beitrag löschen
     votes:
-      other: "%{count} Bewertungen"
-      one: "%{count} Bewertung"
+      other: "Bewertung: %{score}"
+      one: "Bewertung: %{score}"
+      zero: "Bewertung: keine"
+    votes_tree:
+      zero: noch keine Bewertungen
+      one: "Bewertung: %{score}, %{count} Stimme"
+      other: "Bewertung: %{score}, %{count} Stimmen"
     all_msgs_num: Anzahl aller Beiträge
     unread_messages_num: Anzahl ungelesener Beiträge
     user_link: Benutzer %{user}

@@ -119,6 +119,17 @@ class CfMessage < ActiveRecord::Base
     upvotes - downvotes
   end
 
+  def score_str
+    s = score
+    if score == 0
+      '±' + s.to_s
+    elsif score < 0
+      '−' + s.abs.to_s
+    else
+      "+" + s.to_s
+    end
+  end
+
 end
 
 # eof

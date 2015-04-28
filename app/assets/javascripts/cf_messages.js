@@ -115,7 +115,7 @@ cforum.cf_messages = {
 
   initUpload: function() {
     if($("#message_input").length > 0 && window.Dropzone) {
-      $("#message_input").after('<div class="image-upload"><span>Bilder hierher ziehen oder klicken, um sie hochzuladen</span></div>');
+      $("#message_input").after('<div class="image-upload"><span>' + t('upload.image_area') + '</span></div>');
       $(".image-upload").dropzone({
         createImageThumbnails: false,
         maxFilesize: 2, // 2mb max filesize
@@ -129,7 +129,7 @@ cforum.cf_messages = {
             $('.image-upload').removeClass('loading');
             var $msg = $("#message_input");
             var selection = $msg.getSelection();
-            var md = '![Alternativ-Text](' + cforum.basePath + 'images/' + rsp.path + ')';
+            var md = '![' + t('upload.alternative_text') + '](' + cforum.basePath + 'images/' + rsp.path + ')';
 
             $msg.replaceSelection(md);
 

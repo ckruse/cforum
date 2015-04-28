@@ -55,5 +55,4 @@ de:
       autorefresh: Automatischer Reload (in Minuten)
       page_messages: Nachrichten auf mehrere Seiten verteilen
       fold_quotes: Längere Zitate zusammenfalten
-
-
+      use_javascript_notifications: Mit JavaScript über neue Beiträge informieren
