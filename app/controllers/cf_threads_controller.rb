@@ -61,7 +61,11 @@ class CfThreadsController < ApplicationController
     invalid = false
 
     @forum = current_forum
-    @forum = CfForum.find(params[:cf_thread][:forum_id]) if @forum.blank?
+    if @forum.blank?
+      @forum = CfForum.
+               where(forum_id: params[:cf_thread][:forum_id]).
+               where(CfForum.visible_sql(current_user))
+    end
 
     @thread  = CfThread.new()
     @message = CfMessage.new(message_params)
