@@ -148,7 +148,7 @@ class CfMessagesController < ApplicationController
       flash[:error] = I18n.t('messages.not_enough_tags', min_tags: @min_tags)
     end
 
-    iv_tags = invalid_tags(@tags)
+    iv_tags = invalid_tags(current_forum, @tags)
     if not iv_tags.blank?
       invalid = true
       flash[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
@@ -167,7 +167,7 @@ class CfMessagesController < ApplicationController
     if not invalid and not retvals.include?(false) and not @preview
       CfMessage.transaction do
         raise ActiveRecord::Rollback unless @message.save
-        raise ActiveRecord::Rollback unless save_tags(@message, @tags)
+        raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
         saved = true
       end
     end
@@ -216,7 +216,7 @@ class CfMessagesController < ApplicationController
       flash[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
     end
 
-    iv_tags = invalid_tags(@tags)
+    iv_tags = invalid_tags(current_forum, @tags)
     if not iv_tags.blank?
       invalid = true
       flash[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
@@ -227,7 +227,7 @@ class CfMessagesController < ApplicationController
       CfMessage.transaction do
         raise ActiveRecord::Rollback unless @message.save
         raise ActiveRecord::Rollback unless @message.tags.delete_all
-        raise ActiveRecord::Rollback unless save_tags(@message, @tags)
+        raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
         saved = true
       end
     end
@@ -306,7 +306,7 @@ class CfMessagesController < ApplicationController
       flash[:error] = I18n.t('messages.not_enough_tags', min_tags: @min_tags)
     end
 
-    iv_tags = invalid_tags(@tags)
+    iv_tags = invalid_tags(current_forum, @tags)
     if not iv_tags.blank?
       invalid = true
       flash[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
@@ -316,12 +316,12 @@ class CfMessagesController < ApplicationController
     if not invalid
       CfMessage.transaction do
         raise ActiveRecord::Rollback unless @message.tags.delete_all
-        raise ActiveRecord::Rollback unless save_tags(@message, @tags)
+        raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
 
         if params[:retag_answers] == '1'
           @message.all_answers do |m|
             raise ActiveRecord::Rollback unless m.tags.delete_all
-            raise ActiveRecord::Rollback unless save_tags(m, @tags)
+            raise ActiveRecord::Rollback unless save_tags(current_forum, m, @tags)
           end
         end
 

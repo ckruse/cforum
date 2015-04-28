@@ -2,13 +2,13 @@
 
 module TagsHelper
 
-  def save_tags(message, tags)
+  def save_tags(forum, message, tags)
     tag_objs = []
 
     # first check if all tags are present
     unless tags.empty?
-      #tag_objs = CfTag.where('forum_id = ? AND LOWER(tag_name) IN (?)', current_forum.forum_id, tags).all
-      tag_objs = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) IN (?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) IN (?)))", current_forum.forum_id, tags, tags).order('num_messages DESC')
+      #tag_objs = CfTag.where('forum_id = ? AND LOWER(tag_name) IN (?)', forum.forum_id, tags).all
+      tag_objs = CfTag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) IN (?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) IN (?)))", forum.forum_id, tags, tags).order('num_messages DESC')
       tags.each do |t|
         tag_obj = tag_objs.find do |to|
           if to.tag_name.downcase == t
@@ -20,7 +20,7 @@ module TagsHelper
 
         if tag_obj.blank?
           # create a savepoint (rails implements savepoints as nested transactions)
-          tag_obj = CfTag.create(forum_id: current_forum.forum_id, tag_name: t)
+          tag_obj = CfTag.create(forum_id: forum.forum_id, tag_name: t)
 
           if tag_obj.tag_id.blank?
             flash[:error] = t('messages.tag_invalid')
@@ -53,14 +53,14 @@ module TagsHelper
     tags
   end
 
-  def invalid_tags(tags, user = current_user)
+  def invalid_tags(forum, tags, user = current_user)
     may_create = may?(RightsHelper::CREATE_TAGS)
     invalid = []
 
     tags.each do |t|
       tag = CfTag.exists?(['tags.forum_id = ? AND (tag_name = ? OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE synonym = ? AND forum_id = ?))',
-                           current_forum.forum_id, t, t,
-                           current_forum.forum_id])
+                           forum.forum_id, t, t,
+                           forum.forum_id])
       invalid << t if tag.blank? and not may_create
     end
 

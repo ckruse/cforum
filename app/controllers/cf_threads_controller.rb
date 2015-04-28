@@ -61,6 +61,7 @@ class CfThreadsController < ApplicationController
     invalid = false
 
     @forum = current_forum
+    @forum = CfForum.find(params[:cf_thread][:forum_id]) if @forum.blank?
 
     @thread  = CfThread.new()
     @message = CfMessage.new(message_params)
@@ -107,7 +108,7 @@ class CfThreadsController < ApplicationController
       flash[:error] = I18n.t('messages.not_enough_tags', min_tags: @min_tags)
     end
 
-    iv_tags = invalid_tags(@tags)
+    iv_tags = invalid_tags(@forum, @tags)
     if not iv_tags.blank?
       invalid = true
       flash[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
@@ -144,7 +145,7 @@ class CfThreadsController < ApplicationController
         @message.thread_id = @thread.thread_id
         raise ActiveRecord::Rollback unless @message.save
 
-        save_tags(@message, @tags)
+        save_tags(@forum, @message, @tags)
 
         @thread.messages << @message
 

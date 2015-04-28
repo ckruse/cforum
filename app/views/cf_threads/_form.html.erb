@@ -11,6 +11,13 @@
     </div>
   <% end %>
 
+  <% if current_forum.blank? %>
+    <div class="cf-cgroup">
+      <%= f.label :forum_id %>
+      <div class="cntrls"><%= f.collection_select :forum_id, @forums, :forum_id, :name %></div>
+    </div>
+  <% end %>
+
   <%= f.fields_for :message, f.object.message do |builder| %>
     <%= render "cf_messages/form", f: builder %>
   <% end %>

@@ -199,9 +199,7 @@ end
         <% end %>
 
         <ul>
-          <% if current_forum %>
-		        <li id="link-neuenachricht"><%= link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
-          <% end %>
+		      <li id="link-neuenachricht"><%= link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
 
           <li><%= link_to t('layout.home'), root_url %></li>
           <% if current_forum %>

@@ -108,6 +108,10 @@ module CForum
       _cf_forum_path(forum) + query_string(args)
     end
 
+    def new_cf_thread_path(forum, args = {})
+      _cf_forum_path(forum) + '/new' + query_string(args)
+    end
+
     def edit_cf_thread_path(thread, args = {})
       _cf_thread_path(thread) + '/edit' + query_string(args)
     end
