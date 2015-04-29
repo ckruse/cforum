@@ -67,6 +67,11 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
 end
 
 class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
+  def initialize(*args)
+    super(*args)
+    @indent = 0
+  end
+
   def convert_codeblock(el, indent)
     ret = super(el, indent)
     ret.gsub!(/^(\s*)<div[^>]*>\n?(.*)<\/div>/m, '\1<code class="block">\2</code>')
