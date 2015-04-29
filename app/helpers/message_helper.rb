@@ -131,7 +131,7 @@ module MessageHelper
       html << '</' + el + '>'
     end
 
-    if current_user and opts[:show_icons] and not @view_all and not get_plugin_api(:is_read).call(message, current_user).blank?
+    if current_user and opts[:show_icons] and not @view_all
       html << "<span class=\"message-icons\">"
 
       if get_plugin_api(:is_interesting).call(message, current_user).blank?
