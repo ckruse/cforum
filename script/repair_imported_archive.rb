@@ -15,7 +15,6 @@ no_messages = 1000
 
 while no_messages * current_block < all_msgs
   msgs = CfMessage.
-         where("created_at > '2007-09-01 00:00'").
          order(:message_id).
          limit(no_messages).
          offset(no_messages * current_block)
