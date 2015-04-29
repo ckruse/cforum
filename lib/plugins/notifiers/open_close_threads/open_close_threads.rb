@@ -3,7 +3,7 @@
 class OpenCloseThreadPlugin < Plugin
   def show_threadlist(threads)
     return unless current_user
-    return if application_controller.view_all
+    return if application_controller.view_all or params[:fold] == 'false'
 
     # default state is setable via user config
     default_state   = uconf('open_close_default')

@@ -48,7 +48,13 @@ $(function() {
           article.fadeOut('fast', function() { article.remove(); });
         }
         else {
-          $.get(data.location).
+          var loc = data.location;
+
+          if($('body').attr('data-controller') == 'cf_messages' && !$this.is('.icon-thread.open') && !$this.is('.icon-thread.close')) {
+            loc += '?fold=false';
+          }
+
+          $.get(loc).
             success(function(content) { article.replaceWith(content); }).
             error(function() { cforum.alert.error('Etwas ist schief gegangen!'); });
         }
