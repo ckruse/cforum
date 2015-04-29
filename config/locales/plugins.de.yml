@@ -38,7 +38,6 @@ de:
       marked_unread: Der Beitrag wurde als ungelesen markiert.
       marked_all_read: Alle Beiträge der Hauptseite wurden als gelesen markiert.
       mark_all_read: alle Beiträge als gelesen markieren
-      mark_unread: ungelesen markieren
       num_unread:
         other: "%{count} ungelesene Beiträge"
         one: "%{count} ungelesener Beitrag"

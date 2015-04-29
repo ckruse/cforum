@@ -5,27 +5,6 @@ class MarkReadPluginController < ApplicationController
 
   include ThreadsHelper
 
-  def mark_unread
-    if current_user.blank?
-      flash[:error] = t('global.only_as_user')
-      redirect_to cf_return_url
-      return :redirected
-    end
-
-    @thread, @message, @id = get_thread_w_post
-
-    CfMessage.connection.
-      execute("DELETE FROM read_messages WHERE user_id = " +
-              current_user.user_id.to_s + " AND message_id = " +
-              @message.message_id.to_s)
-
-    respond_to do |format|
-      format.html { redirect_to cf_return_url(@thread, @message),
-                                notice: t('plugins.mark_read.marked_unread') }
-      format.json { render json: {status: :success, location: cf_thread_url(@thread) } }
-    end
-  end
-
   def mark_thread_read
     if current_user.blank?
       flash[:error] = t('global.only_as_user')

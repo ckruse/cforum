@@ -150,10 +150,6 @@ module MessageHelper
         end
       end
 
-
-      html << button_to(unread_cf_message_path(thread, message), params: std_args, class: 'icon-message unread', title: t('plugins.mark_read.mark_unread')) do
-        ''
-      end
       html << "</span>"
     end
 

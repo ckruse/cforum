@@ -138,8 +138,6 @@ Cforum::Application.routes.draw do
 
     post '/:year/:mon/:day/:tid/:mid/vote' => 'vote_plugin#vote',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'vote_cf_message'
-    post '/:year/:mon/:day/:tid/:mid/unread' => 'mark_read_plugin#mark_unread',
-         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'unread_cf_message'
 
     post '/:year/:mon/:day/:tid/:mid/interesting' => 'interesting_messages_plugin#mark_interesting',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'interesting_cf_message'
