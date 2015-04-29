@@ -7,6 +7,7 @@ require File.join(File.dirname(__FILE__), "..", "config", "environment")
 ActiveRecord::Base.record_timestamps = false
 Rails.logger = Logger.new('/dev/null')
 ActiveRecord::Base.logger = Rails.logger
+ActiveRecord::Base.record_timestamps = false
 
 all_msgs = CfMessage.count();
 current_block = 0
@@ -14,6 +15,7 @@ no_messages = 1000
 
 while no_messages * current_block < all_msgs
   msgs = CfMessage.
+         where("created_at > '2007-09-01 00:00'").
          order(:message_id).
          limit(no_messages).
          offset(no_messages * current_block)
@@ -27,19 +29,37 @@ while no_messages * current_block < all_msgs
       "[?t=#{$1}&m=#{$2}](/?t=#{$1}&m=#{$2})"
     end
 
-    m.content = m.content.gsub(/\[ref:([^;]+);([^\]]+)@title=([^\]]+)\]/) do |data|
-      if $1 == 'self812'
-        "[#{$3}](#{$2})"
+    m.content = m.content.gsub(/\[ref:([^;\]]+);([^\]]+)@title=([^\]]+)\]/) do |data|
+      ref = $1.downcase
+      href = $2
+      title = $3
+
+      if %w(self8 self81 self811 self812 sel811 sef811 slef812).include?(ref)
+        title = href if title.blank?
+        "[#{title}](#{href})"
+      elsif ref == 'self7'
+        title = href if title.blank?
+        "[#{title}](http://aktuell.de.selfhtml.org/archiv/doku/7.0/#{href})"
+      elsif ref == 'zitat'
+        title = href if title.blank?
+        "[#{title}](http://community.de.selfhtml.org/zitatesammlung/zitat#{href})"
       else
-        raise "unknown ref: [ref:$1;$2@title=$3]"
+        data
       end
     end
 
-    m.content = m.content.gsub(/\[ref:([^;]+);([^\]]+)\]/) do |data|
-      if $1 == 'self812'
-        "[#{$2}](#{$2})"
+    m.content = m.content.gsub(/\[ref:([^;\]]+);([^\]]+)\]/) do |data|
+      ref = $1.downcase
+      href = $2
+
+      if %w(self8 self81 self811 self812 sel811 sef811 slef812).include?(ref)
+        "[#{href}](#{href})"
+      elsif ref == 'self7'
+        "[#{href}](http://aktuell.de.selfhtml.org/archiv/doku/7.0/#{href})"
+      elsif ref == 'zitat'
+        "[#{href}](http://community.de.selfhtml.org/zitatesammlung/zitat#{href})"
       else
-        raise "unknown ref: [ref:$1;$2]"
+        data
       end
     end
 
