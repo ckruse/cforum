@@ -6,19 +6,7 @@ cforum.cf_threads = {
   numMessages: 0,
 
   new: function() {
-    if(!cforum.currentForum) {
-      $("#cf_thread_forum_id").on('change', function() {
-        var val = $(this).val();
-
-        for(var i = 0; i < cforum.forums.length; ++i) {
-          if(cforum.forums[i].forum_id == val) {
-            cforum.currentForum = cforum.forums[i];
-            break;
-          }
-        }
-      });
-      $("#cf_thread_forum_id").trigger('change');
-    }
+    cforum.cf_threads.initGlobal();
 
     cforum.tags.initTags();
     cforum.cf_threads.initCursor();
@@ -27,6 +15,8 @@ cforum.cf_threads = {
     cforum.cf_messages.initUpload();
   },
   create: function() {
+    cforum.cf_threads.initGlobal();
+
     cforum.tags.initTags();
     cforum.cf_messages.initMarkdown("message_input");
     cforum.cf_messages.initUpload();
@@ -71,6 +61,22 @@ cforum.cf_threads = {
   newMessageArriving: function(message) {
     cforum.cf_threads.numMessages += 1;
     cforum.cf_threads.showNewAlert();
+  },
+
+  initGlobal: function() {
+    if(!cforum.currentForum) {
+      $("#cf_thread_forum_id").on('change', function() {
+        var val = $(this).val();
+
+        for(var i = 0; i < cforum.forums.length; ++i) {
+          if(cforum.forums[i].forum_id == val) {
+            cforum.currentForum = cforum.forums[i];
+            break;
+          }
+        }
+      });
+      $("#cf_thread_forum_id").trigger('change');
+    }
   },
 
   initCursor: function() {
