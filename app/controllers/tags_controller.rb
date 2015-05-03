@@ -74,25 +74,19 @@ class TagsController < ApplicationController
       @tags = CfTag.preload(:synonyms).where(forum_id: current_forum.forum_id)
     end
 
-    @tags_list = {}
+    @tags_list = []
     rx = nil
     rx = Regexp.new('^' + term.downcase, Regexp::IGNORECASE) unless term.blank?
 
     @tags.each do |t|
-      if rx.blank? or rx.match(t.tag_name)
-        @tags_list[t.tag_name] ||= 0
-        @tags_list[t.tag_name] += t.num_messages
-      end
+      @tags_list << t.tag_name if rx.blank? or rx.match(t.tag_name)
 
       t.synonyms.each do |s|
-        if rx.blank? or rx.match(s.synonym)
-          @tags_list[s.synonym] ||= 0
-          @tags_list[s.synonym] += t.num_messages - 1
-        end
+        @tags_list << s.synonym if rx.blank? or rx.match(s.synonym)
       end
     end
 
-    render json: @tags_list.keys.sort { |a,b| @tags_list[b] <=> @tags_list[a]}
+    render json: @tags_list.sort
   end
 
   # GET /collections/1
