@@ -63,10 +63,11 @@ cforum.cf_messages = {
     $(".posting-content blockquote").each(function() {
       var $this = $(this);
       var txt = cforum.cf_messages.maxLen($this.text());
-      console.log(txt);
+
       if(txt) {
         $this.css('display', 'none');
-        $this.before('<blockquote class="show-quotes">' + txt + "<br>\n" + t('unfold_quote') + '</blockquote>');
+        $this.before('<blockquote class="show-quotes"><br>\n' + t('unfold_quote') + '</blockquote>');
+        $this.prev().prepend(document.createTextNode(txt));
       }
     });
 
