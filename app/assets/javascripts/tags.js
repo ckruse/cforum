@@ -263,7 +263,7 @@ cforum.tags = {
 
                 if(el.length === 0) {
                   $("#replaced_tag_input").
-                    closest(".cntrls").append("<div class=\"errors\"><div></div></div>");
+                    closest(".cntrls").append("<div class=\"errors\"></div>");
                   el = $("#replaced_tag_input").closest(".cntrls").find(".errors");
                 }
 
@@ -280,10 +280,17 @@ cforum.tags = {
                   show = false;
                 }
 
-                el.find("div").fadeOut("fast", function() {
+                var divs = el.find("div");
+                if(divs.length > 0) {
+                  divs.fadeOut("fast", function() {
+                    el.html("<div class=\"cf-alert " + clss + "\" style=\"display:none\">" + text + "</div>");
+                    el.find("div").fadeIn("fast");
+                  });
+                }
+                else {
                   el.html("<div class=\"cf-alert " + clss + "\" style=\"display:none\">" + text + "</div>");
                   el.find("div").fadeIn("fast");
-                });
+                }
               }
               else {
                 $("#replaced_tag_input").
