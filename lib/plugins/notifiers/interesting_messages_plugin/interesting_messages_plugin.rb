@@ -120,6 +120,43 @@ class InterestingMessagesPlugin < Plugin
   end
   alias show_archive_threadlist show_threadlist
   alias show_invisible_threadlist show_threadlist
+
+  def show_thread(thread, message = nil, votes = nil)
+    return if current_user.blank?
+    check_messages(thread.messages)
+  end
+
+  alias show_message show_thread
+  alias show_new_message show_thread
+
+  def check_messages(messages)
+    ids = []
+    msgs = {}
+    had_all = true
+    @cache[current_user.user_id] ||= {}
+
+    messages.each do |m|
+      ids << m.message_id
+      msgs[m.message_id.to_s] = m
+
+      if not @cache[current_user.user_id].has_key?(m.message_id)
+        had_all = false
+      elsif @cache[current_user.user_id][m.message_id]
+        m.attribs['classes'] << 'interesting'
+      end
+    end
+
+    unless had_all
+      result = CfMessage.connection.execute("SELECT message_id FROM interesting_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+      @cache[current_user.user_id] = {}
+
+      result.each do |row|
+        @cache[current_user.user_id][row['message_id'].to_i] = true
+        msgs[row['message_id']].attribs['classes'] << 'interesting' if msgs[row['message_id']]
+      end
+    end
+  end
+
 end
 
 ApplicationController.init_hooks << Proc.new do |app_controller|
@@ -132,6 +169,13 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
   app_controller.notification_center.
     register_hook(InvisibleThreadsPluginController::SHOW_INVISIBLE_THREADLIST,
                   interesting_threads)
+
+  app_controller.notification_center.
+    register_hook(CfMessagesController::SHOW_THREAD, interesting_threads)
+  app_controller.notification_center.
+    register_hook(CfMessagesController::SHOW_MESSAGE, interesting_threads)
+  app_controller.notification_center.
+    register_hook(CfMessagesController::SHOW_NEW_MESSAGE, interesting_threads)
 end
 
 # eof
