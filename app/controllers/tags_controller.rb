@@ -66,7 +66,7 @@ class TagsController < ApplicationController
       clean_tag = term.strip + '%'
       @tags = CfTag.
               preload(:synonyms).
-              where("forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))",
+              where("forum_id = ? AND suggest = true AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))",
                     current_forum.forum_id,
                     clean_tag,
                     clean_tag)
