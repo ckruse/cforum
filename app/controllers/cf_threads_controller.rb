@@ -73,7 +73,7 @@ class CfThreadsController < ApplicationController
     @thread.slug     = CfThread.gen_id(@thread)
 
     if @thread.slug =~ /\/$/ and not @thread.message.subject.blank?
-      flash[:error] = t("errors.could_not_generate_slug")
+      flash.now[:error] = t("errors.could_not_generate_slug")
       invalid = true
     end
 
@@ -91,7 +91,7 @@ class CfThreadsController < ApplicationController
       @message.author   = current_user.username
     else
       unless CfUser.where('LOWER(username) = LOWER(?)', @message.author.strip).first.blank?
-        flash[:error] = I18n.t('errors.name_taken')
+        flash.now[:error] = I18n.t('errors.name_taken')
         invalid = true
       end
     end
@@ -103,19 +103,19 @@ class CfThreadsController < ApplicationController
     @max_tags = conf('max_tags_per_message').to_i
     if @tags.length > @max_tags
       invalid = true
-      flash[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
+      flash.now[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
     end
 
     @min_tags = conf('min_tags_per_message').to_i
     if @tags.length < @min_tags
       invalid = true
-      flash[:error] = I18n.t('messages.not_enough_tags', min_tags: @min_tags)
+      flash.now[:error] = I18n.t('messages.not_enough_tags', min_tags: @min_tags)
     end
 
     iv_tags = invalid_tags(@forum, @tags)
     if not iv_tags.blank?
       invalid = true
-      flash[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
+      flash.now[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
     end
 
     unless current_user
