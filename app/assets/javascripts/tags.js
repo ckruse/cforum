@@ -274,10 +274,15 @@ cforum.tags = {
                   clss = 'cf-warning';
                 }
                 else {
+                  var last = $("#tags-list").find('.cf-tag:last');
+
                   text = t('tags.tag_doesnt_exist');
                   clss = 'cf-error';
-                  $("#tags-list").find('.cf-tag:last').remove();
                   show = false;
+
+                  if(!last.is(":visible")) {
+                    last.remove();
+                  }
                 }
 
                 var divs = el.find("div");
