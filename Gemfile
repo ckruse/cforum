@@ -47,4 +47,6 @@ gem "paperclip"
 
 gem "stringex"
 
+gem "diffy"
+
 # eof

@@ -883,6 +883,39 @@ ALTER SEQUENCE media_medium_id_seq OWNED BY media.medium_id;
 
 
 --
+-- Name: message_versions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE message_versions (
+    message_version_id bigint NOT NULL,
+    message_id bigint NOT NULL,
+    subject text NOT NULL,
+    content text NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: message_versions_message_version_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE message_versions_message_version_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: message_versions_message_version_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE message_versions_message_version_id_seq OWNED BY message_versions.message_version_id;
+
+
+--
 -- Name: messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1477,6 +1510,13 @@ ALTER TABLE ONLY media ALTER COLUMN medium_id SET DEFAULT nextval('media_medium_
 
 
 --
+-- Name: message_version_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY message_versions ALTER COLUMN message_version_id SET DEFAULT nextval('message_versions_message_version_id_seq'::regclass);
+
+
+--
 -- Name: message_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1708,6 +1748,14 @@ ALTER TABLE ONLY invisible_threads
 
 ALTER TABLE ONLY media
     ADD CONSTRAINT media_pkey PRIMARY KEY (medium_id);
+
+
+--
+-- Name: message_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY message_versions
+    ADD CONSTRAINT message_versions_pkey PRIMARY KEY (message_version_id);
 
 
 --
@@ -2334,6 +2382,22 @@ ALTER TABLE ONLY media
 
 
 --
+-- Name: message_versions_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY message_versions
+    ADD CONSTRAINT message_versions_message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: message_versions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY message_versions
+    ADD CONSTRAINT message_versions_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
 -- Name: messages_editor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2678,6 +2742,8 @@ INSERT INTO schema_migrations (version) VALUES ('63');
 INSERT INTO schema_migrations (version) VALUES ('64');
 
 INSERT INTO schema_migrations (version) VALUES ('65');
+
+INSERT INTO schema_migrations (version) VALUES ('66');
 
 INSERT INTO schema_migrations (version) VALUES ('7');
 

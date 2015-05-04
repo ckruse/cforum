@@ -25,6 +25,8 @@ de:
     edit_message: Beitrag bearbeiten
     edited_by: editiert von
 
+    message_versions: Versionen dieses Beitrags
+
     new_answer: antworten
     new_answer_to: Antwort an %{name} verfassen
     edit_posting: Beitrag bearbeiten

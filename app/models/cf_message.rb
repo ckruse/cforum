@@ -15,6 +15,8 @@ class CfMessage < ActiveRecord::Base
   has_many :messages_tags, class_name: 'CfMessageTag', foreign_key: :message_id, dependent: :destroy
   has_many :tags, ->{ order(:tag_name) }, class_name: 'CfTag', through: :messages_tags
 
+  has_many :versions, ->{ order(message_version_id: :desc) }, class_name: 'CfMessageVersion', foreign_key: :message_id
+
   attr_accessor :messages, :attribs, :parent_level
 
   validates :author, length: { in: 2..60 }

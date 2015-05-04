@@ -203,6 +203,12 @@ class CfMessagesController < ApplicationController
 
     invalid  = false
 
+    @version = CfMessageVersion.new
+    @version.subject = @message.subject
+    @version.content = @message.content
+    @version.user_id = current_user.user_id
+    @version.message_id = @message.message_id
+
     @message.attributes = edit_message_params
     @message.content    = CfMessage.to_internal(@message.content)
     @message.editor_id  = current_user.user_id
@@ -229,6 +235,7 @@ class CfMessagesController < ApplicationController
         raise ActiveRecord::Rollback unless @message.save
         raise ActiveRecord::Rollback unless @message.tags.delete_all
         raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
+        raise ActiveRecord::Rollback unless @version.save
         saved = true
       end
     end
@@ -246,6 +253,10 @@ class CfMessagesController < ApplicationController
       notification_center.notify(SHOW_MESSAGE, @thread, @message, {})
       render :edit
     end
+  end
+
+  def versions
+    @thread, @message, @id = get_thread_w_post
   end
 
   def destroy

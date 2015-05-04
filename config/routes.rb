@@ -181,6 +181,8 @@ Cforum::Application.routes.draw do
     delete '/:year/:mon/:day/:tid/:mid/unflag' => 'flag_plugin#unflag',
            year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
+    get '/:year/:mon/:day/:tid/:mid/versions' => 'cf_messages#versions',
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'cf_message_versions'
 
     #
     # new and create messages
