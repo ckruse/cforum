@@ -1,6 +1,6 @@
 <%
-content_for :title, t('tags.new_tag')
-content_for :h1, t('tags.new_tag')
+content_for :title, t('tags.merge')
+content_for :h1, t('tags.merge')
 content_for(:body_id, "tags-merge")
 content_for(:body_classes, 'tags merge forum-' + (current_forum.try(:slug) || 'all') + ' tag-' + @tag.slug)
 %>
