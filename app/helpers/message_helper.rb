@@ -239,8 +239,8 @@ module MessageHelper
     if opts[:show_editor] && message.editor_id
       html << ", " + t('messages.edited_by') +
         " <span class=\"registered-user editor\">".html_safe +
-        link_to(image_tag(message.owner.avatar(:thumb), class: 'avatar'),
-                user_path(message.owner),
+        link_to(image_tag(message.editor.avatar(:thumb), class: 'avatar'),
+                user_path(message.editor),
                 title: t('messages.user_link', user: message.editor.username),
                 class: 'user-link') + " " + message.editor.username + "</span> ".html_safe
 
