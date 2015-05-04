@@ -296,12 +296,11 @@ cforum.tags = {
                   el.html("<div class=\"cf-alert " + clss + "\" style=\"display:none\">" + text + "</div>");
                   el.find("div").fadeIn("fast");
                 }
+
+                window.setTimeout(cforum.tags.hideInvalidWarnings, 3000);
               }
               else {
-                $("#replaced_tag_input").
-                  closest(".cntrls").
-                  find(".errors div").
-                  fadeOut("fast", function() { $(this).remove(); });
+                cforum.tags.hideInvalidWarnings();
               }
             }
 
