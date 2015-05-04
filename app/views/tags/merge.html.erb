@@ -13,6 +13,10 @@ content_for(:body_classes, 'tags merge forum-' + (current_forum.try(:slug) || 'a
     <% end %>
   </select>
 
+  <p>
+    <%= t('tags.existing_tag_will_be_merged_to', tag: @tag.tag_name) %>
+  </p>
+
 <p class="form-actions">
   <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
   <%= link_to t('global.cancel'), tags_path(current_forum.slug), class: 'cf-btn' %>

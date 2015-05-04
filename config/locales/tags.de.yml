@@ -14,6 +14,7 @@ de:
     tags_for_forum: "%{forum}: Tags"
     merge: Tag zusammenführen
     not_used_for_suggestions: Der Tag wird nicht für Vorschläge benutzt.
+    existing_tag_will_be_merged_to: "Alle Beiträge werden dabei dem oben ausgewählten Tag zugeordnet. Der Tag „%{tag}“ wird gelöscht und dem oben ausgewählten als Synonym zugefügt."
 
     no_synonyms: Bisher sind keine Synonyme bekannt.
     no_messages: Bisher sind keine Beiträge mit diesem Tag geschrieben worden.
