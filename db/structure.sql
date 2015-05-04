@@ -905,7 +905,8 @@ CREATE TABLE messages (
     content character varying NOT NULL,
     flags hstore,
     uuid character varying(250),
-    ip character varying(255)
+    ip character varying(255),
+    editor_id bigint
 );
 
 
@@ -2333,6 +2334,14 @@ ALTER TABLE ONLY media
 
 
 --
+-- Name: messages_editor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_editor_id_fkey FOREIGN KEY (editor_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
 -- Name: messages_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2667,6 +2676,8 @@ INSERT INTO schema_migrations (version) VALUES ('62');
 INSERT INTO schema_migrations (version) VALUES ('63');
 
 INSERT INTO schema_migrations (version) VALUES ('64');
+
+INSERT INTO schema_migrations (version) VALUES ('65');
 
 INSERT INTO schema_migrations (version) VALUES ('7');
 

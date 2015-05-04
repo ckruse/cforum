@@ -11,7 +11,7 @@ module MessageHelper
     opts = {first: false, prev_deleted: false,
       show_icons: false, do_parent: false,
       tree: true, id: true, hide_repeating_subjects: false,
-      id_prefix: nil, active_message: @message}.merge(opts)
+      show_editor: false, id_prefix: nil, active_message: @message}.merge(opts)
 
     classes = ['message']
     classes += message.attribs['classes']
@@ -220,8 +220,7 @@ module MessageHelper
       end
     end
 
-    html << "</span>
-      "
+    html << "</span> "
 
     text = "<time datetime=\"" + message.created_at.strftime("%FT%T%:z") + '">' +
            encode_entities(l(message.created_at, format: opts[:tree] ?
@@ -235,6 +234,20 @@ module MessageHelper
       end
     else
       html << text.html_safe
+    end
+
+    if opts[:show_editor] && message.editor_id
+      html << ", " + t('messages.edited_by') +
+        " <span class=\"registered-user editor\">".html_safe +
+        link_to(image_tag(message.owner.avatar(:thumb), class: 'avatar'),
+                user_path(message.owner),
+                title: t('messages.user_link', user: message.editor.username),
+                class: 'user-link') + " " + message.editor.username + "</span> ".html_safe
+
+      html << "<time datetime=\"" + message.updated_at.strftime("%FT%T%:z") + '">' +
+        encode_entities(l(message.updated_at, format: date_format("date_format_post"))) +
+        "</time>"
+
     end
 
     unless message.tags.blank?

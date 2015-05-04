@@ -1,5 +1,5 @@
 <% do_parent ||= false %>
-  <%= message_header(@thread, m, first: first, do_parent: do_parent, tree: false) %>
+  <%= message_header(@thread, m, first: first, do_parent: do_parent, tree: false, show_editor: true) %>
 
   <%= render 'votes_accept', m: m %>
 

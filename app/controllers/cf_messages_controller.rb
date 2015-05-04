@@ -205,6 +205,7 @@ class CfMessagesController < ApplicationController
 
     @message.attributes = edit_message_params
     @message.content    = CfMessage.to_internal(@message.content)
+    @message.editor_id  = current_user.user_id
 
     @tags    = parse_tags
     @preview = true if params[:preview]

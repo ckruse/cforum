@@ -23,6 +23,7 @@ de:
     editing_disabled: Das Editieren von Beiträgen ist deaktiviert.
     editing_not_allowed_with_answer: Das Editieren von Beiträgen, die bereits eine Antwort erhalten haben, ist verboten.
     edit_message: Beitrag bearbeiten
+    edited_by: editiert von
 
     new_answer: antworten
     new_answer_to: Antwort an %{name} verfassen
