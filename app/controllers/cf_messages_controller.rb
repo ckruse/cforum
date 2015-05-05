@@ -39,7 +39,7 @@ class CfMessagesController < ApplicationController
     # parameter overwrites cookie overwrites config; validation
     # overwrites everything
     @read_mode = uconf('standard_view')
-    @read_mode = cookies[:cf_readmode] unless cookies[:cf_readmode].blank?
+    @read_mode = cookies[:cf_readmode] if not cookies[:cf_readmode].blank? and not current_user.blank?
     @read_mode = params[:rm] unless params[:rm].blank?
     @read_mode = 'thread-view' unless %w(thread-view nested-view).include?(@read_mode)
 
