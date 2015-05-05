@@ -3,6 +3,7 @@ content_for :title, t('messages.message_versions')
 content_for :h1, t('messages.message_versions')
 content_for :body_id, 'messages-versions'
 content_for :body_classes, 'messages versions forum-' + (current_forum.try(:slug) || 'all') + (@preview ? ' preview' : '')
+content_for :robots, 'noindex,nofollow'
 
 prev = @message.subject + "\n\n" + @message.content
 %>
