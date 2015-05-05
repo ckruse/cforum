@@ -132,12 +132,14 @@ class InterestingMessagesPlugin < Plugin
   def check_messages(messages)
     ids = []
     msgs = {}
+    new_cache = {}
     had_all = true
     @cache[current_user.user_id] ||= {}
 
     messages.each do |m|
       ids << m.message_id
       msgs[m.message_id.to_s] = m
+      new_cache[m.message_id] = false
 
       if not @cache[current_user.user_id].has_key?(m.message_id)
         had_all = false
@@ -148,12 +150,12 @@ class InterestingMessagesPlugin < Plugin
 
     unless had_all
       result = CfMessage.connection.execute("SELECT message_id FROM interesting_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
-      @cache[current_user.user_id] = {}
-
       result.each do |row|
-        @cache[current_user.user_id][row['message_id'].to_i] = true
+        new_cache[row['message_id'].to_i] = true
         msgs[row['message_id']].attribs['classes'] << 'interesting' if msgs[row['message_id']]
       end
+
+      @cache[current_user.user_id] = new_cache
     end
   end
 
