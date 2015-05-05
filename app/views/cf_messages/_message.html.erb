@@ -101,7 +101,7 @@
 
     <div class="accepted">
       <% @thread.accepted.each do |m| %>
-        <article class="thread threadlist"><%= message_header(@thread, m, first: false, do_parent: false, show_votes: true) %></article>
+        <article class="thread threadlist"><%= message_header(@thread, m, first: false, do_parent: false, show_votes: true, id_prefix: 'accepted-') %></article>
       <% end %>
     </div>
   <% end %>
