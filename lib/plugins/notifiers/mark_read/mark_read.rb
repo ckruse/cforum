@@ -192,10 +192,12 @@ class MarkReadPlugin < Plugin
       @cache[current_user.user_id][m.message_id] = false
     end
 
-    result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
-    result.each do |row|
-      @cache[current_user.user_id][row['message_id'].to_i] = true
-      msgs[row['message_id']].attribs['classes'] << 'visited' if msgs[row['message_id']]
+    unless ids.blank?
+      result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+      result.each do |row|
+        @cache[current_user.user_id][row['message_id'].to_i] = true
+        msgs[row['message_id']].attribs['classes'] << 'visited' if msgs[row['message_id']]
+      end
     end
   end
 end
