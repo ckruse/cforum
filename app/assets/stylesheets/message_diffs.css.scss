@@ -4,6 +4,7 @@
   overflow:auto;
 
   ul {
+    background:#fff;
     overflow:auto;
     font-size:13px;
     list-style:none;
@@ -26,32 +27,33 @@
   }
 
   li.ins {
-    background: #fffbf0;
-    color: #866a00;
+    background:#dfd;
+    color:#080;
   }
 
   li.del {
-    background: #ffebe6;
-    color: #c32e04;
+    background:#fee;
+    color:#b00;
   }
 
   li:hover {
-    background: #fff;
-  }
-
-  ins strong {
-    font-weight: normal;
-    background: #e7c157;
-  }
-
-  del strong {
-    font-weight: normal;
-    background: #ffb68b;
+    background:#ffc;
   }
 
   /* try 'whitespace:pre;' if you don't want lines to wrap */
   del, ins, span {
     white-space:pre-wrap;
+    font-family:courier;
+  }
+
+  del strong {
+    font-weight:normal;
+    background:#fcc;
+  }
+
+  ins strong {
+    font-weight:normal;
+    background:#9f9;
   }
 
   li.diff-comment {
