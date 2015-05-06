@@ -4,7 +4,6 @@
   overflow:auto;
 
   ul {
-    background:#fff;
     overflow:auto;
     font-size:13px;
     list-style:none;
@@ -37,13 +36,7 @@
   }
 
   li:hover {
-    background:#ffc;
-  }
-
-  /* try 'whitespace:pre;' if you don't want lines to wrap */
-  del, ins, span {
-    white-space:pre-wrap;
-    font-family:courier;
+    background: #fff;
   }
 
   del strong {
