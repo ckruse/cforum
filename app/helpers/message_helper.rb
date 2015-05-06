@@ -237,7 +237,7 @@ module MessageHelper
     end
 
     if opts[:show_editor] && message.editor_id
-      html << ", " + t('messages.edited_by') +
+      html << ", " + link_to(t('messages.edited_by'), versions_cf_message_path(thread, message), rel: 'no-follow') +
         " <span class=\"registered-user editor\">".html_safe +
         link_to(image_tag(message.editor.avatar(:thumb), class: 'avatar'),
                 user_path(message.editor),
