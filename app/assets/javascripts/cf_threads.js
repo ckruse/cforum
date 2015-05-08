@@ -126,13 +126,18 @@ cforum.cf_threads = {
   },
 
   initOpenClose: function() {
+    $("#link-archiv").after(' <li id="open-close-all-threads" class="close-all"><a href="#">' + t('close_all_threads') + "</a></li>");
     $("div[data-js=threadlist] .thread > header").
       prepend("<i class=\"icon-thread open\"> </i>");
 
     $("div[data-js=threadlist] .thread > header > i").
       click(cforum.cf_threads.toggleThread);
 
+    $("#open-close-all-threads").click(cforum.cf_threads.toggleAllThreads);
+
     if(hasLocalstorage()) {
+      var has_open = false;
+
       $("div[data-js=threadlist] .thread").each(function() {
         var $this = $(this);
         var id = $this.attr('id');
@@ -143,7 +148,17 @@ cforum.cf_threads = {
             removeClass("open").
             addClass('closed');
         }
+        else {
+          has_open = true;
+        }
       });
+
+      if(!has_open) {
+        $("#open-close-all-threads a").text(t('open_all_threads'));
+        $("#open-close-all-threads").
+          removeClass("close-all").
+          addClass("open-all");
+      }
     }
   },
 
@@ -165,6 +180,47 @@ cforum.cf_threads = {
 
       if(hasLocalstorage()) {
         localStorage.removeItem('closed-' + elem.attr('id'));
+      }
+    }
+  },
+
+  toggleAllThreads: function(ev) {
+    ev.preventDefault();
+
+    if($(this).hasClass('open-all')) {
+      $("div[data-js=threadlist] .thread > ol").
+        css('display', 'block');
+      $("div[data-js=threadlist] .thread > header > i").
+        addClass('open').
+        removeClass("closed");
+
+      $("#open-close-all-threads a").text(t('close_all_threads'));
+      $("#open-close-all-threads").
+        removeClass("open-all").
+        addClass("close-all");
+
+      if(hasLocalstorage()) {
+        $("div[data-js=threadlist] .thread").each(function() {
+          localStorage.removeItem('closed-' + $(this).attr('id'));
+        });
+      }
+    }
+    else {
+      $("div[data-js=threadlist] .thread > ol").
+        css('display', 'none');
+      $("div[data-js=threadlist] .thread > header > i").
+        addClass('closed').
+        removeClass("open");
+
+      $("#open-close-all-threads a").text(t('open_all_threads'));
+      $("#open-close-all-threads").
+        removeClass("close-all").
+        addClass("open-all");
+
+      if(hasLocalstorage()) {
+        $("div[data-js=threadlist] .thread").each(function() {
+          localStorage['closed-' + $(this).attr('id')] = true;
+        });
       }
     }
   }
