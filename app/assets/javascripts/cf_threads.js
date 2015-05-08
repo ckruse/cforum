@@ -1,5 +1,5 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum, Mustache, t, setDismissHandlers, autohideAlerts */
+/* global cforum, Mustache, t, setDismissHandlers, autohideAlerts, hasLocalstorage */
 
 cforum.cf_threads = {
   numThreads: 0,
@@ -29,6 +29,9 @@ cforum.cf_threads = {
     path = '/messages/' + (cforum.currentForum ? cforum.currentForum.slug : 'all');
     cforum.client.subscribe(path, cforum.cf_threads.newMessageArriving);
 
+    if(!cforum.currentUser) {
+      cforum.cf_threads.initOpenClose();
+    }
   },
 
   showNewAlert: function() {
@@ -118,6 +121,50 @@ cforum.cf_threads = {
          cnt.substr(i + 1, 1) == ' ') {
         content.setSelection(i, i);
         return;
+      }
+    }
+  },
+
+  initOpenClose: function() {
+    $("div[data-js=threadlist] .thread > header").
+      prepend("<i class=\"icon-thread open\"> </i>");
+
+    $("div[data-js=threadlist] .thread > header > i").
+      click(cforum.cf_threads.toggleThread);
+
+    if(hasLocalstorage()) {
+      $("div[data-js=threadlist] .thread").each(function() {
+        var $this = $(this);
+        var id = $this.attr('id');
+
+        if(localStorage['closed-' + id]) {
+          $this.children("ol").css('display', 'none');
+          $this.find("header > i.icon-thread").
+            removeClass("open").
+            addClass('closed');
+        }
+      });
+    }
+  },
+
+  toggleThread: function() {
+    var $this = $(this);
+    var elem = $this.closest("article");
+
+    if($this.hasClass('open')) {
+      $this.removeClass("open").addClass('closed');
+      elem.children("ol").slideUp('fast');
+
+      if(hasLocalstorage()) {
+        localStorage['closed-' + elem.attr('id')] = true;
+      }
+    }
+    else {
+      $this.removeClass("closed").addClass('open');
+      elem.children("ol").slideDown('fast');
+
+      if(hasLocalstorage()) {
+        localStorage.removeItem('closed-' + elem.attr('id'));
       }
     }
   }

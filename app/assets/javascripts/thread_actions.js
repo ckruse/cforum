@@ -3,6 +3,10 @@
 
 $(function() {
   $('.root').on('click', function(ev) {
+    if(!cforum.currentUser) {
+      return;
+    }
+
     var $this = $(ev.target);
     var valid_elements = [
       '.icon-thread.mark-thread-read',

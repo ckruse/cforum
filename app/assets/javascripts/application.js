@@ -20,6 +20,15 @@
 
 /* global cforum */
 
+function hasLocalstorage() {
+  try {
+    return 'localStorage' in window && window['localStorage'] !== null;
+  }
+  catch (e) {
+    return false;
+  }
+}
+
 function t(key, deflt) {
   var pieces = key.split('.');
   var loc = cforum.l10n;
