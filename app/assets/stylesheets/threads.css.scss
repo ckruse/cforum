@@ -146,7 +146,7 @@ a.thread-forum-plate:active {
   position: relative;
 }
 .thread.sticky::after {
-  content: url("http://src.selfhtml.org/cforum/wichtig.png");
+  content: asset-data-url("wichtig.png");
   position: absolute;
   left: .2em;
   top: -.6em;
@@ -259,6 +259,42 @@ a.thread-forum-plate:active {
     }
   }
 }
+
+
+#tree-functions {
+  list-style-type: none;
+  margin: 0 0 2em 2em;
+  padding-left: 1em; 
+  border-left: 5px solid #8DB243; 
+  position: relative;
+  z-index: 10;
+
+  .tooltip {
+    position: absolute;
+    z-index: 10;
+    display: none;
+    background: none repeat scroll 0 0 #F1F3F4;
+    border: 1px solid #d5d5d5;
+    border-radius: 0 .7em .7em .7em;
+    padding: .6em .5em .6em .7em;
+  }
+
+  .switch {
+    color: #3481cd;
+    cursor: pointer;
+  }
+}
+
+
+
+a.thread-forum-plate:visited {
+    color: #fff;
+}
+a.thread-forum-plate:hover {
+    color: #990909;
+}
+
+
 
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
   .root {

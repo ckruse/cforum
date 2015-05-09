@@ -274,6 +274,20 @@ legend {
   }
 }
 
+
+
+input[name=preview]{
+    animation: preview 5s infinite;
+}
+
+@keyframes preview {
+  0% { background: #FFF; color: #333; }
+  50% {background: #66ADEA; color: #000; }
+  100% { background: #FFF; color: #333; }
+}
+
+
+
 @media only screen and (max-width : 800px) {
   .form-horizontal {
     .cf-cgroup {

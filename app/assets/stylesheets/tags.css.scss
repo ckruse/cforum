@@ -54,15 +54,16 @@
     a, a:visited {
       color: inherit;
     }
+
+    a:hover, a:visited:hover { color: #990909; }
   }
 
   .visited li.cf-tag {
     background-color: #f1f3f4;
     border-color: #c4c4c4;
 
-    a:visited, a { 
-      color: #999; 
-    }
+    a:visited, a { color: #999; }
+    a:hover, a:visited:hover { color: #990909; }
   }
 
   .active li.cf-tag {

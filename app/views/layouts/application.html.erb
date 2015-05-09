@@ -92,7 +92,6 @@ end
     <title><%= @title_infos %> <% if current_forum %><%= current_forum.short_name %> -<% else %><% if controller_path == 'cf_threads' %> <%= t('layout.all_forums') %> -<% end %><% end %> <% if content_for?(:title) %><%= yield(:title) %> - <% end %><%= t "layout.title" %></title>
 
     <script src="http://src.selfhtml.org/cforum/temp.js"></script>
-    <link href="http://src.selfhtml.org/cforum/temp.css" rel="stylesheet" media="all">
   </head>
 
   <body data-controller="<%= controller_path %>" data-action="<%= action_name %>"<% if content_for?(:body_id) %> id="<%= yield(:body_id) %>"<% end %><% if content_for?(:body_classes) %> class="<%= yield(:body_classes) %>"<% end %>>
@@ -284,7 +283,7 @@ end
 
         <% if not current_forum.blank? %>
           <form id="forum-list" action="<%= forum_redirector_path %>">
-            <select name="f" class="select2">
+            <select name="f" class="select2 forum-select">
               <% @forums.each do |f| %>
                 <option value="<%= f.slug %>"<% if f.slug == current_forum.slug %> selected="selected"<% end %>><%= f.name %></option>
               <% end %>
