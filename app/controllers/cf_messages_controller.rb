@@ -203,15 +203,18 @@ class CfMessagesController < ApplicationController
 
     invalid  = false
 
-    @version = CfMessageVersion.new
-    @version.subject = @message.subject
-    @version.content = @message.content
-    @version.user_id = current_user.user_id
-    @version.message_id = @message.message_id
+    if @message.content_changed? or @message.subject_changed? or @message.author_changed?
+      @version = CfMessageVersion.new
+      @version.subject = @message.subject
+      @version.content = @message.content
+      @version.user_id = current_user.user_id
+      @version.message_id = @message.message_id
+
+      @message.editor_id  = current_user.user_id
+    end
 
     @message.attributes = edit_message_params
     @message.content    = CfMessage.to_internal(@message.content)
-    @message.editor_id  = current_user.user_id
 
     @tags    = parse_tags
     @preview = true if params[:preview]
@@ -235,7 +238,8 @@ class CfMessagesController < ApplicationController
         raise ActiveRecord::Rollback unless @message.save
         raise ActiveRecord::Rollback unless @message.tags.delete_all
         raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
-        raise ActiveRecord::Rollback unless @version.save
+        raise ActiveRecord::Rollback if @version and not @version.save
+
         saved = true
       end
     end
