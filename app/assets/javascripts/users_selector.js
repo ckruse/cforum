@@ -46,11 +46,13 @@ cforum.common.usersSelector.add = function(ev) {
     return;
   }
 
-  var html  = Mustache.render(cforum.common.usersSelector.views.userAddLine, {user: {user_id: uid, username: uname}});
+  var html  = Mustache.render(cforum.common.usersSelector.views.userAddLine,
+                              {user: {user_id: uid, username: uname}});
 
   if($sel.hasClass('single')) {
     found.html(html);
     cforum.common.usersSelector.selectedUsers = cforum.common.usersSelector.foundUsers[uid];
+    cforum.common.usersSelector.select.call(found.find("li").get(0), ev);
   }
   else {
     cforum.common.usersSelector.selectedUsers[uid] = cforum.common.usersSelector.foundUsers[uid];

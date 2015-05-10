@@ -36,13 +36,17 @@ desc ||= ""
           <p><input type="text" class="user_search"></p>
 
           <h4><%= t('widgets.users_selector.found') %>:</h4>
-
           <ul class="user-list">
           </ul>
 
-          <h4><%= t('widgets.users_selector.chosen') %>:</h4>
-          <ul class="found-user-list">
-          </ul>
+          <% if single %>
+            <ul class="found-user-list" style="display:none">
+            </ul>
+          <% else %>
+            <h4><%= t('widgets.users_selector.chosen') %>:</h4>
+            <ul class="found-user-list">
+            </ul>
+          <% end %>
 
         </div>
         <div class="modal-footer">
