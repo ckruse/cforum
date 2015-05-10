@@ -43,7 +43,7 @@
           <%= link_to t("messages.new_answer_wo_quote"), new_cf_message_path(@thread, m), class: 'cf-btn' %>
         <% end %>
 
-        <% if may?(RightsHelper::RETAG) %>
+        <% if may?(RightsHelper::RETAG) and not check_editable(@thread, m, false) %>
           <%= link_to t('messages.retag'), retag_cf_message_path(@thread, m), class: 'cf-btn' %>
         <% end %>
 
