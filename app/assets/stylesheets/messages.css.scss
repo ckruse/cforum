@@ -181,6 +181,23 @@ main h2 { margin-left:0; }
   }
 
 
+  header h2 a,
+  header h3 a,
+  header .details a.versions,
+  header.visited h2 a,
+  header.visited h3 a,
+  header.visited .details a.versions {
+    color: #3481cd;
+  }
+
+  header h2 a:hover,
+  header h3 a:hover,
+  header .details a.versions:hover,
+  header.visited h2 a:hover,
+  header.visited h3 a:hover,
+  header.visited .details a.versions:hover {
+    color: #990909;
+  }
 }
 
 .root {
@@ -262,6 +279,8 @@ code.block code.block {
   margin-right:.25em;
   margin-bottom:.25em;
 }
+
+
 
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
   .thread-message {
