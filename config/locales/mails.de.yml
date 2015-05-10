@@ -20,4 +20,5 @@ de:
     post_from_to_to: an
     at: am
     no_mails: keine Nachrichten gefunden
+    regarding_message: "Dein Beitrag „%{subject}“ vom %{time}"
 

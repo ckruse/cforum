@@ -43,6 +43,15 @@
           <%= link_to t("messages.new_answer_wo_quote"), new_cf_message_path(@thread, m), class: 'cf-btn' %>
         <% end %>
 
+        <% if current_user and m.user_id %>
+          <%= link_to(t("mails.new_mail"),
+                      new_mail_path(cf_priv_message: {recipient_id: m.user_id,
+                                                      subject: t('mails.regarding_message',
+                                                                 subject: m.subject,
+                                                                 time: l(m.created_at, format: date_format("date_format_post")))}),
+                      class: 'cf-btn') %>
+        <% end %>
+
         <% if may?(RightsHelper::RETAG) and not check_editable(@thread, m, false) %>
           <%= link_to t('messages.retag'), retag_cf_message_path(@thread, m), class: 'cf-btn' %>
         <% end %>
@@ -58,6 +67,15 @@
                       title: t('plugins.flag_plugin.unflag_message')) %>
         <% end %>
 
+      <% else %>
+        <% if current_user and m.user_id %>
+          <%= link_to(t("mails.new_mail"),
+                      new_mail_path(cf_priv_message: {recipient_id: m.user_id,
+                                                      subject: t('mails.regarding_message',
+                                                                 subject: m.subject,
+                                                                 time: l(m.created_at, format: date_format("date_format_post")))}),
+                      class: 'cf-btn') %>
+        <% end %>
       <% end %>
 
       <% if check_editable(@thread, m, false) %>
