@@ -5,6 +5,8 @@ class MailsController < ApplicationController
 
   authorize_controller { authorize_user }
 
+  SHOW_NEW_PRIV_MESSAGE = 'show_new_priv_message'
+
   def index_users
     cu    = current_user
     mails = CfPrivMessage.
@@ -80,6 +82,8 @@ class MailsController < ApplicationController
       @mail.subject      = @parent.subject =~ /^Re:/i ? @parent.subject : 'Re: ' + @parent.subject
       @mail.body         = @parent.to_quote(self) if params.has_key?(:quote_old_message)
     end
+
+    notification_center.notify(SHOW_NEW_PRIV_MESSAGE, @mail)
   end
 
   def create
