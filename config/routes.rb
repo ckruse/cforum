@@ -127,7 +127,7 @@ Cforum::Application.routes.draw do
         mon: /\w{3}/, day: /\d{1,2}/, as: 'cf_message'
     get '/:year/:mon/:day/:tid/:mid/edit' => 'cf_messages#edit',
         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'edit_cf_message'
-    patch '/:year/:mon/:day/:tid/:mid' => 'cf_messages#update',
+    patch '/:year/:mon/:day/:tid/:mid/edit' => 'cf_messages#update',
           year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
     delete '/:year/:mon/:day/:tid/:mid' => 'cf_messages#destroy',
            year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/

@@ -23,7 +23,7 @@ content_for :body_classes, 'messages edit forum-' + (current_forum.try(:slug) ||
   <% end %>
 </article>
 
-<%= form_for(@message, url: cf_message_path_wo_anchor(@thread, @message),
+<%= form_for(@message, url: edit_cf_message_path(@thread, @message),
              html: {class: 'form-horizontal'}) do |f| %>
   <% if @message.errors.any? %>
     <div id="error_explanation" class="cf-error">
