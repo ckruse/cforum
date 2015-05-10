@@ -11,7 +11,8 @@ module MessageHelper
     opts = {first: false, prev_deleted: false,
       show_icons: false, do_parent: false,
       tree: true, id: true, hide_repeating_subjects: false,
-      show_editor: false, id_prefix: nil, active_message: @message}.merge(opts)
+      show_editor: false, id_prefix: nil, active_message: @message,
+      subject: true, tags: true}.merge(opts)
 
     classes = ['message']
     classes += message.attribs['classes']
@@ -162,24 +163,26 @@ module MessageHelper
       html << ' <span class="votes" title="' + t('messages.votes_tree', count: message.upvotes + message.downvotes, score: message.score_str) + '">' + message.score.to_s + '</span>'
     end
 
-    if opts[:first]
-      if opts[:show_icons]
-        html << "<span class=\"num-infos\"><span class=\"num-msgs\" title=\"" + t("messages.num_messages",
-                                                                                  count: thread.messages.length) + "\">" + thread.messages.length.to_s + "</span>"
-        unless thread.attribs[:msgs].blank?
-          html << "<span class=\"num-unread\" title=\"" + t("plugins.mark_read.num_unread", count: thread.attribs[:msgs][:unread]) + "\">" + thread.attribs[:msgs][:unread].to_s + "</span>"
+    if opts[:subject]
+      if opts[:first]
+        if opts[:show_icons]
+          html << "<span class=\"num-infos\"><span class=\"num-msgs\" title=\"" + t("messages.num_messages",
+                                                                                    count: thread.messages.length) + "\">" + thread.messages.length.to_s + "</span>"
+          unless thread.attribs[:msgs].blank?
+            html << "<span class=\"num-unread\" title=\"" + t("plugins.mark_read.num_unread", count: thread.attribs[:msgs][:unread]) + "\">" + thread.attribs[:msgs][:unread].to_s + "</span>"
+          end
+          html << "</span>"
         end
-        html << "</span>"
-      end
 
-      html << " <h2>" + link_to(message.subject, cf_message_path(thread, message)) + "</h2>"
-    else
-      if thread.thread_id and message.message_id
-        if (opts[:hide_repeating_subjects] and message.subject_changed?) or not opts[:hide_repeating_subjects]
-          html << "  <h3>" + link_to(message.subject, cf_message_path(thread, message)) + "</h3>"
-        end
+        html << " <h2>" + link_to(message.subject, cf_message_path(thread, message)) + "</h2>"
       else
-        html << "  <h3>" + message.subject + "</h3>"
+        if thread.thread_id and message.message_id
+          if (opts[:hide_repeating_subjects] and message.subject_changed?) or not opts[:hide_repeating_subjects]
+            html << "  <h3>" + link_to(message.subject, cf_message_path(thread, message)) + "</h3>"
+          end
+        else
+          html << "  <h3>" + message.subject + "</h3>"
+        end
       end
     end
 
@@ -250,7 +253,7 @@ module MessageHelper
 
     end
 
-    unless message.tags.blank?
+    if not message.tags.blank? and opts[:tags]
       html << %q{
 
     <ul class="cf-tags-list">}
@@ -281,7 +284,8 @@ module MessageHelper
   def message_tree(thread, messages, opts = {})
     opts = {prev_deleted: false, show_icons: false, id: true,
             hide_repeating_subjects: false,
-            active_message: @message}.merge(opts)
+            active_message: @message, subject: true,
+            tags: true}.merge(opts)
 
     html = "<ol>\n"
     messages.each do |message|
