@@ -44,12 +44,36 @@ class UserDataPlugin < Plugin
     end
   end
 
+  def show_new_priv_message(msg)
+    msg.body  ||= ""
+
+    greeting  = uconf('greeting')
+    farewell  = uconf('farewell')
+    signature = uconf('signature')
+
+    unless greeting.blank?
+      if msg.recipient
+        greeting.gsub!(/\{\$name\}/, msg.recipient.username)
+        greeting.gsub!(/\{\$vname\}/, msg.recipient.username.gsub(/\s.*/, ''))
+      else
+        greeting.gsub!(/\s*\{\$name\}/, '')
+        greeting.gsub!(/\s*\{\$vname\}/, '')
+      end
+
+      msg.body = greeting + "\n" + msg.body
+    end
+
+    msg.body = msg.body + "\n" + farewell unless farewell.blank?
+    msg.body = msg.body + "\n-- \n" + signature unless signature.blank?
+  end
+
 end
 
 ApplicationController.init_hooks << Proc.new do |app_controller|
   ud_plugin = UserDataPlugin.new(app_controller)
   app_controller.notification_center.register_hook(CfThreadsController::SHOW_NEW_THREAD, ud_plugin)
   app_controller.notification_center.register_hook(CfMessagesController::SHOW_NEW_MESSAGE, ud_plugin)
+    app_controller.notification_center.register_hook(MailsController::SHOW_NEW_PRIV_MESSAGE, ud_plugin)
 end
 
 # eof
