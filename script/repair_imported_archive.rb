@@ -22,6 +22,15 @@ def repair_content(content)
     if doc.scan(/\[\]\(\?t=t=(\d+)&m=m=(\d+)\)/)
       ncnt << "[?t=#{doc[1]}&m=#{doc[2]}](/?t=#{doc[1]}&m=#{doc[2]})"
 
+    elsif doc.scan(/\[[^\]]+\\\]\(([^\)]+)\)[^\]]+\]/)
+      str = doc.matched
+      uri = doc[1]
+      str.gsub!(/\(#{uri}\)/, '')
+      str.gsub!(/\[/, '\[')
+      str << "(#{uri})"
+
+      ncnt << str[1..-1]
+
     elsif doc.scan(/\[(ref|link):/i)
       save = doc.pos
       directive = doc[1]
