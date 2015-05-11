@@ -47,10 +47,10 @@ de:
     interesting_messages:
       marked_interesting: Der Beitrag wurde als interessant markiert.
       unmarked_interesting: Die Interessant-Markierung wurde entfernt.
-      mark_message_interesting: Als interessant markieren
+      mark_message_interesting: als interessant markieren
       mark_message_boring: Interessant-Markierung entfernen
-      interesting_messages: Interessante Nachrichten
-      no_messages: bisher keine als interessant markierten Nachrichten
+      interesting_messages: interessante Beiträge
+      no_messages: bisher keine als interessant markierte Beiträge
 
     choose_css:
       choose_alternative_css: alternatives CSS auswählen
