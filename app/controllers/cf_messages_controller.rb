@@ -203,18 +203,18 @@ class CfMessagesController < ApplicationController
 
     invalid  = false
 
+    @message.attributes = edit_message_params
+    @message.content    = CfMessage.to_internal(@message.content)
+
     if @message.content_changed? or @message.subject_changed? or @message.author_changed?
       @version = CfMessageVersion.new
-      @version.subject = @message.subject
-      @version.content = @message.content
+      @version.subject = @message.subject_was
+      @version.content = @message.content_was
       @version.user_id = current_user.user_id
       @version.message_id = @message.message_id
 
       @message.editor_id  = current_user.user_id
     end
-
-    @message.attributes = edit_message_params
-    @message.content    = CfMessage.to_internal(@message.content)
 
     @tags    = parse_tags
     @preview = true if params[:preview]
