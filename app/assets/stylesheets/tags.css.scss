@@ -5,6 +5,8 @@
   list-style-type:none;
   margin:0;
   padding:0;
+
+  li.no-data { display:inline; }
 }
 
 .thread header ul.cf-tags-list {
@@ -83,5 +85,6 @@
   width:10%;
   display:inline;
 }
+
 
 /* eof */

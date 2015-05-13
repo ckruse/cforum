@@ -77,7 +77,7 @@ cforum.tags = {
       function(data) {
         var tag_list = $("#tags-suggestions");
         var tags_set = false;
-        tag_list.html("");
+        tag_list.find('li:not(.no-data)').remove();
 
         for(var i = 0; i < data.length && i < 5; ++i) {
           if(!cforum.tags.hasTag(data[i].tag_name)) {
@@ -88,10 +88,10 @@ cforum.tags = {
         }
 
         if(!tags_set) {
-          tag_list.closest(".cf-cgroup").css({'display': 'none'});
+          tag_list.find('li.no-data').fadeIn('fast');
         }
         else {
-          tag_list.closest(".cf-cgroup").fadeIn('fast');
+          tag_list.find('li.no-data').css('display', 'none');
         }
 
       }

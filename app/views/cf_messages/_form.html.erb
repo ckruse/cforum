@@ -39,7 +39,9 @@ with_name ||= false
     <label>Tag-Vorschläge</label>
 
     <div class="cntrls empty">
-      <ul id="tags-suggestions" class="cf-tags-list"></ul>
+      <ul id="tags-suggestions" class="cf-tags-list">
+        <li class="no-data"><%= t('messages.no_tag_suggestions') %></li>
+      </ul>
     </div>
   </div>
 
