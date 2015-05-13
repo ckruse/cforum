@@ -40,6 +40,8 @@
       line-height: 1.42857em;
       vertical-align: middle;
 
+      &.empty { padding-top:7px; }
+
       input:focus, select:focus, textarea:focus {
         border-color: #66AFE9;
         outline: 0px none;
