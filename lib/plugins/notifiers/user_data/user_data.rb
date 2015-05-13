@@ -44,7 +44,7 @@ class UserDataPlugin < Plugin
       msg.homepage ||= user.conf('url')
 
       msg.content = gen_content(msg.content, parent.try(:author),
-                                I18n.t('plugins.user_data.all'))
+                                ' ' + I18n.t('plugins.user_data.all'))
 
     else
       msg.author    ||= cookies[:cforum_author]
