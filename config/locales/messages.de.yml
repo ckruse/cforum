@@ -25,6 +25,9 @@ de:
     edit_message: Beitrag bearbeiten
     edited_by: editiert von
     no_tag_suggestions: Keine Tag-Vorschläge verfügbar
+    tag_suggestions: Tag-Vorschläge
+    tags: Tags
+    comma_separated_list: Komma-separierte Liste
 
     message_versions: Versionen dieses Beitrags
 
