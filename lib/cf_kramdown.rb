@@ -5,7 +5,6 @@ require 'kramdown'
 class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
   @@parsers.delete :block_html
   @@parsers.delete :span_html
-  @@parsers.delete :html_entity
   @@parsers.delete :setext_header
   @@parsers.delete :typographic_syms
   @@parsers.delete :smart_quotes
@@ -55,10 +54,17 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
 
   define_parser(:span_html, /\0/) unless @@parsers.has_key?(:pan_html)
   define_parser(:block_html, /\0/) unless @@parsers.has_key?(:block_html)
-  define_parser(:html_entity, /\0/) unless @@parsers.has_key?(:html_entity)
   define_parser(:smart_quotes, /\0/) unless @@parsers.has_key?(:smart_quotes)
   define_parser(:typographic_syms, /\0/) unless @@parsers.has_key?(:typographic_syms)
 
+  def parse_html_entity
+    start_line_number = @src.current_line_number
+    @src.pos += @src.matched_size
+
+    @tree.children << Element.new(:entity, ::Kramdown::Utils::Entities.entity('amp'),
+                                  nil, location: start_line_number)
+    add_text(@src.matched[1..-1])
+  end
 
   def handle_extension(name, opts, body, type, line_no = nil)
     if name == 'nomarkdown'
