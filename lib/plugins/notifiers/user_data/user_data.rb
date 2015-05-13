@@ -11,7 +11,7 @@ class UserDataPlugin < Plugin
     set_vars(message, parent)
   end
 
-  def gen_content(content, name, std_recplacement = '')
+  def gen_content(content, name, std_replacement = '')
     content  ||= ""
 
     if current_user
@@ -21,8 +21,8 @@ class UserDataPlugin < Plugin
 
       unless greeting.blank?
         if name.blank?
-          greeting.gsub!(/\s*\{\$name\}/, std_recplacement)
-          greeting.gsub!(/\s*\{\$vname\}/, std_recplacement)
+          greeting.gsub!(/\s*\{\$name\}/, std_replacement)
+          greeting.gsub!(/\s*\{\$vname\}/, std_replacement)
         else
           greeting.gsub!(/\{\$name\}/, name)
           greeting.gsub!(/\{\$vname\}/, name.gsub(/\s.*/, ''))
