@@ -20,6 +20,8 @@ $(function() {
     data += '&type=' + $this.attr('value');
     data = data.substring(1);
 
+    $this.blur();
+
     $.post(action + '.json', data).
       success(function(data) {
         if(data.status == 'success') {

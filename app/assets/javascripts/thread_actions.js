@@ -46,6 +46,8 @@ $(function() {
 
     data = data.substring(1);
 
+    $this.blur();
+
     $.post(action + '.json', data).
       success(function(data) {
         if($this.is('.icon-thread.mark-invisible')) {
