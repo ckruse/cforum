@@ -98,7 +98,7 @@ class InterestingMessagesPlugin < Plugin
 
     threads.each do |t|
       t.messages.each do |m|
-        messages_map[m.message_id] = m
+        messages_map[m.message_id] = [m, t]
         new_cache[m.message_id] = false
         ids << m.message_id
       end
@@ -110,7 +110,8 @@ class InterestingMessagesPlugin < Plugin
         new_cache[row['message_id'].to_i] = true
 
         if messages_map[row['message_id'].to_i]
-          messages_map[row['message_id'].to_i].attribs['classes'] << 'interesting'
+          messages_map[row['message_id'].to_i].first.attribs['classes'] << 'interesting'
+          messages_map[row['message_id'].to_i].second.attribs['classes'] << 'has-interesting'
         end
       end
     end
@@ -123,7 +124,9 @@ class InterestingMessagesPlugin < Plugin
 
   def show_thread(thread, message = nil, votes = nil)
     return if current_user.blank?
-    check_messages(thread.messages)
+    if check_messages(thread.messages)
+      thread.attribs['classes'] << 'has-interesting'
+    end
   end
 
   alias show_message show_thread
@@ -134,6 +137,7 @@ class InterestingMessagesPlugin < Plugin
     msgs = {}
     new_cache = {}
     had_all = true
+    had_one = false
     @cache[current_user.user_id] ||= {}
 
     messages.each do |m|
@@ -145,6 +149,7 @@ class InterestingMessagesPlugin < Plugin
         had_all = false
       elsif @cache[current_user.user_id][m.message_id]
         m.attribs['classes'] << 'interesting'
+        had_one = true
       end
     end
 
@@ -153,10 +158,13 @@ class InterestingMessagesPlugin < Plugin
       result.each do |row|
         new_cache[row['message_id'].to_i] = true
         msgs[row['message_id']].attribs['classes'] << 'interesting' if msgs[row['message_id']]
+        had_one = true
       end
 
       @cache[current_user.user_id] = new_cache
     end
+
+    return had_one
   end
 
 end
