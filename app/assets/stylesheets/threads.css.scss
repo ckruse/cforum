@@ -142,7 +142,7 @@ a.thread-forum-plate:active {
 }
 
 /* angepinnte Threads */
-.thread.sticky {
+.thread.sticky, .thread.has-interesting {
   position: relative;
 }
 .thread.sticky::after {

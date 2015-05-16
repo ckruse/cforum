@@ -132,4 +132,13 @@
   &.delete { @extend .fa-trash; }
 }
 
+.has-interesting:before {
+  @extend .fa;
+  @extend .fa-star-half-o;
+  color:#8db243;
+  position:absolute;
+  left:.2em;
+  top:-.6em;
+}
+
 /* eof */
