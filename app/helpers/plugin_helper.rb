@@ -24,7 +24,9 @@ module PluginHelper
       self.class.init_hooks = []
 
       plugin_dir = Rails.root + 'lib/plugins/notifiers'
-      Dir.open(plugin_dir).each do |p|
+      entries = Dir.entries(plugin_dir).delete_if { |ent| ent[0] == '.' or not File.directory?(plugin_dir + ent) }
+
+      entries.sort.each do |p|
         next if p[0] == '.' or not File.directory?(plugin_dir + p)
         load plugin_dir + p + "#{p}.rb"
       end
