@@ -76,6 +76,8 @@ Cforum::Application.routes.draw do
       resources :synonyms, except: [:show, :index]
     end
 
+    get '/redirect-to-page' => 'cf_threads#redirect_to_page'
+
     get '/' => 'cf_threads#index', as: 'cf_threads'
 
     post '/mark_all_visited' => 'mark_read_plugin#mark_all_read',

@@ -60,7 +60,7 @@ module ThreadsHelper
     [@sticky_threads, @threads]
   end
 
-  def index_threads(with_sticky = true)
+  def index_threads(with_sticky = true, page = nil, limit = nil, gen_tree = true)
     forum  = current_forum
 
     order = uconf('sort_threads')
@@ -76,25 +76,41 @@ module ThreadsHelper
     @sticky_threads, @threads = get_threads(forum, order, current_user, with_sticky)
 
     if uconf('page_messages') == 'yes'
-      @page  = params[:p].to_i
-      @limit = uconf('pagination').to_i
+      if page.nil?
+        @page  = params[:p].to_i
+        @page  = 0 if @page < 0
+      elsif page >= 0
+        @page = page
+      end
 
-      @page  = 0 if @page < 0
-      @limit = 50 if @limit <= 0
-
-      @limit -= @sticky_threads.length if with_sticky
+      if limit.nil?
+        @limit = uconf('pagination').to_i
+        @limit = 50 if @limit <= 0
+      elsif limit >= 0
+        @limit = limit
+      end
 
       @all_threads_count = @threads.count
-      @threads = @threads.limit(@limit).offset(@limit * @page)
+
+      if @limit
+        @limit -= @sticky_threads.length if with_sticky
+        @threads = @threads.limit(@limit)
+      end
+
+      @threads = @threads.offset(@limit * @page) if @page
     end
 
-    @threads.each do |t|
-      sort_thread(t)
+    if gen_tree
+      @threads.each do |t|
+        sort_thread(t)
+      end
     end
 
     if with_sticky
-      @sticky_threads.each do |t|
-        sort_thread(t)
+      if gen_tree
+        @sticky_threads.each do |t|
+          sort_thread(t)
+        end
       end
 
       @threads = @sticky_threads + @threads

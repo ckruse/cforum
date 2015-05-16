@@ -129,9 +129,9 @@
     <nav>
       <ul>
         <li><%= link_to t('layout.home'), root_path %></li>
-        <li><%= link_to t('forums.all_forums'), cf_forum_path(nil) %></li>
+        <li><%= link_to t('forums.all_forums'), redirect_to_page_path(nil, @thread) %></li>
         <% if current_forum %>
-          <li><%= link_to current_forum.name, cf_threads_path(current_forum) + "#t" + m.thread_id.to_s %></li>
+          <li><%= link_to current_forum.name, redirect_to_page_path(current_forum, @thread) %></li>
         <% end %>
 
         <% if current_user.blank? %>

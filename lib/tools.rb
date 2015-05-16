@@ -148,6 +148,11 @@ module CForum
       _cf_thread_path(thread) + "/unhide" + query_string(args)
     end
 
+    def redirect_to_page_path(forum, thread, args = {})
+      args[:tid] = thread.thread_id
+      _cf_forum_path(forum) + '/redirect-to-page' + query_string(args)
+    end
+
     #
     # message path helpers
     #

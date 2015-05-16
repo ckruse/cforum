@@ -236,6 +236,24 @@ class CfThreadsController < ApplicationController
     end
   end
 
+  def redirect_to_page
+    if uconf('page_messages') == 'yes'
+      threads = index_threads(true, -1, -1, false)
+      tid = params[:tid].to_i
+      pos = threads.find_index { |t| t.thread_id == tid }
+
+      raise ActiveRecord::RecordNotFound if pos.nil?
+
+      paging = uconf('pagination').to_i
+      paging -= @sticky_threads.length
+      page = pos / paging
+
+      redirect_to cf_forum_url(current_forum, p: page) + '#t' + params[:tid]
+    else
+      redirect_to cf_forum_url(current_forum) + '#t' + params[:tid]
+    end
+  end
+
 end
 
 # eof
