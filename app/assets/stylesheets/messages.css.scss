@@ -280,6 +280,10 @@ code.block code.block {
   margin-bottom:.25em;
 }
 
+blockquote.show-quotes .unfold {
+  color: #3481CD;
+  &:hover, &:active, &:focus { color: #990909; }
+}
 
 
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {

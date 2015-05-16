@@ -66,16 +66,16 @@ cforum.cf_messages = {
 
       if(txt) {
         $this.css('display', 'none');
-        $this.before('<blockquote class="show-quotes"><br>\n' + t('unfold_quote') + '</blockquote>');
+        $this.before('<blockquote class="show-quotes"><br>\n<span class="unfold">' + t('unfold_quote') + '</span></blockquote>');
         $this.prev().prepend(document.createTextNode(txt));
       }
     });
 
     $(".posting-content").click(function(ev) {
       var trg = $(ev.target);
-      if(trg.hasClass('show-quotes')) {
-        trg.next().fadeIn('fast');
-        trg.remove();
+      if(trg.hasClass('unfold')) {
+        trg.parent().next().fadeIn('fast');
+        trg.parent().remove();
       }
     });
   },
