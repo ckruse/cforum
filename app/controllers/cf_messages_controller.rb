@@ -239,7 +239,7 @@ class CfMessagesController < ApplicationController
     if not invalid and not retvals.include?(false) and not @preview
       CfMessage.transaction do
         raise ActiveRecord::Rollback unless @message.save
-        raise ActiveRecord::Rollback unless @message.tags.delete_all
+        @message.tags.delete_all
         raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
 
         if del_versions
