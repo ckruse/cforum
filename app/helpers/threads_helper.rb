@@ -60,7 +60,7 @@ module ThreadsHelper
     [@sticky_threads, @threads]
   end
 
-  def index_threads(with_sticky = true, page = nil, limit = nil, gen_tree = true)
+  def index_threads(with_sticky = true, page = nil, limit = nil, gen_tree = true, only_sql = false)
     forum  = current_forum
 
     order = uconf('sort_threads')
@@ -99,6 +99,8 @@ module ThreadsHelper
 
       @threads = @threads.offset(@limit * @page) if @page
     end
+
+    return @threads.to_sql, @sticky_threads.to_sql if only_sql
 
     if gen_tree
       @threads.each do |t|

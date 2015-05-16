@@ -238,14 +238,34 @@ class CfThreadsController < ApplicationController
 
   def redirect_to_page
     if uconf('page_messages') == 'yes'
-      threads = index_threads(true, -1, -1, false)
-      tid = params[:tid].to_i
-      pos = threads.find_index { |t| t.thread_id == tid }
+      threads, sticky_threads = index_threads(true, -1, -1, false, true)
+      threads.gsub!(/SELECT.*?FROM/, 'SELECT threads.thread_id FROM')
+      sticky_threads.gsub!(/SELECT.*?FROM/, 'SELECT COUNT(*) FROM').gsub!(/ORDER BY.*/, '')
 
-      raise ActiveRecord::RecordNotFound if pos.nil?
+      threads = CfThread.connection.execute threads
+      sticky_threads = CfThread.connection.execute sticky_threads
+
+      tid = params[:tid].to_i
+      pos = 0
+      found = false
+      prev = nil
+
+      threads.each do |row|
+        if row['thread_id'].to_i == tid
+          found = true
+          break
+        end
+
+        if prev == nil || prev != row['thread_id']
+          pos += 1
+          prev = row['thread_id']
+        end
+      end
+
+      raise ActiveRecord::RecordNotFound if not found
 
       paging = uconf('pagination').to_i
-      paging -= @sticky_threads.length
+      paging -= sticky_threads[0]['count'].to_i
       page = pos / paging
 
       redirect_to cf_forum_url(current_forum, p: page) + '#t' + params[:tid]
