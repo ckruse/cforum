@@ -262,7 +262,10 @@ class CfThreadsController < ApplicationController
         end
       end
 
-      raise ActiveRecord::RecordNotFound if not found
+      unless found
+        redirect_to cf_forum_url(current_forum) + '#t' + params[:tid]
+        return
+      end
 
       paging = uconf('pagination').to_i
       paging -= sticky_threads[0]['count'].to_i
