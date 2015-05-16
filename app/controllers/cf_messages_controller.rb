@@ -192,6 +192,7 @@ class CfMessagesController < ApplicationController
 
     @tags = @message.tags.map { |t| t.tag_name }
     @max_tags = conf('max_tags_per_message')
+    @edit = true
 
     notification_center.notify(SHOW_MESSAGE, @thread, @message, {})
   end
@@ -206,7 +207,9 @@ class CfMessagesController < ApplicationController
     @message.attributes = edit_message_params
     @message.content    = CfMessage.to_internal(@message.content)
 
-    if @message.content_changed? or @message.subject_changed? or @message.author_changed?
+    del_versions = params[:delete_previous_versions] == '1' and current_user.admin?
+
+    if (@message.content_changed? or @message.subject_changed? or @message.author_changed?) and not del_versions
       @version = CfMessageVersion.new
       @version.subject = @message.subject_was
       @version.content = @message.content_was
@@ -238,7 +241,12 @@ class CfMessagesController < ApplicationController
         raise ActiveRecord::Rollback unless @message.save
         raise ActiveRecord::Rollback unless @message.tags.delete_all
         raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
-        raise ActiveRecord::Rollback if @version and not @version.save
+
+        if del_versions
+          CfMessageVersion.delete_all(['message_id = ?', @message.message_id])
+        else
+          raise ActiveRecord::Rollback if @version and not @version.save
+        end
 
         saved = true
       end
