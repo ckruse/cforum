@@ -110,7 +110,7 @@
         <label for="settings-date_format_post"><%= t('users.settings.date_format_post') %></label>
         <div class="cntrls">
           <%= text_field_tag 'settings[date_format_post]', @settings.options['date_format_post'], id: 'settings-date_format_post' %>
-          <label class="checkbox"><%= check_box_tag 'settings[ate_format_post]', '_DEFAULT_', @settings.options['ate_format_post'].blank?, id: 'settings-ate_format_post-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('date_format_post'))) %></label>
+          <label class="checkbox"><%= check_box_tag 'settings[date_format_post]', '_DEFAULT_', @settings.options['date_format_post'].blank?, id: 'settings-date_format_post-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('date_format_post'))) %></label>
         </div>
       </div>
 
