@@ -2,6 +2,7 @@
 
 require Rails.root + 'lib/cf_kramdown.rb'
 require Rails.root + 'lib/cforum_markup.rb'
+require Rails.root + 'lib/cf_plaintext.rb'
 
 module ParserHelper
   include CforumMarkup
@@ -24,16 +25,16 @@ module ParserHelper
     'm' + (has_attribute?(:message_id) ? message_id.to_s : priv_message_id.to_s)
   end
 
-  def to_html(app, opts = {})
+  def to_doc(app, opts = {})
     opts = opts.symbolize_keys!.reverse_merge!(
       input: 'CfMarkdown',
       coderay_wrap: nil,
       coderay_css: :class,
       coderay_line_numbers: nil,
-      header_offset: app.conf('header_start_index'),
+      header_offset: opts[:header_start_index] || app.conf('header_start_index'),
       auto_id_prefix: id_prefix + '-',
       no_follow: true,
-      root_url: app.root_url
+      root_url: opts[:root_url] || app.root_url
     )
 
     if @doc.blank?
@@ -71,6 +72,12 @@ module ParserHelper
       )
     end
 
+    @doc
+  end
+
+  def to_html(app, opts = {})
+    to_doc(app, opts)
+
     html = @doc.to_cf_html
 
     # some users do things like this
@@ -96,6 +103,11 @@ module ParserHelper
     c = c.gsub(/\n/, "\n> ")
     c = '> ' + c unless c.blank?
     c
+  end
+
+  def to_search(app, opts = {})
+    doc = to_doc(app, opts)
+    doc.to_plain
   end
 
   def to_txt
