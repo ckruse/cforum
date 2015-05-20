@@ -276,7 +276,8 @@ legend {
   }
 }
 
-
+// safari fix: search inputs in safari can't have a padding
+input[type="search"] { -webkit-appearance: textfield; }
 
 input[name=preview]{
     animation: preview 5s infinite;
