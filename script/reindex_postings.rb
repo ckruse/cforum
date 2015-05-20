@@ -1,0 +1,83 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
+dir = File.dirname(__FILE__)
+require File.join(dir, "..", "config", "boot")
+require File.join(dir, "..", "config", "environment")
+require File.join(dir, '..', 'lib', 'tools.rb')
+
+include CForum::Tools
+
+Rails.logger = Logger.new(Rails.root + 'log/reindex.log')
+ActiveRecord::Base.logger = Rails.logger
+
+public
+
+def root_path
+  Rails.application.config.action_controller.relative_url_root || '/'
+end
+
+def root_url
+  'http://' + ActionMailer::Base.default_url_options[:host] + root_path
+end
+
+def conf(name)
+  $config_manager.get(name, nil, nil)
+end
+
+$config_manager = ConfigManager.new
+sections = {}
+no_messages = 1000
+current_block = 0
+start_date = nil
+start_date = Time.zone.parse(ARGV[0]) if ARGV.length > 0
+
+begin
+  msgs = CfMessage.
+         includes(:thread, :forum, :tags).
+         order(:message_id).
+         limit(no_messages).
+         offset(no_messages * current_block).
+         where(deleted: false)
+
+  if start_date
+    msgs = msgs.where('created_at >= ?', start_date)
+  end
+
+
+  current_block += 1
+  i = 0
+
+  msgs.each do |m|
+    base_relevance = conf('search_forum_relevance')
+
+    doc = SearchDocument.where(reference_id: m.message_id).first
+    if doc.blank?
+      doc = SearchDocument.new(reference_id: m.message_id)
+    end
+
+    if sections[m.forum.name].blank?
+      sections[m.forum.name] = SearchSection.where(name: m.forum.name).first
+      sections[m.forum.name] = SearchSection.create!(name: m.forum.name) if sections[m.forum.name].blank?
+    end
+
+    doc.author = m.author
+    doc.user_id = m.user_id
+    doc.title = m.subject
+    doc.content = m.to_search(self)
+    doc.search_section_id = sections[m.forum.name].search_section_id
+    doc.url = cf_message_url(m.thread, m)
+    doc.relevance = base_relevance.to_f + (m.score.to_f / 10.0) + (m.flags['accepted'] == 'yes' ? 0.5 : 0.0) + ('0.0' + m.created_at.year.to_s).to_f
+    doc.lang = Cforum::Application.config.search_dict
+    doc.document_created = m.created_at
+    doc.tags = m.tags.map { |t| t.tag_name.downcase }
+
+    doc.save!
+
+    i += 1
+    puts m.created_at.strftime('%Y-%m-%d') + ' - ' + m.message_id.to_s if i == 999
+  end
+end while not msgs.blank?
+
+
+# eof
