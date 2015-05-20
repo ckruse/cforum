@@ -8,6 +8,7 @@ class ConfigManager
   DEFAULTS = {
     'pagination' => 50,
     'pagination_users' => 50,
+    'pagination_search' => 50,
     'locked' => 'no',
     'sort_threads' => 'descending',
     'sort_messages' => 'ascending',
@@ -39,7 +40,11 @@ class ConfigManager
 
     'date_format_index' => '%d.%m.%Y %H:%M',
     'date_format_post' => '%d.%m.%Y %H:%M',
+    'date_format_search' => '%d.%m.%Y',
     'date_format_default' => '%d.%m.%Y %H:%M',
+
+    # search settings
+    'search_forum_relevance' => 1,
 
     # user settings
     'email' => nil,

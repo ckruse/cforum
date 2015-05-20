@@ -24,6 +24,14 @@
       </div>
 
       <div class="cf-cgroup">
+        <label for="settings-pagination_search"><%= t('admin.forums.settings.pagination_search') %></label>
+        <div class="cntrls">
+          <%= text_field_tag 'settings[pagination_search]', @settings.options['pagination_search'], id: 'settings-pagination_search' %>
+          <label class="checkbox"><%= check_box_tag 'settings[pagination_search]', '_DEFAULT_', @settings.options['pagination_search'].blank?, id: 'settings-pagination_search-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('pagination_search'))) %></label></label>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
         <label for="settings-use_archive-yes"><%= t('admin.forums.settings.use_archive') %></label>
         <div class="cntrls">
           <label class="radio"><%= radio_button_tag 'settings[use_archive]', 'yes', @settings.options['use_archive'] == 'yes', id: 'settings-use_archive-yes' %> <%= t('global.yeah') %></label>
@@ -111,6 +119,14 @@
         <div class="cntrls">
           <%= text_field_tag 'settings[date_format_post]', @settings.options['date_format_post'], id: 'settings-date_format_post' %>
           <label class="checkbox"><%= check_box_tag 'settings[date_format_post]', '_DEFAULT_', @settings.options['date_format_post'].blank?, id: 'settings-date_format_post-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('date_format_post'))) %></label>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-date_format_search"><%= t('admin.forums.settings.date_format_search') %></label>
+        <div class="cntrls">
+          <%= text_field_tag 'settings[date_format_search]', @settings.options['date_format_search'], id: 'settings-date_format_search' %>
+          <label class="checkbox"><%= check_box_tag 'settings[ate_format_post]', '_DEFAULT_', @settings.options['date_format_search'].blank?, id: 'settings-date_format_search-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('date_format_search'))) %></label>
         </div>
       </div>
 
