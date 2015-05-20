@@ -54,7 +54,7 @@ with_name ||= false
   </div>
 </fieldset>
 
-<% if current_user.admin? and @edit %>
+<% if (not current_user.blank? and current_user.admin?) and @edit %>
   <div class="cf-cgroup">
     <label>Vorherige Versionen löschen</label>
     <div class="cntrls">
