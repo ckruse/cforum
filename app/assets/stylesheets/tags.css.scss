@@ -53,7 +53,7 @@
       border: 1px solid #5983ab;
     }
 
-    a, a:visited {
+    a, a:visitedtag_name, span {
       color: inherit;
     }
 
@@ -64,7 +64,7 @@
     background-color: #f1f3f4;
     border-color: #c4c4c4;
 
-    a:visited, a { color: #999; }
+    a:visited, a, span { color: #999; }
     a:hover, a:visited:hover { color: #990909; }
   }
 
