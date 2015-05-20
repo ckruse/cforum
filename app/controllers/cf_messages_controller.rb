@@ -3,7 +3,7 @@
 require 'digest/sha1'
 
 class CfMessagesController < ApplicationController
-  authorize_action([:show, :show_header]) { authorize_forum(permission: :read?) }
+  authorize_action([:show, :show_header, :versions]) { authorize_forum(permission: :read?) }
   authorize_action([:new, :create, :edit, :update]) { authorize_forum(permission: :write?) }
   authorize_action([:destroy, :restore]) { authorize_forum(permission: :moderator?) }
   authorize_action([:show_retag, :retag]) { may?(RightsHelper::RETAG) }
