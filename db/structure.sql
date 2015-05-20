@@ -429,6 +429,23 @@ $$;
 
 
 --
+-- Name: search_document_before_insert(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION search_document_before_insert() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  NEW.ts_title = to_tsvector(NEW.lang::regconfig, NEW.title);
+  NEW.ts_content = to_tsvector(NEW.lang::regconfig, NEW.content);
+  NEW.ts_document = setweight(to_tsvector(NEW.lang::regconfig, NEW.author), 'A')  || setweight(to_tsvector(NEW.lang::regconfig, NEW.title), 'B') || setweight(to_tsvector(NEW.lang::regconfig, NEW.content), 'B');
+
+  RETURN NEW;
+END;
+$$;
+
+
+--
 -- Name: settings_unique_check__insert(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1210,6 +1227,79 @@ ALTER SEQUENCE scores_score_id_seq OWNED BY scores.score_id;
 
 
 --
+-- Name: search_documents; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE search_documents (
+    search_document_id bigint NOT NULL,
+    search_section_id integer NOT NULL,
+    reference_id bigint,
+    user_id bigint,
+    url text NOT NULL,
+    relevance double precision NOT NULL,
+    author text NOT NULL,
+    title text NOT NULL,
+    content text NOT NULL,
+    ts_title tsvector NOT NULL,
+    ts_content tsvector NOT NULL,
+    ts_document tsvector NOT NULL,
+    document_created timestamp without time zone,
+    lang text NOT NULL,
+    tags text[] NOT NULL
+);
+
+
+--
+-- Name: search_documents_search_document_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE search_documents_search_document_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: search_documents_search_document_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE search_documents_search_document_id_seq OWNED BY search_documents.search_document_id;
+
+
+--
+-- Name: search_sections; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE search_sections (
+    search_section_id integer NOT NULL,
+    name text NOT NULL,
+    postition integer NOT NULL,
+    active_by_default boolean DEFAULT false NOT NULL
+);
+
+
+--
+-- Name: search_sections_search_section_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE search_sections_search_section_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: search_sections_search_section_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE search_sections_search_section_id_seq OWNED BY search_sections.search_section_id;
+
+
+--
 -- Name: settings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1576,6 +1666,20 @@ ALTER TABLE ONLY scores ALTER COLUMN score_id SET DEFAULT nextval('scores_score_
 
 
 --
+-- Name: search_document_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY search_documents ALTER COLUMN search_document_id SET DEFAULT nextval('search_documents_search_document_id_seq'::regclass);
+
+
+--
+-- Name: search_section_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY search_sections ALTER COLUMN search_section_id SET DEFAULT nextval('search_sections_search_section_id_seq'::regclass);
+
+
+--
 -- Name: setting_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1826,6 +1930,46 @@ ALTER TABLE ONLY scores
 
 
 --
+-- Name: search_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY search_documents
+    ADD CONSTRAINT search_documents_pkey PRIMARY KEY (search_document_id);
+
+
+--
+-- Name: search_documents_reference_id_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY search_documents
+    ADD CONSTRAINT search_documents_reference_id_key UNIQUE (reference_id);
+
+
+--
+-- Name: search_documents_url_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY search_documents
+    ADD CONSTRAINT search_documents_url_key UNIQUE (url);
+
+
+--
+-- Name: search_sections_name_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY search_sections
+    ADD CONSTRAINT search_sections_name_key UNIQUE (name);
+
+
+--
+-- Name: search_sections_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY search_sections
+    ADD CONSTRAINT search_sections_pkey PRIMARY KEY (search_section_id);
+
+
+--
 -- Name: settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2012,6 +2156,41 @@ CREATE UNIQUE INDEX scores_user_id_message_id_idx ON scores USING btree (user_id
 --
 
 CREATE UNIQUE INDEX scores_user_id_vote_id_idx ON scores USING btree (user_id, vote_id) WHERE (vote_id IS NOT NULL);
+
+
+--
+-- Name: search_documents_content_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX search_documents_content_idx ON search_documents USING gin (ts_content);
+
+
+--
+-- Name: search_documents_document_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX search_documents_document_idx ON search_documents USING gin (ts_document);
+
+
+--
+-- Name: search_documents_lower_author_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX search_documents_lower_author_idx ON search_documents USING btree (lower(author));
+
+
+--
+-- Name: search_documents_tags_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX search_documents_tags_idx ON search_documents USING gin (tags);
+
+
+--
+-- Name: search_documents_title_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX search_documents_title_idx ON search_documents USING gin (ts_title);
 
 
 --
@@ -2229,6 +2408,13 @@ CREATE TRIGGER messages_tags__count_delete_trigger AFTER DELETE ON messages_tags
 --
 
 CREATE TRIGGER messages_tags__count_insert_trigger AFTER INSERT ON messages_tags FOR EACH ROW EXECUTE PROCEDURE count_messages_tag_insert_trigger();
+
+
+--
+-- Name: search_documents__before_insert_trigger; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER search_documents__before_insert_trigger BEFORE INSERT ON search_documents FOR EACH ROW EXECUTE PROCEDURE search_document_before_insert();
 
 
 --
@@ -2545,6 +2731,22 @@ ALTER TABLE ONLY scores
 
 
 --
+-- Name: search_documents_search_section_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY search_documents
+    ADD CONSTRAINT search_documents_search_section_id_fkey FOREIGN KEY (search_section_id) REFERENCES search_sections(search_section_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: search_documents_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY search_documents
+    ADD CONSTRAINT search_documents_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
 -- Name: settings_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2751,6 +2953,8 @@ INSERT INTO schema_migrations (version) VALUES ('66');
 INSERT INTO schema_migrations (version) VALUES ('67');
 
 INSERT INTO schema_migrations (version) VALUES ('68');
+
+INSERT INTO schema_migrations (version) VALUES ('69');
 
 INSERT INTO schema_migrations (version) VALUES ('7');
 
