@@ -108,6 +108,19 @@ class ApplicationController < ActionController::Base
         current_user.user_id
       ).order('position ASC, UPPER(name) ASC')
     end
+
+    forum = current_forum
+    user = current_user
+
+    if params.has_key?(:view_all) and params[:view_all] != 'false'
+      if forum.blank?
+        @view_all = true if not user.blank? and user.admin?
+      else
+        @view_all = forum.moderator?(user)
+      end
+
+      set_url_attrib(:view_all, 'yes') if @view_all
+    end
   end
 
 

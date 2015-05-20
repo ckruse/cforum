@@ -215,16 +215,6 @@ module RightsHelper
     forum = current_forum if forum.blank?
     user = current_user if user.blank?
 
-    if params.has_key?(:view_all) and params[:view_all] != 'false'
-      if forum.blank?
-        @view_all = true if not user.blank? and user.admin?
-      else
-        @view_all = forum.moderator?(user)
-      end
-
-      set_url_attrib(:view_all, 'yes') if @view_all
-    end
-
     return true if forum.blank?
     return forum.send(permission, current_user) if permission
     return false
