@@ -51,4 +51,6 @@ gem "diffy"
 
 gem 'exception_notification'
 
+gem 'htmlentities'
+
 # eof

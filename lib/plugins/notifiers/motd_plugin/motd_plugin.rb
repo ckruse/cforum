@@ -12,6 +12,10 @@ class MotdPlugin < Plugin
       @content
     end
 
+    def get_format
+      'markdown'
+    end
+
     def id_prefix
       'motd'
     end

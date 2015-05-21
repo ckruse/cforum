@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
 require Rails.root + 'lib/cf_kramdown.rb'
+require Rails.root + 'lib/cforum_markup.rb'
 
 module ParserHelper
+  include CforumMarkup
+
   @@parser_modules = {}
 
   def self.parser_modules
@@ -11,6 +14,10 @@ module ParserHelper
 
   def get_content
     has_attribute?(:content) ? content.to_s : body.to_s
+  end
+
+  def get_format
+    has_attribute?(:format) ? self.format : 'markdown'
   end
 
   def id_prefix
@@ -32,9 +39,12 @@ module ParserHelper
     if @doc.blank?
       if Rails.env.development?
         load Rails.root + 'lib/cf_kramdown.rb'
+        load Rails.root + 'lib/cforum_markup.rb'
       end
 
       cnt = get_content
+      cnt = cforum2markdown(cnt) if get_format == 'cforum'
+
       ncnt = ''
       quote_level = 0
 
