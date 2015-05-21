@@ -156,8 +156,8 @@ end
                                   count: @new_mails.length) %>"><%= @new_mails.length %></span>)</li>
             <li id="optionen-logout"><%= link_to(t('layout.logout'), destroy_user_session_path, method: :delete) %></li>
           <% else %>
-            <li id="optionen-my"><%= link_to(t('layout.login'), new_user_session_path) %></li>
-            <li id="optionen-myadmin"><%= link_to t("layout.register"), new_user_registration_path %></li>
+            <li id="optionen-my"><%= link_to(t('layout.login'), new_user_session_path, rel: 'nofollow') %></li>
+            <li id="optionen-myadmin"><%= link_to(t("layout.register"), new_user_registration_path, rel: 'nofollow') %></li>
           <% end %>
         </ul>
 
