@@ -5,14 +5,8 @@ class CfForumsController < ApplicationController
 
   def index
     if params[:t] || params[:m]
-      thread = CfThread.find_by_tid(params[:t].to_i)
-      if thread
-        if params[:m] and message = thread.find_by_mid(params[:m].to_i)
-          redirect_to cf_message_url(thread, message), status: 301
-        else
-          redirect_to cf_thread_url(thread), status: 301
-        end
-      end
+      redirect_thread
+      return
     end
 
     # TODO: check only for selected forums
@@ -93,6 +87,30 @@ class CfForumsController < ApplicationController
       raise ActiveRecord::RecordNotFound
     else
       redirect_to cf_message_url(t, t.message), status: 301
+    end
+  end
+
+  def redirect_thread
+    thread = CfThread.where(tid: params[:t]).all
+    raise ActiveRecord::RecordNotFound if thread.blank?
+
+    if thread.length == 1
+      thread = thread.first
+
+      if params[:m] and message = thread.find_by_mid(params[:m].to_i)
+        redirect_to cf_message_url(thread, message), status: 301
+      else
+        redirect_to cf_thread_url(thread), status: 301
+      end
+
+    else
+      @threads = thread
+      @threads.each do |thr|
+        sort_thread(thr)
+      end
+
+      render 'redirect_archive'
+      return
     end
   end
 
