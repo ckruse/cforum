@@ -167,12 +167,14 @@ nav {
       background-color: #F1F3F4;
       border-radius: 0px 0.4em 0.4em;
       border:1px solid #D5D5D5;
-      padding: 0.4em 0.6em 0.4em 0.6em;
+      padding:0;
       margin-top:0.3em;
     }
 
     a:link, a:visited {
       color: #3481cd;
+      line-height: 2em;
+      padding: 1.5em 0.6em;
 
       &:hover, &:active, &:focus {
         color: #990909;
