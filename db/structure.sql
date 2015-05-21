@@ -939,7 +939,8 @@ CREATE TABLE messages (
     flags hstore,
     uuid character varying(250),
     ip character varying(255),
-    editor_id bigint
+    editor_id bigint,
+    format character varying(100) DEFAULT 'markdown'::character varying NOT NULL
 );
 
 
@@ -2744,6 +2745,8 @@ INSERT INTO schema_migrations (version) VALUES ('64');
 INSERT INTO schema_migrations (version) VALUES ('65');
 
 INSERT INTO schema_migrations (version) VALUES ('66');
+
+INSERT INTO schema_migrations (version) VALUES ('67');
 
 INSERT INTO schema_migrations (version) VALUES ('7');
 
