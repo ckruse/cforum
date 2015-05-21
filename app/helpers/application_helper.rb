@@ -6,7 +6,7 @@ module ApplicationHelper
   def current_forum
     if not params[:curr_forum].blank? and not params[:curr_forum] == 'all'
       @_current_forum = CfForum.find_by_slug(params[:curr_forum]) if !@_current_forum || @_current_forum.slug != params[:curr_forum]
-      raise CForum::NotFoundException.new unless @_current_forum # TODO: error description
+      raise ActiveRecord::RecordNotFound unless @_current_forum
       return @_current_forum
     end
 
