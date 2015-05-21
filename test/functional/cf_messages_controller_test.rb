@@ -8,7 +8,7 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread)
 
-    assert_raise(CForum::NotFoundException) do
+    assert_raise(ActiveRecord::RecordNotFound) do
       get :show, {curr_forum: forum.slug, year: '2012', mon: 'feb', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id}
     end
   end
@@ -30,7 +30,7 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
 
-    assert_raise(CForum::NotFoundException) do
+    assert_raise(ActiveRecord::RecordNotFound) do
       get :show, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id, view_all: true}
     end
   end
@@ -43,7 +43,7 @@ class CfMessagesControllerTest < ActionController::TestCase
 
     sign_in user
 
-    assert_raise(CForum::NotFoundException) do
+    assert_raise(ActiveRecord::RecordNotFound) do
       get :show, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id, view_all: true}
     end
   end
@@ -56,7 +56,7 @@ class CfMessagesControllerTest < ActionController::TestCase
 
     sign_in user
 
-    assert_raise(CForum::NotFoundException) do
+    assert_raise(ActiveRecord::RecordNotFound) do
       get :show, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id}
     end
   end
@@ -90,7 +90,7 @@ class CfMessagesControllerTest < ActionController::TestCase
 
     sign_in user
 
-    assert_raise(CForum::NotFoundException) do
+    assert_raise(ActiveRecord::RecordNotFound) do
       get :show, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id, view_all: true}
     end
   end
@@ -108,7 +108,7 @@ class CfMessagesControllerTest < ActionController::TestCase
 
     sign_in user
 
-    assert_raise(CForum::NotFoundException) do
+    assert_raise(ActiveRecord::RecordNotFound) do
       get :show, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id, view_all: true}
     end
   end
@@ -126,7 +126,7 @@ class CfMessagesControllerTest < ActionController::TestCase
 
     sign_in user
 
-    assert_raise(CForum::NotFoundException) do
+    assert_raise(ActiveRecord::RecordNotFound) do
       get :show, {curr_forum: forum.slug, year: '2012', mon: 'dec', day: '6', tid: 'obi-wan-kenobi', mid: message.message_id}
     end
   end
@@ -1053,7 +1053,7 @@ class CfMessagesControllerTest < ActionController::TestCase
     thread  = FactoryGirl.create(:cf_thread, forum: forum, slug: '/2012/dec/6/obi-wan-kenobi')
     message = FactoryGirl.create(:cf_message, forum: forum, thread: thread, deleted: true)
 
-    assert_raise CForum::NotFoundException do
+    assert_raise ActiveRecord::RecordNotFound do
       post :create, {
         curr_forum: forum.slug,
         year: '2012',

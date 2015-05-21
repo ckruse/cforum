@@ -22,7 +22,7 @@ class CfThread < ActiveRecord::Base
 
   def find_message!(mid)
     m = find_message(mid)
-    raise CForum::NotFoundException.new if m.blank?
+    raise ActiveRecord::RecordNotFound if m.blank?
     m
   end
 
@@ -36,7 +36,7 @@ class CfThread < ActiveRecord::Base
 
   def find_by_mid!(mid)
     m = find_by_mid(mid)
-    raise CForum::NotFoundException.new if m.blank?
+    raise ActiveRecord::RecordNotFound.new if m.blank?
     m
   end
 

@@ -18,7 +18,7 @@ class Peon::Tasks::ThreadMovedTask < Peon::Tasks::PeonTask
       @thread     = CfThread.includes(:forum, messages: :owner).find args['thread']
       @old_forum  = CfForum.find(args['old_forum'])
       @new_forum  = CfForum.find(args['new_forum'])
-    rescue ActiveRecord::RecordNotFound, CForum::NotFoundException
+    rescue ActiveRecord::RecordNotFound
       return
     end
 

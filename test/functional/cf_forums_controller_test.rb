@@ -217,7 +217,7 @@ class CfForumsControllerTest < ActionController::TestCase
     message.mid = 1
     message.save
 
-    assert_raise(CForum::NotFoundException) do
+    assert_raise(ActiveRecord::RecordNotFound) do
       get :redirect_archive, {year: message.created_at.strftime("%Y"), mon: message.created_at.strftime("%m"), tid: 't333' + message.thread.tid.to_s}
     end
   end
@@ -231,13 +231,13 @@ class CfForumsControllerTest < ActionController::TestCase
   end
 
   test "should fail with invalid forum" do
-    assert_raise CForum::NotFoundException do
+    assert_raise ActiveRecord::RecordNotFound do
       get :redirector, f: 'planet-aldebaran'
     end
   end
 
   test "should fail with missing forum" do
-    assert_raise CForum::NotFoundException do
+    assert_raise ActiveRecord::RecordNotFound do
       get :redirector
     end
   end

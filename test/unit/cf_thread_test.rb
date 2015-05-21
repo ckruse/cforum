@@ -51,7 +51,7 @@ class CfThreadTest < ActiveSupport::TestCase
 
     assert_equal m, t.find_message!(m.message_id)
 
-    assert_raise CForum::NotFoundException do
+    assert_raise ActiveRecord::RecordNotFound do
       t.find_message!(-303234)
     end
 
@@ -67,7 +67,7 @@ class CfThreadTest < ActiveSupport::TestCase
 
     assert_equal m, t.find_by_mid!(m.mid)
 
-    assert_raise CForum::NotFoundException do
+    assert_raise ActiveRecord::RecordNotFound do
       t.find_by_mid!(-234234)
     end
 

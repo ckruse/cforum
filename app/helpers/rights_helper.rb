@@ -59,7 +59,8 @@ module RightsHelper
       where(std_conditions(id, tid)).
       references(messages: :owner).
       first
-    raise CForum::NotFoundException.new if thread.blank?
+
+    raise ActiveRecord::RecordNotFound if thread.blank?
 
     # sort messages
     sort_thread(thread)
@@ -73,7 +74,7 @@ module RightsHelper
     message = nil
     unless params[:mid].blank?
       message = thread.find_message(params[:mid].to_i)
-      raise CForum::NotFoundException.new if message.nil?
+      raise ActiveRecord::RecordNotFound if message.nil?
     end
 
     return thread, message, id

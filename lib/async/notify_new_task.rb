@@ -49,7 +49,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
       @thread     = CfThread.includes(:forum, :messages => :owner).find args['thread']
       @message    = @thread.find_message! args['message']
       @parent     = @thread.find_message @message.parent_id
-    rescue ActiveRecord::RecordNotFound, CForum::NotFoundException
+    rescue ActiveRecord::RecordNotFound
       return
     end
 

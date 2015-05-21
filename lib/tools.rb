@@ -55,7 +55,7 @@ module CForum
 
       f = params[:f].gsub(/[^a-z0-9_-]/, '') if not params[:f].blank?
       f = current_forum.try(:slug) if f.blank?
-      raise CForum::NotFoundException.new if f.blank?
+      raise ActiveRecord::RecordNotFound if f.blank?
 
       case params[:r]
       when nil

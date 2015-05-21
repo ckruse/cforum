@@ -10,7 +10,7 @@ class Plugin
     if respond_to?(name.to_sym)
       send(name.to_sym, *args)
     else
-      raise CForum::NotFoundException.new # TODO: more specific exception
+      raise ActiveRecord::RecordNotFound
     end
   end
 

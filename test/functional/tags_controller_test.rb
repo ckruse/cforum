@@ -50,7 +50,7 @@ class TagsControllerTest < ActionController::TestCase
   end
 
   test "sould not show because forum does not exist" do
-    assert_raise CForum::NotFoundException do
+    assert_raise ActiveRecord::RecordNotFound do
       get :show, curr_forum: 'lalalal', id: 'lululu'
     end
   end

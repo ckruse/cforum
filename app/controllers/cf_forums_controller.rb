@@ -90,7 +90,7 @@ class CfForumsController < ApplicationController
     end
 
     if t.nil?
-      raise CForum::NotFoundException.new # TODO: add message
+      raise ActiveRecord::RecordNotFound
     else
       redirect_to cf_message_url(t, t.message), status: 301
     end
@@ -104,7 +104,7 @@ class CfForumsController < ApplicationController
     end
 
     # TODO: add message
-    raise CForum::NotFoundException.new if forum.nil?
+    raise ActiveRecord::RecordNotFound if forum.nil?
 
     redirect_to cf_forum_url(forum)
   end
