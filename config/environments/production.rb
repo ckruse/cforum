@@ -1,6 +1,13 @@
 Cforum::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
+  config.middleware.use ExceptionNotification::Rack,
+                        email: {
+                          email_prefix: "[cforum] [exception] ",
+                          sender_address: %{"CForum Exception" <forum@selfhtml.org>},
+                          exception_recipients: %w{cjk@defunct.ch}
+                        }
+
   # Code is not reloaded between requests
   config.cache_classes = true
 

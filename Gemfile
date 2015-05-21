@@ -49,4 +49,6 @@ gem "stringex"
 
 gem "diffy"
 
+gem 'exception_notification'
+
 # eof
