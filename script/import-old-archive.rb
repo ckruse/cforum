@@ -26,97 +26,6 @@ $map = {
 $ids = {}
 $coder = HTMLEntities.new
 
-def convert_content(txt)
-  txt = txt.gsub(/<br ?\/?>/,"\n")
-
-  txt = txt.gsub(/<img([^>]+)>/) do |data|
-    alt = ""
-    src = ""
-
-    src = $1 if data =~ /src="([^"]+)"/
-    alt = $1 if data =~ /alt="([^"]+)"/
-
-    alt = src if alt.blank?
-
-    src = $coder.decode(src)
-    alt = $coder.decode(alt)
-
-    "![#{alt}](#{src})"
-  end
-
-  txt = txt.gsub(/\[image:\s*([^\]]+)\]/) do |data|
-    href  = ""
-    alt   = ""
-    data  = $1
-
-    href  = data.gsub(/@alt=.*/, '')
-    alt   = $1 if data =~ /@alt=(.*)/
-
-    alt   = href if alt.blank?
-
-    alt   = $coder.decode(alt.strip)
-    href  = $coder.decode(href.strip)
-
-    "![#{alt}](#{href})"
-  end
-
-  txt = txt.gsub(/\[\s*link:\s*([^\]]+)\]/) do |data|
-    href  = ""
-    title = ""
-    data  = $1
-
-    href  = data.gsub(/@title=.*/, '')
-    title = $1 if data =~ /@title=(.*)/
-
-    title = href if title.blank?
-
-    title = $coder.decode(title.strip)
-    href  = $coder.decode(href.strip)
-
-    "[#{title}](#{href})"
-  end
-
-  txt = txt.gsub(/\[pref:([^\]]+)\]/) do |data|
-    href  = ""
-    title = ""
-    data  = $1
-
-    href  = data.gsub(/@title=.*/, '')
-    title = $1 if data =~ /@title=(.*)/
-
-    t, m = href.split ';', 2
-
-    if t.blank? or m.blank?
-      lnk = '[pref]'
-    else
-      title = "?t=#{t}&m=#{m}" if title.blank?
-      title = $coder.decode($title)
-
-      lnk = "[#{title}](?t=#{t}&m=#{m})"
-    end
-
-    lnk
-  end
-
-  txt = txt.gsub(/\[code(?:\s+lang=(\w+))\](.*?)\[\/code\]/m) do |data|
-    lang = $1
-    code = $2
-
-    lang = "html" if lang.blank?
-
-    if code =~ /\n/
-      "\n~~~ #{lang}\n#{code}\n~~~\n"
-    else
-      "`#{code}`"
-    end
-  end
-
-  txt = $coder.decode(txt)
-  txt.gsub!(/\u007F/,"> ")
-
-  txt
-end
-
 def check_null_bytes(msg)
   msg.content.gsub!(/\0/, '')
   msg.subject.gsub!(/\0/, '')
@@ -126,92 +35,106 @@ def check_null_bytes(msg)
 end
 
 def handle_messages(old_msg, x_msg, thread)
-  the_date = Time.at(x_msg.find_first('./Header/Date')['longSec'].force_encoding('utf-8').to_i)
-  the_date = DateTime.parse("1970-01-01 00:00:00").to_time if the_date.blank?
+  mid = x_msg['id'].gsub(/^m/, '')
 
-  msg = CfMessage.new(
-    mid: x_msg['id'].gsub(/^m/, ''),
-    author: x_msg.find_first('./Header/Author/Name').content.force_encoding('utf-8'),
-    subject: x_msg.find_first('./Header/Subject').content.force_encoding('utf-8'),
+  msg = CfMessage.where(mid: mid).first
 
-    upvotes: x_msg['votingGood'].to_i,
-    downvotes: x_msg['votingBad'].to_i,
+  if msg.blank?
+    $stderr.puts "NEW MESSAGE!"
+    exit
 
-    deleted: x_msg['invisible'] == '1',
+    the_date = Time.at(x_msg.find_first('./Header/Date')['longSec'].force_encoding('utf-8').to_i)
+    the_date = DateTime.parse("1970-01-01 00:00:00").to_time if the_date.blank?
 
-    created_at: the_date,
-    updated_at: the_date,
+    msg = CfMessage.new(
+      mid: mid,
+      author: x_msg.find_first('./Header/Author/Name').content.force_encoding('utf-8'),
+      subject: x_msg.find_first('./Header/Subject').content.force_encoding('utf-8'),
 
-    content: convert_content(x_msg.find_first('./MessageContent').content.force_encoding('utf-8')),
-    parent_id: old_msg ? old_msg.message_id : nil,
-    thread_id: thread.thread_id,
-    forum_id: thread.forum_id
-  )
+      upvotes: x_msg['votingGood'].to_i,
+      downvotes: x_msg['votingBad'].to_i,
 
-  # cat      = x_msg.find_first('./Header/Category').content.force_encoding('utf-8')
-  email    = x_msg.find_first('./Header/Author/Email').content.force_encoding('utf-8')
-  homepage = x_msg.find_first('./Header/Author/HomepageUrl').content.force_encoding('utf-8')
+      deleted: x_msg['invisible'] == '1',
 
-  # msg.category        = cat      unless cat.empty?
-  msg.email    = email    unless email.blank?
-  msg.homepage = homepage unless homepage.blank?
+      created_at: the_date,
+      updated_at: the_date,
 
-  check_null_bytes(msg)
-
-  msg.save(validate: false)
-
-  category = x_msg.find_first("./Header/Category").content.force_encoding('utf-8')
-
-  if not category.blank?
-    category = category.downcase.strip
-
-    t = CfTag.find_by_forum_id_and_tag_name thread.forum_id, category
-
-    begin
-      t = CfTag.create!(:tag_name => category, forum_id: thread.forum_id) if t.blank?
-    rescue ActiveRecord::RecordNotUnique
-      t = CfTag.find_by_forum_id_and_tag_name! thread.forum_id, category
-    end
-
-    CfMessageTag.create!(
-      tag_id: t.tag_id,
-      message_id: msg.message_id
+      content: x_msg.find_first('./MessageContent').content.force_encoding('utf-8'),
+      parent_id: old_msg ? old_msg.message_id : nil,
+      thread_id: thread.thread_id,
+      forum_id: thread.forum_id
     )
-  end
 
-  x_msg.find('./Header/Flags/Flag').each do |f|
-    if f['name'] == 'UserName' then
-      uname = f.content.force_encoding('utf-8')
+    # cat      = x_msg.find_first('./Header/Category').content.force_encoding('utf-8')
+    email    = x_msg.find_first('./Header/Author/Email').content.force_encoding('utf-8')
+    homepage = x_msg.find_first('./Header/Author/HomepageUrl').content.force_encoding('utf-8')
 
-      usr = CfUser.find_by_username(uname)
-      if !usr then
-        email = nil
-        $old_db.exec("SELECT email FROM auth WHERE username = '" + uname + "'") do |result|
-          result.each do |row|
-            email = row.values_at('email').first
-          end
-        end
+    # msg.category        = cat      unless cat.empty?
+    msg.email    = email    unless email.blank?
+    msg.homepage = homepage unless homepage.blank?
 
-        usr = CfUser.new(username: uname, created_at: the_date, updated_at: the_date, email: email)
-        usr.skip_confirmation!
+    check_null_bytes(msg)
 
-        begin
-          usr.save!(validate: false)
-        rescue ActiveRecord::RecordNotUnique
-          usr = CfUser.where(username: uname).first
+    msg.save(validate: false)
 
-          if usr.blank?
-            usr.email = nil
-            usr.save!(validate: false)
-          end
-        end
+    category = x_msg.find_first("./Header/Category").content.force_encoding('utf-8')
+
+    if not category.blank?
+      category = category.downcase.strip
+
+      t = CfTag.find_by_forum_id_and_tag_name thread.forum_id, category
+
+      begin
+        t = CfTag.create!(:tag_name => category, forum_id: thread.forum_id) if t.blank?
+      rescue ActiveRecord::RecordNotUnique
+        t = CfTag.find_by_forum_id_and_tag_name! thread.forum_id, category
       end
 
-      msg.user_id = usr.id
-      msg.save
-    else
-      msg.flags[f['name']] = f.content.force_encoding('utf-8')
+      CfMessageTag.create!(
+        tag_id: t.tag_id,
+        message_id: msg.message_id
+      )
     end
+
+    x_msg.find('./Header/Flags/Flag').each do |f|
+      if f['name'] == 'UserName' then
+        uname = f.content.force_encoding('utf-8')
+
+        usr = CfUser.find_by_username(uname)
+        if !usr then
+          email = nil
+          $old_db.exec("SELECT email FROM auth WHERE username = '" + uname + "'") do |result|
+            result.each do |row|
+              email = row.values_at('email').first
+            end
+          end
+
+          usr = CfUser.new(username: uname, created_at: the_date, updated_at: the_date, email: email)
+          usr.skip_confirmation!
+
+          begin
+            usr.save!(validate: false)
+          rescue ActiveRecord::RecordNotUnique
+            usr = CfUser.where(username: uname).first
+
+            if usr.blank?
+              usr.email = nil
+              usr.save!(validate: false)
+            end
+          end
+        end
+
+        msg.user_id = usr.id
+        msg.save
+      else
+        msg.flags[f['name']] = f.content.force_encoding('utf-8')
+      end
+    end
+
+  else
+    msg.content = x_msg.find_first('./MessageContent').content.force_encoding('utf-8')
+    msg.format = 'cforum'
+    msg.save
   end
 
   x_msg.find('./Message').each do |m|
@@ -224,32 +147,38 @@ end
 def handle_doc(doc, opts = {})
   x_thread = doc.find_first('/Forum/Thread')
 
-  forum_name = x_thread.find_first("./Message/Header/Category").content.force_encoding('utf-8')
+  thread = CfThread.where(tid: x_thread['id'].force_encoding('utf-8')[1..-1]).first
 
-  the_date = Time.at(x_thread.find_first('./Message/Header/Date')['longSec'].force_encoding('utf-8').to_i)
-  subject = x_thread.find_first('./Message/Header/Subject').content.force_encoding('utf-8')
+  if thread.blank?
+    $stderr.puts "NEW THREAD!"
+    exit
+    forum_name = x_thread.find_first("./Message/Header/Category").content.force_encoding('utf-8')
 
-  the_date = DateTime.parse("1970-01-01 00:00:00").to_time if the_date.blank?
+    the_date = Time.at(x_thread.find_first('./Message/Header/Date')['longSec'].force_encoding('utf-8').to_i)
+    subject = x_thread.find_first('./Message/Header/Subject').content.force_encoding('utf-8')
 
-  forum = $map[forum_name] || $default_forum
+    the_date = DateTime.parse("1970-01-01 00:00:00").to_time if the_date.blank?
 
-  thread = CfThread.new(
-    tid: x_thread['id'].force_encoding('utf-8')[1..-1],
-    archived: opts[:archived],
-    forum_id: forum.forum_id,
-    slug: thread_id(the_date, subject),
-    created_at: the_date,
-    updated_at: the_date,
-    latest_message: the_date
-  )
+    forum = $map[forum_name] || $default_forum
 
-  i = 0
-  while not CfThread.find_by_slug(thread.slug).blank?
-    i += 1
-    thread.slug = thread_id(the_date, subject, i)
+    thread = CfThread.new(
+      tid: x_thread['id'].force_encoding('utf-8')[1..-1],
+      archived: opts[:archived],
+      forum_id: forum.forum_id,
+      slug: thread_id(the_date, subject),
+      created_at: the_date,
+      updated_at: the_date,
+      latest_message: the_date
+    )
+
+    i = 0
+    while not CfThread.find_by_slug(thread.slug).blank?
+      i += 1
+      thread.slug = thread_id(the_date, subject, i)
+    end
+
+    thread.save
   end
-
-  thread.save
 
   msg = nil
   x_thread.find('./Message').each do |m|
