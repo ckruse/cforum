@@ -23,7 +23,7 @@ $(function() {
     $this.blur();
 
     $.post(action + '.json', data).
-      success(function(data) {
+      done(function(data) {
         if(data.status == 'success') {
           $this.toggleClass('active');
           cforum.alert.success(data.message);
@@ -52,7 +52,7 @@ $(function() {
           cforum.alert.error(data.message);
         }
       }).
-      error(function(xhr, textStatus, errorThrown) {
+      fail(function(xhr, textStatus, errorThrown) {
         if(window.console) {
           console.log(xhr, textStatus, errorThrown);
         }

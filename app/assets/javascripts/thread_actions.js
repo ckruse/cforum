@@ -49,7 +49,7 @@ $(function() {
     $this.blur();
 
     $.post(action + '.json', data).
-      success(function(data) {
+      done(function(data) {
         if($this.is('.icon-thread.mark-invisible')) {
           article.fadeOut('fast', function() { article.remove(); });
         }
@@ -61,11 +61,11 @@ $(function() {
           }
 
           $.get(loc).
-            success(function(content) { article.replaceWith(content); }).
-            error(function() { cforum.alert.error('Etwas ist schief gegangen!'); });
+            done(function(content) { article.replaceWith(content); }).
+            fail(function() { cforum.alert.error('Etwas ist schief gegangen!'); });
         }
       }).
-      error(function(xhr, textStatus, errorThrown) {
+      fail(function(xhr, textStatus, errorThrown) {
         if(window.console) {
           console.log(xhr, textStatus, errorThrown);
         }
