@@ -130,8 +130,11 @@ module CforumMarkup
   end
 
   def cforum_gen_pref(href)
+    orig = href
     href, title = href.split('@title=', 2) if href =~ /@title=/
     t, m = href.split(/(&amp)?;/)
+
+    return '[pref:' + orig + ']' if t.blank? or m.blank?
 
     '[' + (title.blank? ? ('?' + t + '&' + m) : title) + '](/?' + t + "&" + m + ')'
   end
