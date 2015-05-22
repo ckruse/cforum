@@ -23,11 +23,9 @@ module CforumMarkup
       elsif doc.scan(/\u007F/)
         ncnt << '> '
 
-      elsif doc.scan(/-{2,}/)
-        ncnt << '\\' + doc.matched
-
-      elsif doc.scan(/\*/)
-        ncnt << '\\*'
+      elsif doc.scan(/(-{2,})|\*/)
+        ncnt << '\\' if code_open <= 0
+        ncnt << doc.matched
 
       elsif doc.scan(/<img[^>]+>/)
         data = doc.matched
@@ -38,9 +36,6 @@ module CforumMarkup
         alt = $1 if data =~ /alt="([^"]+)"/
 
         alt = src if alt.blank?
-
-        src = coder.decode(src)
-        alt = coder.decode(alt)
 
         ncnt << "![#{alt}](#{src})"
 
@@ -103,18 +98,20 @@ module CforumMarkup
             val << ' ' + lang
           end
 
-          ncnt << val
+          doc.scan(/<br \/>/)
+
+          ncnt << val + "\n"
 
         end
 
       elsif doc.scan(/\[code\]/)
-        ncnt << '~~~'
+        ncnt << "~~~"
         code_open += 1
 
       elsif doc.scan(/\[\/code\]/)
         if code_open > 0
           code_open -= 1
-          ncnt << '~~~'
+          ncnt << "\n~~~"
         else
           ncnt << '[/code]'
         end
@@ -123,6 +120,11 @@ module CforumMarkup
         ncnt << doc.matched if doc.scan(/./m)
       end
     end
+
+    ncnt.gsub!(/~~~\n(.*)\n~~~/, '`\1`')
+    ncnt.gsub!(/~~~\s*(\w+)\n(.*)\n~~~/, '`\2`{: .language-\1}')
+    ncnt.gsub!(/(?<!\n)\n~~~/, "\n\n~~~")
+    #raise ncnt.inspect
 
     coder.decode(ncnt)
   end
