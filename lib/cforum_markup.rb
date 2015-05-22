@@ -95,7 +95,7 @@ module CforumMarkup
 
           unless content.blank?
             _, lang = content.split(/=/, 2)
-            val << ' ' + lang
+            val << ' ' + lang unless lang.blank?
           end
 
           doc.scan(/<br \/>/)
