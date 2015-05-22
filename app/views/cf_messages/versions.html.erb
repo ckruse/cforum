@@ -12,13 +12,17 @@ prev = @message.subject + "\n\n" + @message.content
   <article class="thread-message">
     <header>
       <h2><%= link_to @message.subject, cf_message_path(@thread, @message) %></h2>
-      <span class="registered-user">
-        <%= link_to(image_tag(v.user.avatar(:thumb), class: 'avatar'),
-                    user_path(v.user),
-                    title: t('messages.user_link', user: v.user.username),
-                    class: 'user-link') %>
-        <%= link_to(v.user.username, cf_message_path(@thread, @message)) %>
-      </span>
+      <% if v.user_id.blank? %>
+        <span class="editor"><%= v.author %></span>
+      <% else %>
+        <span class="editor registered-user">
+          <%= link_to(image_tag(v.user.avatar(:thumb), class: 'avatar'),
+                      user_path(v.user),
+                      title: t('messages.user_link', user: v.user.username),
+                      class: 'user-link') %>
+          <%= link_to(v.author, cf_message_path(@thread, @message)) %>
+        </span>
+      <% end %>
 
       <time datetime="<%= v.created_at.strftime("%FT%T%:z") %>">
         <%= l(v.created_at, format: date_format("date_format_post")) %>

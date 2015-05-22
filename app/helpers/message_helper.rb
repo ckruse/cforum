@@ -239,13 +239,18 @@ module MessageHelper
       html << text.html_safe
     end
 
-    if opts[:show_editor] && message.editor_id
-      html << ", " + link_to(t('messages.edited_by'), versions_cf_message_path(thread, message), rel: 'no-follow', class: 'versions') +
-        " <span class=\"registered-user editor\">".html_safe +
-        link_to(image_tag(message.editor.avatar(:thumb), class: 'avatar'),
-                user_path(message.editor),
-                title: t('messages.user_link', user: message.editor.username),
-                class: 'user-link') + " " + message.editor.username + "</span> ".html_safe
+    if opts[:show_editor] && !message.edit_author.blank?
+      html << ", " + link_to(t('messages.edited_by'), versions_cf_message_path(thread, message), rel: 'no-follow', class: 'versions')
+
+      if message.editor_id.blank?
+        html << " <span class=\editor\">".html_safe + message.edit_author + "</span> ".html_safe
+      else
+        html << " <span class=\"registered-user editor\">".html_safe +
+          link_to(image_tag(message.editor.avatar(:thumb), class: 'avatar'),
+                  user_path(message.editor),
+                  title: t('messages.user_link', user: message.editor.username),
+                  class: 'user-link') + " " + message.edit_author + "</span> ".html_safe
+      end
 
       html << "<time datetime=\"" + message.updated_at.strftime("%FT%T%:z") + '">' +
         encode_entities(l(message.updated_at, format: date_format("date_format_post"))) +

@@ -213,10 +213,18 @@ class CfMessagesController < ApplicationController
       @version = CfMessageVersion.new
       @version.subject = @message.subject_was
       @version.content = @message.content_was
-      @version.user_id = current_user.user_id
       @version.message_id = @message.message_id
 
-      @message.editor_id  = current_user.user_id
+      if not current_user.blank?
+        @message.editor_id  = current_user.user_id
+        @message.edit_author = current_user.username
+        @version.user_id = current_user.user_id
+        @version.author = current_user.username
+      else
+        @message.editor_id = nil
+        @message.edit_author = @message.author
+        @version.author = @message.author
+      end
     end
 
     @tags    = parse_tags

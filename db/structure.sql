@@ -891,8 +891,9 @@ CREATE TABLE message_versions (
     message_id bigint NOT NULL,
     subject text NOT NULL,
     content text NOT NULL,
-    user_id bigint NOT NULL,
-    created_at timestamp without time zone NOT NULL
+    user_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    author text NOT NULL
 );
 
 
@@ -940,7 +941,8 @@ CREATE TABLE messages (
     uuid character varying(250),
     ip character varying(255),
     editor_id bigint,
-    format character varying(100) DEFAULT 'markdown'::character varying NOT NULL
+    format character varying(100) DEFAULT 'markdown'::character varying NOT NULL,
+    edit_author text
 );
 
 
@@ -2747,6 +2749,8 @@ INSERT INTO schema_migrations (version) VALUES ('65');
 INSERT INTO schema_migrations (version) VALUES ('66');
 
 INSERT INTO schema_migrations (version) VALUES ('67');
+
+INSERT INTO schema_migrations (version) VALUES ('68');
 
 INSERT INTO schema_migrations (version) VALUES ('7');
 
