@@ -37,14 +37,14 @@ $(function() {
     var form = $this.closest('form');
     var action = form.attr('action');
 
-    var data = '';
+    var data = {};
 
     form.find('input[type=hidden]').each(function() {
       var $f = $(this);
-      data += '&' + encodeURIComponent($f.attr('name')) + '=' + encodeURIComponent($f.attr('value'));
+      data[$f.attr('name')] = $f.val();
     });
 
-    data = data.substring(1);
+    data.authenticity_token = $("[name=csrf-token]").attr('content');
 
     $this.blur();
 
