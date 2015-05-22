@@ -38,8 +38,9 @@ class CfUser < ActiveRecord::Base
   end
 
   def self.find_first_by_auth_conditions(conditions = {})
-    conditions = conditions.to_h.dup
+    conditions = conditions.dup
     conditions[:active] = true
+    conditions.permit! if conditions.is_a?(ActionController::Parameters)
 
     if login = conditions.delete(:login)
       where(conditions).where(["LOWER(username) = :value OR LOWER(email) = :value", { :value => login.downcase }]).first
