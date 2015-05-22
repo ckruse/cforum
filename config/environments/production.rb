@@ -2,6 +2,7 @@ Cforum::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   config.middleware.use ExceptionNotification::Rack,
+                        ignore_exceptions: ['CForum::ForbiddenException'] + ExceptionNotifier.ignored_exceptions,
                         email: {
                           email_prefix: "[cforum] [exception] ",
                           sender_address: %{"CForum Exception" <forum@selfhtml.org>},
