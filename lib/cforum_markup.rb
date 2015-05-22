@@ -8,12 +8,24 @@ module CforumMarkup
     ncnt = ''
     coder = HTMLEntities.new
     code_open = 0
+    in_quote = 0
 
     while !doc.eos?
       if doc.scan(/<br \/>-- <br \/>/)
         ncnt << "\n-- \n"
+        in_quote = 0
+
+      elsif doc.scan(/(<br \/>|^)((?:\s|&#160;)*)#/)
+        if $1 == "<br />"
+          ncnt << "\n"
+          in_quote = 0
+        end
+
+        ncnt << $2.to_s + (code_open > 0 ? "#" : '\\#')
 
       elsif doc.scan(/(?:<br \/>)+/)
+        in_quote = 0
+
         if doc.matched.length / 6 > 1
           ncnt << "\n" * (doc.matched.length / 6)
         else
@@ -22,8 +34,9 @@ module CforumMarkup
 
       elsif doc.scan(/\u007F/)
         ncnt << '> '
+        in_quote += 1
 
-      elsif doc.scan(/(-{2,})|\*/)
+      elsif doc.scan(/(-{2,})|\*|_/)
         ncnt << '\\' if code_open <= 0
         ncnt << doc.matched
 
@@ -89,29 +102,32 @@ module CforumMarkup
 
         when 'pref'
           ncnt << cforum_gen_pref(content)
-        when 'code'
-          val = '~~~'
-          code_open += 1
 
-          unless content.blank?
-            _, lang = content.split(/=/, 2)
-            val << ' ' + lang unless lang.blank?
+        when 'code'
+          if code_open <= 0
+            val = '~~~'
+
+            unless content.blank?
+              _, lang = content.split(/=/, 2)
+              val << ' ' + lang unless lang.blank?
+            end
+
+            doc.scan(/<br \/>/)
+
+            ncnt << val + "\n"
           end
 
-          doc.scan(/<br \/>/)
-
-          ncnt << val + "\n"
-
+          code_open += 1
         end
 
       elsif doc.scan(/\[code\]/)
-        ncnt << "~~~"
+        ncnt << "~~~" if code_open <= 0
         code_open += 1
 
       elsif doc.scan(/\[\/code\]/)
         if code_open > 0
           code_open -= 1
-          ncnt << "\n~~~"
+          ncnt << "\n" + ("> " * in_quote) + "~~~"
         else
           ncnt << '[/code]'
         end
@@ -121,12 +137,22 @@ module CforumMarkup
       end
     end
 
-    ncnt.gsub!(/~~~\n(.*)\n~~~/, '`\1`')
-    ncnt.gsub!(/~~~\s*(\w+)\n(.*)\n~~~/, '`\2`{: .language-\1}')
-    ncnt.gsub!(/(?<!\n)\n~~~/, "\n\n~~~")
-    #raise ncnt.inspect
+    cnt = ''
+    ncnt.lines.each_with_index do |l,i|
+      if l =~ /^(?:(> )*)~~~/ and i > 0
+        q = $1
+        if ncnt.lines[i - 1] != ~ /^(> )*$/
+          cnt << "#{q}\n"
+        end
+      end
 
-    coder.decode(ncnt)
+      cnt << l
+    end
+
+    cnt.gsub!(/~~~\n(.*)\n~~~/, '`\1`')
+    cnt.gsub!(/~~~\s*(\w+)\n(.*)\n~~~/, '`\2`{: .language-\1}')
+
+    coder.decode(cnt)
   end
 
   def cforum_gen_pref(href)
