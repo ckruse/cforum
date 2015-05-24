@@ -237,6 +237,11 @@ class CfThreadsController < ApplicationController
   end
 
   def redirect_to_page
+    if params[:tid].blank?
+      render status: 404
+      return
+    end
+
     if uconf('page_messages') == 'yes'
       threads, sticky_threads = index_threads(true, -1, -1, false, true)
       threads.gsub!(/SELECT.*?FROM/, 'SELECT threads.thread_id FROM')
