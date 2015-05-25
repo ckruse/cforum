@@ -58,7 +58,8 @@ begin
 
     if sections[m.forum.name].blank?
       sections[m.forum.name] = SearchSection.where(name: m.forum.name).first
-      sections[m.forum.name] = SearchSection.create!(name: m.forum.name) if sections[m.forum.name].blank?
+      sections[m.forum.name] = SearchSection.create!(name: m.forum.name,
+                                                     position: -1) if sections[m.forum.name].blank?
     end
 
     doc.author = m.author
