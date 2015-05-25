@@ -149,18 +149,20 @@ end
 
 def handle_doc(doc, opts = {})
   x_thread = doc.find_first('/Forum/Thread')
+  the_date = Time.at(x_thread.find_first('./Message/Header/Date')['longSec'].force_encoding('utf-8').to_i)
+  the_date = DateTime.parse("1970-01-01 00:00:00").to_time if the_date.blank?
 
-  thread = CfThread.where(tid: x_thread['id'].force_encoding('utf-8')[1..-1]).first
+  thread = CfThread.
+           where(tid: x_thread['id'].force_encoding('utf-8')[1..-1]).
+           where("EXTRACT('year' FROM created_at) = ?", the_date.year).
+           first
 
   if thread.blank?
     $stderr.puts "NEW THREAD!"
     exit
     forum_name = x_thread.find_first("./Message/Header/Category").content.force_encoding('utf-8')
 
-    the_date = Time.at(x_thread.find_first('./Message/Header/Date')['longSec'].force_encoding('utf-8').to_i)
     subject = x_thread.find_first('./Message/Header/Subject').content.force_encoding('utf-8')
-
-    the_date = DateTime.parse("1970-01-01 00:00:00").to_time if the_date.blank?
 
     forum = $map[forum_name] || $default_forum
 
