@@ -1275,7 +1275,7 @@ ALTER SEQUENCE search_documents_search_document_id_seq OWNED BY search_documents
 CREATE TABLE search_sections (
     search_section_id integer NOT NULL,
     name text NOT NULL,
-    postition integer NOT NULL,
+    "position" integer NOT NULL,
     active_by_default boolean DEFAULT false NOT NULL
 );
 

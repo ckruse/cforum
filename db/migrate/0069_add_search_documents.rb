@@ -6,7 +6,7 @@ class AddSearchDocuments < ActiveRecord::Migration
 CREATE TABLE search_sections (
   search_section_id SERIAL NOT NULL PRIMARY KEY,
   name TEXT NOT NULL UNIQUE,
-  postition INTEGER NOT NULL,
+  position INTEGER NOT NULL,
   active_by_default BOOLEAN NOT NULL DEFAULT false
 );
 
