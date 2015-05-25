@@ -50,6 +50,13 @@ CREATE TRIGGER search_documents__before_insert_trigger
   FOR EACH ROW
   EXECUTE PROCEDURE search_document_before_insert();
 
+CREATE TRIGGER search_documents__before_update_trigger
+  BEFORE UPDATE
+  ON search_documents
+  FOR EACH ROW
+  EXECUTE PROCEDURE search_document_before_insert();
+
+
 CREATE INDEX search_documents_lower_author_idx ON search_documents(LOWER(author));
 CREATE INDEX search_documents_tags_idx ON search_documents USING GIN (tags);
     SQL
