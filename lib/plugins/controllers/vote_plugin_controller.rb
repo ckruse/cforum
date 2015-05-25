@@ -116,8 +116,8 @@ class VotePluginController < ApplicationController
         if @vote.vtype == CfVote::UPVOTE
           CfVote.connection.execute "UPDATE messages SET downvotes = downvotes - 1, upvotes = upvotes + 1 WHERE message_id = " + @message.message_id.to_s
 
+          CfScore.delete_all(['user_id = ? AND vote_id = ?', current_user.user_id, @vote.vote_id])
           unless @message.user_id.blank?
-            CfScore.delete_all(['user_id = ? AND vote_id = ?', current_user.user_id, @vote.vote_id])
             CfScore.where('user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id).update_all(['value = ?', vote_up_value])
           end
 
