@@ -1,0 +1,5 @@
+<%= render 'admin/admin_subnav' %>
+
+<ul>
+  <li<% if action_name == 'new' %> class="active"<% end %>><%= link_to t('admin.search_sections.new_search_section'), new_admin_search_section_path %></li>
+</ul>

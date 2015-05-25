@@ -4,4 +4,5 @@
   <li<% if controller_name == 'cf_forums' and action_name != 'new' %> class="active"<% end %>><%= link_to t('global.forums'), admin_forums_path %></li>
   <li<% if controller_name == 'cf_groups' and action_name != 'new' %> class="active"<% end %>><%= link_to t('global.groups'), admin_groups_path %></li>
   <li<% if controller_name == 'cf_badges' and action_name != 'new' %> class="active"<% end %>><%= link_to t('global.badges'), admin_badges_path %></li>
+  <li<% if controller_name == 'search_sections' and action_name != 'new' %> class="active"<% end %>><%= link_to t('admin.search_sections.index'), admin_search_sections_path %></li>
 </ul>

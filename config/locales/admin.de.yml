@@ -106,3 +106,19 @@ de:
       edit: Abzeichen bearbeiten
       delete: "Abzeichen löschen"
 
+    search_sections:
+      new_search_section: Neue Such-Sektion
+      index: Such-Sektionen
+      updated: Such-Sektion erfolgreich geändert
+      created: Such-Sektion erfolgreich erstellt
+      destroyed: Such-Sektion erfolgreich gelöscht
+
+      error_message:
+        other: "%{count} Fehler verhinderten, dass diese Such-Sektion gespeichert werden konnte:"
+        one: "%{count} Fehler verhindert, dass diese Such-Sektion gespeichert werden konnte:"
+      new_badge: neue Such-Sektion erstellen
+      edit: "Such-Sektion %{name} bearbeiten"
+
+      edit: Such-Sektion bearbeiten
+      delete: "Such-Sektion löschen"
+
