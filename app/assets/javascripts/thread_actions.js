@@ -48,6 +48,10 @@ $(function() {
 
     $this.blur();
 
+    if(window.console) {
+      console.log(action + ".json", data);
+    }
+
     $.post(action + '.json', data).
       done(function(data) {
         if($this.is('.icon-thread.mark-invisible')) {
