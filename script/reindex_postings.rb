@@ -76,7 +76,7 @@ begin
     doc.save!
 
     i += 1
-    puts m.created_at.strftime('%Y-%m-%d') + ' - ' + m.message_id.to_s if i == 999
+    puts m.created_at.strftime('%Y-%m-%d') + ' - ' + m.message_id.to_s if i == no_messages - 1
   end
 end while not msgs.blank?
 
