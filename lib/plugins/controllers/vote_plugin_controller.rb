@@ -146,14 +146,14 @@ class VotePluginController < ApplicationController
             vote_id: @vote.vote_id,
             value: vtype == CfVote::UPVOTE ? vote_up_value : vote_down_value
           )
+        end
 
-          if vtype == CfVote::DOWNVOTE
-            CfScore.create!(
-              user_id: current_user.user_id,
-              vote_id: @vote.vote_id,
-              value: vote_down_value
-            )
-          end
+        if vtype == CfVote::DOWNVOTE
+          CfScore.create!(
+            user_id: current_user.user_id,
+            vote_id: @vote.vote_id,
+            value: vote_down_value
+          )
         end
 
         if @vote.vtype == CfVote::UPVOTE
