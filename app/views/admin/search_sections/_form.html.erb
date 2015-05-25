@@ -25,6 +25,13 @@
 <div class="cf-cgroup">
   <%= f.label :active_by_default %>
   <div class="cntrls">
-    <%= f.check_box :active_by_default %>
+    <label class="checkbox"><%= f.check_box :active_by_default %></label>
+  </div>
+</div>
+
+<div class="cf-cgroup">
+  <%= f.label :forum_id %>
+  <div class="cntrls">
+    <%= f.collection_select :forum_id, CfForum.order(:position).all, :forum_id, :name, include_blank: true %>
   </div>
 </div>

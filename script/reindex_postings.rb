@@ -57,22 +57,24 @@ begin
         doc = SearchDocument.new(reference_id: m.message_id)
       end
 
-      if sections[m.forum.name].blank?
-        sections[m.forum.name] = SearchSection.where(name: m.forum.name).first
-        sections[m.forum.name] = SearchSection.create!(name: m.forum.name,
-                                                       position: -1) if sections[m.forum.name].blank?
+      if sections[m.forum_id].blank?
+        sections[m.forum_id] = SearchSection.where(forum_id: m.forum_id).first
+        sections[m.forum_id] = SearchSection.create!(name: m.forum.name,
+                                                     position: -1,
+                                                     forum_id: m.forum_id) if sections[m.forum_id].blank?
       end
 
       doc.author = m.author
       doc.user_id = m.user_id
       doc.title = m.subject
       doc.content = m.to_search(self)
-      doc.search_section_id = sections[m.forum.name].search_section_id
+      doc.search_section_id = sections[m.forum_id].search_section_id
       doc.url = cf_message_url(m.thread, m)
       doc.relevance = base_relevance.to_f + (m.score.to_f / 10.0) + (m.flags['accepted'] == 'yes' ? 0.5 : 0.0) + ('0.0' + m.created_at.year.to_s).to_f
       doc.lang = Cforum::Application.config.search_dict
       doc.document_created = m.created_at
       doc.tags = m.tags.map { |t| t.tag_name.downcase }
+      doc.forum_id = m.forum_id
 
       doc.save!
 

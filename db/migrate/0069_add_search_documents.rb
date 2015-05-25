@@ -7,13 +7,15 @@ CREATE TABLE search_sections (
   search_section_id SERIAL NOT NULL PRIMARY KEY,
   name TEXT NOT NULL UNIQUE,
   position INTEGER NOT NULL,
-  active_by_default BOOLEAN NOT NULL DEFAULT false
+  active_by_default BOOLEAN NOT NULL DEFAULT false,
+  forum_id BIGINT REFERENCES forums(forum_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE search_documents (
   search_document_id BIGSERIAL NOT NULL PRIMARY KEY,
   search_section_id INTEGER NOT NULL REFERENCES search_sections(search_section_id) ON DELETE CASCADE ON UPDATE CASCADE,
   reference_id BIGINT UNIQUE,
+  forum_id BIGINT REFERENCES forums(forum_id) ON DELETE CASCADE ON UPDATE CASCADE,
   user_id BIGINT REFERENCES users(user_id) ON DELETE SET NULL ON UPDATE CASCADE,
   url TEXT UNIQUE NOT NULL,
   relevance FLOAT NOT NULL,

@@ -1234,6 +1234,7 @@ CREATE TABLE search_documents (
     search_document_id bigint NOT NULL,
     search_section_id integer NOT NULL,
     reference_id bigint,
+    forum_id bigint,
     user_id bigint,
     url text NOT NULL,
     relevance double precision NOT NULL,
@@ -1276,7 +1277,8 @@ CREATE TABLE search_sections (
     search_section_id integer NOT NULL,
     name text NOT NULL,
     "position" integer NOT NULL,
-    active_by_default boolean DEFAULT false NOT NULL
+    active_by_default boolean DEFAULT false NOT NULL,
+    forum_id bigint
 );
 
 
@@ -2731,6 +2733,14 @@ ALTER TABLE ONLY scores
 
 
 --
+-- Name: search_documents_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY search_documents
+    ADD CONSTRAINT search_documents_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: search_documents_search_section_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2744,6 +2754,14 @@ ALTER TABLE ONLY search_documents
 
 ALTER TABLE ONLY search_documents
     ADD CONSTRAINT search_documents_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: search_sections_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY search_sections
+    ADD CONSTRAINT search_sections_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

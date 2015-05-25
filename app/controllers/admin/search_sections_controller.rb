@@ -20,7 +20,7 @@ class Admin::SearchSectionsController < ApplicationController
   def search_section_params
     params.
       require(:search_section).
-      permit(:name, :position, :active_by_default)
+      permit(:name, :position, :active_by_default, :forum_id)
   end
 
   def update

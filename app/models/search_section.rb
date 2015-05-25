@@ -5,6 +5,8 @@ class SearchSection < ActiveRecord::Base
   self.table_name  = 'search_sections'
 
   validates_presence_of :name, :position
+
+  belongs_to :forum, class_name: 'CfForum', foreign_key: :forum_id
 end
 
 # eof

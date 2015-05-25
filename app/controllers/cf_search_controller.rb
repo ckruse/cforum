@@ -14,8 +14,12 @@ class CfSearchController < ApplicationController
   end
 
   def show
-    @sections = SearchSection.order(:position, :name).all
+    @sections = SearchSection.order(:position, :name)
     @search_sections = params[:sections]
+
+    unless current_user.try(:admin?)
+      @sections = @sections.where('forum_id IS NULL OR forum_id IN (?)', @forums.map { |f| f.forum_id })
+    end
 
     if @search_sections.blank?
       @search_sections = (@sections.to_a.select { |s| s.active_by_default }).map { |s| s.search_section_id }
@@ -94,6 +98,11 @@ class CfSearchController < ApplicationController
                         order('rank DESC, document_created DESC').
                         page(params[:page]).per(@limit)
       @search_results = @search_results.select(select_title.join(', ')) unless select_title.blank?
+
+      # check for permissions
+      unless current_user.try(:admin?)
+        @search_results = @search_results.where('forum_id IS NULL OR forum_id IN (?)', @forums.map { |f| f.forum_id })
+      end
 
     end
 
