@@ -37,7 +37,10 @@ end
 def handle_messages(old_msg, x_msg, thread)
   mid = x_msg['id'].gsub(/^m/, '')
 
-  msg = CfMessage.where(mid: mid).first
+  msg = CfMessage.
+        where(mid: mid,
+              thread_id: thread.thread_id).
+        first
 
   if msg.blank?
     $stderr.puts "NEW MESSAGE!"
