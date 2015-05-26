@@ -4,7 +4,7 @@ require 'strscan'
 
 module CforumMarkup
   def cforum2markdown(content)
-    doc = StringScanner.new(content)
+    doc = StringScanner.new(content.gsub(/&#160;/, ' '))
     ncnt = ''
     coder = HTMLEntities.new
     code_open = 0
@@ -15,7 +15,7 @@ module CforumMarkup
         ncnt << "\n-- \n"
         in_quote = 0
 
-      elsif doc.scan(/(<br \/>|^)((?:\s|&#160;)*)#/)
+      elsif doc.scan(/(<br \/>|^)([\s ]*)#/)
         if $1 == "<br />"
           ncnt << "\n"
           in_quote = 0
