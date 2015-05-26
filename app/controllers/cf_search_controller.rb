@@ -83,7 +83,18 @@ class CfSearchController < ApplicationController
       end
 
       unless @query[:author].blank?
-        @search_results = @search_results.where("lower(author) IN (?)", @query[:author].map { |a| a.downcase })
+        q = to_ts_query(@query[:author])
+        quoted_q = SearchDocument.connection.quote(q)
+
+        @search_results = @search_results.
+                          where("ts_author @@ to_tsquery('" +
+                                Cforum::Application.config.search_dict +
+                                "', ?)", q)
+
+        select << "ts_rank_cd(ts_author, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + "), 32)"
+        select_title << "ts_headline('" +
+          Cforum::Application.config.search_dict +
+          "', author, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + ")) AS headline_author"
       end
 
       unless @query[:tags].empty?

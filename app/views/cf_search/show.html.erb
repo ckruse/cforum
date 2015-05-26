@@ -76,9 +76,12 @@ content_for :robots, 'noindex,nofollow'
         </header>
 
         <ol>
+          <% unless result.attributes['headline_author'].blank? %>
+            <li><%= result.headline_author.html_safe %></li>
+          <% end %>
+
           <% unless result.attributes['headline_title'].blank? %>
             <li><%= result.headline_title.html_safe %></li>
-            <% had_desc = true %>
           <% end %>
 
           <% unless result.attributes['headline_doc'].blank? %>

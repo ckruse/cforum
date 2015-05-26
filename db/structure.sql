@@ -436,6 +436,7 @@ CREATE FUNCTION search_document_before_insert() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
+  NEW.ts_author = to_tsvector(NEW.lang::regconfig, NEW.author);
   NEW.ts_title = to_tsvector(NEW.lang::regconfig, NEW.title);
   NEW.ts_content = to_tsvector(NEW.lang::regconfig, NEW.content);
   NEW.ts_document = setweight(to_tsvector(NEW.lang::regconfig, NEW.author), 'A')  || setweight(to_tsvector(NEW.lang::regconfig, NEW.title), 'B') || setweight(to_tsvector(NEW.lang::regconfig, NEW.content), 'B');
@@ -1246,7 +1247,8 @@ CREATE TABLE search_documents (
     ts_document tsvector NOT NULL,
     document_created timestamp without time zone,
     lang text NOT NULL,
-    tags text[] NOT NULL
+    tags text[] NOT NULL,
+    ts_author tsvector NOT NULL
 );
 
 
@@ -2161,6 +2163,13 @@ CREATE UNIQUE INDEX scores_user_id_vote_id_idx ON scores USING btree (user_id, v
 
 
 --
+-- Name: search_documents_author_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX search_documents_author_idx ON search_documents USING gin (ts_author);
+
+
+--
 -- Name: search_documents_content_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2172,13 +2181,6 @@ CREATE INDEX search_documents_content_idx ON search_documents USING gin (ts_cont
 --
 
 CREATE INDEX search_documents_document_idx ON search_documents USING gin (ts_document);
-
-
---
--- Name: search_documents_lower_author_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX search_documents_lower_author_idx ON search_documents USING btree (lower(author));
 
 
 --
@@ -2417,6 +2419,13 @@ CREATE TRIGGER messages_tags__count_insert_trigger AFTER INSERT ON messages_tags
 --
 
 CREATE TRIGGER search_documents__before_insert_trigger BEFORE INSERT ON search_documents FOR EACH ROW EXECUTE PROCEDURE search_document_before_insert();
+
+
+--
+-- Name: search_documents__before_update_trigger; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER search_documents__before_update_trigger BEFORE UPDATE ON search_documents FOR EACH ROW EXECUTE PROCEDURE search_document_before_insert();
 
 
 --
@@ -2975,6 +2984,8 @@ INSERT INTO schema_migrations (version) VALUES ('68');
 INSERT INTO schema_migrations (version) VALUES ('69');
 
 INSERT INTO schema_migrations (version) VALUES ('7');
+
+INSERT INTO schema_migrations (version) VALUES ('70');
 
 INSERT INTO schema_migrations (version) VALUES ('8');
 
