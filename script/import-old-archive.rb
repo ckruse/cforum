@@ -154,7 +154,7 @@ def handle_doc(doc, opts = {})
 
   thread = CfThread.
            where(tid: x_thread['id'].force_encoding('utf-8')[1..-1]).
-           where("EXTRACT('year' FROM created_at) = ?", the_date.year).
+           where("EXTRACT('year' FROM created_at) = ?", the_date.utc.year).
            first
 
   if thread.blank?
