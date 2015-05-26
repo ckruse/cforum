@@ -87,14 +87,12 @@ class CfSearchController < ApplicationController
         quoted_q = SearchDocument.connection.quote(q)
 
         @search_results = @search_results.
-                          where("ts_author @@ to_tsquery('" +
-                                Cforum::Application.config.search_dict +
-                                "', ?)", q)
+                          where("ts_author @@ to_tsquery('simple', ?)", q)
 
-        select << "ts_rank_cd(ts_author, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + "), 32)"
+        select << "ts_rank_cd(ts_author, to_tsquery('simple', " + quoted_q + "), 32)"
         select_title << "ts_headline('" +
           Cforum::Application.config.search_dict +
-          "', author, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + ")) AS headline_author"
+          "', author, to_tsquery('simple', " + quoted_q + ")) AS headline_author"
       end
 
       unless @query[:tags].empty?
