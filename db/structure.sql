@@ -436,7 +436,7 @@ CREATE FUNCTION search_document_before_insert() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-  NEW.ts_author = to_tsvector(NEW.lang::regconfig, NEW.author);
+  NEW.ts_author = to_tsvector('simple', NEW.author);
   NEW.ts_title = to_tsvector(NEW.lang::regconfig, NEW.title);
   NEW.ts_content = to_tsvector(NEW.lang::regconfig, NEW.content);
   NEW.ts_document = setweight(to_tsvector(NEW.lang::regconfig, NEW.author), 'A')  || setweight(to_tsvector(NEW.lang::regconfig, NEW.title), 'B') || setweight(to_tsvector(NEW.lang::regconfig, NEW.content), 'B');
@@ -2986,6 +2986,8 @@ INSERT INTO schema_migrations (version) VALUES ('69');
 INSERT INTO schema_migrations (version) VALUES ('7');
 
 INSERT INTO schema_migrations (version) VALUES ('70');
+
+INSERT INTO schema_migrations (version) VALUES ('71');
 
 INSERT INTO schema_migrations (version) VALUES ('8');
 
