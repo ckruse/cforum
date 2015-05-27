@@ -2177,6 +2177,13 @@ CREATE INDEX search_documents_content_idx ON search_documents USING gin (ts_cont
 
 
 --
+-- Name: search_documents_document_created_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX search_documents_document_created_idx ON search_documents USING btree (document_created);
+
+
+--
 -- Name: search_documents_document_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2988,6 +2995,8 @@ INSERT INTO schema_migrations (version) VALUES ('7');
 INSERT INTO schema_migrations (version) VALUES ('70');
 
 INSERT INTO schema_migrations (version) VALUES ('71');
+
+INSERT INTO schema_migrations (version) VALUES ('72');
 
 INSERT INTO schema_migrations (version) VALUES ('8');
 
