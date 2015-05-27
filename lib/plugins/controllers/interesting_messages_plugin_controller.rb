@@ -52,7 +52,7 @@ class InterestingMessagesPluginController < ApplicationController
     @limit = conf('pagination').to_i
 
     @messages = CfMessage.
-                preload(:forum, :tags, {votes: :voters}).
+                preload(:owner, :tags, thread: :forum, votes: :voters).
                 includes(:thread).
                 joins('INNER JOIN interesting_messages im ON im.message_id = messages.message_id').
                 where('im.user_id = ?', current_user.user_id).
