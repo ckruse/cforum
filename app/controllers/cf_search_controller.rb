@@ -108,6 +108,22 @@ class CfSearchController < ApplicationController
                         page(params[:page]).per(@limit)
       @search_results = @search_results.select(select_title.join(', ')) unless select_title.blank?
 
+      unless params[:start_date].blank?
+        @search_results = @search_results.
+                          where('document_created >= ?',
+                                Time.zone.parse(params[:start_date][:year].to_s + '-' +
+                                                params[:start_date][:month].to_s + '-' +
+                                                params[:start_date][:day].to_s + ' 00:00:00'))
+      end
+
+      unless params[:stop_date].blank?
+        @search_results = @search_results.
+                          where('document_created <= ?',
+                                Time.zone.parse(params[:stop_date][:year].to_s + '-' +
+                                                params[:stop_date][:month].to_s + '-' +
+                                                params[:stop_date][:day].to_s + ' 23:59:59'))
+      end
+
       # check for permissions
       unless current_user.try(:admin?)
         @search_results = @search_results.where('forum_id IS NULL OR forum_id IN (?)', @forums.map { |f| f.forum_id })
