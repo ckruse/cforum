@@ -52,10 +52,12 @@ class InterestingMessagesPluginController < ApplicationController
     @limit = conf('pagination').to_i
 
     @messages = CfMessage.
-      preload(:thread, :forum, :tags, {votes: :voters}).
-      joins('INNER JOIN interesting_messages USING(message_id)').
-      where('interesting_messages.user_id = ?', current_user.user_id).
-      order(:created_at).page(params[:p]).per(@limit)
+                preload(:forum, :tags, {votes: :voters}).
+                includes(:thread).
+                joins('INNER JOIN interesting_messages im ON im.message_id = messages.message_id').
+                where('im.user_id = ?', current_user.user_id).
+                where(deleted: false, threads: {deleted: false}).
+                order(:created_at).page(params[:p]).per(@limit)
 
     ret = notification_center.notify(SHOW_INTERESTING_MESSAGELIST, @messages)
 
