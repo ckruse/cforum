@@ -347,12 +347,12 @@ class CfMessagesController < ApplicationController
     saved = false
     if not invalid
       CfMessage.transaction do
-        raise ActiveRecord::Rollback unless @message.tags.delete_all
+        @message.tags.delete_all
         raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
 
         if params[:retag_answers] == '1'
           @message.all_answers do |m|
-            raise ActiveRecord::Rollback unless m.tags.delete_all
+            m.tags.delete_all
             raise ActiveRecord::Rollback unless save_tags(current_forum, m, @tags)
           end
         end
