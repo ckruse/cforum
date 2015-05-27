@@ -32,6 +32,8 @@ de:
     redirect_thread_multiple: mehrere mögliche Threads gefunden
     only_visible_for_you: Nur für Sie sichtbar
     default_value: "Default-Wert (%{name})"
+    from: Von
+    to: Bis
 
     scores:
       right_upvote: Upvote-Recht

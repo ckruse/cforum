@@ -3,6 +3,29 @@
 require 'strscan'
 
 class CfSearchController < ApplicationController
+  before_filter :set_start_stop
+
+  def set_start_stop
+    unless params[:stop_date].blank?
+      @stop_date = Time.zone.parse(params[:stop_date][:year].to_s + '-' +
+                                   params[:stop_date][:month].to_s + '-' +
+                                   params[:stop_date][:day].to_s + ' 23:59:59')
+    else
+      @stop_date = Date.today
+    end
+
+    unless params[:start_date].blank?
+      @start_date = Time.zone.parse(params[:start_date][:year].to_s + '-' +
+                                    params[:start_date][:month].to_s + '-' +
+                                    params[:start_date][:day].to_s + ' 00:00:00')
+    else
+      @start_date = Date.today - 2.years
+    end
+
+    doc = SearchDocument.order('document_created').first
+    @min_year = doc.document_created.year if doc
+  end
+
   def to_ts_query(terms)
     (terms.map { |t|
        if t[0] == '-'
@@ -108,21 +131,12 @@ class CfSearchController < ApplicationController
                         page(params[:page]).per(@limit)
       @search_results = @search_results.select(select_title.join(', ')) unless select_title.blank?
 
-      unless params[:start_date].blank?
-        @search_results = @search_results.
-                          where('document_created >= ?',
-                                Time.zone.parse(params[:start_date][:year].to_s + '-' +
-                                                params[:start_date][:month].to_s + '-' +
-                                                params[:start_date][:day].to_s + ' 00:00:00'))
-      end
 
-      unless params[:stop_date].blank?
-        @search_results = @search_results.
-                          where('document_created <= ?',
-                                Time.zone.parse(params[:stop_date][:year].to_s + '-' +
-                                                params[:stop_date][:month].to_s + '-' +
-                                                params[:stop_date][:day].to_s + ' 23:59:59'))
-      end
+      @search_results = @search_results.
+                        where('document_created >= ?', @start_date)
+
+      @search_results = @search_results.
+                        where('document_created <= ?', @stop_date)
 
       # check for permissions
       unless current_user.try(:admin?)

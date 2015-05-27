@@ -38,16 +38,16 @@ content_for :robots, 'noindex,nofollow'
   </div>
 
   <div class="cf-cgroup date-select">
-    <label>Von</label>
+    <label><%= t('global.from') %></label>
     <div class="cntrls">
-      <%= select_date Date.today - 2.years, prefix: :start_date %>
+      <%= select_date @start_date, prefix: :start_date, end_year: DateTime.now.year, start_year: @min_year %>
     </div>
   </div>
 
   <div class="cf-cgroup date-select">
-    <label>Bis</label>
+    <label><%= t('global.to') %></label>
     <div class="cntrls">
-      <%= select_date Date.today, prefix: :stop_date %>
+      <%= select_date @stop_date, prefix: :stop_date, end_year: DateTime.now.year, start_year: @min_year %>
     </div>
   </div>
 
@@ -68,7 +68,6 @@ content_for :robots, 'noindex,nofollow'
         <header>
           <span class="thread-forum-plate"><%= result.search_section.name %></span>
           <h3><%= link_to result.title, result.url %></h3>
-          von
           <div class="details">
             <span class="author">
               <% if result.user_id %>
