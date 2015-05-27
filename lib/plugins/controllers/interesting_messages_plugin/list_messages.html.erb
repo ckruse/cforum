@@ -15,3 +15,5 @@ content_for(:body_classes, 'interesting-messages list')
                                                         first: false, do_parent: false,
                                                         show_votes: true) %></article>
 <% end %>
+
+<%= paginate @messages %>

@@ -57,7 +57,7 @@ class InterestingMessagesPluginController < ApplicationController
                 joins('INNER JOIN interesting_messages im ON im.message_id = messages.message_id').
                 where('im.user_id = ?', current_user.user_id).
                 where(deleted: false, threads: {deleted: false}).
-                order(:created_at).page(params[:p]).per(@limit)
+                order(:created_at).page(params[:page]).per(@limit)
 
     ret = notification_center.notify(SHOW_INTERESTING_MESSAGELIST, @messages)
 
