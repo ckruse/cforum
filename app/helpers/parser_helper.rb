@@ -34,7 +34,8 @@ module ParserHelper
       header_offset: opts[:header_start_index] || app.conf('header_start_index'),
       auto_id_prefix: id_prefix + '-',
       no_follow: true,
-      root_url: opts[:root_url] || app.root_url
+      root_url: opts[:root_url] || app.root_url,
+      math_engine_opts: { preview: true }
     )
 
     if @doc.blank?
