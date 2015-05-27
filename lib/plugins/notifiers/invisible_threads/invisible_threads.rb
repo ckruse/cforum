@@ -124,6 +124,13 @@ class InvisibleThreadsPlugin < Plugin
     end
   end
   alias show_archive_threadlist show_threadlist
+
+  def show_invisible_threadlist(threads)
+    @cache[current_user.user_id] ||= {}
+    threads.each do |t|
+      @cache[current_user.user_id][t.thread_id] = true
+    end
+  end
 end
 
 ApplicationController.init_hooks << Proc.new do |app_controller|
@@ -134,6 +141,9 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
                   inv_threads_plugin)
   app_controller.notification_center.
     register_hook(CfThreadsController::SHOW_THREADLIST,
+                  inv_threads_plugin)
+  app_controller.notification_center.
+    register_hook(InvisibleThreadsPluginController::SHOW_INVISIBLE_THREADLIST,
                   inv_threads_plugin)
   app_controller.notification_center.
     register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST,
