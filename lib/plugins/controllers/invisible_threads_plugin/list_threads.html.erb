@@ -13,3 +13,5 @@ content_for(:body_classes, 'invisible-threads list')
     <%=  render 'cf_threads/thread', thread: t %>
   <% end %>
 </div>
+
+<%= paginate @threads %>
