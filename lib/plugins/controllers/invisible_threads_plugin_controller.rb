@@ -8,11 +8,24 @@ class InvisibleThreadsPluginController < ApplicationController
   def list_threads
     @limit = conf('pagination').to_i
 
+    order = uconf('sort_threads')
+    case order
+    when 'ascending'
+      order = 'threads.created_at ASC'
+    when 'newest-first'
+      order = 'threads.latest_message DESC'
+    else
+      order = 'threads.created_at DESC'
+    end
+
+
     @threads = CfThread.
-      preload(:forum, messages: [:owner, :tags, {votes: :voters}]).
-      joins('INNER JOIN invisible_threads USING(thread_id)').
-      where('invisible_threads.user_id = ?', current_user.user_id).
-      order(:created_at).page(params[:p]).per(@limit)
+               preload(:forum, messages: [:owner, :tags, {votes: :voters}]).
+               includes(messages: :owner).
+               joins('INNER JOIN invisible_threads iv ON iv.thread_id = threads.thread_id').
+               where('iv.user_id = ?', current_user.user_id).
+               where(deleted: false, messages: {deleted: false}).
+               order(order).page(params[:page]).per(@limit)
 
     @threads.each do |thread|
       sort_thread(thread)
