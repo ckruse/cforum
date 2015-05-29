@@ -6,7 +6,7 @@ content_for :body_classes, 'search'
 content_for :robots, 'noindex,nofollow'
 %>
 
-<%= form_tag search_path, class: 'form-horizontal', method: 'get', rel: 'nofollow' do %>
+<%= form_tag search_path + '#results', class: 'form-horizontal', method: 'get', rel: 'nofollow' do %>
   <div class="cf-cgroup">
     <label for="term"><%= t('search.search_for') %></label>
 
@@ -66,8 +66,9 @@ content_for :robots, 'noindex,nofollow'
 <% end %>
 
 <% if @search_results %>
-  <h2><%= t('search.results', count: @search_results.total_count) %></h2>
+  <h2 id="results"><%= t('search.results', count: @search_results.total_count) %></h2>
 
+  <% @doc_fragment = '#results' %>
   <%= paginate @search_results %>
 
   <div class="root search-results">
