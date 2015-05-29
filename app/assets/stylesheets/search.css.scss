@@ -2,8 +2,12 @@
 
 ul.search-explanation {
   padding:0;
-  font-size:.8em;
   margin-left:1em;
+}
+
+.search-show-help {
+  cursor:pointer;
+  color: #3481cd;
 }
 
 .search-results {
