@@ -4,6 +4,7 @@ de:
     rank: Relevanz und Treffergenauigkeit
     date: Datum
     search: SELFHTML Suche
+    search_top: Suche
     search_found:
       one: "SELFHTML Suche nach %{term}: 1 Suchergebnis"
       other: "SELFHTML Suche nach %{term}: %{count} Suchergebnisse"

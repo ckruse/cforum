@@ -21,6 +21,35 @@
       color: white;
     }
   }
+
+  #search p {
+    margin: 0;
+    float: right;
+  }
+  #search label { display:none; }
+  #search #topterm {
+    border: 0 none;
+    color: white;
+    font-family: Calibri, 'PT sans', sans-serif;
+    font-size: 1em;
+    padding: .2em .2em .2em 1.2em;
+    background: url("http://src.selfhtml.org/search-white.png") no-repeat scroll 0 center transparent;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  #search #topterm:focus {
+    color: #afafaf;
+    background: url("http://src.selfhtml.org/search-lightgrey.png") no-repeat scroll .2em center white;
+    cursor: text;
+  }
+
+  #search ::input-placeholder { color: white; }
+
+  #topterm,
+  #topterm:hover {
+    transition: all 0.2s ease-in-out 0s;
+  }
 }
 
 #top ul,
