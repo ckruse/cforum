@@ -34,14 +34,14 @@
     font-family: Calibri, 'PT sans', sans-serif;
     font-size: 1em;
     padding: .2em .2em .2em 1.2em;
-    background: url("http://src.selfhtml.org/search-white.png") no-repeat scroll 0 center transparent;
+    background: asset-data-url("search-white.png") no-repeat scroll 0 center transparent;
     border-radius: 6px;
     cursor: pointer;
   }
 
   #search #topterm:focus {
     color: #afafaf;
-    background: url("http://src.selfhtml.org/search-lightgrey.png") no-repeat scroll .2em center white;
+    background: asset-data-url("search-lightgrey.png") no-repeat scroll .2em center white;
     cursor: text;
   }
 
