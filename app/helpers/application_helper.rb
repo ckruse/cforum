@@ -43,6 +43,26 @@ module ApplicationHelper
     nam = nam.strip.downcase
     nam.gsub(/[^a-zA-Z0-9]/, '-')
   end
+
+  def cf_button_to(url, args = {})
+    str = '<form class="button_to" method="' <<
+          (args[:method] || 'post') << '" action="' <<
+          url << '">' << "<button"
+
+    str << ' title="' + encode_entities(args[:title]) + '"' unless args[:title].blank?
+    str << ' class="' + encode_entities(args[:class]) + '"' unless args[:class].blank?
+    str << ' type="submit"></button><input type="hidden" name="authenticity_token" value="' <<
+      form_authenticity_token << '">'
+
+    unless args[:params].blank?
+      for k, v in args[:params]
+        str << '<input type="hidden" name="' + encode_entities(k.to_s) + '" value="' + encode_entities(v.to_s) + '">'
+      end
+    end
+
+    str << '</form>'
+    return str
+  end
 end
 
 require 'pp'
