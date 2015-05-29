@@ -111,6 +111,7 @@ class InterestingMessagesPlugin < Plugin
 
         if messages_map[row['message_id'].to_i]
           messages_map[row['message_id'].to_i].first.attribs['classes'] << 'interesting'
+          messages_map[row['message_id'].to_i].first.attribs[:is_interesting] = true
           messages_map[row['message_id'].to_i].second.attribs['classes'] << 'has-interesting'
         end
       end
