@@ -51,6 +51,15 @@ content_for :robots, 'noindex,nofollow'
     </div>
   </div>
 
+  <div class="cf-cgroup">
+    <label><%= t('search.order') %></label>
+    <div class="cntrls">
+      <label class="radio"><%= radio_button_tag :order, 'rank', @order != 'document_created' %> <%= t('search.rank') %></label>
+      <label class="radio"><%= radio_button_tag :order, 'document_created', @order == 'document_created' %> <%= t('search.date') %></label>
+    </div>
+  </div>
+
+
   <p>
     <%= submit_tag t('search.do_search'), class: 'cf-primary-btn', name: nil %>
   </p>

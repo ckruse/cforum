@@ -24,6 +24,9 @@ class CfSearchController < ApplicationController
 
     doc = SearchDocument.order('document_created').first
     @min_year = doc.document_created.year if doc
+
+    @order = params[:order]
+    @order = 'rank' if @order.blank? or not %w(document_created rank).include?(@order)
   end
 
   def to_ts_query(terms)
@@ -127,7 +130,6 @@ class CfSearchController < ApplicationController
                         preload(:user, :search_section).
                         select(select.join(' + ') + " AS rank").
                         where(search_section_id: @search_sections).
-                        order('rank DESC, document_created DESC').
                         page(params[:page]).per(@limit)
       @search_results = @search_results.select(select_title.join(', ')) unless select_title.blank?
 
@@ -143,6 +145,12 @@ class CfSearchController < ApplicationController
         @search_results = @search_results.where('forum_id IS NULL OR forum_id IN (?)', @forums.map { |f| f.forum_id })
       end
 
+      order = if @order == 'document_created'
+                'document_created DESC NULLS LAST, rank DESC'
+              else
+                'rank DESC, document_created DESC NULLS FIRST'
+              end
+      @search_results = @search_results.order(order)
     end
 
     render :show
