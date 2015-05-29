@@ -51,20 +51,31 @@ class CfThread < ActiveRecord::Base
     @message
   end
 
-  def gen_tree
+  def gen_tree(direction = 'ascending')
     self.accepted = []
+    map = {}
+
     @sorted_messages = messages.sort do |a,b|
-      ret = a.created_at <=> b.created_at
-      ret = a.message_id <=> b.message_id if ret == 0
+      ret = a.parent_id.to_i <=> b.parent_id.to_i
+
+      if ret == 0
+        if direction == 'ascending'
+          ret = a.created_at <=> b.created_at
+        else
+          ret = b.created_at <=> a.created_at
+        end
+
+        ret = a.message_id <=> b.message_id if ret == 0
+      end
 
       ret
     end
 
-    map = {}
-    @sorted_messages.map { |m| map[m.message_id] = m }
+    @sorted_messages.first.attribs[:level] = 0
 
-    @sorted_messages.each do |msg|
+    for msg in @sorted_messages
       self.accepted << msg if msg.flags["accepted"] == 'yes'
+      @message = msg if msg.parent_id.blank?
 
       map[msg.message_id] = msg
       msg.messages = [] unless msg.messages
@@ -72,11 +83,13 @@ class CfThread < ActiveRecord::Base
       if msg.parent_id
         if map[msg.parent_id]
           map[msg.parent_id].messages ||= []
+          msg.attribs[:level] = map[msg.parent_id].attribs[:level] + 1
 
           map[msg.parent_id].messages << msg
           msg.parent_level = map[msg.parent_id]
         else
           if @sorted_messages[0].message_id != msg.message_id
+            msg.attribs[:level] = 1
             @sorted_messages[0].messages << msg
             msg.parent_level = @sorted_messages[0]
           end

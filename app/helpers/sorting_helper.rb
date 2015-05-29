@@ -5,8 +5,8 @@ module SortingHelper
     direction = uconf('sort_messages') if direction.blank?
 
     if message.blank?
-      thread.gen_tree
-      message = thread.sorted_messages[0]
+      thread.gen_tree(direction)
+      return
     end
 
     unless message.messages.blank?
@@ -16,7 +16,7 @@ module SortingHelper
         message.messages.sort! { |a,b| b.created_at <=> a.created_at }
       end
 
-      message.messages.each do |m|
+      for m in message.messages
         sort_thread(thread, m, direction)
       end
     end

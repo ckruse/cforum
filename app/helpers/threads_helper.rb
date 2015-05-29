@@ -103,14 +103,14 @@ module ThreadsHelper
     return @threads.to_sql, @sticky_threads.to_sql if only_sql
 
     if gen_tree
-      @threads.each do |t|
+      for t in @threads
         sort_thread(t)
       end
     end
 
     if with_sticky
       if gen_tree
-        @sticky_threads.each do |t|
+        for t in @sticky_threads
           sort_thread(t)
         end
       end
