@@ -46,65 +46,61 @@ module MessageHelper
 
     opened = []
 
-    Rack::MiniProfiler.step "icons_thread" do
-      if opts[:first] and current_user and opts[:show_icons] and not @view_all
-        html << "<span class=\"thread-icons\">"
-        opened << 'span'
+    if opts[:first] and current_user and opts[:show_icons] and not @view_all
+      html << "<span class=\"thread-icons\">"
+      opened << 'span'
 
-        if thread.attribs['open_state'] == 'closed'
-          html << cf_button_to(open_cf_thread_path(thread), params: std_args, title: t('plugins.open_close.open_thread'), class: 'icon-thread closed')
-        else
-          html << cf_button_to(close_cf_thread_path(thread), params: std_args, title: t('plugins.open_close.close_thread'), class: 'icon-thread open')
-        end
-
-        if get_plugin_api(:is_invisible).call(thread, current_user).blank?
-          html << cf_button_to(hide_cf_thread_path(thread), params: std_args, class: 'icon-thread mark-invisible', title: t('plugins.invisible_threads.mark_thread_invisible'))
-        else
-          html << cf_button_to(unhide_cf_thread_path(thread), params: std_args, class: 'icon-thread mark-visible', title: t('plugins.invisible_threads.mark_thread_visible'))
-        end
-
-        html << cf_button_to(mark_cf_thread_read_path(thread), params: std_args, class: 'icon-thread mark-thread-read', title: t('plugins.mark_read.mark_thread_read'))
+      if thread.attribs['open_state'] == 'closed'
+        html << cf_button_to(open_cf_thread_path(thread), params: std_args, title: t('plugins.open_close.open_thread'), class: 'icon-thread closed')
+      else
+        html << cf_button_to(close_cf_thread_path(thread), params: std_args, title: t('plugins.open_close.close_thread'), class: 'icon-thread open')
       end
+
+      if get_plugin_api(:is_invisible).call(thread, current_user).blank?
+        html << cf_button_to(hide_cf_thread_path(thread), params: std_args, class: 'icon-thread mark-invisible', title: t('plugins.invisible_threads.mark_thread_invisible'))
+      else
+        html << cf_button_to(unhide_cf_thread_path(thread), params: std_args, class: 'icon-thread mark-visible', title: t('plugins.invisible_threads.mark_thread_visible'))
+      end
+
+      html << cf_button_to(mark_cf_thread_read_path(thread), params: std_args, class: 'icon-thread mark-thread-read', title: t('plugins.mark_read.mark_thread_read'))
     end
 
-    Rack::MiniProfiler.step "view_all" do
-      if not current_user.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons] and @view_all
-        if opts[:first]
-          unless opened.include?('span')
-            html << "<span class=\"thread-icons\">"
-            opened << 'span'
-          end
-
-          html << " " << link_to('', move_cf_thread_path(thread), class: 'icon-thread move', title: t('threads.move_thread'))
-
-          html << cf_button_to(sticky_cf_thread_path(thread), params: std_args, class: 'icon-thread sticky', title: (thread.sticky ? t('threads.mark_unsticky') : t('threads.mark_sticky')))
-
-          if thread.flags['no-archive'] == 'yes'
-            html << cf_button_to(no_archive_cf_thread_path(thread), params: std_args, class: 'icon-thread archive', title: t('plugins.no_answer_no_archive.arc'))
-          else
-            html << cf_button_to(no_archive_cf_thread_path(thread), params: std_args, class: 'icon-thread no-archive', title: t('plugins.no_answer_no_archive.no_arc'))
-          end
-
-          html << "</span>"
-          opened.pop
+    if not current_user.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons] and @view_all
+      if opts[:first]
+        unless opened.include?('span')
+          html << "<span class=\"thread-icons\">"
+          opened << 'span'
         end
 
-        html << "<span class=\"message-icons\">"
-        opened << 'span'
+        html << " " << link_to('', move_cf_thread_path(thread), class: 'icon-thread move', title: t('threads.move_thread'))
 
-        if not opts[:prev_deleted]
-          if message.deleted?
-            html << cf_button_to(restore_cf_message_path(thread, message), params: std_args, class: 'icon-message restore', title: t('messages.restore_message'))
-          else
-            html << cf_button_to(cf_message_path(thread, message), method: :delete, params: std_args, class: 'icon-message delete', title: t('messages.delete_message'))
-          end
-        end
+        html << cf_button_to(sticky_cf_thread_path(thread), params: std_args, class: 'icon-thread sticky', title: (thread.sticky ? t('threads.mark_unsticky') : t('threads.mark_sticky')))
 
-        if not message.open?
-          html << cf_button_to(no_answer_cf_message_path(thread, message), params: std_args, class: 'icon-message answer', title: t('plugins.no_answer_no_archive.answer'))
+        if thread.flags['no-archive'] == 'yes'
+          html << cf_button_to(no_archive_cf_thread_path(thread), params: std_args, class: 'icon-thread archive', title: t('plugins.no_answer_no_archive.arc'))
         else
-          html << cf_button_to(no_answer_cf_message_path(thread, message), params: std_args, class: 'icon-message no-answer', title: t('plugins.no_answer_no_archive.no_answer'))
+          html << cf_button_to(no_archive_cf_thread_path(thread), params: std_args, class: 'icon-thread no-archive', title: t('plugins.no_answer_no_archive.no_arc'))
         end
+
+        html << "</span>"
+        opened.pop
+      end
+
+      html << "<span class=\"message-icons\">"
+      opened << 'span'
+
+      if not opts[:prev_deleted]
+        if message.deleted?
+          html << cf_button_to(restore_cf_message_path(thread, message), params: std_args, class: 'icon-message restore', title: t('messages.restore_message'))
+        else
+          html << cf_button_to(cf_message_path(thread, message), method: :delete, params: std_args, class: 'icon-message delete', title: t('messages.delete_message'))
+        end
+      end
+
+      if not message.open?
+        html << cf_button_to(no_answer_cf_message_path(thread, message), params: std_args, class: 'icon-message answer', title: t('plugins.no_answer_no_archive.answer'))
+      else
+        html << cf_button_to(no_answer_cf_message_path(thread, message), params: std_args, class: 'icon-message no-answer', title: t('plugins.no_answer_no_archive.no_answer'))
       end
     end
 
