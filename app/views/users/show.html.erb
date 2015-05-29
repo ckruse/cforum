@@ -128,5 +128,9 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
   <%= link_to t('users.delete'), users_confirm_destroy_path(@user), class: 'cf-btn' %>
   <% end %>
 
+  <% if current_user and @user.user_id != current_user.user_id %>
+    <%= link_to(t("mails.new_mail"), new_mail_path(cf_priv_message: {recipient_id: @user.user_id}),
+                class: 'cf-btn', rel: 'nofollow') %>
+  <% end %>
   <%= link_to t('global.back'), users_path, class: 'cf-btn' %>
 </p>
