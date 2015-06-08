@@ -79,8 +79,8 @@ class NotificationsPlugin < Plugin
 
       n = CfNotification.
           where(recipient_id: user.user_id,
-              oid: thread.thread_id,
-              is_read: false).
+                oid: thread.thread_id,
+                is_read: false).
           where("otype IN ('thread:moved')").
           first
 
