@@ -132,7 +132,7 @@ module MessageHelper
     end
 
     if opts[:show_icons]
-      html << ' <span class="votes" title="' << t('messages.votes_tree', count: message.score, score: message.score_str) << '">' << message.score.to_s << '</span>'
+      html << ' <span class="votes" title="' << t('messages.votes_tree', count: message.no_votes, score: message.score_str) << '">' << message.score.to_s << '</span>'
     end
 
     if opts[:subject]
@@ -244,9 +244,9 @@ module MessageHelper
 
     if opts[:show_votes]
       html << ' <span class="votes" title="' <<
-        t('messages.votes_tree', count: message.score, score: message.score_str) <<
+        t('messages.votes_tree', count: message.no_votes, score: message.score_str) <<
         '">' <<
-        t('messages.votes', count: message.score, score: message.score_str) <<
+        t('messages.votes', count: message.no_votes, score: message.score_str) <<
         '</span>'
     end
 

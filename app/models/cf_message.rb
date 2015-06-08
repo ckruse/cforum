@@ -133,6 +133,10 @@ class CfMessage < ActiveRecord::Base
     end
   end
 
+  def no_votes
+    upvotes + downvotes
+  end
+
 end
 
 # eof
