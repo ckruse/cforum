@@ -59,8 +59,7 @@ class NotificationsPlugin < Plugin
     if user = current_user
       n = CfNotification.
         where(recipient_id: user.user_id,
-              oid: message.message_id,
-              is_read: false).
+              oid: message.message_id).
         where("otype IN ('message:create-answer','message:create-activity')").
         first
 
