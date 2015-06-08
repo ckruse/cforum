@@ -7,7 +7,7 @@ content_for :body_classes, 'threads forum-' + (current_forum.try(:slug) || 'all'
 
 <div class="root" data-js="threadlist">
   <% for thread in @threads %>
-    <article class="thread threadlist<% if thread.sticky %> sticky<% end %><% unless thread.attribs['classes'].blank? %> <%= thread.attribs['classes'].join(' ') %><% end %>" id="t<%= thread.thread_id %>">
+    <article class="thread threadlist<% if thread.archived %> archived<% end %><% if thread.sticky %> sticky<% end %><% unless thread.attribs['classes'].blank? %> <%= thread.attribs['classes'].join(' ') %><% end %>" id="t<%= thread.thread_id %>">
       <%= message_header(thread, thread.message, first: true, show_icons: true) %>
 
       <% if not thread.message.messages.blank? and thread.attribs['open_state'] != 'closed' %>
