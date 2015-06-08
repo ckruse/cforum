@@ -18,6 +18,16 @@ class NotificationsController < ApplicationController
     end
   end
 
+  def show
+    @notification = CfNotification.where(recipient_id: current_user.user_id,
+                                         notification_id: params[:id]).first!
+
+    @notification.is_read = true
+    @notification.save
+
+    redirect_to @notification.path
+  end
+
   def update
     @notification = CfNotification.where(recipient_id: current_user.user_id,
                                          notification_id: params[:id]).first!

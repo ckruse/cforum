@@ -29,7 +29,7 @@ content_for(:body_classes, 'notifications index')
       <td><input class="nid-checkbox" type="checkbox" name="ids[]" value="<%= n.notification_id %>"></td>
       <td><% unless n.is_read? %><span class="status-unread" title="<%= t('notifications.unread') %>">&nbsp;</span><% end %></td>
       <td><% unless n.icon.blank? %><%= link_to '', n.path, class: 'icon ' + n.icon %><% end %></td>
-      <td><a href="<%= n.path %>"><%= n.subject %></a></td>
+      <td><%= link_to n.subject, notification_path(n) %></td>
       <td><%= l(n.created_at, format: date_format) %></td>
       <td>
         <%= link_to('', notification_path(n), method: :delete, data: {
