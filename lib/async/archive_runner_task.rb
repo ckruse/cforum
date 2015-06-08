@@ -20,7 +20,7 @@ module Peon
             if t.cnt.to_i > max_messages
               if t.flags['no-archive'] == 'yes'
                 Rails.logger.info 'ArchiveRunnerTask: archiving (deleting!) thread ' + t.thread_id.to_s + ' because of to many messages'
-                SearchDocument.delete_all(['message_id IN (?)', t.messages.map { |m| m.message_id }])
+                SearchDocument.delete_all(['reference_id IN (?)', t.messages.map { |m| m.message_id }])
                 t.destroy
               else
                 Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + t.thread_id.to_s + ' because of to many messages'
@@ -41,7 +41,7 @@ module Peon
             t = CfThread.find tid
             if t.flags['no-archive'] == 'yes'
               Rails.logger.info 'ArchiveRunnerTask: archiving (deleting!) thread ' + tid + ' because oldest while to many threads'
-              SearchDocument.delete_all(['message_id IN (?)', t.messages.map { |m| m.message_id }])
+              SearchDocument.delete_all(['reference_id IN (?)', t.messages.map { |m| m.message_id }])
               t.destroy
             else
               Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + tid + ' because oldest while to many threads'
