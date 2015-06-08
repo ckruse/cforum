@@ -11,11 +11,16 @@ module CforumMarkup
     coder = HTMLEntities.new
     code_open = 0
     in_quote = 0
+    in_math = false
 
     while !doc.eos?
       if doc.scan(/<br \/>-- <br \/>/)
         ncnt << "\n-- \n"
         in_quote = 0
+
+      elsif doc.scan(/\$\$/)
+        in_math = !in_math
+        ncnt << doc.matched
 
       elsif doc.scan(/(<br \/>|^)([\s ]*)#/)
         if $1 == "<br />"
@@ -39,7 +44,7 @@ module CforumMarkup
         in_quote += 1
 
       elsif doc.scan(/(-{2,})|\*|_/)
-        ncnt << '\\' if code_open <= 0
+        ncnt << '\\' if code_open <= 0 and not in_math
         ncnt << doc.matched
 
       elsif doc.scan(/<img[^>]+>/)
