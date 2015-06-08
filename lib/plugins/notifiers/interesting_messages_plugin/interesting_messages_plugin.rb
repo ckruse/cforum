@@ -150,6 +150,7 @@ class InterestingMessagesPlugin < Plugin
         had_all = false
       elsif @cache[current_user.user_id][m.message_id]
         m.attribs['classes'] << 'interesting'
+        m.attribs[:is_interesting] = true
         had_one = true
       end
     end
@@ -159,6 +160,7 @@ class InterestingMessagesPlugin < Plugin
       result.each do |row|
         new_cache[row['message_id'].to_i] = true
         msgs[row['message_id']].attribs['classes'] << 'interesting' if msgs[row['message_id']]
+        msgs[row['message_id']].attribs[:is_interesting] = true
         had_one = true
       end
 
