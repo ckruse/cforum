@@ -116,7 +116,7 @@ cforum.cf_messages = {
 
   initUpload: function() {
     if($("#message_input").length > 0 && window.Dropzone) {
-      $("#message_input").after('<div class="image-upload"><span>' + t('upload.image_area') + '</span></div>');
+      $("#message_input").after('<div class="image-upload">' + t('upload.image_area') + '</div>');
       $(".image-upload").dropzone({
         createImageThumbnails: false,
         maxFilesize: 2, // 2mb max filesize
