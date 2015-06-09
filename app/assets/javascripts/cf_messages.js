@@ -144,7 +144,6 @@ cforum.cf_messages = {
           });
 
           this.on('error', function(file, response) {
-            console.log(file, response);
             var imgup = $('.image-upload');
             imgup.removeClass('loading');
             imgup.html(t('upload.image_area'));
