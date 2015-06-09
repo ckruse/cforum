@@ -56,8 +56,11 @@ class Peon::Tasks::ThreadMovedTask < Peon::Tasks::PeonTask
       end
     end
 
-    int_threads = CfInterestingThread.preload(:user).where(thread_id: @thread.thread_id).all
-    int_threads.each do |it|
+    int_messages = CfInterestingMessage.
+                   preload(:user).
+                   joins(:message).
+                   where('thread_id = ?', @thread.thread_id).all
+    int_messages.each do |it|
       Rails.logger.debug "thread moved task: owner: " + it.user.inspect
       next if @notified[it.user_id] or not @new_forum.read?(it.user)
 
