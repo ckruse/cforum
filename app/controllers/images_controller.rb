@@ -12,7 +12,9 @@ class ImagesController < ApplicationController
 
     expires_in 1.month, public: true
 
-    send_file Rails.root + 'public/uploads' + @medium.filename, type: @medium.content_type, filename: @medium.orig_name, disposition: :inline
+    if stale?(@medium)
+      send_file Rails.root + 'public/uploads' + @medium.filename, type: @medium.content_type, filename: @medium.orig_name, disposition: :inline
+    end
   end
 
   def create
