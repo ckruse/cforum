@@ -120,4 +120,27 @@ module ThreadsHelper
 
     @threads
   end
+
+  def thread_html(thread)
+    html = '<article class="thread threadlist'
+    html << ' archived' if thread.archived
+    html << ' no-archive' if thread.flags['no-archive'] == 'yes'
+    html << ' sticky' if thread.sticky
+    html << ' ' << thread.attribs['classes'].join(' ') unless thread.attribs['classes'].blank?
+    html << '" id="t' << thread.thread_id.to_s << '">'
+
+    html << '<i class="no-archive-icon"> </i>' if thread.flags['no-archive'] == 'yes'
+    html << '<i class="sticky-icon"> </i>' if thread.sticky
+    html << '<i class="has-interesting-icon"> </i>' if thread.attribs[:has_interesting]
+
+    html << message_header(thread, thread.message, first: true, show_icons: true)
+
+    if not thread.message.messages.blank? and thread.attribs['open_state'] != 'closed'
+      html << message_tree(thread, thread.message.messages, show_icons: true,
+                           hide_repeating_subjects: uconf('hide_subjects_unchanged') == 'yes')
+    end
+    html << '</article>'
+
+    html.html_safe
+  end
 end

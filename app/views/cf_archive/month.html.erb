@@ -6,20 +6,8 @@ content_for :body_classes, 'archive month forum-' + (current_forum.try(:slug) ||
 %>
 
 <div class="root" data-js="threadlist">
-  <% @threads.each do |thread| %>
-    <article class="thread threadlist<% if thread.archived %> archived<% end %><% if thread.flags['no-archive'] %> no-archive<% end %><% if thread.sticky %> sticky<% end %><% unless thread.attribs['classes'].blank? %> <%= thread.attribs['classes'].join(' ') %><% end %>" id="t<%= thread.thread_id %>">
-
-      <% if thread.flags['no-archive'] %><i class="no-archive-icon"> </i><% end %>
-      <% if thread.sticky %><i class="sticky-icon"> </i><% end %>
-      <% if thread.attribs[:has_interesting] %><i class="has-interesting-icon"> </i><% end %>
-
-      <%= message_header(thread, thread.message, first: true, show_icons: true) %>
-
-      <% if not thread.message.messages.blank? and thread.attribs['open_state'] != 'closed' %>
-        <%= message_tree(thread, thread.message.messages, show_icons: true,
-                         hide_repeating_subjects: uconf('hide_subjects_unchanged') == 'yes') %>
-      <% end %>
-    </article>
+  <% for thread in @threads %>
+    <%= thread_html(thread) %>
   <% end %>
 </div>
 
