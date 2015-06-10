@@ -118,19 +118,19 @@ end
 
       <header class="flex-item">
         <div id="top">
-          <% if controller_path != "cf_search" %>
-            <%= form_tag search_path + '#results', method: 'get', rel: 'nofollow', id: 'search' do %>
-              <p><label for="topterm"><%= t('search.search_top') %></label>
-                <%= search_field_tag 'term', params[:term], placeholder: t('search.search_top'), id: 'topterm' %></p>
-            <% end %>
-          <% end %>
-
           <ul class="selflinks">
             <li><a href="http://selfhtml.org/">SELFHTML</a></li>
             <li><a href="http://wiki.selfhtml.org/">Doku</a></li>
 	          <li><%= link_to "Forum", root_path %></li>
 	          <li><a href="http://blog.selfhtml.org/">Blog</a></li>
           </ul>
+
+          <% if controller_path != "cf_search" %>
+            <%= form_tag search_path + '#results', method: 'get', rel: 'nofollow', id: 'search' do %>
+              <p><label for="topterm"><%= t('search.search_top') %></label>
+                <%= search_field_tag 'term', params[:term], placeholder: t('search.search_top'), id: 'topterm' %></p>
+            <% end %>
+          <% end %>
         </div>
 
         <ul class="personallinks">

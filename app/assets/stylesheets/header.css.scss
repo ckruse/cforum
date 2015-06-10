@@ -14,6 +14,7 @@
   position: relative;
 
   .selflinks {
+    float:left;
     a:link, a:visited, input { opacity: .75; }
     a:hover, a:focus, input:focus, input:hover { opacity: 1; }
     a {
@@ -23,7 +24,6 @@
   }
 
   #search p {
-    height: .8em;
     margin: 0;
     float: right;
   }
@@ -37,6 +37,7 @@
     background: asset-data-url("search-white.png") no-repeat scroll 0 center transparent;
     border-radius: 6px;
     cursor: pointer;
+    height:2.25em;
   }
 
   #search #topterm:focus {
@@ -246,6 +247,16 @@ nav {
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
   #top {
     padding-left: 1em;
+    line-height:1.5em;
+
+    .selflinks {
+      float:none;
+      li { margin-right:1em; }
+    }
+
+    #search p {
+      float:none;
+    }
   }
 
   .personallinks {
