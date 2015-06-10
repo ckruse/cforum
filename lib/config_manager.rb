@@ -10,6 +10,8 @@ class ConfigManager
     'pagination_users' => 50,
     'pagination_search' => 50,
     'locked' => 'no',
+    'css_ressource' => nil,
+    'js_ressource' => nil,
     'sort_threads' => 'descending',
     'sort_messages' => 'ascending',
     'standard_view' => 'thread-view',

@@ -61,6 +61,8 @@ de:
         close_vote_duplicate: Aktion bei Doppelposts
         close_vote_custom: Aktion bei sonstigen Beanstandungen
         date_format_search: Datums-Format Suche
+        css_ressource: zusätzliche CSS-Ressource
+        js_ressource: zusätzliche JS-Ressource
         
 
     users:

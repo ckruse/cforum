@@ -8,6 +8,24 @@
       </div>
 
       <div class="cf-cgroup">
+        <label for="settings-css_ressource"><%= t('admin.forums.settings.css_ressource') %></label>
+        <div class="cntrls">
+          <%= text_field_tag 'settings[css_ressource]', @settings.options['css_ressource'], id: 'settings-css_ressource' %>
+          <label class="checkbox"><%= check_box_tag 'settings[css_ressource]', '_DEFAULT_', @settings.options['css_ressource'].blank?, id: 'settings-css_ressource-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('css_ressource'))) %></label>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-js_ressource"><%= t('admin.forums.settings.js_ressource') %></label>
+        <div class="cntrls">
+          <%= text_field_tag 'settings[js_ressource]', @settings.options['js_ressource'], id: 'settings-js_ressource' %>
+          <label class="checkbox"><%= check_box_tag 'settings[js_ressource]', '_DEFAULT_', @settings.options['js_ressource'].blank?, id: 'settings-js_ressource-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('js_ressource'))) %></label>
+        </div>
+      </div>
+
+
+
+      <div class="cf-cgroup">
         <label for="settings-pagination"><%= t('admin.forums.settings.items_per_page') %></label>
         <div class="cntrls">
           <%= text_field_tag 'settings[pagination]', @settings.options['pagination'], id: 'settings-pagination' %>
