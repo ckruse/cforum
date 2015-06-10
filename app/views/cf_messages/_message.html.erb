@@ -141,7 +141,13 @@
 
         <% if current_user and current_user.moderate?(current_forum) %>
           <% if @view_all %>
-            <li><%= link_to t("forums.normal_view"), cf_message_path(@thread, @message, view_all: nil), rel: 'nofollow' %></li>
+            <li>
+              <% if @message.deleted? %>
+                <%= link_to t("forums.normal_view"), cf_forum_path(current_forum, view_all: nil), rel: 'nofollow' %>
+              <% else %>
+                <%= link_to t("forums.normal_view"), cf_message_path(@thread, @message, view_all: nil), rel: 'nofollow' %>
+              <% end %>
+            </li>
           <% else %>
             <li><%= link_to t("forums.admin_view"), cf_message_path(@thread, @message, view_all: true), rel: 'nofollow' %></li>
           <% end %>
