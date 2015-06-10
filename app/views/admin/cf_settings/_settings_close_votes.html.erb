@@ -2,7 +2,7 @@
   <label for="settings-close_vote_votes"><%= t('admin.forums.settings.close_vote_votes') %></label>
   <div class="cntrls">
     <%= number_field_tag 'settings[close_vote_votes]', @settings.options['close_vote_votes'], id: 'settings-close_vote_votes' %>
-    <label class="checkbox"><%= check_box_tag 'settings[close_vote_votes]', '_DEFAULT_', @settings.options['close_vote_votes'].blank?, id: 'settings-close_vote_votes-default' %> <%= t('global.default_value', name: human_val(ConfigManager::DEFAULTS['close_vote_votes'])) %></label>
+    <label class="checkbox"><%= check_box_tag 'settings[close_vote_votes]', '_DEFAULT_', @settings.options['close_vote_votes'].blank?, id: 'settings-close_vote_votes-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('close_vote_votes')), origin: t(is_global_conf('close_vote_votes') ? 'global.global_conf' : 'global.global_default')) %></label>
   </div>
 </div>
 
@@ -12,7 +12,7 @@
   <div class="cntrls">
     <label class="radio"><%= radio_button_tag 'settings[close_vote_action_' + r + ']', 'close', @settings.options['close_vote_action_' + r] == 'close' %> <%= t('admin.forums.settings.close_subtree') %></label>
     <label class="radio"><%= radio_button_tag 'settings[close_vote_action_' + r + ']', 'hide', @settings.options['close_vote_action_' + r] == 'hide' %> <%= t('admin.forums.settings.hide_subtree') %></label>
-    <label class="radio"><%= radio_button_tag 'settings[close_vote_action_' + r + ']', '_DEFAULT_', @settings.options['close_vote_action_' + r].blank? %> <%= t('global.default_value', name: human_val(ConfigManager::DEFAULTS['close_vote_action_' + r])) %></label>
+    <label class="radio"><%= radio_button_tag 'settings[close_vote_action_' + r + ']', '_DEFAULT_', @settings.options['close_vote_action_' + r].blank? %> <%= t('global.default_value', name: human_val(conf_val_or_default('close_vote_action_' + r)), origin: t(is_global_conf('close_vote_action_' + r) ? 'global.global_conf' : 'global.global_default')) %></label>
   </div>
 </div>
   

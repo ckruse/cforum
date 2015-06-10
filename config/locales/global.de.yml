@@ -31,7 +31,9 @@ de:
     user_profile: Benutzer-Profil
     redirect_thread_multiple: mehrere mögliche Threads gefunden
     only_visible_for_you: Nur für Sie sichtbar
-    default_value: "Default-Wert (%{name})"
+    default_value: "Default-Wert („%{name}“, %{origin})"
+    global_default: Software-Default
+    global_conf: globale Konfiguration
     from: Von
     to: Bis
 

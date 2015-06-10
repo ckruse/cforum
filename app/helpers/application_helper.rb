@@ -35,6 +35,12 @@ module ApplicationHelper
     @cf_forum ? conf(name) : ConfigManager::DEFAULTS[name]
   end
 
+  def is_global_conf(name)
+    return false if @cf_forum.blank?
+    @global_settings ||= CfSetting.where('user_id IS NULL and forum_id IS NULL').first
+    @global_settings.options.has_key?(name)
+  end
+
   def user_to_class_name(user)
     'author-' + to_class_name(user.is_a?(String) ? user : user.username)
   end
