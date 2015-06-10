@@ -31,6 +31,8 @@ Cforum::Application.routes.draw do
 
   get '/users/:id/destroy' => 'users#confirm_destroy', as: :users_confirm_destroy
   resources :users, except: [:new, :create]
+
+  get 'notifications/last-changes' => 'notifications#last_changes', as: :last_changes
   resources :notifications, except: [:edit, :new, :create]
   delete 'notifications' => 'notifications#batch_destroy'
 

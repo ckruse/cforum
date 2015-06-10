@@ -69,6 +69,48 @@ class NotificationsController < ApplicationController
     end
   end
 
+  def last_changes
+    if current_user.admin?
+      @deleted_messages = CfMessage.
+                          preload(:owner, :tags, votes: :voters, thread: :forum).
+                          where(deleted: true).
+                          order('updated_at DESC').
+                          limit(10)
+
+      @no_archive_threads = CfThread.
+                            preload(:forum, messages: [:owner, :tags, votes: :voters]).
+                            where("flags->'no-archive' = 'yes'").
+                            order("updated_at DESC").
+                            limit(10)
+
+      @no_answer_messages = CfMessage.
+                            preload(:owner, :tags, votes: :voters, thread: :forum).
+                            where("flags->'no-answer-admin' = 'yes' OR flags->'no-answer' = 'yes'").
+                            order("updated_at DESC").
+                            limit(10)
+
+      @images = Medium.
+                order("created_at DESC").
+                limit(10)
+
+      @votes = CfCloseVote.
+               preload(message: [:owner, :tags, {votes: :voters, thread: :forum}]).
+               order("created_at DESC").
+               limit(10)
+
+      @flagged = CfMessage.
+                 preload(:owner, :tags, votes: :voters, thread: :forum).
+                 where("(flags->'flagged') IS NOT NULL").
+                 order("created_at DESC").
+                 limit(10)
+
+      @new_users = CfUser.
+                   order("created_at DESC").
+                   limit(10)
+    end
+
+  end
+
 end
 
 # eof

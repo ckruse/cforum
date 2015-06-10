@@ -2093,6 +2093,13 @@ CREATE INDEX messages_thread_id_idx ON messages USING btree (thread_id);
 
 
 --
+-- Name: messages_updated_at_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX messages_updated_at_idx ON messages USING btree (updated_at);
+
+
+--
 -- Name: messages_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2997,6 +3004,8 @@ INSERT INTO schema_migrations (version) VALUES ('70');
 INSERT INTO schema_migrations (version) VALUES ('71');
 
 INSERT INTO schema_migrations (version) VALUES ('72');
+
+INSERT INTO schema_migrations (version) VALUES ('73');
 
 INSERT INTO schema_migrations (version) VALUES ('8');
 

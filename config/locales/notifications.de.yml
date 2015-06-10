@@ -13,3 +13,12 @@ de:
     unread: ungelesen
     no_notifications: Keine Benachrichtigungen gefunden
     thread_moved: Thread %{subject} von %{old_forum} nach %{new_forum} verschoben
+
+    last_changes: neuste Ereignisse
+    deleted_messages: gelöschte Nachrichten
+    no_archive_threads: No-Archive-Threads
+    no_answer_messages: No-Answer-Nachrichten
+    images: Bilder
+    votes: Sperr-/Entsperr-Abstimmungen
+    flagged_messages: markierte Nachrichten
+    new_users: Neue Nutzer

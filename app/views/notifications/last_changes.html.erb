@@ -1,0 +1,85 @@
+<%
+content_for :title, t('notifications.last_changes')
+content_for :h1, t('notifications.last_changes')
+content_for(:body_id, "notifications-last-changes")
+content_for(:body_classes, 'notifications last-changes')
+%>
+
+<% if current_user.admin? %>
+  <h2><%= t('notifications.deleted_messages') %></h2>
+
+  <% @deleted_messages.each do |m|
+    m.thread.message = m %>
+    <article class="thread threadlist">
+      <%= message_header(m.thread, m, show_votes: true) %>
+    </article>
+  <% end %>
+
+  <h2><%= t('notifications.no_archive_threads') %></h2>
+
+  <% @no_archive_threads.each do |thread|
+    thread.message = thread.messages.first %>
+    <article class="thread threadlist">
+      <%= message_header(thread, thread.message, show_votes: true) %>
+    </article>
+  <% end %>
+
+  <h2><%= t('notifications.no_answer_messages') %></h2>
+
+  <% @no_answer_messages.each do |m|
+    m.thread.message = m %>
+    <article class="thread threadlist">
+      <%= message_header(m.thread, m, show_votes: true) %>
+    </article>
+  <% end %>
+
+  <h2><%= t('notifications.images') %></h2>
+
+  <table class="cf-default-table">
+    <thead>
+      <tr>
+        <th> </th>
+        <th><%= Medium.human_attribute_name(:orig_name) %></th>
+        <th><%= Medium.human_attribute_name(:created_at) %></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @images.each do |m| %>
+        <tr>
+          <td class="thumb"><%= image_tag image_path(m) %></td>
+          <td><%= m.orig_name %></td>
+          <td><%= l(m.created_at, format: date_format) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h2><%= t('notifications.votes') %></h2>
+
+  <% @votes.each do |v|
+    v.message.thread.message = v.message %>
+    <article class="thread threadlist">
+      <%= message_header(v.message.thread, v.message, show_votes: true) %>
+    </article>
+  <% end %>
+
+  <h2><%= t('notifications.flagged_messages') %></h2>
+
+  <% @flagged.each do |m|
+    m.thread.message = m %>
+    <article class="thread threadlist">
+      <%= message_header(m.thread, m, show_votes: true) %>
+    </article>
+  <% end %>
+
+
+  <h2><%= t('notifications.new_users') %></h2>
+
+  <ul>
+    <% @new_users.each do |nu| %>
+      <li><%= link_to nu.username, user_path(nu) %> (<%= CfUser.human_attribute_name(:created_at) %>: <%= l(nu.created_at) %>)</li>
+    <% end %>
+  </ul>
+  
+<% end %>
