@@ -200,7 +200,16 @@ class CfMessagesController < ApplicationController
   def update
     @thread, @message, @id = get_thread_w_post
 
-    return unless check_editable(@thread, @message)
+    unless check_editable(@thread, @message, false)
+      @parent = @message
+      @message = CfMessage.new(message_params)
+      @tags = parse_tags
+
+      flash.now[:error] = t('messages.editing_not_allowed_should_we_create_followup')
+
+      render :new
+      return
+    end
 
     invalid  = false
 
