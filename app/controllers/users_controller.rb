@@ -169,6 +169,29 @@ class UsersController < ApplicationController
     end
   end
 
+  def show_scores
+    @user = CfUser.find(params[:id])
+
+    sql = CfForum.visible_sql(current_user)
+
+    @scored_msgs = CfScore.
+                   preload(message: [:owner, :tags,
+                                     {thread: :forum, votes: :voters}],
+                           vote: {message: [:owner, :tags,
+                                            {thread: :forum, votes: :voters}]}).
+      joins("LEFT JOIN messages m1 USING(message_id)
+             LEFT JOIN votes USING(vote_id)
+             LEFT JOIN messages m2 ON votes.message_id = m2.message_id").
+      where(user_id: @user.user_id).
+      where("m1.message_id IS NULL OR m1.forum_id IN (#{sql})").
+      where("m2.message_id IS NULL OR m2.forum_id IN (#{sql})").
+      where("m1.message_id IS NULL OR m1.deleted = false").
+      where("m2.message_id IS NULL OR m2.deleted = false").
+      order('created_at DESC').
+      page(params[:page]).
+      per(conf('pagination'))
+
+  end
 end
 
 # eof

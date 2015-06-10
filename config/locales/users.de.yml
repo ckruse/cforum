@@ -37,6 +37,9 @@ de:
 
     confirm_first: Sie müssen Ihr Profil erst bestätigen.
 
+    all_votes: alle Bewertungen
+    all_votes_for_user: alle Bewertungen für Benutzer „%{name}“
+
     error_message:
       other: "%{count} verhinderten, dass dieser Benutzer gespeichert werden konnte:"
       one: "%{count} verhindert, dass dieser Benutzer gespeichert werden konnte:"

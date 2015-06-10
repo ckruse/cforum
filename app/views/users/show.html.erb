@@ -109,6 +109,8 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
   </table>
 <% end %>
 
+<p><%= link_to t('users.all_votes'), user_scores_path(@user) %></p>
+
 <h2><%= t('users.badges') %></h2>
 
 <% if @user.badges.blank? %>

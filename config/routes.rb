@@ -30,6 +30,7 @@ Cforum::Application.routes.draw do
   get '/badges/:slug' => 'badges#show', as: :cf_badge
 
   get '/users/:id/destroy' => 'users#confirm_destroy', as: :users_confirm_destroy
+  get '/users/:id/scores' => 'users#show_scores', as: :user_scores
   resources :users, except: [:new, :create]
 
   get 'notifications/last-changes' => 'notifications#last_changes', as: :last_changes
