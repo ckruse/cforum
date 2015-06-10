@@ -152,6 +152,8 @@
             <li><%= link_to t("forums.admin_view"), cf_message_path(@thread, @message, view_all: true), rel: 'nofollow' %></li>
           <% end %>
         <% end %>
+
+        <li><%= link_to t('messages.message_in_tree'), '#tree-m' + m.message_id.to_s %>
       </ul>
     </nav>
   </div>

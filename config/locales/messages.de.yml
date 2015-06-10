@@ -75,6 +75,8 @@ de:
     retag: Tags neu vergeben
     retagged: Die Tags wurden erfolgreich neu vergeben.
 
+    message_in_tree: Nachricht im Threadbaum
+
     close_vote:
       agreeing: Sehe ich auch so
       take_back: Stimme zurücknehmen

@@ -270,7 +270,7 @@ module MessageHelper
     opts = {prev_deleted: false, show_icons: false, id: true,
             hide_repeating_subjects: false,
             active_message: @message, subject: true,
-            tags: true}.merge(opts)
+            tags: true, id_prefix: nil}.merge(opts)
 
     html = "<ol>\n"
     for message in messages
@@ -284,13 +284,15 @@ module MessageHelper
                              show_icons: opts[:show_icons],
                              id: opts[:id],
                              hide_repeating_subjects: opts[:hide_repeating_subjects],
-                             active_message: opts[:active_message])
+                             active_message: opts[:active_message],
+                             id_prefix: opts[:id_prefix])
       html << message_tree(thread, message.messages, first: false,
                            prev_deleted: message.deleted?,
                            show_icons: opts[:show_icons],
                            id: opts[:id],
                            hide_repeating_subjects: opts[:hide_repeating_subjects],
-                           active_message: opts[:active_message]) unless message.messages.blank?
+                           active_message: opts[:active_message],
+                           id_prefix: opts[:id_prefix]) unless message.messages.blank?
       html << "</li>"
     end
 
