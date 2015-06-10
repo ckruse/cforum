@@ -142,14 +142,8 @@ a.thread-forum-plate:active {
 }
 
 /* angepinnte Threads */
-.thread.sticky, .thread.has-interesting {
+.thread.sticky, .thread.has-interesting, .thread.no-archive {
   position: relative;
-}
-.thread.sticky::after {
-  content: asset-data-url("wichtig.png");
-  position: absolute;
-  left: .2em;
-  top: -.6em;
 }
 
 .admin-infos {

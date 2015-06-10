@@ -111,6 +111,10 @@ module MessageHelper
     if current_user and opts[:show_icons] and not @view_all
       html << "<span class=\"message-icons\">"
 
+      if not @view_all and (message.flags['no-answer'] == 'yes' or message.flags['no-answer-admin'] == 'yes')
+        html << '<span class="icon-message no-answer user"> </span>'
+      end
+
       if message.attribs[:is_interesting]
         html << cf_button_to(boring_cf_message_path(thread, message),
                              params: std_args,
@@ -124,6 +128,10 @@ module MessageHelper
       end
 
       html << "</span>"
+    else
+      if not @view_all and (message.flags['no-answer'] == 'yes' or message.flags['no-answer-admin'] == 'yes')
+        html << '<span class="icon-message no-answer user"> </span>'
+      end
     end
 
 

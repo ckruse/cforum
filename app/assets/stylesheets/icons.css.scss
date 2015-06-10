@@ -11,6 +11,7 @@
   &.delete { @extend .fa-trash; }
   &.answer { @extend .fa-unlock; }
   &.no-answer { @extend .fa-lock; }
+  &.no-answer.user { color:#999; }
   &.original-poster { @extend .fa-exclamation; }
   &.unread { @extend .fa-eye-slash; }
   &.mark-interesting { @extend .fa-star-o; }
@@ -132,12 +133,28 @@
   &.delete { @extend .fa-trash; }
 }
 
-.has-interesting:before {
+.sticky-icon {
+  content: asset-data-url("wichtig.png");
+  position: absolute;
+  left: .2em;
+  top: -.6em;
+}
+
+.has-interesting-icon {
   @extend .fa;
   @extend .fa-star-half-o;
   color:#8db243;
   position:absolute;
-  left:.2em;
+  left:1.4em;
+  top:-.6em;
+}
+
+.no-archive-icon {
+  @extend .fa;
+  @extend .fa-archive;
+  color:#999;
+  position:absolute;
+  left:2.4em;
   top:-.6em;
 }
 

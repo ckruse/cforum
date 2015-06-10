@@ -113,6 +113,7 @@ class InterestingMessagesPlugin < Plugin
           messages_map[row['message_id'].to_i].first.attribs['classes'] << 'interesting'
           messages_map[row['message_id'].to_i].first.attribs[:is_interesting] = true
           messages_map[row['message_id'].to_i].second.attribs['classes'] << 'has-interesting'
+          messages_map[row['message_id'].to_i].second.attribs[:has_interesting] = true
         end
       end
     end
@@ -127,6 +128,7 @@ class InterestingMessagesPlugin < Plugin
     return if current_user.blank?
     if check_messages(thread.messages)
       thread.attribs['classes'] << 'has-interesting'
+      thread.attribs[:has_interesting] = true
     end
   end
 
