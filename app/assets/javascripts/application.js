@@ -108,14 +108,5 @@ cforum.alert = {
   }
 };
 
-MathJax.Hub.Config({
-  displayAlign: "left",
-  menuSettings: { CHTMLpreview: false },
-  tex2jax: {
-    inlineMath: [],
-    displayMath: []
-  }
-});
-
 
 // eof
