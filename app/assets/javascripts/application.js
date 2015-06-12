@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery-ui
+//= require jquery-ui/autocomplete
 //= require markdown/bootstrap-markdown.js
 //= require markdown/bootstrap-markdown.de.js
 //= require MathJax.js
