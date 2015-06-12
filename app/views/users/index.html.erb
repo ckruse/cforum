@@ -4,10 +4,10 @@ content_for :h1, t('users.users')
 %>
 
 <form class="form-search">
-<input name="s" value="<%= @search_term %>" type="text" placeholder="username" class="cf-search-query">
+  <input name="s" value="<%= @search_term %>" type="text" placeholder="username" class="cf-search-query">
 </form>
 
-<table class="cf-table-condensed-striped-hover">
+<table class="cf-default-table">
   <thead>
     <tr>
       <th><%= sortable CfUser.human_attribute_name(:username), :username, :users_path %></th>
