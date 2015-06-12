@@ -31,11 +31,26 @@ class CfSearchController < ApplicationController
 
   def to_ts_query(terms)
     (terms.map { |t|
+       negated = false
+       wildcard = false
+       term = t
+
        if t[0] == '-'
-         '!' + SearchDocument.connection.quote(t[1..-1])
-       else
-         SearchDocument.connection.quote(t)
+         negated = true
+         term = term[1..-1]
        end
+
+       if t[-1] == '*'
+         wildcard = true
+         term = term[0..-2]
+       end
+
+       v = ''
+       v << '!' if negated
+       v << SearchDocument.connection.quote(t)
+       v << ':*' if wildcard
+
+       v
      }).join(" & ")
   end
 
