@@ -39,6 +39,13 @@ content_for :body_classes, 'messages edit forum-' + (current_forum.try(:slug) ||
 
   <%= render "form", f: f, with_name: true %>
 
+  <div class="cf-cgroup">
+    <label><%= t('messages.retag_answers') %></label>
+    <div class="cntrls">
+      <label class="checkbox"><input type="checkbox" name="retag_answers" value="1"></label>
+    </div>
+  </div>
+
   <ul id="charta">
     <li>Formuliere <a href="http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Charta_des_SELFHTML-Forums"><strong>höflich und wertschätzend</strong></a>.</li>
     <li><strong>Vermeide</strong> <a href="http://de.wikipedia.org/wiki/Fullquote">Vollzitate</a>.</li>
