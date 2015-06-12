@@ -15,10 +15,14 @@
 //= require jquery-ui
 //= require markdown/bootstrap-markdown.js
 //= require markdown/bootstrap-markdown.de.js
+//= require MathJax.js
+//= require TeX-AMS-MML_SVG.js
+//= require jax.js
+//= require fontdata.js
 //= require init.js
 //= require_tree .
 
-/* global cforum */
+/* global cforum, MathJax */
 
 function hasLocalstorage() {
   try {
@@ -107,6 +111,15 @@ cforum.alert = {
     cforum.alert.alert(text, 'cf-success');
   }
 };
+
+MathJax.Hub.Config({
+  displayAlign: "left",
+  menuSettings: { CHTMLpreview: false },
+  tex2jax: {
+    inlineMath: [],
+    displayMath: []
+  }
+});
 
 
 // eof
