@@ -39,7 +39,7 @@ content_for :body_classes, 'messages edit forum-' + (current_forum.try(:slug) ||
 
   <%= render "form", f: f, with_name: true %>
 
-  <% if current_user.try(:may?, RightsHelper::RETAG) %>
+  <% if may?(RightsHelper::RETAG) %>
     <div class="cf-cgroup">
       <label><%= t('messages.retag_answers') %></label>
       <div class="cntrls">
