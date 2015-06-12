@@ -122,7 +122,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
     res = inner(el)
 
     res = if res != el.attr['href']
-            res + ' (' + el.attr['href'] + ')'
+            res + ' ' + el.attr['href']
           else
             res
           end
@@ -133,7 +133,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
   def convert_img(el)
     ret = el.attr['src']
     if not el.attr['alt'].empty? and el.attr['alt'] != el.attr['src']
-      ret += ' (' + el.attr['alt'] + ')'
+      ret += ' ' + el.attr['alt']
     end
 
     ret
