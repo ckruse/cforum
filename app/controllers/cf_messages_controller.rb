@@ -265,7 +265,7 @@ class CfMessagesController < ApplicationController
           raise ActiveRecord::Rollback if @version and not @version.save
         end
 
-        if params[:retag_answers] == '1'
+        if params[:retag_answers] == '1' and current_user.try(:may?, RightsHelper::RETAG)
           @message.all_answers do |m|
             m.tags.delete_all
             raise ActiveRecord::Rollback unless save_tags(current_forum, m, @tags)
