@@ -19,23 +19,15 @@ content_for(:h1) do
 
     <fieldset>
       <div class="cf-cgroup">
-        <label>Tag-Vorschläge</label>
-
-        <div class="cntrls">
-          <ul id="tags-suggestions" class="cf-tags-list"></ul>
-        </div>
-      </div>
-
-      <div class="cf-cgroup">
-        <label>Tags</label>
+        <label><%= t('messages.tags') %></label>
         <div class="cntrls" id="tags-group">
           <ul id="tags-list" class="cf-tags-list"></ul>
-          <input type="text" name="tag_list" value="<%= @tags.join(", ") %>" id="tags-input" class="tags-input"><noscript> <em>Komma-separierte Liste</em></noscript>
+          <input type="text" name="tag_list" value="<%= @tags.join(", ") %>" id="tags-input" class="tags-input"><noscript> <em><%= t('messages.comma_separated_list') %></em></noscript>
         </div>
       </div>
 
       <div class="cf-cgroup">
-        <label>Auch an Antworten neu vergeben</label>
+        <label><%= t('messages.retag_answers') %></label>
         <div class="cntrls">
           <label class="checkbox"><input type="checkbox" name="retag_answers" value="1"></label>
         </div>
