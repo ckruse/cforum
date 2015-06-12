@@ -76,7 +76,7 @@ class TagsController < ApplicationController
 
     @tags_list = []
     rx = nil
-    rx = Regexp.new('^' + term.downcase, Regexp::IGNORECASE) unless term.blank?
+    rx = Regexp.new('^' + Regexp.escape(term.downcase), Regexp::IGNORECASE) unless term.blank?
 
     @tags.each do |t|
       @tags_list << t.tag_name if rx.blank? or rx.match(t.tag_name)
