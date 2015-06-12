@@ -15,10 +15,6 @@
 //= require jquery-ui/autocomplete
 //= require markdown/bootstrap-markdown.js
 //= require markdown/bootstrap-markdown.de.js
-//= require MathJax.js
-//= require TeX-AMS-MML_SVG.js
-//= require jax.js
-//= require fontdata.js
 //= require init.js
 //= require_tree .
 
