@@ -25,8 +25,12 @@ gem 'kaminari'
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'quiet_assets'
-  gem 'simplecov', :require => false
   gem 'faker'
+
+  gem 'spring-commands-rspec'
+  gem 'rspec-rails'
+  gem 'guard-rspec'
+  gem 'rb-fsevent' if `uname` =~ /Darwin/
 end
 
 gem 'spring', group: :development
