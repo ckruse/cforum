@@ -8,23 +8,23 @@ class CfUser < ActiveRecord::Base
     :rememberable, :confirmable, :trackable
 
   has_attached_file :avatar, styles: { medium: "80x80>", thumb: "20x20>" }, default_url: "/images/:style/missing.png"
-  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
   self.primary_key = 'user_id'
   self.table_name  = 'users'
 
 
-  validates_presence_of :password, :on => :create
-  validates :password, length: {:minimum => 3}, confirmation: true, :if => :password, allow_blank: true
+  validates_presence_of :password, on: :create
+  validates :password, length: {minimum: 3}, confirmation: true, if: :password, allow_blank: true
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :email, presence: true, uniqueness: { case_sensitive: false }, email: true
 
   attr_accessor :login
 
-  has_one :settings, class_name: 'CfSetting', :foreign_key => :user_id, :dependent => :destroy
+  has_one :settings, class_name: 'CfSetting', foreign_key: :user_id, dependent: :destroy
 
-  has_many :groups_users, class_name: 'CfGroupUser', :foreign_key => :user_id
-  has_many :groups, class_name: 'CfGroup', :through => :groups_users
+  has_many :groups_users, class_name: 'CfGroupUser', foreign_key: :user_id
+  has_many :groups, class_name: 'CfGroup', through: :groups_users
 
   has_many :badges_users, class_name: CfBadgeUser, dependent: :delete_all,
            foreign_key: :user_id
@@ -83,7 +83,8 @@ class CfUser < ActiveRecord::Base
     return true if admin?
     return true if has_badge?(RightsHelper::MODERATOR_TOOLS)
 
-    return CfForumGroupPermission.exists?(["group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND permission = ?", user_id, CfForumGroupPermission::ACCESS_MODERATE])
+    return CfForumGroupPermission.exists?(["group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND permission = ?",
+                                           user_id, CfForumGroupPermission::ACCESS_MODERATE])
   end
 
   def write?(forum)
@@ -126,6 +127,10 @@ class CfUser < ActiveRecord::Base
     end
 
     @score
+  end
+
+  def thumb
+    avatar(:thumb)
   end
 end
 
