@@ -23,12 +23,14 @@ gem 'content_for_in_controllers'
 gem 'kaminari'
 
 group :development, :test do
+  gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'quiet_assets'
   gem 'faker'
-
-  gem 'spring-commands-rspec'
   gem 'rspec-rails'
+  gem 'selenium-webdriver'
+  gem 'capybara'
+  gem 'spring-commands-rspec'
   gem 'guard-rspec'
   gem 'rb-fsevent' if `uname` =~ /Darwin/
 end
