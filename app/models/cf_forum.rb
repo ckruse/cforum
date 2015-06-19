@@ -1,18 +1,18 @@
-# -*- encoding: utf-8 -*-
+ # -*- encoding: utf-8 -*-
 
 class CfForum < ActiveRecord::Base
   self.primary_key = 'forum_id'
   self.table_name  = 'forums'
 
-  has_many :threads, class_name: 'CfThread', :foreign_key => :forum_id, :dependent => :destroy
+  has_many :threads, class_name: 'CfThread', foreign_key: :forum_id, dependent: :destroy
 
-  has_many :tags, class_name: 'CfTag', :foreign_key => :forum_id, :dependent => :destroy
+  has_many :tags, class_name: 'CfTag', foreign_key: :forum_id, dependent: :destroy
 
-  has_many :forums_groups_permissions, class_name: 'CfForumGroupPermission', :foreign_key => :forum_id, :dependent => :destroy
+  has_many :forums_groups_permissions, class_name: 'CfForumGroupPermission', foreign_key: :forum_id, dependent: :destroy
 
-  validates :slug, uniqueness: true, length: {:in => 1..20}, allow_blank: false, format: {with: /\A[a-z0-9_-]+\z/}
-  validates :name, length: {:minimum => 3}, allow_blank: false
-  validates :short_name, length: {:in => 1..50}
+  validates :slug, uniqueness: true, length: {in: 1..20}, allow_blank: false, format: {with: /\A[a-z0-9_-]+\z/}
+  validates :name, length: {minimum: 3}, allow_blank: false
+  validates :short_name, length: {in: 1..50}
 
   def to_param
     slug
