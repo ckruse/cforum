@@ -63,7 +63,7 @@ class CfUser < ActiveRecord::Base
     return false
   end
 
-  def moderate?(forum)
+  def moderate?(forum = nil)
     return true if admin?
     return true if has_badge?(RightsHelper::MODERATOR_TOOLS)
     return false if forum.blank?
