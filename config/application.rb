@@ -66,7 +66,5 @@ module Cforum
     config.active_record.raise_in_transactional_callbacks = true
 
     config.search_dict = 'german'
-
-    config.active_record.disable_implicit_join_references = true
   end
 end
