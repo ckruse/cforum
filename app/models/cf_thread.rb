@@ -10,7 +10,7 @@ class CfThread < ActiveRecord::Base
   has_many :messages, ->{ order(:created_at) }, class_name: 'CfMessage', foreign_key: :thread_id, dependent: :destroy
 
   validates :slug, uniqueness: true, allow_blank: false, format: {with: /\A[a-z0-9_\/-]+\z/}
-  validates_presence_of :forum_id
+  validates_presence_of :forum_id, :latest_message
 
   def find_message(mid)
     messages.each do |m|
@@ -102,16 +102,16 @@ class CfThread < ActiveRecord::Base
     now = thread.message.created_at
     now = Time.now if now.nil?
 
-    s = now.strftime("/%Y/%b/%d/").downcase
+    s = now.strftime("/%Y/%b/%d/").gsub(/0(\d)\/$/, '\1/').downcase
     s << num.to_s unless num.blank?
     s + thread.message.subject.to_url
   end
 
   def self.make_id(year, mon = nil, day = nil, tid = nil)
     if year.is_a?(Hash)
-      '/' + year[:year] + '/' + year[:mon] + '/' + year[:day] + '/' + year[:tid]
+      '/' + year[:year].to_s + '/' + year[:mon].to_s + '/' + year[:day].to_s + '/' + year[:tid].to_s
     else
-      '/' + year + '/' + mon + '/' + day + '/' + tid
+      '/' + year.to_s + '/' + mon.to_s + '/' + day.to_s + '/' + tid.to_s
     end
   end
 
