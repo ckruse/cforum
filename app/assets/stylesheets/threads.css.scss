@@ -53,6 +53,8 @@ a.thread-forum-plate:active {
   }
 
   & > header > .thread-icons {
+    position:sticky;
+    right:1em;
     float:right;
   }
 
