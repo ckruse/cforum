@@ -19,12 +19,12 @@ class CfMessage < ActiveRecord::Base
 
   attr_accessor :messages, :attribs, :parent_level
 
-  validates :author, length: { in: 2..60 }
-  validates :subject, length: { in: 4..250 }
-  validates :content, length: { in: 10..12288 }
+  validates :author, length: { in: 2..60 }, presence: true
+  validates :subject, length: { in: 4..250 }, presence: true
+  validates :content, length: { in: 10..12288 }, presence: true
 
-  validates :email, length: {:in => 2..60 }, email: true, allow_blank: true
-  validates :homepage, length: {:in => 2..250 }, allow_blank: true, http_url: true
+  validates :email, length: {in: 6..60 }, email: true, allow_blank: true
+  validates :homepage, length: {in: 2..250 }, allow_blank: true, http_url: true
 
   has_many :votes, class_name: 'CfCloseVote', foreign_key: :message_id
 
