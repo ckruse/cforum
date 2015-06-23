@@ -156,6 +156,7 @@ module CforumMarkup
       cnt << l
     end
 
+    cnt.gsub!(/^\s+~~~/, '~~~')
     cnt.gsub!(/~~~\n(.*)\n~~~/, '`\1`')
     cnt.gsub!(/~~~\s*(\w+)\n(.*)\n~~~/, '`\2`{: .language-\1}')
 
