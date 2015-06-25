@@ -10,10 +10,6 @@ class AddStandardBadges < ActiveRecord::Migration
                     slug: 'downvote', badge_type: 'downvote', badge_medal_type: 'bronze',
                     description: I18n.t('badges.default_descs.downvote'))
 
-    CfBadge.create!(score_needed: 300, name: I18n.t('badges.badge_types.flag'),
-                    slug: 'flag', badge_type: 'flag', badge_medal_type: 'bronze',
-                    description: I18n.t('badges.default_descs.flag'))
-
     CfBadge.create!(score_needed: 500, name: I18n.t('badges.badge_types.retag'),
                     slug: 'retag', badge_type: 'retag', badge_medal_type: 'bronze',
                     description: I18n.t('badges.default_descs.retag'))
