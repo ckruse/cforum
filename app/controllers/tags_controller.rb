@@ -71,7 +71,7 @@ class TagsController < ApplicationController
                     clean_tag,
                     clean_tag)
     else
-      @tags = CfTag.preload(:synonyms).where(forum_id: current_forum.forum_id)
+      @tags = CfTag.preload(:synonyms).where(forum_id: current_forum.forum_id, suggest: true)
     end
 
     @tags_list = []
