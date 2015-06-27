@@ -297,6 +297,11 @@ a.thread-forum-plate:hover {
     font-size:.7em;
     line-height: 1.1em;
   }
+
+  .thread > header > .thread-icons {
+    position:static;
+    right:auto;
+  }
 }
 
 /* eof */
