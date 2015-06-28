@@ -50,8 +50,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    celluloid (0.16.0)
-      timers (~> 4.0.0)
     childprocess (0.5.6)
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.0.3)
@@ -99,9 +97,9 @@ GEM
     formatador (0.2.5)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
-    guard (2.12.6)
+    guard (2.12.7)
       formatador (>= 0.2.4)
-      listen (~> 2.7)
+      listen (>= 2.7, <= 4.0)
       lumberjack (~> 1.0)
       nenv (~> 0.1)
       notiffany (~> 0.0)
@@ -113,7 +111,6 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    hitimes (1.2.2)
     htmlentities (4.3.3)
     i18n (0.7.0)
     jquery-rails (4.0.4)
@@ -128,8 +125,7 @@ GEM
       activesupport (>= 3.0.0)
     kramdown (1.7.0)
     libv8 (3.16.14.9)
-    listen (2.10.1)
-      celluloid (~> 0.16.0)
+    listen (3.0.1)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     loofah (2.0.2)
@@ -252,8 +248,6 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
-    timers (4.0.1)
-      hitimes
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.1)
@@ -296,6 +290,7 @@ DEPENDENCIES
   quiet_assets
   rails (~> 4.2.0)
   rails-i18n
+  rb-fsevent
   rspec-rails
   sass-rails (> 4.0.0)
   selenium-webdriver
@@ -304,6 +299,3 @@ DEPENDENCIES
   stringex
   therubyracer
   uglifier (>= 1.0.3)
-
-BUNDLED WITH
-   1.10.4

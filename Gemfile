@@ -8,7 +8,7 @@ gem 'devise-i18n'
 gem 'therubyracer'
 
 gem 'devise'
-gem "bcrypt-ruby", :require => "bcrypt"
+gem "bcrypt-ruby", require: "bcrypt"
 gem 'kramdown'
 gem 'coderay'
 
@@ -41,7 +41,7 @@ gem 'sass-rails', '> 4.0.0'
 gem 'coffee-rails'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', :platforms => :ruby
+# gem 'therubyracer', platforms: :ruby
 
 gem 'uglifier', '>= 1.0.3'
 
