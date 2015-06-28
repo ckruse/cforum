@@ -44,6 +44,7 @@ class ConfigManager
     'date_format_post' => '%d.%m.%Y %H:%M',
     'date_format_search' => '%d.%m.%Y',
     'date_format_default' => '%d.%m.%Y %H:%M',
+    'date_format_date' => '%d.%m.%Y',
 
     # search settings
     'search_forum_relevance' => 1,
