@@ -1,0 +1,25 @@
+<article class="thread-message cite">
+  <header class="message">
+    <h2><%= link_to t('cites.cite', id: cite.cite_id), cite_path(cite) %></h2>
+
+    <div class="details">
+      <span class="author">
+        <% unless cite.user_id.blank? %>
+          <span class="registered-user">
+            <%= link_to image_tag(cite.user.avatar(:thumb)), user_path(cite.user) %>
+          </span>
+        <% end %>
+
+        <%= link_to cite.author, cite_path(cite) %>
+      </span>
+
+      <time datetime="<%= cite.created_at.strftime("%FT%T%:z") %>"><%= link_to l(cite.created_at, format: uconf('date_format_date')), cite_path(cite) %></time>
+    </div>
+  </header>
+
+  <div class="posting-content cite"><%= cite.cite %></div>
+
+  <div>
+    <% unless cite.creator.blank? %>Eingereicht von <%= cite.creator %>. <% end %><% unless cite.url.blank? %><%= link_to t('cites.source'), cite.url %><% end %>
+  </div>
+</article>

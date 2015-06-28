@@ -1,0 +1,12 @@
+<% if @cite.errors.any? %>
+  <div id="error_explanation" class="cf-error">
+    <h4><%= t('cites.error_message', count: @cite.errors.count) %></h4>
+
+    <ul>
+      <% @cite.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+

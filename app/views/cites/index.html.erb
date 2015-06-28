@@ -1,0 +1,12 @@
+<%
+content_for :title, t('cites.cites')
+content_for :h1, t('cites.cites')
+content_for :body_id, 'cites-index'
+content_for :body_classes, 'cites index'
+%>
+
+
+<% @cites.each do |c| %>
+  <%= render 'cite', cite: c %>
+<% end %>
+

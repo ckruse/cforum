@@ -1,0 +1,17 @@
+<%
+content_for :title, t('cites.cite', id: @cite.cite_id)
+content_for :h1, t('cites.cite', id: @cite.cite_id)
+content_for :body_id, 'cites-show'
+content_for :body_classes, 'cites show'
+%>
+
+
+<%= render 'cite', cite: @cite %>
+
+<p class="form-actions">
+  <%= link_to t('cites.cites'), cites_path, class: 'cf-btn' %>
+
+  <% if current_user.try(:admin?) or may?(RightsHelper::MODERATOR_TOOLS) %>
+    <%= link_to t('cites.edit_cite'), edit_cite_path(@cite), class: 'cf-btn' %>
+  <% end %>
+</p>
