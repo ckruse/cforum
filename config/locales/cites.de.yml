@@ -1,0 +1,14 @@
+de:
+  cites:
+    created: Das Zitat wurde erfolgreich erstellt.
+    destroyed: Das Zitat wurde erfolgreich gelöscht.
+    updated: Das Zitat wurde erfolgreich geändert.
+    cites: Zitatesammlung
+    cite: 'Zitat #%{id}'
+    source: Quelle
+    edit_cite: Zitat bearbeiten
+    do_edit_cite: 'Zitat #%{id} bearbeiten'
+
+    error_message:
+      other: "%{count} Fehler verhinderten, dass dieses Zitat gespeichert werden konnte:"
+      one: "%{count} Fehler verhindert, dass dieses Zitat gespeichert werden konnte:"
