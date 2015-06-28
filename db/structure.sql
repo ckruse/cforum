@@ -577,6 +577,43 @@ ALTER SEQUENCE badges_users_badge_user_id_seq OWNED BY badges_users.badge_user_i
 
 
 --
+-- Name: cites; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE cites (
+    cite_id bigint NOT NULL,
+    old_id integer,
+    user_id integer,
+    message_id integer,
+    url text NOT NULL,
+    author text NOT NULL,
+    creator text,
+    cite text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: cites_cite_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE cites_cite_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cites_cite_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE cites_cite_id_seq OWNED BY cites.cite_id;
+
+
+--
 -- Name: close_votes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -688,7 +725,7 @@ CREATE TABLE forums (
     name character varying NOT NULL,
     description character varying,
     standard_permission character varying(50) DEFAULT 'private'::character varying NOT NULL,
-    keywords character varying(255),
+    keywords character varying,
     "position" integer DEFAULT 0 NOT NULL
 );
 
@@ -957,7 +994,7 @@ CREATE TABLE messages (
     content character varying NOT NULL,
     flags hstore,
     uuid character varying(250),
-    ip character varying(255),
+    ip character varying,
     editor_id bigint,
     format character varying(100) DEFAULT 'markdown'::character varying NOT NULL,
     edit_author text
@@ -1190,7 +1227,7 @@ ALTER SEQUENCE read_messages_read_message_id_seq OWNED BY read_messages.read_mes
 --
 
 CREATE TABLE schema_migrations (
-    version character varying(255) NOT NULL
+    version character varying NOT NULL
 );
 
 
@@ -1376,8 +1413,7 @@ CREATE TABLE tags (
     forum_id bigint NOT NULL,
     num_messages bigint DEFAULT 0 NOT NULL,
     suggest boolean DEFAULT true NOT NULL
-)
-WITH (fillfactor=90);
+);
 
 
 --
@@ -1464,8 +1500,8 @@ CREATE TABLE users (
     last_sign_in_ip character varying,
     current_sign_in_ip character varying,
     sign_in_count integer,
-    avatar_file_name character varying(255),
-    avatar_content_type character varying(255),
+    avatar_file_name character varying,
+    avatar_content_type character varying,
     avatar_file_size integer,
     avatar_updated_at timestamp without time zone,
     websocket_token character varying(250)
@@ -1534,6 +1570,13 @@ ALTER TABLE ONLY badges ALTER COLUMN badge_id SET DEFAULT nextval('badges_badge_
 --
 
 ALTER TABLE ONLY badges_users ALTER COLUMN badge_user_id SET DEFAULT nextval('badges_users_badge_user_id_seq'::regclass);
+
+
+--
+-- Name: cite_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cites ALTER COLUMN cite_id SET DEFAULT nextval('cites_cite_id_seq'::regclass);
 
 
 --
@@ -1755,6 +1798,22 @@ ALTER TABLE ONLY badges_users
 
 ALTER TABLE ONLY badges_users
     ADD CONSTRAINT badges_users_user_id_badge_id_key UNIQUE (user_id, badge_id);
+
+
+--
+-- Name: cites_old_id_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY cites
+    ADD CONSTRAINT cites_old_id_key UNIQUE (old_id);
+
+
+--
+-- Name: cites_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY cites
+    ADD CONSTRAINT cites_pkey PRIMARY KEY (cite_id);
 
 
 --
@@ -2508,6 +2567,22 @@ ALTER TABLE ONLY badges_users
 
 
 --
+-- Name: cites_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cites
+    ADD CONSTRAINT cites_message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: cites_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cites
+    ADD CONSTRAINT cites_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
 -- Name: close_votes_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3006,6 +3081,8 @@ INSERT INTO schema_migrations (version) VALUES ('71');
 INSERT INTO schema_migrations (version) VALUES ('72');
 
 INSERT INTO schema_migrations (version) VALUES ('73');
+
+INSERT INTO schema_migrations (version) VALUES ('74');
 
 INSERT INTO schema_migrations (version) VALUES ('8');
 

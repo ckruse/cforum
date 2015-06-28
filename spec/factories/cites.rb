@@ -1,0 +1,16 @@
+# -*- coding: utf-8 -*-
+
+FactoryGirl.define do
+  sequence(:random_cite) do |n|
+    Faker::Lorem.paragraphs.join("\n\n")
+  end
+
+  factory :cf_cite do
+    sequence(:author) { |n| "Author #{n}" }
+    cite { generate(:random_cite) }
+    url 'http://example.org/'
+  end
+end
+
+
+# eof
