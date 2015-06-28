@@ -11,7 +11,7 @@ content_for :robots, 'noindex,nofollow'
     <label for="term"><%= t('search.search_for') %></label>
 
     <div class="cntrls">
-      <%= search_field_tag 'term', params[:term], placeholder: t('search.search_term'), autofocus: true %>
+      <%= search_field_tag 'term', params[:term], placeholder: t('search.search_term'), autofocus: params[:term].blank? ? true : false %>
 
       <ul class="search-explanation">
         <li><code>-</code> vor einem Begriff: der Begriff darf nicht vorkommen</li>
