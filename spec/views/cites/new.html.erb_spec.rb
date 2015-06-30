@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "cites/new", type: :view do
   before(:each) do
-    assign(:cite, Cite.new())
+    assign(:cite, create(:cf_cite))
   end
 
   it "renders new cite form" do
