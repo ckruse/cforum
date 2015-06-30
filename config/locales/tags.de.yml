@@ -1,10 +1,10 @@
 de:
   tags:
     tags: Tags
-    new_tag: Neuen Tag erstellen
+    new_tag: Neues Tag erstellen
     edit_tag: Tag „%{name}“ bearbeiten
     edit_tag_synonym: "Tag „%{name}“: Synonym „%{synonym}“ bearbeiten"
-    error_message: "Aufgrund folgender Fehler konnte der Tag nicht gespeichert werden:"
+    error_message: "Aufgrund folgender Fehler konnte das Tag nicht gespeichert werden:"
     error_message_synonym: "Aufgrund folgender Fehler konnte das Synonym nicht gespeichert werden:"
     delete_tag: Tag „%{name}“ löschen
     do_delete_tag: Tag löschen
@@ -13,19 +13,19 @@ de:
     new_tag_synonym_for_tag: "Tag „%{tag}“: Neues Synonym erstellen"
     tags_for_forum: "%{forum}: Tags"
     merge: Tag zusammenführen
-    not_used_for_suggestions: Der Tag wird nicht für Vorschläge benutzt.
-    existing_tag_will_be_merged_to: "Alle Beiträge werden dabei dem oben ausgewählten Tag zugeordnet. Der Tag „%{tag}“ wird gelöscht und dem oben ausgewählten als Synonym zugefügt."
+    not_used_for_suggestions: Das Tag wird nicht für Vorschläge benutzt.
+    existing_tag_will_be_merged_to: "Das Tag „%{tag}“ wird gelöscht und dem oben ausgewählten als Synonym hinzugefügt. Alle Beiträge mit dem Tag „%{tag}“ werden dabei dem oben ausgewählten Tag zugeordnet. "
 
     no_synonyms: Bisher sind keine Synonyme bekannt.
     no_messages: Bisher sind keine Beiträge mit diesem Tag geschrieben worden.
     synonyms: Synonyme
 
-    created: Der Tag wurde erfolgreich erstellt.
+    created: Das Tag wurde erfolgreich erstellt.
     synonym_created: Das Synonym wurde erfolgreich erstellt.
-    updated: Der Tag wurde erfolgreich geändert.
+    updated: Das Tag wurde erfolgreich geändert.
     synonym_updated: Das Synonym wurde erfolgreich geändert.
-    destroyed: Der Tag wurde erfolgreich gelöscht.
+    destroyed: Das Tag wurde erfolgreich gelöscht.
     synonym_destroyed: Das Synonym wurde erfolgreich gelöscht.
     merged: Die Tags wurden erfolgreich zusammengeführt.
 
-    tag_has_messages: Der Tag ist noch Nachrichten zugeordnet. Er kann nicht gelöscht werden.
+    tag_has_messages: Das Tag ist noch Nachrichten zugeordnet. Es kann nicht gelöscht werden.
