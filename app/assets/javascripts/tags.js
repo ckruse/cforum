@@ -210,6 +210,10 @@ cforum.tags = {
     el.remove();
     el = $("#replaced_tag_input");
 
+    if(tags.length >= cforum.tags.maxTags) {
+      el.css('display', 'none');
+    }
+
     el.on('keyup', cforum.tags.handleTagsKeyUp);
     el.on('focusout', cforum.tags.addTag);
     $("#tags-list").on('click', cforum.tags.removeTag);
