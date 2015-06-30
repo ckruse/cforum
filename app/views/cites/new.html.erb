@@ -1,5 +1,16 @@
-<h1>New Cite</h1>
+<%
+content_for :title, t('cites.do_edit_cite', id: @cite.cite_id)
+content_for :h1, t('cites.do_edit_cite', id: @cite.cite_id)
+content_for :body_id, 'cites-edit'
+content_for :body_classes, 'cites edit'
+%>
 
-<%= render 'form' %>
+<%= form_for(@cite, url: cites_path, html: {class: 'form-horizontal'}) do |f| %>
 
-<%= link_to 'Back', cites_path %>
+  <%= render 'form', f: f %>
+
+  <p class="form-actions">
+    <%= f.submit t('global.save'), class: "cf-primary-btn" %>
+    <%= link_to t('global.cancel'), cites_path, class: 'cf-btn' %>
+  </p>
+<% end %>
