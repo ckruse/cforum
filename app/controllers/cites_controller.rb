@@ -72,6 +72,12 @@ class CitesController < ApplicationController
     redirect_to cites_url, notice: t('cites.destroyed')
   end
 
+  def redirect
+    id = params[:id].gsub(/\D+/, '')
+    @cite = CfCite.where(old_id: id).first!
+    redirect_to cite_url(@cite), status: 301
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_cite
