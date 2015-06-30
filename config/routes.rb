@@ -14,6 +14,7 @@ Cforum::Application.routes.draw do
   end
 
   get "/search" => "cf_search#show", as: :search
+  post "/search" => "cf_search#show"
 
   get 'cites/old/:id' => 'cites#redirect'
   resources 'cites'
