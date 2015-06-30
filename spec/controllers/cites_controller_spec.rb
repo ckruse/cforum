@@ -108,7 +108,7 @@ RSpec.describe CitesController, type: :controller do
         sign_in admin
 
         cite = create(:cf_cite)
-        put :update, {id: cite.to_param, cf_cite: {author: ''}}
+        put :update, {id: cite.to_param, cf_cite: {cite: ''}}
         expect(assigns(:cite)).to eq(cite)
       end
 
@@ -116,7 +116,7 @@ RSpec.describe CitesController, type: :controller do
         sign_in admin
 
         cite = create(:cf_cite)
-        put :update, {id: cite.to_param, cf_cite: {author: ''}}
+        put :update, {id: cite.to_param, cf_cite: {cite: ''}}
         expect(response).to render_template("edit")
       end
     end
