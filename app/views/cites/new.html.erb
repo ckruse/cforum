@@ -1,8 +1,8 @@
 <%
-content_for :title, t('cites.do_edit_cite', id: @cite.cite_id)
-content_for :h1, t('cites.do_edit_cite', id: @cite.cite_id)
-content_for :body_id, 'cites-edit'
-content_for :body_classes, 'cites edit'
+content_for :title, t('cites.do_new_cite')
+content_for :h1, t('cites.do_new_cite')
+content_for :body_id, 'cites-new'
+content_for :body_classes, 'cites new'
 %>
 
 <%= form_for(@cite, url: cites_path, html: {class: 'form-horizontal'}) do |f| %>
