@@ -8,6 +8,7 @@ de:
     source: Quelle
     edit_cite: Zitat bearbeiten
     do_edit_cite: 'Zitat #%{id} bearbeiten'
+    destroy_cite: Zitat löschen
     created_by: Eingereicht von %{author}.
 
     error_message:
