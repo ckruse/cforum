@@ -44,6 +44,7 @@ de:
       cf_badge: Abzeichen
       medium: Medium
       search_section: Such-Sektion
+      cf_cite: Zitat
 
     attributes:
       cf_message:
@@ -120,3 +121,9 @@ de:
         name: Name
         position: Position
         active_by_default: Aktiv im Default
+
+      cf_cite:
+        creator: Eingereicht von
+        author: Autor
+        cite: Zitat
+        url: URL

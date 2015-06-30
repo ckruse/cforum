@@ -20,6 +20,6 @@
   <div class="posting-content cite"><%= cite.cite %></div>
 
   <div>
-    <% unless cite.creator.blank? %>Eingereicht von <%= cite.creator %>. <% end %><% unless cite.url.blank? %><%= link_to t('cites.source'), cite.url %><% end %>
+    <% unless cite.creator.blank? %><%= t('cites.created_by', author: cite.creator) %> <% end %><% unless cite.url.blank? %><%= link_to t('cites.source'), cite.url %><% end %>
   </div>
 </article>
