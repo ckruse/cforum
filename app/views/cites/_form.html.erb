@@ -10,3 +10,26 @@
   </div>
 <% end %>
 
+<fieldset>
+  <div class="cf-cgroup">
+    <%= f.label :author %>
+    <div class="cntrls"><%= f.text_field :author %></div>
+  </div>
+
+  <% if @cite.persisted? %>
+    <div class="cf-cgroup">
+      <%= f.label :creator %>
+      <div class="cntrls"><%= f.text_field :creator %></div>
+    </div>
+  <% end %>
+
+  <div class="cf-cgroup">
+    <%= f.label :url %>
+    <div class="cntrls"><%= f.text_field :url %></div>
+  </div>
+
+  <div class="cf-cgroup">
+    <%= f.label :cite %>
+    <div class="cntrls"><%= f.text_area :cite %></div>
+  </div>
+</fieldset>

@@ -59,6 +59,9 @@ class CitesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def cite_params
-      params.require(:cf_cite).permit(:cite, :author, :url)
+      allowed_attribs = [:cite, :url, :author]
+      allowed_attribs << :creator if @cite.persisted?
+
+      params.require(:cf_cite).permit(*allowed_attribs)
     end
 end
