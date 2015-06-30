@@ -36,7 +36,7 @@ File.open(ARGV[0], 'r:utf-8') do |fd|
       tid = $1
       mid = $2
 
-    elsif c.url =~ /forum.selfhtml.org\/\w+(\/\d+\/\w{3}\/[^\/]+)\/(\d+)/
+    elsif c.url =~ /forum.selfhtml.org\/\w+(\/\d{4,}\/[a-z]{3}\/\d{1,2}\/[^\/]+)\/(\d+)/
       slug = $1
       mid = $2
 
