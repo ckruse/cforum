@@ -23,6 +23,9 @@ File.open(ARGV[0], 'r:utf-8') do |fd|
     c.created_at = c.updated_at = Date.parse(cite.xpath('./datum').first.content)
     c.old_id = cite.xpath('./id').first.content
 
+    c.creator = cite.xpath('./vorschlaeger').first.content
+    c.creator = nil if c.creator.blank?
+
     thread = message = nil
 
     if not c.url.blank? and c.url =~ /forum.de.selfhtml.org\/(?:my\/)?\?t=(\d+)&m=(\d+)/
