@@ -199,11 +199,11 @@ class CfMessagesController < ApplicationController
 
   def update
     @thread, @message, @id = get_thread_w_post
+    @tags = parse_tags
 
     unless check_editable(@thread, @message, false)
       @parent = @message
       @message = CfMessage.new(message_params)
-      @tags = parse_tags
 
       flash.now[:error] = t('messages.editing_not_allowed_should_we_create_followup')
 
@@ -236,7 +236,6 @@ class CfMessagesController < ApplicationController
       end
     end
 
-    @tags    = parse_tags
     @preview = true if params[:preview]
     retvals  = notification_center.notify(UPDATING_MESSAGE, @thread, @message,
                                           @tags)
