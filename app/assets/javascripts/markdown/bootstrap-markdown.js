@@ -1177,8 +1177,8 @@
               e.replaceSelection(chunk);
               cursor = selected.start-1;
             } else if (content.indexOf('\n') > -1) {
-              e.replaceSelection('~~~\n'+chunk+'\n~~~');
-              cursor = selected.start+4;
+              e.replaceSelection('\n~~~\n'+chunk+'\n~~~\n');
+              cursor = selected.start+5;
             } else {
               e.replaceSelection('`'+chunk+'`');
               cursor = selected.start+1;
