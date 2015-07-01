@@ -2,8 +2,8 @@ de:
   notifications:
     notifications: Benachrichtigungen
     new_mail: "neue Nachricht von %{user}: %{subject}"
-    new_answer: "%{nick} hat eine neue Antwort auf Ihr Posting geschrieben: %{subject}"
-    new_message: "%{nick} hat eine neue Nachricht geschrieben: %{subject}"
+    new_answer: "%{nick} hat eine neue Antwort auf Ihren Beitrag geschrieben: %{subject}"
+    new_message: "%{nick} hat einen neuen Beitrag geschrieben: %{subject}"
     destroyed: Die Benachrichtigung wurde erfolgreich gelöscht.
     mark_unread: ungelesen markieren
     marked_unread: Die Benachrichtigung wurde als ungelesen markiert!
