@@ -33,6 +33,8 @@ cforum.notifications = {
     noti.animate({'font-size': '1.3em'}, 200, function() {
       noti.animate({'font-size': '1em'}, 200);
     });
+
+    cforum.updateFavicon();
   }
 };
 

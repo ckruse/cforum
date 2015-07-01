@@ -108,5 +108,12 @@ cforum.alert = {
   }
 };
 
+cforum.updateFavicon = function() {
+  var favicon = $('link[rel="shortcut icon"]');
+  if(favicon.attr('href') != cforum.faviconUrl) {
+    favicon.remove();
+    $('head').append('<link rel="shortcut icon" type="image/x-icon" href="' + cforum.faviconUrl + '">');
+  }
+};
 
 // eof

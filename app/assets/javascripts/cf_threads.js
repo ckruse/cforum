@@ -59,11 +59,13 @@ cforum.cf_threads = {
     cforum.cf_threads.numThreads += 1;
     cforum.cf_threads.numMessages += 1;
     cforum.cf_threads.showNewAlert();
+    cforum.updateFavicon();
   },
 
   newMessageArriving: function(message) {
     cforum.cf_threads.numMessages += 1;
     cforum.cf_threads.showNewAlert();
+    cforum.updateFavicon();
   },
 
   initGlobal: function() {
@@ -224,7 +226,6 @@ cforum.cf_threads = {
       }
     }
   }
-
 };
 
 /* eof */
