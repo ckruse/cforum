@@ -104,7 +104,9 @@ class CfThread < ActiveRecord::Base
 
     s = now.strftime("/%Y/%b/%d/").gsub(/0(\d)\/$/, '\1/').downcase
     s << num.to_s unless num.blank?
-    s + thread.message.subject.to_url
+    s << thread.message.subject.to_url
+
+    s.gsub(/[^a-z0-9_\/-]/, '')
   end
 
   def self.make_id(year, mon = nil, day = nil, tid = nil)
