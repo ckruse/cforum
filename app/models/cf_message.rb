@@ -2,6 +2,7 @@
 
 class CfMessage < ActiveRecord::Base
   include ParserHelper
+  include ScoresHelper
 
   self.primary_key = 'message_id'
   self.table_name  = 'messages'
@@ -120,17 +121,6 @@ class CfMessage < ActiveRecord::Base
 
   def score
     upvotes - downvotes
-  end
-
-  def score_str
-    s = score
-    if score == 0
-      '±' + s.to_s
-    elsif score < 0
-      '−' + s.abs.to_s
-    else
-      "+" + s.to_s
-    end
   end
 
   def no_votes
