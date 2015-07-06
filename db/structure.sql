@@ -590,7 +590,9 @@ CREATE TABLE cites (
     creator text,
     cite text NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    cite_date timestamp without time zone NOT NULL,
+    archived boolean DEFAULT false NOT NULL
 );
 
 
@@ -611,6 +613,39 @@ CREATE SEQUENCE cites_cite_id_seq
 --
 
 ALTER SEQUENCE cites_cite_id_seq OWNED BY cites.cite_id;
+
+
+--
+-- Name: cites_votes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE cites_votes (
+    cite_vote_id bigint NOT NULL,
+    cite_id bigint NOT NULL,
+    user_id integer NOT NULL,
+    vote_type integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: cites_votes_cite_vote_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE cites_votes_cite_vote_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cites_votes_cite_vote_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE cites_votes_cite_vote_id_seq OWNED BY cites_votes.cite_vote_id;
 
 
 --
@@ -1580,6 +1615,13 @@ ALTER TABLE ONLY cites ALTER COLUMN cite_id SET DEFAULT nextval('cites_cite_id_s
 
 
 --
+-- Name: cite_vote_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cites_votes ALTER COLUMN cite_vote_id SET DEFAULT nextval('cites_votes_cite_vote_id_seq'::regclass);
+
+
+--
 -- Name: close_vote_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1814,6 +1856,14 @@ ALTER TABLE ONLY cites
 
 ALTER TABLE ONLY cites
     ADD CONSTRAINT cites_pkey PRIMARY KEY (cite_id);
+
+
+--
+-- Name: cites_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY cites_votes
+    ADD CONSTRAINT cites_votes_pkey PRIMARY KEY (cite_vote_id);
 
 
 --
@@ -2583,6 +2633,22 @@ ALTER TABLE ONLY cites
 
 
 --
+-- Name: cites_votes_cite_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cites_votes
+    ADD CONSTRAINT cites_votes_cite_id_fkey FOREIGN KEY (cite_id) REFERENCES cites(cite_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: cites_votes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cites_votes
+    ADD CONSTRAINT cites_votes_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: close_votes_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3083,6 +3149,8 @@ INSERT INTO schema_migrations (version) VALUES ('72');
 INSERT INTO schema_migrations (version) VALUES ('73');
 
 INSERT INTO schema_migrations (version) VALUES ('74');
+
+INSERT INTO schema_migrations (version) VALUES ('75');
 
 INSERT INTO schema_migrations (version) VALUES ('8');
 

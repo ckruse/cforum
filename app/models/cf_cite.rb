@@ -7,6 +7,8 @@ class CfCite < ActiveRecord::Base
   belongs_to :message, class_name: 'CfMessage'
   belongs_to :user, class_name: 'CfUser'
 
+  has_many :votes, class_name: 'CfCiteVote', foreign_key: :cite_id
+
   validates :author, length: { in: 2..60 }, allow_blank: true
   validates :cite, length: { in: 10..12288 }, presence: true
 end
