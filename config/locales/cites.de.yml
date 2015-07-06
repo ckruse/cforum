@@ -8,9 +8,11 @@ de:
     source: Quelle
     edit_cite: Zitat bearbeiten
     do_edit_cite: 'Zitat #%{id} bearbeiten'
-    do_new_cite: 'neues Zitat erstellen'
+    do_new_cite: 'neues Zitat vorschlagen'
     destroy_cite: Zitat löschen
     created_by: Eingereicht von „%{author}“.
+    do_vote: Über Zitate abstimmen
+    no_votes_active: Zur Zeit sind keine Zitate zur Abstimmung aktiv.
 
     error_message:
       other: "%{count} Fehler verhinderten, dass dieses Zitat gespeichert werden konnte:"

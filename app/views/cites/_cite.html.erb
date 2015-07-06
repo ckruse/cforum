@@ -1,4 +1,26 @@
-<article class="thread-message cite">
+<%
+
+has_upvote = has_downvote = false
+vote = cite.votes.index { |x| x.user_id == current_user.try(:user_id) }
+if not vote.nil?
+  vote = cite.votes[vote]
+  has_upvote = true if not vote.blank? and vote.vote_type == CfCiteVote::UPVOTE
+  has_downvote = true if not vote.blank? and vote.vote_type == CfCiteVote::DOWNVOTE
+end
+
+downvote_msg = if has_downvote
+                 t('messages.unvote')
+               else
+                 t('messages.vote_down')
+               end
+
+upvote_msg = if has_upvote
+               t('messages.unvote')
+             else
+               t('messages.vote_up')
+             end
+
+%><article class="thread-message cite">
   <header class="message">
     <h2><%= link_to t('cites.cite', id: cite.cite_id), cite_path(cite) %></h2>
 
@@ -13,9 +35,27 @@
         <%= link_to cite.author, cite_path(cite) %>
       </span>
 
-      <time datetime="<%= cite.created_at.strftime("%FT%T%:z") %>"><%= link_to l(cite.created_at, format: uconf('date_format_date')), cite_path(cite) %></time>
+      <time datetime="<%= cite.cite_date.strftime("%FT%T%:z") %>"><%= link_to l(cite.cite_date, format: uconf('date_format_date')), cite_path(cite) %></time>
     </div>
   </header>
+
+  <% if not current_user.blank? and not cite.archived? %>
+    <div class="voting">
+      <%= form_tag cite_vote_path(cite), method: :post, class: 'form-inline' do %>
+        <button name="type"
+                value="down"
+                title="<%= downvote_msg %>"
+                class="cf-btn vote icon-vote-down<% if has_downvote %> active<% end %>">‒</button>
+
+        <span class="votes" title="<%= t('messages.votes_tree', count: cite.votes.length, score: cite.score_str) %>"><%= cite.score_str %></span>
+
+        <button name="type"
+                value="up"
+                title="<%= upvote_msg %>"
+                class="cf-btn vote icon-vote-up<% if has_upvote %> active<% end %>">+</button>
+      <% end %>
+    </div>
+  <% end %>
 
   <div class="posting-content cite"><%= cite.cite %></div>
 

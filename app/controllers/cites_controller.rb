@@ -1,16 +1,102 @@
 class CitesController < ApplicationController
   authorize_action([:edit, :update, :destroy]) { may?(RightsHelper::MODERATOR_TOOLS) or authorize_admin }
+  authorize_action(:vote_index) { authorize_user }
 
-  before_action :set_cite, only: [:show, :edit, :update, :destroy]
+  before_action :set_cite, only: [:show, :edit, :update, :destroy, :vote]
 
-  def index
+  def index(archived = true)
     @limit = conf('pagination').to_i
     @cites = CfCite.
              preload(:message, :user).
+             where(archived: archived).
              order('cite_id DESC').
              page(params[:page]).
-             per(@limit).
-             all
+             per(@limit)
+  end
+
+  def vote_index
+    index(false)
+    @cites = @cites.preload(:votes)
+  end
+
+  def vote
+    if current_user.blank? or @cite.archived?
+      respond_to do |format|
+        format.html do
+          flash[:error] = t('messages.insufficient_rights_to_upvote')
+          redirect_to cites_url
+        end
+
+        format.json { render json: { status: 'error', message: t('messages.do_not_vote_yourself') } }
+      end
+    end
+
+    vtype = params[:type] == 'up' ? CfCiteVote::UPVOTE : CfCiteVote::DOWNVOTE
+
+    @vote = CfCiteVote.where(user_id: current_user.user_id,
+                             cite_id: @cite.cite_id).first
+
+    if @vote.blank?
+      @vote = CfCiteVote.new(cite_id: @cite.cite_id,
+                             user_id: current_user.user_id,
+                             vote_type: vtype)
+
+      if @vote.save
+        respond_to do |format|
+          format.html { redirect_to cites_vote_url, notice: t('messages.successfully_voted') }
+          format.json do
+            @cite.votes.reload
+            render json: { status: 'success', score: @cite.score_str, message: t('messages.successfully_voted') }
+          end
+        end
+
+      else
+        respond_to do |format|
+          format.html { redirect_to cites_vote_url, notice: t('messages.something_went_wrong') }
+          format.json do
+            @cite.votes.reload
+            render json: { status: 'success', score: @cite.score_str, message: t('messages.something_went_wrong') }
+          end
+        end
+      end
+
+      return
+    end
+
+    if @vote.vote_type == vtype
+      @vote.destroy
+
+      respond_to do |format|
+        format.html { redirect_to cites_vote_url, notice: t('messages.vote_removed') }
+        format.json do
+          @cite.votes.reload
+          render json: { status: 'success', score: @cite.score_str, message: t('messages.vote_removed') }
+        end
+      end
+
+      return
+    end
+
+    @vote.vote_type = vtype
+    if @vote.save
+      respond_to do |format|
+        format.html { redirect_to cites_vote_url, notice: t('messages.successfully_voted') }
+        format.json do
+          @cite.votes.reload
+          render json: { status: 'success', score: @cite.score_str, message: t('messages.successfully_voted') }
+        end
+      end
+
+      return
+    end
+
+    respond_to do |format|
+      format.html { redirect_to cites_vote_url, notice: t('messages.something_went_wrong') }
+      format.json do
+        @cite.votes.reload
+        render json: { status: 'success', score: @cite.score_str, message: t('messages.something_went_wrong') }
+      end
+    end
   end
 
   def show
@@ -43,7 +129,7 @@ class CitesController < ApplicationController
       unless @message.blank?
         @cite.message_id = @message.message_id
         @cite.user_id = @message.user_id
-        @cite.created_at = @message.created_at
+        @cite.cite_date = @message.created_at
       end
     end
 

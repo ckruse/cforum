@@ -17,6 +17,8 @@ Cforum::Application.routes.draw do
   post "/search" => "cf_search#show"
 
   get 'cites/old/:id' => 'cites#redirect'
+  get 'cites/voting' => 'cites#vote_index', as: :cites_vote
+  post 'cites/:id/vote' => 'cites#vote', as: :cite_vote
   resources 'cites'
 
   get "/forums" => "cf_forums#redirector", as: :forum_redirector
