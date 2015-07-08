@@ -1,24 +1,27 @@
 <%
 
-has_upvote = has_downvote = false
-vote = cite.votes.index { |x| x.user_id == current_user.try(:user_id) }
-if not vote.nil?
-  vote = cite.votes[vote]
-  has_upvote = true if not vote.blank? and vote.vote_type == CfCiteVote::UPVOTE
-  has_downvote = true if not vote.blank? and vote.vote_type == CfCiteVote::DOWNVOTE
-end
+unless cite.archived?
+  has_upvote = has_downvote = false
+  vote = cite.votes.index { |x| x.user_id == current_user.try(:user_id) }
 
-downvote_msg = if has_downvote
+  if not vote.nil?
+    vote = cite.votes[vote]
+    has_upvote = true if not vote.blank? and vote.vote_type == CfCiteVote::UPVOTE
+    has_downvote = true if not vote.blank? and vote.vote_type == CfCiteVote::DOWNVOTE
+  end
+
+  downvote_msg = if has_downvote
+                   t('messages.unvote')
+                 else
+                   t('messages.vote_down')
+                 end
+
+  upvote_msg = if has_upvote
                  t('messages.unvote')
                else
-                 t('messages.vote_down')
+                 t('messages.vote_up')
                end
-
-upvote_msg = if has_upvote
-               t('messages.unvote')
-             else
-               t('messages.vote_up')
-             end
+end
 
 %><article class="thread-message cite">
   <header class="message">
