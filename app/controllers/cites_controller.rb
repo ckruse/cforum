@@ -7,7 +7,7 @@ class CitesController < ApplicationController
   def index(archived = true)
     @limit = conf('pagination').to_i
     @cites = CfCite.
-             preload(:message, :user).
+             preload(:message, :user, :creator_user).
              where(archived: archived).
              order('cite_id DESC').
              page(params[:page]).
@@ -114,6 +114,7 @@ class CitesController < ApplicationController
   # POST /cites
   def create
     @cite = CfCite.new(cite_params)
+    @cite.creator_user_id = current_user.user_id unless current_user.blank?
 
     if not @cite.url.blank? and @cite.url[0..(root_url.length-1)] == root_url and @cite.url =~ /\/\w+(\/\d{4,}\/[a-z]{3}\/\d{1,2}\/[^\/]+)\/(\d+)/
       slug = $1

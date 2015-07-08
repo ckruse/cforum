@@ -8,6 +8,7 @@ class CfCite < ActiveRecord::Base
 
   belongs_to :message, class_name: 'CfMessage'
   belongs_to :user, class_name: 'CfUser'
+  belongs_to :creator_user, class_name: 'CfUser'
 
   has_many :votes, class_name: 'CfCiteVote', foreign_key: :cite_id
 

@@ -10,7 +10,7 @@ de:
     do_edit_cite: 'Zitat #%{id} bearbeiten'
     do_new_cite: 'neues Zitat vorschlagen'
     destroy_cite: Zitat löschen
-    created_by: Eingereicht von „%{author}“.
+    created_by: Eingereicht von
     do_vote: Über Zitate abstimmen
     no_votes_active: Zur Zeit sind keine Zitate zur Abstimmung aktiv.
 

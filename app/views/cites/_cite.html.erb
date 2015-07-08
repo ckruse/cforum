@@ -60,6 +60,17 @@ upvote_msg = if has_upvote
   <div class="posting-content cite"><%= cite.cite %></div>
 
   <div>
-    <% unless cite.creator.blank? %><%= t('cites.created_by', author: cite.creator) %> <% end %><% unless cite.url.blank? %><%= link_to t('cites.source'), cite.url %><% end %>
+    <% unless cite.creator.blank? %><%= t('cites.created_by') %>
+      <span class="author">
+        <% if not cite.creator_user_id.blank? %>
+          <span class="registered-user">
+            <%= link_to image_tag(cite.creator_user.avatar(:thumb)), user_path(cite.creator_user) %>
+            <%= cite.creator %>
+          </span>
+        <% else %>
+          <span class="icon-message original-poster"><%= cite.creator %></span>
+        <% end %>
+      </span>
+    <% end %><% unless cite.url.blank? %><%= link_to t('cites.source'), cite.url %><% end %>
   </div>
 </article>

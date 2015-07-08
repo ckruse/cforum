@@ -592,7 +592,8 @@ CREATE TABLE cites (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     cite_date timestamp without time zone NOT NULL,
-    archived boolean DEFAULT false NOT NULL
+    archived boolean DEFAULT false NOT NULL,
+    creator_user_id integer
 );
 
 
@@ -760,7 +761,7 @@ CREATE TABLE forums (
     name character varying NOT NULL,
     description character varying,
     standard_permission character varying(50) DEFAULT 'private'::character varying NOT NULL,
-    keywords character varying,
+    keywords character varying(255),
     "position" integer DEFAULT 0 NOT NULL
 );
 
@@ -1029,7 +1030,7 @@ CREATE TABLE messages (
     content character varying NOT NULL,
     flags hstore,
     uuid character varying(250),
-    ip character varying,
+    ip character varying(255),
     editor_id bigint,
     format character varying(100) DEFAULT 'markdown'::character varying NOT NULL,
     edit_author text
@@ -1262,7 +1263,7 @@ ALTER SEQUENCE read_messages_read_message_id_seq OWNED BY read_messages.read_mes
 --
 
 CREATE TABLE schema_migrations (
-    version character varying NOT NULL
+    version character varying(255) NOT NULL
 );
 
 
@@ -1448,7 +1449,8 @@ CREATE TABLE tags (
     forum_id bigint NOT NULL,
     num_messages bigint DEFAULT 0 NOT NULL,
     suggest boolean DEFAULT true NOT NULL
-);
+)
+WITH (fillfactor=90);
 
 
 --
@@ -1535,8 +1537,8 @@ CREATE TABLE users (
     last_sign_in_ip character varying,
     current_sign_in_ip character varying,
     sign_in_count integer,
-    avatar_file_name character varying,
-    avatar_content_type character varying,
+    avatar_file_name character varying(255),
+    avatar_content_type character varying(255),
     avatar_file_size integer,
     avatar_updated_at timestamp without time zone,
     websocket_token character varying(250)
@@ -2614,6 +2616,14 @@ ALTER TABLE ONLY badges_users
 
 ALTER TABLE ONLY badges_users
     ADD CONSTRAINT badges_users_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: cites_creator_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cites
+    ADD CONSTRAINT cites_creator_user_id_fkey FOREIGN KEY (creator_user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 --
