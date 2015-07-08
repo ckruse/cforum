@@ -167,7 +167,13 @@ describe CfMessage do
       expect(msg.score).to eq(-1)
     end
 
+    it "uses – when no votes exist" do
+      expect(msg.score_str).to eq("–")
+    end
+
     it "uses +/- when score is zero" do
+      msg.upvotes = 1
+      msg.downvotes = 1
       expect(msg.score_str).to eq("±0")
     end
 

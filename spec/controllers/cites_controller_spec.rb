@@ -7,7 +7,7 @@ RSpec.describe CitesController, type: :controller do
 
   describe "GET #index" do
     it "assigns all cites as @cites" do
-      cite = create(:cf_cite)
+      cite = create(:cf_cite, archived: true)
       get :index, {}
       expect(assigns(:cites)).to eq([cite])
     end
