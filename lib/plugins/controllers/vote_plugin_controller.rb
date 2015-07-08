@@ -88,7 +88,7 @@ class VotePluginController < ApplicationController
         format.html { redirect_to cf_message_url(@thread, @message), notice: t('messages.vote_removed') }
         format.json do
           @message.reload
-          render json: { status: 'success', score: @message.score, message: t('messages.vote_removed') }
+          render json: { status: 'success', score: @message.score_str, message: t('messages.vote_removed') }
         end
       end
 
