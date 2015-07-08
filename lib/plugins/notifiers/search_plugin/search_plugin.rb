@@ -53,6 +53,25 @@ class SearchPlugin < Plugin
     SearchDocument.delete_all(['reference_id IN (?)', mids]) unless mids.blank?
   end
 
+  def accepted_message(thread, message)
+    doc = SearchDocument.where(reference_id: message.message_id).first
+    return if doc.blank?
+
+    base_relevance = conf('search_forum_relevance')
+
+    doc.relevance = base_relevance.to_f + (message.score.to_f / 10.0) + (message.flags['accepted'] == 'yes' ? 0.5 : 0.0) + ('0.0' + message.created_at.year.to_s).to_f
+    doc.save
+  end
+
+  def voted_message(message)
+    message.reload
+    accepted_message(nil, message)
+  end
+
+  def unvoted_message(message, vote)
+    message.reload
+    accepted_message(nil, message)
+  end
 end
 
 ApplicationController.init_hooks << Proc.new do |app_controller|
@@ -68,6 +87,14 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(CfMessagesController::RESTORED_MESSAGE, search_plugin)
   app_controller.notification_center.
     register_hook(CfThreadsController::NEW_THREAD_SAVED, search_plugin)
+
+  app_controller.notification_center.
+    register_hook(AcceptPluginController::ACCEPTED_MESSAGE, search_plugin)
+
+  app_controller.notification_center.
+    register_hook(VotePluginController::VOTED_MESSAGE, search_plugin)
+  app_controller.notification_center.
+    register_hook(VotePluginController::UNVOTED_MESSAGE, search_plugin)
 end
 
 # eof
