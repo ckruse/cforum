@@ -132,6 +132,8 @@ class CitesController < ApplicationController
         @cite.user_id = @message.user_id
         @cite.cite_date = @message.created_at
       end
+    else
+      @cite.cite_date = DateTime.now
     end
 
     @cite.author = @message.author if @cite.author.blank? and not @message.blank?
