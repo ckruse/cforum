@@ -9,6 +9,19 @@ class AcceptPluginController < ApplicationController
   def accept
     @thread, @message, @id = get_thread_w_post
 
+    if @message.flags["no-answer"] == 'yes' or @message.flags['no-answer-admin'] == 'yes'
+      respond_to do |format|
+        format.html do
+          flash[:error] = t('messages.accepted_message_is_no_answer')
+          redirect_to cf_message_url(@thread, @message)
+        end
+
+        format.json { render json: { status: 'error', message: t('messages.accepted_message_is_no_answer') } }
+      end
+
+      return
+    end
+
     if @thread.acceptance_forbidden?(current_user, cookies[:cforum_user])
       flash[:error] = t('messages.only_op_may_accept')
       redirect_to cf_message_url(@thread, @message)

@@ -28,6 +28,19 @@ class VotePluginController < ApplicationController
       return
     end
 
+    if @message.flags["no-answer"] == 'yes' or @message.flags['no-answer-admin'] == 'yes'
+      respond_to do |format|
+        format.html do
+          flash[:error] = t('messages.message_is_no_answer')
+          redirect_to cf_message_url(@thread, @message)
+        end
+
+        format.json { render json: { status: 'error', message: t('messages.message_is_no_answer') } }
+      end
+
+      return
+    end
+
     vote_down_value = conf('vote_down_value').to_i
 
     # we may use a different vote_up_value if user is the author of the OP

@@ -68,6 +68,8 @@ de:
     vote_removed: Die Bewertung wurde entfernt.
     already_voted: Sie haben bereits bewertet.
     do_not_vote_yourself: Sie dürfen sich nicht selbst bewerten.
+    message_is_no_answer: Sie dürfen Nachrichten, die gesperrt wurden, nicht bewerten.
+    accepted_message_is_no_answer: Sie dürfen Nachrichten, die gesperrt wurden, nicht akzeptieren.
     insufficient_rights_to_upvote: Sie haben nicht das Recht, einen Beitrag positiv zu bewerten.
     insufficient_rights_to_downvote: Sie haben nicht das Recht, einen Beitrag negativ zu bewerten.
     not_enough_score: Sie haben zu wenig Punkte.

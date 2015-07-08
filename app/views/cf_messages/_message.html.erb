@@ -1,7 +1,9 @@
 <% do_parent ||= false %>
   <%= message_header(@thread, m, first: first, do_parent: do_parent, tree: false, show_editor: true) %>
 
-  <%= render 'votes_accept', m: m %>
+  <% if @message.flags["no-answer"] != 'yes' and @message.flags['no-answer-admin'] != 'yes' %>
+    <%= render 'votes_accept', m: m %>
+  <% end %>
 
   <div class="posting-content">
     <%= m.to_html(self) %>
