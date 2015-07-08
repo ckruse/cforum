@@ -12,10 +12,12 @@
   &.answer { @extend .fa-unlock; }
   &.no-answer { @extend .fa-lock; }
   &.no-answer.user { color:#999; }
-  &.original-poster { @extend .fa-exclamation; }
   &.unread { @extend .fa-eye-slash; }
   &.mark-interesting { @extend .fa-star-o; }
   &.mark-boring { @extend .fa-star; }
+
+  &.original-poster { @extend .fa-exclamation; }
+  &.original-poster::before { margin-right:0.15em; }
 }
 
 .icon-thread {
