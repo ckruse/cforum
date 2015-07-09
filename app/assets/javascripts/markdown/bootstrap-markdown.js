@@ -1177,8 +1177,9 @@
               e.replaceSelection(chunk);
               cursor = selected.start-1;
             } else if (content.indexOf('\n') > -1) {
-              e.replaceSelection('\n~~~\n'+chunk+'\n~~~\n');
-              cursor = selected.start+5;
+              var lang = window.prompt(t('code_lang'));
+              e.replaceSelection('\n~~~' + lang + '\n' + chunk + '\n~~~\n');
+              cursor = selected.start + 5 + lang.length;
             } else {
               e.replaceSelection('`'+chunk+'`');
               cursor = selected.start+1;
