@@ -1033,7 +1033,8 @@ CREATE TABLE messages (
     ip character varying(255),
     editor_id bigint,
     format character varying(100) DEFAULT 'markdown'::character varying NOT NULL,
-    edit_author text
+    edit_author text,
+    problematic_site character varying
 );
 
 
@@ -3161,6 +3162,8 @@ INSERT INTO schema_migrations (version) VALUES ('73');
 INSERT INTO schema_migrations (version) VALUES ('74');
 
 INSERT INTO schema_migrations (version) VALUES ('75');
+
+INSERT INTO schema_migrations (version) VALUES ('76');
 
 INSERT INTO schema_migrations (version) VALUES ('8');
 
