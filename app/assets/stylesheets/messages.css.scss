@@ -285,6 +285,11 @@ blockquote.show-quotes .unfold {
   &:hover, &:active, &:focus { color: #990909; }
 }
 
+.problematic-site {
+  margin-top:0;
+  margin-bottom:0;
+}
+
 
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
   .thread-message {

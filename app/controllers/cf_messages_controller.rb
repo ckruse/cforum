@@ -73,7 +73,7 @@ class CfMessagesController < ApplicationController
   end
 
   def edit_message_params
-    fields = [:subject, :content, :email, :homepage]
+    fields = [:subject, :content, :email, :homepage, :problematic_site]
     fields << :author if current_user.try(:admin?)
 
     params.require(:cf_message).permit(fields)
@@ -81,7 +81,7 @@ class CfMessagesController < ApplicationController
 
   def message_params
     params.require(:cf_message).permit(:subject, :content, :author,
-                                       :email, :homepage)
+                                       :email, :homepage, :problematic_site)
   end
 
   def new

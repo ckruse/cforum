@@ -5,6 +5,7 @@
     <%= render 'votes_accept', m: m %>
   <% end %>
 
+  <% unless @message.problematic_site.blank? %><p class="problematic-site"><%= link_to CfMessage.human_attribute_name(:problematic_site), @message.problematic_site %></p><% end %>
   <div class="posting-content">
     <%= m.to_html(self) %>
   </div>

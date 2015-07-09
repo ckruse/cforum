@@ -55,6 +55,7 @@ de:
         homepage: Homepage
         created_at: Erstellt
         updated_at: Geändert
+        problematic_site: problematische Seite
 
       cf_forum:
         name: Name

@@ -23,6 +23,11 @@ with_name ||= false
     <%= f.label :homepage %>
     <div class="cntrls"><%= f.text_field :homepage, placeholder: t('layout.placeholders.homepage_optional'), maxlength: 250 %></div>
   </div>
+
+  <div class="cf-cgroup">
+    <%= f.label :problematic_site %>
+    <div class="cntrls"><%= f.text_field :problematic_site, placeholder: t('layout.placeholders.problematic_site_optional'), maxlength: 250 %></div>
+  </div>
 </fieldset>
 
 <fieldset>
