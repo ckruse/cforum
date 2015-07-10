@@ -98,6 +98,16 @@ a.thread-forum-plate:active {
     line-height: 1.6em;
     white-space: nowrap;
 
+    &.new .details:after {
+      content:"New";
+      font-size:0.5em;
+      color:#333;
+      margin-left:2em;
+      background-color:#a8d4a9;
+      border-radius:1.5em;
+      padding:0.5em;
+    }
+
     h2, h3 {
       font-size: 1em;
       display: inline;

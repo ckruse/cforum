@@ -4,6 +4,7 @@
 cforum.cf_threads = {
   numThreads: 0,
   numMessages: 0,
+  newMessages: [],
 
   new: function() {
     cforum.cf_threads.initGlobal();
@@ -65,6 +66,23 @@ cforum.cf_threads = {
   newMessageArriving: function(message) {
     cforum.cf_threads.numMessages += 1;
     cforum.cf_threads.showNewAlert();
+
+    if(!cforum.currentUser || !cforum.currentUser.settings || cforum.currentUser.settings.load_messages_via_js != 'no') {
+      $.get(message.location).
+        done(function(data) {
+          $("#t" + message.thread.thread_id).replaceWith(data);
+          cforum.cf_threads.newMessages.push(message.message.message_id);
+          var m;
+
+          for(var i = 0; i < cforum.cf_threads.newMessages.length; ++i) {
+            m = $("#m" + cforum.cf_threads.newMessages[i]);
+            if(!m.hasClass('new')) {
+              m.addClass('new');
+            }
+          }
+        });
+    }
+
     cforum.updateFavicon();
   },
 
