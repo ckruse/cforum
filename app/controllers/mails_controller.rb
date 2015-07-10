@@ -140,6 +140,8 @@ class MailsController < ApplicationController
         format.html { redirect_to mail_url(recipient.username, @mail),
           notice: t('mails.sent') }
         format.json { render json: @mail, status: :created }
+
+        publish('/user/' + @mail.recipient_id.to_s + '/mails', {type: 'mail', mail: @mail})
       else
         format.html { render :new }
         format.json { render json: @mail.errors, status: :unprocessable_entity }
