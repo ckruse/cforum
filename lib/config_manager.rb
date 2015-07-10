@@ -87,7 +87,8 @@ class ConfigManager
     'page_messages' => 'yes',
     'fold_quotes' => 'no',
 
-    'open_links_in_tab' => 'no'
+    'open_links_in_tab' => 'no',
+    'load_messages_via_js' => 'yes'
   }
 
   def initialize(use_cache = true)
