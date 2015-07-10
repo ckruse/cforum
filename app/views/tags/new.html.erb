@@ -11,7 +11,7 @@ content_for(:body_classes, 'tags new forum-' + (current_forum.try(:slug) || 'all
 
 <p class="form-actions">
   <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
-  <%= link_to t('global.cancel'), tags_path(current_forum.slug), class: 'cf-btn' %>
+  <%= cf_link_to t('global.cancel'), tags_path(current_forum.slug), class: 'cf-btn' %>
 </p>
 
 <% end %>

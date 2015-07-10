@@ -25,20 +25,20 @@ end
 
 %><article class="thread-message cite">
   <header class="message">
-    <h2><%= link_to t('cites.cite', id: cite.cite_id), cite_path(cite) %></h2>
+    <h2><%= cf_link_to t('cites.cite', id: cite.cite_id), cite_path(cite) %></h2>
 
     <div class="details">
       <span class="author">
         <% unless cite.user_id.blank? %>
           <span class="registered-user">
-            <%= link_to image_tag(cite.user.avatar(:thumb)), user_path(cite.user) %>
+            <%= cf_link_to image_tag(cite.user.avatar(:thumb)), user_path(cite.user) %>
           </span>
         <% end %>
 
-        <%= link_to cite.author, cite_path(cite) %>
+        <%= cf_link_to cite.author, cite_path(cite) %>
       </span>
 
-      <time datetime="<%= cite.cite_date.strftime("%FT%T%:z") %>"><%= link_to l(cite.cite_date, format: uconf('date_format_date')), cite_path(cite) %></time>
+      <time datetime="<%= cite.cite_date.strftime("%FT%T%:z") %>"><%= cf_link_to l(cite.cite_date, format: uconf('date_format_date')), cite_path(cite) %></time>
     </div>
   </header>
 
@@ -67,13 +67,13 @@ end
       <span class="author">
         <% if not cite.creator_user_id.blank? %>
           <span class="registered-user">
-            <%= link_to image_tag(cite.creator_user.avatar(:thumb)), user_path(cite.creator_user) %>
+            <%= cf_link_to image_tag(cite.creator_user.avatar(:thumb)), user_path(cite.creator_user) %>
             <%= cite.creator %>
           </span>
         <% else %>
           <span class="icon-message original-poster"><%= cite.creator %></span>
         <% end %>
       </span>
-    <% end %><% unless cite.url.blank? %><%= link_to t('cites.source'), cite.url %><% end %>
+    <% end %><% unless cite.url.blank? %><%= cf_link_to t('cites.source'), cite.url %><% end %>
   </div>
 </article>

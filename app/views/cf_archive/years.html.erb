@@ -7,7 +7,7 @@ content_for :body_classes, 'archive years forum-' + (current_forum.try(:slug) ||
 
 <ul>
   <% (@first_year..@last_year).to_a.reverse.each do |year| %>
-    <li><%= link_to year, cf_archive_year_path(current_forum, year) %></li>
+    <li><%= cf_link_to year, cf_archive_year_path(current_forum, year) %></li>
   <% end %>
 </ul>
 

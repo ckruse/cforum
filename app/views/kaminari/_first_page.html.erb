@@ -7,5 +7,5 @@
     remote:        data-remote
 -%>
 <li<% if current_page.first? %> class="disabled"<% end %>>
-  <%= link_to t('views.pagination.first_page'), url, remote: remote %>
+  <%= cf_link_to t('views.pagination.first_page'), url, remote: remote, target: nil %>
 </li>

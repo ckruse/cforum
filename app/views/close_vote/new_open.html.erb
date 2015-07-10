@@ -44,6 +44,6 @@ content_for :h1, t("messages.close_vote.open_message",
 
    <p class="form-actions">
      <%= f.submit t("global.save"), class: "cf-primary-btn" %>
-     <%= link_to t("global.cancel"), cf_message_path(@thread, @message), class: "cf-btn" %>
+     <%= cf_link_to t("global.cancel"), cf_message_path(@thread, @message), class: "cf-btn" %>
    </p>
 <% end %>

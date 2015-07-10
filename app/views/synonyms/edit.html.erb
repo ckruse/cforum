@@ -9,7 +9,7 @@ content_for :h1, t('tags.edit_tag_synonym', name: @tag.tag_name, synonym: @synon
 
 <p class="form-actions">
   <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
-  <%= link_to t('global.cancel'), tag_path(current_forum.slug, @tag), class: 'cf-btn' %>
+  <%= cf_link_to t('global.cancel'), tag_path(current_forum.slug, @tag), class: 'cf-btn' %>
 </p>
 
 <% end %>

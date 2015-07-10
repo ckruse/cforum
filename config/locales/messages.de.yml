@@ -81,6 +81,8 @@ de:
 
     message_in_tree: Nachricht im Threadbaum
 
+    infos_for_scoring: Informationen zu den Bewertungsregeln
+
     close_vote:
       agreeing: Sehe ich auch so
       take_back: Stimme zurücknehmen

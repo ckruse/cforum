@@ -11,6 +11,6 @@ content_for(:body_classes, 'mail new')
 
   <p class="form-actions">
     <%= t.submit t("mails.send"), class: 'cf-primary-btn' %>
-    <%= link_to t("global.cancel"), mails_path, class: 'cf-btn' %>
+    <%= cf_link_to t("global.cancel"), mails_path, class: 'cf-btn' %>
   </p>
 <% end %>

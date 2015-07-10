@@ -19,7 +19,7 @@ content_for(:body_classes, 'badges index')
     <% @badges.each do |badge| %>
       <tr>
         <td><%= image_tag badge.badge_medal_type + '.png' %></td>
-        <td><%= link_to badge.name, badge %></td>
+        <td><%= cf_link_to badge.name, badge %></td>
         <td><%= badge.score_needed %></td>
         <td><%= badge.users.length %></td>
       </tr>

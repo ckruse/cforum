@@ -49,15 +49,15 @@ content_for :body_classes, 'messages edit forum-' + (current_forum.try(:slug) ||
   <% end %>
 
   <ul id="charta">
-    <li>Formuliere <a href="http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Charta_des_SELFHTML-Forums"><strong>höflich und wertschätzend</strong></a>.</li>
-    <li><strong>Vermeide</strong> <a href="http://de.wikipedia.org/wiki/Fullquote">Vollzitate</a>.</li>
-    <li>Dein Beitrag wird <strong>dauerhaft</strong> <a href="http://forum.selfhtml.org/self/archive">archiviert</a>.</li>
+    <li>Formuliere <%= cf_link_to "http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Charta_des_SELFHTML-Forums" do %><strong>höflich und wertschätzend</strong><% end %>.</li>
+    <li><strong>Vermeide</strong> <%= cf_link_to "Vollzitate", "http://de.wikipedia.org/wiki/Fullquote" %>.</li>
+    <li>Dein Beitrag wird <strong>dauerhaft</strong> <%= cf_link_to "archiviert", "http://forum.selfhtml.org/self/archive" %>.</li>
   </ul>
 
   <p>
     <%= f.submit t('messages.preview'), :class => 'cf-btn', name: 'preview' %>
     <%= f.submit t('global.save'), :class => 'cf-primary-btn' %>
-    <%= link_to t('global.cancel'), cf_message_path(@thread, @message), class: 'cf-btn' %>
+    <%= cf_link_to t('global.cancel'), cf_message_path(@thread, @message), class: 'cf-btn' %>
   </p>
 <% end %>
 

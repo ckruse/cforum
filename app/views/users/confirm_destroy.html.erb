@@ -15,7 +15,7 @@ content_for(:body_classes, 'users destroy ' + user_to_class_name(@user))
 
   <p class="form-actions">
     <%= f.submit t('global.yeah'), class: 'cf-primary-btn' %>
-    <%= link_to t('global.nope'), user_path(@user), class: 'cf-btn' %>
+    <%= cf_link_to t('global.nope'), user_path(@user), class: 'cf-btn' %>
   </p>
 
 <% end %>

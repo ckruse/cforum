@@ -11,16 +11,16 @@ prev = @message.subject + "\n\n" + @message.content
 <% @message.versions.each do |v| %>
   <article class="thread-message">
     <header>
-      <h2><%= link_to @message.subject, cf_message_path(@thread, @message) %></h2>
+      <h2><%= cf_link_to @message.subject, cf_message_path(@thread, @message) %></h2>
       <% if v.user_id.blank? %>
         <span class="editor"><%= v.author %></span>
       <% else %>
         <span class="editor registered-user">
-          <%= link_to(image_tag(v.user.avatar(:thumb), class: 'avatar'),
+          <%= cf_link_to(image_tag(v.user.avatar(:thumb), class: 'avatar'),
                       user_path(v.user),
                       title: t('messages.user_link', user: v.user.username),
                       class: 'user-link') %>
-          <%= link_to(v.author, cf_message_path(@thread, @message)) %>
+          <%= cf_link_to(v.author, cf_message_path(@thread, @message)) %>
         </span>
       <% end %>
 

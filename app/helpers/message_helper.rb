@@ -72,7 +72,7 @@ module MessageHelper
           opened << 'span'
         end
 
-        html << " " << link_to('', move_cf_thread_path(thread), class: 'icon-thread move', title: t('threads.move_thread'))
+        html << " " << cf_link_to('', move_cf_thread_path(thread), class: 'icon-thread move', title: t('threads.move_thread'))
 
         html << cf_button_to(sticky_cf_thread_path(thread), params: std_args, class: 'icon-thread sticky', title: (thread.sticky ? t('threads.mark_unsticky') : t('threads.mark_sticky')))
 
@@ -136,7 +136,7 @@ module MessageHelper
 
 
     if opts[:first] and current_forum.blank?
-      html << "  " << link_to(thread.forum.short_name, cf_forum_path(thread.forum), class: 'thread-forum-plate') << "\n"
+      html << "  " << cf_link_to(thread.forum.short_name, cf_forum_path(thread.forum), class: 'thread-forum-plate') << "\n"
     end
 
     if opts[:show_icons]
@@ -154,11 +154,11 @@ module MessageHelper
           html << "</span>"
         end
 
-        html << " <h2>" << link_to(message.subject, cf_message_path(thread, message)) << "</h2>"
+        html << " <h2>" << cf_link_to(message.subject, cf_message_path(thread, message)) << "</h2>"
       else
         if thread.thread_id and message.message_id
           if (opts[:hide_repeating_subjects] and message.subject_changed?) or not opts[:hide_repeating_subjects]
-            html << "  <h3>" << link_to(message.subject, cf_message_path(thread, message)) << "</h3>"
+            html << "  <h3>" << cf_link_to(message.subject, cf_message_path(thread, message)) << "</h3>"
           end
         else
           html << "  <h3>" << message.subject << "</h3>"
@@ -178,19 +178,19 @@ module MessageHelper
       if not message.message_id == thread.message.message_id and message.user_id == thread.message.user_id
         html << " original-poster"
       end
-      html << "\">" << link_to(image_tag(message.owner.avatar(:thumb), class: 'avatar'), user_path(message.owner), title: t('messages.user_link', user: message.owner.username), class: 'user-link') << " "
+      html << "\">" << cf_link_to(image_tag(message.owner.avatar(:thumb), class: 'avatar'), user_path(message.owner), title: t('messages.user_link', user: message.owner.username), class: 'user-link') << " "
     else
       if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
         html << '<span class="icon-message original-poster" title="' << t('messages.original_poster') << '"> </span>'
       end
     end
-    html << link_to(message.author, cf_message_path(thread, message))
+    html << cf_link_to(message.author, cf_message_path(thread, message))
     html << '</span>' if message.user_id
 
     if not opts[:tree] and (not message.email.blank? or not message.homepage.blank?)
       html << ' <span class="author-infos">'
-      html << ' ' << link_to('', 'mailto:' + message.email, class: 'author-email') if not message.email.blank?
-      html << ' ' << link_to('', message.homepage, class: 'author-homepage', rel: 'nofollow') if not message.homepage.blank?
+      html << ' ' << cf_link_to('', 'mailto:' + message.email, class: 'author-email') if not message.email.blank?
+      html << ' ' << cf_link_to('', message.homepage, class: 'author-homepage', rel: 'nofollow') if not message.homepage.blank?
       html << "</span>"
     end
 
@@ -212,7 +212,7 @@ module MessageHelper
            "</time>"
 
     if thread.thread_id and message.message_id
-      html << link_to(cf_message_path(thread, message)) do
+      html << cf_link_to(cf_message_path(thread, message)) do
         text.html_safe
       end
     else
@@ -220,16 +220,16 @@ module MessageHelper
     end
 
     if opts[:show_editor] && !message.edit_author.blank?
-      html << ", " << link_to(t('messages.edited_by'), versions_cf_message_path(thread, message), rel: 'no-follow', class: 'versions')
+      html << ", " << cf_link_to(t('messages.edited_by'), versions_cf_message_path(thread, message), rel: 'no-follow', class: 'versions')
 
       if message.editor_id.blank?
         html << " <span class=\editor\">".html_safe << message.edit_author << "</span> ".html_safe
       else
         html << " <span class=\"registered-user editor\">".html_safe <<
-          link_to(image_tag(message.editor.avatar(:thumb), class: 'avatar'),
-                  user_path(message.editor),
-                  title: t('messages.user_link', user: message.editor.username),
-                  class: 'user-link') << " " << message.edit_author << "</span> ".html_safe
+          cf_link_to(image_tag(message.editor.avatar(:thumb), class: 'avatar'),
+                     user_path(message.editor),
+                     title: t('messages.user_link', user: message.editor.username),
+                     class: 'user-link') << " " << message.edit_author << "</span> ".html_safe
       end
 
       html << "<time datetime=\"" << message.updated_at.strftime("%FT%T%:z") << '">' <<
@@ -244,7 +244,7 @@ module MessageHelper
     <ul class="cf-tags-list">}
 
       for t in message.tags
-        html << "<li class=\"cf-tag\">" << link_to(t.tag_name, tag_path(thread.forum.slug, t)) << "</li>"
+        html << "<li class=\"cf-tag\">" << cf_link_to(t.tag_name, tag_path(thread.forum.slug, t)) << "</li>"
       end
 
       html << "</ul>"

@@ -78,7 +78,7 @@ content_for(:body_classes, 'notifications last-changes')
 
   <ul>
     <% @new_users.each do |nu| %>
-      <li><%= link_to nu.username, user_path(nu) %> (<%= CfUser.human_attribute_name(:created_at) %>: <%= l(nu.created_at) %>)</li>
+      <li><%= cf_link_to nu.username, user_path(nu) %> (<%= CfUser.human_attribute_name(:created_at) %>: <%= l(nu.created_at) %>)</li>
     <% end %>
   </ul>
   

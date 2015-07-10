@@ -33,7 +33,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 <ul class="user-info-tags clearfix">
   <% @tags_cnts.each do |t| %>
     <li>
-      <%= link_to tag_path(t.tag.forum.slug, t.tag), class: 'cf-tag' do %>
+      <%= cf_link_to tag_path(t.tag.forum.slug, t.tag), class: 'cf-tag' do %>
         <span><%= t.tag.forum.short_name %>:</span><%= t.tag.tag_name %>
       <% end %>
       <span class="cnt"><%= number_with_delimiter(t.cnt) %></span></li>
@@ -43,7 +43,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 <% unless @settings.conf('flattr').blank? %>
   <p>
     <%= t('layout.flattr_author') %>
-    <%= link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(@settings.conf('flattr')) +
+    <%= cf_link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(@settings.conf('flattr')) +
     "&url=" + CGI.escape(user_url(@user)) +
     "&title=" + CGI.escape(t('users.selfforum_user', name: @user.username)) do %>
     <img src="https://flattr.com/_img/icons/flattr_logo_16.png"
@@ -109,7 +109,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
   </table>
 <% end %>
 
-<p><%= link_to t('users.all_votes'), user_scores_path(@user) %></p>
+<p><%= cf_link_to t('users.all_votes'), user_scores_path(@user) %></p>
 
 <h2><%= t('users.badges') %></h2>
 
@@ -119,20 +119,20 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
   <ul class="badge-user-list">
     <% @user.badges_users.each do |ub| %>
       <li><%= image_tag ub.badge.badge_medal_type + '.png', class: "medal-image",
-          alt: t("badges.badge_medal_types." + ub.badge.badge_medal_type) %> <%= link_to ub.badge.name, ub.badge %> (<%= l(ub.created_at, format: date_format) %>)</li>
+          alt: t("badges.badge_medal_types." + ub.badge.badge_medal_type) %> <%= cf_link_to ub.badge.name, ub.badge %> (<%= l(ub.created_at, format: date_format) %>)</li>
     <% end %>
   </ul>
 <% end %>
 
 <p class="form-actions">
   <% if not current_user.blank? and @user.user_id == current_user.user_id %>
-  <%= link_to t('users.edit'), edit_user_path(@user), class: 'cf-btn' %>
-  <%= link_to t('users.delete'), users_confirm_destroy_path(@user), class: 'cf-btn' %>
+  <%= cf_link_to t('users.edit'), edit_user_path(@user), class: 'cf-btn' %>
+  <%= cf_link_to t('users.delete'), users_confirm_destroy_path(@user), class: 'cf-btn' %>
   <% end %>
 
   <% if current_user and @user.user_id != current_user.user_id %>
-    <%= link_to(t("mails.new_mail"), new_mail_path(cf_priv_message: {recipient_id: @user.user_id}),
+    <%= cf_link_to(t("mails.new_mail"), new_mail_path(cf_priv_message: {recipient_id: @user.user_id}),
                 class: 'cf-btn', rel: 'nofollow') %>
   <% end %>
-  <%= link_to t('global.back'), users_path, class: 'cf-btn' %>
+  <%= cf_link_to t('global.back'), users_path, class: 'cf-btn' %>
 </p>

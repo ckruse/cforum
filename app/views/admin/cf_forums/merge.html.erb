@@ -11,7 +11,7 @@ forum_opts = @forums.map { |f| [f.name, f.forum_id] }
 
   <p class="form-actions">
     <%= f.submit t('admin.forums.merge'), class: 'cf-primary-btn' %>
-    <%= link_to t('global.cancel'), admin_forums_path, class: 'cf-btn' %>
+    <%= cf_link_to t('global.cancel'), admin_forums_path, class: 'cf-btn' %>
   </p>
 
 <% end %>

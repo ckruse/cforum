@@ -35,7 +35,8 @@ module ParserHelper
       auto_id_prefix: id_prefix + '-',
       no_follow: true,
       root_url: opts[:root_url] || app.root_url,
-      math_engine_opts: { preview: true }
+      math_engine_opts: { preview: true },
+      new_window: app.uconf('open_links_in_tab') == 'yes'
     )
 
     if @doc.blank?

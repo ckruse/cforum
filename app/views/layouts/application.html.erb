@@ -122,10 +122,10 @@ end
       <header class="flex-item">
         <div id="top">
           <ul class="selflinks">
-            <li><a href="http://selfhtml.org/">SELFHTML</a></li>
-            <li><a href="http://wiki.selfhtml.org/">Doku</a></li>
-	          <li><%= link_to "Forum", root_path %></li>
-	          <li><a href="http://blog.selfhtml.org/">Blog</a></li>
+            <li><%= cf_link_to "SELFHTML", "http://selfhtml.org/" %></li>
+            <li><%= cf_link_to "Doku", "http://wiki.selfhtml.org/" %></li>
+	          <li><%= cf_link_to "Forum", root_path %></li>
+	          <li><%= cf_link_to "Blog", "http://blog.selfhtml.org/" %></li>
           </ul>
 
           <% if controller_path != "cf_search" %>
@@ -138,14 +138,14 @@ end
 
         <ul class="personallinks">
           <% if user_signed_in? %>
-            <li id="user-info"><%= link_to(image_tag(current_user.avatar(:thumb)) + current_user.username,
+            <li id="user-info"><%= cf_link_to(image_tag(current_user.avatar(:thumb)) + current_user.username,
                                            user_path(current_user),
                                            id: 'username',
                                            title: t("users.score_num", num: current_user.score)) %>
               <span class="score" title="<%= t("users.score_num", num: current_user.score) %>">(<%= number_with_delimiter(current_user.score) %>)</span>
             </li>
-            <li id="optionen-myadmin"><%= link_to t("layout.settings"), edit_user_path(current_user) %></li>
-            <li id="user-notifications"><%= link_to(t("notifications.notifications"),
+            <li id="optionen-myadmin"><%= cf_link_to t("layout.settings"), edit_user_path(current_user) %></li>
+            <li id="user-notifications"><%= cf_link_to(t("notifications.notifications"),
                                                     notifications_path,
                                                     title: t("notifications.new_notifications",
                                                              count: @new_notifications.length)) %>
@@ -154,52 +154,52 @@ end
                      title="<%= t("notifications.new_notifications",
                                   count: @new_notifications.length) %>"><%= @new_notifications.length %></span>)
             </li>
-            <li id="post-link"><%= link_to(t("layout.mail"),
+            <li id="post-link"><%= cf_link_to(t("layout.mail"),
                                            mails_path,
                                            title: t("mails.new_mails_num",
                                                     count: @new_mails.length)) %>
               (<span class="mails new" id="mails"
                      title="<%= t("mails.new_mails_num",
                                   count: @new_mails.length) %>"><%= @new_mails.length %></span>)</li>
-            <li id="optionen-logout"><%= link_to(t('layout.logout'), destroy_user_session_path, method: :delete) %></li>
+            <li id="optionen-logout"><%= cf_link_to(t('layout.logout'), destroy_user_session_path, method: :delete) %></li>
           <% else %>
-            <li id="optionen-my"><%= link_to(t('layout.login'), new_user_session_path, rel: 'nofollow') %></li>
-            <li id="optionen-myadmin"><%= link_to(t("layout.register"), new_user_registration_path, rel: 'nofollow') %></li>
+            <li id="optionen-my"><%= cf_link_to(t('layout.login'), new_user_session_path, rel: 'nofollow') %></li>
+            <li id="optionen-myadmin"><%= cf_link_to(t("layout.register"), new_user_registration_path, rel: 'nofollow') %></li>
           <% end %>
         </ul>
 
         <div id="kopf">
-          <h1><span>selfhtml-Forum - Ergänzung zur <a href="http://wiki.selfhtml.org">Dokumentation</a></span><%= link_to root_path do %><img src="http://src.selfhtml.org/selfhtml_forum.png" alt="SELFHTML-Forum"><% end %></h1>
+          <h1><span>selfhtml-Forum - Ergänzung zur <%= cf_link_to "Dokumentation", "http://wiki.selfhtml.org" %></span><%= cf_link_to root_path do %><img src="http://src.selfhtml.org/selfhtml_forum.png" alt="SELFHTML-Forum"><% end %></h1>
 		      <ul class="sociallinks">
-            <li><%= link_to(cf_forum_url(current_forum, format: :rss),
+            <li><%= cf_link_to(cf_forum_url(current_forum, format: :rss),
                             class: 'rss',
                             title: t("layout.rss_feed",
                                      forum: current_forum ?
                                      t('layout.forum', name: current_forum.name) :
                                      t('layout.all_forums'))) do %><span class="alt">RSS</span>
               <img src="http://src.selfhtml.org/social.png" alt="RSS"><% end %></li>
-              <li><%= link_to(cf_forum_url(current_forum, format: :atom),
+              <li><%= cf_link_to(cf_forum_url(current_forum, format: :atom),
                               class: 'atom',
                               title: t("layout.atom_feed",
                                        forum: current_forum ?
                                        t('layout.forum', name: current_forum.name) :
                                        t('layout.all_forums'))) do %><span class="alt">Atom</span>
                 <img src="http://src.selfhtml.org/social.png" alt="Atom"><% end %></li>
-			          <li><a href="https://github.com/selfhtml" class="github" title="GitHub">
+			          <li><%= cf_link_to "https://github.com/selfhtml", class: "github", title: "GitHub" do %>
                   <span class="alt">GitHub</span>
-                  <img src="http://src.selfhtml.org/social.png" alt="GitHub"></a></li>
-			          <li><a href="https://twitter.com/selfhtml" class="twitter" title="Twitter">
+                  <img src="http://src.selfhtml.org/social.png" alt="GitHub"><% end %></li>
+			          <li><%= cf_link_to "https://twitter.com/selfhtml", class: "twitter", title: "Twitter" do %>
                   <span class="alt">Twitter</span>
-                  <img src="http://src.selfhtml.org/social.png" alt="Twitter"></a></li>
-			          <li><a href="https://flattr.com/thing/41584/SELFHTML" class="flattr" title="Flattr">
+                  <img src="http://src.selfhtml.org/social.png" alt="Twitter"><% end %></li>
+			          <li><%= cf_link_to "https://flattr.com/thing/41584/SELFHTML", class: "flattr", title: "Flattr" do %>
                   <span class="alt">Flattr</span>
-                  <img src="http://src.selfhtml.org/social.png" alt="Flattr"></a></li>
-			          <li><a href="https://trello.com/selfhtml" class="trello" title="Trello">
+                  <img src="http://src.selfhtml.org/social.png" alt="Flattr"><% end %></li>
+			          <li><%= cf_link_to "https://trello.com/selfhtml", class: "trello", title: "Trello" do %>
                   <span class="alt">Trello</span>
-                  <img src="http://src.selfhtml.org/social.png" alt="Trello"></a></li>
-			          <li><a href="http://selfhtml.org/spenden.html" class="donate" title="spenden">
+                  <img src="http://src.selfhtml.org/social.png" alt="Trello"><% end %></li>
+			          <li><%= cf_link_to "http://selfhtml.org/spenden.html", class: "donate", title: "spenden" do %>
                   <span class="alt">Spendenseite</span>
-                  <img src="http://src.selfhtml.org/social.png" alt="Spendenseite"></a></li>
+                  <img src="http://src.selfhtml.org/social.png" alt="Spendenseite"><% end %></li>
 		      </ul>
         </div>
       </header>
@@ -210,21 +210,21 @@ end
         <% end %>
 
         <ul>
-		      <li id="link-neuenachricht"><%= link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
+		      <li id="link-neuenachricht"><%= cf_link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
 
-          <li><%= link_to t('layout.home'), root_url %></li>
+          <li><%= cf_link_to t('layout.home'), root_url %></li>
           <% if current_forum %>
-            <li><%= link_to current_forum.name, cf_threads_path(current_forum) %></li>
+            <li><%= cf_link_to current_forum.name, cf_threads_path(current_forum) %></li>
           <% end %>
 
           <% if @message and @thread and not @thread.new_record? %>
             <% if @read_mode != 'thread-view' %>
-              <li><%= link_to(t('layout.thread_view'),
+              <li><%= cf_link_to(t('layout.thread_view'),
                               cf_message_path(@thread, @message,
                                               p: params[:p],
                                               rm: 'thread-view')) %></li>
             <% else %>
-              <li><%= link_to(t('layout.nested_view'),
+              <li><%= cf_link_to(t('layout.nested_view'),
                               cf_message_path(@thread, @message,
                                               p: params[:p],
                                               rm: 'nested-view')) %></li>
@@ -232,33 +232,33 @@ end
           <% end %>
 
           <% if @thread and not @thread.new_record? %>
-            <li id="nachricht-feed-atom"><%= link_to t("layout.msg_atom_feed"), cf_thread_url(@thread, format: :atom) %></li>
-            <li id="nachricht-feed-rss"><%= link_to t("layout.msg_rss_feed"), cf_thread_url(@thread, format: :rss) %></li>
+            <li id="nachricht-feed-atom"><%= cf_link_to t("layout.msg_atom_feed"), cf_thread_url(@thread, format: :atom) %></li>
+            <li id="nachricht-feed-rss"><%= cf_link_to t("layout.msg_rss_feed"), cf_thread_url(@thread, format: :rss) %></li>
           <% end %>
 
           <% if current_user and current_user.admin %>
-            <li><%= link_to t('layout.administration'), admin_users_path %></li>
-            <li><%= link_to t('images.images'), images_path %></li>
+            <li><%= cf_link_to t('layout.administration'), admin_users_path %></li>
+            <li><%= cf_link_to t('images.images'), images_path %></li>
           <% end %>
 
-          <li><%= link_to t('badges.badges'), cf_badges_path %></li>
+          <li><%= cf_link_to t('badges.badges'), cf_badges_path %></li>
 
           <% if current_forum %>
-            <li id="optionen-tags"><%= link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
-            <li id="link-archiv"><%= link_to t("threads.archive"), cf_archive_path(current_forum.slug) %></li>
+            <li id="optionen-tags"><%= cf_link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
+            <li id="link-archiv"><%= cf_link_to t("threads.archive"), cf_archive_path(current_forum.slug) %></li>
           <% end %>
 
           <% if @threads and current_user and not controller_path == 'interesting_messages_plugin' and not controller_path == 'hidden_threads_plugin' %>
-            <li id="mark-all-read"><%= link_to(t("plugins.mark_read.mark_all_read"),
+            <li id="mark-all-read"><%= cf_link_to(t("plugins.mark_read.mark_all_read"),
                                                mark_all_read_path(current_forum, std_args),
                                                method: :post) %></li>
-            <li id="optionen-close-all-threads"><%= link_to t('plugins.open_close.close_all_threads'), close_all_threads_path(current_forum, std_args), method: :post %></li>
-            <li id="optionen-open-all-threads"><%= link_to t('plugins.open_close.open_all_threads'), open_all_threads_path(current_forum, std_args), method: :post %></li>
+            <li id="optionen-close-all-threads"><%= cf_link_to t('plugins.open_close.close_all_threads'), close_all_threads_path(current_forum, std_args), method: :post %></li>
+            <li id="optionen-open-all-threads"><%= cf_link_to t('plugins.open_close.open_all_threads'), open_all_threads_path(current_forum, std_args), method: :post %></li>
           <% end %>
 
           <% if current_user %>
-            <li id="interesting-links"><%= link_to t('plugins.interesting_messages.interesting_messages'), interesting_messages_path %></li>
-            <li id="invisible-links"><%= link_to t('plugins.invisible_threads.invisible_threads'), hidden_threads_path %></li>
+            <li id="interesting-links"><%= cf_link_to t('plugins.interesting_messages.interesting_messages'), interesting_messages_path %></li>
+            <li id="invisible-links"><%= cf_link_to t('plugins.invisible_threads.invisible_threads'), hidden_threads_path %></li>
           <% end %>
 
           <% if current_user and current_user.moderate?(current_forum) %>
@@ -271,9 +271,9 @@ end
             end
             %>
             <% if @view_all %>
-              <li id="admin-view"><%= link_to t("forums.normal_view"), path %></li>
+              <li id="admin-view"><%= cf_link_to t("forums.normal_view"), path %></li>
             <% else %>
-              <li id="admin-view"><%= link_to t("forums.admin_view"), path %></li>
+              <li id="admin-view"><%= cf_link_to t("forums.admin_view"), path %></li>
             <% end %>
           <% end %>
         </ul>
@@ -303,13 +303,13 @@ end
 
     <footer>
       <ul>
-        <li>© 1998-2015 <a href="http://selfhtml.org/">SELFHTML</a></li>
-        <li><a href="http://selfhtml.org/impressum.html">Impressum</a></li>
-        <li><a href="http://selfhtml.org/impressum.html#datenschutz">Datenschutz</a></li>
-        <li>Software: <a href="https://github.com/ckruse/cforum">Classic Forum <%= $CF_VERSION %></a></li>
+        <li>© 1998-2015 <%= cf_link_to "SELFHTML", "http://selfhtml.org/" %></li>
+        <li><%= cf_link_to "Impressum", "http://selfhtml.org/impressum.html" %></li>
+        <li><%= cf_link_to "Datenschutz", "http://selfhtml.org/impressum.html#datenschutz" %></li>
+        <li>Software: <%= cf_link_to "Classic Forum " + $CF_VERSION, "https://github.com/ckruse/cforum" %></li>
       </ul>
 
-      <p class="termitel-sponsor"><a href="https://termitel.de/"><%= image_tag 'termitel-fuer-ihren-vertrieb.jpg', alt: "Termitel - für Ihren Vertrieb" %></a></p>
+      <p class="termitel-sponsor"><%= cf_link_to "https://termitel.de/" do %><%= image_tag 'termitel-fuer-ihren-vertrieb.jpg', alt: "Termitel - für Ihren Vertrieb" %><% end %></p>
     </footer>
 
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>

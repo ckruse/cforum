@@ -22,7 +22,7 @@ content_for :h1, t('users.users')
   <tbody>
     <% @users.each do |u| %>
     <tr>
-      <td><%= link_to u.username, user_path(u) %></td>
+      <td><%= cf_link_to u.username, user_path(u) %></td>
       <td><%= u.score_sum %></td>
       <td><%= u.admin ? t('global.yeah') : t('global.nope') %></td>
       <td><%= u.active ? t('global.yeah') : t('global.nope') %></td>

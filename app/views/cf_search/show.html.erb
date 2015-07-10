@@ -77,14 +77,14 @@ content_for :robots, 'noindex,nofollow'
       <article class="thread">
         <header>
           <span class="thread-forum-plate"><%= result.search_section.name %></span>
-          <h3><%= link_to result.title, result.url %></h3>
+          <h3><%= cf_link_to result.title, result.url %></h3>
           <div class="details">
             <span class="author">
               <% if result.user_id %>
-                <%= link_to(image_tag(result.user.avatar(:thumb), class: 'avatar'), user_path(result.user), class: 'user-link') %>
+                <%= cf_link_to(image_tag(result.user.avatar(:thumb), class: 'avatar'), user_path(result.user), class: 'user-link') %>
               <% end %>
-              <%= link_to result.author, result.url %></span>,
-            <%= link_to result.url do %>
+              <%= cf_link_to result.author, result.url %></span>,
+            <%= cf_link_to result.url do %>
               <time datetime="<%= result.document_created.strftime("%FT%T%:z") %>"><%= l(result.document_created, format: date_format("date_format_search")) %></time>
             <% end %>
             <% unless result.tags.blank? %>

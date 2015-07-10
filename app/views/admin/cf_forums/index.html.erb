@@ -19,7 +19,7 @@ content_for :h1, t('admin.forums.index')
     <% @forums.each do |forum| %>
       <% msg = @activities[forum.forum_id] %>
       <tr<% if msg and not msg.attribs['classes'].blank? %> class="<%= msg.attribs['classes'].join(" ") %>"<% end %>>
-        <td><%= link_to forum.name, edit_admin_forum_path(forum.forum_id), class: 'block' %></td>
+        <td><%= cf_link_to forum.name, edit_admin_forum_path(forum.forum_id), class: 'block' %></td>
         <td class="nummeric"><%= @counts[forum.forum_id][:threads] %></td>
         <td class="nummeric"><%= @counts[forum.forum_id][:messages] %></td>
         <td<% if msg.blank? %> colspan="3" class="no-data"<% end %>>
@@ -32,16 +32,16 @@ content_for :h1, t('admin.forums.index')
         <% unless msg.blank? %>
           <td>
             <% if msg.user_id %>
-              <%= link_to(image_tag(msg.owner.avatar(:thumb), class: 'avatar'), user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username), class: 'user-link') %>
+              <%= cf_link_to(image_tag(msg.owner.avatar(:thumb), class: 'avatar'), user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username), class: 'user-link') %>
             <% end %>
             <%= msg.author %>
           </td>
-          <td><%= link_to msg.subject, cf_message_path(msg.thread, msg), class: 'block' %></td>
+          <td><%= cf_link_to msg.subject, cf_message_path(msg.thread, msg), class: 'block' %></td>
         <% end %>
         <td>
-          <%= link_to '', edit_admin_forum_path(forum.forum_id), class: "icon-edit-forum", title: t('admin.forums.edit') %>
-          <%= link_to '', admin_forum_path(forum.forum_id), data: {confirm: t('global.are_you_sure')}, method: :delete, class: 'icon-delete-forum', title: t('admin.forums.delete') %>
-          <%= link_to '', admin_forums_merge_path(forum.forum_id), class: 'icon-merge-forum', title: t('admin.forums.merge') %>
+          <%= cf_link_to '', edit_admin_forum_path(forum.forum_id), class: "icon-edit-forum", title: t('admin.forums.edit') %>
+          <%= cf_link_to '', admin_forum_path(forum.forum_id), data: {confirm: t('global.are_you_sure')}, method: :delete, class: 'icon-delete-forum', title: t('admin.forums.delete') %>
+          <%= cf_link_to '', admin_forums_merge_path(forum.forum_id), class: 'icon-merge-forum', title: t('admin.forums.merge') %>
         </td>
       </tr>
     <% end %>

@@ -31,8 +31,8 @@ module SortablesHelper
       link_desc = self.send(method, sort: col, dir: 'desc')
     end
 
-    html << link_to('↓', link_asc, class: 'sortable sort-ascending')
-    html << link_to('↑', link_desc, class: 'sortable sort-descending')
+    html << cf_link_to('↓', link_asc, class: 'sortable sort-ascending', target: nil)
+    html << cf_link_to('↑', link_desc, class: 'sortable sort-descending', target: nil)
     html.html_safe
   end
 

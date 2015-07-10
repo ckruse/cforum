@@ -9,11 +9,11 @@ content_for :body_classes, 'cites show'
 <%= render 'cite', cite: @cite %>
 
 <p class="form-actions">
-  <%= link_to t('cites.cites'), cites_path, class: 'cf-btn' %>
+  <%= cf_link_to t('cites.cites'), cites_path, class: 'cf-btn' %>
 
   <% if current_user.try(:admin?) or may?(RightsHelper::MODERATOR_TOOLS) %>
-    <%= link_to t('cites.edit_cite'), edit_cite_path(@cite), class: 'cf-btn' %>
-    <%= link_to(t('cites.destroy_cite'), cite_path(@cite), method: :delete,
-                data: { confirm: t('global.are_you_sure') }, class: 'cf-btn') %>
+    <%= cf_link_to t('cites.edit_cite'), edit_cite_path(@cite), class: 'cf-btn' %>
+    <%= cf_link_to(t('cites.destroy_cite'), cite_path(@cite), method: :delete,
+                   data: { confirm: t('global.are_you_sure') }, class: 'cf-btn') %>
   <% end %>
 </p>

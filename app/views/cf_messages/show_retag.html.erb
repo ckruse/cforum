@@ -36,7 +36,7 @@ content_for(:h1) do
 
     <p>
       <%= submit_tag t('global.save'), class: 'cf-primary-btn' %>
-      <%= link_to t('global.cancel'), cf_message_path(@thread, @message), class: 'cf-btn' %>
+      <%= cf_link_to t('global.cancel'), cf_message_path(@thread, @message), class: 'cf-btn' %>
     </p>
   </article>
 <% end %>

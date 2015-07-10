@@ -9,7 +9,7 @@ content_for :body_classes, 'archive year forum-' + (current_forum.try(:slug) || 
 
 <ul>
   <% @months.each do |mon| %>
-    <li><%= link_to l(mon, format: "%B"), cf_archive_month_path(current_forum, mon) %></li>
+    <li><%= cf_link_to l(mon, format: "%B"), cf_archive_month_path(current_forum, mon) %></li>
   <% end %>
 </ul>
 

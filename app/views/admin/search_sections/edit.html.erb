@@ -9,7 +9,7 @@ content_for :h1, t('admin.search_sections.edit', name: @search_section.name)
 
   <p class="form-actions">
     <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
-    <%= link_to t('global.cancel'), admin_search_sections_path, class: 'cf-btn' %>
+    <%= cf_link_to t('global.cancel'), admin_search_sections_path, class: 'cf-btn' %>
   </p>
 
 <% end %>

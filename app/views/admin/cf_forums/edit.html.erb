@@ -9,7 +9,7 @@ content_for :h1, t('admin.forums.edit', name: @cf_forum.name)
 
   <p class="form-actions">
     <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
-    <%= link_to t('global.cancel'), admin_forums_path, class: 'cf-btn' %>
+    <%= cf_link_to t('global.cancel'), admin_forums_path, class: 'cf-btn' %>
   </p>
 
 <% end %>

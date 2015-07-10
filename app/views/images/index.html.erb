@@ -20,7 +20,7 @@ content_for :h1, t('images.images')
         <td><%= m.orig_name %></td>
         <td><%= l(m.created_at, format: date_format) %></td>
         <td>
-          <%= link_to '', image_path(m), method: :delete, 'data-confirm' => t('global.are_you_sure'), class: 'icon-image delete', title: t('images.delete') %>
+          <%= cf_link_to '', image_path(m), method: :delete, 'data-confirm' => t('global.are_you_sure'), class: 'icon-image delete', title: t('images.delete') %>
         </td>
       </tr>
     <% end %>
