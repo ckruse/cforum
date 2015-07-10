@@ -85,7 +85,9 @@ class ConfigManager
     'own_js' => nil,
     'mark_suspicious' => 'no',
     'page_messages' => 'yes',
-    'fold_quotes' => 'no'
+    'fold_quotes' => 'no',
+
+    'open_links_in_tab' => 'no'
   }
 
   def initialize(use_cache = true)

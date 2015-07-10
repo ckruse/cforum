@@ -60,4 +60,12 @@
       <input type="number" min="0" max="60" step="1" value="<%= @settings.conf('autorefresh') %>" name="settings[autorefresh]" id="settings_autorefresh"<%= disabled %>>
     </div>
   </div>
+
+  <div class="cf-cgroup">
+    <label for="settings_open_links_in_tab"><%= t('users.settings.open_links_in_tab') %></label>
+    <div class="cntrls">
+      <%= hidden_field_tag 'settings[open_links_in_tab]', 'no', id: '' %>
+      <label class="checkbox"><%= check_box_tag 'settings[open_links_in_tab]', 'yes', @settings.conf('open_links_in_tab') == 'yes' %></label>
+    </div>
+  </div>
 </fieldset>
