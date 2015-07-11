@@ -74,6 +74,7 @@ de:
     insufficient_rights_to_downvote: Sie haben nicht das Recht, einen Beitrag negativ zu bewerten.
     not_enough_score: Sie haben zu wenig Punkte.
     login_to_vote: zum Bewerten anmelden
+    is_no_answer: Diese Nachricht ist gesperrt.
 
     retag: Tags neu vergeben
     retagged: Die Tags wurden erfolgreich neu vergeben.

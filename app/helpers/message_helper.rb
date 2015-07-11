@@ -112,7 +112,7 @@ module MessageHelper
       html << "<span class=\"message-icons\">"
 
       if not @view_all and (message.flags['no-answer'] == 'yes' or message.flags['no-answer-admin'] == 'yes')
-        html << '<span class="icon-message no-answer user"> </span>'
+        html << '<span class="icon-message no-answer user" title="' + t('messages.is_no_answer') + '"> </span>'
       end
 
       if message.attribs[:is_interesting]
@@ -130,7 +130,7 @@ module MessageHelper
       html << "</span>"
     else
       if not @view_all and (message.flags['no-answer'] == 'yes' or message.flags['no-answer-admin'] == 'yes')
-        html << '<span class="icon-message no-answer user"> </span>'
+        html << '<span class="icon-message no-answer user" title="' + t('messages.is_no_answer') + '"> </span>'
       end
     end
 
