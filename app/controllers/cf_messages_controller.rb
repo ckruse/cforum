@@ -173,8 +173,8 @@ class CfMessagesController < ApplicationController
     end
 
     if saved
-      publish('/messages/' + @thread.forum.slug, {type: 'message', thread: @thread, message: @message, parent: @parent, location: cf_thread_url(@thread)})
-      publish('/messages/all', {type: 'message', thread: @thread, message: @message, parent: @parent, location: cf_thread_url(@thread)})
+      publish('/messages/' + @thread.forum.slug, {type: 'message', thread: @thread, message: @message, parent: @parent})
+      publish('/messages/all', {type: 'message', thread: @thread, message: @message, parent: @parent})
 
       notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message, @tags)
       redirect_to cf_message_url(@thread, @message), :notice => I18n.t('messages.created')

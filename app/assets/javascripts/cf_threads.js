@@ -67,7 +67,12 @@ cforum.cf_threads = {
       sortMethod = 'descending';
     }
 
-    $.get(message.location).
+    var url = cforum.baseUrl +
+          (cforum.currentForum ? cforum.currentForum.slug : 'all') +
+          message.thread.slug;
+
+
+    $.get(url).
       done(function(data) {
         switch(sortMethod) {
         case 'newest-first':
@@ -113,7 +118,11 @@ cforum.cf_threads = {
     cforum.cf_threads.showNewAlert();
 
     if(!cforum.currentUser || !cforum.currentUser.settings || cforum.currentUser.settings.options.load_messages_via_js != 'no') {
-      $.get(message.location).
+      var url = cforum.baseUrl +
+            (cforum.currentForum ? cforum.currentForum.slug : 'all') +
+            message.thread.slug;
+
+      $.get(url).
         done(function(data) {
           $("#t" + message.thread.thread_id).replaceWith(data);
 

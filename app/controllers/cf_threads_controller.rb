@@ -159,8 +159,8 @@ class CfThreadsController < ApplicationController
 
     respond_to do |format|
       if not @preview and saved
-        publish('/threads/' + @thread.forum.slug, {type: 'thread', thread: @thread, message: @message, location: cf_thread_url(@thread)})
-        publish('/threads/all', {type: 'thread', thread: @thread, message: @message, location: cf_thread_url(@thread)})
+        publish('/threads/' + @thread.forum.slug, {type: 'thread', thread: @thread, message: @message})
+        publish('/threads/all', {type: 'thread', thread: @thread, message: @message})
 
         notification_center.notify(NEW_THREAD_SAVED, @thread, @message)
 
