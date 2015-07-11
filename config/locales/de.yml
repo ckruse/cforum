@@ -4,11 +4,6 @@ de:
     admin_view: Administrator-Ansicht
     normal_view: Administrator-Ansicht deaktivieren
 
-  threads:
-    move_thread: Thread verschieben
-    new_thread: neuer Thread
-
-
   errors:
     unknown_error: unbekannter Fehler
     unknown_error_message: "Irgendwas ist passiert. Keine Ahnung, was. Am besten, Sie schicken Ihren Nutzer-Namen und eine Beschreibung dessen, was genau Sie gemacht haben, an forum@selfhtml.org."
