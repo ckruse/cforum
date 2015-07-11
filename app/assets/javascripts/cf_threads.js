@@ -59,8 +59,8 @@ cforum.cf_threads = {
   showNewThread: function(message) {
     var sortMethod = 'descending';
 
-    if(!cforum.currentUser || !cforum.currentUser.settings) {
-      sortMethod = cforum.currentUser.settings.sort_messages;
+    if(cforum.currentUser && cforum.currentUser.settings) {
+      sortMethod = cforum.currentUser.settings.options.sort_threads;
     }
 
     if(sortMethod != 'ascending' && sortMethod != 'descending' && sortMethod != 'newest-first') {
@@ -100,7 +100,7 @@ cforum.cf_threads = {
     cforum.cf_threads.numThreads += 1;
     cforum.cf_threads.numMessages += 1;
 
-    if(!cforum.currentUser || !cforum.currentUser.settings || cforum.currentUser.settings.load_messages_via_js != 'no') {
+    if(!cforum.currentUser || !cforum.currentUser.settings || cforum.currentUser.settings.options.load_messages_via_js != 'no') {
       cforum.cf_threads.showNewThread(message);
     }
 
@@ -112,7 +112,7 @@ cforum.cf_threads = {
     cforum.cf_threads.numMessages += 1;
     cforum.cf_threads.showNewAlert();
 
-    if(!cforum.currentUser || !cforum.currentUser.settings || cforum.currentUser.settings.load_messages_via_js != 'no') {
+    if(!cforum.currentUser || !cforum.currentUser.settings || cforum.currentUser.settings.options.load_messages_via_js != 'no') {
       $.get(message.location).
         done(function(data) {
           $("#t" + message.thread.thread_id).replaceWith(data);
