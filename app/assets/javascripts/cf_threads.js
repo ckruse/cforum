@@ -116,6 +116,11 @@ cforum.cf_threads = {
       $.get(message.location).
         done(function(data) {
           $("#t" + message.thread.thread_id).replaceWith(data);
+
+          if(cforum.currentUser && cforum.currentUser.settings && cforum.currentUser.settings.options.sort_threads == 'newest-first') {
+            $("[data-js=threadlist]").prepend($("#t" + message.thread.thread_id));
+          }
+
           cforum.cf_threads.newMessages.push(message.message.message_id);
           var m;
 
