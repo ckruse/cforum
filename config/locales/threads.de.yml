@@ -16,4 +16,7 @@ de:
     mark_unsticky: nicht länger als angepinnt markieren
     write_new_thread: neuen Beitrag verfassen
     archive: Archivierte Nachrichten
+    no_archive: Dieser Thread wird nicht archiviert.
+    is_sticky: Der Thread ist angepinnt.
+    has_interesting: Der Thread enthält interessante Nachrichten.
 

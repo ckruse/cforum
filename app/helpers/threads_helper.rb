@@ -129,9 +129,9 @@ module ThreadsHelper
     html << ' ' << thread.attribs['classes'].join(' ') unless thread.attribs['classes'].blank?
     html << '" id="t' << thread.thread_id.to_s << '">'
 
-    html << '<i class="no-archive-icon"> </i>' if thread.flags['no-archive'] == 'yes'
-    html << '<i class="sticky-icon"> </i>' if thread.sticky
-    html << '<i class="has-interesting-icon"> </i>' if thread.attribs[:has_interesting]
+    html << '<i class="no-archive-icon" title="' + t('threads.no_archive') + '"> </i>' if thread.flags['no-archive'] == 'yes'
+    html << '<i class="sticky-icon" title="' + t('threads.is_sticky') + '"> </i>' if thread.sticky
+    html << '<i class="has-interesting-icon" title="' + t('threads.has_interesting') + '"> </i>' if thread.attribs[:has_interesting]
 
     html << message_header(thread, thread.message, first: true, show_icons: true)
 
