@@ -56,9 +56,54 @@ cforum.cf_threads = {
     }
   },
 
+  showNewThread: function(message) {
+    var sortMethod = 'descending';
+
+    if(!cforum.currentUser || !cforum.currentUser.settings) {
+      sortMethod = cforum.currentUser.settings.sort_messages;
+    }
+
+    if(sortMethod != 'ascending' && sortMethod != 'descending' && sortMethod != 'newest-first') {
+      sortMethod = 'descending';
+    }
+
+    $.get(message.location).
+      done(function(data) {
+        switch(sortMethod) {
+        case 'newest-first':
+        case 'descending':
+          if(document.location.href.indexOf('p=0') != -1 || document.location.href.indexOf('p=') == -1) {
+            $("[data-js=threadlist]").prepend(data);
+          }
+          break;
+
+        case 'ascending':
+          if($(".cf-pages .last").hasClass('disabled')) {
+            $("[data-js=threadlist]").append(data);
+          }
+          break;
+        }
+
+        cforum.cf_threads.newMessages.push(message.message.message_id);
+
+        var m;
+        for(var i = 0; i < cforum.cf_threads.newMessages.length; ++i) {
+          m = $("#m" + cforum.cf_threads.newMessages[i]);
+          if(!m.hasClass('new')) {
+            m.addClass('new');
+          }
+        }
+      });
+  },
+
   newThreadArriving: function(message) {
     cforum.cf_threads.numThreads += 1;
     cforum.cf_threads.numMessages += 1;
+
+    if(!cforum.currentUser || !cforum.currentUser.settings || cforum.currentUser.settings.load_messages_via_js != 'no') {
+      cforum.cf_threads.showNewThread(message);
+    }
+
     cforum.cf_threads.showNewAlert();
     cforum.updateFavicon();
   },
