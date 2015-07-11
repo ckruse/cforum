@@ -20,6 +20,10 @@ content_for :body_classes, 'forums'
   <p class="aktuelle-mitteilung img"><img src="http://src.selfhtml.org/forum/icon-forum-mail.png" alt="Icon">Für Anregungen, Fehlermeldungen oder Kritik sende bitte eine E-Mail an <a href="mailto:forum@selfhtml.org">forum@selfhtml.org</a>.</p>
 <% end %>
 
+<% unless current_user.blank? %>
+  <p><%= t('forums.new_threads_new_messages', count: @new_threads, new_messages: @new_messages) %></p>
+<% end %>
+
 <table class="cf-default-table responsive">
   <thead>
     <tr>

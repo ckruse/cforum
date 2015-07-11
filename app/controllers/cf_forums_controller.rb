@@ -42,6 +42,21 @@ class CfForumsController < ApplicationController
       @activities[msg.forum_id] = msg
     end
 
+    unless current_user.blank?
+      cnt = CfMessage.select('thread_id, count(*) AS cnt').
+            joins("LEFT JOIN read_messages ON read_messages.message_id = messages.message_id AND read_messages.user_id = " + current_user.user_id.to_s).
+            where('forum_id IN (?) AND read_messages.message_id IS NULL AND messages.created_at > ? AND deleted = false',
+                  @forums.map { |f| f.forum_id }, current_user.last_sign_in_at).
+            group(:thread_id).all
+
+      cnt.each do |c|
+        @new_messages += c.cnt
+      end
+
+      @new_messages = 0
+      @new_threads = cnt.length
+    end
+
     notification_center.notify(SHOW_FORUMLIST, @counts, @activities)
   end
 
