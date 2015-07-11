@@ -54,14 +54,6 @@ class Plugin
     @app_controller.uconf(name)
   end
 
-  def register_plugin_api(name, &block)
-    @app_controller.register_plugin_api(name, &block)
-  end
-
-  def get_plugin_api(name)
-    @app_controller.get_plugin_api(name)
-  end
-
   def root_path
     @app_controller.root_path
   end

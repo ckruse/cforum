@@ -44,7 +44,7 @@ class CfThreads::InvisibleController < ApplicationController
   def unhide_thread
     @thread, @id = get_thread
 
-    get_plugin_api(:mark_visible).call(@thread, current_user)
+    mark_invisible(current_user, @thread)
 
     redirect_to cf_return_url(@thread),
                 notice: t('plugins.invisible_threads.thread_marked_visible')
@@ -53,7 +53,7 @@ class CfThreads::InvisibleController < ApplicationController
   def hide_thread
     @thread, @id = get_thread
 
-    get_plugin_api(:mark_invisible).call(@thread, current_user)
+    mark_invisible(current_user, @thread)
 
     respond_to do |format|
       format.html { redirect_to cf_return_url(@thread),

@@ -17,6 +17,8 @@ class ApplicationController < ActionController::Base
   include MessageHelper
   include SortablesHelper
   include SortingHelper
+  include CacheHelper
+  include MarkReadHelper
 
   before_filter :do_init, :locked?, :set_forums, :notifications,
                 :run_before_handler, :check_authorizations

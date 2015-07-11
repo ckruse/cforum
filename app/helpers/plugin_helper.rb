@@ -39,14 +39,6 @@ module PluginHelper
     end
   end
 
-  def register_plugin_api(name, &block)
-    @plugin_apis[name] = block
-  end
-
-  def get_plugin_api(name)
-    @plugin_apis[name]
-  end
-
   def set(name, value)
     instance_variable_set('@' + name, value)
   end

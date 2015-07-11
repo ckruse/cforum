@@ -56,7 +56,7 @@ module MessageHelper
         html << cf_button_to(close_cf_thread_path(thread), params: std_args, title: t('plugins.open_close.close_thread'), class: 'icon-thread open')
       end
 
-      if get_plugin_api(:is_invisible).call(thread, current_user).blank?
+      if is_invisible(current_user, thread).blank?
         html << cf_button_to(hide_cf_thread_path(thread), params: std_args, class: 'icon-thread mark-invisible', title: t('plugins.invisible_threads.mark_thread_invisible'))
       else
         html << cf_button_to(unhide_cf_thread_path(thread), params: std_args, class: 'icon-thread mark-visible', title: t('plugins.invisible_threads.mark_thread_visible'))

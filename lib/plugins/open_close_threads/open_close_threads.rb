@@ -9,8 +9,6 @@ class OpenCloseThreadPlugin < Plugin
     default_state   = uconf('open_close_default')
     close_when_read = uconf('open_close_close_when_read') == 'yes'
 
-    is_read = get_plugin_api :is_read
-
     # now continue with the checks for each thread
 
     ids = []
@@ -23,7 +21,7 @@ class OpenCloseThreadPlugin < Plugin
 
       if close_when_read
         mids = t.sorted_messages.map { |m| m.message_id }
-        rslt = is_read.call(mids, current_user.user_id)
+        rslt = @app_controller.is_read(current_user.user_id, mids)
 
         t.attribs['open_state'] = 'closed' if not rslt.blank? and rslt.length == mids.length
       end

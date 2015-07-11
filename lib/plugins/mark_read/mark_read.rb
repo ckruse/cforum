@@ -3,78 +3,6 @@
 class MarkReadPlugin < Plugin
   def initialize(*args)
     super(*args)
-
-    @cache = {}
-
-    register_plugin_api :mark_read do |message, user|
-      mark_read(message, user)
-    end
-    register_plugin_api :is_read do |message, user|
-      is_read(message, user)
-    end
-  end
-
-  def is_read(message, user)
-    return if user.blank? || message.blank?
-
-    message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
-    message = message.map {|m| m.is_a?(CfMessage) ? m.message_id : m.to_i}
-
-    return if message.blank?
-
-    user_id = user.is_a?(CfUser) ? user.user_id : user
-
-    new_cache = {}
-
-    if @cache[user_id]
-      has_all = true
-      retval = []
-
-      message.each do |m|
-        if not @cache[user_id].has_key?(m)
-          has_all = false
-        else
-          retval << m if @cache[user_id][m]
-        end
-        new_cache[m] = false
-      end
-
-      return retval if has_all
-    end
-
-    read_messages = []
-
-    result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + message.join(", ") + ") AND user_id = " + user_id.to_s)
-    result.each do |row|
-      m = row['message_id'].to_i
-      read_messages << m
-      new_cache[m] = true
-    end
-
-    @cache[user_id] ||= {}
-    @cache[user_id] = @cache[user_id].merge(new_cache)
-
-    read_messages
-  end
-
-  def mark_read(message, user)
-    return if user.blank?
-    message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
-    @cache[user.user_id] ||= {}
-
-    sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + user.user_id.to_s + ", "
-
-    message.each do |m|
-      next if @cache[user.user_id][m.message_id]
-
-      begin
-        CfMessage.connection.execute(sql + m.message_id.to_s + ")")
-        @cache[user.user_id][m.message_id] = true
-      rescue ActiveRecord::RecordNotUnique
-      end
-    end
-
-    message
   end
 
   def show_threadlist(threads)
@@ -110,8 +38,7 @@ class MarkReadPlugin < Plugin
       end
     end
 
-    @cache[current_user.user_id] ||= {}
-    @cache[current_user.user_id] = @cache[current_user.user_id].merge(new_cache)
+    @app_controller.merge_cached_entry(:mark_read, current_user.user_id, new_cache)
   end
   alias show_archive_threadlist show_threadlist
   alias show_invisible_threadlist show_threadlist
@@ -121,18 +48,20 @@ class MarkReadPlugin < Plugin
 
     mark_read_moment = uconf('mark_read_moment')
     check_thread(thread) if mark_read_moment == 'after_render'
-    @cache[current_user.user_id] ||= {}
+    cache = get_cached_entry(:mark_read, current_user.user_id) || {}
 
     sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", "
     thread.sorted_messages.each do |m|
-      next if @cache[current_user.user_id][m.message_id]
+      next if cache[m.message_id]
 
       begin
         CfMessage.connection.execute(sql + m.message_id.to_s + ")")
-        @cache[current_user.user_id][m.message_id] = true
+        cache[m.message_id] = true
       rescue ActiveRecord::RecordNotUnique
       end
     end
+
+    set_cached_entry(:mark_read, user_id, cache)
 
     check_thread(thread) if mark_read_moment == 'before_render'
   end
@@ -140,17 +69,19 @@ class MarkReadPlugin < Plugin
   def show_message(thread, message, votes)
     return if current_user.blank? or @app_controller.is_prefetch
     mark_read_moment = uconf('mark_read_moment')
-    @cache[current_user.user_id] ||= {}
+    cache = @app_controller.get_cached_entry(:mark_read, current_user.user_id) || {}
 
     check_thread(thread) if mark_read_moment == 'after_render'
 
-    if not @cache[current_user.user_id][message.message_id]
+    if not cache[message.message_id]
       begin
         CfMessage.connection.execute("INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", " + message.message_id.to_s + ")")
-        @cache[current_user.user_id][message.message_id] = true
+        cache[message.message_id] = true
       rescue ActiveRecord::RecordNotUnique
       end
     end
+
+    set_cached_entry(:mark_read, current_user.user_id, cache)
 
     check_thread(thread) if mark_read_moment == 'before_render'
   end
@@ -184,18 +115,15 @@ class MarkReadPlugin < Plugin
   def check_messages(messages)
     ids = []
     msgs = {}
-    @cache[current_user.user_id] ||= {}
 
     messages.each do |m|
       ids << m.message_id
       msgs[m.message_id.to_s] = m
-      @cache[current_user.user_id][m.message_id] = false
     end
 
     unless ids.blank?
       result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
       result.each do |row|
-        @cache[current_user.user_id][row['message_id'].to_i] = true
         msgs[row['message_id']].attribs['classes'] << 'visited' if msgs[row['message_id']]
       end
     end
