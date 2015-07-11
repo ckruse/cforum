@@ -135,6 +135,11 @@ class InterestingMessagesPlugin < Plugin
   alias show_message show_thread
   alias show_new_message show_thread
 
+  def show_interesting_messagelist(messages)
+    return if current_user.blank?
+    check_messages(messages)
+  end
+
   def check_messages(messages)
     ids = []
     msgs = {}
@@ -182,7 +187,7 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
   app_controller.notification_center.
     register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST, interesting_threads)
   app_controller.notification_center.
-    register_hook(InvisibleThreadsPluginController::SHOW_INVISIBLE_THREADLIST,
+    register_hook(CfThreads::InvisibleController::SHOW_INVISIBLE_THREADLIST,
                   interesting_threads)
 
   app_controller.notification_center.
@@ -191,6 +196,9 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(CfMessagesController::SHOW_MESSAGE, interesting_threads)
   app_controller.notification_center.
     register_hook(CfMessagesController::SHOW_NEW_MESSAGE, interesting_threads)
+
+  app_controller.notification_center.
+    register_hook(CfMessages::InterestingController::SHOW_INTERESTING_MESSAGELIST, interesting_threads)
 end
 
 # eof

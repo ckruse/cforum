@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 
-class FlagPluginController < ApplicationController
+class CfMessages::FlagController < ApplicationController
   authorize_controller { authorize_forum(permission: :read?) }
   authorize_action(:unflag) { authorize_forum(permission: :moderator?) }
+
+  #
+  # flagging
+  #
 
   def flag
     @thread, @message, @id = get_thread_w_post
@@ -76,14 +80,7 @@ class FlagPluginController < ApplicationController
 
     redirect_to cf_message_url(@thread, @message), notice: t('plugins.flag_plugin.unflagged')
   end
+
 end
-
-# ApplicationController.init_hooks << Proc.new do |app_controller|
-#   accept_plugin = HighlightPlugin.new(app_controller)
-#   app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, accept_plugin)
-
-#   app_controller.notification_center.register_hook(UsersController::SHOWING_SETTINGS, accept_plugin)
-#   app_controller.notification_center.register_hook(UsersController::SAVING_SETTINGS, accept_plugin)
-# end
 
 # eof

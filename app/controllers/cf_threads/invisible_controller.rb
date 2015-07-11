@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-class InvisibleThreadsPluginController < ApplicationController
+class CfThreads::InvisibleController < ApplicationController
   authorize_controller { authorize_user }
 
   SHOW_INVISIBLE_THREADLIST = "show_invisible_threadlist"
 
-  def list_threads
+  def list_invisible_threads
     @limit = conf('pagination').to_i
 
     order = uconf('sort_threads')
@@ -62,6 +62,5 @@ class InvisibleThreadsPluginController < ApplicationController
     end
   end
 end
-
 
 # eof

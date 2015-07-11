@@ -89,12 +89,12 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(CfThreadsController::NEW_THREAD_SAVED, search_plugin)
 
   app_controller.notification_center.
-    register_hook(AcceptPluginController::ACCEPTED_MESSAGE, search_plugin)
+    register_hook(CfMessages::AcceptController::ACCEPTED_MESSAGE, search_plugin)
 
   app_controller.notification_center.
-    register_hook(VotePluginController::VOTED_MESSAGE, search_plugin)
+    register_hook(CfMessages::VoteController::VOTED_MESSAGE, search_plugin)
   app_controller.notification_center.
-    register_hook(VotePluginController::UNVOTED_MESSAGE, search_plugin)
+    register_hook(CfMessages::VoteController::UNVOTED_MESSAGE, search_plugin)
 end
 
 # eof

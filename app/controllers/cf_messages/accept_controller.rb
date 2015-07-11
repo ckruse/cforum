@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class AcceptPluginController < ApplicationController
+class CfMessages::AcceptController < ApplicationController
   authorize_controller { authorize_forum(permission: :write?) }
 
   ACCEPTING_MESSAGE    = "accepting_message"
@@ -63,14 +63,7 @@ class AcceptPluginController < ApplicationController
 
     redirect_to cf_message_url(@thread, @message), notice: (@message.flags['accepted'] == 'yes' ? t('messages.accepted') : t('messages.unaccepted'))
   end
+
 end
-
-# ApplicationController.init_hooks << Proc.new do |app_controller|
-#   accept_plugin = HighlightPlugin.new(app_controller)
-#   app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, accept_plugin)
-
-#   app_controller.notification_center.register_hook(UsersController::SHOWING_SETTINGS, accept_plugin)
-#   app_controller.notification_center.register_hook(UsersController::SAVING_SETTINGS, accept_plugin)
-# end
 
 # eof

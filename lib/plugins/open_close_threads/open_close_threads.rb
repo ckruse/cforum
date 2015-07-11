@@ -46,7 +46,7 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
   oc_plugin = OpenCloseThreadPlugin.new(app_controller)
   app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, oc_plugin)
   app_controller.notification_center.register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST, oc_plugin)
-  app_controller.notification_center.register_hook(InvisibleThreadsPluginController::SHOW_INVISIBLE_THREADLIST,
+  app_controller.notification_center.register_hook(CfThreads::InvisibleController::SHOW_INVISIBLE_THREADLIST,
                                                    oc_plugin)
 end
 

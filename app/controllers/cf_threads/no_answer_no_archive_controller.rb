@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class NoAnswerNoArchivePluginController < ApplicationController
+class CfThreads::NoAnswerNoArchiveController < ApplicationController
   NO_ANSWER          = "no_answer"
   NO_ANSWERED        = "no_answered"
   NO_ANSWER_REMOVING = "no_answer_removing"

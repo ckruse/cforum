@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class InterestingMessagesPluginController < ApplicationController
+class CfMessages::InterestingController < ApplicationController
   authorize_controller { authorize_user && authorize_forum(permission: :read?) }
 
   SHOW_INTERESTING_MESSAGELIST = "show_interesting_messagelist"
@@ -48,7 +48,7 @@ class InterestingMessagesPluginController < ApplicationController
     end
   end
 
-  def list_messages
+  def list_interesting_messages
     @limit = conf('pagination').to_i
 
     @messages = CfMessage.
@@ -69,6 +69,5 @@ class InterestingMessagesPluginController < ApplicationController
     end
   end
 end
-
 
 # eof

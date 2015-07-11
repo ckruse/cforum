@@ -60,7 +60,6 @@ class ApplicationController < ActionController::Base
     @view_all            = false
     @_current_forum      = nil
 
-    mod_view_paths
     load_and_init_plugins
 
     CForum::Tools.init

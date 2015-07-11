@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class VotePluginController < ApplicationController
+class CfMessages::VoteController < ApplicationController
   VOTING_MESSAGE       = "voting_message"
   VOTED_MESSAGE        = "voted_message"
 

@@ -143,7 +143,7 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(CfThreadsController::SHOW_THREADLIST,
                   inv_threads_plugin)
   app_controller.notification_center.
-    register_hook(InvisibleThreadsPluginController::SHOW_INVISIBLE_THREADLIST,
+    register_hook(CfThreads::InvisibleController::SHOW_INVISIBLE_THREADLIST,
                   inv_threads_plugin)
   app_controller.notification_center.
     register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST,

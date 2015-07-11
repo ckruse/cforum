@@ -65,10 +65,10 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST,
                   suspicious_plugin)
   app_controller.notification_center.
-    register_hook(InvisibleThreadsPluginController::SHOW_INVISIBLE_THREADLIST,
+    register_hook(CfThreads::InvisibleController::SHOW_INVISIBLE_THREADLIST,
                   suspicious_plugin)
   app_controller.notification_center.
-    register_hook(InterestingMessagesPluginController::SHOW_INTERESTING_MESSAGELIST,
+    register_hook(CfMessages::InterestingController::SHOW_INTERESTING_MESSAGELIST,
                   suspicious_plugin)
 end
 

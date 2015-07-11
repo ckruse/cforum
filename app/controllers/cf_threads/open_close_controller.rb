@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class OpenCloseThreadsPluginController < ApplicationController
+class CfThreads::OpenCloseController < ApplicationController
   authorize_controller { authorize_user && authorize_forum(permission: :read?) }
 
   include ThreadsHelper

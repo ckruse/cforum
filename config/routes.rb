@@ -61,14 +61,14 @@ Cforum::Application.routes.draw do
 
   get '/all' => 'cf_threads#index'
 
-  get '/interesting' => 'interesting_messages_plugin#list_messages',
+  get '/interesting' => 'cf_messages/interesting#list_interesting_messages',
       as: :interesting_messages
-  get '/invisible' => 'invisible_threads_plugin#list_threads',
+  get '/invisible' => 'cf_threads/invisible#list_invisible_threads',
       as: :hidden_threads
 
-  get '/choose_css' => 'css_chooser_plugin#choose_css',
+  get '/choose_css' => 'css_chooser#choose_css',
       as: :choose_css
-  post '/choose_css' => 'css_chooser_plugin#css_chosen'
+  post '/choose_css' => 'css_chooser#css_chosen'
 
   resources 'images', except: [:new, :edit, :update]
 
@@ -92,12 +92,12 @@ Cforum::Application.routes.draw do
 
     get '/' => 'cf_threads#index', as: 'cf_threads'
 
-    post '/mark_all_visited' => 'mark_read_plugin#mark_all_read',
+    post '/mark_all_visited' => 'cf_messages/mark_read#mark_all_read',
          as: 'mark_all_read'
 
-    post '/close_all' => 'open_close_threads_plugin#close_all',
+    post '/close_all' => 'cf_threads/open_close#close_all',
          as: 'close_all_threads'
-    post '/open_all' => 'open_close_threads_plugin#open_all',
+    post '/open_all' => 'cf_threads/open_close#open_all',
          as: 'open_all_threads'
 
     get '/archive' => 'cf_archive#years', as: :cf_archive
@@ -119,19 +119,19 @@ Cforum::Application.routes.draw do
          mon: /\w{3}/, day: /\d{1,2}/
     post '/:year/:mon/:day/:tid/sticky' => 'cf_threads#sticky', year: /\d{4}/,
          mon: /\w{3}/, day: /\d{1,2}/
-    post '/:year/:mon/:day/:tid/no_archive' => 'no_answer_no_archive_plugin#no_archive',
+    post '/:year/:mon/:day/:tid/no_archive' => 'cf_threads/no_answer_no_archive#no_archive',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_archive_cf_thread'
-    post '/:year/:mon/:day/:tid/mark_read' => 'mark_read_plugin#mark_thread_read', year: /\d{4}/,
+    post '/:year/:mon/:day/:tid/mark_read' => 'cf_messages/mark_read#mark_thread_read', year: /\d{4}/,
          mon: /\w{3}/, day: /\d{1,2}/, as: :mark_thread_read
 
-    post '/:year/:mon/:day/:tid/open' => 'open_close_threads_plugin#open',
+    post '/:year/:mon/:day/:tid/open' => 'cf_threads/open_close#open',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'open_cf_thread'
-    post '/:year/:mon/:day/:tid/close' => 'open_close_threads_plugin#close',
+    post '/:year/:mon/:day/:tid/close' => 'cf_threads/open_close#close',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'close_cf_thread'
 
-    post '/:year/:mon/:day/:tid/hide' => 'invisible_threads_plugin#hide_thread',
+    post '/:year/:mon/:day/:tid/hide' => 'cf_threads/invisible#hide_thread',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'hide_cf_thread'
-    post '/:year/:mon/:day/:tid/unhide' => 'invisible_threads_plugin#unhide_thread',
+    post '/:year/:mon/:day/:tid/unhide' => 'cf_threads/invisible#unhide_thread',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: :unhide_cf_thread
 
     #
@@ -150,12 +150,12 @@ Cforum::Application.routes.draw do
     post '/:year/:mon/:day/:tid/:mid/retag' => 'cf_messages#retag',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
-    post '/:year/:mon/:day/:tid/:mid/vote' => 'vote_plugin#vote',
+    post '/:year/:mon/:day/:tid/:mid/vote' => 'cf_messages/vote#vote',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'vote_cf_message'
 
-    post '/:year/:mon/:day/:tid/:mid/interesting' => 'interesting_messages_plugin#mark_interesting',
+    post '/:year/:mon/:day/:tid/:mid/interesting' => 'cf_messages/interesting#mark_interesting',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'interesting_cf_message'
-    post '/:year/:mon/:day/:tid/:mid/boring' => 'interesting_messages_plugin#mark_boring',
+    post '/:year/:mon/:day/:tid/:mid/boring' => 'cf_messages/interesting#mark_boring',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'boring_cf_message'
 
 
@@ -164,13 +164,13 @@ Cforum::Application.routes.draw do
     #
     post '/:year/:mon/:day/:tid/:mid/restore' => 'cf_messages#restore',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'restore_cf_message'
-    post '/:year/:mon/:day/:tid/:mid/no_answer' => 'no_answer_no_archive_plugin#no_answer',
+    post '/:year/:mon/:day/:tid/:mid/no_answer' => 'cf_threads/no_answer_no_archive#no_answer',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_answer_cf_message'
 
     #
     # Plugins
     #
-    post '/:year/:mon/:day/:tid/:mid/accept' => 'accept_plugin#accept',
+    post '/:year/:mon/:day/:tid/:mid/accept' => 'cf_messages/accept#accept',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'accept_cf_message'
 
     get '/:year/:mon/:day/:tid/:mid/close' => 'close_vote#new',
@@ -188,11 +188,11 @@ Cforum::Application.routes.draw do
           year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
 
-    get '/:year/:mon/:day/:tid/:mid/flag' => 'flag_plugin#flag',
+    get '/:year/:mon/:day/:tid/:mid/flag' => 'cf_messages/flag#flag',
         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'flag_cf_message'
-    put '/:year/:mon/:day/:tid/:mid/flag' => 'flag_plugin#flagging',
+    put '/:year/:mon/:day/:tid/:mid/flag' => 'cf_messages/flag#flagging',
         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
-    delete '/:year/:mon/:day/:tid/:mid/unflag' => 'flag_plugin#unflag',
+    delete '/:year/:mon/:day/:tid/:mid/unflag' => 'cf_messages/flag#unflag',
            year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
     get '/:year/:mon/:day/:tid/:mid/versions' => 'cf_messages#versions',

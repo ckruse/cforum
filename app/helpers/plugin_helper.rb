@@ -23,7 +23,7 @@ module PluginHelper
     if @@loaded_plugins.blank? or Rails.env == 'development'
       self.class.init_hooks = []
 
-      plugin_dir = Rails.root + 'lib/plugins/notifiers'
+      plugin_dir = Rails.root + 'lib/plugins'
       entries = Dir.entries(plugin_dir).delete_if { |ent| ent[0] == '.' or not File.directory?(plugin_dir + ent) }
 
       entries.sort.each do |p|
@@ -53,17 +53,6 @@ module PluginHelper
 
   def get(name)
     instance_variable_get('@' + name)
-  end
-
-  def mod_view_paths
-    paths = [Rails.root + "lib/plugins/notifiers/", Rails.root + "lib/plugins/controllers/"]
-
-    rest = view_paths[0..-1]
-    paths += rest if rest
-
-    ActionMailer::Base.prepend_view_path(Rails.root + "lib/plugins/notifiers/")
-    ActionMailer::Base.prepend_view_path(Rails.root + "lib/plugins/controllers/")
-    lookup_context.view_paths = view_paths = ActionView::PathSet.new(paths)
   end
 end
 

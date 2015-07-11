@@ -49,9 +49,7 @@ module CForum
     def cf_return_url(thread = nil, message = nil, args = {})
       args = {p: params[:p]}.merge(args)
 
-      if thread.blank? and message.blank?
-        cf_forum_url(current_forum, args)
-      end
+      return cf_forum_url(current_forum, args) if thread.blank? and message.blank?
 
       f = params[:f].gsub(/[^a-z0-9_-]/, '') if not params[:f].blank?
       f = current_forum.try(:slug) if f.blank?
@@ -67,9 +65,9 @@ module CForum
       when 'cf_messages'
         args.delete(:p)
         cf_message_url(thread, message || thread.messages.first, args)
-      when 'interesting_threads_plugin'
-        (@app_controller || self).interesting_threads_url(args)
-      when 'invisible_threads_plugin'
+      when 'cf_messages/interesting'
+        (@app_controller || self).interesting_messages_url(args)
+      when 'cf_threads/invisible'
         (@app_controller || self).hidden_threads_url(args)
       end
     end
