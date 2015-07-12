@@ -17,7 +17,7 @@ content_for :body_classes, 'forums'
 %>
 
 <% content_for :aside do %>
-  <p class="aktuelle-mitteilung img"><img src="http://src.selfhtml.org/forum/icon-forum-mail.png" alt="Icon">Für Anregungen, Fehlermeldungen oder Kritik sende bitte eine E-Mail an <a href="mailto:forum@selfhtml.org">forum@selfhtml.org</a>.</p>
+  <p class="aktuelle-mitteilung img"><img src="http://src.selfhtml.org/forum/icon-forum-mail.png" alt="Icon"><%= t('layout.contact_us', email: 'forum@selfhtml.org').html_safe %></p>
 <% end %>
 
 <% unless current_user.blank? %>
