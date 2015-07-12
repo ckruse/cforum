@@ -22,6 +22,8 @@ class CfBadge < ActiveRecord::Base
   validates :badge_medal_type, presence: true, allow_blank: false,
             inclusion: { in: %w(bronze silver gold) }
 
+  validates :slug, presence: true, allow_blank: false
+
   def to_param
     slug
   end
