@@ -18,7 +18,7 @@ class CfTag < ActiveRecord::Base
   end
 
   before_create do |t|
-    t.slug = t.tag_name.parameterize
+    t.slug = t.tag_name.to_url
   end
 end
 
