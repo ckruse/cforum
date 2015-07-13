@@ -48,7 +48,7 @@ class MarkReadPlugin < Plugin
 
     mark_read_moment = uconf('mark_read_moment')
     check_thread(thread) if mark_read_moment == 'after_render'
-    cache = get_cached_entry(:mark_read, current_user.user_id) || {}
+    cache = @app_controller.get_cached_entry(:mark_read, current_user.user_id) || {}
 
     sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", "
     thread.sorted_messages.each do |m|
@@ -61,7 +61,7 @@ class MarkReadPlugin < Plugin
       end
     end
 
-    set_cached_entry(:mark_read, user_id, cache)
+    @app_controller.set_cached_entry(:mark_read, user_id, cache)
 
     check_thread(thread) if mark_read_moment == 'before_render'
   end
@@ -81,7 +81,7 @@ class MarkReadPlugin < Plugin
       end
     end
 
-    set_cached_entry(:mark_read, current_user.user_id, cache)
+    @app_controller.set_cached_entry(:mark_read, current_user.user_id, cache)
 
     check_thread(thread) if mark_read_moment == 'before_render'
   end
