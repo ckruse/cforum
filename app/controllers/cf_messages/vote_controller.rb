@@ -15,6 +15,55 @@ class CfMessages::VoteController < ApplicationController
 
     @thread, @message, @id = get_thread_w_post
 
+    check_for_access or return
+
+    @vote_down_value = conf('vote_down_value').to_i
+
+    # we may use a different vote_up_value if user is the author of the OP
+    @vote_up_value = conf('vote_up_value').to_i
+    @vote_up_value = conf('vote_up_value_user').to_i unless @thread.acceptance_forbidden?(current_user, cookies[:cforum_user])
+
+    vtype    = params[:type] == 'up' ? CfVote::UPVOTE : CfVote::DOWNVOTE
+
+    if params[:type] == 'up'
+      vtype = CfVote::UPVOTE
+      check_if_user_may(RightsHelper::UPVOTE, 'messages.insufficient_rights_to_upvote') or return
+    else
+      vtype = CfVote::DOWNVOTE
+      check_if_user_may(RightsHelper::DOWNVOTE, 'messages.insufficient_rights_to_downvote') or return
+    end
+
+    # remove voting if user already voted with the same parameters
+    maybe_take_back_vote(vtype) and return
+
+    check_for_downvote_score(vtype) or return
+
+
+    notification_center.notify(VOTING_MESSAGE, @message)
+    CfVote.transaction do
+      if @vote
+        update_existing_vote(vtype)
+      else
+        create_new_vote(vtype)
+      end
+    end
+    notification_center.notify(VOTED_MESSAGE, @message)
+
+
+    respond_to do |format|
+      format.html do
+        flash[:notice] = t('messages.successfully_voted')
+        redirect_to cf_message_url(@thread, @message)
+      end
+
+      format.json do
+        @message.reload
+        render json: { status: 'success', score: @message.score_str, message: t('messages.successfully_voted') }
+      end
+    end
+  end
+
+  def check_for_access
     if @message.user_id == current_user.user_id
       respond_to do |format|
         format.html do
@@ -41,48 +90,47 @@ class CfMessages::VoteController < ApplicationController
       return
     end
 
-    vote_down_value = conf('vote_down_value').to_i
+    return true
+  end
 
-    # we may use a different vote_up_value if user is the author of the OP
-    vote_up_value = conf('vote_up_value').to_i
-    vote_up_value = conf('vote_up_value_user').to_i unless @thread.acceptance_forbidden?(current_user, cookies[:cforum_user])
-
-    vtype    = params[:type] == 'up' ? CfVote::UPVOTE : CfVote::DOWNVOTE
-
-    if params[:type] == 'up'
-      vtype = CfVote::UPVOTE
-
-      unless may?(RightsHelper::UPVOTE)
-        respond_to do |format|
-          format.html do
-            flash[:error] = t('messages.insufficient_rights_to_upvote')
-            redirect_to cf_message_url(@thread, @message)
-          end
-
-          format.json { render json: { status: 'error', message: t('messages.insufficient_rights_to_upvote') } }
+  def check_if_user_may(right, msg)
+    unless may?(right)
+      respond_to do |format|
+        format.html do
+          flash[:error] = t(msg)
+          redirect_to cf_message_url(@thread, @message)
         end
 
-        return
+        format.json { render json: { status: 'error', message: msg } }
       end
-    else
-      vtype = CfVote::DOWNVOTE
 
-      unless may?(RightsHelper::DOWNVOTE)
-        respond_to do |format|
-          format.html do
-            flash[:error] = t('messages.insufficient_rights_to_downvote')
-            redirect_to cf_message_url(@thread, @message)
-          end
-
-          format.json { render json: { status: 'error', message: t('messages.insufficient_rights_to_downvote') } }
-        end
-
-        return
-      end
+      return
     end
 
-    # remove voting if user already voted with the same parameters
-    if @vote = CfVote.where(user_id: current_user.user_id, message_id: @message.message_id).first and @vote.vtype == vtype
+    return true
+  end
+
+  def check_for_downvote_score(vtype)
+    if current_user.score <= 0 and vtype == CfVote::DOWNVOTE
+      respond_to do |format|
+        format.html do
+          flash[:error] = t('messages.not_enough_score')
+          redirect_to cf_message_url(@thread, @message)
+        end
+
+        format.json { render json: { status: 'error', message: t('messages.not_enough_score') } }
+      end
+
+      return
+    end
+
+    return true
+  end
+
+  def maybe_take_back_vote(vtype)
+    @vote = CfVote.where(user_id: current_user.user_id, message_id: @message.message_id).first
+
+    if not @vote.blank? and @vote.vtype == vtype
       notification_center.notify(UNVOTING_MESSAGE, @message, @vote)
 
       CfVote.transaction do
@@ -105,97 +153,71 @@ class CfMessages::VoteController < ApplicationController
         end
       end
 
-      return
+      return true
     end
 
-    if current_user.score <= 0 and vtype == CfVote::DOWNVOTE
-      respond_to do |format|
-        format.html do
-          flash[:error] = t('messages.not_enough_score')
-          redirect_to cf_message_url(@thread, @message)
-        end
+    return
+  end
 
-        format.json { render json: { status: 'error', message: t('messages.not_enough_score') } }
+  def update_existing_vote(vtype)
+    @vote.update_attributes(vtype: vtype)
+
+    if @vote.vtype == CfVote::UPVOTE
+      CfVote.connection.execute "UPDATE messages SET downvotes = downvotes - 1, upvotes = upvotes + 1 WHERE message_id = " + @message.message_id.to_s
+
+      CfScore.delete_all(['user_id = ? AND vote_id = ?', current_user.user_id, @vote.vote_id])
+      unless @message.user_id.blank?
+        CfScore.where('user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id).update_all(['value = ?', @vote_up_value])
       end
 
-      return
-    end
+      peon(class_name: 'BadgeDistributor',
+           arguments: {type: 'changed-vote',
+                       message_id: @message.message_id})
+    else
+      CfVote.connection.execute "UPDATE messages SET upvotes = upvotes - 1, downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
 
-    notification_center.notify(VOTING_MESSAGE, @message)
-    CfVote.transaction do
-      if @vote
-        @vote.update_attributes(vtype: vtype)
-
-        if @vote.vtype == CfVote::UPVOTE
-          CfVote.connection.execute "UPDATE messages SET downvotes = downvotes - 1, upvotes = upvotes + 1 WHERE message_id = " + @message.message_id.to_s
-
-          CfScore.delete_all(['user_id = ? AND vote_id = ?', current_user.user_id, @vote.vote_id])
-          unless @message.user_id.blank?
-            CfScore.where('user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id).update_all(['value = ?', vote_up_value])
-          end
-
-          peon(class_name: 'BadgeDistributor',
-               arguments: {type: 'changed-vote',
-                           message_id: @message.message_id})
-        else
-          CfVote.connection.execute "UPDATE messages SET upvotes = upvotes - 1, downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
-
-          unless @message.user_id.blank?
-            CfScore.where('user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id).update_all(['value = ?', vote_down_value])
-          end
-
-          CfScore.create!(user_id: current_user.user_id, vote_id: @vote.vote_id, value: vote_down_value)
-        end
-
-      else
-        @vote = CfVote.create!(
-          user_id: current_user.user_id,
-          message_id: @message.message_id,
-          vtype: vtype
-        )
-
-        unless @message.user_id.blank?
-          CfScore.create!(
-            user_id: @message.user_id,
-            vote_id: @vote.vote_id,
-            value: vtype == CfVote::UPVOTE ? vote_up_value : vote_down_value
-          )
-        end
-
-        if vtype == CfVote::DOWNVOTE
-          CfScore.create!(
-            user_id: current_user.user_id,
-            vote_id: @vote.vote_id,
-            value: vote_down_value
-          )
-        end
-
-        if @vote.vtype == CfVote::UPVOTE
-          CfVote.connection.execute "UPDATE messages SET upvotes = upvotes + 1 WHERE message_id = " + @message.message_id.to_s
-        else
-          CfVote.connection.execute "UPDATE messages SET downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
-        end
-
-        peon(class_name: 'BadgeDistributor',
-             arguments: {type: 'voted',
-                         message_id: @message.message_id})
+      unless @message.user_id.blank?
+        CfScore.where('user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id).update_all(['value = ?', @vote_down_value])
       end
 
-    end
-    notification_center.notify(VOTED_MESSAGE, @message)
-
-    respond_to do |format|
-      format.html do
-        flash[:notice] = t('messages.successfully_voted')
-        redirect_to cf_message_url(@thread, @message)
-      end
-
-      format.json do
-        @message.reload
-        render json: { status: 'success', score: @message.score_str, message: t('messages.successfully_voted') }
-      end
+      CfScore.create!(user_id: current_user.user_id, vote_id: @vote.vote_id, value: @vote_down_value)
     end
   end
+
+  def create_new_vote(vtype)
+    @vote = CfVote.create!(
+      user_id: current_user.user_id,
+      message_id: @message.message_id,
+      vtype: vtype
+    )
+
+    unless @message.user_id.blank?
+      CfScore.create!(
+        user_id: @message.user_id,
+        vote_id: @vote.vote_id,
+        value: vtype == CfVote::UPVOTE ? @vote_up_value : @vote_down_value
+      )
+    end
+
+    if vtype == CfVote::DOWNVOTE
+      CfScore.create!(
+        user_id: current_user.user_id,
+        vote_id: @vote.vote_id,
+        value: @vote_down_value
+      )
+    end
+
+    if @vote.vtype == CfVote::UPVOTE
+      CfVote.connection.execute "UPDATE messages SET upvotes = upvotes + 1 WHERE message_id = " + @message.message_id.to_s
+    else
+      CfVote.connection.execute "UPDATE messages SET downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
+    end
+
+    peon(class_name: 'BadgeDistributor',
+         arguments: {type: 'voted',
+                     message_id: @message.message_id})
+  end
+
 end
 
 # eof
