@@ -15,11 +15,13 @@ class UsersController < ApplicationController
   def index
     @limit = conf('pagination_users').to_i
 
-    if params[:s].blank?
-      @users = CfUser
-    else
+    if not params[:s].blank?
       @users = CfUser.where('LOWER(username) LIKE LOWER(?)', '%' + params[:s].strip + '%')
       @search_term = params[:s]
+    elsif not params[:nick].blank?
+      @users = CfUser.where('LOWER(username) LIKE LOWER(?)', params[:nick].strip + '%')
+    else
+      @users = CfUser
     end
 
     @users = @users.
