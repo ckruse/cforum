@@ -44,7 +44,7 @@ class CfThreads::InvisibleController < ApplicationController
   def unhide_thread
     @thread, @id = get_thread
 
-    mark_invisible(current_user, @thread)
+    mark_visible(current_user, @thread)
 
     redirect_to cf_return_url(@thread),
                 notice: t('plugins.invisible_threads.thread_marked_visible')
