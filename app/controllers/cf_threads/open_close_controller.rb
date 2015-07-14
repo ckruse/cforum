@@ -11,7 +11,7 @@ class CfThreads::OpenCloseController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to cf_return_url(@thread) }
-      format.json { render json: {status: :success, location: cf_thread_url(@thread) } }
+      format.json { render json: {status: :success, slug: @thread.slug } }
     end
   end
 
@@ -21,7 +21,7 @@ class CfThreads::OpenCloseController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to cf_return_url(@thread) }
-      format.json { render json: {status: :success, location: cf_thread_url(@thread) } }
+      format.json { render json: {status: :success, slug: @thread.slug } }
     end
   end
 

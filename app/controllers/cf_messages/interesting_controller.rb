@@ -23,7 +23,7 @@ class CfMessages::InterestingController < ApplicationController
     respond_to do |format|
       format.html { redirect_to cf_return_url(@thread, @message),
                                 notice: t('plugins.interesting_messages.marked_interesting') }
-      format.json { render json: {status: :success, location: cf_thread_url(@thread) } }
+      format.json { render json: {status: :success, slug: @thread.slug } }
     end
   end
 
@@ -44,7 +44,7 @@ class CfMessages::InterestingController < ApplicationController
     respond_to do |format|
       format.html { redirect_to cf_return_url(@thread, @message),
                                 notice: t('plugins.interesting_messages.unmarked_interesting') }
-      format.json { render json: {status: :success, location: cf_thread_url(@thread) } }
+      format.json { render json: {status: :success, slug: @thread.slug } }
     end
   end
 

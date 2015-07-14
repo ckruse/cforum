@@ -29,7 +29,7 @@ class CfMessages::MarkReadController < ApplicationController
                     notice: t('plugins.mark_read.thread_marked_read')
       end
 
-      format.json { render json: {status: :success, location: cf_thread_url(@thread) } }
+      format.json { render json: {status: :success, slug: @thread.slug } }
     end
   end
 

@@ -59,7 +59,7 @@ $(function() {
           article.fadeOut('fast', function() { article.remove(); });
         }
         else {
-          var loc = data.location;
+          var loc = cforum.baseUrl + (cforum.currentForum ? cforum.currentForum.slug : 'all') + '/' + data.slug;
 
           if($('body').attr('data-controller') == 'cf_messages' && !$this.is('.icon-thread.open') && !$this.is('.icon-thread.close')) {
             loc += '?fold=false';
