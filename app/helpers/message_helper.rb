@@ -2,8 +2,12 @@
 
 module MessageHelper
   def std_args(args = {})
-    local_args = {p: params[:p], r: controller_path, f: current_forum.try(:slug) || 'all'}
+    local_args = {p: params[:p],
+                  page: params[:page],
+                  r: controller_path,
+                  f: current_forum.try(:slug) || 'all'}
     local_args.delete(:p) if local_args[:p].blank?
+    local_args.delete(:page) if local_args[:page].blank?
     local_args.merge(args)
   end
 

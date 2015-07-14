@@ -47,7 +47,7 @@ module CForum
     end
 
     def cf_return_url(thread = nil, message = nil, args = {})
-      args = {p: params[:p]}.merge(args)
+      args = {p: params[:p], page: params[:page]}.merge(args)
 
       return cf_forum_url(current_forum, args) if thread.blank? and message.blank?
 
