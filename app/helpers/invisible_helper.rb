@@ -74,6 +74,7 @@ module InvisibleHelper
     result.each do |row|
       t = row['thread_id'].to_i
       invisible_threads << t
+      new_cache[t] = true
     end
 
     merge_cached_entry(:invisible, user_id, new_cache)
