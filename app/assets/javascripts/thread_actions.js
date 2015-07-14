@@ -15,7 +15,8 @@ $(function() {
       '.icon-thread.open',
       '.icon-message.mark-interesting',
       '.icon-message.mark-boring',
-      '.icon-thread.mark-invisible'
+      '.icon-thread.mark-invisible',
+      '.icon-thread.mark-visible'
     ];
 
     var i, handle_elem = false;
@@ -54,7 +55,7 @@ $(function() {
 
     $.post(action + '.json', data).
       done(function(data) {
-        if($this.is('.icon-thread.mark-invisible')) {
+        if($this.is('.icon-thread.mark-invisible') || $this.is('.icon-thread.mark-visible')) {
           article.fadeOut('fast', function() { article.remove(); });
         }
         else {

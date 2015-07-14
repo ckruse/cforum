@@ -5,7 +5,7 @@ content_for(:body_id, "invisible-threads-list")
 content_for(:body_classes, 'invisible-threads list')
 %>
 
-<div data-js="threadlist">
+<div data-js="threadlist" class="root">
   <% if @threads.empty? %>
     <p><%= t('plugins.invisible_threads.no_threads') %></p>
   <% end %>
