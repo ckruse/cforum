@@ -9,7 +9,7 @@ class CfMessages::InterestingController < ApplicationController
     if current_user.blank?
       flash[:error] = t('global.only_as_user')
       redirect_to cf_return_url
-      return :redirected
+      return
     end
 
     @thread, @message, @id = get_thread_w_post
@@ -31,7 +31,7 @@ class CfMessages::InterestingController < ApplicationController
     if current_user.blank?
       flash[:error] = t('global.only_as_user')
       redirect_to cf_return_url
-      return :redirected
+      return
     end
 
     @thread, @message, @id = get_thread_w_post
