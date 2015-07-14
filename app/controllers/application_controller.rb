@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
   include SortingHelper
   include CacheHelper
   include MarkReadHelper
+  include InvisibleHelper
 
   before_filter :do_init, :locked?, :set_forums, :notifications,
                 :run_before_handler, :check_authorizations

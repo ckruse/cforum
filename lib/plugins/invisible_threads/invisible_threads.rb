@@ -27,7 +27,7 @@ class InvisibleThreadsPlugin < Plugin
       @app_controller.set_cached_entry(:invisible, current_user.user_id, cache)
     else
       # we build up the cache to avoid threads.length queries
-      is_invisible(threads, current_user)
+      @app_controller.is_invisible(current_user, threads)
     end
   end
   alias show_archive_threadlist show_threadlist
