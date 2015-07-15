@@ -91,6 +91,7 @@ cforum.cf_messages = {
 
     cforum.cf_messages.initMarkdown("message_input");
     cforum.cf_messages.initUpload();
+    $("#message_input").mentions();
   },
 
   new: function() {

@@ -1,0 +1,26 @@
+/* -*- coding: utf-8 -*- */
+
+.mentions-complete {
+  list-style-type:none;
+  margin:.75em 0 0 .75em;
+  padding:0;
+  height:15em;
+  overflow-y:scroll;
+  background-color:#fff;
+  border:1px solid black;
+  border-top:0;
+
+  li {
+    margin:0;
+    margin-bottom:.1em;
+    padding:.25em 1em .25em 1em;
+    border-bottom: 1px solid black;
+    cursor:pointer;
+  }
+
+  li:hover {
+    background-color:#ccc;
+  }
+}
+
+/* eof */
