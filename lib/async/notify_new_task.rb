@@ -40,19 +40,10 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
 
   end
 
-  def perform_thread(args)
+  def perform_thread
   end
 
-  def perform_message(args)
-    # we don't care about exceptions, grunt will manage this for us
-    begin
-      @thread     = CfThread.includes(:forum, :messages => :owner).find args['thread']
-      @message    = @thread.find_message! args['message']
-      @parent     = @thread.find_message @message.parent_id
-    rescue ActiveRecord::RecordNotFound
-      return
-    end
-
+  def perform_message
     @sent_mails = {}
     @notified   = {}
 
@@ -87,11 +78,16 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
   end
 
   def work_work(args)
+    # we don't care about exceptions, grunt will manage this for us
+    @thread     = CfThread.includes(:forum, :messages => :owner).find args['thread']
+    @message    = @thread.find_message! args['message']
+    @parent     = @thread.find_message @message.parent_id
+
     case args['type']
     when 'thread'
-      perform_thread(args)
+      perform_thread
     when 'message'
-      perform_message(args)
+      perform_message
     end
   end
 end
