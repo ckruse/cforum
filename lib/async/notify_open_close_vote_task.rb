@@ -41,7 +41,7 @@ class Peon::Tasks::NotifyOpenCloseVoteTask < Peon::Tasks::PeonTask
 
           if uconf('notify_on_open_close_vote', u, @message.forum) == 'email'
             m = trans_key.gsub(/messages\.close_vote\./, '')
-            NotifyOpenCloseVoteMailer.send(m, u, @message).deliver
+            NotifyOpenCloseVoteMailer.send(m, u, @message).deliver_now
           end
         end
       end

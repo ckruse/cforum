@@ -6,7 +6,7 @@ class Peon::Tasks::ThreadMovedTask < Peon::Tasks::PeonTask
     Rails.logger.debug('notify new task: send mail to ' + user.email)
 
     begin
-      ThreadMovedMailer.thread_moved(user, thread, old_forum, new_forum, cf_message_url(thread, thread.messages.first)).deliver
+      ThreadMovedMailer.thread_moved(user, thread, old_forum, new_forum, cf_message_url(thread, thread.messages.first)).deliver_now
     rescue => e
       Rails.logger.error('Error sending mail to ' + user.email.to_s + ': ' + e.message + "\n" + e.backtrace.join("\n"))
     end

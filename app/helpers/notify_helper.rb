@@ -19,7 +19,7 @@ module NotifyHelper
     publish('/user/' + opts[:user].user_id.to_s + "/notifications",
             {type: 'notification', notification: n})
 
-    NotificationMailer.new_notification(opts).deliver if cfg == 'email'
+    NotificationMailer.new_notification(opts).deliver_now if cfg == 'email'
   end
 
   def notifications

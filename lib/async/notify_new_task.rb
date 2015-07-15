@@ -28,9 +28,9 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
 
     begin
       if parent.owner and parent.owner.user_id == user.user_id
-        NotifyNewMailer.new_answer(user, thread, parent, message, cf_message_url(thread, message), message.to_txt).deliver
+        NotifyNewMailer.new_answer(user, thread, parent, message, cf_message_url(thread, message), message.to_txt).deliver_now
       else
-        NotifyNewMailer.new_message(user, thread, parent, message, cf_message_url(thread, message), message.to_txt).deliver
+        NotifyNewMailer.new_message(user, thread, parent, message, cf_message_url(thread, message), message.to_txt).deliver_now
       end
 
       @sent_mails[user.email] = true
@@ -82,7 +82,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     Rails.logger.debug('notify new task: send mention mail to ' + user.email)
 
     begin
-      NotifyNewMailer.new_mention(user, @thread, @message, cf_message_url(@thread, @message), @message.to_txt).deliver
+      NotifyNewMailer.new_mention(user, @thread, @message, cf_message_url(@thread, @message), @message.to_txt).deliver_now
       @sent_mails[user.email] = true
 
     rescue => e
