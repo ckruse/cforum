@@ -5,6 +5,10 @@ class NotificationsPlugin < Plugin
     peon(class_name: 'NotifyNewTask', arguments: {type: 'message', thread: thread.thread_id, message: message.message_id})
   end
 
+  def new_thread_saved(thread, message)
+    peon(class_name: 'NotifyNewTask', arguments: {type: 'thread', thread: thread.thread_id, message: message.message_id})
+  end
+
   def thread_moved(thread, old_forum, new_forum)
     peon(class_name: 'ThreadMovedTask', arguments: {thread: thread.thread_id, old_forum: old_forum.forum_id, new_forum: new_forum.forum_id})
   end
@@ -112,6 +116,8 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(BadgesController::SHOW_BADGE, notifications_plugin)
   app_controller.notification_center.
     register_hook(CfThreadsController::THREAD_MOVED, notifications_plugin)
+  app_controller.notification_center.
+    register_hook(CfThreadsController::NEW_THREAD_SAVED, notifications_plugin)
 end
 
 # eof

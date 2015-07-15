@@ -44,6 +44,20 @@ class NotifyNewMailer < ActionMailer::Base
       subject: 'RE: ' + @message.subject
     )
   end
+
+  def new_mention(user, thread, message, url, txt_content)
+    @user    = user
+    @thread  = thread
+    @message = message
+    @url     = url
+    @txt     = txt_content
+
+    mail(
+      from: Rails.application.config.mail_sender,
+      to: user.email,
+      subject: 'RE: ' + @message.subject
+    )
+  end
 end
 
 # eof
