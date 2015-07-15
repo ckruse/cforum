@@ -40,7 +40,7 @@
       var i, text = area.val(), c;
       var sel = area.getSelection();
 
-      for(i = sel.start - 1; i >= 0 && text.substr(i, 1) != "\n"; --i) {
+      for(i = sel.start - 1; i >= 0 && text.substr(i, 1) != "\n" && text.substr(i, 1) != "@"; --i) {
         c = text.substr(i, 1);
         if(c == '@') {
           var nick = text.substr(i+1, sel.start - i).replace(/^\s+|\s+$/, '');
