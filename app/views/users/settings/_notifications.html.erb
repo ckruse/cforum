@@ -71,6 +71,15 @@
     </div>
   </div>
 
+  <div class="cf-cgroup">
+    <label><%= t('users.settings.notify_on_mention') %></label>
+    <div class="cntrls">
+      <label class="radio"><input type="radio" value="yes" name="settings[notify_on_mention]"<%= disabled %><% if @settings.conf('notify_on_mention') == 'yes' or @settings.conf('notify_on_mention').blank? %> checked="checked"<% end %>> <%= t("global.yeah") %></label>
+      <label class="radio"><input type="radio" value="no" name="settings[notify_on_mention]"<%= disabled %><% if @settings.conf('notify_on_mention') == 'no' %> checked="checked"<% end %>> <%= t("global.nope") %></label>
+      <label class="radio"><input type="radio" value="email" name="settings[notify_on_mention]"<%= disabled %><% if @settings.conf('notify_on_mention') == 'email' %> checked="checked"<% end %>> <%= t("users.settings.via_email") %></label>
+    </div>
+  </div>
+
   <% if @user.admin or @user.has_badge?(RightsHelper::MODERATOR_TOOLS) or @user.moderator? %>
     <div class="cf-cgroup">
       <label><%= t('users.settings.notification_on_flagged') %></label>
