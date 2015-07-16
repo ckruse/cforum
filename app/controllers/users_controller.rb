@@ -35,7 +35,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @users.as_json(except: [:websocket_token, :authentication_token, :email]) }
+      format.json { render json: @users }
     end
   end
 

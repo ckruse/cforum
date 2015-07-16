@@ -132,6 +132,18 @@ class CfUser < ActiveRecord::Base
   def thumb
     avatar(:thumb)
   end
+
+  def to_json(options = {})
+    options[:except] ||= []
+    options[:except] += [:encrypted_password, :websocket_token, :authentication_token, :email]
+    super(options)
+  end
+
+  def as_json(options = {})
+    options[:except] ||= []
+    options[:except] += [:encrypted_password, :websocket_token, :authentication_token, :email]
+    super(options)
+  end
 end
 
 # eof
