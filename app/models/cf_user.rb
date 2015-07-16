@@ -134,6 +134,7 @@ class CfUser < ActiveRecord::Base
   end
 
   def serializable_hash(options = {})
+    options ||= {}
     options[:except] ||= []
     options[:except] += [:encrypted_password, :websocket_token, :authentication_token, :email]
     super(options)

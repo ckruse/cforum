@@ -129,6 +129,7 @@ class CfMessage < ActiveRecord::Base
   end
 
   def serializable_hash(options = {})
+    options ||= {}
     options[:except] ||= []
     options[:except] += [:uuid, :ip]
     super(options)
