@@ -133,13 +133,7 @@ class CfUser < ActiveRecord::Base
     avatar(:thumb)
   end
 
-  def to_json(options = {})
-    options[:except] ||= []
-    options[:except] += [:encrypted_password, :websocket_token, :authentication_token, :email]
-    super(options)
-  end
-
-  def as_json(options = {})
+  def serializable_hash(options = {})
     options[:except] ||= []
     options[:except] += [:encrypted_password, :websocket_token, :authentication_token, :email]
     super(options)
