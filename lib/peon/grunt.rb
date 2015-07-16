@@ -74,7 +74,14 @@ module Peon
       Thread.start {
         while @running
           Rails.logger.debug "grunt periodical: #{obj.inspect}"
-          obj.work_work({})
+
+          begin
+            obj.work_work({})
+          rescue => e
+            Rails.logger.error "grunt run: periodical #{obj.inspect}: #{e.message}\n#{e.backtrace.join("\n")}"
+            send_exception_mail(e)
+          end
+
           sleep slice
           Rails.logger.debug "grunt periodical: wakeup: #{obj.inspect}"
         end
@@ -102,6 +109,7 @@ module Peon
             end
           rescue => e
             Rails.logger.error "grunt run: queue #{event}: #{e.message}\n#{e.backtrace.join("\n")}"
+            send_exception_mail(e)
           end
 
         end # wait_for_notify
@@ -133,6 +141,7 @@ module Peon
             job.update_attributes(work_done: true)
           rescue => e
             Rails.logger.error "grunt monitor: queue #{queuename}: #{e.message}\n#{e.backtrace.join("\n")}"
+            send_exception_mail(e)
 
             job.errstr     = e.message
             job.stacktrace = e.backtrace.join("\n")
@@ -147,6 +156,10 @@ module Peon
       end # while @running
 
     end # def @monitor
+
+    def send_exception_mail(exception)
+      ExceptionMailer.new_exce(exception).deliver_now
+    end
   end
 end
 
