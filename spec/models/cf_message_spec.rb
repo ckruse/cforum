@@ -281,4 +281,15 @@ describe CfMessage do
       expect(thread.messages.last.subject_changed?).to be true
     end
   end
+
+  it "does not include private attributes when rendering to json" do
+    msg = build(:cf_message)
+    msg.ip = '1234'
+    msg.uuid = '1234'
+
+    json = msg.as_json
+
+    expect(json =~ /"ip":/).to be_nil
+    expect(json =~ /"uuid":/).to be_nil
+  end
 end
