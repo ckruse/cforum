@@ -60,7 +60,7 @@ cforum = {
                 message.ext = {};
               }
 
-              message.ext.token = cforum.currentUser.websocket_token;
+              message.ext.token = cforum.websocketToken;
             }
 
             callback(message);

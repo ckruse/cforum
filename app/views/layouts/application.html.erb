@@ -76,7 +76,10 @@ end
     </script><% end %>
 
     <script>
-      <% if current_user %>cforum.currentUser = <%= current_user.to_json(include: [:badges, settings: {only: :options}]).html_safe %>;<% end %>
+      <% if current_user %>
+      cforum.currentUser = <%= current_user.to_json(include: [:badges, settings: {only: :options}]).html_safe %>;
+      cforum.websocketToken = <%= current_user.websocket_token.to_json.html_safe %>;
+      <% end %>
       cforum.baseUrl = <%= root_url.to_json.html_safe %>;
       cforum.basePath = <%= root_path.to_json.html_safe %>;
       <% if current_forum %>cforum.currentForum = <%= current_forum.to_json.html_safe %>;<% end %>
