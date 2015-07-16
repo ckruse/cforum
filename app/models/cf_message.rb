@@ -128,6 +128,18 @@ class CfMessage < ActiveRecord::Base
     upvotes + downvotes
   end
 
+  def to_json(options = {})
+    options[:except] ||= []
+    options[:except] += [:uuid, :ip]
+    super(options)
+  end
+
+  def as_json(options = {})
+    options[:except] ||= []
+    options[:except] += [:uuid, :ip]
+    super(options)
+  end
+
 end
 
 # eof
