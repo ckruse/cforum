@@ -11,9 +11,10 @@ losing performance.
 
 - PostgreSQL 9.3 or newer
 - Ruby 2 or newer
-- Rails 4.1
+- Rails 4.2
 
 ## Installations
 
-None yet, the software is still in beta.
+- [SELFHTML Forum](http://forum.selfhtml.org/)
+
 
