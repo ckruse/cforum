@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 
 Cforum::Application.routes.draw do
-  devise_for :users, class_name: 'CfUser', path_names: {sign_in: 'login',
-                                                        sign_out: 'logout'}, skip: :registration
+  devise_for(:users, class_name: 'CfUser', path_names: {sign_in: 'login',
+                                                        sign_out: 'logout'},
+             skip: :registration,
+             controllers: {confirmations: "users/confirmations"})
 
   devise_scope :user do
-    get '/users/registration/cancel' => 'devise/registrations#cancel',
+    get '/users/registration/cancel' => 'users/registrations#cancel',
         as: :cancel_user_registration
-    post '/users/registration' => 'devise/registrations#create',
+    post '/users/registration' => 'users/registrations#create',
          as: :user_registration
-    get '/users/registration' => 'devise/registrations#new',
+    get '/users/registration' => 'users/registrations#new',
         as: :new_user_registration
   end
 
