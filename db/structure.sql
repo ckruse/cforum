@@ -509,6 +509,40 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: auditing; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE auditing (
+    auditing_id bigint NOT NULL,
+    relation regclass NOT NULL,
+    relid bigint NOT NULL,
+    act text NOT NULL,
+    contents json NOT NULL,
+    user_id integer,
+    created_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: auditing_auditing_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE auditing_auditing_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: auditing_auditing_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE auditing_auditing_id_seq OWNED BY auditing.auditing_id;
+
+
+--
 -- Name: badges; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1597,6 +1631,13 @@ ALTER SEQUENCE votes_vote_id_seq OWNED BY votes.vote_id;
 
 
 --
+-- Name: auditing_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY auditing ALTER COLUMN auditing_id SET DEFAULT nextval('auditing_auditing_id_seq'::regclass);
+
+
+--
 -- Name: badge_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1811,6 +1852,14 @@ ALTER TABLE ONLY users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_s
 --
 
 ALTER TABLE ONLY votes ALTER COLUMN vote_id SET DEFAULT nextval('votes_vote_id_seq'::regclass);
+
+
+--
+-- Name: auditing_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY auditing
+    ADD CONSTRAINT auditing_pkey PRIMARY KEY (auditing_id);
 
 
 --
@@ -2604,6 +2653,14 @@ CREATE TRIGGER threads__count_update_trigger AFTER UPDATE ON threads FOR EACH RO
 
 
 --
+-- Name: auditing_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY auditing
+    ADD CONSTRAINT auditing_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
 -- Name: badges_users_badge_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3164,6 +3221,8 @@ INSERT INTO schema_migrations (version) VALUES ('74');
 INSERT INTO schema_migrations (version) VALUES ('75');
 
 INSERT INTO schema_migrations (version) VALUES ('76');
+
+INSERT INTO schema_migrations (version) VALUES ('77');
 
 INSERT INTO schema_migrations (version) VALUES ('8');
 
