@@ -144,6 +144,10 @@ class CfThread < ActiveRecord::Base
 
     forbidden
   end
+
+  def audit_json
+    as_json(include: :messages)
+  end
 end
 
 # eof
