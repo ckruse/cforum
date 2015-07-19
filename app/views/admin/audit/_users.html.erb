@@ -1,0 +1,2 @@
+<%= cf_link_to object['username'], root_path + 'users/' + object['user_id'].to_s %>
+(Medallien: <% if object['badges'].blank? %><em>keine</em><% else %><%= (object['badges'].map {|b| b['name']}).join(', ') %><% end %>)

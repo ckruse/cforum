@@ -128,3 +128,8 @@ de:
         author: Autor
         cite: Zitat
         url: URL
+
+      cf_auditing:
+        act: Aktion
+        user_id: Benutzer
+        created_at: Erstellt

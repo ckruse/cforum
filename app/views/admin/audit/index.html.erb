@@ -1,0 +1,28 @@
+<%
+content_for :title, t('admin.audit.audit_log')
+content_for :h1, t('admin.audit.audit_log')
+%>
+
+<table class="cf-default-table">
+  <thead>
+    <tr>
+      <th><%= CfAuditing.human_attribute_name(:act) %></th>
+      <th><%= CfAuditing.human_attribute_name(:user_id) %></th>
+      <th>Objekt</th>
+      <th><%= CfAuditing.human_attribute_name(:created_at) %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @audits.each do |ent| %>
+    <tr>
+      <td><%= t('admin.audit.names.' + ent.relation + '.' + ent.act) %></td>
+      <td><%= ent.user.try(:username) || '<em>(unbekannt)</em>'.html_safe %></td>
+      <td><%= render ent.relation, object: ent.contents %>
+      <td><%= l(ent.created_at, format: date_format) %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @audits %>

@@ -58,6 +58,9 @@ Cforum::Application.routes.draw do
     get '/forums/:id/merge' => 'cf_forums#merge', as: 'forums_merge'
     post '/forums/:id/merge' => 'cf_forums#do_merge', as: 'forums_do_merge'
 
+    get '/audit' => 'audit#index'
+    get '/audit/:id' => 'audit#show'
+
     root to: "cf_users#index"
   end
 

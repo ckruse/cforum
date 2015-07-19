@@ -1,0 +1,4 @@
+<%= cf_link_to(object['subject'], root_path +
+               object['thread']['forum']['slug'] +
+               object['thread']['slug'] + '/' +
+               object['message_id'].to_s + '?view_all=true' + '#m' + object['message_id'].to_s) %>

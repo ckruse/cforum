@@ -124,3 +124,72 @@ de:
       edit: Such-Sektion bearbeiten
       delete: "Such-Sektion löschen"
 
+    audit:
+      audit_log: Audit-Log
+
+      names:
+        messages:
+          move: Nachricht verschoben
+          flagged-off-topic: Als Off-Topic gemeldet
+          flagged-not-constructive: Als unkonstruktiv gemeldet
+          flagged-duplicate: als Duplikat gemeldet
+          flagged-custom: Gemeldet mit anderem Grund
+          accepted-no: Akzeptiert-Flag entfernt
+          accepted-yes: Nachricht akzeptiert
+          no-answer: Antworten verboten
+          delete: Nachricht löschen
+          no-answer-no: Antworten wieder erlaubt
+          restore: Nachricht wiederhergestellt
+          create: Nachricht erstellt
+          update: Nachricht editiert
+          retag: Tags neu vergeben
+          del_versions: Versionen gelöscht
+          no-answer-admin-no: Antworten durch Admin wieder erlaubt
+          no-answer-admin-yes: Antworten durch Admin verboten
+
+        threads:
+          create: Thread erstellt
+          move: Thread verschoben
+          sticky: Thread auf Sticky gestellt
+          unsticky: Sticky-Flag entfernt
+          no-archive-no: Thread wird wieder archiviert
+          no-archive-yes: Thread wird beim archivieren gelöscht
+          destroy: Thread endgültig gelöscht
+          archive: Thread archiviert
+
+        users:
+          create: Benutzer erstellt
+          confirm: Benutzer bestätigt
+          destroy: Benutzer gelöscht
+          badge-gained: Medallie erlangt
+
+        cites:
+          create: Zitat erstellt
+          update: Zitat geändert
+          destroy: Zitat endgültig gelöscht
+          archive: Zitat archiviert
+
+        scores:
+          accepted-score: Akzeptiert-Punkte hinzugefügt
+          accepted-no-unscore: Akzeptiert-Punkte entfernt
+
+        media:
+          create: Medium erstellt
+          destroy: Medium endgültig gelöscht
+
+        tags:
+          create: Tag erstellt
+          update: Tag verändert
+          destroy: Tag gelöscht
+          merge: Tag zusammengeführt
+          destroy: Tag gelöscht
+
+        tag_synonyms:
+          create: Tag-Synonym erstellt
+          update: Tag geändert
+          destroy: Tag-Synonym endgültig gelöscht
+
+        close_votes:
+          create: Sperr- oder Entsperr-Abstimmung erstellt
+          finished: Sperr- oder Entsperr-Abstimmung abgeschlossen
+
