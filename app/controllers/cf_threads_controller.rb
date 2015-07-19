@@ -152,6 +152,7 @@ class CfThreadsController < ApplicationController
         save_tags(@forum, @message, @tags)
 
         @thread.messages << @message
+        audit(@thread, 'create')
 
         saved = true
       end
@@ -204,10 +205,12 @@ class CfThreadsController < ApplicationController
     CfThread.transaction do
       @thread.forum_id = @move_to.forum_id
       @thread.save
+      audit(@thread, 'move')
 
       @thread.messages.each do |m|
         m.forum_id = @move_to.forum_id
         m.save
+        audit(m, 'move')
       end
 
       saved = true
@@ -230,6 +233,7 @@ class CfThreadsController < ApplicationController
     @thread.sticky = !@thread.sticky
 
     if @thread.save
+      audit(@thread, @thread.sticky ? 'sticky' : 'unsticky')
       redirect_to cf_forum_url(current_forum), notice: @thread.sticky ? I18n.t("threads.stickied") : I18n.t("threads.unstickied")
     else
       redirect_to cf_forum_url(current_forum), alert: I18n.t("threads.sticky_error")

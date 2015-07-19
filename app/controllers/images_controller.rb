@@ -41,6 +41,7 @@ class ImagesController < ApplicationController
 
     respond_to do |format|
       if not fname.blank? and @medium.save
+        audit(@medium, 'create')
         format.json { render json: {status: 'ok', path: @medium.filename} }
       else
         File.unlink(path + fname) unless fname.blank?
@@ -53,6 +54,7 @@ class ImagesController < ApplicationController
   def destroy
     @medium = Medium.where(filename: params[:id] + '.' + params[:format]).first!
     @medium.destroy
+    audit(@medium, 'destroy')
 
     redirect_to images_url, notice: t('images.deleted_successfully')
   end

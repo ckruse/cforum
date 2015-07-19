@@ -163,6 +163,7 @@ class UsersController < ApplicationController
 
     notification_center.notify(DESTROYING_USER, @user, @settings)
     @user.destroy
+    audit(@user, 'destroy')
     notification_center.notify(DESTROYED_USER, @user, @settings)
 
     respond_to do |format|

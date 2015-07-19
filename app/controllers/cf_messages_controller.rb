@@ -168,6 +168,10 @@ class CfMessagesController < ApplicationController
       CfMessage.transaction do
         raise ActiveRecord::Rollback unless @message.save
         raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
+
+        @message.reload
+        audit(@message, 'create')
+
         saved = true
       end
     end
@@ -254,11 +258,21 @@ class CfMessagesController < ApplicationController
     saved = false
     if not invalid and not retvals.include?(false) and not @preview
       CfMessage.transaction do
-        raise ActiveRecord::Rollback unless @message.save
+        if @message.save
+          audit(@message, 'update')
+        else
+          raise ActiveRecord::Rollback
+        end
+
         @message.tags.delete_all
-        raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
+        if save_tags(current_forum, @message, @tags)
+          audit(@message, 'retag')
+        else
+          raise ActiveRecord::Rollback
+        end
 
         if del_versions
+          audit(@message, 'del_versions')
           CfMessageVersion.delete_all(['message_id = ?', @message.message_id])
         else
           raise ActiveRecord::Rollback if @version and not @version.save
@@ -267,7 +281,12 @@ class CfMessagesController < ApplicationController
         if params[:retag_answers] == '1' and may?(RightsHelper::RETAG)
           @message.all_answers do |m|
             m.tags.delete_all
-            raise ActiveRecord::Rollback unless save_tags(current_forum, m, @tags)
+
+            if save_tags(current_forum, m, @tags)
+              audit(@message, 'retag')
+            else
+              raise ActiveRecord::Rollback
+            end
           end
         end
 
@@ -302,6 +321,7 @@ class CfMessagesController < ApplicationController
     unless retvals.include?(false)
       CfMessage.transaction do
         @message.delete_with_subtree
+        audit(@message, 'delete')
       end
       notification_center.notify(DELETED_MESSAGE, @thread, @message)
     end
@@ -320,6 +340,7 @@ class CfMessagesController < ApplicationController
     unless retvals.include?(false)
       CfMessage.transaction do
         @message.restore_with_subtree
+        audit(@message, 'restore')
       end
       notification_center.notify(RESTORED_MESSAGE, @thread, @message)
     end
@@ -363,12 +384,23 @@ class CfMessagesController < ApplicationController
     if not invalid
       CfMessage.transaction do
         @message.tags.delete_all
-        raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
+
+        if save_tags(current_forum, @message, @tags)
+          @message.reload
+          audit(@message, 'retag')
+        else
+          raise ActiveRecord::Rollback
+        end
 
         if params[:retag_answers] == '1'
           @message.all_answers do |m|
             m.tags.delete_all
-            raise ActiveRecord::Rollback unless save_tags(current_forum, m, @tags)
+            if save_tags(current_forum, m, @tags)
+              m.reload
+              audit(m, 'retag')
+            else
+              raise ActiveRecord::Rollback
+            end
           end
         end
 

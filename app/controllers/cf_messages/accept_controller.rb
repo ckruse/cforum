@@ -18,8 +18,10 @@ class CfMessages::AcceptController < ApplicationController
 
       if @message.flags['accepted'] == 'yes'
         @message.flags.delete('accepted')
+        audit(@message, 'accepted-no')
       else
         @message.flags['accepted'] = 'yes'
+        audit(@message, 'accepted-yes')
       end
 
       @message.save
@@ -65,16 +67,23 @@ class CfMessages::AcceptController < ApplicationController
 
   def give_score
     unless @message.user_id.blank?
+
       if @message.flags['accepted'] == 'yes'
-        CfScore.create!(
-          user_id: @message.user_id,
-          message_id: @message.message_id,
-          value: conf('accept_value').to_i
-        )
+        scre = CfScore.create!(user_id: @message.user_id,
+                               message_id: @message.message_id,
+                               value: conf('accept_value').to_i)
+        audit(scre, 'accepted-score')
+
       else
         scores = CfScore.where(user_id: @message.user_id, message_id: @message.message_id)
-        scores.each { |score| score.destroy } if not scores.blank?
+        if not scores.blank?
+          scores.each do |score|
+            audit(score, 'accepted-no-unscore')
+            score.destroy
+          end
+        end
       end
+
     end
   end
 end

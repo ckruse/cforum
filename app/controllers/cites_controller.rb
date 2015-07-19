@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class CitesController < ApplicationController
   authorize_action([:edit, :update, :destroy]) { may?(RightsHelper::MODERATOR_TOOLS) or authorize_admin }
   authorize_action(:vote_index) { authorize_user }
@@ -140,6 +142,7 @@ class CitesController < ApplicationController
     @cite.creator = current_user.username if @cite.creator.blank? and not current_user.blank?
 
     if @cite.save
+      audit(@cite, 'create')
       redirect_to cite_url(@cite), notice: t('cites.created')
     else
       render :new
@@ -149,6 +152,7 @@ class CitesController < ApplicationController
   # PATCH/PUT /cites/1
   def update
     if @cite.update(cite_params)
+      audit(@cite, 'update')
       redirect_to cite_url(@cite), notice: t('cites.updated')
     else
       render :edit
@@ -158,6 +162,7 @@ class CitesController < ApplicationController
   # DELETE /cites/1
   def destroy
     @cite.destroy
+    audit(@cite, 'destroy')
     redirect_to cites_url, notice: t('cites.destroyed')
   end
 
@@ -180,3 +185,5 @@ class CitesController < ApplicationController
       params.require(:cf_cite).permit(*allowed_attribs)
     end
 end
+
+# eof

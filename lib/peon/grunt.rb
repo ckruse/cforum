@@ -158,7 +158,7 @@ module Peon
     end # def @monitor
 
     def send_exception_mail(exception)
-      ExceptionMailer.new_exce(exception).deliver_now
+      ExceptionMailer.new_exception(exception).deliver_now
     end
   end
 end

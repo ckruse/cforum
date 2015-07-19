@@ -111,6 +111,7 @@ class CloseVoteController < ApplicationController
     CfCloseVote.transaction do
       if @close_vote.save
         saved = @close_vote.voters.create(user_id: current_user.user_id)
+        audit(@close_vote, 'create')
       end
 
       raise ActiveRecord::Rollback unless saved
@@ -190,6 +191,7 @@ class CloseVoteController < ApplicationController
     if vote.voters.length >= conf("close_vote_votes").to_i
       CfMessage.transaction do
         vote.update_attributes(finished: true)
+        audit(vote, "finished")
 
         if vote.vote_type == false
           finish_action_close(@message, vote)
@@ -224,8 +226,10 @@ class CloseVoteController < ApplicationController
 
     if action == 'close'
       @message.flag_with_subtree('no-answer', 'yes')
+      audit(@message, 'no-answer')
     else
       @message.delete_with_subtree
+      audit(@message, 'delete')
     end
   end
 
@@ -234,8 +238,10 @@ class CloseVoteController < ApplicationController
 
     if action == 'close'
       @message.del_flag_with_subtree('no-answer')
+      audit(@message, 'no-answer-no')
     else
       @message.restore_with_subtree
+      audit(@message, 'restore')
     end
   end
 
@@ -244,3 +250,5 @@ class CloseVoteController < ApplicationController
       permit(:reason, :duplicate_slug, :custom_reason)
   end
 end
+
+# eof

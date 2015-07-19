@@ -58,6 +58,8 @@ class CfMessages::FlagController < ApplicationController
     @message.flags_will_change!
     @message.save
 
+    audit(@message, 'flagged-' + params[:reason])
+
     peon(class_name: 'NotifyFlaggedTask',
          arguments: {
            type: 'message',
@@ -77,6 +79,8 @@ class CfMessages::FlagController < ApplicationController
     @message.flags.delete('flagged_dup_url')
     @message.flags_will_change!
     @message.save
+
+    audit(@message, 'unflagged')
 
     redirect_to cf_message_url(@thread, @message), notice: t('plugins.flag_plugin.unflagged')
   end

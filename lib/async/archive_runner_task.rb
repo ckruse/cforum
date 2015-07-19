@@ -20,12 +20,14 @@ module Peon
             if t.cnt.to_i > max_messages
               if t.flags['no-archive'] == 'yes'
                 Rails.logger.info 'ArchiveRunnerTask: archiving (deleting!) thread ' + t.thread_id.to_s + ' because of to many messages'
+                audit(t, 'destroy', nil)
                 SearchDocument.delete_all(['reference_id IN (?)', t.messages.map { |m| m.message_id }])
                 t.destroy
               else
                 Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + t.thread_id.to_s + ' because of to many messages'
                 CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + t.thread_id.to_s
                 CfMessage.connection.execute 'UPDATE messages SET ip = NULL where thread_id = ' + t.thread_id.to_s
+                audit(t, 'archive', nil)
               end
             end
           end
@@ -41,10 +43,12 @@ module Peon
             t = CfThread.find tid
             if t.flags['no-archive'] == 'yes'
               Rails.logger.info 'ArchiveRunnerTask: archiving (deleting!) thread ' + tid + ' because oldest while to many threads'
+              audit(t, 'destroy', nil)
               SearchDocument.delete_all(['reference_id IN (?)', t.messages.map { |m| m.message_id }])
               t.destroy
             else
               Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + tid + ' because oldest while to many threads'
+              audit(t, 'archive', nil)
               CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + tid
               CfMessage.connection.execute 'UPDATE messages SET ip = NULL where thread_id = ' + tid
             end

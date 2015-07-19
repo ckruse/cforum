@@ -128,6 +128,7 @@ class TagsController < ApplicationController
     @tag.slug = @tag.tag_name.parameterize unless @tag.tag_name.blank?
 
     if @tag.save
+      audit(@tag, 'create')
       redirect_to tags_url(current_forum.slug), notice: t("tags.created")
     else
       render :new
@@ -148,6 +149,7 @@ class TagsController < ApplicationController
     @tag.slug = @tag.tag_name.parameterize unless @tag.tag_name.blank?
 
     if @tag.save
+      audit(@tag, 'update')
       redirect_to tags_url(current_forum.slug), notice: t("tags.updated")
     else
       render :edit
@@ -165,6 +167,7 @@ class TagsController < ApplicationController
     end
 
     @tag.destroy
+    audit(@tag, 'destroy')
 
     redirect_to tags_url(current_forum.slug), notice: t("tags.destroyed")
   end
@@ -192,6 +195,9 @@ class TagsController < ApplicationController
                                   forum_id: current_forum.forum_id)
 
       @tag.destroy
+
+      audit(@merge_tag, 'merge')
+      audit(@tag, 'destroy')
     end
 
     redirect_to tag_url(current_forum, @merge_tag), notice: t("tags.merged")

@@ -11,6 +11,7 @@ module Peon
     class PeonTask
       include CForum::Tools
       include FayeHelper
+      include AuditHelper
 
       def root_path
         Rails.application.config.action_controller.relative_url_root || '/'

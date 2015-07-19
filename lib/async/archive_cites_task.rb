@@ -39,6 +39,7 @@ module Peon
             Rails.logger.info "Archiving cite #{cite.cite_id}"
             cite.archived = true
             cite.save
+            audit(cite, 'archive', nil)
           else
             backup = (Rails.root + 'tmp/').to_s + cite.cite_id.to_s + '.xml'
             Rails.logger.info "Trashing cite #{cite.cite_id}, backup at #{backup}"
@@ -46,6 +47,7 @@ module Peon
             backup_file cite, backup
 
             cite.destroy
+            audit(cite, 'destroy', nil)
           end
         end
       end

@@ -22,8 +22,10 @@ class CfThreads::NoAnswerNoArchiveController < ApplicationController
       CfMessage.transaction do
         if @message.flags['no-answer-admin'] == 'yes'
           @message.flag_with_subtree('no-answer-admin', 'no')
+          audit(@message, 'no-answer-admin-no')
         else
           @message.flag_with_subtree('no-answer-admin', 'yes')
+          audit(@message, 'no-answer-admin-yes')
         end
       end
 
@@ -54,8 +56,10 @@ class CfThreads::NoAnswerNoArchiveController < ApplicationController
 
         if @thread.flags['no-archive'] == 'yes'
           @thread.flags.delete 'no-archive'
+          audit(@thread, 'no-archive-no')
         else
           @thread.flags['no-archive'] = 'yes'
+          audit(@thread, 'no-archive-yes')
         end
 
         @thread.save
