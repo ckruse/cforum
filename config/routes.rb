@@ -41,7 +41,6 @@ Cforum::Application.routes.draw do
   get '/users/:id/scores' => 'users#show_scores', as: :user_scores
   resources :users, except: [:new, :create]
 
-  get 'notifications/last-changes' => 'notifications#last_changes', as: :last_changes
   resources :notifications, except: [:edit, :new, :create]
   delete 'notifications' => 'notifications#batch_destroy'
 
