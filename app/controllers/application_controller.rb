@@ -9,6 +9,7 @@ require Rails.root + 'lib/peon'
 
 class ApplicationController < ActionController::Base
   include ApplicationHelper
+  include AuditHelper
   include RightsHelper
   include PluginHelper
   include NotifyHelper
