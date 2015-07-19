@@ -32,6 +32,9 @@ class CfCloseVote < ActiveRecord::Base
     return false
   end
 
+  def audit_json
+    as_json(include: {message: {include: {thread: {include: :forum}}}})
+  end
 end
 
 # eof

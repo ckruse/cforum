@@ -146,7 +146,7 @@ class CfThread < ActiveRecord::Base
   end
 
   def audit_json
-    as_json(include: :messages)
+    as_json(include: [:messages, :forum])
   end
 end
 

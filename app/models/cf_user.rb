@@ -139,6 +139,10 @@ class CfUser < ActiveRecord::Base
     options[:except] += [:encrypted_password, :websocket_token, :authentication_token, :email]
     super(options)
   end
+
+  def audit_json
+    as_json(include: :badges)
+  end
 end
 
 # eof

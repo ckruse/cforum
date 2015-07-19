@@ -135,6 +135,9 @@ class CfMessage < ActiveRecord::Base
     super(options)
   end
 
+  def audit_json
+    as_json(include: {thread: {include: :forum}})
+  end
 end
 
 # eof
