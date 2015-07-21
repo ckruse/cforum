@@ -49,11 +49,12 @@ class CfForumsController < ApplicationController
                   @forums.map { |f| f.forum_id }, current_user.last_sign_in_at).
             group(:thread_id).all
 
+      @new_messages = 0
+
       cnt.each do |c|
         @new_messages += c.cnt
       end
 
-      @new_messages = 0
       @new_threads = cnt.length
     end
 
