@@ -61,7 +61,7 @@ class MarkReadPlugin < Plugin
       end
     end
 
-    @app_controller.set_cached_entry(:mark_read, user_id, cache)
+    @app_controller.set_cached_entry(:mark_read, current_user.user_id, cache)
 
     check_thread(thread) if mark_read_moment == 'before_render'
   end
