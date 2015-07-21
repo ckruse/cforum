@@ -2212,6 +2212,13 @@ CREATE UNIQUE INDEX invisible_threads_thread_id_user_id_idx ON invisible_threads
 
 
 --
+-- Name: messages_editor_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX messages_editor_id_idx ON messages USING btree (editor_id);
+
+
+--
 -- Name: messages_forum_id_created_at_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2317,6 +2324,13 @@ CREATE UNIQUE INDEX read_messages_message_id_user_id_idx ON read_messages USING 
 
 
 --
+-- Name: read_messages_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX read_messages_user_id_idx ON read_messages USING btree (user_id);
+
+
+--
 -- Name: scores_user_id_message_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2370,6 +2384,13 @@ CREATE INDEX search_documents_tags_idx ON search_documents USING gin (tags);
 --
 
 CREATE INDEX search_documents_title_idx ON search_documents USING gin (ts_title);
+
+
+--
+-- Name: search_documents_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX search_documents_user_id_idx ON search_documents USING btree (user_id);
 
 
 --
@@ -3223,6 +3244,8 @@ INSERT INTO schema_migrations (version) VALUES ('75');
 INSERT INTO schema_migrations (version) VALUES ('76');
 
 INSERT INTO schema_migrations (version) VALUES ('77');
+
+INSERT INTO schema_migrations (version) VALUES ('78');
 
 INSERT INTO schema_migrations (version) VALUES ('8');
 
