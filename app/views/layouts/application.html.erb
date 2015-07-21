@@ -279,6 +279,10 @@ end
               <li id="admin-view"><%= cf_link_to t("forums.admin_view"), path %></li>
             <% end %>
           <% end %>
+
+          <% if current_user.try(:admin?) %>
+            <li id="audit"><%= cf_link_to t('admin.audit.audit_log'), admin_audit_path %></li>
+          <% end %>
         </ul>
       </nav>
 
