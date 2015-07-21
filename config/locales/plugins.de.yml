@@ -59,6 +59,7 @@ de:
       css_chosen: alternatives CSS ausgewählt
 
     flag_plugin:
+      flag_reason: Markierungs-Grund
       flagged: Der Beitrag wurde markiert und ein Moderator wird den Beitrag überprüfen.
       flag_message: Beitrag „%{subject}“ von %{author} markieren
       only_flag_message: Beitrag markieren

@@ -7,7 +7,7 @@ content_for :h1, t('plugins.flag_plugin.only_flag_message')
 <%= form_tag flag_cf_message_path(@thread, @message), method: :put, class: 'form-horizontal' do %>
 
   <div class="cf-cgroup">
-    <label><%= CfCloseVote.human_attribute_name :reason %></label>
+    <label><%= t('plugins.flag_plugin.flag_reason') %></label>
 
     <div class="cntrls">
       <label class="radio">
