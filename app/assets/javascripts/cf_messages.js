@@ -32,6 +32,11 @@ cforum.cf_messages = {
                          ]
                        }
                      ]});
+
+      var usg = $('#forum-usage');
+      if(usg.length > 0) {
+        elem.prev().append(usg);
+      }
     }
   },
 
