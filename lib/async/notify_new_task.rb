@@ -129,7 +129,10 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
       Rails.logger.debug "Looking for: #{nick}"
 
       while nick.length > 2 and (user = CfUser.where(username: nick).first).blank?
-        nick = nick.gsub(/[^\w]*\w+[^\w]*$/, '')
+        unless nick.gsub!(/[^\w]+$/, "")
+          nick.gsub!(/\s*\w+$/, '')
+        end
+
         Rails.logger.debug "(in loop) looking for: #{nick}"
       end
 
