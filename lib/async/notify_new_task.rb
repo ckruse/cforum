@@ -97,7 +97,9 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
 
     return if user.user_id == @message.user_id
     return if cfg == 'no'
-    return if CfNotification.where(recipient_id: user.user_id, otype: 'message:mention').exists?
+    return if CfNotification.where(recipient_id: user.user_id,
+                                   otype: 'message:mention',
+                                   oid: @message.message_id).exists?
     return if @notified[user.user_id]
 
     if cfg == 'email' and not @sent_mails[user.email]
