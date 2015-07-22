@@ -38,7 +38,7 @@
         });
     };
 
-    var getAtText = function(callback) {
+    var getAtText = function(callback, cb1) {
       var i, text = area.val(), c;
       var sel = area.getSelection();
 
@@ -49,8 +49,15 @@
           if(nick) {
             callback(nick, i + 1, sel.start - i);
           }
+          else if(cb1) {
+            cb1();
+          }
           return;
         }
+      }
+
+      if(cb1) {
+        cb1();
       }
     };
 
@@ -87,6 +94,13 @@
         }
 
         tm = window.setTimeout(function() { showAutocomplete(nick); }, 800);
+      }, function() {
+        if(tm) {
+          window.clearTimeout(tm);
+          tm = null;
+        }
+
+        elem.fadeOut('fast');
       });
     });
   };
