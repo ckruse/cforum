@@ -83,6 +83,10 @@ class UsersController < ApplicationController
       limit(10).
       order('created_at DESC')
 
+    if current_user.try(:user_id) != @user.user_id
+      scored_msgs = scored_msgs.where("m2.user_id = ?", @user.user_id)
+    end
+
     @score_msgs = {}
     scored_msgs.each do |score|
       m = score.vote ? score.vote.message : score.message
