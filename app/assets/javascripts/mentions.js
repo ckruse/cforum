@@ -19,6 +19,9 @@
           }
 
           var pos = area.offset();
+          var sel = area.getSelection();
+
+          var caretPos = window.getCaretCoordinates(area.get(0), sel.end);
 
           var html = "";
           for(var i = 0; i < data.length && i < 20; ++i) {
@@ -28,9 +31,8 @@
           elem.html(html);
           elem.css({
             position: 'absolute',
-            left: pos.left + "px",
-            top: (pos.top + area.height()) + "px",
-            width: area.width() + "px"
+            left: (pos.left + caretPos.left - 20) + "px",
+            top: (pos.top + caretPos.top + 10) + "px"
           });
           elem.fadeIn('fast');
         });
