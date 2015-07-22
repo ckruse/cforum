@@ -67,7 +67,7 @@
 
       for(i = sel.start - 1; i >= 0 && text.substr(i, 1) != "\n"; --i) {
         c = text.substr(i, 1);
-        if(c == '@') {
+        if(c == '@' && (i == 0 || text.substr(i - 1, 1).match(/\s/)) ) {
           var nick = text.substr(i+1, sel.start - i).replace(/^\s+|\s+$/, '');
           if(nick) {
             callback(nick, i + 1, sel.start - i);
