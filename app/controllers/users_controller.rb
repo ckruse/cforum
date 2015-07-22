@@ -20,6 +20,8 @@ class UsersController < ApplicationController
       @search_term = params[:s]
     elsif not params[:nick].blank?
       @users = CfUser.where('LOWER(username) LIKE LOWER(?)', params[:nick].strip + '%')
+      params[:sort] = 'num_msgs'
+      params[:dir] = 'desc'
     else
       @users = CfUser
     end
@@ -27,9 +29,11 @@ class UsersController < ApplicationController
     @users = @users.
              select('*, (SELECT SUM(value) FROM scores WHERE user_id = users.user_id) AS score_sum')
 
-    @users = sort_query(%w(username created_at updated_at score active admin),
+    @users = sort_query(%w(username created_at updated_at score active admin num_msgs),
                         @users, {score: '(SELECT SUM(value) FROM scores WHERE user_id = users.user_id)',
-                                 admin: 'COALESCE(admin, false)'}).
+                                 admin: 'COALESCE(admin, false)',
+                                 num_msgs: "(SELECT COUNT(*) FROM messages WHERE user_id = users.user_id AND created_at >= NOW() - INTERVAL '2 years')"}).
+             order('username ASC').
              page(params[:page]).per(@limit)
 
 
