@@ -19,7 +19,7 @@
     cursor:pointer;
   }
 
-  li:hover {
+  li:hover, li:focus {
     background-color:#ccc;
   }
 }

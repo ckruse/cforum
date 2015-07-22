@@ -10,22 +10,45 @@
 
     $("body").append(elem);
 
+    var hideElem = function() {
+      area.removeAttr('tabindex');
+      elem.fadeOut('fast', function() { elem.html(''); });
+    };
+
+    elem.on('keydown', function(ev) {
+      /* we completely ignore the tabkey */
+      if(ev.keyCode == 9) {
+        return;
+      }
+
+      ev.preventDefault();
+
+      if(ev.keyCode == 32 || ev.keyCode == 13) {
+        chooseName(ev);
+      }
+
+      hideElem();
+      area.focus();
+    });
+
     var showAutocomplete = function(nick) {
       $.get(cforum.baseUrl + 'users.json?nick=' + encodeURIComponent(nick)).
         done(function(data) {
           if(data.length === 0 || (data.length == 1 && data[0].username == nick)) {
-            elem.fadeOut('fast');
+            hideElem();
             return;
           }
 
           var pos = area.offset();
           var sel = area.getSelection();
 
+          area.attr('tabindex', 1);
+
           var caretPos = window.getCaretCoordinates(area.get(0), sel.end);
 
           var html = "";
           for(var i = 0; i < data.length && i < 20; ++i) {
-            html += "<li>" + data[i].username + "</li>";
+            html += "<li tabindex=\"" + (i + 2) + "\">" + data[i].username + "</li>";
           }
 
           elem.html(html);
@@ -76,7 +99,7 @@
 
         completed[start] = name;
 
-        elem.fadeOut('fast');
+        hideElem();
       });
     };
 
@@ -100,7 +123,7 @@
           tm = null;
         }
 
-        elem.fadeOut('fast');
+        hideElem();
       });
     });
   };
