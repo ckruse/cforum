@@ -31,7 +31,7 @@ with_name ||= false
 </fieldset>
 
 <fieldset>
-  <p id="forum-usage">Dieses Forum nutzt <%= cf_link_to 'Markdown', 'http://markdown.de/syntax/index.html' %> zur Formatierung der Postings. <%= cf_link_to 'Formatierungs-Hilfe', 'http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bedienung' %>
+  <p id="forum-usage">Dieses Forum nutzt <%= cf_link_to 'Markdown', 'http://markdown.de/syntax/index.html' %>. Im <%= cf_link_to 'Wiki', 'http://wiki.selfhtml.org/' %> erhalten Sie <%= cf_link_to 'Hilfe bei der Formatierung Ihrer Beiträge', 'http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bedienung' %>.</p>
   <div class="cf-cgroup cf-textarea-only">
     <div class="cntrls">
       <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt %>
