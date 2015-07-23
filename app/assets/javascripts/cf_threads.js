@@ -107,6 +107,10 @@ cforum.cf_threads = {
     cforum.cf_threads.numThreads += 1;
     cforum.cf_threads.numMessages += 1;
 
+    if(cforum.currentUser && message.message.user_id == cforum.currentUser.user_id) {
+      return;
+    }
+
     if(!cforum.currentUser || !cforum.currentUser.settings || cforum.currentUser.settings.options.load_messages_via_js != 'no') {
       cforum.cf_threads.showNewThread(message);
     }
@@ -117,6 +121,11 @@ cforum.cf_threads = {
 
   newMessageArriving: function(message) {
     cforum.cf_threads.numMessages += 1;
+
+    if(cforum.currentUser && message.message.user_id == cforum.currentUser.user_id) {
+      return;
+    }
+
     cforum.cf_threads.showNewAlert();
 
     if(!cforum.currentUser || !cforum.currentUser.settings || cforum.currentUser.settings.options.load_messages_via_js != 'no') {
