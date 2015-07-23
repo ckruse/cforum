@@ -20,8 +20,8 @@ class Peon::Tasks::BadgeDistributor < Peon::Tasks::PeonTask
 
           unless found
             @message.owner.badges_users.create(badge_id: b.badge_id, created_at: DateTime.now, updated_at: DateTime.now)
-            message.owner.reload
-            audit(message.owner, 'badge-gained', nil)
+            @message.owner.reload
+            audit(@message.owner, 'badge-gained', nil)
             notify_user(
               @message.owner, '', I18n.t('badges.badge_won',
                                          name: b.name,
