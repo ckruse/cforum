@@ -24,6 +24,7 @@ Cforum::Application.routes.draw do
   resources 'cites'
 
   get "/forums" => "cf_forums#redirector", as: :forum_redirector
+  get '/forums_titles' => "cf_forums#title"
 
   # we use a custom url style for mails to achieve grouping
   get '/mails' => 'mails#index', as: :mails

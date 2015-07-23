@@ -112,11 +112,25 @@ cforum.alert = {
   }
 };
 
+cforum.updateTitle = function() {
+  var title = document.title.replace(/^\([\d\/]+\) /, '');
+
+  if(title != document.title) {
+    $.get(cforum.baseUrl + 'forums_titles.json').
+      done(function(data) {
+        if(data.title) {
+          document.title = data.title + title;
+        }
+      });
+  }
+};
+
 cforum.updateFavicon = function() {
   var favicon = $('link[rel="shortcut icon"]');
   if(favicon.attr('href') != cforum.faviconUrl) {
     favicon.remove();
     $('head').append('<link rel="shortcut icon" type="image/x-icon" href="' + cforum.faviconUrl + '">');
+    cforum.updateTitle();
   }
 };
 
@@ -125,6 +139,7 @@ cforum.resetFavicon = function() {
   if(favicon.attr('href') != 'http://src.selfhtml.org/favicon2.ico') {
     favicon.remove();
     $('head').append('<link rel="shortcut icon" type="image/x-icon" href="http://src.selfhtml.org/favicon2.ico">');
+    cforum.updateTitle();
   }
 };
 

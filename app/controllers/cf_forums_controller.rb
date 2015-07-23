@@ -142,6 +142,10 @@ class CfForumsController < ApplicationController
 
     redirect_to cf_forum_url(forum)
   end
+
+  def title
+    render json: {title: @title_infos}
+  end
 end
 
 # eof
