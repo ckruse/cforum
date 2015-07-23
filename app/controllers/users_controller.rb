@@ -202,6 +202,10 @@ class UsersController < ApplicationController
       page(params[:page]).
       per(conf('pagination'))
 
+    if current_user.try(:user_id) != @user.user_id
+      @scored_msgs = @scored_msgs.where("m2.user_id = ?", @user.user_id)
+    end
+
   end
 end
 
