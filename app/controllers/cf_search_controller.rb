@@ -47,7 +47,7 @@ class CfSearchController < ApplicationController
 
        v = ''
        v << '!' if negated
-       v << SearchDocument.connection.quote(t)
+       v << SearchDocument.connection.quote(term)
        v << ':*' if wildcard
 
        v
