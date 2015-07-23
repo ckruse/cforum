@@ -33,7 +33,7 @@ class CfSearchController < ApplicationController
     (terms.map { |t|
        negated = false
        wildcard = false
-       term = t
+       term = t.gsub(/\\/, '\\\\\\')
 
        if t[0] == '-'
          negated = true
