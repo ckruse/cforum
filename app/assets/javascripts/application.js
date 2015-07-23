@@ -87,6 +87,10 @@ $(function() {
 
   autohideAlerts();
   $("textarea").tabEnable();
+
+  $(window).on('focus', function() {
+    cforum.resetFavicon();
+  });
 });
 
 cforum.alert = {
@@ -113,6 +117,14 @@ cforum.updateFavicon = function() {
   if(favicon.attr('href') != cforum.faviconUrl) {
     favicon.remove();
     $('head').append('<link rel="shortcut icon" type="image/x-icon" href="' + cforum.faviconUrl + '">');
+  }
+};
+
+cforum.resetFavicon = function() {
+  var favicon = $('link[rel="shortcut icon"]');
+  if(favicon.attr('href') != 'http://src.selfhtml.org/favicon2.ico') {
+    favicon.remove();
+    $('head').append('<link rel="shortcut icon" type="image/x-icon" href="http://src.selfhtml.org/favicon2.ico">');
   }
 };
 
