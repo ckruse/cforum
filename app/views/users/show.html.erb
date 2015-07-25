@@ -86,7 +86,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 <% end %>
 
 
-<h2><%= t('users.votings') %></h2>
+<h2><%= if not current_user.blank? and @user.user_id == current_user.user_id then t('users.own_votings') else t('users.votings') end%></h2>
 
 <% if @score_msgs.blank? %>
   <p><%= t('users.no_scored_messages_so_far') %></p>
