@@ -31,7 +31,8 @@ de:
     no_tagged_messages_so_far: bisher keine getaggten Beiträge
     best_scored: am besten bewertet
     no_scored_messages_so_far: bisher keine bewerteten Beiträge
-    votings: Bewertungsverlauf
+    votings: erhaltene Bewertungen
+    own_votings: Bewertungsverlauf
     badges: Medaillen
     no_badges_so_far: bisher keine Medaillen
 
