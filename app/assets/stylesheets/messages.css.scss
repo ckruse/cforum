@@ -295,6 +295,11 @@ blockquote.show-quotes .unfold {
   border-top: 5px solid white;
   padding: .8em;
   text-align: center;
+  
+  a:last-child {
+    color: #3481CD;
+    &:hover, &:active, &:focus { color: #990909; }
+  }
 }
 
 
