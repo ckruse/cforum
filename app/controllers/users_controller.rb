@@ -171,7 +171,7 @@ class UsersController < ApplicationController
 
     notification_center.notify(DESTROYING_USER, @user, @settings)
     @user.destroy
-    audit(@user, 'destroy')
+    audit(@user, 'destroy', nil)
     notification_center.notify(DESTROYED_USER, @user, @settings)
 
     respond_to do |format|
