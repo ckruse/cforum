@@ -1,11 +1,11 @@
 <% do_parent ||= false %>
   <%= message_header(@thread, m, first: first, do_parent: do_parent, tree: false, show_editor: true) %>
 
-  <% if @message.flags["no-answer"] != 'yes' and @message.flags['no-answer-admin'] != 'yes' %>
+  <% if m.flags["no-answer"] != 'yes' and m.flags['no-answer-admin'] != 'yes' %>
     <%= render 'votes_accept', m: m %>
   <% end %>
 
-  <% unless @message.problematic_site.blank? %><p class="problematic-site"><%= cf_link_to CfMessage.human_attribute_name(:problematic_site), @message.problematic_site %></p><% end %>
+  <% unless m.problematic_site.blank? %><p class="problematic-site"><%= cf_link_to CfMessage.human_attribute_name(:problematic_site), m.problematic_site %></p><% end %>
   <div class="posting-content">
     <%= m.to_html(self) %>
   </div>
@@ -145,14 +145,14 @@
         <% if current_user and current_user.moderate?(current_forum) %>
           <% if @view_all %>
             <li>
-              <% if @message.deleted? %>
+              <% if m.deleted? %>
                 <%= cf_link_to t("forums.normal_view"), cf_forum_path(current_forum, view_all: nil), rel: 'nofollow' %>
               <% else %>
-                <%= cf_link_to t("forums.normal_view"), cf_message_path(@thread, @message, view_all: nil), rel: 'nofollow' %>
+                <%= cf_link_to t("forums.normal_view"), cf_message_path(@thread, m, view_all: nil), rel: 'nofollow' %>
               <% end %>
             </li>
           <% else %>
-            <li><%= cf_link_to t("forums.admin_view"), cf_message_path(@thread, @message, view_all: true), rel: 'nofollow' %></li>
+            <li><%= cf_link_to t("forums.admin_view"), cf_message_path(@thread, m, view_all: true), rel: 'nofollow' %></li>
           <% end %>
         <% end %>
 
