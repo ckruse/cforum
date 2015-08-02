@@ -48,8 +48,7 @@ class MailsController < ApplicationController
 
     unless @mail.is_read
       CfPrivMessage.transaction do
-        @mail.is_read = true
-        @mail.save!
+        @mail.update(is_read: true)
 
         if n = CfNotification.where(recipient_id: current_user.user_id,
                                     oid: @mail.priv_message_id,
