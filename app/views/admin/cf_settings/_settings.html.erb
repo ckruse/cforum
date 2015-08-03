@@ -169,3 +169,43 @@
           <label class="checkbox"><%= check_box_tag 'settings[motd]', '_DEFAULT_', @settings.options['motd'].blank?, id: 'settings-motd-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('motd')), origin: t(is_global_conf('motd') ? 'global.global_conf' : 'global.global_default')) %></label>
         </div>
       </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-vote_up_value"><%= t('admin.forums.settings.vote_up_value') %></label>
+        <div class="cntrls">
+          <%= number_field_tag 'settings[vote_up_value]', @settings.options['vote_up_value'], id: 'settings-vote_up_value' %>
+          <label class="checkbox"><%= check_box_tag 'settings[vote_up_value]', '_DEFAULT_', @settings.options['vote_up_value'].blank?, id: 'settings-vote_up_value-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('vote_up_value')), origin: t(is_global_conf('vote_up_value') ? 'global.global_conf' : 'global.global_default')) %></label>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-vote_up_value_user"><%= t('admin.forums.settings.vote_up_value_user') %></label>
+        <div class="cntrls">
+          <%= number_field_tag 'settings[vote_up_value_user]', @settings.options['vote_up_value_user'], id: 'settings-vote_up_value_user' %>
+          <label class="checkbox"><%= check_box_tag 'settings[vote_up_value_user]', '_DEFAULT_', @settings.options['vote_up_value_user'].blank?, id: 'settings-vote_up_value_user-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('vote_up_value_user')), origin: t(is_global_conf('vote_up_value_user') ? 'global.global_conf' : 'global.global_default')) %></label>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-vote_down_value"><%= t('admin.forums.settings.vote_down_value') %></label>
+        <div class="cntrls">
+          <%= number_field_tag 'settings[vote_down_value]', @settings.options['vote_down_value'], id: 'settings-vote_down_value' %>
+          <label class="checkbox"><%= check_box_tag 'settings[vote_down_value]', '_DEFAULT_', @settings.options['vote_down_value'].blank?, id: 'settings-vote_down_value-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('vote_down_value')), origin: t(is_global_conf('vote_down_value') ? 'global.global_conf' : 'global.global_default')) %></label>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-accept_value"><%= t('admin.forums.settings.accept_value') %></label>
+        <div class="cntrls">
+          <%= number_field_tag 'settings[accept_value]', @settings.options['accept_value'], id: 'settings-accept_value' %>
+          <label class="checkbox"><%= check_box_tag 'settings[accept_value]', '_DEFAULT_', @settings.options['accept_value'].blank?, id: 'settings-accept_value-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('accept_value')), origin: t(is_global_conf('accept_value') ? 'global.global_conf' : 'global.global_default')) %></label>
+        </div>
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="settings-accept_self_value"><%= t('admin.forums.settings.accept_self_value') %></label>
+        <div class="cntrls">
+          <%= number_field_tag 'settings[accept_self_value]', @settings.options['accept_self_value'], id: 'settings-accept_self_value' %>
+          <label class="checkbox"><%= check_box_tag 'settings[accept_self_value]', '_DEFAULT_', @settings.options['accept_self_value'].blank?, id: 'settings-accept_self_value-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('accept_self_value')), origin: t(is_global_conf('accept_self_value') ? 'global.global_conf' : 'global.global_default')) %></label>
+        </div>
+      </div>

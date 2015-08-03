@@ -6,6 +6,7 @@ de:
     settings:
       global_settings: Allgemeine und globale Einstellungen
       updated: Die Einstellungen wurden erfolgreich geändert.
+      scores: Punkte-Einstellungen
 
     forums:
       index: Foren-Index
@@ -63,6 +64,11 @@ de:
         date_format_search: Datums-Format Suche
         css_ressource: zusätzliche CSS-Ressource
         js_ressource: zusätzliche JS-Ressource
+        vote_up_value: Upvote-Punkte
+        vote_up_value_user: Upvote-Punkte User
+        vote_down_value: Downvote-Punkte
+        accept_value: Accept-Punkte
+        accept_self_value: Accept-Punkte bei eigenem Beitrag
         
 
     users:
