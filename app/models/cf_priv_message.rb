@@ -13,8 +13,8 @@ class CfPrivMessage < ActiveRecord::Base
   validates :subject, presence: true, length: {in: 2..250}
   validates :body, presence: true, length: {in: 5..12288}
 
-  validates :sender_id, presence: true
-  validates :recipient_id, presence: true
+  validates :sender_id, presence: true, on: :create
+  validates :recipient_id, presence: true, on: :create
   validates :owner_id, presence: true
 
   def partner(myself)
