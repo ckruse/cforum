@@ -38,6 +38,7 @@ class ConfigManager
     'cites_min_age_to_archive' => 2,
 
     'accept_value' => 15,
+    'accept_self_value' => 15,
     'vote_down_value' => -1,
     'vote_up_value' => 10,
     'vote_up_value_user' => 10,

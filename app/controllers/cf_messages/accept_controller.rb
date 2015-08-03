@@ -69,10 +69,15 @@ class CfMessages::AcceptController < ApplicationController
     unless @message.user_id.blank?
 
       if @message.flags['accepted'] == 'yes'
-        scre = CfScore.create!(user_id: @message.user_id,
-                               message_id: @message.message_id,
-                               value: conf('accept_value').to_i)
-        audit(scre, 'accepted-score')
+        score_val = conf('accept_value').to_i
+        score_val = conf('accept_self_value').to_i if @message.user_id == current_user.try(:user_id)
+
+        if score_val.to_i > 0
+          scre = CfScore.create!(user_id: @message.user_id,
+                                 message_id: @message.message_id,
+                                 value: score_val)
+          audit(scre, 'accepted-score')
+        end
 
       else
         scores = CfScore.where(user_id: @message.user_id, message_id: @message.message_id)
