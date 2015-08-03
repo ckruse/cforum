@@ -7,26 +7,29 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 
 <div class="user-info-table">
   <table>
-    <tr>
-      <td rowspan="<% if current_user == @user %>6<% else %>5<% end %>"><%= image_tag @user.avatar.url(:medium) %></td>
-      <th><%= t('users.name') %>:</th>
-      <td><%= @user.username %></td>
-    </tr>
-    <tr>
-      <th><%= t('users.score') %>:</th>
-      <td class="<% if @user_score < 0 %>score-down<% else %>score-up<% end %>"><%= number_with_delimiter(@user_score) %></td>
-    <tr>
-      <th><%= t('users.num_messages') %>:</th>
-      <td><%= number_with_delimiter(@messages_count) %></td>
-    </tr>
-    <% if current_user == @user %><tr>
-      <th><%= CfUser.human_attribute_name("email") %>:</th>
-      <td><%= @user.email %> <em>(<%= t('global.only_visible_for_you') %>)</em></td>
-    </tr><% end %>
-    <tr>
-      <th><%= t('users.registered_since') %>:</th>
-      <td><%= l(@user.created_at, format: date_format) %></td>
-    </tr>
+    <tbody>
+      <tr>
+        <td rowspan="<% if current_user == @user %>5<% else %>4<% end %>"><%= image_tag @user.avatar.url(:medium) %></td>
+        <th><%= t('users.name') %>:</th>
+        <td><%= @user.username %></td>
+      </tr>
+      <tr>
+        <th><%= t('users.score') %>:</th>
+        <td class="<% if @user_score < 0 %>score-down<% else %>score-up<% end %>"><%= number_with_delimiter(@user_score) %></td>
+      </tr>
+      <tr>
+        <th><%= t('users.num_messages') %>:</th>
+        <td><%= number_with_delimiter(@messages_count) %></td>
+      </tr>
+      <% if current_user == @user %><tr>
+        <th><%= CfUser.human_attribute_name("email") %>:</th>
+        <td><%= @user.email %> <em>(<%= t('global.only_visible_for_you') %>)</em></td>
+      </tr><% end %>
+      <tr>
+        <th><%= t('users.registered_since') %>:</th>
+        <td><%= l(@user.created_at, format: date_format) %></td>
+      </tr>
+    </tbody>
   </table>
 </div>
 
@@ -65,7 +68,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 <% @last_messages.each do |m|
   m.thread.message = m %>
   <article class="thread threadlist">
-    <%= message_header(m.thread, m, show_votes: true) %>
+    <%= message_header(m.thread, m, show_votes: true, id: false) %>
   </article>
 <% end %>
 
@@ -78,7 +81,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 <% @point_msgs.each do |m|
   m.thread.message = m %>
   <article class="thread threadlist">
-    <%= message_header(m.thread, m, show_votes: true) %>
+    <%= message_header(m.thread, m, show_votes: true, id: false) %>
   </article>
 <% end %>
 
@@ -90,22 +93,24 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 
 <% else %>
   <table class="score-table">
-    <% @score_msgs.each do |s| %>
-      <tr>
-        <td class="score">
-          <% s.each do |s| %>
-            <span class="<% if s.value < 0 %>score-down<% else %>score-up<% end %>"><%= s.value %></span>
-          <% end %>
-        </td>
-        <td><article class="threadlist thread"><%= if s.first.vote then
+    <tbody>
+      <% @score_msgs.each do |s| %>
+        <tr>
+          <td class="score">
+            <% s.each do |s| %>
+              <span class="<% if s.value < 0 %>score-down<% else %>score-up<% end %>"><%= s.value %></span>
+            <% end %>
+          </td>
+          <td><article class="threadlist thread"><%= if s.first.vote then
                                                  s.first.vote.message.thread.message = s.first.vote.message
-                                                 message_header(s.first.vote.message.thread, s.first.vote.message, show_votes: true)
-                                               else
-                                                 s.first.message.thread.message = s.first.message
-                                                 message_header(s.first.message.thread, s.first.message, show_votes: true)
-                                               end %></article></td>
-      </tr>
-    <% end %>
+                                                 message_header(s.first.vote.message.thread, s.first.vote.message, show_votes: true, id: false)
+                                                 else
+                                                   s.first.message.thread.message = s.first.message
+                                                   message_header(s.first.message.thread, s.first.message, show_votes: true, id: false)
+                                                 end %></article></td>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
 <% end %>
 
