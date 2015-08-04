@@ -95,6 +95,12 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
 
     cfg = uconf('notify_on_mention', user, @thread.forum)
 
+    # we save the mentions so we can highlight them later
+    @message.flags['mentions'] ||= []
+    @message.flags['mentions'] << [user.username, user.user_id]
+    @message.flags_will_change!
+    @message.save
+
     return if user.user_id == @message.user_id
     return if cfg == 'no'
     return if CfNotification.where(recipient_id: user.user_id,
