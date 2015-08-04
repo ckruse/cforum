@@ -5,8 +5,8 @@ de:
     normal_view: Administrator-Ansicht deaktivieren
     new_threads_new_messages:
       zero: "%{new_messages} neue Beiträge"
-      one: "%{new_messages} neue Beiträge in einem neuen Thread"
-      other: "%{new_messages} neue Beiträge in %{count} neuen Threads"
+      one: "%{new_messages} neue Beiträge in einem Thread"
+      other: "%{new_messages} neue Beiträge in %{count} Threads"
 
   errors:
     unknown_error: unbekannter Fehler
