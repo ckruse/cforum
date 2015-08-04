@@ -162,4 +162,15 @@
   top:-.6em;
 }
 
+.icon-sort-asc {
+  @extend .fa;
+  @extend .fa-sort-amount-asc;
+}
+
+.icon-sort-desc {
+  @extend .fa;
+  @extend .fa-sort-amount-desc;
+}
+
+
 /* eof */
