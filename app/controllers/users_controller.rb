@@ -30,7 +30,7 @@ class UsersController < ApplicationController
              select('*, (SELECT SUM(value) FROM scores WHERE user_id = users.user_id) AS score_sum')
 
     @users = sort_query(%w(username created_at updated_at score active admin num_msgs),
-                        @users, {score: '(SELECT SUM(value) FROM scores WHERE user_id = users.user_id)',
+                        @users, {score: 'COALESCE((SELECT SUM(value) FROM scores WHERE user_id = users.user_id), 0)',
                                  admin: 'COALESCE(admin, false)',
                                  num_msgs: "(SELECT COUNT(*) FROM messages WHERE user_id = users.user_id AND created_at >= NOW() - INTERVAL '2 years')"}).
              order('username ASC').
