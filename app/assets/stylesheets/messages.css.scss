@@ -57,6 +57,15 @@ main h2 { margin-left:0; }
       text-decoration: underline;
     }
 
+    a.mention {
+      text-decoration: none;
+      color:inherit;
+      background-color:#eee;
+      font-weight:bold;
+    }
+
+    a.mention:hover { text-decoration:underline; }
+
     img { max-width:100%; }
 
     ul { list-style-type: disc;}
