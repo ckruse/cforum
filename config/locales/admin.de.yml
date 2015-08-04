@@ -168,6 +168,7 @@ de:
           confirm: Benutzer bestätigt
           destroy: Benutzer gelöscht
           badge-gained: Medallie erlangt
+          autodestroy: Automatische Löschung nach 7 Tagen
 
         cites:
           create: Zitat erstellt
