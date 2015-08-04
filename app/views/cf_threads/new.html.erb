@@ -10,7 +10,7 @@ content_for :body_classes, 'threads new forum-' + (current_forum.try(:slug) || '
     <%= message_header(@thread, @message, first: true, show_icons: false) %>
 
     <div class="posting-content">
-      <%= @message.to_html(self) %>
+      <%= @message.to_html(@app_controller) %>
     </div>
   </article>
 <% end %>

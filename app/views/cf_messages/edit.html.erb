@@ -11,14 +11,14 @@ content_for :body_classes, 'messages edit forum-' + (current_forum.try(:slug) ||
     <%= message_header(@thread, @message.parent) %>
 
     <div class="posting-content">
-      <%= @message.parent.to_html(self) %>
+      <%= @message.parent.to_html(@app_controller) %>
     </div>
 
   <% elsif @preview %>
     <%= message_header(@thread, @message) %>
 
     <div class="posting-content">
-      <%= @message.to_html(self) %>
+      <%= @message.to_html(@app_controller) %>
     </div>
   <% end %>
 </article>

@@ -7,7 +7,7 @@
 
   <% unless m.problematic_site.blank? %><p class="problematic-site"><%= cf_link_to CfMessage.human_attribute_name(:problematic_site), m.problematic_site %></p><% end %>
   <div class="posting-content">
-    <%= m.to_html(self) %>
+    <%= m.to_html(@app_controller) %>
   </div>
 
   <% if not m.flags['flagged'].blank? and not current_user.blank? and current_user.moderate?(current_forum) %>

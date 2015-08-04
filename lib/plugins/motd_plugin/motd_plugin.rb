@@ -36,7 +36,7 @@ class MotdPlugin < Plugin
 
     unless confs.blank?
       confs.each do |conf|
-        motds << Motd.new(conf.options['motd']).to_html(self) unless conf.options['motd'].blank?
+        motds << Motd.new(conf.options['motd']).to_html(@app_controller) unless conf.options['motd'].blank?
       end
     end
 

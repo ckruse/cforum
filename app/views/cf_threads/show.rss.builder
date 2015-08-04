@@ -9,7 +9,7 @@ xml.rss version: '2.0', 'xmlns:atom' => 'http://www.w3.org/2005/Atom' do
     for msg in @thread.sorted_messages
       xml.item do
         xml.title msg.subject
-        xml.description msg.to_html(self)
+        xml.description msg.to_html(@app_controller)
         xml.pubDate msg.created_at.to_s(:rfc822)
         xml.link cf_message_url(@thread, msg)
         xml.guid cf_message_url(@thread, msg)

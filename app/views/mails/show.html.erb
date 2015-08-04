@@ -20,7 +20,7 @@ content_for(:body_classes, 'mail show recipient-' + user_to_class_name(@mail.rec
   </header>
 
   <div class="posting-content cf-box">
-    <%= @mail.to_html(self) %>
+    <%= @mail.to_html(@app_controller) %>
   </div>
 </article>
 

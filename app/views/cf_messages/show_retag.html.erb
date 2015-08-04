@@ -14,7 +14,7 @@ content_for(:h1) do
     <%= message_header(@thread, @message, first: true, do_parent: false, tree: false) %>
 
     <div class="posting-content" id="cf_message_content">
-      <%= @message.to_html(self) %>
+      <%= @message.to_html(@app_controller) %>
     </div>
 
     <fieldset>

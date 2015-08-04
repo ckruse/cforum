@@ -8,7 +8,7 @@ atom_feed do |feed|
                published: msg.created_at,
                updated: msg.updated_at) do |entry|
       entry.title(msg.subject)
-      entry.content(msg.to_html(self), type: 'html')
+      entry.content(msg.to_html(@app_controller), type: 'html')
 
       entry.author do |author|
         author.name msg.author

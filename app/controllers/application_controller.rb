@@ -59,6 +59,7 @@ class ApplicationController < ActionController::Base
   #
 
   def do_init
+    @app_controller      = self
     @notification_center = NotificationCenter.new
     @config_manager      = ConfigManager.new
     @view_all            = false
