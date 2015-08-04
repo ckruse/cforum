@@ -7,6 +7,8 @@ require Rails.root + 'lib/cf_plaintext.rb'
 module ParserHelper
   include CforumMarkup
 
+  NOTIFY_MENTION = 'notify_mention'
+
   @@parser_modules = {}
 
   def self.parser_modules
@@ -29,11 +31,21 @@ module ParserHelper
     nil
   end
 
-  def highlight_mentions(mentions, cnt)
+  def highlight_mentions(app, mentions, cnt)
     root_path = Rails.application.config.action_controller.relative_url_root || '/'
     mentions.each do |m|
       username = Regexp.escape(m[0])
-      cnt = cnt.gsub(/(\A|[^a-zäöüß0-9_.@-])@(#{username})/, '\1[@\2](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user}')
+      cnt = cnt.gsub(/(\A|[^a-zäöüß0-9_.@-])@(#{username})/) do
+        classes = app.notification_center.notify(NOTIFY_MENTION, m)
+        retval = $1 + '[@' + $2 + '](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user'
+
+        classes.each do |c|
+          next if c.blank?
+          retval << classes.join(" ")
+        end
+
+        retval + '}'
+      end
     end
 
     cnt
@@ -63,7 +75,7 @@ module ParserHelper
       cnt = cforum2markdown(cnt) if get_format == 'cforum'
 
       mentions = get_mentions
-      cnt = highlight_mentions(mentions, cnt) unless mentions.blank?
+      cnt = highlight_mentions(app, mentions, cnt) unless mentions.blank?
 
       ncnt = ''
       quote_level = 0
