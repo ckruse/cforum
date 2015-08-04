@@ -62,7 +62,7 @@
     };
 
     var isWordCharacter = function(chr) {
-      return chr.match(/^[a-z0-9_.@-]/);
+      return chr.match(/^[a-zäöüß0-9_.@-]/i);
     };
 
     var getAtText = function(callback, cb1) {

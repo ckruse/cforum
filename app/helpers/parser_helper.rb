@@ -33,7 +33,7 @@ module ParserHelper
     root_path = Rails.application.config.action_controller.relative_url_root || '/'
     mentions.each do |m|
       username = Regexp.escape(m[0])
-      cnt = cnt.gsub(/(\A|[^a-z0-9_.@-])@(#{username})/, '\1[@\2](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user}')
+      cnt = cnt.gsub(/(\A|[^a-zäöüß0-9_.@-])@(#{username})/, '\1[@\2](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user}')
     end
 
     cnt
