@@ -136,10 +136,12 @@
 }
 
 .sticky-icon {
-  content: asset-data-url("wichtig.png");
+  background: asset-data-url("wichtig.png");
   position: absolute;
   left: .2em;
   top: -.6em;
+  width:17px;
+  height:17px;
 }
 
 .has-interesting-icon {
