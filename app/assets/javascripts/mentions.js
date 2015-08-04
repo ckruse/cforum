@@ -61,13 +61,17 @@
         });
     };
 
+    var isWordCharacter = function(chr) {
+      return chr.match(/^[a-z0-9_.@-]/);
+    };
+
     var getAtText = function(callback, cb1) {
       var i, text = area.val(), c;
       var sel = area.getSelection();
 
       for(i = sel.start - 1; i >= 0 && text.substr(i, 1) != "\n"; --i) {
         c = text.substr(i, 1);
-        if(c == '@' && (i == 0 || text.substr(i - 1, 1).match(/\s/)) ) {
+        if(c == '@' && (i == 0 || !isWordCharacter(text.substr(i - 1, 1))) ) {
           var nick = text.substr(i+1, sel.start - i).replace(/^\s+|\s+$/, '');
           if(nick) {
             callback(nick, i + 1, sel.start - i);

@@ -126,8 +126,8 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     Rails.logger.debug "looking for mentions...."
     doc = StringScanner.new(@message.content)
 
-    while doc.scan_until(/@[^@\n]+/)
-      nick = doc.matched[1..-1].strip[0..60]
+    while doc.scan_until(/(?:\A|[^a-z0-9_.@-])@([^@\n]+)/)
+      nick = doc[1].strip[0..60]
       Rails.logger.debug "Looking for: #{nick}"
 
       while nick.length > 2 and (user = CfUser.where(username: nick).first).blank?
