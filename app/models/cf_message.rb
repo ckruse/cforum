@@ -138,6 +138,10 @@ class CfMessage < ActiveRecord::Base
   def audit_json
     as_json(include: {thread: {include: :forum}})
   end
+
+  def get_mentions
+    flags['mentions'] ? JSON.parse(flags['mentions']) : nil
+  end
 end
 
 # eof

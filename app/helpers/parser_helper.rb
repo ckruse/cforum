@@ -25,6 +25,20 @@ module ParserHelper
     'm' + (has_attribute?(:message_id) ? message_id.to_s : priv_message_id.to_s)
   end
 
+  def get_mentions
+    nil
+  end
+
+  def highlight_mentions(mentions, cnt)
+    root_path = Rails.application.config.action_controller.relative_url_root || '/'
+    mentions.each do |m|
+      username = Regexp.escape(m[0])
+      cnt = cnt.gsub(/(\A|[^a-z0-9_.@-])@(#{username})/, '\1[@\2](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user}')
+    end
+
+    cnt
+  end
+
   def to_doc(app, opts = {})
     opts = opts.symbolize_keys!.reverse_merge!(
       input: 'CfMarkdown',
@@ -47,6 +61,9 @@ module ParserHelper
 
       cnt = get_content
       cnt = cforum2markdown(cnt) if get_format == 'cforum'
+
+      mentions = get_mentions
+      cnt = highlight_mentions(mentions, cnt) unless mentions.blank?
 
       ncnt = ''
       quote_level = 0
