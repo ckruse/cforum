@@ -217,6 +217,8 @@ end
             <li><%= cf_link_to current_forum.name, cf_threads_path(current_forum) %></li>
           <% end %>
 
+          <li><%= cf_link_to t('cites.cites'), cites_path %></li>
+
           <% if @message and @thread and not @thread.new_record? %>
             <% if @read_mode != 'thread-view' %>
               <li><%= cf_link_to(t('layout.thread_view'),
