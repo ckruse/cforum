@@ -62,9 +62,16 @@ main h2 { margin-left:0; }
       color:inherit;
       background-color:#eee;
       font-weight:bold;
+
+      &:hover { text-decoration:underline; }
+      &.highlighted-user { color: #8ab337; }
+      &.highlighted-self { color: #c32e04; }
     }
 
-    a.mention:hover { text-decoration:underline; }
+    blockquote a.mention {
+      &.highlighted-user { color: #bdd886; }
+      &.highlighted-self { color: #d37b6d; }
+    }
 
     img { max-width:100%; }
 
