@@ -4,14 +4,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_filter :setup_negative_captcha, only: [:new, :create]
 
   def create
+    build_resource(sign_up_params)
+
+    resource.username = @captcha.values[:username]
+    resource.email = @captcha.values[:email]
+    resource.password = @captcha.values[:password]
+    resource.password_confirmation = @captcha.values[:password_confirmation]
+
     if @captcha.valid?
-      build_resource(sign_up_params)
-
-      resource.username = @captcha.values[:username]
-      resource.email = @captcha.values[:email]
-      resource.password = @captcha.values[:password]
-      resource.password_confirmation = @captcha.values[:password_confirmation]
-
       resource.save
 
       yield resource if block_given?
