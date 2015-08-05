@@ -23,7 +23,7 @@ class SearchPlugin < Plugin
       author: message.author,
       user_id: message.user_id,
       title: message.subject,
-      content: message.to_search(self),
+      content: message.to_search(@app_controller),
       url: cf_message_url(message.thread, message),
       relevance: base_relevance.to_f + (message.score.to_f / 10.0) + (message.flags['accepted'] == 'yes' ? 0.5 : 0.0) + ('0.0' + message.created_at.year.to_s).to_f,
       lang: Cforum::Application.config.search_dict,
