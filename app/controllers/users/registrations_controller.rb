@@ -37,7 +37,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       render :action => 'new'
     end
 
-    audit(resource, 'create') if resource.errors.empty?
+    audit(resource, 'create') if resource.persisted?
   end
 
   private
