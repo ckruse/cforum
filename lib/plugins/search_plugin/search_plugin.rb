@@ -72,6 +72,31 @@ class SearchPlugin < Plugin
     message.reload
     accepted_message(nil, message)
   end
+
+  def edited_cite(cite)
+    return unless cite.archived?
+
+    section = SearchSection.find_by_name(I18n.t('cites.cites'))
+    section = SearchSection.create!(name: I18n.t('cites.cites'), position: -1) if section.blank?
+    base_relevance = conf('search_cites_relevance')
+
+    doc = SearchDocument.where(url: root_url + 'cites/' + cite.cite_id.to_s).first
+    if doc.blank?
+      doc = SearchDocument.new(url: root_url + 'cites/' + cite.cite_id.to_s)
+    end
+
+    doc.author = cite.author
+    doc.user_id = cite.user_id
+    doc.title = ''
+    doc.content = cite.cite
+    doc.search_section_id = section.search_section_id
+    doc.relevance = base_relevance.to_f
+    doc.lang = Cforum::Application.config.search_dict
+    doc.document_created = cite.created_at
+    doc.tags = []
+
+    doc.save!
+  end
 end
 
 ApplicationController.init_hooks << Proc.new do |app_controller|
@@ -95,6 +120,9 @@ ApplicationController.init_hooks << Proc.new do |app_controller|
     register_hook(CfMessages::VoteController::VOTED_MESSAGE, search_plugin)
   app_controller.notification_center.
     register_hook(CfMessages::VoteController::UNVOTED_MESSAGE, search_plugin)
+
+  app_controller.notification_center.
+    register_hook(CitesController::EDITED_CITE, search_plugin)
 end
 
 # eof

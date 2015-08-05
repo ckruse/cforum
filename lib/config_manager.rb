@@ -51,6 +51,7 @@ class ConfigManager
 
     # search settings
     'search_forum_relevance' => 1,
+    'search_cites_relevance' => 0.9,
 
     # user settings
     'email' => nil,
