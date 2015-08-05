@@ -59,4 +59,6 @@ gem 'exception_notification'
 
 gem 'htmlentities'
 
+gem 'negative_captcha'
+
 # eof

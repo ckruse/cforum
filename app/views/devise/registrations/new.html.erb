@@ -4,6 +4,8 @@ content_for(:h1, t('devise.sign_up'))
 %>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'form-horizontal'}) do |f| %>
+  <%= raw negative_captcha(@captcha) %>
+
   <% if resource.errors.any? %>
   <div class="alert alert-error">
     <h4><%= t("errors.messages.not_saved", count: resource.errors.count, resource: resource.class.model_name.human.downcase) %></h4>
@@ -17,23 +19,23 @@ content_for(:h1, t('devise.sign_up'))
   <% end %>
 
   <div class="cf-cgroup">
-    <%= f.label :username %>
-    <div class="cntrls"><%= f.text_field :username, placeholder: t("layout.placeholders.username") %></div>
+    <%= negative_label_tag(@captcha, :username, CfUser.human_attribute_name(:username)) %>
+    <div class="cntrls"><%= negative_text_field_tag(@captcha, :username, placeholder: t("layout.placeholders.username")) %></div>
   </div>
 
   <div class="cf-cgroup">
-    <%= f.label :email %>
-    <div class="cntrls"><%= f.email_field :email, placeholder: t("layout.placeholders.email") %></div>
+    <%= negative_label_tag(@captcha, :email, CfUser.human_attribute_name(:email)) %>
+    <div class="cntrls"><%= negative_text_field_tag(@captcha, :email, placeholder: t("layout.placeholders.email"), type: 'email') %></div>
   </div>
 
   <div class="cf-cgroup">
-    <%= f.label :password %>
-    <div class="cntrls"><%= f.password_field :password %></div>
+    <%= negative_label_tag(@captcha, :password, CfUser.human_attribute_name(:password)) %>
+    <div class="cntrls"><%= negative_text_field_tag(@captcha, :password, type: 'password') %></div>
   </div>
 
   <div class="cf-cgroup">
-    <%= f.label :password_confirmation %>
-    <div class="cntrls"><%= f.password_field :password_confirmation %></div>
+    <%= negative_label_tag(@captcha, :password_confirmation, CfUser.human_attribute_name(:password_confirmation)) %>
+    <div class="cntrls"><%= negative_text_field_tag(@captcha, :password_confirmation, type: 'password') %></div>
   </div>
 
   <p class="form-actions">
