@@ -30,9 +30,9 @@ module SortablesHelper
     end
 
     if sort_column == col and sort_direction == :desc
-      html = cf_link_to colname + ' ↑', link_asc, class: 'sortable sort-descending'
+      html = cf_link_to colname, link_asc, class: 'sortable sort-descending'
     elsif sort_column == col and sort_direction == :asc
-      html = cf_link_to colname + ' ↓', link_desc, class: 'sortable sort-ascending'
+      html = cf_link_to colname, link_desc, class: 'sortable sort-ascending'
     else
       html = cf_link_to colname, link_asc, class: 'sortable'
     end

@@ -4,4 +4,14 @@ a.sortable, a.sortable:visited, a.sortable:active {
   color:inherit;
 }
 
+.sortable.sort-descending::after {
+  content:"⌄";
+  margin-left:0.25em;
+}
+.sortable.sort-ascending::after {
+  content:"⌃";
+  margin-left:0.25em;
+}
+
+
 /* eof */
