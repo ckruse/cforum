@@ -209,6 +209,25 @@ cforum.cf_threads = {
         return;
       }
     }
+
+    // we couldn't find a quote, so we set cursor after the first empty line
+    var newline = 0;
+    for(i = 0; i < cnt.length; ++i) {
+      if(cnt.substr(i - 1, 1) == "\012") {
+        newline++;
+      }
+      else if(cnt.substr(i - 1, 1) == "\015") {
+        continue;
+      }
+      else {
+        newline = 0;
+      }
+
+      if(newline == 2) {
+        content.setSelection(i, i);
+        return;
+      }
+    }
   },
 
   initOpenClose: function() {
