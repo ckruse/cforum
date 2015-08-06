@@ -21,8 +21,6 @@ module SortablesHelper
   end
 
   def sortable(colname, col, method)
-    html = ERB::Util.h(colname) + ' ' # TODO use a better method to escape
-
     if method.is_a?(Proc)
       link_asc = method.call(col, 'asc')
       link_desc = method.call(col, 'desc')
@@ -31,8 +29,18 @@ module SortablesHelper
       link_desc = self.send(method, sort: col, dir: 'desc')
     end
 
-    html << cf_link_to('<span class="icon-sort-asc"></span>'.html_safe, link_asc, class: 'sortable sort-ascending' + ((sort_column == col && sort_direction == :asc) ? " active" : ""), target: nil)
-    html << cf_link_to('<span class="icon-sort-desc"></span>'.html_safe, link_desc, class: 'sortable sort-descending' + ((sort_column == col && sort_direction == :desc) ? " active" : ""), target: nil)
+    if sort_column == col and sort_direction == :desc
+      html = cf_link_to colname + ' ↑', link_asc, class: 'sortable sort-descending'
+    elsif sort_column == col and sort_direction == :asc
+      html = cf_link_to colname + ' ↓', link_desc, class: 'sortable sort-ascending'
+    else
+      html = cf_link_to colname, link_asc, class: 'sortable'
+    end
+
+    # html = ERB::Util.h(colname) + ' ' # TODO use a better method to escape
+
+    # html << cf_link_to('<span class="icon-sort-asc"></span>'.html_safe, link_asc, class: 'sortable sort-ascending' + ((sort_column == col && sort_direction == :asc) ? " active" : ""), target: nil)
+    # html << cf_link_to('<span class="icon-sort-desc"></span>'.html_safe, link_desc, class: 'sortable sort-descending' + ((sort_column == col && sort_direction == :desc) ? " active" : ""), target: nil)
     html.html_safe
   end
 

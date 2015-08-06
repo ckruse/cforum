@@ -1,11 +1,7 @@
 /* -*- coding: utf-8 -*- */
 
-.sortable {
-  margin-right:0.25em;
-}
-.sortable.active {
+a.sortable, a.sortable:visited, a.sortable:active {
   color:inherit;
-  font-weight:bold;
 }
 
 /* eof */
