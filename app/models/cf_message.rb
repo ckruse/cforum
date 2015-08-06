@@ -140,7 +140,15 @@ class CfMessage < ActiveRecord::Base
   end
 
   def get_mentions
-    flags['mentions'] ? JSON.parse(flags['mentions']) : nil
+    if flags['mentions']
+      if flags['mentions'].is_a?(Array)
+        return flags['mentions']
+      else
+        return JSON.parse(flags['mentions'])
+      end
+    end
+
+    return nil
   end
 end
 

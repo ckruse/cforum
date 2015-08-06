@@ -9,6 +9,7 @@ class CfMessagesController < ApplicationController
   authorize_action([:show_retag, :retag]) { may?(RightsHelper::RETAG) }
 
   include TagsHelper
+  include MentionsHelper
 
   SHOW_NEW_MESSAGE     = "show_new_message"
   SHOW_MESSAGE         = "show_message"
@@ -123,6 +124,8 @@ class CfMessagesController < ApplicationController
     @message.updated_at = @message.created_at
     @message.ip         = Digest::SHA1.hexdigest(request.remote_ip)
 
+    set_mentions(@message)
+
     if current_user
       @message.author   = current_user.username
     else
@@ -219,6 +222,8 @@ class CfMessagesController < ApplicationController
 
     @message.attributes = edit_message_params
     @message.content    = CfMessage.to_internal(@message.content)
+
+    set_mentions(@message)
 
     del_versions = params[:delete_previous_versions] == '1' and current_user.admin?
 

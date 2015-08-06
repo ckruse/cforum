@@ -92,12 +92,6 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
 
     cfg = uconf('notify_on_mention', user, @thread.forum)
 
-    # we save the mentions so we can highlight them later
-    @message.flags['mentions'] ||= []
-    @message.flags['mentions'] << [user.username, user.user_id]
-    @message.flags_will_change!
-    @message.save
-
     return if user.user_id == @message.user_id
     return if cfg == 'no'
     return if CfNotification.where(recipient_id: user.user_id,
@@ -123,25 +117,16 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
   end
 
   def perform_mentions
-    Rails.logger.debug "looking for mentions...."
-    doc = StringScanner.new(@message.content)
+    mentions = @message.get_mentions
 
-    while doc.scan_until(/(?:\A|[^a-zäöüß0-9_.@-])@([^@\n]+)/)
-      nick = doc[1].strip[0..60]
-      Rails.logger.debug "Looking for: #{nick}"
+    unless mentions.blank?
+      mentions.each do |mention|
+        next if mention.third # ignore mentions in cites
 
-      while nick.length > 2 and (user = CfUser.where(username: nick).first).blank?
-        unless nick.gsub!(/[^\w]+$/, "")
-          nick.gsub!(/\s*\w+$/, '')
-        end
-
-        Rails.logger.debug "(in loop) looking for: #{nick}"
+        user = CfUser.find(mention.second)
+        notify_mention(user)
       end
-
-      notify_mention(user) if not user.blank?
     end
-
-    Rails.logger.debug "mentions finished!"
   end
 
   def work_work(args)

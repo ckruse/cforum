@@ -9,6 +9,7 @@ class CfThreadsController < ApplicationController
 
   include TagsHelper
   include ThreadsHelper
+  include MentionsHelper
 
   SHOW_THREADLIST  = "show_threadlist"
   SHOW_NEW_THREAD  = "show_new_thread"
@@ -126,6 +127,8 @@ class CfThreadsController < ApplicationController
       cookies[:cforum_email]    = {value: @message.email, expires: 1.year.from_now}
       cookies[:cforum_homepage] = {value: @message.homepage, expires: 1.year.from_now}
     end
+
+    set_mentions(@message)
 
     saved = false
     if not invalid and not @preview and not retvals.include?(false)
