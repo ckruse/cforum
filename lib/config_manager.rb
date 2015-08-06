@@ -79,6 +79,7 @@ class ConfigManager
 
     'delete_read_notifications_on_answer' => 'yes',
     'delete_read_notifications_on_activity' => 'yes',
+    'delete_read_notifications_on_mention' => 'yes',
 
     'open_close_default' => 'open',
     'open_close_close_when_read' => 'no',

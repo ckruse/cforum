@@ -15,6 +15,7 @@ de:
       delete_read_notifications_on_answer: Gelesene Benachrichtigungen für neue Antworten automatisch löschen
       delete_read_notifications_on_activity: Gelesene Benachrichtigungen bei Thread-Aktivität automatisch löschen
       delete_read_notifications_on_new_mail: Gelesene Benachrichtigungen für neue Privat-Nachrichten automatisch löschen
+      delete_read_notifications_on_mention: Gelesene Benachrichtigungen für Erwähnungen automatisch löschen
       notify_on_new_mail: Benachrichtigung bei neuer Post
       notification_on_activity: Benachrichtigung bei Aktivität im Thread
       notification_on_answer: Benachrichtigung bei Antwort

@@ -80,6 +80,15 @@
     </div>
   </div>
 
+  <div class="cf-cgroup">
+    <label><%= t('users.settings.delete_read_notifications_on_mention') %></label>
+    <div class="cntrls">
+      <input type="hidden" name="settings[delete_read_notifications_on_mention]" value="no">
+      <label class="checkbox"><input type="checkbox" value="yes" name="settings[delete_read_notifications_on_mention]"<%= disabled %><% if @settings.conf('delete_read_notifications_on_mention') == 'yes' %> checked="checked"<% end %>></label>
+    </div>
+  </div>
+
+
   <% if @user.admin or @user.has_badge?(RightsHelper::MODERATOR_TOOLS) or @user.moderator? %>
     <div class="cf-cgroup">
       <label><%= t('users.settings.notification_on_flagged') %></label>

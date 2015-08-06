@@ -64,7 +64,7 @@ class NotificationsPlugin < Plugin
       n = CfNotification.
         where(recipient_id: user.user_id,
               oid: message.message_id).
-        where("otype IN ('message:create-answer','message:create-activity')").
+        where("otype IN ('message:create-answer','message:create-activity', 'message:mention')").
         first
 
       unless n.blank?
@@ -72,8 +72,10 @@ class NotificationsPlugin < Plugin
 
         if (n.otype == 'message:create-answer' and
             uconf('delete_read_notifications_on_answer') == 'yes') or
-            (n.otype == 'message:create-activity' and
-             uconf('delete_read_notifications_on_activity') == 'yes')
+          (n.otype == 'message:create-activity' and
+           uconf('delete_read_notifications_on_activity') == 'yes') or
+          (n.otype == 'message:mention' and
+           uconf('delete_read_notifications_on_mention') == 'yes')
           n.destroy
         else
           n.is_read = true
