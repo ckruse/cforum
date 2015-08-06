@@ -49,6 +49,20 @@ function t(key, deflt) {
   return loc;
 }
 
+function uconf(name) {
+  var val;
+
+  if(cforum.currentUser && cforum.currentUser.settings && cforum.currentUser.settings.options) {
+    val = cforum.currentUser.settings.options[name];
+  }
+
+  if(typeof val == 'undefined') {
+    val = cforum.settingDefaults[name];
+  }
+
+  return val;
+}
+
 function setDismissHandlers() {
   $("[data-dismiss]").click(function() {
     var $this = $(this);

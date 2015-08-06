@@ -3,4 +3,6 @@
 cforum.fayeUrl = <%= Rails.application.config.faye_url.to_json %>;
 cforum.faviconUrl = <%= asset_url('favicon-new.ico').to_json %>;
 
+cforum.settingDefaults = <%= ConfigManager::DEFAULTS.to_json.html_safe %>;
+
 /* eof */
