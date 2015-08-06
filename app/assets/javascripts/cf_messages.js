@@ -61,7 +61,7 @@ cforum.cf_messages = {
   },
 
   initQuotes: function() {
-    if(!cforum.currentUser || !cforum.currentUser.settings || cforum.currentUser.settings.options.fold_quotes != 'yes') {
+    if(uconf('fold_quotes') != 'yes') {
       return;
     }
 

@@ -43,7 +43,7 @@ cforum = {
 
   common: {
     init: function() {
-      if(typeof Faye !== 'undefined' && (!cforum.currentUser || !cforum.currentUser.settings || cforum.currentUser.settings.options.use_javascript_notifications != 'no')) {
+      if(typeof Faye !== 'undefined' && uconf('use_javascript_notifications') != 'no') {
         cforum.client = new Faye.Client(cforum.fayeUrl, {timeout: 120, retry: 5});
 
         var SendPass = {

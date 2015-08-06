@@ -1,5 +1,5 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum, Mustache, t, setDismissHandlers, autohideAlerts, hasLocalstorage */
+/* global cforum, Mustache, t, setDismissHandlers, autohideAlerts, hasLocalstorage, uconf */
 
 cforum.cf_threads = {
   numThreads: 0,
@@ -59,11 +59,7 @@ cforum.cf_threads = {
   },
 
   showNewThread: function(message) {
-    var sortMethod = 'descending';
-
-    if(cforum.currentUser && cforum.currentUser.settings) {
-      sortMethod = cforum.currentUser.settings.options.sort_threads;
-    }
+    var sortMethod = uconf('sort_threads');
 
     if(sortMethod != 'ascending' && sortMethod != 'descending' && sortMethod != 'newest-first') {
       sortMethod = 'descending';
@@ -111,7 +107,7 @@ cforum.cf_threads = {
       return;
     }
 
-    if(!cforum.currentUser || !cforum.currentUser.settings || cforum.currentUser.settings.options.load_messages_via_js != 'no') {
+    if(uconf('load_messages_via_js') != 'no') {
       cforum.cf_threads.showNewThread(message);
     }
 
@@ -128,7 +124,7 @@ cforum.cf_threads = {
 
     cforum.cf_threads.showNewAlert();
 
-    if(!cforum.currentUser || !cforum.currentUser.settings || cforum.currentUser.settings.options.load_messages_via_js != 'no') {
+    if(uconf('load_messages_via_js') != 'no') {
       var url = cforum.baseUrl +
             (cforum.currentForum ? cforum.currentForum.slug : 'all') +
             message.thread.slug;
@@ -137,7 +133,7 @@ cforum.cf_threads = {
         done(function(data) {
           $("#t" + message.thread.thread_id).replaceWith(data);
 
-          if(cforum.currentUser && cforum.currentUser.settings && cforum.currentUser.settings.options.sort_threads == 'newest-first') {
+          if(uconf('sort_threads') == 'newest-first') {
             $("[data-js=threadlist]").prepend($("#t" + message.thread.thread_id));
           }
 
