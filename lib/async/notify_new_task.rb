@@ -45,9 +45,6 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
   end
 
   def perform_message
-    @sent_mails = {}
-    @notified   = {}
-
     @thread.messages.each do |m|
       Rails.logger.debug "notify new task: perform_message: owner: " + m.owner.inspect
 
@@ -126,9 +123,6 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
   end
 
   def perform_mentions
-    @notified = {}
-    @sent_mails = {}
-
     Rails.logger.debug "looking for mentions...."
     doc = StringScanner.new(@message.content)
 
@@ -151,10 +145,15 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
   end
 
   def work_work(args)
+    @notified = {}
+    @sent_mails = {}
+
     # we don't care about exceptions, grunt will manage this for us
     @thread     = CfThread.includes(:forum, messages: :owner).find args['thread']
     @message    = @thread.find_message! args['message']
     @parent     = @thread.find_message @message.parent_id
+
+    perform_mentions
 
     case args['type']
     when 'thread'
@@ -162,8 +161,6 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     when 'message'
       perform_message
     end
-
-    perform_mentions
   end
 end
 
