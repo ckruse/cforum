@@ -11,24 +11,56 @@
     $("body").append(elem);
 
     var hideElem = function() {
-      area.removeAttr('tabindex');
       elem.fadeOut('fast', function() { elem.html(''); });
     };
 
     elem.on('keydown', function(ev) {
-      /* we completely ignore the tabkey */
-      if(ev.keyCode == 9) {
-        return;
-      }
-
       ev.preventDefault();
 
-      if(ev.keyCode == 32 || ev.keyCode == 13) {
+      switch(ev.keyCode) {
+      case 40:
+        $(ev.target).next().focus();
+        return;
+      case 38:
+        $(ev.target).prev().focus();
+        return;
+
+      case 32:
+      case 13:
+      case 9:
         chooseName(ev);
       }
 
       hideElem();
       area.focus();
+    });
+
+    area.on('keydown', function(ev) {
+      if(elem.is(":visible")) {
+        if(ev.keyCode == 9 || ev.keyCode == 40 || ev.keyCode == 38 || ev.keyCode == 27) {
+          ev.preventDefault();
+        }
+
+        switch(ev.keyCode) {
+        case 9:
+          elem.find('li:first').focus();
+          chooseName(ev);
+          break;
+
+        case 40:
+          elem.find('li:first').focus();
+          break;
+
+        case 39:
+          elem.find('li:last').focus();
+          break;
+
+        case 27:
+          hideElem();
+          break;
+        }
+
+      }
     });
 
     var showAutocomplete = function(nick) {
@@ -42,13 +74,11 @@
           var pos = area.offset();
           var sel = area.getSelection();
 
-          area.attr('tabindex', 1);
-
           var caretPos = window.getCaretCoordinates(area.get(0), sel.end);
 
           var html = "";
           for(var i = 0; i < data.length && i < 20; ++i) {
-            html += "<li tabindex=\"" + (i + 2) + "\">" + data[i].username + "</li>";
+            html += "<li tabindex=\"0\">" + data[i].username + "</li>";
           }
 
           elem.html(html);
@@ -99,7 +129,7 @@
       getAtText(function(text, start, len) {
         area.setSelection(start, start + len - 1);
         area.replaceSelection(name);
-        area.setSelection(start - 1, start + name.length);
+        area.setSelection(start + name.length, start + name.length);
 
         completed[start] = name;
 
