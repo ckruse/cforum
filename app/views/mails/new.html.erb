@@ -5,11 +5,17 @@ content_for(:body_id, "mail-new")
 content_for(:body_classes, 'mail new')
 %>
 
+<% if @preview %>
+  <h2><%= t('mails.preview') %></h2>
+  <%= render 'mail', mail: @mail %>
+<% end %>
+
 <%= form_for @mail, url: mails_path, html: {class: 'form-horizontal'} do |t| %>
 
   <%= render 'form', t: t %>
 
   <p class="form-actions">
+    <%= t.submit t("mails.preview"), class: 'cf-btn', name: 'preview' %>
     <%= t.submit t("mails.send"), class: 'cf-primary-btn' %>
     <%= cf_link_to t("global.cancel"), mails_path, class: 'cf-btn' %>
   </p>

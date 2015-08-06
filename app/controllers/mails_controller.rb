@@ -94,6 +94,8 @@ class MailsController < ApplicationController
 
     @mail.body      = CfPrivMessage.to_internal(@mail.body)
 
+    @preview = !params[:preview].blank?
+
     saved = false
     if not @mail.recipient_id.blank?
       recipient = CfUser.find(@mail.recipient_id)
@@ -107,27 +109,29 @@ class MailsController < ApplicationController
       @mail_recipient.owner_id  = recipient.user_id
       @mail_recipient.body      = CfPrivMessage.to_internal(@mail_recipient.body)
 
-      CfPrivMessage.transaction do
-        if @mail.save
-          saved = @mail_recipient.save
-        end
+      if not @preview
+        CfPrivMessage.transaction do
+          if @mail.save
+            saved = @mail_recipient.save
+          end
 
-        if saved
-          notify_user(
-            user: recipient,
-            hook: 'notify_on_new_mail',
-            subject: t('notifications.new_mail',
-              user: current_user.username,
-              subject: @mail.subject),
-            path: mail_path(current_user.username, @mail_recipient),
-            oid: @mail_recipient.priv_message_id,
-            otype: 'mails:create',
-            icon: 'icon-new-mail',
-            body: @mail.to_txt
-          )
-        end
+          if saved
+            notify_user(
+              user: recipient,
+              hook: 'notify_on_new_mail',
+              subject: t('notifications.new_mail',
+                         user: current_user.username,
+                         subject: @mail.subject),
+              path: mail_path(current_user.username, @mail_recipient),
+              oid: @mail_recipient.priv_message_id,
+              otype: 'mails:create',
+              icon: 'icon-new-mail',
+              body: @mail.to_txt
+            )
+          end
 
-        raise ActiveRecord::Rollback.new unless saved
+          raise ActiveRecord::Rollback.new unless saved
+        end
       end
 
     else
