@@ -5,6 +5,7 @@ module MentionsHelper
     doc = StringScanner.new(msg.content)
     users = []
     in_cite = false
+    last_char = nil
 
     while not doc.eos?
       if doc.scan(/^> /)
@@ -13,7 +14,8 @@ module MentionsHelper
       elsif doc.scan(/\n/)
         in_cite = false
 
-      elsif doc.scan(/(?:\A|[^a-zäöüß0-9_.@-])@([^@\n]+)/)
+      elsif doc.scan(/@([^@\n]+)/)
+        next if not last_char.blank? and last_char =~ /[a-zäöüß0-9_.@-]/
         nick = doc[1].strip[0..60]
 
         while nick.length > 2 and (user = CfUser.where(username: nick).first).blank?
@@ -25,7 +27,7 @@ module MentionsHelper
         users << [user, in_cite] if not user.blank?
 
       else doc.scan(/./m)
-
+        last_char = doc.matched
       end
     end
 
