@@ -26,7 +26,7 @@ module Peon
         @notification_center = Peon::Grunt.instance.notification_center
       end
 
-      def conf(name, forum)
+      def conf(name, forum = nil)
         @config_manager.get(name, nil, forum)
       end
 
