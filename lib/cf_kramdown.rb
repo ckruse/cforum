@@ -80,6 +80,7 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
   def initialize(*args)
     super(*args)
     @indent = 0
+    @sig_content = nil
   end
 
   def convert_codeblock(el, indent)
@@ -91,7 +92,8 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
   end
 
   def convert_email_style_sig(el, indent)
-    "<span class=\"signature\"><br />\n-- <br />\n" + inner(el, indent) + "</span>"
+    @sig_content = "<span class=\"signature\"><span class=\"sig-dashes\">-- </span>" + inner(el, indent) + "</span>"
+    ""
   end
 
   def convert_a(el, indent)
@@ -139,7 +141,9 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
       ol.children << Kramdown::Element.new(:raw, convert(li, 4))
       i += 1
     end
-    (ol.children.empty? ? '' : format_as_indented_block_html('div', {:class => "footnotes"}, convert(ol, 2), 0))
+
+    content = (ol.children.empty? ? '' : format_as_indented_block_html('div', {:class => "footnotes"}, convert(ol, 2), 0))
+    content + @sig_content.to_s
   end
 end
 
