@@ -177,6 +177,24 @@ class MailsController < ApplicationController
     redirect_to mails_url, notice: t('mails.destroyed')
   end
 
+  def mark_read_unread
+    @mail = CfPrivMessage.where(owner_id: current_user.user_id,
+                                priv_message_id: params[:id]).first!
+
+    @mail.is_read = !@mail.is_read
+
+    respond_to do |format|
+      if @mail.save
+        format.html { redirect_to mails_url, notice: t('mails.marked_' + (@mail.is_read? ? 'read' : 'unread')) }
+        format.json { render json: @mail }
+      else
+        format.html { redirect_to mails_url, notice: t('global.something_went_wrong') }
+        format.json { render json: @mail.errors, status: :unprocessable_entity }
+      end
+    end
+
+  end
+
 end
 
 # eof

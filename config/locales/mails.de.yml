@@ -22,4 +22,8 @@ de:
     at: am
     no_mails: keine Nachrichten gefunden
     regarding_message: "Dein Beitrag „%{subject}“ vom %{time}"
+    marked_read: Die Nachricht wurde als gelesen markiert.
+    marked_unread: Die Nachricht wurde als ungelesen markiert.
+    mark_read: Nachricht als gelesen markieren
+    mark_unread: Nachricht als ungelesen markieren
 

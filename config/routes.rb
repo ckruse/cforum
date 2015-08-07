@@ -34,6 +34,7 @@ Cforum::Application.routes.draw do
   get '/mails/:user/:id' => 'mails#show', as: :mail
   delete '/mails/:user/:id' => 'mails#destroy'
   delete '/mails' => 'mails#batch_destroy'
+  post '/mails/:user/:id' => 'mails#mark_read_unread'
 
   get '/badges' => 'badges#index', as: :cf_badges
   get '/badges/:slug' => 'badges#show', as: :cf_badge
