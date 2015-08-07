@@ -172,5 +172,15 @@
   @extend .fa-sort-amount-desc;
 }
 
+.icon-mark-read {
+  @extend .fa;
+  @extend .fa-check;
+}
+
+.icon-mark-unread {
+  @extend .fa;
+  @extend .fa-eye-slash;
+}
+
 
 /* eof */

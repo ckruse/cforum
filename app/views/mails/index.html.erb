@@ -38,6 +38,12 @@ content_for(:body_classes, 'mail index' + (@user ?  ' ' +  user_to_class_name(@u
       <td>
         <%= cf_link_to '', mail_path(m.sender_name, m), method: :delete, data: {confirm: t('global.are_you_sure')}, class: 'icon-delete-mail', title: t('mails.delete') %>
 
+        <% if m.is_read? %>
+          <%= cf_link_to '', mail_path(m.sender_name, m), method: :post, class: 'icon-mark-unread', title: t('mails.mark_unread') %>
+        <% else %>
+          <%= cf_link_to '', mail_path(m.sender_name, m), method: :post, class: 'icon-mark-read', title: t('mails.mark_read') %>
+        <% end %>
+
         <% unless m.partner_id(current_user).blank? %>
           <%= cf_link_to '', new_mail_path('priv_message_id' => m.priv_message_id), class: 'icon-answer-mail-wo-quote', title: t('mails.answer_mail_wo_quote') %>
           <%= cf_link_to '', new_mail_path('priv_message_id' => m.priv_message_id, quote_old_message: 'yes'), class: 'icon-answer-mail', title: t('mails.answer_mail') %>
