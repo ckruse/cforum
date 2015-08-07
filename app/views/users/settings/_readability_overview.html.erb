@@ -72,6 +72,13 @@
     </div>
   </div>
 
+  <div class="cf-cgroup">
+    <label><%= t('users.settings.hide_read_threads') %></label>
+    <div class="cntrls">
+      <%= hidden_field_tag 'settings[hide_read_threads]', 'no', id: '' %>
+      <label class="checkbox"><%= check_box_tag 'settings[hide_read_threads]', 'yes', @settings.conf('hide_read_threads') == 'yes' %></label>
+    </div>
+  </div>
 
   <%= render 'widgets/users_selector', desc: t('users.settings.highlighted_users'), name: "settings[highlighted_users][]", id: "settings_highlighted_users", users: @highlighted_users_list %>
 

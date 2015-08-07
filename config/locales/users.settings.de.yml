@@ -60,3 +60,4 @@ de:
       use_javascript_notifications: Mit JavaScript über neue Beiträge informieren
       open_links_in_tab: Links in einem neuen Tab öffnen
       load_messages_via_js: neue Nachrichten via JavaScript nachladen
+      hide_read_threads: vollständig gelesene Threads ausblenden
