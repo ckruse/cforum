@@ -92,7 +92,9 @@ class ConfigManager
     'fold_quotes' => 'no',
 
     'open_links_in_tab' => 'no',
-    'load_messages_via_js' => 'yes'
+    'load_messages_via_js' => 'yes',
+
+    'hide_read_threads' => 'no'
   }
 
   def initialize(use_cache = true)
