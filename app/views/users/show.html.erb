@@ -47,14 +47,14 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
         <% unless @user.conf('twitter_handle').blank? %>
           <tr>
             <th><%= t('users.settings.twitter_handle') %>:</th>
-            <td><%= @user.conf('twitter_handle') %></td>
+            <td><%= cf_link_to @user.conf('twitter_handle'), 'https://twitter.com/' + @user.conf('twitter_handle') %></td>
           </tr>
         <% end %>
 
         <% unless @user.conf('url').blank? %>
           <tr>
             <th><%= t('users.settings.homepage') %>:</th>
-            <td><%= @user.conf('url') %></td>
+            <td><%= cf_link_to @user.conf('url'), @user.conf('url') %></td>
           </tr>
         <% end %>
 
