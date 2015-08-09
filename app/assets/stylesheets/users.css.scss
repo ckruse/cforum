@@ -9,9 +9,12 @@
 }
 
 .user-info-table {
+  @extend .box;
+
   float:left;
   vertical-align:top;
-  @extend .box;
+  margin-right:.5em;
+  margin-bottom:.5em;
 
   img { margin-right:1em; }
 
@@ -23,7 +26,6 @@
 
 .user-profile {
   @extend .box;
-  margin-left:.5em;
 }
 
 .user-info-table, .user-profile {
