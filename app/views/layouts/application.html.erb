@@ -257,6 +257,14 @@ end
                                                method: :post) %></li>
             <li id="optionen-close-all-threads"><%= cf_link_to t('plugins.open_close.close_all_threads'), close_all_threads_path(current_forum, std_args), method: :post %></li>
             <li id="optionen-open-all-threads"><%= cf_link_to t('plugins.open_close.open_all_threads'), open_all_threads_path(current_forum, std_args), method: :post %></li>
+
+            <% if uconf('hide_read_threads') == 'yes' %>
+              <% if params[:srt] == 'yes' %>
+                <li id="optionen-hide-read-threads"><%= cf_link_to t('plugins.hide_read_threads.hide_read_threads'), cf_forum_path(current_forum) %></li>
+              <% else %>
+                <li id="optionen-show-read-threads"><%= cf_link_to t('plugins.hide_read_threads.show_read_threads'), cf_forum_path(current_forum, {'srt' => 'yes'}) %></li>
+              <% end %>
+            <% end %>
           <% end %>
 
           <% if current_user %>

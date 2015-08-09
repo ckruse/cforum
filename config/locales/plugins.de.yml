@@ -1,5 +1,8 @@
 de:
   plugins:
+    hide_read_threads:
+      show_read_threads: Gelesene Threads anzeigen
+      hide_read_threads: Gelesene Threads ausblenden
     open_close:
       open_thread: Thread aufklappen
       close_thread: Thread zuklappen
