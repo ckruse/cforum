@@ -218,6 +218,7 @@ end
           <% end %>
 
           <li><%= cf_link_to t('cites.cites'), cites_path %></li>
+          <li><%= cf_link_to t('users.users'), users_path %></li>
 
           <% if @message and @thread and not @thread.new_record? %>
             <% if @read_mode != 'thread-view' %>
