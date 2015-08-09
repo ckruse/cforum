@@ -61,4 +61,6 @@ gem 'htmlentities'
 
 gem 'negative_captcha'
 
+gem 'unicorn'
+
 # eof

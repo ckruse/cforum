@@ -123,6 +123,7 @@ GEM
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    kgio (2.9.3)
     kramdown (1.8.0)
     libv8 (3.16.14.11)
     listen (3.0.3)
@@ -137,7 +138,7 @@ GEM
     mime-types (2.6.1)
     mimemagic (0.3.0)
     mini_portile (0.6.2)
-    minitest (5.7.0)
+    minitest (5.8.0)
     multi_json (1.11.2)
     negative_captcha (0.4)
       actionpack
@@ -192,6 +193,7 @@ GEM
       activesupport (= 4.2.3)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
+    raindrops (0.15.0)
     rake (10.4.2)
     rb-fsevent (0.9.5)
     rb-inotify (0.9.5)
@@ -256,6 +258,10 @@ GEM
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unicorn (4.9.0)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
     warden (1.2.3)
       rack (>= 1.0)
     websocket (1.2.2)
@@ -302,3 +308,4 @@ DEPENDENCIES
   stringex
   therubyracer
   uglifier (>= 1.0.3)
+  unicorn
