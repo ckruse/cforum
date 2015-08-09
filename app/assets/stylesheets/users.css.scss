@@ -15,22 +15,34 @@
 
   img { margin-right:1em; }
 
+  & ~ .thread {
+    border: 1px solid #d5d5d5;
+    padding: .35em 1em;
+  }
+}
+
+.user-profile {
+  @extend .box;
+  margin-left:.5em;
+}
+
+.user-info-table, .user-profile {
   table {
     border-collapse: collapse;
 
     th {
       text-align:right;
       color: #5D7380;
+      vertical-align:top;
     }
     th, td {
       padding-left: .2em;
       padding-right: .2em;
-    }
-  }
 
-  & ~ .thread {
-    border: 1px solid #d5d5d5;
-    padding: .35em 1em;
+      p:first-of-type {
+        margin-top:0;
+      }
+    }
   }
 }
 
@@ -38,14 +50,19 @@
   vertical-align: top;
   list-style-type: none;
   margin-left: 0;
+  padding-left:0;
 
   li {
     display: inline-block;
     font-size: .9em;
     margin-bottom: .5em;
+    margin-right:.5em;
 
-    .cf-tag span {
-      margin-right:0.5em;
+    .cf-tag {
+      margin-left:0;
+      span {
+        margin-right:0.5em;
+      }
     }
   }
 

@@ -21,4 +21,26 @@
       <input type="text" value="<%= @settings.conf('flattr') %>" name="settings[flattr]" id="settings_flattr"<%= disabled %>>
     </div>
   </div>
+
+  <div class="cf-cgroup">
+    <label class="control-label" for="settings_flattr"><%= t('users.settings.jabber_id') %></label>
+    <div class="cntrls">
+      <input type="text" value="<%= @settings.conf('jabber_id') %>" name="settings[jabber_id]" id="settings_jabber_id"<%= disabled %>>
+    </div>
+  </div>
+
+  <div class="cf-cgroup">
+    <label class="control-label" for="settings_flattr"><%= t('users.settings.twitter_handle') %></label>
+    <div class="cntrls">
+      <input type="text" value="<%= @settings.conf('twitter_handle') %>" name="settings[twitter_handle]" id="settings_twitter_handle"<%= disabled %>>
+    </div>
+  </div>
+
+  <div class="cf-cgroup">
+    <label for="settings_description"><%= t('users.settings.description') %></label>
+    <div class="cntrls">
+      <textarea name="settings[description]" id="settings_description"<%= disabled %>><%= @settings.conf('description') %></textarea>
+    </div>
+  </div>
+
 </fieldset>

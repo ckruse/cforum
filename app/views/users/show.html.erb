@@ -5,35 +5,69 @@ content_for(:body_id, "users-show")
 content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 %>
 
-<div class="user-info-table">
-  <table>
-    <tbody>
-      <tr>
-        <td rowspan="<% if current_user == @user %>5<% else %>4<% end %>"><%= image_tag @user.avatar.url(:medium) %></td>
-        <th><%= t('users.name') %>:</th>
-        <td><%= @user.username %></td>
-      </tr>
-      <tr>
-        <th><%= t('users.score') %>:</th>
-        <td class="<% if @user_score < 0 %>score-down<% else %>score-up<% end %>"><%= number_with_delimiter(@user_score) %></td>
-      </tr>
-      <tr>
-        <th><%= t('users.num_messages') %>:</th>
-        <td><%= number_with_delimiter(@messages_count) %></td>
-      </tr>
-      <% if current_user == @user %><tr>
-        <th><%= CfUser.human_attribute_name("email") %>:</th>
-        <td><%= @user.email %> <em>(<%= t('global.only_visible_for_you') %>)</em></td>
-      </tr><% end %>
-      <tr>
-        <th><%= t('users.registered_since') %>:</th>
-        <td><%= l(@user.created_at, format: date_format) %></td>
-      </tr>
-    </tbody>
-  </table>
+<div class="clearfix">
+  <div class="user-info-table">
+    <table>
+      <tbody>
+        <tr>
+          <td rowspan="<% if current_user == @user %>5<% else %>4<% end %>"><%= image_tag @user.avatar.url(:medium) %></td>
+          <th><%= t('users.name') %>:</th>
+          <td><%= @user.username %></td>
+        </tr>
+        <tr>
+          <th><%= t('users.score') %>:</th>
+          <td class="<% if @user_score < 0 %>score-down<% else %>score-up<% end %>"><%= number_with_delimiter(@user_score) %></td>
+        </tr>
+        <tr>
+          <th><%= t('users.num_messages') %>:</th>
+          <td><%= number_with_delimiter(@messages_count) %></td>
+        </tr>
+        <% if current_user == @user %><tr>
+          <th><%= CfUser.human_attribute_name("email") %>:</th>
+          <td><%= @user.email %> <em>(<%= t('global.only_visible_for_you') %>)</em></td>
+        </tr><% end %>
+        <tr>
+          <th><%= t('users.registered_since') %>:</th>
+          <td><%= l(@user.created_at, format: date_format) %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="user-profile">
+    <table>
+      <tbody>
+        <% unless @user.conf('jabber_id').blank? %>
+          <tr>
+            <th><%= t('users.settings.jabber_id') %>:</th>
+            <td><%= @user.conf('jabber_id') %></td>
+          </tr>
+        <% end %>
+
+        <% unless @user.conf('twitter_handle').blank? %>
+          <tr>
+            <th><%= t('users.settings.twitter_handle') %>:</th>
+            <td><%= @user.conf('twitter_handle') %></td>
+          </tr>
+        <% end %>
+
+        <% unless @user.conf('url').blank? %>
+          <tr>
+            <th><%= t('users.settings.homepage') %>:</th>
+            <td><%= @user.conf('url') %></td>
+          </tr>
+        <% end %>
+
+        <tr>
+          <th><%= t('users.settings.description') %>:</th>
+          <td><%= @user.conf('description').blank? ? ('<em>'.html_safe + t('users.no_description') + "</em>".html_safe) : md2html(@user.conf('description'), @app_controller) %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<ul class="user-info-tags clearfix">
+<ul class="user-info-tags">
   <% @tags_cnts.each do |t| %>
     <li>
       <%= cf_link_to tag_path(t.tag.forum.slug, t.tag), class: 'cf-tag' do %>

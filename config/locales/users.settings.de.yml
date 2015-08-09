@@ -61,3 +61,7 @@ de:
       open_links_in_tab: Links in einem neuen Tab öffnen
       load_messages_via_js: neue Nachrichten via JavaScript nachladen
       hide_read_threads: vollständig gelesene Threads ausblenden
+
+      jabber_id: XMPP/Jabber-ID
+      twitter_handle: Twitter-Handle
+      description: Beschreibung
