@@ -87,7 +87,7 @@ end
       cforum.forums = <%== @forums.to_json %>;
     </script>
 
-    <title><%= @title_infos %> <% if current_forum %><%= current_forum.short_name %> -<% else %><% if controller_path == 'cf_threads' %> <%= t('layout.all_forums') %> -<% end %><% end %> <% if content_for?(:title) %><%= yield(:title) %> - <% end %><%= t "layout.title" %></title>
+    <title><%= @title_infos %> <% if content_for?(:title) %><%= yield(:title) %> - <% end %><% if current_forum %><%= current_forum.short_name %> -<% else %><% if controller_path == 'cf_threads' %> <%= t('layout.all_forums') %> -<% end %><% end %> <%= t "layout.title" %></title>
 
     <script src="http://src.selfhtml.org/cforum/temp.js"></script>
 
