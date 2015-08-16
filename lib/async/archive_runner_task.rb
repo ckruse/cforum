@@ -25,8 +25,10 @@ module Peon
                 t.destroy
               else
                 Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + t.thread_id.to_s + ' because of to many messages'
+
                 CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + t.thread_id.to_s
                 CfMessage.connection.execute 'UPDATE messages SET ip = NULL where thread_id = ' + t.thread_id.to_s
+                CfThread.connection.execute "DELETE FROM invisible_threads WHERE thread_id = " + t.thread_id.to_s
                 audit(t, 'archive', nil)
               end
             end
@@ -49,8 +51,10 @@ module Peon
             else
               Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + tid + ' because oldest while to many threads'
               audit(t, 'archive', nil)
+
               CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + tid
               CfMessage.connection.execute 'UPDATE messages SET ip = NULL where thread_id = ' + tid
+              CfThread.connection.execute "DELETE FROM invisible_threads WHERE thread_id = " + t.thread_id.to_s
             end
           end
         end
