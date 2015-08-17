@@ -100,7 +100,7 @@ function getCaretCoordinates(element, position) {
     left: span.offsetLeft + parseInt(computed['borderLeftWidth'])
   };
 
-  //document.body.removeChild(div);
+  document.body.removeChild(div);
 
   return coordinates;
 }
