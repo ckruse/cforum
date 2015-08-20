@@ -88,7 +88,7 @@ input {
   align-items: stretch;
 
   main.flex-item {
-    order: 4;
+    order: 3;
     flex: 1 0 auto;
     align-self: auto;
   }
@@ -99,20 +99,18 @@ input {
     align-self: auto;
   }
 
-  nav.flex-item {
+  div.flex-item {
     padding-left: 2em;
     order: 2;
     flex: 0 1 auto;
     align-self: auto;
   }
 
-  aside.flex-item {
-    order: 3;
-    flex: 0 1 auto;
-    align-self: auto;
-    padding-left: 2em;
-    margin-top:1.5em;
   }
+
+.flex-container-inner {
+  display: flex;
+  align-items: flex-start;
 }
 
 /*
@@ -121,7 +119,7 @@ input {
 */
 
 @-moz-document url-prefix() {
-  .flex-container {
+  .flex-container, .flex-container-inner {
     width: 100%;
     -moz-box-sizing: border-box;
   }

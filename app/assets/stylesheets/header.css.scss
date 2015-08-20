@@ -155,7 +155,7 @@
   }
 }
 
-.aktuelle-mitteilung {
+.aktuelle-mitteilung, #quicklinks {
   vertical-align:top;
   display:inline-block;
   max-width:500px;
@@ -186,6 +186,19 @@ div.aktuelle-mitteilung {
   min-height: 2.4em;
 }
 
+#quicklinks {
+  min-width: 12em;
+  
+  h3 {
+    text-transform: uppercase;
+    letter-spacing: .25em;
+    color: #333;
+  }
+  li {
+    display: block;
+  }
+}
+
 nav {
   ul {
     margin-left:0;
@@ -212,6 +225,20 @@ nav {
         color: #990909;
       }
     }
+  }
+}
+
+.column {
+  margin: 0 .25em;
+
+  &:first-child {
+    margin-left: 0;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+  & > nav {
+    margin-top: -.3em;
   }
 }
 

@@ -204,20 +204,36 @@ end
         </div>
       </header>
 
-      <nav class="flex-item">
+      <div class="flex-item flex-container-inner">
+
+        <nav id="quicklinks" class="column">
+          <h3>quicklinks</h3>
+          <ul>
+
+              <li id="link-neuenachricht"><%= cf_link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
+              <li><%= cf_link_to t('layout.home'), root_url %></li>
+              <li><%= cf_link_to t('cites.cites'), cites_path %></li>
+              <li><a href="https://kiwiirc.com/client/irc.epd-me.net/?nick=Guest&channel=#selfhtml">Chat</a></li>
+
+          </ul>
+
+        </nav>
+
+        <div class="column">
+
+        <nav>
         <% if @has_subnav and not subnav.blank? %>
           <%= subnav %>
         <% end %>
 
         <ul>
-		      <li id="link-neuenachricht"><%= cf_link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
+		      
 
-          <li><%= cf_link_to t('layout.home'), root_url %></li>
+          
           <% if current_forum %>
             <li><%= cf_link_to current_forum.name, cf_threads_path(current_forum) %></li>
           <% end %>
 
-          <li><%= cf_link_to t('cites.cites'), cites_path %></li>
           <li><%= cf_link_to t('users.users'), users_path %></li>
 
           <% if @message and @thread and not @thread.new_record? %>
@@ -294,7 +310,7 @@ end
         </ul>
       </nav>
 
-      <aside class="flex-item">
+      <aside>
         <% if not @motds.blank? %>
           <% @motds.each do |motd| %>
             <div class="aktuelle-mitteilung"><%= motd %></div>
@@ -313,6 +329,10 @@ end
           </form>
         <% end %>
       </aside>
+
+    </div>
+
+    </div>
 
     </div>
 
