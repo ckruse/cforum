@@ -321,6 +321,11 @@ nav {
       display:none;
     }
   }
+
+  #quicklinks {
+    display:block;
+    margin-right:0;
+  }
   
   nav {
     ul {
@@ -332,6 +337,7 @@ nav {
     }
   }
 
+  .column { margin: 0; }
 }
 
 

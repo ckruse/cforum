@@ -170,11 +170,6 @@ a.forgotten-password-link {
 
 .forum-select { width:12em; }
 
-.twenty-years-selfhtml {
-  float:right;
-  max-width:100%;
-}
-
 
 /* smartphones */
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
@@ -191,6 +186,13 @@ a.forgotten-password-link {
       padding-right: .5em;
       margin-top:0.2em;
     }
+
+    div.flex-item {
+      padding-left:.5em;
+      padding-right:.5em;
+    }
+
+    .flex-container-inner { display: block; }
   }
 
   a, a:hover, a:focus, a:active {
