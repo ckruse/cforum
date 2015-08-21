@@ -205,135 +205,125 @@ end
       </header>
 
       <div class="flex-item flex-container-inner">
-
         <nav id="quicklinks" class="column">
-          <h3>quicklinks</h3>
+          <h3><%= t('layout.quicklinks') %></h3>
           <ul>
-
-              <li id="link-neuenachricht"><%= cf_link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
-              <li><%= cf_link_to t('layout.home'), root_url %></li>
-              <li><%= cf_link_to t('cites.cites'), cites_path %></li>
-              <li><a href="https://kiwiirc.com/client/irc.epd-me.net/?nick=Guest&channel=#selfhtml">Chat</a></li>
-
+            <li id="link-neuenachricht"><%= cf_link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
+            <li><%= cf_link_to t('layout.home'), root_url %></li>
+            <li><%= cf_link_to t('cites.cites'), cites_path %></li>
+            <li><%= cf_link_to t("layout.chat"), "https://kiwiirc.com/client/irc.epd-me.net/?nick=Guest|&channel=#selfhtml" %></li>
           </ul>
-
         </nav>
 
         <div class="column">
-
-        <nav>
-        <% if @has_subnav and not subnav.blank? %>
-          <%= subnav %>
-        <% end %>
-
-        <ul>
-		      
-
-          
-          <% if current_forum %>
-            <li><%= cf_link_to current_forum.name, cf_threads_path(current_forum) %></li>
-          <% end %>
-
-          <li><%= cf_link_to t('users.users'), users_path %></li>
-
-          <% if @message and @thread and not @thread.new_record? %>
-            <% if @read_mode != 'thread-view' %>
-              <li><%= cf_link_to(t('layout.thread_view'),
-                              cf_message_path(@thread, @message,
-                                              p: params[:p],
-                                              rm: 'thread-view')) %></li>
-            <% else %>
-              <li><%= cf_link_to(t('layout.nested_view'),
-                              cf_message_path(@thread, @message,
-                                              p: params[:p],
-                                              rm: 'nested-view')) %></li>
+          <nav>
+            <% if @has_subnav and not subnav.blank? %>
+              <%= subnav %>
             <% end %>
-          <% end %>
 
-          <% if @thread and not @thread.new_record? %>
-            <li id="nachricht-feed-atom"><%= cf_link_to t("layout.msg_atom_feed"), cf_thread_url(@thread, format: :atom) %></li>
-            <li id="nachricht-feed-rss"><%= cf_link_to t("layout.msg_rss_feed"), cf_thread_url(@thread, format: :rss) %></li>
-          <% end %>
+            <ul>
+              <% if current_forum %>
+                <li><%= cf_link_to current_forum.name, cf_threads_path(current_forum) %></li>
+              <% end %>
 
-          <% if current_user and current_user.admin %>
-            <li><%= cf_link_to t('layout.administration'), admin_users_path %></li>
-            <li><%= cf_link_to t('images.images'), images_path %></li>
-          <% end %>
+              <li><%= cf_link_to t('users.users'), users_path %></li>
 
-          <li><%= cf_link_to t('badges.badges'), cf_badges_path %></li>
+              <% if @message and @thread and not @thread.new_record? %>
+                <% if @read_mode != 'thread-view' %>
+                  <li><%= cf_link_to(t('layout.thread_view'),
+                                     cf_message_path(@thread, @message,
+                                                     p: params[:p],
+                                                     rm: 'thread-view')) %></li>
+                <% else %>
+                  <li><%= cf_link_to(t('layout.nested_view'),
+                                     cf_message_path(@thread, @message,
+                                                     p: params[:p],
+                                                     rm: 'nested-view')) %></li>
+                <% end %>
+              <% end %>
 
-          <% if current_forum %>
-            <li id="optionen-tags"><%= cf_link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
-            <li id="link-archiv"><%= cf_link_to t("threads.archive"), cf_archive_path(current_forum.slug) %></li>
-          <% end %>
+              <% if @thread and not @thread.new_record? %>
+                <li id="nachricht-feed-atom"><%= cf_link_to t("layout.msg_atom_feed"), cf_thread_url(@thread, format: :atom) %></li>
+                <li id="nachricht-feed-rss"><%= cf_link_to t("layout.msg_rss_feed"), cf_thread_url(@thread, format: :rss) %></li>
+              <% end %>
 
-          <% if @threads and current_user and not controller_path == 'interesting_messages_plugin' and not controller_path == 'hidden_threads_plugin' %>
-            <li id="mark-all-read"><%= cf_link_to(t("plugins.mark_read.mark_all_read"),
-                                               mark_all_read_path(current_forum, std_args),
-                                               method: :post) %></li>
-            <li id="optionen-close-all-threads"><%= cf_link_to t('plugins.open_close.close_all_threads'), close_all_threads_path(current_forum, std_args), method: :post %></li>
-            <li id="optionen-open-all-threads"><%= cf_link_to t('plugins.open_close.open_all_threads'), open_all_threads_path(current_forum, std_args), method: :post %></li>
+              <% if current_user and current_user.admin %>
+                <li><%= cf_link_to t('layout.administration'), admin_users_path %></li>
+                <li><%= cf_link_to t('images.images'), images_path %></li>
+              <% end %>
 
-            <% if uconf('hide_read_threads') == 'yes' %>
-              <% if params[:srt] == 'yes' %>
-                <li id="optionen-hide-read-threads"><%= cf_link_to t('plugins.hide_read_threads.hide_read_threads'), cf_forum_path(current_forum) %></li>
-              <% else %>
-                <li id="optionen-show-read-threads"><%= cf_link_to t('plugins.hide_read_threads.show_read_threads'), cf_forum_path(current_forum, {'srt' => 'yes'}) %></li>
+              <li><%= cf_link_to t('badges.badges'), cf_badges_path %></li>
+
+              <% if current_forum %>
+                <li id="optionen-tags"><%= cf_link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
+                <li id="link-archiv"><%= cf_link_to t("threads.archive"), cf_archive_path(current_forum.slug) %></li>
+              <% end %>
+
+              <% if @threads and current_user and not controller_path == 'interesting_messages_plugin' and not controller_path == 'hidden_threads_plugin' %>
+                <li id="mark-all-read"><%= cf_link_to(t("plugins.mark_read.mark_all_read"),
+                                                      mark_all_read_path(current_forum, std_args),
+                                                      method: :post) %></li>
+                <li id="optionen-close-all-threads"><%= cf_link_to t('plugins.open_close.close_all_threads'), close_all_threads_path(current_forum, std_args), method: :post %></li>
+                <li id="optionen-open-all-threads"><%= cf_link_to t('plugins.open_close.open_all_threads'), open_all_threads_path(current_forum, std_args), method: :post %></li>
+
+                <% if uconf('hide_read_threads') == 'yes' %>
+                  <% if params[:srt] == 'yes' %>
+                    <li id="optionen-hide-read-threads"><%= cf_link_to t('plugins.hide_read_threads.hide_read_threads'), cf_forum_path(current_forum) %></li>
+                  <% else %>
+                    <li id="optionen-show-read-threads"><%= cf_link_to t('plugins.hide_read_threads.show_read_threads'), cf_forum_path(current_forum, {'srt' => 'yes'}) %></li>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <% if current_user %>
+                <li id="interesting-links"><%= cf_link_to t('plugins.interesting_messages.interesting_messages'), interesting_messages_path %></li>
+                <li id="invisible-links"><%= cf_link_to t('plugins.invisible_threads.invisible_threads'), hidden_threads_path %></li>
+              <% end %>
+
+              <% if current_user and current_user.moderate?(current_forum) %>
+                <%
+                path = nil
+                if @message.blank?
+                  path = cf_threads_path(current_forum, view_all: @view_all ? nil : "yes")
+                else
+                  path = cf_message_path(@thread, @message, view_all: @view_all ? nil : "yes")
+                end
+                %>
+                <% if @view_all %>
+                  <li id="admin-view"><%= cf_link_to t("forums.normal_view"), path %></li>
+                <% else %>
+                  <li id="admin-view"><%= cf_link_to t("forums.admin_view"), path %></li>
+                <% end %>
+              <% end %>
+
+              <% if current_user.try(:admin?) %>
+                <li id="audit"><%= cf_link_to t('admin.audit.audit_log'), admin_audit_path %></li>
+              <% end %>
+            </ul>
+          </nav>
+
+          <aside>
+            <% if not @motds.blank? %>
+              <% @motds.each do |motd| %>
+                <div class="aktuelle-mitteilung"><%= motd %></div>
               <% end %>
             <% end %>
-          <% end %>
 
-          <% if current_user %>
-            <li id="interesting-links"><%= cf_link_to t('plugins.interesting_messages.interesting_messages'), interesting_messages_path %></li>
-            <li id="invisible-links"><%= cf_link_to t('plugins.invisible_threads.invisible_threads'), hidden_threads_path %></li>
-          <% end %>
+            <%= content_for :aside %>
 
-          <% if current_user and current_user.moderate?(current_forum) %>
-            <%
-            path = nil
-            if @message.blank?
-              path = cf_threads_path(current_forum, view_all: @view_all ? nil : "yes")
-            else
-              path = cf_message_path(@thread, @message, view_all: @view_all ? nil : "yes")
-            end
-            %>
-            <% if @view_all %>
-              <li id="admin-view"><%= cf_link_to t("forums.normal_view"), path %></li>
-            <% else %>
-              <li id="admin-view"><%= cf_link_to t("forums.admin_view"), path %></li>
+            <% if not current_forum.blank? %>
+              <form id="forum-list" action="<%= forum_redirector_path %>">
+                <select name="f" class="select2 forum-select">
+                  <% @forums.each do |f| %>
+                    <option value="<%= f.slug %>"<% if f.slug == current_forum.slug %> selected="selected"<% end %>><%= f.name %></option>
+                  <% end %>
+                </select>
+              </form>
             <% end %>
-          <% end %>
+          </aside>
 
-          <% if current_user.try(:admin?) %>
-            <li id="audit"><%= cf_link_to t('admin.audit.audit_log'), admin_audit_path %></li>
-          <% end %>
-        </ul>
-      </nav>
-
-      <aside>
-        <% if not @motds.blank? %>
-          <% @motds.each do |motd| %>
-            <div class="aktuelle-mitteilung"><%= motd %></div>
-          <% end %>
-        <% end %>
-
-        <%= content_for :aside %>
-
-        <% if not current_forum.blank? %>
-          <form id="forum-list" action="<%= forum_redirector_path %>">
-            <select name="f" class="select2 forum-select">
-              <% @forums.each do |f| %>
-                <option value="<%= f.slug %>"<% if f.slug == current_forum.slug %> selected="selected"<% end %>><%= f.name %></option>
-              <% end %>
-            </select>
-          </form>
-        <% end %>
-      </aside>
-
-    </div>
-
-    </div>
-
+        </div>
+      </div>
     </div>
 
     <footer>

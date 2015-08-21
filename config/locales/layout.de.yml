@@ -3,6 +3,7 @@ de:
     home: Hauptseite
     mail: Post
     administration: Verwaltung
+    chat: Chat
     logout: abmelden
     login: anmelden
     register: Benutzerkonto erstellen
@@ -29,6 +30,7 @@ de:
     thread_view: Thread-Ansicht
     nested_view: Nested-Ansicht
     contact_us: 'Für Anregungen, Fehlermeldungen oder Kritik sende bitte eine E-Mail an <a href="mailto:%{email}">%{email}</a>.'
+    quicklinks: Quicklinks
 
     placeholders:
       greeting: Hallo {$vname},
