@@ -94,14 +94,14 @@ input {
   }
 
   header.flex-item {
-    order: 1;
+    order: -1;
     flex: 0 1 auto;
     align-self: auto;
   }
 
   div.flex-item {
     padding-left: 2em;
-    order: 2;
+    order: -1;
     flex: 0 1 auto;
     align-self: auto;
   }
