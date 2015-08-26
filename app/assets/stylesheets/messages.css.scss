@@ -126,9 +126,11 @@ main h2 { margin-left:0; }
 
   .forum-links a {
     color: #3481CD;
+    border-radius: 0 .4em .4em;
 
     &:hover, &:active, &:focus {
       color: #990909;
+      background-color: #fff;
     }
   }
 
