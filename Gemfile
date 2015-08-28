@@ -32,7 +32,6 @@ group :development, :test do
   gem 'capybara'
   gem 'spring-commands-rspec'
   gem 'guard-rspec'
-  gem 'rb-fsevent' if `uname` =~ /Darwin/
 end
 
 gem 'spring', group: :development
