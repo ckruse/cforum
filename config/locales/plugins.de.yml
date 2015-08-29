@@ -1,8 +1,8 @@
 de:
   plugins:
     hide_read_threads:
-      show_read_threads: Gelesene Threads anzeigen
-      hide_read_threads: Gelesene Threads ausblenden
+      show_read_threads: gelesene Threads anzeigen
+      hide_read_threads: gelesene Threads ausblenden
     open_close:
       open_thread: Thread aufklappen
       close_thread: Thread zuklappen
@@ -30,12 +30,12 @@ de:
       arc: archivieren
 
     invisible_threads:
-      thread_marked_invisible: Thread wurde erfolgreich ausgeblendet.
-      thread_marked_visible: Thread wird jetzt wieder angezeigt.
+      thread_marked_invisible: Der Thread wurde erfolgreich ausgeblendet.
+      thread_marked_visible: Der Thread wird jetzt wieder angezeigt.
       mark_thread_invisible: Thread verstecken
       mark_thread_visible: Thread wieder anzeigen
       invisible_threads: ausgeblendete Threads
-      no_threads: Bisher keine ausgeblendeten Threads.
+      no_threads: bisher keine ausgeblendeten Threads
 
     mark_read:
       marked_unread: Der Beitrag wurde als ungelesen markiert.
