@@ -4,8 +4,8 @@ de:
     admin_view: Administrator-Ansicht
     normal_view: Administrator-Ansicht deaktivieren
     new_threads_new_messages:
-      zero: "%{new_messages} neue Beiträge"
-      one: "%{new_messages} neue Beiträge in einem Thread"
+      zero: "keine neuen Beiträge"
+      one: "ein neuer Beitrag"
       other: "%{new_messages} neue Beiträge in %{count} Threads"
 
   errors:
