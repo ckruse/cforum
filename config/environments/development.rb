@@ -45,5 +45,5 @@ Cforum::Application.configure do
   }
 
   config.mail_sender = 'cforum@wwwtech.de'
-  config.faye_url = "http://localhost:9090/faye"
+  config.faye_url = "//localhost:9090/faye"
 end
