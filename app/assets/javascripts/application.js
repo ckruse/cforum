@@ -16,7 +16,7 @@
 //= require markdown/bootstrap-markdown.js
 //= require markdown/bootstrap-markdown.de.js
 //= require init.js
-//= require_tree .
+//= require_tree ./auto/
 
 /* global cforum, MathJax */
 
