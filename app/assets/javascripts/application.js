@@ -151,9 +151,9 @@ cforum.updateFavicon = function() {
 
 cforum.resetFavicon = function() {
   var favicon = $('link[rel="shortcut icon"]');
-  if(favicon.attr('href') != 'http://src.selfhtml.org/favicon2.ico') {
+  if(favicon.attr('href') != '//src.selfhtml.org/favicon2.ico') {
     favicon.remove();
-    $('head').append('<link rel="shortcut icon" type="image/x-icon" href="http://src.selfhtml.org/favicon2.ico">');
+    $('head').append('<link rel="shortcut icon" type="image/x-icon" href="//src.selfhtml.org/favicon2.ico">');
   }
 
   cforum.updateTitle();
