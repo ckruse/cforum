@@ -10,7 +10,7 @@ module FayeHelper
     end
 
     message = {:channel => channel, :data => message, :ext => {:password => @_faye_secret}}
-    uri = URI.parse(Rails.application.config.faye_url)
+    uri = URI.parse(Rails.application.config.internal_faye_url)
 
     Net::HTTP.post_form(uri, :message => message.to_json)
   rescue
