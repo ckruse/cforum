@@ -123,10 +123,10 @@ end
       <header class="flex-item">
         <div id="top">
           <ul class="selflinks">
-            <li><%= cf_link_to "SELFHTML", "http://selfhtml.org/" %></li>
-            <li><%= cf_link_to "Doku", "http://wiki.selfhtml.org/" %></li>
-	          <li><%= cf_link_to "Forum", root_path %></li>
-	          <li><%= cf_link_to "Blog", "http://blog.selfhtml.org/" %></li>
+            <li><%= cf_link_to "SELFHTML", "//selfhtml.org/" %></li>
+            <li><%= cf_link_to "Doku", "//wiki.selfhtml.org/" %></li>
+            <li><%= cf_link_to "Forum", root_path %></li>
+            <li><%= cf_link_to "Blog", "//blog.selfhtml.org/" %></li>
           </ul>
 
           <% if controller_path != "cf_search" %>
@@ -198,7 +198,7 @@ end
 			          <li><%= cf_link_to "https://trello.com/selfhtml", class: "trello", title: "Trello" do %>
                   <span class="alt">Trello</span>
                   <img src="//src.selfhtml.org/social.png" alt="Trello"><% end %></li>
-			          <li><%= cf_link_to "http://selfhtml.org/spenden.html", class: "donate", title: "spenden" do %>
+			          <li><%= cf_link_to "//selfhtml.org/spenden.html", class: "donate", title: "spenden" do %>
                   <span class="alt">Spendenseite</span>
                   <img src="//src.selfhtml.org/social.png" alt="Spendenseite"><% end %></li>
 		      </ul>
@@ -331,9 +331,9 @@ end
 
     <footer>
       <ul>
-        <li>© 1998-2015 <%= cf_link_to "SELFHTML", "http://selfhtml.org/" %></li>
-        <li><%= cf_link_to "Impressum", "http://selfhtml.org/impressum.html" %></li>
-        <li><%= cf_link_to "Datenschutz", "http://selfhtml.org/impressum.html#datenschutz" %></li>
+        <li>© 1998-2015 <%= cf_link_to "SELFHTML", "//selfhtml.org/" %></li>
+        <li><%= cf_link_to "Impressum", "//selfhtml.org/impressum.html" %></li>
+        <li><%= cf_link_to "Datenschutz", "//selfhtml.org/impressum.html#datenschutz" %></li>
         <li>Software: <%= cf_link_to "Classic Forum " + $CF_VERSION, "https://github.com/ckruse/cforum" %></li>
       </ul>
 
