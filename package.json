@@ -1,0 +1,10 @@
+{
+    "name": "cforum",
+    "version": "4.1.0",
+    "author": "Christian Kruse <cjk@defunct.ch>",
+    "dependencies": {
+        "pg-sync": "*",
+        "js-yaml": "*",
+        "faye": "*"
+    }
+}
