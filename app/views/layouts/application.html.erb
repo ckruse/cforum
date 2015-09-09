@@ -27,20 +27,20 @@ end
     <meta name="SELF.Pagetype" content="<%= @page_type %>">
 
     <meta name="application-name" content="SELFHTML | F">
-    <meta name="msapplication-TileImage" content="http://src.selfhtml.org/logo/s-Logo_kachel_144.png">
+    <meta name="msapplication-TileImage" content="//src.selfhtml.org/logo/s-Logo_kachel_144.png">
     <meta name="msapplication-TileColor" content="#3983ab">
 
     <% if controller_path == 'cf_threads' and uconf('autorefresh').to_i > 0 %>
       <meta http-equiv="refresh" content="<%= uconf('autorefresh').to_i * 60 %>; URL=<%= cf_forum_url(current_forum) %>">
     <% end %>
 
-    <link rel="shortcut icon" href="http://src.selfhtml.org/favicon2.ico" type="image/x-icon" title="<%= t("layout.icon") %>">
+    <link rel="shortcut icon" href="//src.selfhtml.org/favicon2.ico" type="image/x-icon" title="<%= t("layout.icon") %>">
 
-    <link rel="apple-touch-icon" href="http://src.selfhtml.org/logo/s-Logo_60.png">
-    <link rel="apple-touch-icon-precomposed" href="http://src.selfhtml.org/logo/s-Logo_144_r.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="http://src.selfhtml.org/logo/s-Logo_76.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="http://src.selfhtml.org/logo/s-Logo_120.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="http://src.selfhtml.org/logo/s-Logo_152.png">
+    <link rel="apple-touch-icon" href="//src.selfhtml.org/logo/s-Logo_60.png">
+    <link rel="apple-touch-icon-precomposed" href="//src.selfhtml.org/logo/s-Logo_144_r.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="//src.selfhtml.org/logo/s-Logo_76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="//src.selfhtml.org/logo/s-Logo_120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="//src.selfhtml.org/logo/s-Logo_152.png">
 
     <link rel="help" href="/hilfe/" title="<%= t('layout.help') %>">
     <link rel="search" href="<%= search_url %>" title="<%= t('layout.selfhtml_search') %>">
@@ -89,7 +89,7 @@ end
 
     <title><%= @title_infos %> <% if content_for?(:title) %><%= yield(:title) %> - <% end %><% if current_forum %><%= current_forum.short_name %> -<% else %><% if controller_path == 'cf_threads' %> <%= t('layout.all_forums') %> -<% end %><% end %> <%= t "layout.title" %></title>
 
-    <script src="http://src.selfhtml.org/cforum/temp.js"></script>
+    <script src="//src.selfhtml.org/cforum/temp.js"></script>
 
     <% unless conf('css_ressource').blank? %><link rel="stylesheet" href="<%= conf('css_ressource') %>" title="SELFHTML Forum Stylesheet"><% end %>
     <% unless conf('js_ressource').blank? %><script src="<%= conf('js_ressource') %>"></script><% end %>
@@ -122,10 +122,10 @@ end
       <header class="flex-item">
         <div id="top">
           <ul class="selflinks">
-            <li><%= cf_link_to "SELFHTML", "http://selfhtml.org/" %></li>
-            <li><%= cf_link_to "Doku", "http://wiki.selfhtml.org/" %></li>
+            <li><%= cf_link_to "SELFHTML", "//selfhtml.org/" %></li>
+            <li><%= cf_link_to "Doku", "//wiki.selfhtml.org/" %></li>
 	          <li><%= cf_link_to "Forum", root_path %></li>
-	          <li><%= cf_link_to "Blog", "http://blog.selfhtml.org/" %></li>
+	          <li><%= cf_link_to "Blog", "//blog.selfhtml.org/" %></li>
           </ul>
 
           <% if controller_path != "cf_search" %>
@@ -184,22 +184,22 @@ end
                                        forum: current_forum ?
                                        t('layout.forum', name: current_forum.name) :
                                        t('layout.all_forums'))) do %><span class="alt">Atom</span>
-                <img src="http://src.selfhtml.org/social.png" alt="Atom"><% end %></li>
+                <img src="//src.selfhtml.org/social.png" alt="Atom"><% end %></li>
 			          <li><%= cf_link_to "https://github.com/selfhtml", class: "github", title: "GitHub" do %>
                   <span class="alt">GitHub</span>
-                  <img src="http://src.selfhtml.org/social.png" alt="GitHub"><% end %></li>
+                  <img src="//src.selfhtml.org/social.png" alt="GitHub"><% end %></li>
 			          <li><%= cf_link_to "https://twitter.com/selfhtml", class: "twitter", title: "Twitter" do %>
                   <span class="alt">Twitter</span>
-                  <img src="http://src.selfhtml.org/social.png" alt="Twitter"><% end %></li>
+                  <img src="//src.selfhtml.org/social.png" alt="Twitter"><% end %></li>
 			          <li><%= cf_link_to "https://flattr.com/thing/41584/SELFHTML", class: "flattr", title: "Flattr" do %>
                   <span class="alt">Flattr</span>
-                  <img src="http://src.selfhtml.org/social.png" alt="Flattr"><% end %></li>
+                  <img src="//src.selfhtml.org/social.png" alt="Flattr"><% end %></li>
 			          <li><%= cf_link_to "https://trello.com/selfhtml", class: "trello", title: "Trello" do %>
                   <span class="alt">Trello</span>
-                  <img src="http://src.selfhtml.org/social.png" alt="Trello"><% end %></li>
-			          <li><%= cf_link_to "http://selfhtml.org/spenden.html", class: "donate", title: "spenden" do %>
+                  <img src="//src.selfhtml.org/social.png" alt="Trello"><% end %></li>
+			          <li><%= cf_link_to "//selfhtml.org/spenden.html", class: "donate", title: "spenden" do %>
                   <span class="alt">Spendenseite</span>
-                  <img src="http://src.selfhtml.org/social.png" alt="Spendenseite"><% end %></li>
+                  <img src="//src.selfhtml.org/social.png" alt="Spendenseite"><% end %></li>
 		      </ul>
         </div>
       </header>
@@ -328,16 +328,16 @@ end
 
     <footer>
       <ul>
-        <li>© 1998-2015 <%= cf_link_to "SELFHTML", "http://selfhtml.org/" %></li>
-        <li><%= cf_link_to "Impressum", "http://selfhtml.org/impressum.html" %></li>
-        <li><%= cf_link_to "Datenschutz", "http://selfhtml.org/impressum.html#datenschutz" %></li>
+        <li>© 1998-2015 <%= cf_link_to "SELFHTML", "//selfhtml.org/" %></li>
+        <li><%= cf_link_to "Impressum", "//selfhtml.org/impressum.html" %></li>
+        <li><%= cf_link_to "Datenschutz", "//selfhtml.org/impressum.html#datenschutz" %></li>
         <li>Software: <%= cf_link_to "Classic Forum " + $CF_VERSION, "https://github.com/ckruse/cforum" %></li>
       </ul>
 
       <p class="termitel-sponsor"><%= cf_link_to "https://termitel.de/" do %><%= image_tag 'termitel-fuer-ihren-vertrieb.jpg', alt: "Termitel - für Ihren Vertrieb" %><% end %></p>
     </footer>
 
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script>
      MathJax.Hub.Config({
        displayAlign: "left",
