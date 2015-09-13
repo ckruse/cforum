@@ -25,6 +25,10 @@ def conf(name)
   $config_manager.get(name, nil, nil)
 end
 
+def uconf(name)
+  conf(name)
+end
+
 $config_manager = ConfigManager.new
 sections = {}
 no_messages = 1000
