@@ -31,6 +31,9 @@ de:
     nested_view: Nested-Ansicht
     contact_us: 'Für Anregungen, Fehlermeldungen oder Kritik sende bitte eine E-Mail an <a href="mailto:%{email}">%{email}</a>.'
     quicklinks: Quicklinks
+    sort_ascending: Aufsteigend sortieren
+    sort_descending: Absteigend sortieren
+    sort_newestfirst: Nach neustem Beitrag
 
     placeholders:
       greeting: Hallo {$vname},

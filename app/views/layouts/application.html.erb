@@ -253,6 +253,27 @@ end
                 <% end %>
               <% end %>
 
+              <% if controller_path == 'cf_threads' and current_user.blank? %>
+                <% if @order != 'ascending' %>
+                  <li><%= link_to(t('layout.sort_ascending'),
+                                  cf_forum_path(current_forum,
+                                                p: params[:p],
+                                                order: 'ascending')) %></li>
+                <% end %>
+                <% if @order != 'descending' %>
+                  <li><%= link_to(t('layout.sort_descending'),
+                                  cf_forum_path(current_forum,
+                                                p: params[:p],
+                                                order: 'descending')) %></li>
+                <% end %>
+                <% if @order != 'newest-first' %>
+                  <li><%= link_to(t('layout.sort_newestfirst'),
+                                  cf_forum_path(current_forum,
+                                                p: params[:p],
+                                                order: 'newest-first')) %></li>
+                <% end %>
+              <% end %>
+
               <% if @thread and not @thread.new_record? %>
                 <li id="nachricht-feed-atom"><%= cf_link_to t("layout.msg_atom_feed"), cf_thread_url(@thread, format: :atom) %></li>
                 <li id="nachricht-feed-rss"><%= cf_link_to t("layout.msg_rss_feed"), cf_thread_url(@thread, format: :rss) %></li>

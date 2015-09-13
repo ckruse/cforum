@@ -63,8 +63,16 @@ module ThreadsHelper
   def index_threads(with_sticky = true, page = nil, limit = nil, gen_tree = true, only_sql = false)
     forum  = current_forum
 
-    order = uconf('sort_threads')
-    case order
+    @order = uconf('sort_threads')
+    @order = cookies[:cf_order] if not cookies[:cf_order].blank? and current_user.blank?
+    @order = params[:order] unless params[:order].blank?
+    @order = 'ascending' unless %w(ascending descending newest-first).include?(@order)
+
+    if not params[:order].blank? and current_user.blank?
+      cookies[:cf_order] = {value: @order, expires: 1.year.from_now}
+    end
+
+    case @order
     when 'ascending'
       order = 'threads.created_at ASC'
     when 'newest-first'
