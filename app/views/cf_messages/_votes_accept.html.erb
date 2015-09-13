@@ -36,7 +36,7 @@ upvote_msg = if not may_upvote_msg.blank?
                          title: m.flags['accepted'] == 'yes' ? t('messages.unaccept_answer') : t('messages.accept_answer')) %>
         <% else %>
           <% if m.flags['accepted'] == 'yes' %>
-            <span class="accept" title="<% t('messages.accepted_answer') %>"><% t('messages.accepted_answer') %></span>
+            <span class="accepted-answer cf-btn accept" title="<% t('messages.accepted_answer') %>"><% t('messages.accepted_answer') %></span>
           <% end %>
         <% end %>
       <% end %>
