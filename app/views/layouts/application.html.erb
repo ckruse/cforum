@@ -90,8 +90,6 @@ end
 
     <title><%= @title_infos %> <% if content_for?(:title) %><%= yield(:title) %> - <% end %><% if current_forum %><%= current_forum.short_name %> -<% else %><% if controller_path == 'cf_threads' %> <%= t('layout.all_forums') %> -<% end %><% end %> <%= t "layout.title" %></title>
 
-    <script src="//src.selfhtml.org/cforum/temp.js"></script>
-
     <% unless conf('css_ressource').blank? %><link rel="stylesheet" href="<%= conf('css_ressource') %>" title="SELFHTML Forum Stylesheet"><% end %>
     <% unless conf('js_ressource').blank? %><script src="<%= conf('js_ressource') %>"></script><% end %>
   </head>
