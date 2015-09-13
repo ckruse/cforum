@@ -32,6 +32,7 @@ group :development, :test do
   gem 'capybara'
   gem 'spring-commands-rspec'
   gem 'guard-rspec'
+  gem 'puma'
 end
 
 gem 'spring', group: :development
