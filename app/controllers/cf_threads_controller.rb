@@ -45,7 +45,8 @@ class CfThreadsController < ApplicationController
   end
 
   def message_params
-    params.require(:cf_thread).require(:message).permit(:subject, :content, :author, :email, :homepage)
+    params.require(:cf_thread).require(:message).permit(:subject, :content, :author,
+                                                        :email, :homepage, :problematic_site)
   end
 
   def new
