@@ -48,6 +48,7 @@ gem 'uglifier', '>= 1.0.3'
 gem 'font-awesome-sass'
 
 gem 'email_validator'
+gem 'validate_url'
 
 gem "paperclip"
 

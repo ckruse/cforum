@@ -25,8 +25,8 @@ class CfMessage < ActiveRecord::Base
   validates :content, length: { in: 10..12288 }, presence: true
 
   validates :email, length: {in: 6..60 }, email: true, allow_blank: true
-  validates :homepage, length: {in: 2..250 }, allow_blank: true, http_url: true
-  validates :problematic_site, length: {in: 2..250 }, allow_blank: true, http_url: true
+  validates :homepage, length: {in: 2..250 }, allow_blank: true, url: {allow_blank: true, allow_nil: true}
+  validates :problematic_site, length: {in: 2..250 }, allow_blank: true, url: {allow_blank: true, allow_nil: true}
 
   has_many :votes, class_name: 'CfCloseVote', foreign_key: :message_id
 
