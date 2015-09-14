@@ -39,9 +39,11 @@ module ParserHelper
         classes = app.notification_center.notify(NOTIFY_MENTION, m) if do_notify
         retval = $1 + '[@' + $2 + '](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user'
 
-        classes.each do |c|
-          next if c.blank?
-          retval << classes.join(" ")
+        unless classes.blank?
+          classes.each do |c|
+            next if c.blank?
+            retval << classes.join(" ")
+          end
         end
 
         retval + '}'
