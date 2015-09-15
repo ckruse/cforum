@@ -212,12 +212,13 @@ end
             <li><%= cf_link_to t('cites.cites'), cites_path %></li>
             <li><%= cf_link_to t("layout.chat"), "https://kiwiirc.com/client/irc.epd-me.net/?nick=" + (current_user.try(:username) || "Guest|" + rand(9999).to_s) + "&channel=#selfhtml", rel: 'nofollow' %></li>
 
-            <% if not current_forum.blank? %>
-              <li>
+            <% if not current_forum.blank? or controller_path == 'cf_threads' %>
+              <li class="has-forum-select">
                 <form id="forum-list" action="<%= forum_redirector_path %>">
-                  <select name="f" class="select2 forum-select">
+                  <select name="f" class="forum-select">
+                    <option value="all"<% if current_forum.blank? %> selected="selected"<% end %>><%= t('layout.all_forums') %></option>
                     <% @forums.each do |f| %>
-                      <option value="<%= f.slug %>"<% if f.slug == current_forum.slug %> selected="selected"<% end %>><%= f.name %></option>
+                      <option value="<%= f.slug %>"<% if f.slug == current_forum.try(:slug) %> selected="selected"<% end %>><%= f.name %></option>
                     <% end %>
                   </select>
                 </form>

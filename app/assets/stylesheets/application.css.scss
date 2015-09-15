@@ -168,7 +168,18 @@ a.forgotten-password-link {
   }
 }
 
-.forum-select { width:12em; }
+.has-forum-select {
+  padding:2px;
+  padding-left:0.6em;
+
+  .forum-select {
+    width:100%;
+    border:0;
+    background-color:transparent;
+    margin:0;
+    padding:0;
+  }
+}
 
 
 /* smartphones */

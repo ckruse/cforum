@@ -90,7 +90,6 @@ function autohideAlerts() {
 
 $(function() {
   setDismissHandlers();
-  $(".select2").select2({minimumResultsForSearch: -1});
   $("form").dependentQuestions();
 
   $("#forum-list select").on('change', function() {
