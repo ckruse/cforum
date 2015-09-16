@@ -144,6 +144,12 @@ class CitesController < ApplicationController
     @cite.creator = current_user.username if @cite.creator.blank? and not current_user.blank?
 
     if @cite.save
+      if current_user
+        @vote = CfCiteVote.create(cite_id: @cite.cite_id,
+                                  user_id: current_user.user_id,
+                                  vote_type: CfCiteVote::UPVOTE)
+      end
+
       audit(@cite, 'create')
       redirect_to cite_url(@cite), notice: t('cites.created')
     else
