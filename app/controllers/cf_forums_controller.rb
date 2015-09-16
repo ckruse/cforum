@@ -138,9 +138,9 @@ class CfForumsController < ApplicationController
     end
 
     # TODO: add message
-    raise ActiveRecord::RecordNotFound if forum.nil?
+    raise ActiveRecord::RecordNotFound if forum.nil? and params[:f] != 'all'
 
-    redirect_to cf_forum_url(forum)
+    redirect_to cf_forum_url(forum || params[:f])
   end
 
   def title
