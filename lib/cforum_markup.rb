@@ -156,9 +156,10 @@ module CforumMarkup
       cnt << l
     end
 
-    cnt.gsub!(/^\s+~~~/, '~~~')
+    cnt.gsub!(/^[[:space:]]+~~~/, "~~~")
     cnt.gsub!(/~~~\n(.*)\n~~~/, '`\1`')
-    cnt.gsub!(/~~~\s*(\w+)\n(.*)\n~~~/, '`\2`{: .language-\1}')
+    cnt.gsub!(/~~~[[:space:]]*(\w+)\n(.*)\n~~~/, '`\2`{: .language-\1}')
+    cnt.gsub!(/(?<!\n\n)~~~(.*?)~~~/m, "\n\n~~~\\1~~~")
 
     coder.decode(cnt)
   end
