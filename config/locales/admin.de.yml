@@ -132,6 +132,20 @@ de:
 
     audit:
       audit_log: Audit-Log
+      search: Suche
+      search_term: z.B. Regina Schlauklug
+      objects: Objekte
+      events: Erreignisse für %{relation}
+      the_objects:
+        threads: Threads
+        messages: Nachrichten
+        users: Benutzer
+        cites: Zitate
+        scores: Punkte
+        media: Medien
+        tags: Tags
+        tag_synonyms: Tag-Synonyme
+        close_votes: Sperr- oder Entsperr-Abstimmungen
 
       names:
         messages:
