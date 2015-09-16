@@ -514,7 +514,7 @@ SET default_with_oids = false;
 
 CREATE TABLE auditing (
     auditing_id bigint NOT NULL,
-    relation regclass NOT NULL,
+    relation character varying(120) NOT NULL,
     relid bigint NOT NULL,
     act text NOT NULL,
     contents json NOT NULL,
@@ -3246,6 +3246,8 @@ INSERT INTO schema_migrations (version) VALUES ('76');
 INSERT INTO schema_migrations (version) VALUES ('77');
 
 INSERT INTO schema_migrations (version) VALUES ('78');
+
+INSERT INTO schema_migrations (version) VALUES ('79');
 
 INSERT INTO schema_migrations (version) VALUES ('8');
 
