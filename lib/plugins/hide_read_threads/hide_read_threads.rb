@@ -2,7 +2,13 @@
 
 class HideReadThreadsPlugin < Plugin
   def modify_threadlist_query_obj()
-    return if current_user.blank? or get('view_all') or uconf('hide_read_threads') != 'yes' or params[:srt] == 'yes'
+    if params[:srt] == 'yes'
+      session[:srt] = true
+    elsif params[:srt] == 'no'
+      session.delete :srt
+    end
+
+    return if current_user.blank? or get('view_all') or uconf('hide_read_threads') != 'yes' or session[:srt]
 
     return Proc.new { |threads|
       threads.where("EXISTS(SELECT a.message_id FROM messages a LEFT JOIN read_messages b ON a.message_id = b.message_id AND b.user_id = ? WHERE thread_id = threads.thread_id AND read_message_id IS NULL AND a.deleted = false)", current_user.user_id)
