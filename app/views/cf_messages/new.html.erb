@@ -7,18 +7,9 @@ content_for :body_classes, 'messages new forum-' + (current_forum.try(:slug) || 
 
 <article class="thread-message">
   <% if @parent and not @preview %>
-    <%= message_header(@thread, @parent) %>
-
-    <div class="posting-content">
-      <%= @parent.to_html(@app_controller) %>
-    </div>
-
+    <%= render 'cf_messages/message', controls: :no, m: @parent, first: true %>
   <% elsif @preview %>
-    <%= message_header(@thread, @message, first: true, show_icons: false) %>
-
-    <div class="posting-content">
-      <%= @message.to_html(@app_controller) %>
-    </div>
+    <%= render 'cf_messages/message', controls: :no, m: @message, first: true %>
   <% end %>
 </article>
 
