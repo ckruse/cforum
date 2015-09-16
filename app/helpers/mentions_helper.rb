@@ -10,9 +10,11 @@ module MentionsHelper
     while not doc.eos?
       if doc.scan(/^> /)
         in_cite = true
+        last_char = " "
 
       elsif doc.scan(/\n/)
         in_cite = false
+        last_char = "\n"
 
       elsif doc.scan(/@([^@\n]+)/)
         next if not last_char.blank? and last_char =~ /[a-zäöüß0-9_.@-]/
