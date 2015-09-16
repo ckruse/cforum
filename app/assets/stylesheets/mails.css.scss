@@ -13,6 +13,13 @@
   border-radius: 0.25em;
 }
 
+td .status-unread {
+  border-radius: 50%;
+  padding: .1em .6em;
+  vertical-align: .1em;
+  cursor: default;
+}
+
 .status-read {
   background-color: #777;
   padding: 0.2em 0.6em 0.3em;
