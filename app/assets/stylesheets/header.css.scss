@@ -230,21 +230,6 @@ nav {
     display: block;
   }
 
-  #link-neuenachricht {
-    background-color: #2C7DD3;
-    border: 0 none;
-    
-    a {
-      color:#fff;
-      font-weight:bold;
-
-      &:hover, &:focus, &:active {
-        color: #990909;
-        background-color: #2C7DD3;
-      }
-    }
-  }
-
   a {
     display: block;
     border-radius: 0 .4em .4em;
@@ -255,6 +240,22 @@ nav {
   }
 
 }
+
+nav ul .create-new {
+  background-color: #2C7DD3;
+  border: 0 none;
+
+  a {
+    color:#fff;
+    font-weight:bold;
+
+    &:hover, &:focus, &:active {
+      color: #990909;
+      background-color: #2C7DD3;
+    }
+  }
+}
+
 
 .column {
   margin: 0 .25em;

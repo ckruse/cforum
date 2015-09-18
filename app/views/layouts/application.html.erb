@@ -207,7 +207,7 @@ end
         <nav id="quicklinks" class="column">
           <h3><%= t('layout.quicklinks') %></h3>
           <ul>
-            <li id="link-neuenachricht"><%= cf_link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
+            <li id="link-neuenachricht" class="create-new"><%= cf_link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
             <li><%= cf_link_to t('layout.home'), root_url %></li>
             <li><%= cf_link_to t('cites.cites'), cites_path %></li>
             <li><%= cf_link_to t("layout.chat"), "https://kiwiirc.com/client/irc.epd-me.net/?nick=" + (current_user.try(:username) || "Guest|" + rand(9999).to_s) + "&channel=#selfhtml", rel: 'nofollow' %></li>
