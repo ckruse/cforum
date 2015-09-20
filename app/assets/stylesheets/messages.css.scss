@@ -306,8 +306,26 @@ blockquote.show-quotes .unfold {
 }
 
 .problematic-site {
-  margin-top:0;
-  margin-bottom:0;
+  font-size: .9em;
+  background-color: #fdfcf3;
+  border: 1px solid #e7c157;
+  border-radius: 0 .5em 0 0;
+  border-bottom: 0 none;
+  margin: .5em 0 -.5em;
+  padding: .5em 1em;
+  width: 95%;
+
+  & + .posting-content {
+    border-top-right-radius: 0;
+  }
+
+  a { font-size: 1.1em; }
+  a:before {
+    font-size: 1.3em;
+    color: #c32e04;
+    margin-right: .3em;
+    vertical-align: middle;
+  }
 }
 
 .md-header #forum-usage {

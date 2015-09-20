@@ -182,5 +182,10 @@
   @extend .fa-eye-slash;
 }
 
+.problematic-site a {
+  @extend .fa;
+  @extend .fa-bug;
+}
+
 
 /* eof */
