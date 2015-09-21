@@ -3,7 +3,7 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
-.icon-message {
+.icon-message:before {
   @extend .fa;
   cursor: pointer;
 
@@ -16,8 +16,10 @@
   &.mark-interesting { @extend .fa-star-o; }
   &.mark-boring { @extend .fa-star; }
 
-  &.original-poster { @extend .fa-exclamation; }
-  &.original-poster::before { margin-right:0.15em; }
+  &.original-poster {
+    @extend .fa-exclamation;
+    margin-right:0.15em;
+  }
 }
 
 .icon-thread {
@@ -182,7 +184,7 @@
   @extend .fa-eye-slash;
 }
 
-.problematic-site a {
+.problematic-site a:before {
   @extend .fa;
   @extend .fa-bug;
 }
