@@ -3,7 +3,7 @@
     "version": "4.1.0",
     "author": "Christian Kruse <cjk@defunct.ch>",
     "dependencies": {
-        "pg-sync": "*",
+        "pg": "*",
         "js-yaml": "*",
         "faye": "*"
     }
