@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   include PluginHelper
   include NotifyHelper
   include ExceptionHelpers
-  include FayeHelper
+  include PublishHelper
   include MessageHelper
   include SortablesHelper
   include SortingHelper

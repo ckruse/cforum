@@ -10,7 +10,7 @@ module Peon
 
     class PeonTask
       include CForum::Tools
-      include FayeHelper
+      include PublishHelper
       include AuditHelper
 
       def root_path
@@ -48,8 +48,9 @@ module Peon
           updated_at: DateTime.now
         )
 
-        publish('/user/' + user.user_id.to_s + "/notifications",
-                {type: 'notification', notification: n})
+        publish('notification:create',
+                {type: 'notification', notification: n},
+                '/users/' + user.user_id.to_s)
       end
 
       def work_work(args)

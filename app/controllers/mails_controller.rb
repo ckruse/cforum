@@ -144,7 +144,7 @@ class MailsController < ApplicationController
           notice: t('mails.sent') }
         format.json { render json: @mail, status: :created }
 
-        publish('/user/' + @mail.recipient_id.to_s + '/mails', {type: 'mail', mail: @mail})
+        publish('mail:create', {type: 'mail', mail: @mail}, '/users/' + @mail.recipient_id.to_s)
       else
         format.html { render :new }
         format.json { render json: @mail.errors, status: :unprocessable_entity }

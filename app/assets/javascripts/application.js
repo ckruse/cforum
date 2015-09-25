@@ -13,6 +13,7 @@
 //= require jquery2
 //= require jquery_ujs
 //= require jquery-ui/autocomplete
+//= require socket.io
 //= require markdown/bootstrap-markdown.js
 //= require markdown/bootstrap-markdown.de.js
 //= require init.js

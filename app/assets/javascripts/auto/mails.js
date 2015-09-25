@@ -44,7 +44,7 @@ cforum.mails = {
 
 $(function() {
   if(cforum.currentUser) {
-    cforum.client.subscribe('/user/' + cforum.currentUser.user_id + "/mails", cforum.mails.notifyNew);
+    cforum.client.on('mail:create', cforum.mails.notifyNew);
   }
 });
 

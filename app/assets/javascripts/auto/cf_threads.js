@@ -26,11 +26,11 @@ cforum.cf_threads = {
   },
 
   index: function() {
-    var path = '/threads/' + (cforum.currentForum ? cforum.currentForum.slug : 'all');
-    cforum.client.subscribe(path, cforum.cf_threads.newThreadArriving);
+    // var path = '/threads/' + (cforum.currentForum ? cforum.currentForum.slug : 'all');
+    cforum.client.on('thread:create', cforum.cf_threads.newThreadArriving);
 
-    path = '/messages/' + (cforum.currentForum ? cforum.currentForum.slug : 'all');
-    cforum.client.subscribe(path, cforum.cf_threads.newMessageArriving);
+    // path = '/messages/' + (cforum.currentForum ? cforum.currentForum.slug : 'all');
+    cforum.client.on('message:create', cforum.cf_threads.newMessageArriving);
 
     if(!cforum.currentUser) {
       cforum.cf_threads.initOpenClose();

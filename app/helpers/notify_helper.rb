@@ -16,8 +16,9 @@ module NotifyHelper
       otype: opts[:otype]
     )
 
-    publish('/user/' + opts[:user].user_id.to_s + "/notifications",
-            {type: 'notification', notification: n})
+    publish("notification:create",
+            {type: 'notification', notification: n},
+            '/users/' + opts[:user].user_id.to_s)
 
     NotificationMailer.new_notification(opts).deliver_now if cfg == 'email'
   end

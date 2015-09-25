@@ -64,4 +64,6 @@ gem 'negative_captcha'
 
 gem 'unicorn'
 
+gem 'socket.io-rails'
+
 # eof

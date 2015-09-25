@@ -40,7 +40,7 @@ cforum.notifications = {
 
 $(function() {
   if(cforum.currentUser) {
-    cforum.client.subscribe('/user/' + cforum.currentUser.user_id + "/notifications", cforum.notifications.notifyNew);
+    cforum.client.on('notification:create', cforum.notifications.notifyNew);
   }
 });
 

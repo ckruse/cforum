@@ -5,6 +5,8 @@
     "dependencies": {
         "pg": "*",
         "js-yaml": "*",
-        "faye": "*"
+        "express": "*",
+        "socket.io": "*",
+        "body-parser": "*"
     }
 }
