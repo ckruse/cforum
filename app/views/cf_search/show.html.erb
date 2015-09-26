@@ -72,7 +72,7 @@ content_for :robots, 'noindex,nofollow'
   <%= paginate @search_results %>
 
   <div class="root search-results">
-    <% @search_results.each do |result| %>
+    <% @search_results_w_title.each do |result| %>
       <% had_desc = false %>
       <article class="thread">
         <header>

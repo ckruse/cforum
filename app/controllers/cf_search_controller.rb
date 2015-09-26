@@ -88,9 +88,9 @@ class CfSearchController < ApplicationController
           Cforum::Application.config.search_dict +
           "', " + quoted_q + "), 32)"
 
-        # select_title << "ts_headline('" +
-        #   Cforum::Application.config.search_dict +
-        #   "', author || ' ' || title || ' ' || content, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + ")) AS headline_doc"
+        select_title << "ts_headline('" +
+          Cforum::Application.config.search_dict +
+          "', author || ' ' || title || ' ' || content, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + ")) AS headline_doc"
       end
 
       unless @query[:title].blank?
@@ -103,9 +103,9 @@ class CfSearchController < ApplicationController
                                 "', ?)", q)
 
         select << "ts_rank_cd(ts_title, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + "), 32)"
-        # select_title << "ts_headline('" +
-        #   Cforum::Application.config.search_dict +
-        #   "', title, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + ")) AS headline_title"
+        select_title << "ts_headline('" +
+          Cforum::Application.config.search_dict +
+          "', title, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + ")) AS headline_title"
       end
 
       unless @query[:content].blank?
@@ -118,9 +118,9 @@ class CfSearchController < ApplicationController
                                 "', ?)", q)
 
         select << "ts_rank_cd(ts_content, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + "), 32)"
-        # select_title << "ts_headline('" +
-        #   Cforum::Application.config.search_dict +
-        #   "', content, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + ")) AS headline_content"
+        select_title << "ts_headline('" +
+          Cforum::Application.config.search_dict +
+          "', content, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + ")) AS headline_content"
       end
 
       unless @query[:author].blank?
@@ -131,9 +131,9 @@ class CfSearchController < ApplicationController
                           where("ts_author @@ to_tsquery('simple', ?)", q)
 
         select << "ts_rank_cd(ts_author, to_tsquery('simple', " + quoted_q + "), 32)"
-        # select_title << "ts_headline('" +
-        #   Cforum::Application.config.search_dict +
-        #   "', author, to_tsquery('simple', " + quoted_q + ")) AS headline_author"
+        select_title << "ts_headline('" +
+          Cforum::Application.config.search_dict +
+          "', author, to_tsquery('simple', " + quoted_q + ")) AS headline_author"
       end
 
       unless @query[:tags].empty?
@@ -142,12 +142,9 @@ class CfSearchController < ApplicationController
 
 
       @search_results = @search_results.
-                        preload(:user, :search_section).
                         select(select.join(' + ') + " AS rank").
                         where(search_section_id: @search_sections).
                         page(params[:page]).per(@limit)
-      @search_results = @search_results.select(select_title.join(', ')) unless select_title.blank?
-
 
       @search_results = @search_results.
                         where('document_created >= ?', @start_date)
@@ -166,6 +163,17 @@ class CfSearchController < ApplicationController
                 'rank DESC, document_created DESC NULLS FIRST'
               end
       @search_results = @search_results.order(order)
+
+      unless select_title.blank?
+        @search_results_w_title = SearchDocument.
+                                  preload(:user, :search_section).
+                                  select('*, ' + select_title.join(", ")).
+                                  from(@search_results).
+                                  order(order).
+                                  all
+      else
+        @search_results_w_title = @search_results.preload(:user, :search_section)
+      end
     end
 
     render :show
