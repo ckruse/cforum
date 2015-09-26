@@ -306,6 +306,7 @@ class CfMessagesController < ApplicationController
                                  @message, @tags)
       redirect_to cf_message_url(@thread, @message), notice: I18n.t('messages.updated')
     else
+      @edit = true
       notification_center.notify(SHOW_MESSAGE, @thread, @message, {})
       render :edit
     end
