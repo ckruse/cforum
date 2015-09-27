@@ -54,6 +54,14 @@ class CfSearchController < ApplicationController
      }).join(" & ")
   end
 
+  def ts_headline(content, query, name, dict = Cforum::Application.config.search_dict)
+    title_config = 'MaxFragments=3'
+
+    "ts_headline('" + dict + "', " + content +
+      ", to_tsquery('" + dict + "', " + query + "), '" +
+      title_config + "\') AS " + name
+  end
+
   def show
     @sections = SearchSection.order(:position, :name)
     @search_sections = params[:sections]
@@ -88,9 +96,7 @@ class CfSearchController < ApplicationController
           Cforum::Application.config.search_dict +
           "', " + quoted_q + "), 32)"
 
-        select_title << "ts_headline('" +
-          Cforum::Application.config.search_dict +
-          "', author || ' ' || title || ' ' || content, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + ")) AS headline_doc"
+        select_title << ts_headline("author || ' ' || title || ' ' || content", quoted_q,  "headline_doc")
       end
 
       unless @query[:title].blank?
@@ -103,9 +109,7 @@ class CfSearchController < ApplicationController
                                 "', ?)", q)
 
         select << "ts_rank_cd(ts_title, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + "), 32)"
-        select_title << "ts_headline('" +
-          Cforum::Application.config.search_dict +
-          "', title, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + ")) AS headline_title"
+        select_title << ts_headline("title", quoted_q, "headline_title")
       end
 
       unless @query[:content].blank?
@@ -118,9 +122,7 @@ class CfSearchController < ApplicationController
                                 "', ?)", q)
 
         select << "ts_rank_cd(ts_content, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + "), 32)"
-        select_title << "ts_headline('" +
-          Cforum::Application.config.search_dict +
-          "', content, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + ")) AS headline_content"
+        select_title << ts_headline("content", quoted_q, "headline_content")
       end
 
       unless @query[:author].blank?
@@ -131,9 +133,7 @@ class CfSearchController < ApplicationController
                           where("ts_author @@ to_tsquery('simple', ?)", q)
 
         select << "ts_rank_cd(ts_author, to_tsquery('simple', " + quoted_q + "), 32)"
-        select_title << "ts_headline('" +
-          Cforum::Application.config.search_dict +
-          "', author, to_tsquery('simple', " + quoted_q + ")) AS headline_author"
+        select_title << ts_headline('author', quoted_q, 'headline_author', 'simple')
       end
 
       unless @query[:tags].empty?
