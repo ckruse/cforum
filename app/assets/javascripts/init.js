@@ -51,6 +51,16 @@ cforum = {
             cforum.client.emit("login", {user: cforum.currentUser.user_id, wstoken: cforum.websocketToken});
             $("#username").addClass('connected');
           }
+
+          // join forum channels
+          if(cforum.currentForum) {
+            cforum.client.emit('join', {forum: cforum.currentForum.slug});
+          }
+          else if(cforum.forums) {
+            for(var i = 0; i < cforum.forums.length; ++i) {
+              cforum.client.emit('join', {forum: cforum.forums[i].slug});
+            }
+          }
         });
 
         cforum.client.on("disconnect", function() { $("#username").removeClass('connected'); });
