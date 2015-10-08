@@ -76,7 +76,13 @@ cforum.cf_threads = {
         case 'newest-first':
         case 'descending':
           if(document.location.href.indexOf('p=0') != -1 || document.location.href.indexOf('p=') == -1) {
-            $("[data-js=threadlist]").prepend(data);
+            var sticky = $("[data-js=threadlist] .sticky:last");
+            if(sticky.length === 0) {
+              $("[data-js=threadlist]").prepend(data);
+            }
+            else {
+              sticky.after(data);
+            }
           }
           break;
 
@@ -134,7 +140,13 @@ cforum.cf_threads = {
           $("#t" + message.thread.thread_id).replaceWith(data);
 
           if(uconf('sort_threads') == 'newest-first') {
-            $("[data-js=threadlist]").prepend($("#t" + message.thread.thread_id));
+            var sticky = $("[data-js=threadlist] .sticky:last");
+            if(sticky.length === 0) {
+              $("[data-js=threadlist]").prepend($("#t" + message.thread.thread_id));
+            }
+            else {
+              sticky.after($("#t" + message.thread.thread_id));
+            }
           }
 
           cforum.cf_threads.newMessages.push(message.message.message_id);
