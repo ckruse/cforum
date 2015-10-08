@@ -1,5 +1,5 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum, Faye */
+/* global cforum:true, uconf, io */
 
 cforum = {
   utils: {
@@ -28,7 +28,7 @@ cforum = {
       var pieces = controller.split('/');
       controller = [];
       for(var i = 0; i < pieces.length; ++i) {
-        if(pieces[i] == "") {
+        if(!pieces[i]) {
           continue;
         }
 
