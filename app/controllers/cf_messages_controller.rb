@@ -180,7 +180,9 @@ class CfMessagesController < ApplicationController
     end
 
     if saved
-      publish('message:create', {type: 'message', thread: @thread, message: @message, parent: @parent})
+      publish('message:create', {type: 'message', thread: @thread,
+                                 message: @message, parent: @parent},
+              '/forums/' + current_forum.slug)
 
       notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message, @tags)
       redirect_to cf_message_url(@thread, @message), :notice => I18n.t('messages.created')
@@ -300,7 +302,8 @@ class CfMessagesController < ApplicationController
 
     if saved
       publish('message:update', {type: 'update', thread: @thread,
-                                 message: @message, parent: @parent})
+                                 message: @message, parent: @parent},
+              '/forums/' + current_forum.slug)
 
       notification_center.notify(UPDATED_MESSAGE, @thread, @parent,
                                  @message, @tags)
