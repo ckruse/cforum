@@ -43,6 +43,9 @@ de:
 
     no_description: Bisher keine Beschreibung angegeben.
 
+    thread-view: Thread-Ansicht
+    nested-view: Nested-Ansicht
+
     error_message:
       other: "%{count} verhinderten, dass dieser Benutzer gespeichert werden konnte:"
       one: "%{count} verhindert, dass dieser Benutzer gespeichert werden konnte:"

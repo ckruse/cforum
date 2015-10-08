@@ -26,6 +26,8 @@ module ApplicationHelper
       t('global.nope')
     when 'close', 'hide'
       t('admin.forums.settings.' + val + '_subtree')
+    when 'thread-view', 'nested-view'
+      t('users.' + val)
     else
       val
     end
