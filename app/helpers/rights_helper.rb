@@ -163,20 +163,13 @@ module RightsHelper
       return
     end
 
-    if message.created_at <= @max_editable_age.minutes.ago
-      if redirect
-        flash[:error] = t('messages.message_too_old_to_edit',
-                          minutes: @max_editable_age)
-        redirect_to cf_message_url(thread, message)
-      end
-
-      return
-    end
+    check_age = false
 
     if not current_user and
         not cookies[:cforum_user].blank? and
         message.uuid == cookies[:cforum_user]
       edit_it = true
+      check_age = true
 
     elsif current_user
       is_owner = current_user.user_id == message.user_id
@@ -184,11 +177,22 @@ module RightsHelper
 
       if is_owner
         edit_it = true
+        check_age = true
       elsif may?(EDIT_QUESTION) and is_thread_msg
         edit_it = true
       elsif may?(EDIT_ANSWER)
         edit_it = true
       end
+    end
+
+    if check_age and message.created_at <= @max_editable_age.minutes.ago
+      if redirect
+        flash[:error] = t('messages.message_too_old_to_edit',
+                          minutes: @max_editable_age)
+        redirect_to cf_message_url(thread, message)
+      end
+
+      return
     end
 
     unless edit_it
