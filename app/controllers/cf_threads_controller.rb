@@ -166,7 +166,7 @@ class CfThreadsController < ApplicationController
       if not @preview and saved
         publish('thread:create', {type: 'thread', thread: @thread,
                                   message: @message},
-                '/forums/' + current_forum.slug)
+                '/forums/' + @forum.slug)
 
         notification_center.notify(NEW_THREAD_SAVED, @thread, @message)
 
