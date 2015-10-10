@@ -54,12 +54,10 @@ cforum = {
 
           // join forum channels
           if(cforum.currentForum) {
-            console.log("join", cforum.currentForum.slug);
             cforum.client.emit('join', {forum: cforum.currentForum.slug});
           }
           else if(cforum.forums) {
             for(var i = 0; i < cforum.forums.length; ++i) {
-              console.log("join", cforum.forums[i].slug);
               cforum.client.emit('join', {forum: cforum.forums[i].slug});
             }
           }
