@@ -18,7 +18,9 @@ content_for :body_classes, 'forums'
 
 
 <% unless current_user.blank? %>
-  <p><%= t('forums.new_threads_new_messages', count: @new_threads, new_messages: @new_messages) %></p>
+  <p><%= t('forums.new_threads_new_messages',
+           count: @new_threads,
+           new_messages_text: t('forums.new_messages_text', count: @new_messages)) %></p>
 <% end %>
 
 <table class="cf-default-table responsive">

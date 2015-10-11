@@ -3,10 +3,15 @@ de:
     all_forums: alle Foren
     admin_view: Administrator-Ansicht
     normal_view: Administrator-Ansicht deaktivieren
+
+    new_messages_text:
+      zero: "keine neuen Beiträge"
+      one: "ein neuer Beitrag"
+      other: "%{new_messages} neue Beiträge"
     new_threads_new_messages:
-      zero: "%{new_messages} neue Beiträge"
-      one: "%{new_messages} neue Beiträge in einem Thread"
-      other: "%{new_messages} neue Beiträge in %{count} Threads"
+      zero: "%{new_messages_text}"
+      one: "%{new_messages_text}"
+      other: "%{new_messages_text} in %{count} Threads"
 
   errors:
     unknown_error: unbekannter Fehler
