@@ -329,6 +329,7 @@ blockquote.show-quotes .unfold {
     margin-left:0;
     margin-right:0;
     max-width:none;
+    width:100%;
     width:95vw;
     padding-left:.1em;
     padding-right:.1em;
@@ -347,7 +348,6 @@ blockquote.show-quotes .unfold {
       width:auto;
       padding-left:.1em;
       padding-right:.1em;
-      overflow:scroll;
     }
   }
 

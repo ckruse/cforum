@@ -305,14 +305,8 @@ a.thread-forum-plate:hover {
 
 
 @media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
-  .root {
-    font-size:.7em;
-    line-height: 1.1em;
-  }
-
   .thread > header > .thread-icons {
     position:static;
-    right:auto;
   }
 }
 
