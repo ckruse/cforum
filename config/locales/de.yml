@@ -7,7 +7,7 @@ de:
     new_messages_text:
       zero: "keine neuen Beiträge"
       one: "ein neuer Beitrag"
-      other: "%{new_messages} neue Beiträge"
+      other: "%{count} neue Beiträge"
     new_threads_new_messages:
       zero: "%{new_messages_text}"
       one: "%{new_messages_text}"
