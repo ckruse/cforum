@@ -218,3 +218,13 @@
           <label class="radio"><%= radio_button_tag 'settings[standard_view]', 'nested-view', @settings.options['standard_view'] == 'nested-view', id: 'settings-standard_view-nested' %> <%= t('users.nested-view') %></label>
         </div>
       </div>
+
+      <% if @cf_forum.blank? %>
+        <div class="cf-cgroup">
+          <label for="settings-links_white_list"><%= t('users.settings.links_white_list') %></label>
+          <div class="cntrls">
+            <%= text_area_tag 'settings[links_white_list]', @settings.options['links_white_list'], id: 'settings-links_white_list' %>
+            <label class="checkbox"><%= check_box_tag 'settings[links_white_list]', '_DEFAULT_', @settings.options['links_white_list'].blank?, id: 'settings-links_white_list-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('links_white_list')), origin: t(is_global_conf('links_white_list') ? 'global.global_conf' : 'global.global_default')) %></label>
+          </div>
+        </div>
+      <% end %>
