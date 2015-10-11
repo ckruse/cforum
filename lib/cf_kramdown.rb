@@ -77,10 +77,17 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
 end
 
 class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
+  include LinksHelper
+
   def initialize(*args)
     super(*args)
     @indent = 0
     @sig_content = nil
+    @config_manager = ConfigManager.new
+  end
+
+  def conf(name)
+    @config_manager.get(name, nil, nil)
   end
 
   def convert_codeblock(el, indent)
@@ -98,7 +105,7 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
 
   def convert_a(el, indent)
     if @options[:no_follow]
-      if @options[:root_url].blank? or not el.attr['href'].start_with?(@options[:root_url])
+      if (@options[:root_url].blank? or not el.attr['href'].start_with?(@options[:root_url])) and not is_url_whitelisted?(el.attr['href'])
         el.attr['rel'] = 'nofollow'
       end
     end

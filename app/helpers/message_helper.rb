@@ -194,7 +194,7 @@ module MessageHelper
     if not opts[:tree] and not thread.archived? and (not message.email.blank? or not message.homepage.blank?)
       html << ' <span class="author-infos">'
       html << ' ' << cf_link_to('', 'mailto:' + message.email, class: 'author-email') if not message.email.blank?
-      html << ' ' << cf_link_to('', message.homepage, class: 'author-homepage', rel: 'nofollow') if not message.homepage.blank?
+      html << ' ' << cf_link_to('', message.homepage, class: 'author-homepage') if not message.homepage.blank?
       html << "</span>"
     end
 
