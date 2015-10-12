@@ -170,6 +170,7 @@ cforum.cf_messages = {
   },
 
   previewTimeout: null,
+  oldVal: null,
   initPreview: function() {
     cforum.cf_messages.showPreview();
     $("#message_input").on('keyup', function() {
@@ -182,11 +183,17 @@ cforum.cf_messages = {
     });
   },
   showPreview: function() {
-    $.post(cforum.baseUrl + 'preview',
-           {content: $("#message_input").val()}).
-      done(function(data) {
-        $("#on-the-fly-preview").html(data);
-      });
+    var val = $("#message_input").val();
+
+    if(cforum.cf_messages.oldVal != val) {
+      cforum.cf_messages.oldVal = val;
+
+      $.post(cforum.baseUrl + 'preview',
+             {content: val}).
+        done(function(data) {
+          $("#on-the-fly-preview").html(data);
+        });
+    }
   }
 };
 
