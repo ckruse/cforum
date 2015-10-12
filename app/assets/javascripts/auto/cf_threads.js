@@ -14,6 +14,7 @@ cforum.cf_threads = {
 
     cforum.cf_messages.initMarkdown("message_input");
     cforum.cf_messages.initUpload();
+    cforum.cf_messages.initPreview();
     $("#message_input").mentions();
   },
   create: function() {
@@ -22,6 +23,7 @@ cforum.cf_threads = {
     cforum.tags.initTags();
     cforum.cf_messages.initMarkdown("message_input");
     cforum.cf_messages.initUpload();
+    cforum.cf_messages.initPreview();
     $("#message_input").mentions();
   },
 

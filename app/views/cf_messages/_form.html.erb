@@ -37,6 +37,11 @@ with_name ||= false
       <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt %>
     </div>
   </div>
+
+  <article class="thread-message">
+    <h3>Vorschau</h3>
+    <div class="posting-content" id="on-the-fly-preview"></div>
+  </article>
 </fieldset>
 
 <fieldset>
