@@ -3,17 +3,17 @@
 #alerts-container {
   position:fixed;
   left:0;
+  right:0;
   top:2em;
   z-index:9999;
   padding-left:2em;
   padding-right:2em;
-  width:99%;
+  width:auto;
 }
 
 .cf-alert {
-  padding:15px;
-  margin-bottom:20px;
-  margin-right:2em;
+  padding:1em;
+  margin: 0;
   border:1px solid transparent;
   border-radius:4px;
   box-shadow:0px 0px 6px #666;
@@ -59,6 +59,12 @@
   line-height: 1;
   text-shadow: 0px 1px 0px #FFF;
   opacity: 0.2;
+}
+
+@media only screen and (max-width: 320px), only screen and (max-width: 480px) {
+  #alerts-container {
+    padding: 1em .5em;
+  }
 }
 
 /* eof */
