@@ -425,6 +425,11 @@ class CfMessagesController < ApplicationController
     end
 
   end
+
+  def preview
+    m = CfMessage.new(content: params[:content])
+    render text: m.to_html(self)
+  end
 end
 
 # eof

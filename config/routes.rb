@@ -46,6 +46,8 @@ Cforum::Application.routes.draw do
   resources :notifications, except: [:edit, :new, :create]
   delete 'notifications' => 'notifications#batch_destroy'
 
+  post 'preview' => 'cf_messages#preview'
+
   namespace 'admin' do
     resources :users, controller: :cf_users, except: :show
     resources :groups, controller: :cf_groups, except: :show
