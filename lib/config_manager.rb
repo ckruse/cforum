@@ -94,7 +94,9 @@ class ConfigManager
     'open_links_in_tab' => 'no',
     'load_messages_via_js' => 'yes',
 
-    'hide_read_threads' => 'no'
+    'hide_read_threads' => 'no',
+
+    'links_white_list' => ''
   }
 
   def initialize(use_cache = true)
