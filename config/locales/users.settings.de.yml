@@ -65,3 +65,5 @@ de:
       jabber_id: XMPP/Jabber-ID
       twitter_handle: Twitter-Handle
       description: Beschreibung
+
+      live_preview: Live-Vorschau benutzen

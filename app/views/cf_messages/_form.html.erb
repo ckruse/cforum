@@ -38,10 +38,12 @@ with_name ||= false
     </div>
   </div>
 
-  <article class="thread-message">
-    <h3>Vorschau</h3>
-    <div class="posting-content" id="on-the-fly-preview"></div>
-  </article>
+  <% if uconf('live_preview') == 'yes' %>
+    <article class="thread-message">
+      <h3>Vorschau</h3>
+      <div class="posting-content" id="on-the-fly-preview"></div>
+    </article>
+  <% end %>
 </fieldset>
 
 <fieldset>

@@ -76,4 +76,12 @@
       <label class="checkbox"><%= check_box_tag 'settings[load_messages_via_js]', 'yes', @settings.conf('load_messages_via_js') != 'no' %></label>
     </div>
   </div>
+
+  <div class="cf-cgroup">
+    <label for="settings_live_preview"><%= t('users.settings.live_preview') %></label>
+    <div class="cntrls">
+      <%= hidden_field_tag 'settings[live_preview]', 'no', id: '' %>
+      <label class="checkbox"><%= check_box_tag 'settings[live_preview]', 'yes', @settings.conf('live_preview') != 'no' %></label>
+    </div>
+  </div>
 </fieldset>

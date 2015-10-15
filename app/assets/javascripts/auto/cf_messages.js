@@ -172,15 +172,19 @@ cforum.cf_messages = {
   previewTimeout: null,
   oldVal: null,
   initPreview: function() {
-    cforum.cf_messages.showPreview();
-    $("#message_input").on('keyup', function() {
-      if(cforum.cf_messages.previewTimeout) {
-        window.clearTimeout(cforum.cf_messages.previewTimeout);
-        cforum.cf_messages.previewTimeout = null;
-      }
+    if(uconf('live_preview') == 'yes') {
+      cforum.cf_messages.showPreview();
+      $("input[name=preview]").remove();
 
-      cforum.cf_messages.previewTimeout = window.setTimeout(cforum.cf_messages.showPreview, 500);
-    });
+      $("#message_input").on('keyup', function() {
+        if(cforum.cf_messages.previewTimeout) {
+          window.clearTimeout(cforum.cf_messages.previewTimeout);
+          cforum.cf_messages.previewTimeout = null;
+        }
+
+        cforum.cf_messages.previewTimeout = window.setTimeout(cforum.cf_messages.showPreview, 500);
+      });
+    }
   },
   showPreview: function() {
     var val = $("#message_input").val();
