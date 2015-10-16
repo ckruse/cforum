@@ -176,14 +176,17 @@ cforum.cf_messages = {
       cforum.cf_messages.showPreview();
       $("input[name=preview]").remove();
 
-      $("#message_input").on('keyup', function() {
+      var f = function() {
         if(cforum.cf_messages.previewTimeout) {
           window.clearTimeout(cforum.cf_messages.previewTimeout);
           cforum.cf_messages.previewTimeout = null;
         }
 
         cforum.cf_messages.previewTimeout = window.setTimeout(cforum.cf_messages.showPreview, 500);
-      });
+      };
+
+      $("#message_input").on('keyup', f);
+      $("#message_input").on('change', f);
     }
   },
   showPreview: function() {

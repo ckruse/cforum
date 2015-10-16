@@ -180,6 +180,7 @@
 
       // Trigger onChange for each button handle
       this.change(this);
+      this.$textarea.change();
 
       // Unless it was the save handler,
       // focusin the textarea
