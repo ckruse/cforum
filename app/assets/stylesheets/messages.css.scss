@@ -229,6 +229,12 @@ main h2 { margin-left:0; }
   background-repeat: no-repeat;
 }
 
+.archived .posting-content {
+  background-image:asset-url('archived.png');
+  background-position:top right;
+  background-repeat: no-repeat;
+}
+
 .root {
   min-width: 54.5em;
   .thread {
