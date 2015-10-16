@@ -5,7 +5,7 @@ content_for :body_id, 'messages-new'
 content_for :body_classes, 'messages new forum-' + (current_forum.try(:slug) || 'all') + (@preview ? ' preview' : '')
 %>
 
-<article class="thread-message preview">
+<article class="thread-message<% if @preview %> preview<% end %>">
   <% if @parent and not @preview %>
     <%= render 'cf_messages/message', controls: :no, m: @parent, first: true %>
   <% elsif @preview %>
