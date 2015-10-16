@@ -6,7 +6,7 @@ content_for :body_classes, 'threads new forum-' + (current_forum.try(:slug) || '
 %>
 
 <% if @preview %>
-  <article class="thread-message">
+  <article class="thread-message preview">
     <%= message_header(@thread, @message, first: true, show_icons: false) %>
 
     <div class="posting-content">
