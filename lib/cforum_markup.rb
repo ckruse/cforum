@@ -139,6 +139,10 @@ module CforumMarkup
           ncnt << '[/code]'
         end
 
+      elsif doc.scan(/\|/)
+        ncnt << '\\' if code_open == 0
+        ncnt << '|'
+
       else
         ncnt << doc.matched if doc.scan(/./m)
       end
