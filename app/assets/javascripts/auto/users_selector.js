@@ -19,6 +19,10 @@ cforum.common.usersSelector.search = function(obj) {
     cforum.common.usersSelector.foundUsers = [];
 
     for(var i = 0; i < data.length; ++i) {
+      if(cforum.currentUser && cforum.currentUser.user_id == data[i].user_id) {
+        continue;
+      }
+
       cforum.common.usersSelector.foundUsers[data[i].user_id] = data[i];
       the_html += Mustache.render(cforum.common.usersSelector.views.userFoundLine, {user: data[i]});
     }
