@@ -62,17 +62,17 @@ de:
       css_chosen: alternatives CSS ausgewählt
 
     flag_plugin:
-      flag_reason: Markierungs-Grund
-      flagged: Der Beitrag wurde markiert und ein Moderator wird den Beitrag überprüfen.
-      flag_message: Beitrag „%{subject}“ von %{author} markieren
-      only_flag_message: Beitrag markieren
-      already_flagged: Der Beitrag wurde bereits markiert.
-      dup_url_needed: Die URL wird benötigt, um einen Beitrag als Duplikat zu markieren.
-      custom_reason_needed: Die URL wird benötigt, um einen Beitrag als Duplikat zu markieren.
+      flag_reason: Melde-Grund
+      flagged: Der Beitrag wurde gemeldet und ein Moderator wird den Beitrag überprüfen.
+      flag_message: Beitrag „%{subject}“ von %{author} melden
+      only_flag_message: Beitrag melden
+      already_flagged: Der Beitrag wurde bereits gemeldet.
+      dup_url_needed: Die URL wird benötigt, um einen Beitrag als Duplikat zu melden.
+      custom_reason_needed: Die URL wird benötigt, um einen Beitrag als Duplikat zu melden.
       reason_invalid: Es wurde ein unbekannter Grund angegeben.
       message_has_been_flagged: Der Beitrag „%{subject}“ von %{author} erfordert Moderator-Aufmerksamkeit.
       unflagged: Die Markierung des Beitrages wurde entfernt.
-      flag_message: Beitrag markieren
+      flag_message: Beitrag melden
       unflag_message: Markierung entfernen
-      message_is_flagged: "Dieser Beitrag wurde markiert. Angegebener Grund: %{reason}"
+      message_is_flagged: "Dieser Beitrag wurde gemeldet. Angegebener Grund: %{reason}"
       duplicate_message: Doppelpost

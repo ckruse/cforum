@@ -64,8 +64,8 @@ controls ||= :yes
           <% end %>
 
           <% if m.flags['flagged'].blank? %>
-            <%= cf_link_to('', flag_cf_message_path(@thread, m),
-                           class: 'cf-btn icon-flag-message',
+            <%= cf_link_to(t('plugins.flag_plugin.flag_message'), flag_cf_message_path(@thread, m),
+                           class: 'cf-btn',
                            title: t('plugins.flag_plugin.flag_message'), rel: 'nofollow') %>
           <% elsif current_user and current_user.moderate?(current_forum) %>
             <%= cf_link_to('', unflag_cf_message_path(@thread, m),
