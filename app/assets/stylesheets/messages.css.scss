@@ -30,12 +30,11 @@ main h2 { margin-left:0; }
     padding: 0.8em 1em 1em;
   }
 
-  h2, h3, h2 a, h3 a, header, header .author {
+  h2, h3, h2 a, h3 a, header, header .author, header .author a {
     border:none;
     font-weight: bold;
     margin: 0px;
   }
-
 
   .posting-content {
     color: #039;
@@ -206,7 +205,7 @@ main h2 { margin-left:0; }
 
   header h2 a,
   header h3 a,
-  header .details a.versions,
+  header .details a.version-link,
   header.visited h2 a,
   header.visited h3 a,
   header.visited .details a.versions {
@@ -218,8 +217,16 @@ main h2 { margin-left:0; }
   header .details a.versions:hover,
   header.visited h2 a:hover,
   header.visited h3 a:hover,
-  header.visited .details a.versions:hover {
+  header.visited .details a.version-link:hover {
     color: #990909;
+  }
+
+  header .versions {
+    .editor a.version-link {
+      font-weight:bold;
+      color:#999;
+    }
+    .edit-time { font-weight:normal; }
   }
 }
 

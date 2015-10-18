@@ -224,22 +224,32 @@ module MessageHelper
     end
 
     if opts[:show_editor] && !message.edit_author.blank?
-      html << ", " << cf_link_to(t('messages.edited_by'), versions_cf_message_path(thread, message), rel: 'no-follow', class: 'versions')
+      html << ", <span class=\"versions\">" << cf_link_to(t('messages.edited_by'),
+                                                          versions_cf_message_path(thread, message),
+                                                          rel: 'no-follow',
+                                                          class: 'version-link')
 
       if message.editor_id.blank?
-        html << " <span class=\editor\">".html_safe << message.edit_author << "</span> ".html_safe
+        html << " <span class=\editor\">".html_safe << cf_link_to(message.edit_author,
+                                                                  versions_cf_message_path(thread, message),
+                                                                  rel: 'no-follow',
+                                                                  class: 'version-link') << "</span> ".html_safe
       else
         html << " <span class=\"registered-user editor\">".html_safe <<
           cf_link_to(image_tag(message.editor.avatar(:thumb), class: 'avatar'),
                      user_path(message.editor),
                      title: t('messages.user_link', user: message.editor.username),
-                     class: 'user-link') << " " << message.edit_author << "</span> ".html_safe
+                     class: 'user-link') << " " << cf_link_to(message.edit_author,
+                                                              versions_cf_message_path(thread, message),
+                                                              rel: 'no-follow',
+                                                              class: 'version-link') << "</span> ".html_safe
       end
 
-      html << "<time datetime=\"" << message.updated_at.strftime("%FT%T%:z") << '">' <<
+      html << "<time class=\"edit-time\" datetime=\"" << message.updated_at.strftime("%FT%T%:z") << '">' <<
         encode_entities(l(message.updated_at, format: date_format("date_format_post"))) <<
         "</time>"
 
+      html << "</span>"
     end
 
     if not message.tags.blank? and opts[:tags]
