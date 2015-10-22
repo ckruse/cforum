@@ -33,20 +33,27 @@ module ParserHelper
 
   def highlight_mentions(app, mentions, cnt, do_notify)
     root_path = Rails.application.config.action_controller.relative_url_root || '/'
+    already_replaced = {}
+
     mentions.each do |m|
       username = Regexp.escape(m[0])
-      cnt = cnt.gsub(/(\A|[^a-zäöüß0-9_.@-])@(#{username})/) do
-        classes = app.notification_center.notify(NOTIFY_MENTION, m) if do_notify
-        retval = $1 + '[@' + $2 + '](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user'
+      cnt = cnt.gsub(/(\A|[^a-zäöüß0-9_.@-])@(#{username})\b/) do
+        if already_replaced[$2]
+          $1 + "@" + $2
+        else
+          already_replaced[$2] = true
+          classes = app.notification_center.notify(NOTIFY_MENTION, m) if do_notify
+          retval = $1 + '[@' + $2 + '](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user'
 
-        unless classes.blank?
-          classes.each do |c|
-            next if c.blank?
-            retval << classes.join(" ")
+          unless classes.blank?
+            classes.each do |c|
+              next if c.blank?
+              retval << classes.join(" ")
+            end
           end
-        end
 
-        retval + '}'
+          retval + '}'
+        end
       end
     end
 
