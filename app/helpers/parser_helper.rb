@@ -36,24 +36,22 @@ module ParserHelper
     already_replaced = {}
 
     mentions.each do |m|
+      next if already_replaced[m[0]]
+      already_replaced[m[0]] = true
       username = Regexp.escape(m[0])
+
       cnt = cnt.gsub(/(\A|[^a-zäöüß0-9_.@-])@(#{username})\b/) do
-        if already_replaced[$2]
-          $1 + "@" + $2
-        else
-          already_replaced[$2] = true
-          classes = app.notification_center.notify(NOTIFY_MENTION, m) if do_notify
-          retval = $1 + '[@' + $2 + '](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user'
+        classes = app.notification_center.notify(NOTIFY_MENTION, m) if do_notify
+        retval = $1 + '[@' + $2 + '](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user'
 
-          unless classes.blank?
-            classes.each do |c|
-              next if c.blank?
-              retval << classes.join(" ")
-            end
+        unless classes.blank?
+          classes.each do |c|
+            next if c.blank?
+            retval << classes.join(" ")
           end
-
-          retval + '}'
         end
+
+        retval + '}'
       end
     end
 
