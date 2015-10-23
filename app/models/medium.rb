@@ -6,7 +6,7 @@ class Medium < ActiveRecord::Base
 
   belongs_to :owner, class_name: CfUser
 
-  validates_presence_of :owner_id, :filename, :orig_name, :content_type
+  validates_presence_of :filename, :orig_name, :content_type
 
   def to_param
     filename
