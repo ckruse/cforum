@@ -43,8 +43,11 @@ cforum = {
 
   common: {
     init: function() {
-      if(uconf('use_javascript_notifications') != 'no') {
-        cforum.client = io(cforum.wsUrl);
+      var isSupported = (("WebSocket" in window && window.WebSocket != undefined) ||
+                         ("MozWebSocket" in window));
+
+      if(uconf('use_javascript_notifications') != 'no' && isSupported) {
+        cforum.client = io(cforum.wsUrl, {"transports" : ["websocket"]});
 
         cforum.client.on('connect', function() {
           if(cforum.currentUser) {
