@@ -1152,6 +1152,11 @@
               cursor = selected.start-1;
             } else if (content.indexOf('\n') > -1) {
               var lang = window.prompt(t('code_lang'));
+
+              if(!lang || lang.length > 20) {
+                return;
+              }
+
               e.replaceSelection('\n~~~' + lang + '\n' + chunk + '\n~~~\n');
               cursor = selected.start + 5 + lang.length;
             } else {
