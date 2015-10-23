@@ -199,6 +199,7 @@ cforum.cf_messages = {
              {content: val}).
         done(function(data) {
           $("#on-the-fly-preview").html(data);
+          MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
         });
     }
   }
