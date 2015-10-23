@@ -143,6 +143,7 @@ cforum.cf_messages = {
             imgup.html(t('upload.image_area'));
 
             $msg.replaceSelection(md);
+            $msg.change();
 
             window.setTimeout(function() {
               $msg.focus();
