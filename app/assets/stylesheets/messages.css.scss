@@ -31,9 +31,10 @@ main h2 { margin-left:0; }
   }
 
   h2, h3, h2 a, h3 a, header, header .author, header .author a {
-    border:none;
+    border: none;
     font-weight: bold;
-    margin: 0px;
+    margin: 0;
+    padding: 0;
   }
 
   .posting-content {
