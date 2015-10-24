@@ -258,8 +258,15 @@ main h2 { margin-left:0; }
 
   .posting-nested.folded {
     &::after {
+      display: block;
       content:"…";
       cursor:pointer;
+      background-color: #fdfcf3;
+      border: 1px solid #e7c157;
+      border-radius: 0 0.5em 0.5em;
+      margin: 0.5em 0;
+      padding: 0.4em 1em;
+      width: 95%;
     }
     .posting-content, .message-links, .forum-links {
       display:none !important;
