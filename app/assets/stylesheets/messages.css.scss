@@ -31,9 +31,10 @@ main h2 { margin-left:0; }
   }
 
   h2, h3, h2 a, h3 a, header, header .author, header .author a {
-    border:none;
+    border: none;
     font-weight: bold;
-    margin: 0px;
+    margin: 0;
+    padding: 0;
   }
 
   .posting-content {
@@ -161,6 +162,7 @@ main h2 { margin-left:0; }
     width: 9em;
     text-align: right;
     vertical-align: bottom;
+    padding-right: .5em;
 
     .icon-vote-down::before,
     .icon-vote-up:before {
@@ -240,6 +242,11 @@ main h2 { margin-left:0; }
   background-image:asset-url('archived.png');
   background-position:top right;
   background-repeat: no-repeat;
+  
+  & > p:first-child {
+    display: inline-block;
+    background-color: inherit;
+  }
 }
 
 .root {
@@ -257,8 +264,15 @@ main h2 { margin-left:0; }
 
   .posting-nested.folded {
     &::after {
+      display: block;
       content:"…";
       cursor:pointer;
+      background-color: #fdfcf3;
+      border: 1px solid #e7c157;
+      border-radius: 0 0.5em 0.5em;
+      margin: 0.5em 0;
+      padding: 0.4em 1em;
+      width: 95%;
     }
     .posting-content, .message-links, .forum-links {
       display:none !important;
