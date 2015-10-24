@@ -254,7 +254,18 @@ main h2 { margin-left:0; }
 
   ol { list-style-type:none; }
   .posting-content ol { list-style-type: decimal; }
+
+  .posting-nested.folded {
+    &::after {
+      content:"…";
+      cursor:pointer;
+    }
+    .posting-content, .message-links, .forum-links {
+      display:none !important;
+    }
+  }
 }
+
 
 blockquote {
   border-left: .3em solid #d5d5d5;

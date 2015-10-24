@@ -9,6 +9,14 @@
     </div>
   </div>
 
+  <div class="cf-cgroup" data-depends-on="settings[standard_view]=nested-view">
+    <label><%= t('users.settings.fold_read_nested') %></label>
+    <div class="cntrls">
+      <%= hidden_field_tag 'settings[fold_read_nested]', 'no', id: '' %>
+      <label class="checkbox"><input type="checkbox" value="yes" name="settings[fold_read_nested]"<%= disabled %><% if @settings.conf('fold_read_nested') == 'yes' %> checked="checked"<% end %>></label>
+    </div>
+  </div>
+
   <div class="cf-cgroup">
     <label><%= t('users.settings.hide_subjects_when_unchanged') %></label>
     <div class="cntrls">

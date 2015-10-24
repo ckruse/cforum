@@ -85,6 +85,18 @@ cforum.cf_messages = {
     });
   },
 
+  show: function() {
+    if(uconf('fold_read_nested') == 'yes') {
+      var nodes = $(".thread-nested .message.visited:not(.active)").parent();
+      nodes.addClass('folded');
+
+      $(".posting-nested.folded").on('click', function(ev) {
+        var trg = $(ev.target);
+        trg.removeClass('folded');
+      });
+    }
+  },
+
   init: function() {
     var action = $('body').attr('data-action');
     cforum.tags.initTags();
