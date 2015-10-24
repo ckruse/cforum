@@ -31,9 +31,9 @@ de:
     nested_view: Nested-Ansicht
     contact_us: 'Für Anregungen, Fehlermeldungen oder Kritik sende bitte eine E-Mail an <a href="mailto:%{email}">%{email}</a> oder <a href="https://github.com/ckruse/cforum">öffne eine Issue auf Github.</a>'
     quicklinks: Quicklinks
-    sort_ascending: Aufsteigend sortieren
-    sort_descending: Absteigend sortieren
-    sort_newestfirst: Nach neustem Beitrag
+    sort_ascending: aufsteigend sortieren
+    sort_descending: absteigend sortieren
+    sort_newestfirst: nach neuestem Beitrag sortieren
 
     placeholders:
       greeting: Hallo {$vname},
