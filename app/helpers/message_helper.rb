@@ -188,7 +188,7 @@ module MessageHelper
         html << '<span class="icon-message original-poster" title="' << t('messages.original_poster') << '"> </span>'
       end
     end
-    html << cf_link_to(message.author, cf_message_path(thread, message))
+    html << cf_link_to(message.author, cf_message_path(thread, message), class: 'message-link')
     html << '</span>' if message.user_id
 
     if not opts[:tree] and not thread.archived? and (not message.email.blank? or not message.homepage.blank?)

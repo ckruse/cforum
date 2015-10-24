@@ -46,8 +46,14 @@ controls ||= :yes
       <p>
         <% if m.open? and @thread.forum.write?(current_user) %>
           <% if may_answer(m) %>
-            <%= cf_link_to t("messages.new_answer"), new_cf_message_path(@thread, m, 'quote_old_message' => 'yes'), class: 'cf-btn', rel: 'nofollow' %>
-            <%= cf_link_to t("messages.new_answer_wo_quote"), new_cf_message_path(@thread, m), class: 'cf-btn', rel: 'nofollow' %>
+            <%= cf_link_to(t("messages.new_answer"),
+                           new_cf_message_path(@thread, m, 'quote_old_message' => 'yes'),
+                           class: 'cf-btn answer',
+                           rel: 'nofollow') %>
+            <%= cf_link_to(t("messages.new_answer_wo_quote"),
+                           new_cf_message_path(@thread, m),
+                           class: 'cf-btn answer wo-quote',
+                           rel: 'nofollow') %>
           <% end %>
 
           <% if current_user and m.user_id and current_user.user_id != m.user_id %>
