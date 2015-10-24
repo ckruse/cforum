@@ -242,6 +242,11 @@ main h2 { margin-left:0; }
   background-image:asset-url('archived.png');
   background-position:top right;
   background-repeat: no-repeat;
+  
+  & > p:first-child {
+    display: inline-block;
+    background-color: inherit;
+  }
 }
 
 .root {
