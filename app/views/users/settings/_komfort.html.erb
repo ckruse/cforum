@@ -84,4 +84,12 @@
       <label class="checkbox"><%= check_box_tag 'settings[live_preview]', 'yes', @settings.conf('live_preview') != 'no' %></label>
     </div>
   </div>
+
+  <div class="cf-cgroup">
+    <label for="settings_keybindings"><%= t('users.settings.keybindings') %></label>
+    <div class="cntrls">
+      <%= hidden_field_tag 'settings[keybindings]', 'no', id: '' %>
+      <label class="checkbox"><%= check_box_tag 'settings[keybindings]', 'yes', @settings.conf('keybindings') == 'yes' %></label>
+    </div>
+  </div>
 </fieldset>

@@ -90,6 +90,7 @@ class ConfigManager
     'page_messages' => 'yes',
     'fold_quotes' => 'no',
     'live_preview' => 'yes',
+    'keybindings' => 'no',
 
     'open_links_in_tab' => 'no',
     'load_messages_via_js' => 'yes',
