@@ -37,6 +37,8 @@ cforum.cf_threads = {
     if(!cforum.currentUser) {
       cforum.cf_threads.initOpenClose();
     }
+
+    cforum.keybindings.threads();
   },
 
   showNewAlert: function() {

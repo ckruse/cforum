@@ -1,5 +1,5 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum, t, uconf */
+/* global cforum, t, uconf, MathJax */
 
 cforum.cf_messages = {
   initMarkdown: function(elem_id) {
@@ -117,6 +117,12 @@ cforum.cf_messages = {
       $(".form-actions").append("<button class=\"cf-btn quote-message\">" + t('add_quote') + "</button>");
       $('.form-actions .quote-message').on('click', cforum.cf_messages.quoteMessage);
     }
+  },
+
+  show: function() {
+    cforum.keybindings.messages();
+
+    $("header.message.visited:not(.active):parent .posting-content").css('display', 'none');
   },
 
   quoteMessage: function(ev) {
