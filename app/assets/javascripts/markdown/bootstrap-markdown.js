@@ -874,6 +874,7 @@
           name: 'cmdBold',
           hotkey: 'Ctrl+B',
           title: 'Bold',
+          btnText: 'Bold',
           icon: { glyph: 'glyphicon glyphicon-bold', fa: 'fa fa-bold', 'fa-3': 'icon-bold' },
           callback: function(e){
             // Give/remove ** surround the selection
@@ -903,6 +904,7 @@
         },{
           name: 'cmdItalic',
           title: 'Italic',
+          btnText: 'Italic',
           hotkey: 'Ctrl+I',
           icon: { glyph: 'glyphicon glyphicon-italic', fa: 'fa fa-italic', 'fa-3': 'icon-italic' },
           callback: function(e){
@@ -933,6 +935,7 @@
         },{
           name: 'cmdHeading',
           title: 'Heading',
+          btnText: "Heading",
           hotkey: 'Ctrl+H',
           icon: { glyph: 'glyphicon glyphicon-header', fa: 'fa fa-header', 'fa-3': 'icon-font' },
           callback: function(e){
@@ -970,6 +973,7 @@
         data: [{
           name: 'cmdUrl',
           title: 'URL/Link',
+          btnText: 'URL/Link',
           hotkey: 'Ctrl+L',
           icon: { glyph: 'glyphicon glyphicon-link', fa: 'fa fa-link', 'fa-3': 'icon-link' },
           callback: function(e){
@@ -999,6 +1003,7 @@
         },{
           name: 'cmdImage',
           title: 'Image',
+          btnText: 'Image',
           hotkey: 'Ctrl+G',
           icon: { glyph: 'glyphicon glyphicon-picture', fa: 'fa fa-picture-o', 'fa-3': 'icon-picture' },
           callback: function(e){
@@ -1035,6 +1040,7 @@
           name: 'cmdList',
           hotkey: 'Ctrl+U',
           title: 'Unordered List',
+          btnText: 'Unordered List',
           icon: { glyph: 'glyphicon glyphicon-list', fa: 'fa fa-list', 'fa-3': 'icon-list-ul' },
           callback: function(e){
             // Prepend/Give - surround the selection
@@ -1081,6 +1087,7 @@
           name: 'cmdListO',
           hotkey: 'Ctrl+O',
           title: 'Ordered List',
+          btnText: 'Ordered List',
           icon: { glyph: 'glyphicon glyphicon-th-list', fa: 'fa fa-list-ol', 'fa-3': 'icon-list-ol' },
           callback: function(e) {
 
@@ -1127,6 +1134,7 @@
           name: 'cmdCode',
           hotkey: 'Ctrl+K',
           title: 'Code',
+          btnText: 'Code',
           icon: { glyph: 'glyphicon glyphicon-asterisk', fa: 'fa fa-code', 'fa-3': 'icon-code' },
           callback: function(e) {
             // Give/remove ** surround the selection
@@ -1172,6 +1180,7 @@
           name: 'cmdQuote',
           hotkey: 'Ctrl+Q',
           title: 'Quote',
+          btnText: 'Quote',
           icon: { glyph: 'glyphicon glyphicon-comment', fa: 'fa fa-quote-left', 'fa-3': 'icon-quote-left' },
           callback: function(e) {
             // Prepend/Give - surround the selection
