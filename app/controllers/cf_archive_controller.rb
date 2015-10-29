@@ -35,21 +35,30 @@ class CfArchiveController < ApplicationController
       last_month = last_month.where(forum_id: current_forum.forum_id)
     end
 
-    first_month = first_month.first.created_at
-    last_month = last_month.first.created_at
+    unless @view_all
+      first_month = first_month.where('threads.deleted = false')
+      last_month = last_month.where('threads.deleted = false')
+    end
 
-    @year = first_month
     @months = []
-    q = ""
-    q = "forum_id = #{current_forum.forum_id} AND " unless current_forum.blank?
-    mon = first_month
-    loop do
-      if CfThread.exists?(["#{q}DATE_TRUNC('month', created_at) = DATE_TRUNC('month', ?::timestamp without time zone)", mon])
-        @months << mon.to_date
-      end
+    @year = tmzone
 
-      break if mon.month == last_month.month
-      mon = Date.civil(mon.year, mon.month + 1, mon.day)
+    if not first_month.blank? and not last_month.blank?
+      first_month = first_month.first.created_at
+      last_month = last_month.first.created_at
+
+      q = ""
+      q = "forum_id = #{current_forum.forum_id} AND " unless current_forum.blank?
+      q << 'deleted = false AND ' unless @view_all
+      mon = first_month
+      loop do
+        if CfThread.exists?(["#{q}DATE_TRUNC('month', created_at) = DATE_TRUNC('month', ?::timestamp without time zone)", mon])
+          @months << mon.to_date
+        end
+
+        break if mon.month == last_month.month
+        mon = Date.civil(mon.year, mon.month + 1, mon.day)
+      end
     end
   end
 
