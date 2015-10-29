@@ -24,9 +24,11 @@ class CfArchiveController < ApplicationController
   def year
     tmzone = Time.zone.parse(params[:year] + '-12-31 00:00:00')
     first_month = CfThread.where("EXTRACT(year FROM created_at + INTERVAL '? seconds') = ?", tmzone.utc_offset, params[:year]).
+                  where(archived: true).
                   order('created_at ASC').
                   limit(1)
     last_month = CfThread.where("EXTRACT(year FROM created_at + INTERVAL '? seconds') = ?", tmzone.utc_offset, params[:year]).
+                 where(archived: true).
                  order('created_at DESC').
                  limit(1)
 
