@@ -30,7 +30,7 @@ end
     <meta name="msapplication-TileImage" content="//src.selfhtml.org/logo/s-Logo_kachel_144.png">
     <meta name="msapplication-TileColor" content="#3983ab">
 
-    <% if controller_path == 'cf_threads' and uconf('autorefresh').to_i > 0 %>
+    <% if controller_path == 'cf_threads' and action_name == 'index' and uconf('autorefresh').to_i > 0 %>
       <meta http-equiv="refresh" content="<%= uconf('autorefresh').to_i * 60 %>; URL=<%= cf_forum_url(current_forum) %>">
     <% end %>
 
