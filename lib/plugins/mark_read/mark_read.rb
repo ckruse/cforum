@@ -46,8 +46,7 @@ class MarkReadPlugin < Plugin
   def show_thread(thread, message = nil, votes = nil)
     return if current_user.blank? or @app_controller.is_prefetch
 
-    mark_read_moment = uconf('mark_read_moment')
-    check_thread(thread) if mark_read_moment == 'after_render'
+    check_thread(thread)
     cache = @app_controller.get_cached_entry(:mark_read, current_user.user_id) || {}
 
     sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", "
@@ -62,16 +61,13 @@ class MarkReadPlugin < Plugin
     end
 
     @app_controller.set_cached_entry(:mark_read, current_user.user_id, cache)
-
-    check_thread(thread) if mark_read_moment == 'before_render'
   end
 
   def show_message(thread, message, votes)
     return if current_user.blank? or @app_controller.is_prefetch
-    mark_read_moment = uconf('mark_read_moment')
     cache = @app_controller.get_cached_entry(:mark_read, current_user.user_id) || {}
 
-    check_thread(thread) if mark_read_moment == 'after_render'
+    check_thread(thread)
 
     if not cache[message.message_id]
       begin
@@ -82,8 +78,6 @@ class MarkReadPlugin < Plugin
     end
 
     @app_controller.set_cached_entry(:mark_read, current_user.user_id, cache)
-
-    check_thread(thread) if mark_read_moment == 'before_render'
   end
   alias show_new_message show_message
 

@@ -36,17 +36,17 @@ describe CfUser do
   describe "conf" do
     it "returns default when config option isn't set" do
       user = CfUser.new(settings: CfSetting.new(options: {}))
-      expect(user.conf('mark_read_moment')).to eq ConfigManager::DEFAULTS['mark_read_moment']
+      expect(user.conf('highlight_self')).to eq ConfigManager::DEFAULTS['highlight_self']
     end
 
     it "returns default when no config exists" do
       user = CfUser.new
-      expect(user.conf('mark_read_moment')).to eq ConfigManager::DEFAULTS['mark_read_moment']
+      expect(user.conf('highlight_self')).to eq ConfigManager::DEFAULTS['highlight_self']
     end
 
     it "returns config value when set" do
-      user = CfUser.new(settings: CfSetting.new(options: {'mark_read_moment' => 'after'}))
-      expect(user.conf('mark_read_moment')).to eq 'after'
+      user = CfUser.new(settings: CfSetting.new(options: {'highlight_self' => 'no'}))
+      expect(user.conf('highlight_self')).to eq 'no'
     end
   end
 

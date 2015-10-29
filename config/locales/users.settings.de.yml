@@ -44,7 +44,6 @@ de:
       date_format_index: Datumsformat im Index und im Thread-Baum
       date_format_post: Datumsformat im Posting
       date_format_default: Default-Datumsformat
-      mark_read_moment: Threads/Postings als gelesen markieren
       before_render: beim Öffnen der Einzelansicht
       after_render: beim Schließen der Einzelansicht
       flattr: Flattr-ID

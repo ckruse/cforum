@@ -75,7 +75,6 @@ class ConfigManager
     'notify_on_mention' => 'yes',
     'highlighted_users' => '',
     'highlight_self' => 'yes',
-    'mark_read_moment' => 'before_render',
 
     'delete_read_notifications_on_answer' => 'yes',
     'delete_read_notifications_on_activity' => 'yes',
