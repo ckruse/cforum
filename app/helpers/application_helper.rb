@@ -74,7 +74,7 @@ module ApplicationHelper
     end
 
     str << '</form>'
-    return str
+    return str.html_safe
   end
 end
 
