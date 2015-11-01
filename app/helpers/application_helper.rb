@@ -52,14 +52,16 @@ module ApplicationHelper
     nam.gsub(/[^a-zA-Z0-9]/, '-')
   end
 
-  def cf_button_to(url, args = {})
+  def cf_button_to(url, args = {}, &block)
     str = '<form class="button_to" method="' <<
           (args[:method] == 'get' ? 'get' : 'post') << '" action="' <<
           url << '">' << "<button"
 
     str << ' title="' + encode_entities(args[:title]) + '"' unless args[:title].blank?
     str << ' class="' + encode_entities(args[:class]) + '"' unless args[:class].blank?
-    str << ' type="submit"></button><input type="hidden" name="authenticity_token" value="' <<
+    str << ' type="submit">'
+    str << block.call unless block.blank?
+    str << '</button><input type="hidden" name="authenticity_token" value="' <<
       form_authenticity_token << '">'
 
     unless args[:params].blank?
