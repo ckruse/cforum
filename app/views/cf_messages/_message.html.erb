@@ -8,7 +8,7 @@ controls ||= :yes
     <%= render 'votes_accept', m: m %>
   <% end %>
 
-  <% unless m.problematic_site.blank? %><p class="problematic-site"><%= cf_link_to CfMessage.human_attribute_name(:problematic_site), m.problematic_site %></p><% end %>
+  <% unless m.problematic_site.blank? %><p class="problematic-site"><%= cf_link_to CfMessage.human_attribute_name(:problematic_site), m.problematic_site, rel: 'nofollow' %></p><% end %>
   <div class="posting-content">
     <%= m.to_html(@app_controller) %>
   </div>
