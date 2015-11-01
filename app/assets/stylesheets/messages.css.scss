@@ -230,6 +230,10 @@ main h2 { margin-left:0; }
     }
     .edit-time { font-weight:normal; }
   }
+
+  .controls { margin-bottom:1em; }
+  form.button_to { display:inline; }
+  .cf-btn { margin-bottom:0.2em; }
 }
 
 .thread-message.preview .posting-content {

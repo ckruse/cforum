@@ -43,7 +43,7 @@ controls ||= :yes
     <% end %>
 
     <% if controls == :yes %>
-      <p>
+      <div class="controls">
         <% if m.open? and @thread.forum.write?(current_user) %>
           <% if may_answer(m) %>
             <%= cf_link_to t("messages.new_answer"), new_cf_message_path(@thread, m, 'quote_old_message' => 'yes'), class: 'cf-btn', rel: 'nofollow' %>
@@ -110,7 +110,21 @@ controls ||= :yes
                            open_cf_message_path(@thread, m), class: 'cf-btn', rel: 'nofollow') %>
           <% end %>
         <% end %>
-      </p>
+
+        <% unless current_user.blank? %>
+          <% if m.attribs[:is_interesting] %>
+            <%= cf_button_to(boring_cf_message_path(@thread, m),
+                             title: t('plugins.interesting_messages.mark_message_boring'),
+                             class: 'cf-btn',
+                             params: std_args) do %><% t('plugins.interesting_messages.mark_message_boring') %><% end %>
+          <% else %>
+            <%= cf_button_to(interesting_cf_message_path(@thread, m),
+                             title: t('plugins.interesting_messages.mark_message_interesting'),
+                             class: 'cf-btn',
+                             params: std_args) do %><% t('plugins.interesting_messages.mark_message_interesting') %><% end %>
+          <% end %>
+        <% end %>
+      </div>
 
       <% unless m.close_vote.blank? %>
         <%= render 'close_vote', m: m %>
