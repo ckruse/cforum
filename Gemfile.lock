@@ -139,7 +139,7 @@ GEM
     mime-types (2.6.2)
     mimemagic (0.3.0)
     mini_portile (0.6.2)
-    minitest (5.8.1)
+    minitest (5.8.2)
     multi_json (1.11.2)
     negative_captcha (0.4)
       actionpack
@@ -262,7 +262,7 @@ GEM
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    unicorn (4.9.0)
+    unicorn (5.0.0)
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
