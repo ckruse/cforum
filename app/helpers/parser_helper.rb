@@ -91,11 +91,11 @@ module ParserHelper
       cnt.lines.each do |l|
         current_ql = 0
         scanner = StringScanner.new(l)
-        while scanner.scan(/^> /)
+        while scanner.scan(/^> ?/)
           current_ql += 1
         end
 
-        if current_ql < quote_level and l !~ /^(?:> )*\s*$/m
+        if current_ql < quote_level and l !~ /^(?:> ?)*\s*$/m
           ncnt << ('> ' * current_ql) + "\n"
         elsif current_ql > quote_level
           ncnt << ('> ' * quote_level) + "\n"
