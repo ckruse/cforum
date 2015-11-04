@@ -51,7 +51,8 @@ class CfThreadsController < ApplicationController
 
   def new
     @thread = CfThread.new
-    @thread.message = CfMessage.new
+    @thread.message = CfMessage.new(params[:cf_thread].blank? ? {} :
+                                      message_params)
     @tags = []
 
     @max_tags = conf('max_tags_per_message')
