@@ -138,6 +138,74 @@ describe CfMessages::VoteController do
 
       expect(flash[:error]).not_to be_nil
     end
+
+    it "shouldn't score when target user's score is below zero" do
+      CfScore.create!(user_id: user1.user_id, value: -1)
+
+      sign_in user
+      post :vote, message_params_from_slug(message).merge(type: 'down')
+
+      expect(user1.score).to eq(-1)
+    end
+
+    it "should score when target user's score isn't below zero" do
+      sign_in user
+      post :vote, message_params_from_slug(message).merge(type: 'down')
+
+      expect(user1.score).to eq(-1)
+    end
+
+    it "shouldn't score when updating a vote and target score falls below -1" do
+      v = CfVote.create!(user_id: user.user_id,
+                         message_id: message.message_id,
+                         vtype: CfVote::UPVOTE)
+      CfScore.create!(user_id: user1.user_id,
+                      vote_id: v.vote_id,
+                      value: 10)
+      CfScore.create!(user_id: user1.user_id,
+                      value: -1)
+
+      message.update(upvotes: 1)
+
+      sign_in user
+      post :vote, message_params_from_slug(message).merge(type: 'down')
+
+      user1.reload
+      user.reload
+      message.reload
+
+      expect(flash[:error]).to be nil
+      expect(message.upvotes).to eq 0
+      expect(message.downvotes).to eq 1
+      expect(assigns(:vote)).to be_a(CfVote)
+      expect(assigns(:vote).vtype).to eq CfVote::DOWNVOTE
+      expect(user1.score).to eq(-1)
+    end
+
+    it "should score when updating a vote and target score doesn't fall below -1" do
+      v = CfVote.create!(user_id: user.user_id,
+                         message_id: message.message_id,
+                         vtype: CfVote::UPVOTE)
+      CfScore.create!(user_id: user1.user_id,
+                      vote_id: v.vote_id,
+                      value: 10)
+
+      message.update(upvotes: 1)
+
+      sign_in user
+      post :vote, message_params_from_slug(message).merge(type: 'down')
+
+      user1.reload
+      user.reload
+      message.reload
+
+      expect(flash[:error]).to be nil
+      expect(message.upvotes).to eq 0
+      expect(message.downvotes).to eq 1
+      expect(assigns(:vote)).to be_a(CfVote)
+      expect(assigns(:vote).vtype).to eq CfVote::DOWNVOTE
+      expect(user1.score).to eq(-1)
+    end
   end
 end
 

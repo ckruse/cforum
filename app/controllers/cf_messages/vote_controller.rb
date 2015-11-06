@@ -177,7 +177,21 @@ class CfMessages::VoteController < ApplicationController
       CfVote.connection.execute "UPDATE messages SET upvotes = upvotes - 1, downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
 
       unless @message.user_id.blank?
-        CfScore.where('user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id).update_all(['value = ?', @vote_down_value])
+        CfScore.delete_all(['user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id])
+
+        if @message.owner.score + @vote_down_value >= -1
+          CfScore.create!(
+            user_id: @message.user_id,
+            vote_id: @vote.vote_id,
+            value: vtype == CfVote::UPVOTE ? @vote_up_value : @vote_down_value
+          )
+        else
+          CfScore.create!(
+            user_id: @message.user_id,
+            vote_id: @vote.vote_id,
+            value: -1 - @message.owner.score
+          )
+        end
       end
 
       CfScore.create!(user_id: current_user.user_id, vote_id: @vote.vote_id, value: @vote_down_value)
@@ -192,11 +206,19 @@ class CfMessages::VoteController < ApplicationController
     )
 
     unless @message.user_id.blank?
-      CfScore.create!(
-        user_id: @message.user_id,
-        vote_id: @vote.vote_id,
-        value: vtype == CfVote::UPVOTE ? @vote_up_value : @vote_down_value
-      )
+      if (vtype == CfVote::DOWNVOTE and @message.owner.score + @vote_down_value >= -1) or vtype == CfVote::UPVOTE
+        CfScore.create!(
+          user_id: @message.user_id,
+          vote_id: @vote.vote_id,
+          value: vtype == CfVote::UPVOTE ? @vote_up_value : @vote_down_value
+        )
+      elsif vtype == CfVote::DOWNVOTE and @message.owner.score + @vote_down_value < -1
+        CfScore.create!(
+          user_id: @message.user_id,
+          vote_id: @vote.vote_id,
+          value: -1 - @message.owner.score
+        )
+      end
     end
 
     if vtype == CfVote::DOWNVOTE
