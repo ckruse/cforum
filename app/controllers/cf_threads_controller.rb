@@ -174,6 +174,8 @@ class CfThreadsController < ApplicationController
         format.html { redirect_to cf_message_url(@thread, @message), notice: I18n.t("threads.created") }
         format.json { render json: @thread, status: :created, location: @thread }
       else
+        # provoke a validation in case of missing tags
+        @thread.message.valid? unless @preview
         @preview = true
         notification_center.notify(SHOW_NEW_THREAD, @thread)
 
