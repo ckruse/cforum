@@ -86,6 +86,8 @@ de:
 
     infos_for_scoring: Informationen zu den Bewertungsregeln
 
+    error_present: muss angegeben werden (mindestens %{min}, maximal %{max} Zeichen).
+
     close_vote:
       agreeing: Sehe ich auch so
       take_back: Stimme zurücknehmen
