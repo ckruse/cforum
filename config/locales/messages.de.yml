@@ -15,8 +15,8 @@ de:
     tags_invalid: Das Tag ist fehlerhaft.
     too_many_tags: "Sie dürfen nur maximal %{max_tags} Tags verwenden."
     not_enough_tags: 
-      other: "Sie müssen mindestens %{min_tags} Tags verwenden."
-      one: "Sie müssen mindestens %{min_tags} Tag verwenden."
+      other: "Sie müssen mindestens %{count} Tags verwenden."
+      one: "Sie müssen mindestens %{count} Tag verwenden."
     invalid_tags:
       other: "Sie dürfen keine neuen Tags erstellen und diese Tags existieren bisher nicht: %{tags}."
       one: "Sie dürfen keine neuen Tags erstellen und dieser Tag existiert bisher nicht: %{tags}."

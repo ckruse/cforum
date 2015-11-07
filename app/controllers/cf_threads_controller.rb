@@ -112,7 +112,7 @@ class CfThreadsController < ApplicationController
     @min_tags = conf('min_tags_per_message').to_i
     if @tags.length < @min_tags
       invalid = true
-      flash.now[:error] = I18n.t('messages.not_enough_tags', min_tags: @min_tags)
+      flash.now[:error] = I18n.t('messages.not_enough_tags', count: @min_tags)
     end
 
     iv_tags = invalid_tags(@forum, @tags)

@@ -148,7 +148,7 @@ class CfMessagesController < ApplicationController
     @min_tags = conf('min_tags_per_message').to_i
     if @tags.length < @min_tags
       invalid = true
-      flash.now[:error] = I18n.t('messages.not_enough_tags', min_tags: @min_tags)
+      flash.now[:error] = I18n.t('messages.not_enough_tags', count: @min_tags)
     end
 
     iv_tags = invalid_tags(current_forum, @tags)
@@ -187,7 +187,7 @@ class CfMessagesController < ApplicationController
       notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message, @tags)
       redirect_to cf_message_url(@thread, @message), :notice => I18n.t('messages.created')
     else
-      @thread.message.valid? unless @preview
+      @message.valid? unless @preview
       @preview = true
       notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
       render :new
@@ -256,6 +256,12 @@ class CfMessagesController < ApplicationController
       flash.now[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
     end
 
+    @min_tags = conf('min_tags_per_message').to_i
+    if @tags.length < @min_tags
+      invalid = true
+      flash.now[:error] = I18n.t('messages.not_enough_tags', count: @min_tags)
+    end
+
     iv_tags = invalid_tags(current_forum, @tags)
     if not iv_tags.blank?
       invalid = true
@@ -310,6 +316,7 @@ class CfMessagesController < ApplicationController
                                  @message, @tags)
       redirect_to cf_message_url(@thread, @message), notice: I18n.t('messages.updated')
     else
+      @message.valid? unless @preview
       @edit = true
       notification_center.notify(SHOW_MESSAGE, @thread, @message, {})
       render :edit
@@ -378,7 +385,7 @@ class CfMessagesController < ApplicationController
     @min_tags = conf('min_tags_per_message').to_i
     if @tags.length < @min_tags
       invalid = true
-      flash.now[:error] = I18n.t('messages.not_enough_tags', min_tags: @min_tags)
+      flash.now[:error] = I18n.t('messages.not_enough_tags', count: @min_tags)
     end
 
     iv_tags = invalid_tags(current_forum, @tags)
