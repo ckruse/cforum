@@ -28,10 +28,37 @@ class NotificationsPlugin < Plugin
   end
 
   def show_thread(thread, message = nil, votes = nil)
-    had_one = false
+    return if current_user.blank?
 
-    thread.sorted_messages.each do |m|
-      had_one = true if check_for_deleting_notification(thread, m)
+    had_one = false
+    message_ids = thread.messages.map { |m| m.message_id }
+
+    if user = current_user
+      to_delete = []
+      to_mark_read = []
+      notifications = CfNotification.
+                      where(recipient_id: user.user_id,
+                            oid: message_ids).
+                      where("otype IN ('message:create-answer','message:create-activity', 'message:mention')").
+                      all
+
+      notifications.each do |n|
+        had_one = true
+
+        if (n.otype == 'message:create-answer' and
+            uconf('delete_read_notifications_on_answer') == 'yes') or
+          (n.otype == 'message:create-activity' and
+           uconf('delete_read_notifications_on_activity') == 'yes') or
+          (n.otype == 'message:mention' and
+           uconf('delete_read_notifications_on_mention') == 'yes')
+          to_delete << n.notification_id
+        else
+          to_mark_read << n.notification_id
+        end
+      end
+
+      CfNotification.where(notification_id: to_delete).delete_all unless to_delete.blank?
+      CfNotification.where(notification_id: to_mark_read).update_all(is_read: true) unless to_mark_read.blank?
     end
 
     application_controller.notifications if had_one
