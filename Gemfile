@@ -33,6 +33,7 @@ group :development, :test do
   gem 'spring-commands-rspec'
   gem 'guard-rspec'
   gem 'puma'
+  gem 'active_record_query_trace'
 end
 
 gem 'spring', group: :development
