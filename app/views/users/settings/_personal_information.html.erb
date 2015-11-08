@@ -15,6 +15,16 @@
     </div>
   </div>
 
+  <% if @user.has_badge?('seo_profi') %>
+    <div class="cf-cgroup">
+      <label for="settings_norelnofollow"><%= t('users.settings.norelnofollow') %></label>
+      <div class="cntrls">
+        <%= hidden_field_tag 'settings[norelnofollow]', 'no', id: '' %>
+        <label class="checkbox"><%= check_box_tag 'settings[norelnofollow]', 'yes', @settings.conf('norelnofollow') == 'yes' %></label>
+      </div>
+    </div>
+  <% end %>
+
   <div class="cf-cgroup">
     <label class="control-label" for="settings_flattr"><%= t('users.settings.flattr') %></label>
     <div class="cntrls">

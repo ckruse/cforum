@@ -53,12 +53,13 @@ module RightsHelper
 
     thread = CfThread.
              preload(:forum,
-                     messages: [:owner, :editor, :tags, :thread,
-                                {votes: :voters}]).
-      includes(messages: :owner).
-      where(std_conditions(id, tid)).
-      references(messages: :owner).
-      first
+                     messages: [:editor, :tags, :thread,
+                                {votes: :voters,
+                                 owner: [:settings, :badges]}]).
+             includes(messages: :owner).
+             where(std_conditions(id, tid)).
+             references(messages: :owner).
+             first
 
     raise ActiveRecord::RecordNotFound if thread.blank?
 
