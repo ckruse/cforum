@@ -105,6 +105,7 @@ module ParserHelper
         ncnt << l
       end
 
+      opts[:app] = app
       @doc = Kramdown::Document.new(
         ncnt,
         opts

@@ -17,6 +17,7 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
 
     idx = @block_parsers.index(:setext_header)
     @block_parsers[idx] = :cf_setext_header
+    @app_controller = args.last[:app]
   end
 
   Kernel::silence_warnings {
@@ -83,10 +84,12 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
     super(*args)
     @indent = 0
     @sig_content = nil
-    @config_manager = ConfigManager.new
+    @app = args.last.is_a?(Hash) ? args.last[:app] : nil
+    @config_manager = ConfigManager.new if @app.nil?
   end
 
   def conf(name)
+    return @app.conf(name) if @app
     @config_manager.get(name, nil, nil)
   end
 
