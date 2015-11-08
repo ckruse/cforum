@@ -1380,19 +1380,6 @@ ALTER SEQUENCE search_documents_search_document_id_seq OWNED BY search_documents
 
 
 --
--- Name: search_sections; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE search_sections (
-    search_section_id integer NOT NULL,
-    name text NOT NULL,
-    "position" integer NOT NULL,
-    active_by_default boolean DEFAULT false NOT NULL,
-    forum_id bigint
-);
-
-
---
 -- Name: search_sections_search_section_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -1405,10 +1392,16 @@ CREATE SEQUENCE search_sections_search_section_id_seq
 
 
 --
--- Name: search_sections_search_section_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: search_sections; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER SEQUENCE search_sections_search_section_id_seq OWNED BY search_sections.search_section_id;
+CREATE TABLE search_sections (
+    search_section_id integer DEFAULT nextval('search_sections_search_section_id_seq'::regclass) NOT NULL,
+    name text NOT NULL,
+    "position" integer NOT NULL,
+    active_by_default boolean DEFAULT false NOT NULL,
+    forum_id bigint
+);
 
 
 --
@@ -1803,13 +1796,6 @@ ALTER TABLE ONLY scores ALTER COLUMN score_id SET DEFAULT nextval('scores_score_
 --
 
 ALTER TABLE ONLY search_documents ALTER COLUMN search_document_id SET DEFAULT nextval('search_documents_search_document_id_seq'::regclass);
-
-
---
--- Name: search_section_id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY search_sections ALTER COLUMN search_section_id SET DEFAULT nextval('search_sections_search_section_id_seq'::regclass);
 
 
 --
@@ -2384,13 +2370,6 @@ CREATE INDEX search_documents_tags_idx ON search_documents USING gin (tags);
 --
 
 CREATE INDEX search_documents_title_idx ON search_documents USING gin (ts_title);
-
-
---
--- Name: search_documents_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX search_documents_user_id_idx ON search_documents USING btree (user_id);
 
 
 --
@@ -3250,6 +3229,8 @@ INSERT INTO schema_migrations (version) VALUES ('78');
 INSERT INTO schema_migrations (version) VALUES ('79');
 
 INSERT INTO schema_migrations (version) VALUES ('8');
+
+INSERT INTO schema_migrations (version) VALUES ('80');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
 

@@ -16,7 +16,7 @@ class CfBadge < ActiveRecord::Base
   validates :badge_type, presence: true, allow_blank: false,
             inclusion: { in: %w(custom upvote downvote retag
                                visit_close_reopen create_tag edit_question
-                               edit_answer create_tag_synonym
+                               edit_answer create_tag_synonym seo_profi
                                create_close_reopen_vote moderator_tools) }
   validates :badge_type, uniqueness: true, unless: "badge_type != 'custom'"
   validates :badge_medal_type, presence: true, allow_blank: false,
