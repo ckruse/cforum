@@ -128,7 +128,7 @@ class CfMessagesController < ApplicationController
 
     if current_user
       @message.author   = current_user.username
-    else
+    elsif not @message.author.blank?
       unless CfUser.where('LOWER(username) = LOWER(?)', @message.author.strip).first.blank?
         flash.now[:error] = I18n.t('errors.name_taken')
         invalid = true
