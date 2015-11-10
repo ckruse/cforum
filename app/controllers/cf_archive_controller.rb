@@ -68,6 +68,8 @@ class CfArchiveController < ApplicationController
     months = [nil, 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
     month_num = months.index(params[:month])
 
+    raise ActiveRecord::RecordNotFound if month_num.nil?
+
     @page  = params[:page].to_i
     @limit = uconf('pagination').to_i
 
