@@ -16,7 +16,7 @@ module MessageHelper
       show_icons: false, do_parent: false,
       tree: true, id: true, hide_repeating_subjects: false,
       show_editor: false, id_prefix: nil, active_message: @message,
-      subject: true, tags: true}.merge(opts)
+      subject: true, tags: true, author_link_to_message: true}.merge(opts)
 
     classes = ['message']
     classes += message.attribs['classes']
@@ -188,7 +188,15 @@ module MessageHelper
         html << '<span class="icon-message original-poster" title="' << t('messages.original_poster') << '"> </span>'
       end
     end
-    html << cf_link_to(message.author, cf_message_path(thread, message))
+
+    if opts[:author_link_to_message]
+      html << cf_link_to(message.author, cf_message_path(thread, message))
+    elsif message.user_id
+      html << cf_link_to(message.author, user_path(message.user_id))
+    else
+      html << message.author
+    end
+
     html << '</span>' if message.user_id
 
     if not opts[:tree] and not thread.archived? and (not message.email.blank? or not message.homepage.blank?)
