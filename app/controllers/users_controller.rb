@@ -49,7 +49,7 @@ class UsersController < ApplicationController
     @settings.options ||= {}
     @user_score = CfScore.where(user_id: @user.user_id).sum('value')
 
-    @messages_count = CfMessage.where(user_id: @user.user_id).count()
+    @messages_count = CfMessage.where(user_id: @user.user_id, deleted: false).count()
 
     sql = CfForum.visible_sql(current_user)
 
