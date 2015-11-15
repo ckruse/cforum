@@ -56,6 +56,19 @@ class CfForumsController < ApplicationController
       end
 
       @new_threads = cnt.length
+
+      @mails = CfPrivMessage.where(owner_id: current_user.user_id,
+                                   is_read: false).
+               order(created_at: :desc).
+               limit(5).
+               all
+      @mails_cnt = CfPrivMessage.where(owner_id: current_user.user_id,
+                                       is_read: false).
+                   count
+
+      @notifications = CfNotification.where(recipient_id: current_user.user_id,
+                                            is_read: false).
+                       order(created_at: :desc).all
     end
 
     notification_center.notify(SHOW_FORUMLIST, @counts, @activities)
