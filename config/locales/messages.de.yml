@@ -26,12 +26,13 @@ de:
     editing_not_allowed_with_answer: Das Editieren von Beiträgen, die bereits eine Antwort erhalten haben, ist verboten.
     editing_not_allowed_should_we_create_followup: Sie können diesen Beitrag nicht editieren. Möchten Sie stattdessen eine Antwort erstellen?
     edit_message: Beitrag bearbeiten
-    edited_by: editiert von
+    
     no_tag_suggestions: Keine Tag-Vorschläge verfügbar
     tag_suggestions: Tag-Vorschläge
     tags: Tags
     comma_separated_list: Komma-separierte Liste
 
+    versions: Versionen
     message_versions: Versionen dieses Beitrags
 
     new_answer: antworten
