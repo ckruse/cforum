@@ -231,10 +231,11 @@ end
           <nav>
             <% if @has_subnav and not subnav.blank? %>
               <%= subnav %>
-            <% end %>
+            <% else %>
 
             <ul>
               <% if current_forum %>
+                <li><%= cf_link_to t('forums.all_forums') %></li>
                 <li><%= cf_link_to current_forum.name, cf_threads_path(current_forum) %></li>
               <% end %>
 
@@ -333,6 +334,7 @@ end
                 <li id="audit"><%= cf_link_to t('admin.audit.audit_log'), admin_audit_path %></li>
               <% end %>
             </ul>
+            <% end %>
           </nav>
 
           <aside>
