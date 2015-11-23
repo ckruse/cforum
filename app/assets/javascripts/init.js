@@ -43,7 +43,7 @@ cforum = {
 
   common: {
     init: function() {
-      var isSupported = (("WebSocket" in window && window.WebSocket != undefined) ||
+      var isSupported = (("WebSocket" in window && window.WebSocket !== undefined) ||
                          ("MozWebSocket" in window));
 
       if(uconf('use_javascript_notifications') != 'no' && isSupported) {
