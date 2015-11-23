@@ -35,6 +35,7 @@ de:
     own_votings: Bewertungsverlauf
     badges: Medaillen
     no_badges_so_far: bisher keine Medaillen
+    no_at_in_name: darf kein „@“ enthalten.
 
     confirm_first: Sie müssen Ihr Profil erst bestätigen.
 
