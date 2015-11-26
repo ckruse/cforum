@@ -6,8 +6,6 @@
   right:0;
   top:2em;
   z-index:9999;
-  padding-left:2em;
-  padding-right:2em;
   width:auto;
 }
 
@@ -61,9 +59,10 @@
   opacity: 0.2;
 }
 
-@media only screen and (max-width: 320px), only screen and (max-width: 480px) {
+@media only screen and (min-width: 35em) {
   #alerts-container {
-    padding: 1em .5em;
+    padding-left:2em;
+    padding-right:2em;
   }
 }
 

@@ -57,7 +57,6 @@ label {
 a, a:hover, a:focus, a:active {
   font-weight: normal;
   text-decoration: none;
-  transition: all .2s ease-in-out 0s;
   border: 0 none;
 
   img {
@@ -65,65 +64,20 @@ a, a:hover, a:focus, a:active {
   }
 }
 a:link, a:visited { 
-  color: #3481cd; 
+  color: #3481cd;
 }
 a:hover, a:focus , a:active,
-button:hover, button:focus, button:active { 
-  color: #990909; 
+button:hover, button:focus, button:active {
+  color: #990909;
 }
-input { 
-  margin: .5em .5em .2em 0; 
+input {
+  margin: .5em .5em .2em 0;
 }
 
 .hidden, .btn.hidden, .cf-btn.hidden, .cf-primary-btn.hidden {
   display:none;
 }
 
-.flex-container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-content: stretch;
-  align-items: stretch;
-
-  main.flex-item {
-    order: 3;
-    flex: 1 0 auto;
-    align-self: auto;
-  }
-
-  header.flex-item {
-    order: -1;
-    flex: 0 1 auto;
-    align-self: auto;
-  }
-
-  div.flex-item {
-    padding-left: 2em;
-    order: -1;
-    flex: 0 1 auto;
-    align-self: auto;
-  }
-
-  }
-
-.flex-container-inner {
-  display: flex;
-  align-items: flex-start;
-}
-
-/*
-    Legacy Firefox implementation treats all flex containers
-    as inline-block elements.
-*/
-
-@-moz-document url-prefix() {
-  .flex-container, .flex-container-inner {
-    width: 100%;
-    -moz-box-sizing: border-box;
-  }
-}
 
 .block {
   display: block;
@@ -188,35 +142,108 @@ aside {
   margin-bottom: 1.5em;
 }
 
-/* smartphones */
-@media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
-  .flex-container {
-    main.flex-item { order: 3; }
-    nav.flex-item {
-      order: 2;
-      padding-left:.5em;
-      padding-right:.5em;
-    }
-    aside.flex-item {
-      order: 4;
-      padding-left: .5em;
-      padding-right: .5em;
-      margin-top:0.2em;
-    }
 
-    div.flex-item {
-      padding-left:.5em;
-      padding-right:.5em;
-    }
+.flex-container {
+  display:flex;
+  flex-flow:row wrap;
 
-    .flex-container-inner { display: block; }
+  .flex-item {
+    margin-left:.5em;
+    margin-right:.5em;
   }
 
-  a, a:hover, a:focus, a:active {
-    transition:none;
+  header.flex-item {
+    order: -1;
+    flex:1 100%;
+    margin:0;
+  }
+  ul.personallinks.flex-item {
+    flex:1 100%;
+    order:1;
+  }
+
+  div.flex-item.logo {
+    order: 0;
+    flex:1 100%;
+  }
+  main.flex-item {
+    order:4;
+    flex:1 100%;
+  }
+
+  div.flex-item.nav {
+    order:2;
+    flex:1 100%;
+  }
+
+  aside.flex-item {
+    flex:1 100%;
+    order:4;
+    display:block;
   }
 }
 
+@media only screen and (min-width: 35em) {
+  .flex-container {
+    display: flex;
+    flex-flow: row wrap;
+
+    .flex-item {
+      margin-left:2em;
+      margin-right:1em;
+    }
+
+    header.flex-item {
+      order: -1;
+      flex: 1 100%;
+    }
+
+    ul.personallinks.flex-item {
+      order:0;
+    }
+
+    div.flex-item.logo {
+      flex:0 160px;
+      order:1;
+      box-sizing:border-box;
+    }
+
+    aside.flex-item {
+      order:2;
+    }
+
+    main.flex-item {
+      order: 3;
+      flex: 1 100%;
+      align-self: auto;
+    }
+
+    div.flex-item.nav {
+      flex:1 calc(29em - 160px);
+      margin-top:.5em;
+      margin-left:0;
+      box-sizing:border-box;
+    }
+  }
+
+  /*
+   * Legacy Firefox implementation treats all flex containers
+   * as inline-block elements.
+   */
+
+  @-moz-document url-prefix() {
+    .flex-container, .flex-container-inner {
+      width: 100%;
+      -moz-box-sizing: border-box;
+    }
+  }
+
+  a, a:hover,
+  a:focus,
+  a:active {
+    transition: all .2s ease-in-out 0s;
+  }
+}
 
 
 /* eof */

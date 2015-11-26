@@ -35,35 +35,6 @@ content_for :body_classes, 'forums'
     </tr>
   </thead>
 
-  <tfoot>
-    <%
-    msg = nil
-    if not aggregated[:last_change].blank?
-      msg = aggregated[:last_change]
-    end
-    %>
-    <tr<% if msg and not msg.attribs['classes'].blank? %> class="<%= msg.attribs['classes'].join(" ") %>"<% end %>>
-      <th data-label="<%= t('global.forum') %>"><%= cf_link_to t('forums.all_forums'), cf_forum_path('all') %></th>
-      <th data-label="<%= t('global.threads') %>" class="nummeric"><%= number_with_delimiter(aggregated[:threads]) %></th>
-      <th data-label="<%= t('global.messages') %>" class="nummeric"><%= number_with_delimiter(aggregated[:messages]) %></th>
-      <th data-label="<%= t('global.last_change') %>"<% if msg.blank? %> colspan="3" class="no-data"<% end %>>
-        <% if msg.blank?  %><%= ('<em>' + t('global.never') + '</em>').html_safe %>
-        <% else %><%= l(msg.updated_at, format: date_format) %>
-        <% end %>
-      </th>
-      <% unless msg.blank? %>
-        <th data-label="<%= t('global.author') %>">
-          <% if msg.user_id %>
-            <%= cf_link_to(image_tag(msg.owner.avatar(:thumb), class: 'avatar') + msg.author, user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username), class: 'user-link') %>
-          <% else %>
-              <%= msg.author %>
-          <% end %>
-        </th>
-        <th data-label="<%= t('global.subject') %>"><%= cf_link_to msg.subject, cf_message_path(msg.thread, msg) %></th>
-      <% end %>
-    </tr>
-  </tfoot>
-
   <tbody>
     <% @forums.each do |forum| %>
       <% msg = @activities[forum.forum_id] %>
@@ -91,6 +62,35 @@ content_for :body_classes, 'forums'
       </tr>
     <% end %>
   </tbody>
+
+  <tfoot>
+    <%
+    msg = nil
+    if not aggregated[:last_change].blank?
+      msg = aggregated[:last_change]
+    end
+    %>
+    <tr<% if msg and not msg.attribs['classes'].blank? %> class="<%= msg.attribs['classes'].join(" ") %>"<% end %>>
+      <th data-label="<%= t('global.forum') %>"><%= cf_link_to t('forums.all_forums'), cf_forum_path('all'), class: 'block' %></th>
+      <th data-label="<%= t('global.threads') %>" class="nummeric"><%= number_with_delimiter(aggregated[:threads]) %></th>
+      <th data-label="<%= t('global.messages') %>" class="nummeric"><%= number_with_delimiter(aggregated[:messages]) %></th>
+      <th data-label="<%= t('global.last_change') %>"<% if msg.blank? %> colspan="3" class="no-data"<% end %>>
+        <% if msg.blank?  %><%= ('<em>' + t('global.never') + '</em>').html_safe %>
+        <% else %><%= l(msg.updated_at, format: date_format) %>
+        <% end %>
+      </th>
+      <% unless msg.blank? %>
+        <th data-label="<%= t('global.author') %>">
+          <% if msg.user_id %>
+            <%= cf_link_to(image_tag(msg.owner.avatar(:thumb), class: 'avatar') + msg.author, user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username), class: 'user-link') %>
+          <% else %>
+            <%= msg.author %>
+          <% end %>
+        </th>
+        <th data-label="<%= t('global.subject') %>"><%= cf_link_to msg.subject, cf_message_path(msg.thread, msg), class: 'block' %></th>
+      <% end %>
+    </tr>
+  </tfoot>
 </table>
 
 <img src="//www.browser-statistik.de/browser.png?style=0"

@@ -10,10 +10,6 @@ input:-moz-placeholder { color: #c5c5c5; }
 ::-moz-placeholder { color: #c5c5c5; }
 ::-ms-input-placeholder { color: #c5c5c5; }
 
-th.nummeric, td.nummeric {
-  text-align:right;
-}
-
 th.no-data, td.no-data {
   text-align:center;
 }
@@ -35,8 +31,12 @@ th.no-data, td.no-data {
 }
 
 
-@media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
-  th.nummeric, td.nummeric { text-align:left; }
+@media only screen and (min-width: 35em) {
+  th.nummeric, td.nummeric,
+  .cf-default-table th.nummeric, .cf-default-table td.nummeric,
+  .cf-default-table.responsive th.nummeric, .cf-default-table.responsive td.nummeric {
+    text-align:right;
+  }
 }
 
 /* eof */

@@ -92,12 +92,7 @@ function autohideAlerts() {
 $(function() {
   setDismissHandlers();
   $("form").dependentQuestions();
-
-  $("#forum-list select").on('change', function() {
-    if($(this).val() != "") {
-      $("#forum-list").submit();
-    }
-  });
+  $(".dropdown").dropdown();
 
   autohideAlerts();
   $("textarea").tabEnable();

@@ -1,7 +1,7 @@
 /* -*- coding: utf-8 -*- */
 
 footer {
-  margin: 2em;
+  margin:1em;
   border-top: 2px solid #c4d4da;
   padding-top: .5em;
 
@@ -11,18 +11,8 @@ footer {
     padding: 0;
   }
 
-  li { 
-    display: inline; 
-
-    &:not(:first-child) {
-      border-left: 2px solid #c4d4da;
-      padding-left: .2em;
-    }
-  }
-
   .termitel-sponsor {
-    margin-top:-1.5em;
-    float:right;
+    margin-top:0.5em;
     margin-bottom:1em;
     font-size:0.8em;
   }
@@ -36,23 +26,24 @@ footer {
   }
 }
 
-@media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
+@media only screen and (min-width : 35em) {
   footer {
-    margin:1em;
+    margin: 2em 1em 2em 2em;
 
     li {
-      display:block;
+      display: inline;
 
       &:not(:first-child) {
-        border:0;
-        padding-left:0;
+        border-left: 2px solid #c4d4da;
+        padding-left: .2em;
       }
     }
 
     .termitel-sponsor {
-      float:none;
-      margin-top:0.5em;
+      margin-top:-1.5em;
+      float:right;
     }
+
   }
 }
 

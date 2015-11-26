@@ -54,7 +54,7 @@ a.thread-forum-plate:active {
   }
 
   & > header > .thread-icons {
-    position:sticky;
+    position:static;
     right:1em;
     float:right;
   }
@@ -302,12 +302,12 @@ a.thread-forum-plate:hover {
     color: #990909;
 }
 
-
-
-@media only screen and (max-width : 320px), only screen and  (max-width : 480px) {
+@media only screen and (min-width: 35em) {
   .thread > header > .thread-icons {
-    position:static;
+    position:sticky;
   }
 }
+
+
 
 /* eof */

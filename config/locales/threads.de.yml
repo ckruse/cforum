@@ -1,6 +1,6 @@
 de:
   threads:
-    threadlist: Forum %{name}
+    threadlist: "%{name}"
     threadlist_all: alle Foren
     threadlist_title: Übersicht
     threads_forum: aktuelle Beiträge im Forum %{name}
@@ -14,7 +14,7 @@ de:
     unstickied: Der Thread wurde erfolgreich gelöst.
     mark_sticky: als angepinnt markieren
     mark_unsticky: nicht länger als angepinnt markieren
-    write_new_thread: neuen Beitrag verfassen
+    write_new_thread: neuer Beitrag
     archive: archivierte Beiträge
     no_archive: Dieser Thread wird nicht archiviert.
     is_sticky: Der Thread ist angepinnt.

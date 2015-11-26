@@ -78,7 +78,7 @@ module CForum
       root_path + forum
     end
 
-    def cf_forum_path(forum, args = {})
+    def cf_forum_path(forum = nil, args = {})
       _cf_forum_path(forum) + query_string(args)
     end
 

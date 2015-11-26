@@ -1,6 +1,6 @@
 de:
   layout:
-    home: Hauptseite
+    home: Übersicht
     mail: Post
     administration: Verwaltung
     chat: Chat
@@ -29,7 +29,6 @@ de:
     flattr_author: "Dem Autor danken:"
     thread_view: Thread-Ansicht
     nested_view: Nested-Ansicht
-    contact_us: 'Für Anregungen, Fehlermeldungen oder Kritik sende bitte eine E-Mail an <a href="mailto:%{email}">%{email}</a> oder <a href="https://github.com/ckruse/cforum">öffne eine Issue auf Github</a>.'
     quicklinks: Quicklinks
     sort_ascending: aufsteigend sortieren
     sort_descending: absteigend sortieren
