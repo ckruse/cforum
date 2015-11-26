@@ -64,6 +64,7 @@ module CforumMarkup
         directive = doc[1]
         content = ''
         no_end = true
+        colon = doc.matched[-1] == ':' ? ':' : ''
 
         doc.skip(/\s/)
 
@@ -81,14 +82,14 @@ module CforumMarkup
 
         # empty directive
         if content.blank?
-          ncnt << "[#{directive}:"
+          ncnt << "[#{directive}#{colon}"
           doc.pos = save
           next
         end
 
         # unterminated directive
         if doc.eos? and no_end
-          ncnt << "[#{directive}:"
+          ncnt << "[#{directive}#{colon}"
           doc.pos = save
           next
         end
@@ -97,7 +98,7 @@ module CforumMarkup
         when 'link', 'ref'
           val = cforum_gen_link(directive, content)
           if val.blank?
-            ncnt << "[#{directive}:"
+            ncnt << "[#{directive}#{colon}"
             doc.pos = save
             next
           end
