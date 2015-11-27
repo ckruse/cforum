@@ -118,7 +118,7 @@ end
         </div>
       </main>
 
-      <header class="flex-item">
+      <header class="top flex-item">
         <div id="top">
           <ul class="selflinks">
             <li><%= cf_link_to "SELFHTML", "//selfhtml.org/" %></li>
@@ -163,35 +163,36 @@ end
         <% end %>
       </ul>
 
-      <div class="flex-item logo">
-        <h1><span>selfhtml-Forum - Ergänzung zur <%= cf_link_to "Dokumentation", "http://wiki.selfhtml.org" %></span><%= cf_link_to '', root_path, class: 'home' %></h1>
-        <%= cf_link_to(image_tag('feed-rss.png',
-                                 alt: t("layout.rss_feed",
-                                        forum: current_forum ?
-                                        t('layout.forum', name: current_forum.name) :
-                                        t('layout.all_forums'))),
-                       cf_forum_url(current_forum, format: :rss),
-                       title: t("layout.rss_feed",
-                                forum: current_forum ?
-                                t('layout.forum', name: current_forum.name) :
-                                t('layout.all_forums')),
-                       class: 'rss') %>
+      <header class="flex-container flex-item page-header">
 
-        <%= cf_link_to(image_tag('feed-atom.png',
-                                 alt: t("layout.atom_feed",
-                                        forum: current_forum ?
-                                        t('layout.forum', name: current_forum.name) :
-                                        t('layout.all_forums'))),
-                       cf_forum_url(current_forum, format: :atom),
-                       title: t("layout.atom_feed",
-                                forum: current_forum ?
-                                t('layout.forum', name: current_forum.name) :
-                                t('layout.all_forums')),
-                       class: 'atom') %>
-      </div>
+        <div class="flex-item logo">
+          <h1><span>selfhtml-Forum - Ergänzung zur <%= cf_link_to "Dokumentation", "http://wiki.selfhtml.org" %></span><%= cf_link_to '', root_path, class: 'home' %></h1>
+          <%= cf_link_to(image_tag('feed-rss.png',
+                                  alt: t("layout.rss_feed",
+                                          forum: current_forum ?
+                                          t('layout.forum', name: current_forum.name) :
+                                          t('layout.all_forums'))),
+                        cf_forum_url(current_forum, format: :rss),
+                        title: t("layout.rss_feed",
+                                  forum: current_forum ?
+                                  t('layout.forum', name: current_forum.name) :
+                                  t('layout.all_forums')),
+                        class: 'rss') %>
 
-      <div class="flex-item nav">
-        <nav class="quicklinks">
+          <%= cf_link_to(image_tag('feed-atom.png',
+                                  alt: t("layout.atom_feed",
+                                          forum: current_forum ?
+                                          t('layout.forum', name: current_forum.name) :
+                                          t('layout.all_forums'))),
+                        cf_forum_url(current_forum, format: :atom),
+                        title: t("layout.atom_feed",
+                                  forum: current_forum ?
+                                  t('layout.forum', name: current_forum.name) :
+                                  t('layout.all_forums')),
+                        class: 'atom') %>
+        </div>
+
+        <nav class=" flex-item quicklinks">
           <ul>
             <li><%= cf_link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
             <li><%= cf_link_to t('layout.home'), root_url %></li>
@@ -215,7 +216,7 @@ end
           </ul>
         </nav>
 
-        <nav>
+        <nav class="flex-item subnav">
           <% if @has_subnav and not subnav.blank? %>
             <%= subnav %>
           <% end %>
@@ -321,8 +322,9 @@ end
             <% end %>
           </ul>
         </nav>
-      </div>
 
+      </header>
+      
       <% if not @motds.blank? or content_for?(:aside) %>
         <aside class="flex-item">
           <% if not @motds.blank? %>

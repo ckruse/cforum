@@ -4,58 +4,69 @@
   padding-right:0;
 
   &.js {
-    .menu {
-      padding:0 0 1em;
-      margin:0;
-      border:1px solid #D5D5D5;
-      border-top:0;
-      position: absolute;
-      background-color: #F1F3F4;
-      display: none;
-    }
-
-    &:focus .menu {
-      display: block;
+   .menu {
+      padding:0 0 .5em;
+      margin:.45em 0 0;
     }
 
     li {
-      padding:0 1em;
+      padding: .5em 1em 0;
       display: block;
     }
   }
 
-  .anchor {
-    display: none;
-    color:#3481cd;
+  
+  
+}
 
-    &.visible {
-      display: block;
-      cursor:pointer;
+@media only screen and (min-width: 35em) {
+
+  .dropdown {
+    padding-right:0;
+
+    &.js {
+     .menu {
+        padding:0 0 .5em;
+        margin:.45em 0 0;
+        border:1px solid #D5D5D5;
+        border-top:0;
+        border-radius: 0 0 .5em .5em;
+        position: absolute;
+        background-color: #F1F3F4;
+        display: none;
+       }
+
+      &:focus .menu {
+        display: block;
+      }
+
+      li {
+        padding: .5em 1em 0;
+        display: block;
+      }
     }
-    &.visible::after {
+
+    .anchor {
+      display: none;
+      color:#3481cd;
+
+      &.visible {
+        display: block;
+        cursor:pointer;
+      }
+      &.visible::after {
       content:"▼";
       font-size:0.8em;
       padding-left:.5em;
+      }
     }
+    li {
+      margin:0;
+      padding-top:0;
+      padding-bottom:0;
+      font-size: 1em;
+     }
   }
-  li {
-    margin:0;
-    padding-top:0;
-    padding-bottom:0;
-    font-size: 1em;
-  }
 }
-
-.dropdown .anchor:hover,
-.dropdown.js:focus .anchor {
-  color: #990909;
-}
-
-.dropdown .anchor,
-.dropdown .anchor:hover,
-.dropdown:hover .anchor {
-  transition: all .2s ease-in-out 0s;
-}
-
 
 /* eof */

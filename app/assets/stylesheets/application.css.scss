@@ -148,31 +148,21 @@ aside {
   flex-flow:row wrap;
 
   .flex-item {
-    margin-left:.5em;
-    margin-right:.5em;
+    margin: .5em;
   }
 
-  header.flex-item {
-    order: -1;
+  .top.flex-item {
+    order: 1;
     flex:1 100%;
     margin:0;
   }
-  ul.personallinks.flex-item {
+  .personallinks.flex-item {
     flex:1 100%;
-    order:1;
-  }
-
-  div.flex-item.logo {
-    order: 0;
-    flex:1 100%;
-  }
-  main.flex-item {
-    order:4;
-    flex:1 100%;
-  }
-
-  div.flex-item.nav {
     order:2;
+  }
+
+  .page-header.flex-item {
+    order: 3;
     flex:1 100%;
   }
 
@@ -181,48 +171,55 @@ aside {
     order:4;
     display:block;
   }
+
+  main.flex-item {
+    order:5;
+    flex:1 100%;
+  }
+
+  .logo.flex-item {
+    order: 1;
+    flex:1 100%;
+    margin: 0 0 1em 0;
+  }
+  
+  .quicklinks.flex-item {
+    order:2;
+    flex:1 100%;
+    margin: 0 0 1em 0;
+  }
+
+  .subnav.flex-item {
+    order:3;
+    flex:1 100%;
+    margin: 0;
+  }
 }
 
 @media only screen and (min-width: 35em) {
   .flex-container {
-    display: flex;
-    flex-flow: row wrap;
 
     .flex-item {
-      margin-left:2em;
-      margin-right:1em;
+      margin: .5em 2em;
     }
 
-    header.flex-item {
-      order: -1;
-      flex: 1 100%;
+    .quicklinks.flex-item {
+      order: 1
     }
-
-    ul.personallinks.flex-item {
-      order:0;
-    }
-
-    div.flex-item.logo {
+    .logo.flex-item {
       flex:0 160px;
-      order:1;
+      order:2;
       box-sizing:border-box;
+      margin: 0 1em 0 0;
     }
 
-    aside.flex-item {
-      order:2;
+    .subnav.flex-item {
+      flex:1 calc(29em - 160px);
+      box-sizing:border-box;
     }
 
     main.flex-item {
-      order: 3;
-      flex: 1 100%;
       align-self: auto;
-    }
-
-    div.flex-item.nav {
-      flex:1 calc(29em - 160px);
-      margin-top:.5em;
-      margin-left:0;
-      box-sizing:border-box;
     }
   }
 
@@ -232,7 +229,7 @@ aside {
    */
 
   @-moz-document url-prefix() {
-    .flex-container, .flex-container-inner {
+    .flex-container {
       width: 100%;
       -moz-box-sizing: border-box;
     }
@@ -245,5 +242,32 @@ aside {
   }
 }
 
+@media only screen and (min-width: 65em) {
+  .flex-container {
+
+    .page-header.flex-container {
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .logo.flex-item {
+      order:1;
+      box-sizing:border-box;
+    }
+
+    .quicklinks.flex-item {
+      order: 2;
+      flex:1 1 calc(60em - 160px);
+      box-sizing:border-box;
+    }
+
+    .subnav.flex-item {
+      position: absolute;
+      left: calc(1em + 160px);
+      bottom: 0;
+      box-sizing:border-box;
+    }
+  }
+}
 
 /* eof */
