@@ -43,14 +43,13 @@ a.thread-forum-plate:active {
   border: 1px solid #D5D5D5;
   border-bottom:0;
   border-radius: 0px 0.5em 0.5em;
-  min-width: 44em;
   padding: .35em 1em 0 .5em;
   border: 1px solid #d5d5d5;
 
   & > ol { 
     border-radius: 0 0 .5em .5em;
     margin: 0 -1em 0 -.5em;
-    padding: .25em 1.5em .5em 4.5em;
+    padding: .25em 1.5em .5em 1em;
   }
 
   & > header > .thread-icons {
@@ -202,6 +201,42 @@ a.thread-forum-plate:active {
 }
 /* end Posting-Linien */
 
+
+.root {
+  .thread header .votes,
+  .thread header .num-infos,
+  .thread header .details > a,
+  .thread header .details > .cf-tags-list,
+  .thread-forum-plate {
+    display: none;
+  }
+
+  .thread header {
+    white-space: normal;
+  }
+
+  .thread ol header author {
+    padding-left: .3em;
+  }
+
+  .thread > ol header {
+    white-space: nowrap;
+  }
+
+  h3 > a, .author { text-decoration: underline; }
+}
+
+.root .visited > h3 > a,
+.visited > .details > .author {
+  text-decoration: none;
+}
+
+.thread li ol {
+  padding-left: 1.5em;
+}
+
+
+
 /* Links im Threadbaum */
 
 .thread {
@@ -306,6 +341,36 @@ a.thread-forum-plate:hover {
   .thread > header > .thread-icons {
     position:sticky;
   }
+
+  .root {
+    .thread header .votes,
+    .thread header .num-infos {
+      display:inline-block;
+    }
+
+    .thread header .details > a,
+    .thread header .details > .cf-tags-list,
+    .thread-forum-plate {
+      display: inline;
+    }
+
+    .thread header {
+      white-space: nowrap;
+    }
+
+    .thread ol header author {
+      padding-left: 0;
+    }
+
+    h3 > a, .author { text-decoration:none; }
+
+    &, .thread { min-width:54.5em; }
+  }
+
+  .thread li ol { padding-left: 2.5em; }
+  .thread { min-width: 44em; }
+  .thread > ol { padding-left:4.5em; }
+
 }
 
 
