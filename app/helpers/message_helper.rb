@@ -245,10 +245,10 @@ module MessageHelper
                                                           class: 'version-link')
 
       if message.editor_id.blank?
-        html << " <span class=\editor\">".html_safe << cf_link_to(message.edit_author,
-                                                                  versions_cf_message_path(thread, message),
-                                                                  rel: 'no-follow',
-                                                                  class: 'version-link') << "</span> ".html_safe
+        html << " <span class=\"editor\">".html_safe << cf_link_to(message.edit_author,
+                                                                   versions_cf_message_path(thread, message),
+                                                                   rel: 'no-follow',
+                                                                   class: 'version-link') << "</span> ".html_safe
       else
         html << " <span class=\"registered-user editor\">".html_safe <<
           cf_link_to(image_tag(message.editor.avatar(:thumb), class: 'avatar'),
