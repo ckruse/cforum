@@ -154,8 +154,10 @@ end
             (<span class="mails new" id="mails"
                    title="<%= t("mails.new_mails_num",
                                 count: @new_mails.length) %>"><%= @new_mails.length %></span>)</li>
+          <li id="optionen-help"><%= cf_link_to(t('help.help'), help_path) %></li>
           <li id="optionen-logout"><%= cf_link_to(t('layout.logout'), destroy_user_session_path, method: :delete) %></li>
         <% else %>
+          <li id="optionen-help"><%= cf_link_to(t('help.help'), help_path) %></li>
           <li id="optionen-my"><%= cf_link_to(t('layout.login'), new_user_session_path, rel: 'nofollow') %></li>
           <li id="optionen-myadmin"><%= cf_link_to(t("layout.register"), new_user_registration_path, rel: 'nofollow') %></li>
         <% end %>

@@ -48,6 +48,8 @@ Cforum::Application.routes.draw do
 
   post 'preview' => 'cf_messages#preview'
 
+  get 'help' => 'pages#help', as: :help
+
   namespace 'admin' do
     resources :users, controller: :cf_users, except: :show
     resources :groups, controller: :cf_groups, except: :show
