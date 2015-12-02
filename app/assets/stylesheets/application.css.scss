@@ -244,28 +244,14 @@ aside {
 
 @media only screen and (min-width: 65em) {
   .flex-container {
+    .flex-container {
+      display:block;
 
-    .page-header.flex-container {
-      align-items: flex-start;
-      position: relative;
-    }
-
-    .logo.flex-item {
-      order:1;
-      box-sizing:border-box;
-    }
-
-    .quicklinks.flex-item {
-      order: 2;
-      flex:1 1 calc(60em - 160px);
-      box-sizing:border-box;
-    }
-
-    .subnav.flex-item {
-      position: absolute;
-      left: calc(1em + 160px);
-      bottom: 0;
-      box-sizing:border-box;
+      .flex-item { flex:0; }
+      .logo { float:left; }
+      .quicklinks, .subnav {
+        margin-left:calc(160px + 1em);
+      }
     }
   }
 }
