@@ -226,8 +226,6 @@ end
               <li><%= cf_link_to current_forum.name, cf_threads_path(current_forum) %></li>
             <% end %>
 
-            <li><%= cf_link_to t('users.users'), users_path %></li>
-
             <% if @message and @thread and not @thread.new_record? %>
               <% if @read_mode != 'thread-view' %>
                 <li><%= cf_link_to(t('layout.thread_view'),
@@ -272,10 +270,7 @@ end
               <li><%= cf_link_to t('layout.administration'), admin_users_path %></li>
             <% end %>
 
-            <li><%= cf_link_to t('badges.badges'), cf_badges_path %></li>
-
             <% if current_forum %>
-              <li id="optionen-tags"><%= cf_link_to t("tags.tags"), tags_path(current_forum.slug) %></li>
               <li id="link-archiv"><%= cf_link_to t("threads.archive"), cf_archive_path(current_forum.slug) %></li>
             <% end %>
 
