@@ -86,7 +86,7 @@ cforum.cf_messages = {
   },
 
   show: function() {
-    if(uconf('fold_read_nested') == 'yes') {
+    if(uconf('fold_read_nested') == 'yes' && !cforum.viewAll) {
       var nodes = $(".thread-nested:not(.archived) .message.visited:not(.active)").parent();
       nodes.addClass('folded');
 
