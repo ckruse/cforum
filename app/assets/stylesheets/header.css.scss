@@ -117,7 +117,6 @@ nav {
   ul {
     margin-left:0;
     padding:0;
-    display:inline;
 
     li {
       display: inline-block;
@@ -241,6 +240,7 @@ nav.quicklinks {
   }
 
   nav.quicklinks {
+    ul { display: inline; }
     li {
       display: inline-block;
       margin-right: 1em;
