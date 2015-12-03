@@ -270,7 +270,6 @@ end
 
             <% if current_user and current_user.admin %>
               <li><%= cf_link_to t('layout.administration'), admin_users_path %></li>
-              <li><%= cf_link_to t('images.images'), images_path %></li>
             <% end %>
 
             <li><%= cf_link_to t('badges.badges'), cf_badges_path %></li>
@@ -315,10 +314,6 @@ end
               <% else %>
                 <li id="admin-view"><%= cf_link_to t("forums.admin_view"), path %></li>
               <% end %>
-            <% end %>
-
-            <% if current_user.try(:admin?) %>
-              <li id="audit"><%= cf_link_to t('admin.audit.audit_log'), admin_audit_path %></li>
             <% end %>
           </ul>
         </nav>
