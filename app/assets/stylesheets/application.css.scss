@@ -28,8 +28,8 @@ body {
   color: #333333;
   background: white;
 }
-h1, h2, h3, h4, h5, h6 { 
-  font-weight: normal; 
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
 }
 h2 {
   font-size: 1.25em;
@@ -37,21 +37,21 @@ h2 {
   padding: .7em 0 0;
   margin: 1em 0em;
 }
-h3 { 
+h3 {
   font-size: 1em;
 }
-body > p { 
-  margin: 1em 2em; 
+body > p {
+  margin: 1em 2em;
 }
 code, kbd {
   font-family: Consolas, Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Andale Mono', 'Droid Sans Mono', 'Lucida Console', monospace;
   color: #0000C0;
 }
-label { 
-  font-weight: bold; 
+label {
+  font-weight: bold;
 
   .normal {
-    font-weight: normal; 
+    font-weight: normal;
   }
 }
 a, a:hover, a:focus, a:active {
@@ -63,7 +63,7 @@ a, a:hover, a:focus, a:active {
     border: 0 none;
   }
 }
-a:link, a:visited { 
+a:link, a:visited {
   color: #3481cd;
 }
 a:hover, a:focus , a:active,
@@ -165,7 +165,7 @@ blockquote { margin: 1em 0; }
     flex:1 100%;
     margin: 0 0 1em 0;
   }
-  
+
   .quicklinks.flex-item {
     order:2;
     flex:1 100%;
