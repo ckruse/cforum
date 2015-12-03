@@ -42,36 +42,62 @@ class CfForumsController < ApplicationController
       @activities[msg.forum_id] = msg
     end
 
-    unless current_user.blank?
-      cnt = CfMessage.select('thread_id, count(*) AS cnt').
-            joins("LEFT JOIN read_messages ON read_messages.message_id = messages.message_id AND read_messages.user_id = " + current_user.user_id.to_s).
-            where('forum_id IN (?) AND read_messages.message_id IS NULL AND messages.created_at > ? AND deleted = false',
-                  @forums.map { |f| f.forum_id }, current_user.last_sign_in_at).
-            group(:thread_id).all
+    aggregate_activities
 
-      @new_messages = 0
+    gather_portal_infos unless current_user.blank?
+    notification_center.notify(SHOW_FORUMLIST, @counts, @activities)
+  end
 
-      cnt.each do |c|
-        @new_messages += c.cnt
+  def aggregate_activities
+    @aggregated = {threads: 0, messages: 0, last_change: nil}
+    @forums.each do |f|
+      @aggregated[:threads] += @counts[f.forum_id][:threads].to_i
+      @aggregated[:messages] += @counts[f.forum_id][:messages].to_i
+
+      if @activities[f.forum_id] and (@aggregated[:last_change].blank? or @aggregated[:last_change].updated_at < @activities[f.forum_id].updated_at)
+        @aggregated[:last_change] = @activities[f.forum_id]
       end
+    end
+  end
 
-      @new_threads = cnt.length
+  def gather_portal_infos
+    @new_msgs = CfMessage.
+                preload(:owner, :tags, votes: :voters, thread: :forum).
+                joins(:thread, "LEFT JOIN read_messages ON read_messages.message_id = messages.message_id AND read_messages.user_id = " + current_user.user_id.to_s).
+                where('archived = false AND messages.forum_id IN (?) AND read_messages.message_id IS NULL AND messages.created_at > ? AND messages.deleted = false AND threads.deleted = false',
+                      # current_user.last_sign_in_at
+                      @forums.map { |f| f.forum_id }, '1970-01-01 01:00').
+                order(created_at: :desc).
+                limit(10).
+                all
 
-      @mails = CfPrivMessage.where(owner_id: current_user.user_id,
-                                   is_read: false).
-               order(created_at: :desc).
-               limit(5).
-               all
-      @mails_cnt = CfPrivMessage.where(owner_id: current_user.user_id,
-                                       is_read: false).
-                   count
 
-      @notifications = CfNotification.where(recipient_id: current_user.user_id,
-                                            is_read: false).
-                       order(created_at: :desc).all
+    cnt = CfMessage.select('thread_id, count(*) AS cnt').
+          joins("LEFT JOIN read_messages ON read_messages.message_id = messages.message_id AND read_messages.user_id = " + current_user.user_id.to_s).
+          where('forum_id IN (?) AND read_messages.message_id IS NULL AND messages.created_at > ? AND deleted = false',
+                @forums.map { |f| f.forum_id }, current_user.last_sign_in_at).
+          group(:thread_id).all
+
+    @new_messages = 0
+
+    cnt.each do |c|
+      @new_messages += c.cnt
     end
 
-    notification_center.notify(SHOW_FORUMLIST, @counts, @activities)
+    @new_threads = cnt.length
+
+    @mails = CfPrivMessage.where(owner_id: current_user.user_id,
+                                 is_read: false).
+             order(created_at: :desc).
+             limit(5).
+             all
+    @mails_cnt = CfPrivMessage.where(owner_id: current_user.user_id,
+                                     is_read: false).
+                 count
+
+    @notifications = CfNotification.where(recipient_id: current_user.user_id,
+                                          is_read: false).
+                     order(created_at: :desc).all
   end
 
   def redirect_archive

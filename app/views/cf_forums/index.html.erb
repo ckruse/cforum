@@ -1,21 +1,8 @@
 <%
-
-aggregated = {threads: 0, messages: 0, last_change: nil}
-@forums.each do |f|
-  aggregated[:threads] += @counts[f.forum_id][:threads].to_i
-  aggregated[:messages] += @counts[f.forum_id][:messages].to_i
-
-  if @activities[f.forum_id] and (aggregated[:last_change].blank? or aggregated[:last_change].updated_at < @activities[f.forum_id].updated_at)
-    aggregated[:last_change] = @activities[f.forum_id]
-  end
-end
-
 content_for :title, t('global.forums')
-content_for :h1, t('global.forums')
 content_for :body_id, 'forums-index'
 content_for :body_classes, 'forums'
 %>
-
 
 <% unless current_user.blank? %>
   <% unless @notifications.blank? %>
@@ -40,10 +27,20 @@ content_for :body_classes, 'forums'
     <p><%= link_to 'Alle anzeigen', mails_path %></p>
   <% end %>
 
-  <p><%= t('forums.new_threads_new_messages',
-           count: @new_threads,
-           new_messages_text: t('forums.new_messages_text', count: @new_messages)) %></p>
+  <h2><%= t('forums.new_threads_new_messages',
+            count: @new_threads,
+            new_messages_text: t('forums.new_messages_text', count: @new_messages)) %></h2>
+
+  <% @new_msgs.each do |m| %>
+    <% m.thread.message = m %>
+    <article class="thread threadlist">
+      <%= message_header(m.thread, m, show_votes: true, id: false) %>
+    </article>
+  <% end %>
+
 <% end %>
+
+<h1><%= t('global.forums') %></h1>
 
 <table class="cf-default-table responsive">
   <thead>
@@ -88,14 +85,12 @@ content_for :body_classes, 'forums'
   <tfoot>
     <%
     msg = nil
-    if not aggregated[:last_change].blank?
-      msg = aggregated[:last_change]
-    end
+    msg = @aggregated[:last_change] if not @aggregated[:last_change].blank?
     %>
     <tr<% if msg and not msg.attribs['classes'].blank? %> class="<%= msg.attribs['classes'].join(" ") %>"<% end %>>
       <th data-label="<%= t('global.forum') %>"><%= cf_link_to t('forums.all_forums'), cf_forum_path('all'), class: 'block' %></th>
-      <th data-label="<%= t('global.threads') %>" class="nummeric"><%= number_with_delimiter(aggregated[:threads]) %></th>
-      <th data-label="<%= t('global.messages') %>" class="nummeric"><%= number_with_delimiter(aggregated[:messages]) %></th>
+      <th data-label="<%= t('global.threads') %>" class="nummeric"><%= number_with_delimiter(@aggregated[:threads]) %></th>
+      <th data-label="<%= t('global.messages') %>" class="nummeric"><%= number_with_delimiter(@aggregated[:messages]) %></th>
       <th data-label="<%= t('global.last_change') %>"<% if msg.blank? %> colspan="3" class="no-data"<% end %>>
         <% if msg.blank?  %><%= ('<em>' + t('global.never') + '</em>').html_safe %>
         <% else %><%= l(msg.updated_at, format: date_format) %>
