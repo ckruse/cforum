@@ -98,6 +98,7 @@ class CfMessagesController < ApplicationController
 
     # inherit message and subject from previous post
     @message.subject = @parent.subject
+    @message.problematic_site = @parent.problematic_site
     @message.content = @parent.to_quote(self) if params.has_key?(:quote_old_message)
 
     notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
