@@ -168,32 +168,36 @@ end
 
         <div class="flex-item logo">
           <h1><span>selfhtml-Forum - Ergänzung zur <%= cf_link_to "Dokumentation", "http://wiki.selfhtml.org" %></span><%= cf_link_to '', root_path, class: 'home' %></h1>
-          <%= cf_link_to(image_tag('feed-rss.png',
-                                  alt: t("layout.rss_feed",
+          <%= cf_link_to(image_tag('feed-rss.svg',
+                                   alt: t("layout.rss_feed",
                                           forum: current_forum ?
                                           t('layout.forum', name: current_forum.name) :
                                           t('layout.all_forums'))),
-                        cf_forum_url(current_forum, format: :rss),
-                        title: t("layout.rss_feed",
+                         cf_forum_url(current_forum, format: :rss),
+                         title: t("layout.rss_feed",
                                   forum: current_forum ?
                                   t('layout.forum', name: current_forum.name) :
                                   t('layout.all_forums')),
-                        class: 'rss') %>
+                         class: 'rss') %>
 
-          <%= cf_link_to(image_tag('feed-atom.png',
-                                  alt: t("layout.atom_feed",
+          <%= cf_link_to(image_tag('feed-atom.svg',
+                                   alt: t("layout.atom_feed",
                                           forum: current_forum ?
                                           t('layout.forum', name: current_forum.name) :
                                           t('layout.all_forums'))),
-                        cf_forum_url(current_forum, format: :atom),
-                        title: t("layout.atom_feed",
+                         cf_forum_url(current_forum, format: :atom),
+                         title: t("layout.atom_feed",
                                   forum: current_forum ?
                                   t('layout.forum', name: current_forum.name) :
                                   t('layout.all_forums')),
-                        class: 'atom') %>
+                         class: 'atom') %>
+
+          <%= cf_link_to(image_tag('donate.svg', alt: t("layout.donate")),
+                         'https://selfhtml.org/spenden.html', title: t("layout.donate"),
+                         class: 'donate') %>
         </div>
 
-        <nav class=" flex-item quicklinks">
+        <nav class="flex-item quicklinks">
           <ul>
             <li><%= cf_link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
             <li><%= cf_link_to t('layout.home'), root_url %></li>
