@@ -11,11 +11,9 @@ content_for :h1, t('users.users')
   <thead>
     <tr>
       <th><%= sortable CfUser.human_attribute_name(:username), :username, :users_path %></th>
-      <th><%= sortable t('global.score'), :score, :users_path %></td>
-      <th><%= sortable CfUser.human_attribute_name(:admin), :admin, :users_path %></th>
-      <th><%= sortable CfUser.human_attribute_name(:active), :active, :users_path %></th>
+      <th><%= sortable t('global.score'), :score, :users_path %></th>
+      <th><%= sortable t('users.num_msgs'), :num_msgs, :users_path %></th>
       <th><%= sortable CfUser.human_attribute_name(:created_at), :created_at, :users_path %></th>
-      <th><%= sortable CfUser.human_attribute_name(:updated_at), :updated_at, :users_path %></th>
     </tr>
   </thead>
 
@@ -24,10 +22,8 @@ content_for :h1, t('users.users')
     <tr>
       <td><%= cf_link_to u.username, user_path(u) %></td>
       <td><%= u.score_sum %></td>
-      <td><%= u.admin ? t('global.yeah') : t('global.nope') %></td>
-      <td><%= u.active ? t('global.yeah') : t('global.nope') %></td>
+      <td><%= u.num_msgs %> <%= t('global.messages') %></td>
       <td><%= l(u.created_at, format: date_format) %></td>
-      <td><%= l(u.updated_at, format: date_format) %></td>
     </tr>
     <% end %>
   </tbody>
