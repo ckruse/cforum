@@ -89,6 +89,13 @@ module ApplicationHelper
 
     raw doc
   end
+
+  def relative_time(date)
+    diff_in_minutes = ((Time.now - date) / 60.0).round
+    return I18n.translate('relative_time.minutes', count: diff_in_minutes) if diff_in_minutes < 60
+    return I18n.translate('relative_time.hours', count: (diff_in_minutes / 60.0).round) if diff_in_minutes < 1440
+    return I18n.translate('relative_time.days', count: (diff_in_minutes / 1440.0).round)
+  end
 end
 
 require 'pp'

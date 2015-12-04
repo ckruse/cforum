@@ -1,0 +1,17 @@
+de:
+  relative_time:
+    minutes:
+      zero: weniger als einer Minute
+      one: einer Minute
+      other: "%{count} Minuten"
+
+    hours:
+      zero: weniger als einer Stunde
+      one: einer Stunde
+      other: "%{count} Stunden"
+
+    days:
+      zero: weniger als einem Tag
+      one: einem Tag
+      other: "%{count} Tagen"
+
