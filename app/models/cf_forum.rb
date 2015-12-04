@@ -5,6 +5,7 @@ class CfForum < ActiveRecord::Base
   self.table_name  = 'forums'
 
   has_many :threads, class_name: 'CfThread', foreign_key: :forum_id, dependent: :destroy
+  has_many :messages, class_name: 'CfMessage', foreign_key: :forum_id, dependent: :delete_all
 
   has_many :tags, class_name: 'CfTag', foreign_key: :forum_id, dependent: :destroy
 
