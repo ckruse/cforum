@@ -271,8 +271,8 @@ end
               <li><%= cf_link_to t('layout.administration'), admin_users_path %></li>
             <% end %>
 
-            <% if current_forum %>
-              <li id="link-archiv"><%= cf_link_to t("threads.archive"), cf_archive_path(current_forum.slug) %></li>
+            <% if %w(cf_threads cf_messages cf_archive).include?(controller_path) %>
+              <li id="link-archiv"><%= cf_link_to t("threads.archive"), cf_archive_path(current_forum) %></li>
             <% end %>
 
             <% if @threads and current_user and not controller_path == 'interesting_messages_plugin' and not controller_path == 'hidden_threads_plugin' %>
