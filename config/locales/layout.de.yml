@@ -37,6 +37,8 @@ de:
     choose_forum: Forum auswählen
     donate: Spenden
 
+    last_message: letzter Beitrag vor %{time} von
+
     placeholders:
       greeting: Hallo {$vname},
       farewell: "Bis bald!\nOtto"

@@ -9,69 +9,20 @@ class CfForumsController < ApplicationController
       return
     end
 
-    # TODO: check only for selected forums
-    results = CfForum.connection.
-      execute("SELECT table_name, group_crit, SUM(difference) AS diff FROM counter_table WHERE table_name = 'threads' OR table_name = 'messages' GROUP BY table_name, group_crit")
-
-    @counts = {}
-    results.each do |r|
-      @counts[r['group_crit'].to_i] ||= {threads: 0, messages: 0}
-      @counts[r['group_crit'].to_i][r['table_name'].to_sym] = r['diff']
-    end
-
-    msgs = CfMessage.includes(:owner, thread: :forum).where("
-      messages.message_id IN (
-        SELECT (
-          SELECT
-            message_id
-          FROM
-            messages
-          WHERE
-              messages.forum_id = forums.forum_id
-            AND
-              deleted = false
-          ORDER BY
-            created_at DESC
-          LIMIT 1
-        )
-        FROM forums
-      )")
-
     @activities = {}
-    msgs.each do |msg|
-      @activities[msg.forum_id] = msg
+    @messages = []
+    @forums.each do |f|
+      msgs = f.messages.preload(:owner, thread: [:forum, :messages]).order(created_at: :desc).limit(3).all.to_a
+      @activities[f.forum_id] = msgs
+      @messages += msgs
     end
 
-    aggregate_activities
 
     gather_portal_infos unless current_user.blank?
-    notification_center.notify(SHOW_FORUMLIST, @counts, @activities)
-  end
-
-  def aggregate_activities
-    @aggregated = {threads: 0, messages: 0, last_change: nil}
-    @forums.each do |f|
-      @aggregated[:threads] += @counts[f.forum_id][:threads].to_i
-      @aggregated[:messages] += @counts[f.forum_id][:messages].to_i
-
-      if @activities[f.forum_id] and (@aggregated[:last_change].blank? or @aggregated[:last_change].updated_at < @activities[f.forum_id].updated_at)
-        @aggregated[:last_change] = @activities[f.forum_id]
-      end
-    end
+    #notification_center.notify(SHOW_FORUMLIST, @activities)
   end
 
   def gather_portal_infos
-    @new_msgs = CfMessage.
-                preload(:owner, :tags, votes: :voters, thread: :forum).
-                joins(:thread, "LEFT JOIN read_messages ON read_messages.message_id = messages.message_id AND read_messages.user_id = " + current_user.user_id.to_s).
-                where('archived = false AND messages.forum_id IN (?) AND read_messages.message_id IS NULL AND messages.created_at > ? AND messages.deleted = false AND threads.deleted = false',
-                      # current_user.last_sign_in_at
-                      @forums.map { |f| f.forum_id }, '1970-01-01 01:00').
-                order(created_at: :desc).
-                limit(10).
-                all
-
-
     cnt = CfMessage.select('thread_id, count(*) AS cnt').
           joins("LEFT JOIN read_messages ON read_messages.message_id = messages.message_id AND read_messages.user_id = " + current_user.user_id.to_s).
           where('forum_id IN (?) AND read_messages.message_id IS NULL AND messages.created_at > ? AND deleted = false',

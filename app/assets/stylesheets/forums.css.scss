@@ -1,0 +1,31 @@
+/* -*- coding: utf-8 -*- */
+
+body.forums .forums-list {
+  list-style-type:none;
+  padding-left:0;
+
+  h3 {
+    font-size:1.25em;
+    border-top: 2px solid #c4d4da;
+    padding: .7em 0 0;
+    margin: 1em 0em;
+  }
+
+  ul {
+    list-style-type:none;
+    padding-left:0;
+  }
+
+  .thread {
+    border:0;
+    background:none;
+    margin:0;
+    padding:0;
+  }
+
+  a.thread-info {
+    font-weight:bold;
+  }
+}
+
+/* eof */

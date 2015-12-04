@@ -1,0 +1,15 @@
+<%= cf_link_to thread.messages.first.subject, cf_message_path(thread, thread.messages.first), class: 'thread-info' %> →
+<%= t('layout.last_message', time: relative_time(message.created_at)) %>
+
+<span class="author">
+  <% if message.user_id %>
+    <span class="registered-user<% if not message.message_id == thread.messages.first.message_id and message.user_id == thread.messages.first.user_id %> original-poster<% end %>"><%= cf_link_to(image_tag(message.owner.avatar(:thumb), class: 'avatar'), user_path(message.owner), title: t('messages.user_link', user: message.owner.username), class: 'user-link') %> <%= cf_link_to message.author, cf_message_path(thread, message) %></span>
+  <% else %>
+    <% if not message.message_id == thread.messages.first.message_id and not message.uuid.blank? and message.uuid == thread.messages.first.uuid %>
+      <span class="icon-message original-poster" title="<%= t('messages.original_poster') %>"> </span>
+    <% end %>
+  <% end %>
+  <%= cf_link_to message.author, cf_message_path(thread, message) %>
+</span>
+
+<%= cf_link_to message.subject, cf_message_path(thread, message) %>
