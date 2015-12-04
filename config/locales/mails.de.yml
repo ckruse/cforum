@@ -9,8 +9,8 @@ de:
     post: Post
     new_mail: neue Mail
     new_mails_num:
-      one: "%{count} neue Nachricht"
-      other: "%{count} neue Nachrichten"
+      one: "%{count} ungelesene Nachricht"
+      other: "%{count} ungelesene Nachrichten"
     post_from: Kommunikation mit %{name}
     delete: Post löschen
     answer_mail: Nachricht beantworten

@@ -1,5 +1,6 @@
+<h1>Aktivität</h1>
 <% unless @notifications.blank? %>
-  <h2><%= @notifications.length %> Benachrichtigungen</h2>
+  <h2><%= t('notifications.new_notifications', count: @notifications.length) %></h2>
   <ul>
     <% @notifications.each do |n| %>
       <li><% unless n.icon.blank? %><%= cf_link_to '', n.path, class: 'icon ' + n.icon %> <% end %><%= cf_link_to n.subject, notification_path(n) %> (<%= l(n.created_at, format: date_format) %>)</li>
@@ -10,7 +11,7 @@
 <% end %>
 
 <% unless @mails.blank? %>
-  <h2><%= @mails_cnt %> ungelesene PMs</h2>
+  <h2><%= t('mails.new_mails_num', count: @mails_cnt) %></h2>
   <ul>
     <% @mails.each do |m| %>
       <li><%= link_to mail_path(m.sender_name, m) do %><% unless m.sender_id.blank? %><%= image_tag(m.sender.avatar(:thumb)) %> <% end %><%= m.sender_name %>: <%= m.subject %> (<%= l(m.created_at, format: date_format) %>)<% end %></li>

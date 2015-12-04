@@ -37,7 +37,8 @@ de:
     choose_forum: Forum auswählen
     donate: Spenden
 
-    last_message: letzter Beitrag vor %{time} von
+    last_message: 'letzter Beitrag vor %{time}: '
+    last_thread: 'Thread erstellt vor %{time}'
 
     placeholders:
       greeting: Hallo {$vname},
