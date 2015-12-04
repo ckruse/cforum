@@ -86,10 +86,9 @@ class MarkReadPlugin < Plugin
     check_messages(messages)
   end
 
-  def show_forumlist(counts, activities, admin = false)
+  def show_forumlist(messages, activities, admin = false)
     return if current_user.blank? or activities.values.blank?
 
-    messages = activities.values
     ids = messages.map { |a| a.message_id }
     result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
 

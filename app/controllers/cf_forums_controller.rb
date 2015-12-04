@@ -19,7 +19,7 @@ class CfForumsController < ApplicationController
 
 
     gather_portal_infos unless current_user.blank?
-    #notification_center.notify(SHOW_FORUMLIST, @activities)
+    notification_center.notify(SHOW_FORUMLIST, @messages, @activities)
   end
 
   def gather_portal_infos
