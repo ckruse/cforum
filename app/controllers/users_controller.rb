@@ -26,11 +26,12 @@ class UsersController < ApplicationController
       @users = CfUser
     end
 
-    @users = @users.
-             select('*, COALESCE((SELECT SUM(value) FROM scores WHERE user_id = users.user_id), 0) AS score_sum')
+    score_sum = "COALESCE((SELECT SUM(value) FROM scores WHERE user_id = users.user_id), 0)"
 
+    @users = @users.
+             select("*, #{score_sum} AS score_sum")
     @users = sort_query(%w(username created_at updated_at score active admin num_msgs),
-                        @users, {score: 'COALESCE((SELECT SUM(value) FROM scores WHERE user_id = users.user_id), 0)',
+                        @users, {score: score_sum,
                                  admin: 'COALESCE(admin, false)',
                                  num_msgs: "(SELECT COUNT(*) FROM messages WHERE user_id = users.user_id AND created_at >= NOW() - INTERVAL '2 years')"}).
              order('username ASC').
