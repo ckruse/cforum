@@ -12,11 +12,15 @@ class CfForumsController < ApplicationController
     @activities = {}
     @messages = []
     @forums.each do |f|
-      msgs = f.messages.preload(:owner, thread: [:forum, :messages]).order(created_at: :desc).limit(3).all.to_a
+      msgs = f.messages.
+             preload(:owner, thread: [:forum, :messages]).
+             order(created_at: :desc).
+             where(deleted: false).
+             limit(3).
+             all.to_a
       @activities[f.forum_id] = msgs
       @messages += msgs
     end
-
 
     gather_portal_infos unless current_user.blank?
     notification_center.notify(SHOW_FORUMLIST, @messages, @activities)
