@@ -29,8 +29,8 @@ content_for :body_classes, 'forums'
 
   <li><h3 class="forum-name"><%= cf_link_to t('forums.all_forums'), cf_forum_path('all') %></h3>
     <ul>
-      <% message = (@messages.sort {|a,b| b.created_at <=> a.created_at}).first %>
-      <li class="thread"><%# render 'message_header', message: message, thread: message.thread %></li>
+      <% thread = (@threads.sort {|a,b| b.latest_message <=> a.latest_message}).first %>
+      <li class="thread"><%= render 'message_header', thread: thread %></li>
     </ul>
   </li>
 </ol>
