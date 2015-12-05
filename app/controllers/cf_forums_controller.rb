@@ -10,7 +10,7 @@ class CfForumsController < ApplicationController
     end
 
     @activities = {}
-    @messages = []
+    @threads = []
     @forums.each do |f|
       threads = f.threads.
                 preload(:forum, messages: :owner).
@@ -19,13 +19,11 @@ class CfForumsController < ApplicationController
                 limit(3).
                 all.to_a
       @activities[f.forum_id] = threads
-      threads.each do |thread|
-        @messages << (thread.messages.select { |m| m.deleted == false }).max_by(&:created_at)
-      end
+      @threads += threads
     end
 
     gather_portal_infos unless current_user.blank?
-    notification_center.notify(SHOW_FORUMLIST, @messages, @activities)
+    notification_center.notify(SHOW_FORUMLIST, @threads, @activities)
   end
 
   def gather_portal_infos
