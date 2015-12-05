@@ -20,8 +20,8 @@ content_for :body_classes, 'forums'
   <% @forums.each do |forum| %>
     <li><h3 class="forum-name"><%= cf_link_to forum.name, cf_forum_path(forum) %></h3>
       <ul>
-        <% @activities[forum.forum_id].each do |message| %>
-          <li class="thread"><%= render 'message_header', message: message, thread: message.thread %></li>
+        <% @activities[forum.forum_id].each do |thread| %>
+          <li class="thread"><%= render 'message_header', thread: thread %></li>
         <% end %>
       </ul>
     </li>
@@ -30,7 +30,7 @@ content_for :body_classes, 'forums'
   <li><h3 class="forum-name"><%= cf_link_to t('forums.all_forums'), cf_forum_path('all') %></h3>
     <ul>
       <% message = (@messages.sort {|a,b| b.created_at <=> a.created_at}).first %>
-      <li class="thread"><%= render 'message_header', message: message, thread: message.thread %></li>
+      <li class="thread"><%# render 'message_header', message: message, thread: message.thread %></li>
     </ul>
   </li>
 </ol>

@@ -12,14 +12,16 @@ class CfForumsController < ApplicationController
     @activities = {}
     @messages = []
     @forums.each do |f|
-      msgs = f.messages.
-             preload(:owner, thread: [:forum, :messages]).
-             order(created_at: :desc).
-             where(deleted: false).
-             limit(3).
-             all.to_a
-      @activities[f.forum_id] = msgs
-      @messages += msgs
+      threads = f.threads.
+                preload(:forum, messages: :owner).
+                order(latest_message: :desc).
+                where(deleted: false).
+                limit(3).
+                all.to_a
+      @activities[f.forum_id] = threads
+      threads.each do |thread|
+        @messages << (thread.messages.select { |m| m.deleted == false }).max_by(&:created_at)
+      end
     end
 
     gather_portal_infos unless current_user.blank?
