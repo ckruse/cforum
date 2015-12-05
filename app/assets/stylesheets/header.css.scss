@@ -72,7 +72,7 @@
     display:block;
   }
 
-  .rss, .atom { display:none; }
+  .rss, .atom, .donate { display:none; }
 }
 
 aside {
@@ -231,10 +231,10 @@ nav.quicklinks {
       background-size:contain;
       width:160px;
       height:178px;
+      margin-bottom: .3em;
     }
 
     .rss, .atom, .donate {
-      margin-top:.5em;
       display:inline;
     }
   }
