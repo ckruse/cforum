@@ -271,8 +271,24 @@ end
               <li id="nachricht-feed-rss"><%= cf_link_to t("layout.msg_rss_feed"), cf_thread_url(@thread, format: :rss) %></li>
             <% end %>
 
-            <% if current_user and current_user.admin %>
+            <% if current_user.try(:admin) %>
               <li><%= cf_link_to t('layout.administration'), admin_users_path %></li>
+            <% end %>
+
+            <% if current_user.try(:moderate?, current_forum) %>
+              <%
+              path = nil
+              if @message.blank?
+                path = cf_threads_path(current_forum, view_all: @view_all ? nil : "yes")
+              else
+                path = cf_message_path(@thread, @message, view_all: @view_all ? nil : "yes")
+              end
+              %>
+              <% if @view_all %>
+                <li id="admin-view"><%= cf_link_to t("forums.normal_view"), path %></li>
+              <% else %>
+                <li id="admin-view"><%= cf_link_to t("forums.admin_view"), path %></li>
+              <% end %>
             <% end %>
 
             <% if %w(cf_threads cf_messages cf_archive).include?(controller_path) %>
@@ -296,22 +312,6 @@ end
 
               <li id="interesting-links"><%= cf_link_to t('plugins.interesting_messages.interesting_messages'), interesting_messages_path %></li>
               <li id="invisible-links"><%= cf_link_to t('plugins.invisible_threads.invisible_threads'), hidden_threads_path %></li>
-            <% end %>
-
-            <% if current_user and current_user.moderate?(current_forum) %>
-              <%
-              path = nil
-              if @message.blank?
-                path = cf_threads_path(current_forum, view_all: @view_all ? nil : "yes")
-              else
-                path = cf_message_path(@thread, @message, view_all: @view_all ? nil : "yes")
-              end
-              %>
-              <% if @view_all %>
-                <li id="admin-view"><%= cf_link_to t("forums.normal_view"), path %></li>
-              <% else %>
-                <li id="admin-view"><%= cf_link_to t("forums.admin_view"), path %></li>
-              <% end %>
             <% end %>
           </ul>
         </nav>
