@@ -2,7 +2,7 @@
 
 
 /* upper navigation */
-#top {
+.top {
   background-color: #699CB3;
   background-image: linear-gradient(to right, #75b0ca 0%,#4089aa 100%);
   border-bottom: 3px double #FFFFFF;
@@ -13,11 +13,19 @@
   position: relative;
 
   .selflinks {
-    a:link, a:visited, input { opacity: .75; }
-    a:hover, a:focus, input:focus, input:hover { opacity: 1; }
-    a {
-      display: inline-block;
-      color: white;
+    margin: 0 0 0 .5em;
+    padding: 0;
+
+    li {
+      display: inline;
+      margin-right: 1.5em;
+  
+      a:link, a:visited, input { opacity: .75; }
+      a:hover, a:focus, input:focus, input:hover { opacity: 1; }
+      a {
+        display: inline-block;
+        color: white;
+      }
     }
   }
 }
@@ -25,27 +33,16 @@
 .personallinks {
   list-style-type: none;
   padding:0;
-  margin-left:.5em;
-  margin-right:.5em;
+  margin: .5em;
 
   li {
     display:block;
-    margin: 0 1em 1em 0;
+    margin: 0 0 1em 0;
     line-height:1em;
     white-space: nowrap;
   }
   img {
       margin-right: .2em;
-  }
-}
-
-#top ul {
-  margin: 0 0 0 1em;
-  padding: 0;
-  
-  li {
-    display: inline;
-    margin-right: 1.5em;
   }
 }
 
@@ -185,30 +182,25 @@ nav.quicklinks {
 @media only screen and (min-width: 35em) {
   nav ul {  margin: 0 0 1em; }
 
-  #top {
+  .top {
     font-size: 1.25em;
+
+    .selflinks { margin-left: 1.75em; }
   }
-  #top ul,
-  .personallinks {
-    margin: 0;
-    padding: 0;
+  
+  .personallinks.flex-item {
+    margin: .1em 2em;
 
     li {
       display: inline;
-      margin-right: 3em;
-
-      a { display:inline; }
-    }
-  }
-
-  #top ul { margin-left:1em; }
-
-  .personallinks {
-    z-index:1;
-    
-    li {
       margin-right: 1em;
       line-height: 1.5;
+    }
+    li:last-child {
+      margin-right: 0;
+    }
+
+      a { display:inline; }
     }
 
     a:link,
@@ -221,9 +213,12 @@ nav.quicklinks {
         color: #990909;
       }
     }
+  
+  .page-header.flex-item {
+    margin-top: 0;
   }
 
-  .flex-item.logo {
+  .logo.flex-item {
     margin-bottom:1em;
 
     h1 {
@@ -246,8 +241,8 @@ nav.quicklinks {
       margin-right: 1em;
     }
   }
-
 }
+
 
 @media only screen and (min-width: 55em) {
   .personallinks {
