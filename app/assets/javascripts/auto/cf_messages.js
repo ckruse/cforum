@@ -242,6 +242,10 @@ cforum.cf_messages = {
     var minput = $("#message_input");
     var maxLen = 12288;
 
+    if(minput.length == 0) {
+      return;
+    }
+
     var checkLength = function() {
       var len = minput.val().length;
 
