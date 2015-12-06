@@ -382,6 +382,17 @@ blockquote.show-quotes .unfold {
   top:.5em;
 }
 
+#message_input.length-warning {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}
+#message_input.length-error {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
 @media only screen and (min-width: 35em) {
   #unfold-all {
     right:2em;

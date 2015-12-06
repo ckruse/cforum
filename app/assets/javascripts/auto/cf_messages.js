@@ -129,6 +129,7 @@ cforum.cf_messages = {
     cforum.cf_messages.initMarkdown("message_input");
     cforum.cf_messages.initUpload();
     cforum.cf_messages.initPreview();
+    cforum.cf_messages.initMaxLengthWarnings();
     $("#message_input").mentions();
   },
 
@@ -235,6 +236,31 @@ cforum.cf_messages = {
           MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
         });
     }
+  },
+
+  initMaxLengthWarnings: function() {
+    var minput = $("#message_input");
+    var maxLen = 12288;
+
+    var checkLength = function() {
+      var len = minput.val().length;
+
+      if(len >= maxLen) {
+        minput.addClass('length-error');
+        minput.removeClass('length-warning');
+      }
+      else if(len >= maxLen - 300) {
+        minput.addClass('length-warning');
+        minput.removeClass('length-error');
+      }
+      else {
+        minput.removeClass('length-warning');
+        minput.removeClass('length-error');
+      }
+    };
+
+    checkLength();
+    minput.on('keyup', checkLength);
   }
 };
 
