@@ -200,7 +200,7 @@ blockquote { margin: 1em 0; }
     }
 
     .subnav.flex-item {
-      flex:1 calc(29em - 160px);
+      flex:1 calc(29em - 170px);
       box-sizing:border-box;
     }
 
@@ -236,7 +236,7 @@ blockquote { margin: 1em 0; }
       .flex-item { flex:0; }
       .logo { float:left; }
       .quicklinks, .subnav {
-        margin-left:calc(160px + 1em);
+        margin-left:calc(170px + .5em);
       }
     }
   }
