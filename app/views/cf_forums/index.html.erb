@@ -24,6 +24,8 @@ content_for :body_classes, 'forums'
           <li class="thread"><%= render 'message_header', thread: thread %></li>
         <% end %>
       </ul>
+
+      <p><%= cf_link_to t('layout.show_all'), cf_forum_path(forum) %></p>
     </li>
   <% end %>
 
@@ -32,6 +34,8 @@ content_for :body_classes, 'forums'
       <% message = (@messages.sort {|a,b| b.created_at <=> a.created_at}).first %>
       <li class="thread"><%# render 'message_header', message: message, thread: message.thread %></li>
     </ul>
+
+    <p><%= cf_link_to t('layout.show_all'), cf_forum_path('all') %></p>
   </li>
 </ol>
 
