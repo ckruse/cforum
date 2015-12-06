@@ -90,6 +90,14 @@ cforum.cf_messages = {
       var nodes = $(".thread-nested:not(.archived) .message.visited:not(.active)").parent();
       nodes.addClass('folded');
 
+      if(nodes.length > 0) {
+        $('body').append('<div id="unfold-all">Alle ausklappen</div>');
+        $("#unfold-all").on('click', function() {
+          $('.posting-nested.folded').removeClass('folded');
+          $(this).remove();
+        });
+      }
+
       $(".thread-nested").on('click', function(ev) {
         var trg = $(ev.target);
 
@@ -100,6 +108,10 @@ cforum.cf_messages = {
         if(trg.hasClass('folded')) {
           ev.preventDefault();
           trg.removeClass('folded');
+
+          if($(".posting-nested.folded").length <= 0) {
+            $("#unfold-all").remove();
+          }
         }
       });
     }

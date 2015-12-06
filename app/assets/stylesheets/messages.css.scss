@@ -370,7 +370,25 @@ blockquote.show-quotes .unfold {
   }
 }
 
+#unfold-all {
+  position:fixed;
+  cursor:pointer;
+  border-radius: 0px 0.4em 0.4em;
+  border:1px solid #D5D5D5;
+  padding: 0.4em 0.6em;
+  background-color:#fff;
+  right:.5em;
+  left:.5em;
+  top:.5em;
+}
+
 @media only screen and (min-width: 35em) {
+  #unfold-all {
+    right:2em;
+    top:40%;
+    left:auto;
+  }
+
   .thread-message {
     margin: 1em 1em 1em 0em;
     padding: 0.6em 0px 0.25em 1em;
