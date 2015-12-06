@@ -261,18 +261,22 @@ main h2 { margin-left:0; }
   }
   .posting-content ol { list-style-type: decimal; }
 
+  .answers li { position: relative; }
+
   .posting-nested.folded {
+    & > header { padding-left: 1em; }
     &::after {
-      display: block;
-      content:"…";
-      cursor:pointer;
-      background-color: #fdfcf3;
-      border: 1px solid #e7c157;
-      border-radius: 0 0.5em 0.5em;
-      margin: 0.5em 0;
-      padding: 0.4em 1em;
-      width: 95%;
+      background-color: transparent;
+      border: none;
+      color: #00a1e2;
+      content: "▶";
+      cursor: pointer;
+      display: inline;
+      position: absolute;
+      margin-top: -2.5em;
+      margin-left: -.5em;
     }
+
     .posting-content, .message-links, .forum-links, .problematic-site {
       display:none !important;
     }

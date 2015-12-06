@@ -90,9 +90,17 @@ cforum.cf_messages = {
       var nodes = $(".thread-nested:not(.archived) .message.visited:not(.active)").parent();
       nodes.addClass('folded');
 
-      $(".posting-nested.folded").on('click', function(ev) {
+      $(".thread-nested").on('click', function(ev) {
         var trg = $(ev.target);
-        trg.removeClass('folded');
+
+        if(!trg.is(".posting-nested")) {
+          trg = trg.closest('.posting-nested');
+        }
+
+        if(trg.hasClass('folded')) {
+          ev.preventDefault();
+          trg.removeClass('folded');
+        }
       });
     }
   },
