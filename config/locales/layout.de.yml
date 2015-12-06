@@ -36,6 +36,7 @@ de:
     scoring_rules: 'Beachten Sie die <a href="https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bewertungsregeln">Bewertungsregeln</a> und die <a href="https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Rechte">Rechte</a>, die erworben werden können!'
     choose_forum: Forum auswählen
     donate: Spenden
+    show_all: alle anzeigen
 
     last_message: 'letzter Beitrag vor %{time}: '
     last_thread: 'Thread erstellt vor %{time}'

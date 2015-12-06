@@ -1,6 +1,6 @@
 /* -*- coding: utf-8 -*- */
 
-body.forums .forums-list {
+body.forums {
   list-style-type:none;
   padding-left:0;
 
@@ -11,7 +11,7 @@ body.forums .forums-list {
     margin: 1em 0em;
   }
 
-  ul {
+  ul, ol {
     list-style-type:none;
     padding-left:0;
   }
@@ -19,13 +19,18 @@ body.forums .forums-list {
   .thread {
     border:0;
     background:none;
-    margin:0;
+    margin:0 0 1em;
     padding:0;
   }
 
   a.thread-info {
     font-weight:bold;
   }
+
+  .last-answer {
+    display: block;
+    margin: 0 0 0 2em;
+}
 }
 
 /* eof */

@@ -7,7 +7,7 @@
     <% end %>
   </ul>
 
-  <p><%= link_to 'Alle anzeigen', notifications_path %></p>
+  <p><%= link_to t('layout.show_all'), notifications_path %></p>
 <% end %>
 
 <% unless @mails.blank? %>
@@ -18,5 +18,5 @@
     <% end %>
   </ul>
 
-  <p><%= link_to 'Alle anzeigen', mails_path %></p>
+  <p><%= link_to t('layout.show_all'), mails_path %></p>
 <% end %>
