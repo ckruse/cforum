@@ -8,8 +8,8 @@ class Peon::Tasks::BadgeDistributor < Peon::Tasks::PeonTask
     @message = CfMessage.find(args['message_id']) if args['message_id']
 
     case args['type']
-    when 'removed-vote', 'changed-vote'
-    when 'voted'
+    when 'removed-vote', 'changed-vote', 'unaccepted'
+    when 'voted', 'accepted'
       if not @message.user_id.blank?
         score = @message.owner.score
         badges = CfBadge.where('score_needed <= ?', score)

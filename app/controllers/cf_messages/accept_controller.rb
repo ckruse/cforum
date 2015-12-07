@@ -29,6 +29,10 @@ class CfMessages::AcceptController < ApplicationController
     end
     notification_center.notify(ACCEPTED_MESSAGE, @thread, @message)
 
+    peon(class_name: 'BadgeDistributor',
+         arguments: {type: @message.flags['accepted'] == 'yes' ? 'accepted' : 'unaccepted',
+                     message_id: @message.message_id})
+
     redirect_to cf_message_url(@thread, @message), notice: (@message.flags['accepted'] == 'yes' ? t('messages.accepted') : t('messages.unaccepted'))
   end
 
