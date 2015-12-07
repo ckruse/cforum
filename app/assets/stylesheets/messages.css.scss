@@ -264,6 +264,8 @@ main h2 { margin-left:0; }
   .answers li { position: relative; }
 
   .posting-nested.folded {
+    cursor:pointer;
+
     & > header { padding-left: 1em; }
     &::after {
       background-color: transparent;
