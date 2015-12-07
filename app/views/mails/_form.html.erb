@@ -28,4 +28,11 @@
         <%= t.text_area :body, maxlength: 12288, value: t.object.to_txt, class: 'big' %>
       </div>
     </div>
+
+    <% if uconf('live_preview') == 'yes' %>
+      <article class="thread-message preview">
+        <h3>Vorschau</h3>
+        <div class="posting-content" id="on-the-fly-preview"></div>
+      </article>
+    <% end %>
   </fieldset>
