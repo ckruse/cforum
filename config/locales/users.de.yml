@@ -43,6 +43,9 @@ de:
     all_votes: alle Bewertungen
     all_votes_for_user: alle Bewertungen für Benutzer „%{name}“
 
+    all_messages: alle Beiträge
+    all_messages_for_user: alle Beiträge von Benutzer „%{name}“
+
     no_description: Bisher keine Beschreibung angegeben.
 
     thread-view: Thread-Ansicht

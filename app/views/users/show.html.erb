@@ -106,6 +106,8 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
   </article>
 <% end %>
 
+<p><%= cf_link_to t('users.all_messages'), user_messages_path(@user) %></p>
+
 
 <h2><%= t('users.best_scored') %></h2>
 

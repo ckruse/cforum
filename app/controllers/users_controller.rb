@@ -209,6 +209,19 @@ class UsersController < ApplicationController
     end
 
   end
+
+  def show_messages
+    @user = CfUser.find(params[:id])
+
+    sql = CfForum.visible_sql(current_user)
+
+    @messages = CfMessage.
+                preload(:owner, :tags, votes: :voters, thread: :forum).
+                where("user_id = ? AND deleted = false AND forum_id IN (#{sql})", @user.user_id).
+                order('created_at DESC').
+                page(params[:page]).
+                per(conf('pagination'))
+  end
 end
 
 # eof
