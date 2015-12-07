@@ -17,6 +17,15 @@ content_for :body_classes, 'forums'
 <% end %>
 
 <ol class="forums-list">
+  <li><h3 class="forum-name"><%= cf_link_to t('forums.all_forums'), cf_forum_path('all') %></h3>
+    <ul>
+      <% thread = (@threads.sort {|a,b| b.latest_message <=> a.latest_message}).first %>
+      <li class="thread"><%= render 'message_header', thread: thread %></li>
+    </ul>
+
+    <p><%= cf_link_to t('layout.show_all'), cf_forum_path('all') %></p>
+  </li>
+
   <% @forums.each do |forum| %>
     <li><h3 class="forum-name"><%= cf_link_to forum.name, cf_forum_path(forum) %></h3>
       <ul>
@@ -28,15 +37,6 @@ content_for :body_classes, 'forums'
       <p><%= cf_link_to t('layout.show_all'), cf_forum_path(forum) %></p>
     </li>
   <% end %>
-
-  <li><h3 class="forum-name"><%= cf_link_to t('forums.all_forums'), cf_forum_path('all') %></h3>
-    <ul>
-      <% thread = (@threads.sort {|a,b| b.latest_message <=> a.latest_message}).first %>
-      <li class="thread"><%= render 'message_header', thread: thread %></li>
-    </ul>
-
-    <p><%= cf_link_to t('layout.show_all'), cf_forum_path('all') %></p>
-  </li>
 </ol>
 
 <img src="//www.browser-statistik.de/browser.png?style=0"
