@@ -45,7 +45,6 @@ content_for :body_classes, 'help'
     <dd><%= cf_link_to 'matthias.apsel@selfhtml.org', 'mailto:matthias.apsel@selfhtml.org' %>
   </dd>
 
-
 </section>
 
 <section id="tags">
@@ -63,6 +62,30 @@ content_for :body_classes, 'help'
       <li><%= cf_link_to f.name, tags_path(f) %></li>
     <% end %>
   </ul>
+
+</section>
+
+<section id="search">
+  <h2>Suche</h2>
+
+  <p>Es ist möglich, die Beiträge des Forums zu <%= cf_link_to 'durchsuchen', search_path %>.
+    Die Suche berücksichtigt neben den aktuellen Beiträge ggf. auch bereits 
+    <%= cf_link_to 'archivierte', cf_archive_path(current_forum) %> Beiträge.
+    Die Suchergebnisse werden per default nach Relevanz sortiert; das
+    bedeutet, dass Beiträge mit vielen positiven Bewertungen vor
+    Beiträgen mit weniger positiven Bewertungen gelistet werden und
+    Beiträge mit passenderen Suchtreffern vor Beiträgen mit weniger
+    passenden Suchtreffern erscheinen.</p>
+</section>
+
+<section id="archive">
+  <h2>Archiv</h2>
+
+  <p>Seit 1998 werden die Beiträge dieses Forums für die Nachwelt <%= cf_link_to 'archiviert', cf_archive_path(current_forum) %>,
+    am 26.&nbsp;Juli&nbsp;1998 schrieb Stefan Münz den <%= cf_link_to 'ersten Forumsbeitrag', 'https://forum.selfhtml.org/self/1998/jul/26/willkommen-im-forum/1#m1' %>.
+    Es ist interessant, in alten Beiträgen zu schmökern, das Archiv
+    spiegelt schließlich nicht nur die Geschichte von SELFHTML 
+    sondern auch zwei Jahrzehnte Webentwicklung wieder.</p>
 
 </section>
 
@@ -123,7 +146,13 @@ content_for :body_classes, 'help'
     gibt es im SELFHTML-Wiki.
   </p>
 
-  <p>Zur Zeit gibt es diese Medaillen:</p>
+</section>
+
+<section id="medals">
+
+  <h2>Medaillen</h2>
+
+  <p>Zurzeit gibt es diese Medaillen:</p>
 
   <dl>
     <% @badges.each do |badge| %>
@@ -147,18 +176,6 @@ content_for :body_classes, 'help'
     <%= cf_link_to 'näheren Regeln zur Zitate-Sammlung', 'https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Regeln_f%C3%BCr_die_Zitatesammlung' %>
     sind im SELFHTML-Wiki einsehbar.</p>
 
-</section>
-
-<section id="search">
-  <h2>Suche</h2>
-
-  <p>Im SELFHTML-Forum ist es möglich <%= cf_link_to 'zu suchen', search_path %>.
-    Die Suche beinhaltet das Foren-Archiv seit 1998. Die
-    Suchergebnisse werden per Default nach Relevanz sortiert; das
-    bedeutet, dass Beiträge mit vielen positiven Bewertungen vor
-    Beiträgen mit weniger positiven Bewertungen gelistet werden und
-    Beiträge mit passenderen Suchtreffern vor Beiträgen mit weniger
-    passenden Suchtreffern.</p>
 </section>
 
 <section id="impressum">
