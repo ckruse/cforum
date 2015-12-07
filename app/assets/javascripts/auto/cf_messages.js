@@ -244,7 +244,7 @@ cforum.cf_messages = {
     var minput = $("#message_input");
     var maxLen = minput.attr('maxlength');
 
-    if(minput.length == 0) {
+    if(!minput.length) {
       return;
     }
 
