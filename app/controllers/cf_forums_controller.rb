@@ -10,7 +10,7 @@ class CfForumsController < ApplicationController
     end
 
     @activities = {}
-    @threads = []
+    @overview_threads = []
     @forums.each do |f|
       threads = f.threads.
                 preload(:forum, messages: :owner).
@@ -19,11 +19,11 @@ class CfForumsController < ApplicationController
                 limit(3).
                 all.to_a
       @activities[f.forum_id] = threads
-      @threads += threads
+      @overview_threads += threads
     end
 
     gather_portal_infos unless current_user.blank?
-    notification_center.notify(SHOW_FORUMLIST, @threads, @activities)
+    notification_center.notify(SHOW_FORUMLIST, @overview_threads, @activities)
   end
 
   def gather_portal_infos
