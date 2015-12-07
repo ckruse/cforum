@@ -249,7 +249,14 @@ cforum.cf_messages = {
     }
 
     var checkLength = function() {
-      var len = minput.val().length;
+      // we need to work on \015\012 line endings because HTTP defines
+      // this as the correct line endings; Safari and Chrome, on the
+      // other hand, work with natural line endings when getting the
+      // value but with \015\012 when checking for maxlength firefox,
+      // on the other hand, is consistent (it uses natural line
+      // endings for both) but totally insane…
+      var val = minput.val().replace(/\015\012|\012|\015/g, "\015\012");
+      var len = val.length;
 
       if(len >= maxLen) {
         minput.addClass('length-error');
