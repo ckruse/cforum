@@ -59,7 +59,7 @@ module ApplicationHelper
 
     str << ' title="' + encode_entities(args[:title]) + '"' unless args[:title].blank?
     str << ' class="' + encode_entities(args[:class]) + '"' unless args[:class].blank?
-    str << ' data-confirm="' + encode_entities(args[:data][:confirm]) + '"' unless args[:data].try(:confirm)
+    str << ' data-confirm="' + encode_entities(args[:data][:confirm]) + '"' if not args[:data].blank? and not args[:data][:confirm].blank?
     str << ' type="submit">'
     str << block.call unless block.blank?
     str << '</button><input type="hidden" name="authenticity_token" value="' <<
