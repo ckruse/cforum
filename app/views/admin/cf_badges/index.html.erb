@@ -22,13 +22,13 @@ content_for :h1, t('admin.badges.index')
       <td><%= t('badges.badge_medal_types.' + badge.badge_medal_type) %></td>
       <td>
         <%= cf_link_to('', edit_admin_badge_path(badge),
-                    class: "icon-edit-badge",
-                    title: t('admin.badges.edit')) %>
-        <%= cf_link_to('', admin_badge_path(badge),
-                    data: {confirm: t('global.are_you_sure')},
-                    method: :delete,
-                    class: 'icon-delete-badge',
-                    title: t('admin.badges.delete')) %>
+                       class: "icon-edit-badge",
+                       title: t('admin.badges.edit')) %>
+        <%= cf_button_to(admin_badge_path(badge),
+                         data: {confirm: t('global.are_you_sure')},
+                         method: :delete,
+                         class: 'icon-delete-badge',
+                         title: t('admin.badges.delete')) %>
       </td>
     </tr>
     <% end %>

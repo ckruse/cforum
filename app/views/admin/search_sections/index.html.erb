@@ -22,11 +22,11 @@ content_for :h1, t('admin.search_sections.index')
         <%= cf_link_to('', edit_admin_search_section_path(section),
                        class: "icon-edit-search-section",
                        title: t('admin.search_sections.edit')) %>
-        <%= cf_link_to('', admin_search_section_path(section),
-                       data: {confirm: t('global.are_you_sure')},
-                       method: :delete,
-                       class: 'icon-delete-search-section',
-                       title: t('admin.search_sections.delete')) %>
+        <%= cf_button_to(admin_search_section_path(section),
+                         data: {confirm: t('global.are_you_sure')},
+                         method: :delete,
+                         class: 'icon-delete-search-section',
+                         title: t('admin.search_sections.delete')) %>
       </td>
     </tr>
     <% end %>
