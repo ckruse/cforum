@@ -302,6 +302,25 @@ legend {
 // safari fix: search inputs in safari can't have a padding
 input[type="search"] { -webkit-appearance: textfield; }
 
+.button_to {
+  display:inline;
+  button {
+    border:0;
+    background:transparent;
+    padding:0;
+    color: #3481cd;
+  }
+
+  button:hover {
+    color:#990909;
+  }
+
+  button,
+  button:hover {
+    transition: all .2s ease-in-out 0s;
+  }
+}
+
 
 @media only screen and (min-width: 35em) {
   .form-horizontal {
