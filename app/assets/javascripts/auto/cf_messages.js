@@ -128,7 +128,7 @@ cforum.cf_messages = {
 
     cforum.cf_messages.initMarkdown("message_input");
     cforum.cf_messages.initUpload();
-    cforum.cf_messages.initPreview();
+    cforum.cf_messages.initPreview("message_input");
     cforum.cf_messages.initMaxLengthWarnings();
     $("#message_input").mentions();
   },
@@ -205,9 +205,9 @@ cforum.cf_messages = {
 
   previewTimeout: null,
   oldVal: null,
-  initPreview: function() {
+  initPreview: function(name) {
     if(uconf('live_preview') == 'yes') {
-      cforum.cf_messages.showPreview();
+      cforum.cf_messages.showPreview(name);
       $("input[name=preview]").remove();
 
       var f = function() {
@@ -216,15 +216,17 @@ cforum.cf_messages = {
           cforum.cf_messages.previewTimeout = null;
         }
 
-        cforum.cf_messages.previewTimeout = window.setTimeout(cforum.cf_messages.showPreview, 500);
+        cforum.cf_messages.previewTimeout = window.setTimeout(function() {
+          cforum.cf_messages.showPreview(name);
+        }, 500);
       };
 
-      $("#message_input").on('keyup', f);
-      $("#message_input").on('change', f);
+      $("#" + name).on('keyup', f);
+      $("#" + name).on('change', f);
     }
   },
-  showPreview: function() {
-    var val = $("#message_input").val();
+  showPreview: function(name) {
+    var val = $("#" + name).val();
 
     if(cforum.cf_messages.oldVal != val) {
       cforum.cf_messages.oldVal = val;
