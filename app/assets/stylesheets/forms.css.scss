@@ -270,11 +270,12 @@ legend {
       }
 
       textarea.big.md-input {
-        width:95.5%;
-        margin:0;
+        width:90%;
+        margin:auto;
+        margin-bottom:1em;
 
-        padding-left:.5em;
-        padding-right:.5em;
+        padding-left:0;
+        padding-right:0;
       }
       
       .image-upload a {
@@ -352,12 +353,11 @@ input[type="search"] { -webkit-appearance: textfield; }
         width:55em;
 
         textarea.big.md-input {
-          width:90%;
-          margin:auto;
-          margin-bottom:1em;
+          width:95.5%;
+          margin:0;
 
-          padding-left:0;
-          padding-right:0;
+          padding-left:.5em;
+          padding-right:.5em;
         }
       }
     }
