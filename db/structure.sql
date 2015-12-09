@@ -414,7 +414,7 @@ DECLARE
 BEGIN
   DELETE FROM forum_stats WHERE forum_id = p_forum_id;
 
-  v_min := (SELECT MIN(DATE_TRUNC('day', created_at)) FROM messages);
+  v_min := (SELECT MIN(DATE_TRUNC('day', created_at)) FROM messages WHERE forum_id = p_forum_id);
   v_max := (SELECT NOW());
 
   v_now := v_min;
@@ -3348,6 +3348,8 @@ INSERT INTO schema_migrations (version) VALUES ('8');
 INSERT INTO schema_migrations (version) VALUES ('80');
 
 INSERT INTO schema_migrations (version) VALUES ('81');
+
+INSERT INTO schema_migrations (version) VALUES ('82');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
 
