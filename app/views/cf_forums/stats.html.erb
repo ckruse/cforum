@@ -1,6 +1,6 @@
 <%
 fname = current_forum ? current_forum.name : t('forums.all_forums')
-created = current_forum || (@forums.min_by { |f| f.created_at }).created_at
+created = current_forum.created_at || (@forums.min_by { |f| f.created_at }).created_at
   
 content_for :title, t('forums.stats', name: fname)
 content_for :h1, t('forums.stats', name: fname)
