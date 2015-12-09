@@ -9,9 +9,11 @@ de:
     edit_cite: Zitat bearbeiten
     do_edit_cite: 'Zitat #%{id} bearbeiten'
     do_new_cite: 'neues Zitat vorschlagen'
+    search: 'Zitatesammlung durchsuchen'
+    read: 'Zitate lesen'
     destroy_cite: Zitat löschen
-    created_by: Eingereicht von
-    do_vote: Über Zitate abstimmen
+    created_by: eingereicht von
+    do_vote: über Zitate abstimmen
     no_votes_active: Zur Zeit sind keine Zitate zur Abstimmung aktiv.
 
     error_message:
