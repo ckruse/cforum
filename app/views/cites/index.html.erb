@@ -5,8 +5,11 @@ content_for :body_id, 'cites-index'
 content_for :body_classes, 'cites index'
 %>
 
+<%= paginate @cites %>
 
 <% @cites.each do |c| %>
   <%= render 'cite', cite: c %>
 <% end %>
 
+
+<%= paginate @cites %>
