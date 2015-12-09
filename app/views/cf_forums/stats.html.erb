@@ -1,0 +1,26 @@
+<%
+fname = current_forum ? current_forum.name : t('forums.all_forums')
+created = current_forum || (@forums.min_by { |f| f.created_at }).created_at
+  
+content_for :title, t('forums.stats', name: fname)
+content_for :h1, t('forums.stats', name: fname)
+content_for :body_id, 'forums-stats'
+content_for :body_classes, 'forums stats'
+%>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+<p><%== t('forums.stats_text',
+          name: fname,
+          created: l(created, format: date_format), 
+          num_messages: number_with_delimiter(@num_messages),
+          num_threads: number_with_delimiter(@num_threads)) %>
+</p>
+
+<h2><%= t('forums.by_date') %></h2>
+
+<div class="chart"></div>
+
+<script>
+ cforum.cf_forums.statsValues = <%= @stats.to_json.html_safe %>;
+</script>

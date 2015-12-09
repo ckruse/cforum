@@ -91,6 +91,7 @@ Cforum::Application.routes.draw do
 
 
   scope ":curr_forum" do
+    get 'stats' => 'cf_forums#stats'
     get 'tags/autocomplete' => 'tags#autocomplete'
     post 'tags/suggestions' => 'tags#suggestions'
     get 'tags/:id/merge' => 'tags#merge', as: :merge_tag

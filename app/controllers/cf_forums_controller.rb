@@ -140,6 +140,24 @@ class CfForumsController < ApplicationController
   def title
     render json: {title: @title_infos}
   end
+
+  def stats
+    @stats = ForumStat.
+             select("DATE_TRUNC('month', moment) AS moment, SUM(threads) AS threads, SUM(messages) AS messages").
+             group("DATE_TRUNC('month', moment)").
+             order("DATE_TRUNC('month', moment)")
+
+    if current_forum.blank?
+      @stats = @stats.where("forum_id IN (" + CfForum.visible_sql(current_user) + ")")
+    else
+      @stats = @stats.where(forum_id: current_forum.forum_id)
+    end
+
+    @stats = @stats.to_a
+
+    @num_messages = (@stats.map { |s| s.messages }).sum()
+    @num_threads = (@stats.map { |s| s.threads }).sum
+  end
 end
 
 # eof

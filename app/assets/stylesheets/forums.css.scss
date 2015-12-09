@@ -30,7 +30,14 @@ body.forums {
   .last-answer {
     display: block;
     margin: 0 0 0 2em;
+  }
 }
+
+.forums.stats {
+  .chart {
+    width:100%;
+    height:400px;
+  }
 }
 
 /* eof */
