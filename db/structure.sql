@@ -401,6 +401,37 @@ $$;
 
 
 --
+-- Name: gen_forum_stats(integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION gen_forum_stats(p_forum_id integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  v_min TIMESTAMP WITHOUT TIME ZONE;
+  v_max TIMESTAMP WITHOUT TIME ZONE;
+  v_now TIMESTAMP WITHOUT TIME ZONE;
+BEGIN
+  DELETE FROM forum_stats WHERE forum_id = p_forum_id;
+
+  v_min := (SELECT MIN(DATE_TRUNC('day', created_at)) FROM messages);
+  v_max := (SELECT NOW());
+
+  v_now := v_min;
+  while v_now < v_max LOOP
+    INSERT INTO forum_stats (forum_id, moment, messages, threads)
+      VALUES (p_forum_id, v_now,
+              (SELECT COUNT(*) FROM messages WHERE forum_id = p_forum_id AND deleted = false AND created_at BETWEEN v_now AND ((v_now + interval '1 day') - interval '1 second')),
+              (SELECT COUNT(*) FROM threads WHERE forum_id = p_forum_id AND deleted = false AND created_at BETWEEN v_now AND ((v_now + interval '1 day') - interval '1 second')));
+    v_now := v_now + INTERVAL '1 day';
+  END LOOP;
+
+  RETURN 0;
+END;
+$$;
+
+
+--
 -- Name: messages__thread_set_latest_insert(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -780,6 +811,38 @@ CREATE SEQUENCE counter_table_count_id_seq
 --
 
 ALTER SEQUENCE counter_table_count_id_seq OWNED BY counter_table.count_id;
+
+
+--
+-- Name: forum_stats; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE forum_stats (
+    forum_stat_id integer NOT NULL,
+    forum_id integer NOT NULL,
+    moment date NOT NULL,
+    messages integer NOT NULL,
+    threads integer NOT NULL
+);
+
+
+--
+-- Name: forum_stats_forum_stat_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE forum_stats_forum_stat_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: forum_stats_forum_stat_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE forum_stats_forum_stat_id_seq OWNED BY forum_stats.forum_stat_id;
 
 
 --
@@ -1380,6 +1443,19 @@ ALTER SEQUENCE search_documents_search_document_id_seq OWNED BY search_documents
 
 
 --
+-- Name: search_sections; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE search_sections (
+    search_section_id integer NOT NULL,
+    name text NOT NULL,
+    "position" integer NOT NULL,
+    active_by_default boolean DEFAULT false NOT NULL,
+    forum_id bigint
+);
+
+
+--
 -- Name: search_sections_search_section_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -1392,16 +1468,10 @@ CREATE SEQUENCE search_sections_search_section_id_seq
 
 
 --
--- Name: search_sections; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: search_sections_search_section_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-CREATE TABLE search_sections (
-    search_section_id integer DEFAULT nextval('search_sections_search_section_id_seq'::regclass) NOT NULL,
-    name text NOT NULL,
-    "position" integer NOT NULL,
-    active_by_default boolean DEFAULT false NOT NULL,
-    forum_id bigint
-);
+ALTER SEQUENCE search_sections_search_section_id_seq OWNED BY search_sections.search_section_id;
 
 
 --
@@ -1680,6 +1750,13 @@ ALTER TABLE ONLY counter_table ALTER COLUMN count_id SET DEFAULT nextval('counte
 
 
 --
+-- Name: forum_stat_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY forum_stats ALTER COLUMN forum_stat_id SET DEFAULT nextval('forum_stats_forum_stat_id_seq'::regclass);
+
+
+--
 -- Name: forum_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1796,6 +1873,13 @@ ALTER TABLE ONLY scores ALTER COLUMN score_id SET DEFAULT nextval('scores_score_
 --
 
 ALTER TABLE ONLY search_documents ALTER COLUMN search_document_id SET DEFAULT nextval('search_documents_search_document_id_seq'::regclass);
+
+
+--
+-- Name: search_section_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY search_sections ALTER COLUMN search_section_id SET DEFAULT nextval('search_sections_search_section_id_seq'::regclass);
 
 
 --
@@ -1942,6 +2026,22 @@ ALTER TABLE ONLY close_votes_voters
 
 ALTER TABLE ONLY counter_table
     ADD CONSTRAINT counter_table_pkey PRIMARY KEY (count_id);
+
+
+--
+-- Name: forum_stats_forum_id_moment_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY forum_stats
+    ADD CONSTRAINT forum_stats_forum_id_moment_key UNIQUE (forum_id, moment);
+
+
+--
+-- Name: forum_stats_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY forum_stats
+    ADD CONSTRAINT forum_stats_pkey PRIMARY KEY (forum_stat_id);
 
 
 --
@@ -2373,6 +2473,13 @@ CREATE INDEX search_documents_title_idx ON search_documents USING gin (ts_title)
 
 
 --
+-- Name: search_documents_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX search_documents_user_id_idx ON search_documents USING btree (user_id);
+
+
+--
 -- Name: settings_forum_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2730,6 +2837,14 @@ ALTER TABLE ONLY close_votes
 
 ALTER TABLE ONLY close_votes_voters
     ADD CONSTRAINT close_votes_voters_close_vote_id_fkey FOREIGN KEY (close_vote_id) REFERENCES close_votes(close_vote_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: forum_stats_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY forum_stats
+    ADD CONSTRAINT forum_stats_forum_id_fkey FOREIGN KEY (forum_id) REFERENCES forums(forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -3231,6 +3346,8 @@ INSERT INTO schema_migrations (version) VALUES ('79');
 INSERT INTO schema_migrations (version) VALUES ('8');
 
 INSERT INTO schema_migrations (version) VALUES ('80');
+
+INSERT INTO schema_migrations (version) VALUES ('81');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
 
