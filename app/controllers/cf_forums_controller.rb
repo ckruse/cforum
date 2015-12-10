@@ -157,6 +157,75 @@ class CfForumsController < ApplicationController
 
     @num_messages = (@stats.map { |s| s.messages }).sum()
     @num_threads = (@stats.map { |s| s.threads }).sum
+
+    @status = {
+      today: forum_state(Time.now.beginning_of_day, Time.now.end_of_day, current_forum),
+      last_week: forum_state((Time.now - 7.days).beginning_of_day, (Time.now - 7.days).end_of_day, current_forum),
+      week: forum_state((Time.now - 7.days).beginning_of_day, Time.now.end_of_day, current_forum),
+      month: forum_state((Time.now - 30.days).beginning_of_day, Time.now.end_of_day, current_forum),
+      year: forum_state((Time.now - 360.days).beginning_of_day, Time.now.end_of_day, current_forum)
+    }
+  end
+
+
+  private
+
+
+  def forum_state(start, stop, forum = nil)
+    retval = {
+      threads: 0,
+      messages: 0,
+      num_users: 0,
+      tags: [],
+      users: []
+    }
+    num_threads_messages = CfMessage.
+                           select('COUNT(*) AS msgs, COUNT(DISTINCT thread_id) AS threads, COUNT(DISTINCT user_id) AS num_users, COUNT(DISTINCT uuid) AS num_users_uuid').
+                           where('created_at BETWEEN ? AND ? AND deleted = false', start, stop)
+
+    tags = CfMessage.
+           select('tag_id, COUNT(*) AS cnt').
+           joins(:messages_tags).
+           where('created_at BETWEEN ? AND ? AND deleted = false', start, stop).
+           group('tag_id').
+           order('COUNT(*) DESC').
+           limit(5)
+
+    users = CfMessage.
+            preload(:owner).
+            select('user_id, COUNT(*) AS cnt').
+            where('created_at BETWEEN ? AND ? AND deleted = false AND user_id IS NOT NULL', start, stop).
+            group('user_id').
+            order('COUNT(*) DESC').
+            limit(5)
+
+
+    if forum
+      num_threads_messages = num_threads_messages.where(forum_id: forum.forum_id)
+      tags = tags.where(forum_id: forum.forum_id)
+      users = users.where(forum_id: forum.forum_id)
+    end
+
+    num_threads_messages = num_threads_messages.all.to_a[0]
+
+    retval[:threads] = num_threads_messages.threads
+    retval[:messages] = num_threads_messages.msgs
+    retval[:num_users] = num_threads_messages.num_users + num_threads_messages.num_users_uuid
+
+    tag_ids = []
+    tags.each do |message|
+      tag_ids << [message.tag_id, message.cnt]
+    end
+
+    tags = CfTag.preload(:forum).where(tag_id: tag_ids.map { |tid| tid[0] }).all.to_a
+    tag_ids.each do |tid|
+      tag = tags.find { |tg| tg.tag_id == tid[0] }
+      retval[:tags] << [tag, tid[1]]
+    end
+
+    retval[:users] = users.all
+
+    return retval
   end
 end
 

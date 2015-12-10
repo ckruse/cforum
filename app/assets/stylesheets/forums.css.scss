@@ -33,10 +33,46 @@ body.forums {
   }
 }
 
-.forums.stats {
-  .chart {
-    width:100%;
-    height:400px;
+@media only screen and (min-width : 65em) {
+  body.forums.stats {
+    #content {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -1em;
+    }
+    section {
+      width: calc(50% - 4em);
+      max-width: 60em;
+      margin: 0 1em;
+    }
+
+    #overview {
+      flex: 1 1 100%;
+      margin: 0 0.5em 1em;
+    }
+
+    h3 {
+      border-top:0;
+      padding-top:0;
+    }
+
+    .chart {
+      width:100%;
+      height:400px;
+    }
+
+    .users-list {
+      a {
+        display:inline-block;
+        min-width:10em;
+      }
+
+      .cnt {
+        display:inline-block;
+        text-align:right;
+        min-width:5em;
+      }
+    }
   }
 }
 
