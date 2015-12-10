@@ -1,21 +1,4 @@
 de:
-  forums:
-    all_forums: alle Foren
-    admin_view: Administrator-Ansicht
-    normal_view: Administrator-Ansicht deaktivieren
-    stats: Foren-Statistiken „%{name}“
-    by_date: Verteilung nach Datum
-    stats_text: Das Forum „%{name}“ wurde %{created} erstellt und beinhaltet <strong>%{num_messages}</strong> Nachrichten in <strong>%{num_threads}</strong> Threads.
-
-    new_messages_text:
-      zero: "keine neuen Beiträge"
-      one: "ein neuer Beitrag"
-      other: "%{count} neue Beiträge"
-    new_threads_new_messages:
-      zero: "%{new_messages_text}"
-      one: "%{new_messages_text}"
-      other: "%{new_messages_text} in %{count} Threads"
-
   errors:
     unknown_error: unbekannter Fehler
     unknown_error_message: "Irgendwas ist passiert. Keine Ahnung, was. Am besten, Sie schicken Ihren Nutzer-Namen und eine Beschreibung dessen, was genau Sie gemacht haben, an forum@selfhtml.org."

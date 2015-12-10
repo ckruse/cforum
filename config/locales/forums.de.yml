@@ -1,0 +1,29 @@
+de:
+  forums:
+    all_forums: alle Foren
+    admin_view: Administrator-Ansicht
+    normal_view: Administrator-Ansicht deaktivieren
+
+    stats: Foren-Statistiken „%{name}“
+    by_date_all: Verteilung nach Datum
+    by_date_year: Verteilung nach Datum im letzten Jahr
+    stats_text: Das Forum „%{name}“ wurde %{created} erstellt und beinhaltet <strong>%{num_messages}</strong> Nachrichten in <strong>%{num_threads}</strong> Threads.
+    state_today: Status heute
+    state_last_week: Status %{name} letzter Woche
+    state_week: Status der letzten sieben Tage
+    state_month: Status der letzten dreißig Tage
+    state_year: Status der letzten 360 Tage
+
+    most_used_tags: Die fünf am häufigsten benutzten Tags
+    no_tags: keine Tags
+    most_active_users: Die fünf aktivsten Benutzer
+    no_users: keine aktiven Benutzer
+
+    new_messages_text:
+      zero: "keine neuen Beiträge"
+      one: "ein neuer Beitrag"
+      other: "%{count} neue Beiträge"
+    new_threads_new_messages:
+      zero: "%{new_messages_text}"
+      one: "%{new_messages_text}"
+      other: "%{new_messages_text} in %{count} Threads"
