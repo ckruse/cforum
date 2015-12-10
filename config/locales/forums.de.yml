@@ -15,9 +15,9 @@ de:
     state_month: Status der letzten dreißig Tage
     state_year: Status der letzten 360 Tage
 
-    most_used_tags: Die fünf am häufigsten benutzten Tags
+    most_used_tags: die fünf am häufigsten benutzten Tags
     no_tags: keine Tags
-    most_active_users: Die fünf aktivsten Benutzer
+    most_active_users: die fünf aktivsten Benutzer
     no_users: keine aktiven Benutzer
 
     new_messages_text:
