@@ -94,6 +94,10 @@ module CForum
       _cf_forum_path(forum) + '/mark_all_visited' + query_string(args)
     end
 
+    def stats_path(forum, args = {})
+      _cf_forum_path(forum) + '/stats' + query_string(args)
+    end
+
     def _cf_thread_path(thread)
       _cf_forum_path(thread.forum) + thread.slug
     end
@@ -305,6 +309,10 @@ module CForum
 
     def unhide_cf_thread_url(thread, args = {})
       _cf_thread_url(thread) + '/unhide' + query_string(args)
+    end
+
+    def stats_url(forum, args = {})
+      _cf_forum_url(forum) + '/stats' + query_string(args)
     end
 
 

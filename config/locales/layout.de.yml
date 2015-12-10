@@ -37,6 +37,7 @@ de:
     choose_forum: Forum auswählen
     donate: Spenden
     show_all: alle anzeigen
+    statistics: Statistiken
 
     last_message: 'letzter Beitrag vor %{time}: '
     last_thread: 'Thread erstellt vor %{time}'
