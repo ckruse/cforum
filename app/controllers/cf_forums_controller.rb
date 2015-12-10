@@ -18,6 +18,13 @@ class CfForumsController < ApplicationController
                 where(deleted: false).
                 limit(3).
                 all.to_a
+
+      threads.each do |thread|
+        not_deleted = thread.messages.select { |m| m.deleted == false }
+        thread.attribs[:latest_message] = not_deleted.max_by(&:created_at)
+        thread.attribs[:first] = not_deleted.min_by(&:created_at)
+      end
+
       @activities[f.forum_id] = threads
       @overview_threads += threads
     end
