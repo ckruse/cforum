@@ -91,7 +91,7 @@ class MarkReadPlugin < Plugin
 
     messages = []
     threads.each do |thread|
-      messages << (thread.messages.select { |m| m.deleted == false }).max_by(&:created_at)
+      messages += thread.messages.select { |m| m.deleted == false }
     end
 
     ids = messages.map { |a| a.message_id }
