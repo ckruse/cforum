@@ -66,8 +66,8 @@ de:
 
       highcharts:
         cnt: Anzahl
-        threads: Threads
-        messages: Beiträge
+        threads: neue Threads
+        messages: neue Beiträge
         decimalPoint: ","
         thousandsSep: '.'
         loading: 'Daten werden geladen…'

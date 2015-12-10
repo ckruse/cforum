@@ -15,7 +15,7 @@ cforum.cf_forums = {
         categories: $.map(cforum.cf_forums.statsValues, function(val, i) { return Highcharts.dateFormat("%B %Y", new Date(val.moment)); })
       },
       yAxis: {
-        title: { text: t('highcharts.threads') }
+        title: { text: t('highcharts.cnt') }
       },
       series: [{
         name: t('highcharts.threads'),
@@ -44,7 +44,7 @@ cforum.cf_forums = {
         categories: $.map(yearValues, function(val, i) { return Highcharts.dateFormat("%B %Y", new Date(val.moment)); })
       },
       yAxis: {
-        title: { text: t('highcharts.threads') }
+        title: { text: t('highcharts.cnt') }
       },
       series: [{
         name: t('highcharts.threads'),
