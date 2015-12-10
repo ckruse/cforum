@@ -9,7 +9,7 @@ module Peon
     end
 
     # every two hours
-    Peon::Grunt.instance.periodical(RefreshStatsTask.new, 7200)
+    #Peon::Grunt.instance.periodical(RefreshStatsTask.new, 7200)
   end
 end
 
