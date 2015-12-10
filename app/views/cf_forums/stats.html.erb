@@ -43,7 +43,10 @@ content_for :body_classes, 'forums stats'
   <% end %>
 
   <p>
-    <%= @status[type][:messages] %> Beiträge von <%= @status[type][:num_users] %> Benutzern in <%= @status[type][:threads] %> Threads.
+    <%= t('forums.no_messages_and_threads',
+          messages: number_with_delimiter(@status[type][:messages]),
+          users: number_with_delimiter(@status[type][:num_users]),
+          threads: number_with_delimiter(@status[type][:threads])) %>
   </p>
 
   <h3><%= t('forums.most_used_tags') %></h3>
@@ -67,7 +70,7 @@ content_for :body_classes, 'forums stats'
       <li><%= t('forums.no_users') %></li>
     <% end %>
     <% @status[type][:users].each do |user| %>
-      <li><%= cf_link_to user.owner.username, user_path(user.owner) %> <span class="cnt"><%= user.cnt %></span></li>
+      <li><%= cf_link_to user.owner.username, user_path(user.owner) %> <span class="cnt"><%= number_with_delimiter(user.cnt) %></span></li>
     <% end %>
   </ul>
 </section>

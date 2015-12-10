@@ -8,6 +8,7 @@ de:
     by_date_all: Verteilung nach Datum
     by_date_year: Verteilung nach Datum im letzten Jahr
     stats_text: Das Forum „%{name}“ wurde %{created} erstellt und beinhaltet <strong>%{num_messages}</strong> Nachrichten in <strong>%{num_threads}</strong> Threads.
+    no_messages_and_threads: "%{messages} Beiträge von %{users} Benutzern in %{threads} Threads."
     state_today: Status heute
     state_last_week: Status %{name} letzter Woche
     state_week: Status der letzten sieben Tage
