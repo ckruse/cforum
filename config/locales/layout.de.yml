@@ -40,6 +40,7 @@ de:
 
     last_message: 'letzter Beitrag vor %{time}: '
     last_thread: 'Thread erstellt vor %{time}'
+    first_unread: 'erster ungelesener Beitrag vor %{time}: '
 
     placeholders:
       greeting: Hallo {$vname},

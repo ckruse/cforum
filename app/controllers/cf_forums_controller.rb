@@ -31,6 +31,13 @@ class CfForumsController < ApplicationController
 
     gather_portal_infos unless current_user.blank?
     notification_center.notify(SHOW_FORUMLIST, @overview_threads, @activities)
+
+    unless current_user.blank?
+      @overview_threads.each do |thread|
+        not_deleted_and_unread = thread.messages.select { |m| m.deleted == false && !m.attribs['classes'].include?('visited') }
+        thread.attribs[:first_unread] = not_deleted_and_unread.min_by(&:created_at)
+      end
+    end
   end
 
   def gather_portal_infos

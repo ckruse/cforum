@@ -4,6 +4,13 @@
     <%= t('layout.last_message', time: relative_time(thread.attribs[:latest_message].created_at)) %>
     <%= render 'message_header', thread: thread, message: thread.attribs[:latest_message] %>
   </span>
+
+  <% if not thread.attribs[:first_unread].blank? and thread.attribs[:first_unread].message_id != thread.attribs[:first].message_id %>
+    <span class="first-unread">
+      <%= t('layout.first_unread', time: relative_time(thread.attribs[:first_unread].created_at)) %>
+      <%= render 'message_header', thread: thread, message: thread.attribs[:first_unread] %>
+    </span>
+  <% end %>
 <% else %>
   <span class="last-answer">
     <%= t('layout.last_thread', time: relative_time(thread.attribs[:latest_message].created_at)) %>
