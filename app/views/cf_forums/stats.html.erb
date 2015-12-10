@@ -70,7 +70,13 @@ content_for :body_classes, 'forums stats'
       <li><%= t('forums.no_users') %></li>
     <% end %>
     <% @status[type][:users].each do |user| %>
-      <li><%= cf_link_to user.owner.username, user_path(user.owner) %> <span class="cnt"><%= number_with_delimiter(user.cnt) %></span></li>
+      <li>
+        <span class="registered-user">
+          <%= cf_link_to(image_tag(user.owner.avatar(:thumb), class: 'avatar'), user_path(user.owner), title: t('messages.user_link', user: user.owner.username), class: 'user-link') %>
+          <%= cf_link_to user.owner.username, user_path(user.owner) %>
+        </span>
+        <span class="cnt"><%= number_with_delimiter(user.cnt) %></span>
+      </li>
     <% end %>
   </ul>
 </section>
