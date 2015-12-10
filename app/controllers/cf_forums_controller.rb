@@ -159,7 +159,8 @@ class CfForumsController < ApplicationController
     @stats = ForumStat.
              select("DATE_TRUNC('month', moment) AS moment, SUM(threads) AS threads, SUM(messages) AS messages").
              group("DATE_TRUNC('month', moment)").
-             order("DATE_TRUNC('month', moment)")
+             order("DATE_TRUNC('month', moment)").
+             where("DATE_TRUNC('month', moment) < DATE_TRUNC('month', NOW())")
 
     if current_forum.blank?
       @stats = @stats.where("forum_id IN (" + CfForum.visible_sql(current_user) + ")")

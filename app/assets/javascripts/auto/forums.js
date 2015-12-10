@@ -27,8 +27,7 @@ cforum.cf_forums = {
       }]
     });
 
-    var now = moment();
-    var lastYear = now.subtract(1, 'year').startOf('month');
+    var lastYear = moment().subtract(13, 'months').startOf('month');
 
     var yearValues = $.grep(cforum.cf_forums.statsValues, function(val, i) {
       var mmt = moment(val.moment);
