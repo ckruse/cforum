@@ -20,6 +20,8 @@ de:
     most_active_users: die fünf aktivsten Benutzer
     no_users: keine aktiven Benutzer
 
+    users_by_date_year: ative Benutzer
+
     new_messages_text:
       zero: "keine neuen Beiträge"
       one: "ein neuer Beitrag"
