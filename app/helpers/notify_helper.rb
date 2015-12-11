@@ -28,6 +28,8 @@ module NotifyHelper
       @new_notifications = CfNotification.where(recipient_id: current_user.user_id, is_read: false)
       @new_mails = CfPrivMessage.where(owner: current_user.user_id, is_read: false)
     end
+
+    @undeceided_cites = CfCite.where(archived: false).count()
   end
 
 end
