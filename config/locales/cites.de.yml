@@ -4,9 +4,6 @@ de:
     destroyed: Das Zitat wurde erfolgreich gelöscht.
     updated: Das Zitat wurde erfolgreich geändert.
     cites: Zitatesammlung
-    cites_nav:
-      zero: Zitatesammlung
-      other: Zitatesammlung (%{count})
     cite: 'Zitat #%{id}'
     source: Quelle
     edit_cite: Zitat bearbeiten

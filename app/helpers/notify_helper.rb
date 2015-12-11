@@ -27,9 +27,12 @@ module NotifyHelper
     if current_user
       @new_notifications = CfNotification.where(recipient_id: current_user.user_id, is_read: false)
       @new_mails = CfPrivMessage.where(owner: current_user.user_id, is_read: false)
-    end
 
-    @undeceided_cites = CfCite.where(archived: false).count()
+      @undeceided_cites = CfCite.
+                          where(archived: false).
+                          where("NOT EXISTS (SELECT cite_id FROM cites_votes WHERE cite_id = cites.cite_id AND user_id = ?)",
+                                current_user.user_id).count()
+    end
   end
 
 end

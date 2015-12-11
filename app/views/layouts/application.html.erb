@@ -209,7 +209,10 @@ end
                 <% end %>
               </ul>
             </li>
-            <li><%= cf_link_to t('cites.cites_nav', count: @undeceided_cites), cites_path %></li>
+            <li>
+              <%= cf_link_to t('cites.cites'), cites_path %>
+              <% unless current_user.blank? %>(<%= cf_link_to "#{@undeceided_cites}", cites_vote_path %>)<% end %>
+            </li>
             <li><%= cf_link_to t("layout.chat"), "https://kiwiirc.com/client/irc.epd-me.net/?nick=" + (current_user.try(:username) || "Guest%7C" + rand(9999).to_s) + "&channel=#selfhtml", rel: 'nofollow' %></li>
             <% if controller_path != "cf_search" %>
               <li class="search">

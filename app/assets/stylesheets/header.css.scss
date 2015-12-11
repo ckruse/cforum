@@ -130,7 +130,6 @@ nav {
       color: #3481cd;
       line-height: 1.6;
       padding: 0.4em 0.6em;
-      display: block;
 
       &:hover, &:active, &:focus {
         color: #990909;
@@ -153,7 +152,6 @@ nav.quicklinks {
   }
 
   a, a:link {
-    display: block;
     padding:0;
   }
 
