@@ -67,7 +67,7 @@ de:
       highcharts:
         cnt: Anzahl
         cnt_threads: Anzahl Threads
-        cnt_messages: Anzahl Threads
+        cnt_messages: Anzahl Beiträge
         threads: neue Threads
         messages: neue Beiträge
         users: aktive Benutzer
