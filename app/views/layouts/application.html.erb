@@ -203,13 +203,19 @@ end
             <li><%= cf_link_to t('layout.home'), root_url %></li>
             <li class="dropdown" tabindex="0"><span class="anchor"><%= t('global.forums') %></span>
               <ul class="menu">
-                <li<% if current_forum.blank? and controller_path == 'cf_threads' %> class="active"<% end %>><%= link_to t('layout.all_forums'), cf_forum_path %></li>
+                <li<% if current_forum.blank? and controller_path == 'cf_threads' %> class="active"<% end %>>
+                  <%= link_to t('layout.all_forums'), cf_forum_path %>
+                  <%= cf_link_to image_tag('bewertung-info-blau.png', alt: t('layout.statistics')), stats_path('all'), title: t('layout.statistics'), class: 'stats' %>
+                </li>
                 <% @forums.each do |f| %>
-                  <li<% if current_forum.try(:forum_id) == f.forum_id %> class="active"<% end %>><%= link_to f.name, cf_forum_path(f) %></li>
+                  <li<% if current_forum.try(:forum_id) == f.forum_id %> class="active"<% end %>>
+                    <%= link_to f.name, cf_forum_path(f) %>
+                    <%= cf_link_to image_tag('bewertung-info-blau.png', alt: t('layout.statistics')), stats_path(f), title: t('layout.statistics'), class: 'stats' %>
+                  </li>
                 <% end %>
               </ul>
             </li>
-            <li>
+            <li class="cites">
               <%= cf_link_to t('cites.cites'), cites_path %>
               <% unless current_user.blank? %>(<%= cf_link_to "#{@undeceided_cites}", cites_vote_path %>)<% end %>
             </li>

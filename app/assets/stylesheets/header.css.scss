@@ -91,11 +91,11 @@ aside {
   margin-bottom: 0;
   border-radius: 0px 0.5em 0.5em;
   border: 1px solid #D5D5D5;
+}
 
-  img {
-    float: left;
-    margin: 0.3em 0.5em 0px 0px;
-  }
+.aktuelle-mitteilung img {
+  float: left;
+  margin: 0.3em 0.5em 0px 0px;
 }
 
 div.aktuelle-mitteilung {
@@ -130,6 +130,7 @@ nav {
       color: #3481cd;
       line-height: 1.6;
       padding: 0.4em 0.6em;
+      display: block;
 
       &:hover, &:active, &:focus {
         color: #990909;
@@ -152,8 +153,12 @@ nav.quicklinks {
   }
 
   a, a:link {
+    display: block;
     padding:0;
   }
+
+  li.cites a { display:inline; }
+  a.stats { display:none; }
 
   .search {
     ::input-placeholder { color: white; }
@@ -221,6 +226,14 @@ nav.quicklinks {
     li {
       display: inline-block;
       margin-right: 1em;
+
+      a, a:link, a:visited { display:inline; }
+    }
+  }
+
+  nav {
+    ul {
+      a, a:link, a:visited, a.stats { display:inline; }
     }
   }
 }
