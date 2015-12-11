@@ -56,7 +56,6 @@ cforum.cf_forums = {
       }]
     });
 
-    console.log(yearValues)
     $(".chart-users-year.chart").highcharts({
       chart: { type: 'line' },
       title: null,
