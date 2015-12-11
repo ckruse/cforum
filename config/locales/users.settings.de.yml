@@ -69,3 +69,6 @@ de:
       fold_read_nested: Gelesene Nachrichten im Nested-Modus zusammenfalten
 
       norelnofollow: Suchmaschinen erlauben, dem Homepage-Link zu folgen
+
+      notify_on_cite: Benachrichtigung bei neuem Zitat-Vorschlag
+      delete_read_notifications_on_cite: Gelesene Benachrichtigungen für neue Zitat-Vorschläge automatisch löschen

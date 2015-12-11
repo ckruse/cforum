@@ -96,7 +96,10 @@ class ConfigManager
 
     'hide_read_threads' => 'no',
 
-    'links_white_list' => ''
+    'links_white_list' => '',
+
+    'notify_on_cite' => 'yes',
+    'delete_read_notifications_on_cite' => 'no'
   }
 
   def initialize(use_cache = true)

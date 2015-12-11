@@ -98,6 +98,13 @@ module CForum
       _cf_forum_path(forum) + '/stats' + query_string(args)
     end
 
+    def cites_path(args = {})
+      root_path + 'cites' + query_string(args)
+    end
+    def cite_path(cite, args = {})
+      root_path + 'cites/' + cite.cite_id.to_s + query_string(args)
+    end
+
     def _cf_thread_path(thread)
       _cf_forum_path(thread.forum) + thread.slug
     end
@@ -315,6 +322,13 @@ module CForum
       _cf_forum_url(forum) + '/stats' + query_string(args)
     end
 
+    def cites_url(args = {})
+      root_url + 'cites' + query_string(args)
+    end
+    def cite_url(cite, args = {})
+      root_url + 'cites/' + cite.cite_id.to_s + query_string(args)
+    end
+
 
 
     def _cf_message_url_wo_anchor(thread, message)
@@ -368,7 +382,6 @@ module CForum
     def cf_archive_month_url(forum, month)
       cf_forum_url(forum) + '/' + month.strftime('%Y/%b').downcase
     end
-
   end
 end
 

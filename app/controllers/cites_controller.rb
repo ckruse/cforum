@@ -104,6 +104,13 @@ class CitesController < ApplicationController
   end
 
   def show
+    if not current_user.blank? and uconf('delete_read_notifications_on_cite') == 'yes'
+      CfNotification.
+        where(recipient_id: current_user.user_id,
+              oid: @cite.cite_id,
+              otype: 'cite:create').
+        delete_all
+    end
   end
 
   # GET /cites/new
@@ -150,6 +157,9 @@ class CitesController < ApplicationController
                                   vote_type: CfCiteVote::UPVOTE)
       end
 
+      peon(class_name: 'CitesNotifier',
+           arguments: {type: 'create', cite_id: @cite.cite_id})
+
       audit(@cite, 'create')
       redirect_to cite_url(@cite), notice: t('cites.created')
     else
@@ -171,7 +181,11 @@ class CitesController < ApplicationController
   # DELETE /cites/1
   def destroy
     @cite.destroy
+
     audit(@cite, 'destroy')
+    peon(class_name: 'CitesNotifier',
+         arguments: {type: 'destroy', cite_id: @cite.cite_id})
+
     redirect_to cites_url, notice: t('cites.destroyed')
   end
 

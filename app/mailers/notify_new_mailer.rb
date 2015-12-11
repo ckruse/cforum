@@ -58,6 +58,18 @@ class NotifyNewMailer < ActionMailer::Base
       subject: 'RE: ' + @message.subject
     )
   end
+
+  def new_cite(user, cite, url)
+    @user  = user
+    @cite  = cite
+    @url   = url
+
+    mail(
+      from: Rails.application.config.mail_sender,
+      to: user.email,
+      subject: I18n.t('cites.new_cite_arrived')
+    )
+  end
 end
 
 # eof
