@@ -22,17 +22,18 @@ content_for :body_classes, 'forums stats'
   </p>
 </section>
 
-<section id="chart-overall">
-  <h2><%= t('forums.by_date_all') %></h2>
-
-  <div class="chart-all chart"></div>
-</section>
-
 <section id="chart-last-year">
   <h2><%= t('forums.by_date_year') %></h2>
 
   <div class="chart-year chart"></div>
 </section>
+
+<section id="chart-last-year">
+  <h2><%= t('forums.users_by_date_year') %></h2>
+
+  <div class="chart-users-year chart"></div>
+</section>
+
 
 <% [:today, :last_week, :week, :month, :year].each do |type| %>
 <section id="stats-<%= type %>">
@@ -81,4 +82,10 @@ content_for :body_classes, 'forums stats'
   </ul>
 </section>
 <% end %>
+
+<section id="chart-overall">
+  <h2><%= t('forums.by_date_all') %></h2>
+
+  <div class="chart-all chart"></div>
+</section>
 

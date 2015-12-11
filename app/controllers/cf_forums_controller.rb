@@ -157,7 +157,7 @@ class CfForumsController < ApplicationController
 
   def stats
     @stats = ForumStat.
-             select("DATE_TRUNC('month', moment) AS moment, SUM(threads) AS threads, SUM(messages) AS messages").
+             select("DATE_TRUNC('month', moment) AS moment, SUM(threads) AS threads, SUM(messages) AS messages, SUM(users) AS users").
              group("DATE_TRUNC('month', moment)").
              order("DATE_TRUNC('month', moment)").
              where("DATE_TRUNC('month', moment) < DATE_TRUNC('month', NOW())")

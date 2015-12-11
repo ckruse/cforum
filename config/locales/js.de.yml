@@ -68,6 +68,7 @@ de:
         cnt: Anzahl
         threads: neue Threads
         messages: neue Beiträge
+        users: aktive Benutzer
         decimalPoint: ","
         thousandsSep: '.'
         loading: 'Daten werden geladen…'

@@ -55,6 +55,22 @@ cforum.cf_forums = {
         data: $.map(yearValues, function(val, i) { return val.messages; })
       }]
     });
+
+    console.log(yearValues)
+    $(".chart-users-year.chart").highcharts({
+      chart: { type: 'line' },
+      title: null,
+      xAxis: {
+        categories: $.map(yearValues, function(val, i) { return Highcharts.dateFormat("%B %Y", new Date(val.moment)); })
+      },
+      yAxis: {
+        title: { text: t('highcharts.cnt') }
+      },
+      series: [{
+        name: t('highcharts.users'),
+        data: $.map(yearValues, function(val, i) { return val.users; })
+      }]
+    });
   }
 };
 
