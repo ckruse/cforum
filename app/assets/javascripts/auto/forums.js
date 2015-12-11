@@ -14,16 +14,18 @@ cforum.cf_forums = {
       xAxis: {
         categories: $.map(cforum.cf_forums.statsValues, function(val, i) { return Highcharts.dateFormat("%B %Y", new Date(val.moment)); })
       },
-      yAxis: {
-        title: { text: t('highcharts.cnt') }
-      },
+      yAxis: [
+        { title: { text: t('highcharts.cnt_threads') } },
+        { title: { text: t('highcharts.cnt_messages') }, opposite: true }],
       series: [{
         name: t('highcharts.threads'),
-        data: $.map(cforum.cf_forums.statsValues, function(val, i) { return val.threads; })
+        data: $.map(cforum.cf_forums.statsValues, function(val, i) { return val.threads; }),
+        yAxis: 0
       },
       {
         name: t('highcharts.messages'),
-        data: $.map(cforum.cf_forums.statsValues, function(val, i) { return val.messages; })
+        data: $.map(cforum.cf_forums.statsValues, function(val, i) { return val.messages; }),
+        yAxis: 1
       }]
     });
 
@@ -43,16 +45,18 @@ cforum.cf_forums = {
       xAxis: {
         categories: $.map(yearValues, function(val, i) { return Highcharts.dateFormat("%B %Y", new Date(val.moment)); })
       },
-      yAxis: {
-        title: { text: t('highcharts.cnt') }
-      },
+      yAxis: [
+        { title: { text: t('highcharts.cnt_threads') } },
+        { title: { text: t('highcharts.cnt_messages') }, opposite: true }],
       series: [{
         name: t('highcharts.threads'),
-        data: $.map(yearValues, function(val, i) { return val.threads; })
+        data: $.map(yearValues, function(val, i) { return val.threads; }),
+        yAxis: 0
       },
       {
         name: t('highcharts.messages'),
-        data: $.map(yearValues, function(val, i) { return val.messages; })
+        data: $.map(yearValues, function(val, i) { return val.messages; }),
+        yAxis: 1
       }]
     });
 

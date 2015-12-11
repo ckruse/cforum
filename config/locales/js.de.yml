@@ -65,7 +65,8 @@ de:
         tag_will_be_created: "Vorsicht: Dieses Tag existiert noch nicht. Es würde erstellt werden."
 
       highcharts:
-        cnt: Anzahl
+        cnt_threads: Anzahl Threads
+        cnt_messages: Anzahl Threads
         threads: neue Threads
         messages: neue Beiträge
         users: aktive Benutzer
