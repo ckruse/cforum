@@ -187,19 +187,19 @@ nav.quicklinks {
       margin-right: 0;
     }
 
-      a { display:inline; }
-    }
+    a { display:inline; }
+  }
 
-    a:link,
-    a:visited {
-      color: #3481cd;
+  a:link,
+  a:visited {
+    color: #3481cd;
 
-      &:hover,
-      &:active,
-      &:focus {
-        color: #990909;
-      }
+    &:hover,
+    &:active,
+    &:focus {
+      color: #990909;
     }
+  }
   
   .page-header.flex-item {
     margin-top: 0;
