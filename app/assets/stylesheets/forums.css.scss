@@ -19,8 +19,10 @@ body.forums {
   .thread {
     border:0;
     background:none;
-    margin:0 0 1em;
-    padding:0;
+    margin:0 0 1.5em;
+    padding:.2em 0 .2em .75em;
+    border-left: 5px solid #c4d4da;
+    border-radius: 0;
   }
 
   a.thread-info {
