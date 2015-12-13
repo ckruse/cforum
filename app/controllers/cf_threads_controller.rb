@@ -10,6 +10,7 @@ class CfThreadsController < ApplicationController
   include TagsHelper
   include ThreadsHelper
   include MentionsHelper
+  include ReferencesHelper
 
   SHOW_THREADLIST  = "show_threadlist"
   SHOW_NEW_THREAD  = "show_new_thread"
@@ -157,6 +158,7 @@ class CfThreadsController < ApplicationController
         save_tags(@forum, @message, @tags)
 
         @thread.messages << @message
+        save_references(@message)
         audit(@thread, 'create')
 
         saved = true

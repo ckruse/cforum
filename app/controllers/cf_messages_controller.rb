@@ -10,6 +10,7 @@ class CfMessagesController < ApplicationController
 
   include TagsHelper
   include MentionsHelper
+  include ReferencesHelper
 
   SHOW_NEW_MESSAGE     = "show_new_message"
   SHOW_MESSAGE         = "show_message"
@@ -174,6 +175,7 @@ class CfMessagesController < ApplicationController
         raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
 
         @message.reload
+        save_references(@message)
         audit(@message, 'create')
 
         saved = true
@@ -273,6 +275,7 @@ class CfMessagesController < ApplicationController
     if not invalid and not retvals.include?(false) and not @preview
       CfMessage.transaction do
         if @message.save
+          save_references(@message)
           audit(@message, 'update')
         else
           raise ActiveRecord::Rollback

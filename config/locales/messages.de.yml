@@ -34,6 +34,8 @@ de:
     versions: Versionen
     message_versions: Versionen dieses Beitrags
 
+    these_messages_reference: "Folgende Nachrichten verweisen auf diesen Beitrag:"
+
     new_answer: antworten
     new_answer_to: Antwort an %{name} verfassen
     edit_posting: Beitrag bearbeiten

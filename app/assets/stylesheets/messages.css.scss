@@ -233,6 +233,12 @@ main h2 { margin-left:0; }
   .controls { margin-bottom:1em; }
   form.button_to { display:inline; }
   .cf-btn { margin-bottom:0.2em; }
+
+  .message-references {
+    list-style-type:none;
+    padding-left:0;
+    margin-right:.1em;
+  }
 }
 
 .thread-message.preview .posting-content {
@@ -420,6 +426,10 @@ blockquote.show-quotes .unfold {
     .posting-content {
       width: 95%;
       padding: 0.8em 1em 1em;
+    }
+
+    .message-references {
+      margin-right:1em;
     }
   }
 
