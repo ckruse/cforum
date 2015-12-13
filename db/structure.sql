@@ -1073,6 +1073,38 @@ ALTER SEQUENCE media_medium_id_seq OWNED BY media.medium_id;
 
 
 --
+-- Name: message_references; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE message_references (
+    message_reference_id bigint NOT NULL,
+    src_message_id bigint NOT NULL,
+    dst_message_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: message_references_message_reference_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE message_references_message_reference_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: message_references_message_reference_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE message_references_message_reference_id_seq OWNED BY message_references.message_reference_id;
+
+
+--
 -- Name: message_versions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1732,6 +1764,13 @@ ALTER TABLE ONLY media ALTER COLUMN medium_id SET DEFAULT nextval('media_medium_
 
 
 --
+-- Name: message_reference_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY message_references ALTER COLUMN message_reference_id SET DEFAULT nextval('message_references_message_reference_id_seq'::regclass);
+
+
+--
 -- Name: message_version_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2018,6 +2057,22 @@ ALTER TABLE ONLY invisible_threads
 
 ALTER TABLE ONLY media
     ADD CONSTRAINT media_pkey PRIMARY KEY (medium_id);
+
+
+--
+-- Name: message_references_dst_message_id_src_message_id_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY message_references
+    ADD CONSTRAINT message_references_dst_message_id_src_message_id_key UNIQUE (dst_message_id, src_message_id);
+
+
+--
+-- Name: message_references_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY message_references
+    ADD CONSTRAINT message_references_pkey PRIMARY KEY (message_reference_id);
 
 
 --
@@ -2729,6 +2784,22 @@ ALTER TABLE ONLY media
 
 
 --
+-- Name: message_references_dst_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY message_references
+    ADD CONSTRAINT message_references_dst_message_id_fkey FOREIGN KEY (dst_message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: message_references_src_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY message_references
+    ADD CONSTRAINT message_references_src_message_id_fkey FOREIGN KEY (src_message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: message_versions_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3129,6 +3200,8 @@ INSERT INTO schema_migrations (version) VALUES ('81');
 INSERT INTO schema_migrations (version) VALUES ('82');
 
 INSERT INTO schema_migrations (version) VALUES ('83');
+
+INSERT INTO schema_migrations (version) VALUES ('84');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
 

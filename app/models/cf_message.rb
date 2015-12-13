@@ -35,6 +35,8 @@ class CfMessage < ActiveRecord::Base
 
   has_many :votes, class_name: 'CfCloseVote', foreign_key: :message_id
 
+  has_many :message_references, ->{ order(created_at: :desc) }, class_name: 'MessageReference', foreign_key: :dst_message_id
+
   validates_presence_of :forum_id, :thread_id
 
   after_initialize do
@@ -45,6 +47,10 @@ class CfMessage < ActiveRecord::Base
   # default_scope do
   #   where("deleted = false")
   # end
+
+  def references
+    @references ||= message_references.select { |ref| not ref.src_message.deleted }
+  end
 
   def close_vote
     votes.each do |v|
