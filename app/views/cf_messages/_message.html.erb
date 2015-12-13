@@ -15,10 +15,10 @@ controls ||= :yes
     <%= m.to_html(@app_controller) %>
   </div>
 
-  <% unless m.references.blank? %>
+  <% unless m.references(5).blank? %>
     <p><%= t('messages.these_messages_reference') %></p>
     <ul class="message-references">
-      <% m.references.each do |ref| %>
+      <% m.references(5).each do |ref| %>
         <li>
           <article class="thread threadlist">
             <%= message_header(@thread, ref.src_message, id: false, show_votes: true) %>

@@ -48,8 +48,8 @@ class CfMessage < ActiveRecord::Base
   #   where("deleted = false")
   # end
 
-  def references
-    @references ||= message_references.select { |ref| not ref.src_message.deleted }
+  def references(lim = nil)
+    @references ||= (lim ? message_references.limit(lim) : message_references).select { |ref| not ref.src_message.deleted }
   end
 
   def close_vote
