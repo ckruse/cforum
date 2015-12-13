@@ -20,8 +20,8 @@ controls ||= :yes
     <ul class="message-references">
       <% m.references(5).each do |ref| %>
         <li>
-          <article class="thread threadlist">
-            <%= message_header(@thread, ref.src_message, id: false, show_votes: true) %>
+          <article class="thread threadlist"><% ref.src_message.thread.message = ref.src_message %>
+            <%= message_header(ref.src_message.thread, ref.src_message, id: false, show_votes: true) %>
           </article>
         </li>
       <% end %>

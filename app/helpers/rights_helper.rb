@@ -56,7 +56,7 @@ module RightsHelper
                      messages: [:editor, :tags, :thread,
                                 {votes: :voters,
                                  owner: [:settings, :badges],
-                                 message_references: {src_message: [:owner, :tags, :votes]}}]).
+                                 message_references: {src_message: [{thread: :forum}, :owner, :tags, :votes]}}]).
              includes(messages: :owner).
              where(std_conditions(id, tid)).
              references(messages: :owner).
