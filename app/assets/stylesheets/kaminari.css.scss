@@ -53,4 +53,17 @@
   }
 }
 
+/* Paging in Cites */
+
+.cites .cf-pages {
+  width:100%;
+  width:95vw;
+}
+@media only screen and (min-width: 35em) {
+  .cites .cf-pages {
+    max-width: 100%;
+    max-width: 95vw;
+    width: 55em;
+  }
+}
 /* eof */
