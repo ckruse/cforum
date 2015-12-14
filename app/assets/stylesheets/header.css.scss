@@ -158,7 +158,10 @@ nav.quicklinks {
   }
 
   li.cites a { display:inline; }
-  a.stats { display:none; }
+  a.stats { 
+    display:none;
+    padding-left: .2em;
+  }
 
   .search {
     ::input-placeholder { color: white; }
