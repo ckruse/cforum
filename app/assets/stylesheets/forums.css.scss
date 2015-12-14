@@ -49,8 +49,10 @@ body.forums {
     }
 
     #overview {
-      flex: 1 1 100%;
-      margin: 0 1em 1em;
+      flex:1 1 100%;
+      margin:0 1em 1em;
+      width:100%;
+      max-width:none;
     }
 
     h3 {
