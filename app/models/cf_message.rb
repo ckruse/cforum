@@ -48,8 +48,16 @@ class CfMessage < ActiveRecord::Base
   #   where("deleted = false")
   # end
 
-  def references(lim = nil)
-    @references ||= (lim ? message_references.limit(lim) : message_references).select { |ref| not ref.src_message.deleted }
+  def references(forums, lim = nil)
+    fids = forums.map { |f| f.forum_id }
+    @references ||= message_references.select { |ref| not ref.src_message.deleted }
+    @references.select { |ref| fids.include?(ref.src_message.forum_id) }
+
+    if lim
+      @references[0..lim]
+    else
+      @references
+    end
   end
 
   def close_vote
