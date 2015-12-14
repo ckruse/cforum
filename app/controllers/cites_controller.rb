@@ -111,6 +111,19 @@ class CitesController < ApplicationController
               otype: 'cite:create').
         delete_all
     end
+
+    if @cite.archived?
+      @next_cite = CfCite.
+                   where('cite_id < ?', @cite.cite_id).
+                   order('cite_id DESC').
+                   where(archived: true).
+                   first
+      @prev_cite = CfCite.
+                   where('cite_id > ?', @cite.cite_id).
+                   where(archived: true).
+                   order('cite_id ASC').
+                   first
+    end
   end
 
   # GET /cites/new

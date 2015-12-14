@@ -17,3 +17,16 @@ content_for :body_classes, 'cites show'
                    data: { confirm: t('global.are_you_sure') }, class: 'cf-btn') %>
   <% end %>
 </p>
+
+<% if not @prev_cite.blank? or not @next_cite.blank? %>
+  <div class="cf-pages">
+    <ul>
+      <% unless @prev_cite.blank? %>
+        <li><%= cf_link_to t('views.pagination.prev_page'), cite_path(@prev_cite), rel: 'previous', target: nil %></li>
+      <% end %>
+      <% unless @next_cite.blank? %>
+        <li><%= cf_link_to t('views.pagination.next_page'), cite_path(@next_cite), rel: 'next', target: nil %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
