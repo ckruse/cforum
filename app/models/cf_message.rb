@@ -51,12 +51,12 @@ class CfMessage < ActiveRecord::Base
   def references(forums, lim = nil)
     fids = forums.map { |f| f.forum_id }
     @references ||= message_references.select { |ref| not ref.src_message.deleted }
-    @references.select { |ref| fids.include?(ref.src_message.forum_id) }
+    refs = @references.select { |ref| fids.include?(ref.src_message.forum_id) }
 
     if lim
-      @references[0..lim]
+      refs[0..lim]
     else
-      @references
+      refs
     end
   end
 
