@@ -19,7 +19,7 @@
     li {
       display: inline;
       margin-right: 1.5em;
-  
+
       a:link, a:visited, input { opacity: .75; }
       a:hover, a:focus, input:focus, input:hover { opacity: 1; }
       a {
@@ -158,7 +158,7 @@ nav.quicklinks {
   }
 
   li.cites a { display:inline; }
-  a.stats { 
+  a.stats {
     display:none;
     padding-left: .2em;
   }
@@ -177,7 +177,7 @@ nav.quicklinks {
 
     .selflinks { margin-left: 1.75em; }
   }
-  
+
   .personallinks.flex-item {
     margin: .1em 2em;
 
@@ -203,7 +203,7 @@ nav.quicklinks {
       color: #990909;
     }
   }
-  
+
   .page-header.flex-item {
     margin-top: 0;
   }
@@ -240,9 +240,9 @@ nav.quicklinks {
   .personallinks {
     text-align:right;
   }
-  
+
   nav.quicklinks {
-    .search { 
+    .search {
       float:right;
     }
   }
