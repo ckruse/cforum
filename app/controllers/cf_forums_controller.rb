@@ -219,6 +219,10 @@ class CfForumsController < ApplicationController
       num_threads_messages = num_threads_messages.where(forum_id: forum.forum_id)
       tags = tags.where(forum_id: forum.forum_id)
       users = users.where(forum_id: forum.forum_id)
+    else
+      num_threads_messages = num_threads_messages.where("forum_id IN (" + CfForum.visible_sql(current_user) + ")")
+      tags = tags.where("forum_id IN (" + CfForum.visible_sql(current_user) + ")")
+      users = users.where("forum_id IN (" + CfForum.visible_sql(current_user) + ")")
     end
 
     num_threads_messages = num_threads_messages.all.to_a[0]
