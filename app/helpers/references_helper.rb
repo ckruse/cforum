@@ -9,6 +9,9 @@ module ReferencesHelper
 
   def find_links(content)
     doc = Nokogiri::HTML(content)
+
+    doc.css("span.signature").remove
+
     links = doc.xpath("//a")
     links = links.select { |l| not l['href'].blank? }
     links.map { |l| l['href'] }
