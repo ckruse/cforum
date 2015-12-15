@@ -60,7 +60,7 @@ end
     </div>
   <% end %>
 
-  <div class="posting-content cite"><%= cite.cite %></div>
+  <div class="posting-content cite"><%= cite.to_html(@app_controller) %></div>
 
   <div>
     <% unless cite.creator.blank? %><%= t('cites.created_by') %>

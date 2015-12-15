@@ -2,6 +2,7 @@
 
 class CfCite < ActiveRecord::Base
   include ScoresHelper
+  include ParserHelper
 
   self.primary_key = 'cite_id'
   self.table_name  = 'cites'
@@ -27,6 +28,14 @@ class CfCite < ActiveRecord::Base
     end
 
     sum
+  end
+
+  def get_content
+    self.cite
+  end
+
+  def id_prefix
+    cite_id.to_s
   end
 end
 
