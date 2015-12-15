@@ -4,7 +4,9 @@ class ImagesController < ApplicationController
   authorize_action([:index, :destroy]) { authorize_admin }
 
   def index
-    @media = sort_query(%w(orig_name created_at), Medium).page(params[:page]).per(conf('pagination').to_i)
+    @media = sort_query(%w(created_at orig_name), Medium).
+             page(params[:page]).
+             per(conf('pagination').to_i)
   end
 
   def show
