@@ -15,3 +15,12 @@ de:
       one: einem Tag
       other: "%{count} Tagen"
 
+    months:
+      zero: weniger als einem Monat
+      one: einem Monat
+      other: "%{count} Monaten"
+
+    years:
+      zero: weniger als einem Jahr
+      one: einem Jahr
+      other: "%{count} Jahren"

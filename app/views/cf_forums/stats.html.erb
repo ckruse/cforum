@@ -60,7 +60,7 @@ content_for :body_classes, 'forums stats'
       <li><%= cf_link_to tag_path(tag[0].forum, tag[0]), class: "cf-tag" do %>
         <% if current_forum.blank? %><span><%= tag[0].forum.short_name %>:</span><% end %>
         <%= tag[0].tag_name %>
-      <% end %> <span class="cnt"><%= tag[1] %></span></li>
+      <% end %> <span class="cnt"><%= number_with_delimiter(tag[1]) %></span></li>
     <% end %>
   </ul>
 
