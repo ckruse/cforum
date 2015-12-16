@@ -39,9 +39,10 @@ de:
     show_all: alle anzeigen
     statistics: Statistiken
 
-    last_message: 'letzter Beitrag vor %{time}: '
-    last_thread: 'Thread erstellt vor %{time}'
-    first_unread: 'ältester ungelesener Beitrag vor %{time}: '
+    last_message: letzter Beitrag
+    last_thread: Thread erstellt
+    first_unread: ältester ungelesener Beitrag
+    ago: 'vor %{time}: '
 
     placeholders:
       greeting: Hallo {$vname},
