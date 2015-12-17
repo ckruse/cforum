@@ -11,6 +11,7 @@ module ReferencesHelper
     doc = Nokogiri::HTML(content)
 
     doc.css("span.signature").remove
+    doc.css("blockquote").remove
 
     links = doc.xpath("//a")
     links = links.select { |l| not l['href'].blank? }
