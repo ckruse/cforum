@@ -11,7 +11,7 @@ class CitesController < ApplicationController
   def index(archived = true)
     @limit = conf('pagination').to_i
     @cites = CfCite.
-             preload(:message, :user, :creator_user).
+             preload(:user, :creator_user, message: :forum).
              where(archived: archived).
              order('cite_id DESC').
              page(params[:page]).
@@ -209,17 +209,18 @@ class CitesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_cite
-      @cite = CfCite.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def cite_params
-      allowed_attribs = [:cite, :url, :author, :creator]
+  # Use callbacks to share common setup or constraints between actions.
+  def set_cite
+    @cite = CfCite.preload(:user, :creator_user, message: :forum).find(params[:id])
+  end
 
-      params.require(:cf_cite).permit(*allowed_attribs)
-    end
+  # Only allow a trusted parameter "white list" through.
+  def cite_params
+    allowed_attribs = [:cite, :url, :author, :creator]
+
+    params.require(:cf_cite).permit(*allowed_attribs)
+  end
 end
 
 # eof
