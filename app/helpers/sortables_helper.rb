@@ -3,13 +3,35 @@
 module SortablesHelper
   def sort_query(valid_fields, query_object, replacements = {})
     valid_fields = valid_fields.map { |elem| elem.to_sym }
-    @_sort_column = params[:sort] || valid_fields.first
-    @_sort_direction =  params[:dir] || :asc
+    controller_nam = controller_path.gsub(/\//, '-')
+
+    cookie_key_scol = ("cforum_" + controller_nam + "-sort_column").to_sym
+    cookie_key_sord = ("cforum_" + controller_nam + "-sort_direction").to_sym
+    have_to_set_cookie = false
+
+    if params[:sort].blank?
+      @_sort_column = cookies[cookie_key_scol] || valid_fields.first
+    else
+      @_sort_column = params[:sort]
+      have_to_set_cookie = true
+    end
+
+    if params[:dir].blank?
+      @_sort_direction = cookies[cookie_key_sord] || :asc
+    else
+      @_sort_direction = params[:dir]
+      have_to_set_cookie = true
+    end
 
     @_sort_direction = :asc unless [:asc, :desc].include?(@_sort_direction.to_sym)
     @_sort_direction = @_sort_direction.to_sym
     @_sort_column = valid_fields.first unless valid_fields.include?(@_sort_column.to_sym)
     @_sort_column = @_sort_column.to_sym
+
+    if have_to_set_cookie
+      cookies[cookie_key_scol] = {value: @_sort_column, expires: 1.year.from_now}
+      cookies[cookie_key_sord] = {value: @_sort_direction, expires: 1.year.from_now}
+    end
 
     order_name = if replacements and replacements[@_sort_column]
                    replacements[@_sort_column]
