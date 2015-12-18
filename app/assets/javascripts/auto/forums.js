@@ -40,7 +40,7 @@ cforum.cf_forums = {
     });
 
     $(".chart-year.chart").highcharts({
-      chart: { type: 'line' },
+      chart: { type: 'spline' },
       title: null,
       xAxis: {
         categories: $.map(yearValues, function(val, i) { return Highcharts.dateFormat("%B %Y", new Date(val.moment)); })
@@ -61,7 +61,7 @@ cforum.cf_forums = {
     });
 
     $(".chart-users-year.chart").highcharts({
-      chart: { type: 'line' },
+      chart: { type: 'spline' },
       title: null,
       xAxis: {
         categories: $.map(yearValues, function(val, i) { return Highcharts.dateFormat("%B %Y", new Date(val.moment)); })
