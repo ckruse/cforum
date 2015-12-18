@@ -68,8 +68,10 @@ de:
         cnt: Anzahl
         cnt_threads: Anzahl Threads
         cnt_messages: Anzahl Beiträge
+        cnt_cites: Anzahl Zitate
         threads: neue Threads
         messages: neue Beiträge
+        cites: Zitate
         users: aktive Benutzer
         decimalPoint: ","
         thousandsSep: '.'

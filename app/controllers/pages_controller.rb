@@ -8,6 +8,12 @@ class PagesController < ApplicationController
                   order(:username)
 
     @badges = CfBadge.order(:score_needed)
+
+    @cites = CfCite.
+             select("date_trunc('month', created_at) AS created_at, COUNT(*) AS cnt").
+             where("created_at >= NOW() - INTERVAL '12 months'").
+             group("date_trunc('month', created_at)").
+             all
   end
 end
 

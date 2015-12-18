@@ -5,6 +5,8 @@ content_for :body_id, 'forum-help'
 content_for :body_classes, 'help'
 %>
 
+<%= javascript_include_tag "stats" %>
+
 <section id="forum-charta">
 
   <h2>Charta</h2>
@@ -145,7 +147,6 @@ content_for :body_classes, 'help'
     Bronze-Medaillen. <%= cf_link_to 'Nähere Informationen zu den Medaillen und Rechten', 'https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Rechte' %>
     gibt es im SELFHTML-Wiki.
   </p>
-
 </section>
 
 <section id="medals">
@@ -176,6 +177,8 @@ content_for :body_classes, 'help'
     <%= cf_link_to 'näheren Regeln zur Zitate-Sammlung', 'https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Regeln_f%C3%BCr_die_Zitatesammlung' %>
     sind im SELFHTML-Wiki einsehbar.</p>
 
+  <script>cforum.pages.helpCites = <%= @cites.to_json.html_safe %>;</script>
+  <div class="chart-cites chart"></div>
 </section>
 
 <section id="impressum">
