@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 module SortablesHelper
-  def sort_query(valid_fields, query_object, replacements = {})
+  def sort_query(valid_fields, query_object, replacements = {}, defaults = {dir: :asc})
     valid_fields = valid_fields.map { |elem| elem.to_sym }
     controller_nam = controller_path.gsub(/\//, '-')
 
@@ -17,7 +17,7 @@ module SortablesHelper
     end
 
     if params[:dir].blank?
-      @_sort_direction = cookies[cookie_key_sord] || :asc
+      @_sort_direction = cookies[cookie_key_sord] || defaults[:dir]
     else
       @_sort_direction = params[:dir]
       have_to_set_cookie = true

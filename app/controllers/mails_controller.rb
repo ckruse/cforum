@@ -8,8 +8,6 @@ class MailsController < ApplicationController
   SHOW_NEW_PRIV_MESSAGE = 'show_new_priv_message'
 
   def index_users
-    params[:dir] ||= :desc
-
     cu    = current_user
     mails = CfPrivMessage.
             select("(CASE recipient_id WHEN #{cu.user_id} THEN sender_name ELSE recipient_name END) AS username, is_read, COUNT(*) AS cnt").
@@ -24,8 +22,6 @@ class MailsController < ApplicationController
   end
 
   def index
-    params[:dir] ||= :desc
-
     if params[:user]
       @user  = params[:user]
       @user_object = CfUser.where(username: params[:user]).first
@@ -42,7 +38,8 @@ class MailsController < ApplicationController
 
     @mails = sort_query(%w(created_at sender recipient subject),
                         @mails, {sender: "sender_name",
-                                 recipient: "recipient_name"}).
+                                 recipient: "recipient_name"},
+                        {dir: :desc}).
              page(params[:page]).per(conf('pagination').to_i)
   end
 
