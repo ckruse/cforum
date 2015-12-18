@@ -4,8 +4,13 @@ class Peon::Tasks::CitesNotifier < Peon::Tasks::PeonTask
   def send_create_notifications(args)
     cite = CfCite.find(args['cite_id'])
 
-    users = CfSetting.preload(:user).where("user_id IS NOT NULL AND ((options->'notify_on_cite') != 'no' OR (options->'notify_on_cite') IS NULL)").all
-    users.each do |user|
+    users = CfSetting.
+            preload(:user).
+            where("user_id IS NOT NULL AND ((options->'notify_on_cite') != 'no' OR (options->'notify_on_cite') IS NULL)")
+
+    users = users.where('user_id != ?', cite.creator_user_id) unless cite.creator_user_id.blank?
+
+    users.all.each do |user|
       notify_user(user.user, nil, I18n.t('cites.new_cite_arrived'),
                   cite_path(cite), cite.cite_id, 'cite:create',
                   'icon-new-activity')
