@@ -218,6 +218,27 @@
       return typeof src == 'object' ? src[this.$options.iconlibrary] : src;
     },
 
+    __beginningOfLine: function(content, sel) {
+      var c = content.substr(sel.start - 1, 1);
+      return (c == "\n");
+    },
+
+    __previousLineIsList: function(content, sel, rx) {
+      var i, c;
+
+      for(i = sel.start - 1; i >= 0; --i) {
+
+        c = content.substr(i, 1);
+        if(c == "\n") {
+          if(content.substr(i + 1, 1).match(rx)) {
+            return true;
+          }
+        }
+      }
+
+      return (i === 0);
+    },
+
 
     setFullscreen: function(mode) {
       var $editor = this.$editor,
@@ -1135,16 +1156,23 @@
           callback: function(e) {
             // Prepend/Give - surround the selection
             var chunk, cursor, selected = e.getSelection(),
-                content = e.getContent();
+                content = e.getContent(), prefix = "";
 
             // transform selection and set the cursor into chunked text
             if(selected.length === 0) {
               // Give extra word
               chunk = e.__localize('list text here');
 
-              e.replaceSelection('- ' + chunk);
+              if(!e.__previousLineIsList(content, selected, /-/)) {
+                prefix += "\n";
+              }
+              if(!e.__beginningOfLine(content, selected)) {
+                prefix += "\n";
+              }
+
+              e.replaceSelection(prefix + '- ' + chunk);
               // Set the cursor
-              cursor = selected.start + 2;
+              cursor = selected.start + 2 + prefix.length;
             }
             else {
               if(selected.text.indexOf('\n') < 0) {
@@ -1189,15 +1217,23 @@
 
             // Prepend/Give - surround the selection
             var chunk, cursor, selected = e.getSelection(),
-                content = e.getContent();
+                content = e.getContent(), prefix = "";
 
             // transform selection and set the cursor into chunked text
             if(selected.length === 0) {
               // Give extra word
               chunk = e.__localize('list text here');
-              e.replaceSelection('1. ' + chunk);
+
+              if(!e.__previousLineIsList(content, selected, /\d/)) {
+                prefix += "\n";
+              }
+              if(!e.__beginningOfLine(content, selected)) {
+                prefix += "\n";
+              }
+
+              e.replaceSelection(prefix + '1. ' + chunk);
               // Set the cursor
-              cursor = selected.start + 3;
+              cursor = selected.start + 3 + prefix.length;
             }
             else {
               if(selected.text.indexOf('\n') < 0) {
