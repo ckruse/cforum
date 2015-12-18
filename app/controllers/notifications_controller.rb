@@ -7,6 +7,8 @@ class NotificationsController < ApplicationController
     @limit = uconf('pagination').to_i
     @limit = 50 if @limit <= 0
 
+    params[:dir] ||= :desc
+
     @notifications = CfNotification.where(recipient_id: current_user.user_id).
                      page(params[:page]).per(@limit)
     @notifications = sort_query(%w(created_at is_read subject),
