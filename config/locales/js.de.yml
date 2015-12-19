@@ -66,12 +66,12 @@ de:
 
       highcharts:
         cnt: Anzahl
-        cnt_threads: Anzahl Threads
-        cnt_messages: Anzahl Beiträge
-        cnt_cites: Anzahl Zitate
+        cnt_threads: Anzahl neuer Threads
+        cnt_messages: Anzahl neuer Beiträge
+        cnt_cites: Anzahl neuer Zitate
         threads: neue Threads
         messages: neue Beiträge
-        cites: Zitate
+        cites: neue Zitate
         users: aktive Benutzer
         decimalPoint: ","
         thousandsSep: '.'
