@@ -17,6 +17,7 @@ de:
     no_votes_active: Zur Zeit sind keine Zitate zur Abstimmung aktiv.
     new_cite_arrived: Ein neues Zitat wurde erstellt.
     cite_got_deleted: Das Zitat wurde gelöscht.
+    already_exists: Ein Zitat mit dieser Nachricht als Quelle existiert bereits.
 
     error_message:
       other: "%{count} Fehler verhinderten, dass dieses Zitat gespeichert werden konnte:"
