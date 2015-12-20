@@ -177,6 +177,8 @@ content_for :body_classes, 'help'
     <%= cf_link_to 'näheren Regeln zur Zitate-Sammlung', 'https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Regeln_f%C3%BCr_die_Zitatesammlung' %>
     sind im SELFHTML-Wiki einsehbar.</p>
 
+  <p>Nachfolgende Grafik zeigt, wieviele neue Zitate in den letzten 12 Monaten hinzugekommen sind.</p>
+
   <script>cforum.pages.helpCites = <%= @cites.to_json.html_safe %>;</script>
   <div class="chart-cites chart"></div>
 </section>
