@@ -13,6 +13,7 @@ class PagesController < ApplicationController
              select("date_trunc('month', created_at) AS created_at, COUNT(*) AS cnt").
              where("created_at >= NOW() - INTERVAL '12 months'").
              group("date_trunc('month', created_at)").
+             order("date_trunc('month', created_at)").
              all
   end
 end
