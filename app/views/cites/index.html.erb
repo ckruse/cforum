@@ -5,8 +5,6 @@ content_for :body_id, 'cites-index'
 content_for :body_classes, 'cites index'
 %>
 
-<p class="cf-info cf-alert" style="max-width:55em; width: 100%; width: 95vw; box-sizing: border-box">Die Zitatesammlung wird derzeit an Markdown angepasst. Deshalb können für die Übergangszeit einige Zitate etwas seltsam aussehen.</p>
-
 <%= paginate @cites %>
 
 <% @cites.each do |c| %>
