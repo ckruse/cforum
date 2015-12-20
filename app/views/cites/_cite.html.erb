@@ -74,6 +74,6 @@ end
           <span class="icon-message original-poster"><%= cite.creator %></span>
         <% end %>
       </span>
-    <% end %><% if not cite.url.blank? and @forums.include?(cite.message.forum) %><%= cf_link_to t('cites.source'), cite.url %><% end %>
+    <% end %><% if not cite.url.blank? and not cite.message_id.blank? and @forums.include?(cite.message.forum) %><%= cf_link_to t('cites.source'), cite.url %><% end %>
   </div>
 </article>
