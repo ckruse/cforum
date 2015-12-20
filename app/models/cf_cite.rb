@@ -15,7 +15,7 @@ class CfCite < ActiveRecord::Base
 
   validates :author, length: { in: 2..60 }, allow_blank: true
   validates :cite, length: { in: 10..12288 }, presence: true
-  validates_uniqueness_of :message_id, message: I18n.t('cites.already_exists')
+  #validates_uniqueness_of :message_id, message: I18n.t('cites.already_exists')
 
   def no_votes
     return votes.length
