@@ -72,7 +72,7 @@ de:
         threads: neue Threads
         messages: neue Beiträge
         cites: neue Zitate
-        users: aktive Benutzer
+        users: Autoren
         decimalPoint: ","
         thousandsSep: '.'
         loading: 'Daten werden geladen…'
