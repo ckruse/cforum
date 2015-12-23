@@ -31,19 +31,21 @@ with_name ||= false
 </fieldset>
 
 <fieldset>
-  <p id="forum-usage">Dieses Forum nutzt <%= cf_link_to 'Markdown', 'http://markdown.de/syntax/index.html' %>. Im <%= cf_link_to 'Wiki', 'http://wiki.selfhtml.org/' %> erhalten Sie <%= cf_link_to 'Hilfe bei der Formatierung Ihrer Beiträge', 'http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bedienung' %>.</p>
-  <div class="cf-cgroup cf-textarea-only">
-    <div class="cntrls">
-      <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt %>
+  <div class="flex-container">
+    <p id="forum-usage">Dieses Forum nutzt <%= cf_link_to 'Markdown', 'http://markdown.de/syntax/index.html' %>. Im <%= cf_link_to 'Wiki', 'http://wiki.selfhtml.org/' %> erhalten Sie <%= cf_link_to 'Hilfe bei der Formatierung Ihrer Beiträge', 'http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bedienung' %>.</p>
+    <div class="cf-cgroup cf-textarea-only">
+      <div class="cntrls">
+        <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt %>
+      </div>
     </div>
-  </div>
 
-  <% if uconf('live_preview') == 'yes' %>
-    <article class="thread-message preview">
-      <h3>Vorschau</h3>
-      <div class="posting-content" id="on-the-fly-preview"></div>
-    </article>
-  <% end %>
+    <% if uconf('live_preview') == 'yes' %>
+      <article class="thread-message preview">
+        <h3>Vorschau</h3>
+        <div class="posting-content" id="on-the-fly-preview"></div>
+      </article>
+    <% end %>
+  </div>
 </fieldset>
 
 <fieldset>
