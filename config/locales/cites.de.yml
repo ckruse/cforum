@@ -14,6 +14,7 @@ de:
     destroy_cite: Zitat löschen
     created_by: eingereicht von
     do_vote: über Zitate abstimmen
+    do_read_cites: Zitate lesen
     no_votes_active: Zur Zeit sind keine Zitate zur Abstimmung aktiv.
     new_cite_arrived: Ein neues Zitat wurde erstellt.
     cite_got_deleted: Das Zitat wurde gelöscht.
