@@ -36,13 +36,19 @@
   margin: .5em;
 
   li {
-    display:block;
+    display: block;
     margin: 0 0 1em 0;
     line-height:1em;
     white-space: nowrap;
   }
+  a:visited {
+    color: #3481cd;
+  }
   img {
       margin-right: .2em;
+  }
+  #user-not-signed-in {
+    color: #999;
   }
 }
 
