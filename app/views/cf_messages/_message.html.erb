@@ -15,19 +15,6 @@ controls ||= :yes
     <%= m.to_html(@app_controller) %>
   </div>
 
-  <% unless m.references(@forums, 5).blank? %>
-    <p><%= t('messages.these_messages_reference') %></p>
-    <ul class="message-references">
-      <% m.references(@forums, 5).each do |ref| %>
-        <li>
-          <article class="thread threadlist"><% ref.src_message.thread.message = ref.src_message %>
-            <%= message_header(ref.src_message.thread, ref.src_message, id: false, show_votes: true) %>
-          </article>
-        </li>
-      <% end %>
-    </ul>
-  <% end %>
-
   <% if not m.flags['flagged'].blank? and not current_user.blank? and current_user.moderate?(current_forum) %>
     <div class="flagged-message">
       <p>
@@ -41,7 +28,6 @@ controls ||= :yes
       </p>
     </div>
   <% end %>
-
 
   <div class="message-links">
     <% if not m.flags['flattr_id'].blank? %>
@@ -154,13 +140,27 @@ controls ||= :yes
   <% if m.message_id == @thread.message.message_id and not @thread.accepted.blank? %>
     <h3><%= t('messages.accepted_answers') %></h3>
 
-    <div class="accepted">
+    <ul class="accepted">
       <% @thread.accepted.each do |m| %>
-        <article class="thread threadlist"><%= message_header(@thread, m, first: false, do_parent: false, show_votes: true, id_prefix: 'accepted-', subject: false) %></article>
+      <li>
+        <article class="thread threadlist"><%= message_header(@thread, m, first: false, do_parent: false, show_votes: true, id_prefix: 'accepted-') %></article>
+      </li>
       <% end %>
-    </div>
+    </ul>
   <% end %>
 
+  <% unless m.references(@forums, 5).blank? %>
+    <h3><%= t('messages.these_messages_reference') %></h3>
+    <ul class="message-references">
+      <% m.references(@forums, 5).each do |ref| %>
+        <li>
+          <article class="thread threadlist"><% ref.src_message.thread.message = ref.src_message %>
+            <%= message_header(ref.src_message.thread, ref.src_message, id: false, show_votes: true) %>
+          </article>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
 
   <% if controls == :yes %>
     <div class="forum-links">
