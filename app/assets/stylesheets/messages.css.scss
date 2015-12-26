@@ -135,6 +135,7 @@ main h2 { margin-left:0; }
     }
   }
 
+
   .accepted + h3 {
     margin-top: 1.5em;
   }
@@ -283,7 +284,10 @@ main h2 { margin-left:0; }
     cursor:pointer;
 
     & > header { padding-left: 1em; }
-    &::after {
+
+    & > header ~ h3:first-of-type { margin-top: .8em; }
+
+    &::before {
       background-color: transparent;
       border: none;
       color: #00a1e2;
@@ -291,7 +295,7 @@ main h2 { margin-left:0; }
       cursor: pointer;
       display: inline;
       position: absolute;
-      margin-top: -2.5em;
+      margin-top: .5em;
       margin-left: -.5em;
     }
 
