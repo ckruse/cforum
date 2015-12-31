@@ -1,8 +1,13 @@
 /* -*- coding: utf-8 -*- */
+/* global cforum, Highcharts, t */
 
 cforum.pages = {
   helpCites: null,
   help: function() {
+    Highcharts.setOptions({
+      lang: t('highcharts')
+    });
+
     $(".chart-cites.chart").highcharts({
       chart: { type: 'spline' },
       title: null,
