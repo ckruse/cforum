@@ -180,7 +180,7 @@ class CfForumsController < ApplicationController
                            group("DATE_TRUNC('month', created_at)")
 
     if current_forum
-      @users_twelve_months = @users_twelve_months.where(forum_id: forum.forum_id)
+      @users_twelve_months = @users_twelve_months.where(forum_id: current_forum.forum_id)
     else
       @users_twelve_months = @users_twelve_months.where("forum_id IN (" + CfForum.visible_sql(current_user) + ")")
     end
