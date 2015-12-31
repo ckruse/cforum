@@ -11,6 +11,7 @@ content_for :body_classes, 'forums stats'
 <%= javascript_include_tag "stats" %>
 <script>
  cforum.cf_forums.statsValues = <%= @stats.to_json.html_safe %>;
+ cforum.cf_forums.usersTwelveMonths = <%= @users_twelve_months.to_json.html_safe %>;
 </script>
 
 <section id="overview">

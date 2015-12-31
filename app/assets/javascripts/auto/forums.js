@@ -1,8 +1,10 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum, t, moment */
+/* global cforum, t, moment, Highcharts */
 
 cforum.cf_forums = {
   statsValues: null,
+  usersTwelveMonths: null,
+
   stats: function() {
     Highcharts.setOptions({
       lang: t('highcharts')
@@ -64,14 +66,15 @@ cforum.cf_forums = {
       chart: { type: 'spline' },
       title: null,
       xAxis: {
-        categories: $.map(yearValues, function(val, i) { return Highcharts.dateFormat("%B %Y", new Date(val.moment)); })
+        categories: $.map(cforum.cf_forums.usersTwelveMonths,
+                          function(val, i) { return Highcharts.dateFormat("%B %Y", new Date(val.moment)); })
       },
       yAxis: {
         title: { text: t('highcharts.cnt') }
       },
       series: [{
         name: t('highcharts.users'),
-        data: $.map(yearValues, function(val, i) { return val.users; })
+        data: $.map(cforum.cf_forums.usersTwelveMonths, function(val, i) { return val.cnt; })
       }]
     });
   }

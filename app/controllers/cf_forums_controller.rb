@@ -157,7 +157,7 @@ class CfForumsController < ApplicationController
 
   def stats
     @stats = ForumStat.
-             select("DATE_TRUNC('month', moment) AS moment, SUM(threads) AS threads, SUM(messages) AS messages, SUM(users) AS users").
+             select("DATE_TRUNC('month', moment) AS moment, SUM(threads) AS threads, SUM(messages) AS messages").
              group("DATE_TRUNC('month', moment)").
              order("DATE_TRUNC('month', moment)").
              where("DATE_TRUNC('month', moment) < DATE_TRUNC('month', NOW())")
@@ -172,6 +172,19 @@ class CfForumsController < ApplicationController
 
     @num_messages = (@stats.map { |s| s.messages }).sum()
     @num_threads = (@stats.map { |s| s.threads }).sum
+
+    start, stop = Time.now.utc.beginning_of_month - 13.months, Time.now.utc.beginning_of_month - 1
+    @users_twelve_months = CfMessage.
+                           select("DATE_TRUNC('month', created_at) AS moment, COUNT(DISTINCT user_id) cnt").
+                           where("created_at BETWEEN ? AND ? AND user_id IS NOT NULL", start, stop).
+                           group("DATE_TRUNC('month', created_at)")
+
+    if current_forum
+      @users_twelve_months = @users_twelve_months.where(forum_id: forum.forum_id)
+    else
+      @users_twelve_months = @users_twelve_months.where("forum_id IN (" + CfForum.visible_sql(current_user) + ")")
+    end
+
 
     @status = {
       today: forum_state(Time.now.beginning_of_day, Time.now.end_of_day, current_forum),
