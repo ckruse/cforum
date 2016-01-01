@@ -25,6 +25,7 @@
 .icon-thread {
   @extend .fa;
   cursor: pointer;
+  color: #3481cd;
 
   &.open { @extend .fa-folder-open; }
   &.closed { @extend .fa-folder; }
@@ -35,6 +36,10 @@
   &.mark-invisible { @extend .fa-remove; }
   &.mark-visible { @extend .fa-recycle; }
   &.mark-thread-read { @extend .fa-check; }
+}
+
+i.icon-thread {
+  margin-right: .3em;
 }
 
 .icon-registered-user {

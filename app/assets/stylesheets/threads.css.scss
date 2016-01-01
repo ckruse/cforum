@@ -21,20 +21,23 @@ a:visited:hover, a:visited:hover {
   color: #990909;
 }
 
-.thread-forum-plate {
+a.thread-forum-plate {
   font-size: 90%;
   font-weight: bold;
   background-color: #9AAAB3;
   border-radius: 0 .3em .3em;
-  color: #fff;
   padding: .2em .6em .15em;
-}
 
-a.thread-forum-plate:hover,
-a.thread-forum-plate:focus,
-a.thread-forum-plate:active {
-  color: #990909;
-  font-weight: bold;
+  &:link,
+  &:visited {
+    color: #fff;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: #990909; 
+  }
 }
 
 .thread {
@@ -328,14 +331,6 @@ a.thread-forum-plate:active {
   }
 }
 
-
-
-a.thread-forum-plate:visited {
-    color: #fff;
-}
-a.thread-forum-plate:hover {
-    color: #990909;
-}
 
 @media only screen and (min-width: 35em) {
   .thread > header > .thread-icons {
