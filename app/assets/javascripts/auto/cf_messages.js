@@ -206,24 +206,35 @@ cforum.cf_messages = {
   previewTimeout: null,
   oldVal: null,
   initPreview: function(name) {
-    if(uconf('live_preview') == 'yes') {
-      cforum.cf_messages.showPreview(name);
-      $("input[name=preview]").remove();
-
-      var f = function() {
-        if(cforum.cf_messages.previewTimeout) {
-          window.clearTimeout(cforum.cf_messages.previewTimeout);
-          cforum.cf_messages.previewTimeout = null;
-        }
-
-        cforum.cf_messages.previewTimeout = window.setTimeout(function() {
-          cforum.cf_messages.showPreview(name);
-        }, 500);
-      };
-
-      $("#" + name).on('keyup', f);
-      $("#" + name).on('change', f);
+    if(uconf('live_preview') != 'yes') {
+      return;
     }
+
+    var frm = $("#" + name).closest("form");
+    var btt = frm.find("[type=submit]");
+    btt.on('mouseenter focus', function() { $(".thread-message.preview").addClass('active'); });
+    btt.on('mouseleave blur', function() {
+      if(frm.find("[type=submit]:hover").length <= 0 && !btt.is(":focus")) {
+        $(".thread-message.preview").removeClass('active');
+      }
+    });
+
+    cforum.cf_messages.showPreview(name);
+    $("input[name=preview]").remove();
+
+    var f = function() {
+      if(cforum.cf_messages.previewTimeout) {
+        window.clearTimeout(cforum.cf_messages.previewTimeout);
+        cforum.cf_messages.previewTimeout = null;
+      }
+
+      cforum.cf_messages.previewTimeout = window.setTimeout(function() {
+        cforum.cf_messages.showPreview(name);
+      }, 500);
+    };
+
+    $("#" + name).on('keyup', f);
+    $("#" + name).on('change', f);
   },
   showPreview: function(name) {
     var val = $("#" + name).val();
