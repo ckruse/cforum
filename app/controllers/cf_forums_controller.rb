@@ -175,8 +175,8 @@ class CfForumsController < ApplicationController
 
     start, stop = Time.now.utc.beginning_of_month - 13.months, Time.now.utc.beginning_of_month - 1
     @users_twelve_months = CfMessage.
-                           select("DATE_TRUNC('month', created_at) AS moment, COUNT(DISTINCT user_id) cnt").
-                           where("created_at BETWEEN ? AND ? AND user_id IS NOT NULL", start, stop).
+                           select("DATE_TRUNC('month', created_at) AS moment, COUNT(DISTINCT author) cnt").
+                           where("created_at BETWEEN ? AND ?", start, stop).
                            group("DATE_TRUNC('month', created_at)")
 
     if current_forum
@@ -208,7 +208,7 @@ class CfForumsController < ApplicationController
       users: []
     }
     num_threads_messages = CfMessage.
-                           select('COUNT(*) AS msgs, COUNT(DISTINCT thread_id) AS threads, COUNT(DISTINCT user_id) AS num_users, COUNT(DISTINCT uuid) AS num_users_uuid').
+                           select('COUNT(*) AS msgs, COUNT(DISTINCT thread_id) AS threads, COUNT(DISTINCT author) AS num_users').
                            where('created_at BETWEEN ? AND ? AND deleted = false', start, stop)
 
     tags = CfMessage.
@@ -242,7 +242,7 @@ class CfForumsController < ApplicationController
 
     retval[:threads] = num_threads_messages.threads
     retval[:messages] = num_threads_messages.msgs
-    retval[:num_users] = num_threads_messages.num_users + num_threads_messages.num_users_uuid
+    retval[:num_users] = num_threads_messages.num_users
 
     tag_ids = []
     tags.each do |message|
