@@ -17,7 +17,7 @@ describe "marking as read uses JS" do
     visit cf_forum_path(message.forum)
 
     page.find('#t' + message.thread_id.to_s + ' .icon-thread.mark-thread-read').click
-    sleep 0.5
+    wait_for_ajax
     expect(page.body).to have_css('#m' + message.message_id.to_s + '.visited')
   end
 
