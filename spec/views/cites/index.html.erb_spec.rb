@@ -2,18 +2,22 @@ require 'rails_helper'
 
 RSpec.describe "cites/index", type: :view do
   before(:each) do
-    assign(:cites, [
-      create(:cf_cite),
-      create(:cf_cite)
-    ])
+    3.times { create(:cf_cite) }
+    assign(:cites, CfCite.page(0).all)
+  end
+
+  def conf(name)
+    ConfigManager::DEFAULTS[name]
   end
 
   def uconf(name)
     ConfigManager::DEFAULTS[name]
   end
-  helper_method :uconf
+
+  helper_method :uconf, :conf
 
   it "renders a list of cites" do
+    @app_controller = self
     render
   end
 end
