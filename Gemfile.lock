@@ -254,6 +254,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     stringex (2.5.2)
+    terminal-notifier-guard (1.6.4)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
@@ -319,6 +320,7 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   stringex
+  terminal-notifier-guard
   therubyracer
   uglifier (>= 1.0.3)
   unicorn

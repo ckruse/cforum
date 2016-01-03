@@ -34,6 +34,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'puma'
   gem 'active_record_query_trace'
+  gem 'terminal-notifier-guard'
 end
 
 gem 'spring', group: :development
