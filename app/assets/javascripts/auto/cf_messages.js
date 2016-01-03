@@ -1,5 +1,5 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum, t, uconf, MathJax */
+/* global cforum, t, uconf, MathJax, Mustache */
 
 cforum.cf_messages = {
   initMarkdown: function(elem_id) {
@@ -128,7 +128,7 @@ cforum.cf_messages = {
 
     cforum.cf_messages.initMarkdown("message_input");
     cforum.cf_messages.initUpload();
-    cforum.cf_messages.initPreview("message_input");
+    cforum.cf_messages.initPreview("message_input", "cf_thread_message_problematic_site");
     cforum.cf_messages.initMaxLengthWarnings();
     $("#message_input").mentions();
   },
@@ -205,7 +205,8 @@ cforum.cf_messages = {
 
   previewTimeout: null,
   oldVal: null,
-  initPreview: function(name) {
+  oldUrl: null,
+  initPreview: function(name, problematicUrlName) {
     if(uconf('live_preview') != 'yes') {
       return;
     }
@@ -219,7 +220,7 @@ cforum.cf_messages = {
       }
     });
 
-    cforum.cf_messages.showPreview(name);
+    cforum.cf_messages.showPreview(name, problematicUrlName);
     $("input[name=preview]").remove();
 
     var f = function() {
@@ -229,18 +230,31 @@ cforum.cf_messages = {
       }
 
       cforum.cf_messages.previewTimeout = window.setTimeout(function() {
-        cforum.cf_messages.showPreview(name);
+        cforum.cf_messages.showPreview(name, problematicUrlName);
       }, 500);
     };
 
-    $("#" + name).on('keyup', f);
-    $("#" + name).on('change', f);
+    $("#" + name + ", #" + problematicUrlName).on('keyup change', f);
   },
-  showPreview: function(name) {
+  showPreview: function(name, problematicUrlName) {
     var val = $("#" + name).val();
+    var problematicUrl = $("#" + problematicUrlName).val();
 
-    if(cforum.cf_messages.oldVal != val) {
+    if(cforum.cf_messages.oldVal != val || cforum.cf_messages.oldUrl != problematicUrl) {
       cforum.cf_messages.oldVal = val;
+      cforum.cf_messages.oldUrl = problematicUrl;
+
+      if(problematicUrl) {
+        var elem = $(".thread-message.preview").find(".problematic-site");
+        if(elem.length <= 0) {
+          $("#on-the-fly-preview").before("<p class=\"problematic-site\"></p>");
+          elem = $(".thread-message.preview").find(".problematic-site");
+        }
+        elem.html("<a href=\"" + Mustache.escapeHtml(problematicUrl) + "\">" + t("problematic_site") + "</a>");
+      }
+      else {
+        $(".thread-message.preview").find(".problematic-site").remove();
+      }
 
       $.post(cforum.baseUrl + 'preview',
              {content: val}).

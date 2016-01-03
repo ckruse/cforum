@@ -12,6 +12,7 @@ de:
       close_all_threads: Alle Threads zuklappen
       show_help: Hilfe anzeigen
       code_lang: Sprache? (z.B. js, html oder css. Leer lassen falls unbestimmt)
+      problematic_site: problematische Seite
       upload:
         image_area: 'Bilder hierher ziehen oder klicken, um sie hochzuladen. Beachten Sie die <a href="http://selfhtml.org/impressum.html#upload">Nutzungsbedingungen</a>.'
         alternative_text: Alternativ-Text

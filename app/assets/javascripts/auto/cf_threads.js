@@ -14,7 +14,7 @@ cforum.cf_threads = {
 
     cforum.cf_messages.initMarkdown("message_input");
     cforum.cf_messages.initUpload();
-    cforum.cf_messages.initPreview("message_input");
+    cforum.cf_messages.initPreview("message_input", "cf_thread_message_problematic_site");
     cforum.cf_messages.initMaxLengthWarnings();
     $("#message_input").mentions();
   },
@@ -24,7 +24,7 @@ cforum.cf_threads = {
     cforum.tags.initTags();
     cforum.cf_messages.initMarkdown("message_input");
     cforum.cf_messages.initUpload();
-    cforum.cf_messages.initPreview("message_input");
+    cforum.cf_messages.initPreview("message_input", "cf_thread_message_problematic_site");
     cforum.cf_messages.initMaxLengthWarnings();
     $("#message_input").mentions();
   },
