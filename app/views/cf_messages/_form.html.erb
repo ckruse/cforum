@@ -4,13 +4,13 @@ with_name ||= false
 <fieldset>
   <div class="cf-cgroup">
     <%= f.label :subject %>
-    <div class="cntrls"><%= f.text_field :subject, placeholder: t('layout.placeholders.subject'), maxlength: 250 %></div>
+    <div class="cntrls"><%= f.text_field :subject, placeholder: t('layout.placeholders.subject'), maxlength: 250, required: true %></div>
   </div>
 
   <% if not current_user or (with_name and current_user.admin?) %>
   <div class="cf-cgroup">
     <%= f.label :author %>
-    <div class="cntrls"><%= f.text_field :author, placeholder: t('layout.placeholders.username'), maxlength: 60 %></div>
+    <div class="cntrls"><%= f.text_field :author, placeholder: t('layout.placeholders.username'), maxlength: 60, required: true %></div>
   </div>
   <% end %>
 
@@ -34,7 +34,7 @@ with_name ||= false
   <p id="forum-usage">Dieses Forum nutzt <%= cf_link_to 'Markdown', 'http://markdown.de/syntax/index.html' %>. Im <%= cf_link_to 'Wiki', 'http://wiki.selfhtml.org/' %> erhalten Sie <%= cf_link_to 'Hilfe bei der Formatierung Ihrer Beiträge', 'http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bedienung' %>.</p>
   <div class="cf-cgroup cf-textarea-only">
     <div class="cntrls">
-      <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt %>
+      <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt, required: true %>
     </div>
   </div>
 
