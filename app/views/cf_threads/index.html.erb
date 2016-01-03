@@ -5,11 +5,15 @@ content_for :body_id, 'threads-index'
 content_for :body_classes, 'threads forum-' + (current_forum.try(:slug) || 'all')
 %>
 
-<div class="root" data-js="threadlist">
-  <% for thread in @threads %>
-    <%= thread_html(thread) %>
-  <% end %>
-</div>
+<% if @threads.blank? %>
+  <p class="no-data"><%= t('threads.no_threads') %></p>
+<% else %>
+  <div class="root" data-js="threadlist">
+    <% for thread in @threads %>
+      <%= thread_html(thread) %>
+    <% end %>
+  </div>
+<% end %>
 
 <% if uconf('page_messages') == 'yes' %>
   <%= render 'pages' %>

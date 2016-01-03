@@ -10,8 +10,14 @@ input:-moz-placeholder { color: #c5c5c5; }
 ::-moz-placeholder { color: #c5c5c5; }
 ::-ms-input-placeholder { color: #c5c5c5; }
 
-th.no-data, td.no-data {
+th.no-data, td.no-data, p.no-data {
   text-align:center;
+}
+
+p.no-data {
+  padding-top:2em;
+  padding-bottom:2em;
+  background-color:#f1f3f4;
 }
 
 .small {

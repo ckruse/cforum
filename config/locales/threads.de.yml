@@ -20,3 +20,4 @@ de:
     is_sticky: Der Thread ist angepinnt.
     has_interesting: Der Thread enthält interessante Nachrichten.
     new_thread: neuer Thread
+    no_threads: Es gibt keine Threads, die angezeigt werden könnten.
