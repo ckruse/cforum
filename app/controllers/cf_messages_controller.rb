@@ -115,58 +115,18 @@ class CfMessagesController < ApplicationController
     @parent  = @message
     @message = CfMessage.new(message_params)
 
-    @message.parent_id  = @parent.message_id
-    @message.forum_id   = @thread.forum_id
-    @message.user_id    = current_user.user_id unless current_user.blank?
-    @message.thread_id  = @thread.thread_id
-
-    @message.content    = CfMessage.to_internal(@message.content)
-
-    @message.created_at = Time.now
-    @message.updated_at = @message.created_at
-    @message.ip         = Digest::SHA1.hexdigest(request.remote_ip)
-
+    set_message_attibutes(@message, @thread, current_user, @parent)
     set_mentions(@message)
 
-    if current_user
-      @message.author   = current_user.username
-    elsif not @message.author.blank?
-      unless CfUser.where('LOWER(username) = LOWER(?)', @message.author.strip).first.blank?
-        flash.now[:error] = I18n.t('errors.name_taken')
-        invalid = true
-      end
-    end
+    invalid = true unless set_message_author(@message)
 
     @tags    = parse_tags
     @preview = true if params[:preview]
     retvals  = notification_center.notify(CREATING_NEW_MESSAGE, @thread, @parent, @message, @tags)
 
-    @max_tags = conf('max_tags_per_message').to_i
-    if @tags.length > @max_tags
-      invalid = true
-      flash.now[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
-    end
+    invalid = true unless validate_tags(@tags)
 
-    @min_tags = conf('min_tags_per_message').to_i
-    if @tags.length < @min_tags
-      invalid = true
-      flash.now[:error] = I18n.t('messages.not_enough_tags', count: @min_tags)
-    end
-
-    iv_tags = invalid_tags(current_forum, @tags)
-    if not iv_tags.blank?
-      invalid = true
-      flash.now[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
-    end
-
-    unless current_user
-      cookies[:cforum_user] = {value: request.uuid, expires: 1.year.from_now} if cookies[:cforum_user].blank?
-      @message.uuid = cookies[:cforum_user]
-
-      cookies[:cforum_author]   = {value: @message.author, expires: 1.year.from_now}
-      cookies[:cforum_email]    = {value: @message.email, expires: 1.year.from_now}
-      cookies[:cforum_homepage] = {value: @message.homepage, expires: 1.year.from_now}
-    end
+    set_user_cookies(@message)
 
     saved = false
     if not invalid and not retvals.include?(false) and not @preview
@@ -253,23 +213,8 @@ class CfMessagesController < ApplicationController
     @preview = true if params[:preview]
     retvals  = notification_center.notify(UPDATING_MESSAGE, @thread, @message,
                                           @tags)
-    @max_tags = conf('max_tags_per_message').to_i
-    if @tags.length > @max_tags
-      invalid = true
-      flash.now[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
-    end
 
-    @min_tags = conf('min_tags_per_message').to_i
-    if @tags.length < @min_tags
-      invalid = true
-      flash.now[:error] = I18n.t('messages.not_enough_tags', count: @min_tags)
-    end
-
-    iv_tags = invalid_tags(current_forum, @tags)
-    if not iv_tags.blank?
-      invalid = true
-      flash.now[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
-    end
+    invalid = true unless validate_tags(@tags)
 
     saved = false
     if not invalid and not retvals.include?(false) and not @preview
@@ -378,25 +323,9 @@ class CfMessagesController < ApplicationController
   def retag
     @thread, @message, @id = get_thread_w_post
     @tags = parse_tags
+
     invalid = false
-
-    @max_tags = conf('max_tags_per_message').to_i
-    if @tags.length > @max_tags
-      invalid = true
-      flash.now[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
-    end
-
-    @min_tags = conf('min_tags_per_message').to_i
-    if @tags.length < @min_tags
-      invalid = true
-      flash.now[:error] = I18n.t('messages.not_enough_tags', count: @min_tags)
-    end
-
-    iv_tags = invalid_tags(current_forum, @tags)
-    if not iv_tags.blank?
-      invalid = true
-      flash.now[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
-    end
+    invalid = true unless validate_tags(@tags)
 
     saved = false
     if not invalid

@@ -58,13 +58,35 @@ module TagsHelper
     invalid = []
 
     tags.each do |t|
-      tag = CfTag.exists?(['tags.forum_id = ? AND (tag_name = ? OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE synonym = ? AND forum_id = ?))',
+      tag = CfTag.exists?(['tags.forum_id = ? AND (LOWER(tag_name) = ? OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) = ? AND forum_id = ?))',
                            forum.forum_id, t, t,
                            forum.forum_id])
       invalid << t if tag.blank? and not may_create
     end
 
     return invalid
+  end
+
+  def validate_tags(tags)
+    @max_tags = conf('max_tags_per_message').to_i
+    if @tags.length > @max_tags
+      flash.now[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
+      return false
+    end
+
+    @min_tags = conf('min_tags_per_message').to_i
+    if @tags.length < @min_tags
+      flash.now[:error] = I18n.t('messages.not_enough_tags', count: @min_tags)
+      return false
+    end
+
+    iv_tags = invalid_tags(current_forum, @tags)
+    if not iv_tags.blank?
+      flash.now[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
+      return false
+    end
+
+    return true
   end
 end
 

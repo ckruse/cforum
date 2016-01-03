@@ -309,6 +309,44 @@ module MessageHelper
 
     html.html_safe
   end
+
+  def set_message_attibutes(message, thread, user = current_user, parent = nil)
+    message.forum_id   = thread.forum_id
+    message.user_id    = user.try(:user_id)
+    message.thread_id  = thread.thread_id
+
+    message.content    = CfMessage.to_internal(message.content)
+
+    message.created_at = Time.zone.now
+    message.updated_at = message.created_at
+    message.ip         = Digest::SHA1.hexdigest(request.remote_ip)
+
+    message.parent_id  = parent.try(:message_id)
+  end
+
+  def set_message_author(message, author = current_user.try(:username))
+    if not author.blank?
+      @message.author = author
+    elsif not @message.author.blank?
+      unless CfUser.where('LOWER(username) = LOWER(?)', @message.author.strip).first.blank?
+        flash.now[:error] = I18n.t('errors.name_taken')
+        return false
+      end
+    end
+
+    return true
+  end
+
+  def set_user_cookies(message)
+    unless current_user
+      cookies[:cforum_user] = {value: request.uuid, expires: 1.year.from_now} if cookies[:cforum_user].blank?
+      message.uuid = cookies[:cforum_user]
+
+      cookies[:cforum_author]   = {value: @message.author, expires: 1.year.from_now}
+      cookies[:cforum_email]    = {value: @message.email, expires: 1.year.from_now}
+      cookies[:cforum_homepage] = {value: @message.homepage, expires: 1.year.from_now}
+    end
+  end
 end
 
 # eof
