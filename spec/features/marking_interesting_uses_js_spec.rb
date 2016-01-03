@@ -17,13 +17,13 @@ describe "marking as interesting uses JS" do
     visit cf_forum_path(message.forum)
 
     page.find('#m' + message.message_id.to_s + ' .mark-interesting').click
-    sleep 0.1
+    sleep 0.5
     expect(page.body).to have_css('#m' + message.message_id.to_s + ' .mark-boring')
     expect(CfInterestingMessage.where(user_id: user.user_id,
                                       message_id: message.message_id).first).not_to be_nil
 
     page.find('#m' + message.message_id.to_s + ' .mark-boring').click
-    sleep 0.1
+    sleep 0.5
     expect(page.body).to have_css('#m' + message.message_id.to_s + ' .mark-interesting')
     expect(CfInterestingMessage.where(user_id: user.user_id,
                                       message_id: message.message_id).first).to be_nil

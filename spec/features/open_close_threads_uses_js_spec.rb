@@ -17,11 +17,11 @@ describe "opening/closing threads uses JS" do
     visit cf_forum_path(message.forum)
 
     page.find('#t' + message.thread_id.to_s + ' .icon-thread.open').click
-    sleep 0.1
+    sleep 0.5
     expect(page.body).to have_css('#t' + message.thread_id.to_s + ' .icon-thread.closed')
 
     page.find('#t' + message.thread_id.to_s + ' .icon-thread.closed').click
-    sleep 0.1
+    sleep 0.5
     expect(page.body).to have_css('#t' + message.thread_id.to_s + ' .icon-thread.open')
   end
 
