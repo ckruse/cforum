@@ -67,7 +67,7 @@ module TagsHelper
     return invalid
   end
 
-  def validate_tags(tags)
+  def validate_tags(tags, forum = current_forum)
     @max_tags = conf('max_tags_per_message').to_i
     if @tags.length > @max_tags
       flash.now[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
@@ -80,7 +80,7 @@ module TagsHelper
       return false
     end
 
-    iv_tags = invalid_tags(current_forum, @tags)
+    iv_tags = invalid_tags(forum, @tags)
     if not iv_tags.blank?
       flash.now[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
       return false

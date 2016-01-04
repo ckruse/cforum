@@ -91,7 +91,7 @@ class CfThreadsController < ApplicationController
     @preview = true if params[:preview]
     retvals  = notification_center.notify(NEW_THREAD, @thread, @message, @tags)
 
-    invalid = true unless validate_tags(@tags)
+    invalid = true unless validate_tags(@tags, @forum)
 
     set_user_cookies(@message)
 
