@@ -137,13 +137,17 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
               <span class="<% if s.value < 0 %>score-down<% else %>score-up<% end %>"><%= s.value %></span>
             <% end %>
           </td>
-          <td><article class="threadlist thread"><%= if s.first.vote then
-                                                 s.first.vote.message.thread.message = s.first.vote.message
-                                                 message_header(s.first.vote.message.thread, s.first.vote.message, show_votes: true, id: false)
-                                                 else
-                                                   s.first.message.thread.message = s.first.message
-                                                   message_header(s.first.message.thread, s.first.message, show_votes: true, id: false)
-                                                 end %></article></td>
+          <td>
+            <% if not s.first.get_message.blank? %>
+              <%
+              m = s.first.get_message
+              m.thread.message = m
+              %>
+              <article class="threadlist thread"><%= message_header(m.thread, m, show_votes: true, id: false)  %></article>
+            <% else %>
+              <em>Nachricht wurde gelöscht</em>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

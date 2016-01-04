@@ -3131,7 +3131,7 @@ ALTER TABLE ONLY read_messages
 --
 
 ALTER TABLE ONLY scores
-    ADD CONSTRAINT scores_message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT scores_message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 --
@@ -3147,7 +3147,7 @@ ALTER TABLE ONLY scores
 --
 
 ALTER TABLE ONLY scores
-    ADD CONSTRAINT scores_vote_id_fkey FOREIGN KEY (vote_id) REFERENCES votes(vote_id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT scores_vote_id_fkey FOREIGN KEY (vote_id) REFERENCES votes(vote_id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 --
@@ -3427,6 +3427,8 @@ INSERT INTO schema_migrations (version) VALUES ('83');
 INSERT INTO schema_migrations (version) VALUES ('84');
 
 INSERT INTO schema_migrations (version) VALUES ('85');
+
+INSERT INTO schema_migrations (version) VALUES ('86');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
 

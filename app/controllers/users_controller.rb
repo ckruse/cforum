@@ -94,10 +94,19 @@ class UsersController < ApplicationController
     end
 
     @score_msgs = {}
+    fake_id = 0
     scored_msgs.each do |score|
       m = score.vote ? score.vote.message : score.message
-      @score_msgs[m.message_id] ||= []
-      @score_msgs[m.message_id] << score
+
+      id = if m.blank?
+             fake_id += 1
+             "fake-#{fake_id}"
+           else
+             m.message_id
+           end
+
+      @score_msgs[id] ||= []
+      @score_msgs[id] << score
     end
 
     @score_msgs = @score_msgs.values.sort { |a,b|
