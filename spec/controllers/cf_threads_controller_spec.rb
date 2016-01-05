@@ -40,5 +40,14 @@ RSpec.describe CfThreadsController do
                       cf_thread: {message: attributes_for(:cf_message, forum: nil)} }
       expect(response).to render_template("new")
     end
+
+    it "creates a new thread when using /all/new" do
+      expect {
+        post :create, { curr_forum: 'all',
+                        tags: [tag.tag_name],
+                        cf_thread: {message: attributes_for(:cf_message, forum: nil),
+                                    forum_id: forum.forum_id} }
+      }.to change(CfThread, :count).by(1)
+    end
   end
 end
