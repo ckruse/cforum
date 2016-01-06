@@ -260,7 +260,7 @@ GEM
       ref
     thor (0.19.1)
     thread_safe (0.3.5)
-    tilt (2.0.1)
+    tilt (2.0.2)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.2)
@@ -327,4 +327,4 @@ DEPENDENCIES
   validate_url
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
