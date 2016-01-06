@@ -112,6 +112,12 @@ main h2 { margin-left:0; }
     blockquote.show-quotes { cursor:pointer; }
 
     dt { font-weight: bold; }
+
+    sup {
+      position: relative;
+      vertical-align: baseline;
+      top: -.4em;
+    }
   }
 
   .accepted, .message-references {
