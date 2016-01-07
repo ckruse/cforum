@@ -31,16 +31,14 @@ controls ||= :yes
 
   <div class="message-links">
     <% if not m.flags['flattr_id'].blank? %>
-      <%= t('layout.flattr_author') %>
-      <%= cf_link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(m.flags['flattr_id']) +
-      "&url=" + CGI.escape(cf_message_url(@thread, m)) +
-      "&title=" + CGI.escape(m.subject) do %>
-      <img src="https://flattr.com/_img/icons/flattr_logo_16.png"
-           alt=""
-           title=""
-           width="16"
-           height="16">&nbsp;Flattr this!
-    <% end %>
+      <p class="flattr">
+        <%= t('layout.flattr_author') %>
+        <%= cf_link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(m.flags['flattr_id']) +
+          "&url=" + CGI.escape(cf_message_url(@thread, m, rm: 'thread-view')) +
+          "&title=" + CGI.escape(m.subject), class: 'flattr-link' do %>
+          <img src="//button.flattr.com/flattr-badge-large.png" alt="Flattr this!" title="Flattr this!" class="flattr-button">
+        <% end %>
+      </p>
     <% end %>
 
     <% if controls == :yes %>

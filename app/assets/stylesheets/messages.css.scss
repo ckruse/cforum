@@ -431,6 +431,12 @@ blockquote.show-quotes .unfold {
   border-color: #66afe9;
 }
 
+.flattr {
+  img { vertical-align:middle; }
+  margin-top:0;
+  margin-bottom:.5em;
+}
+
 @media only screen and (min-width: 35em) {
   #unfold-all {
     right:2em;
