@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - 2.0
+  - 2.1
+  - 2.2
+bundler_args: --without production
+services:
+  - postgresql
+addons:
+  postgresql: "9.3"
+before_script:
+  - psql -c 'create database cforum_test;' -U postgres

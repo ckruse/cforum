@@ -65,7 +65,7 @@ gem 'htmlentities'
 
 gem 'negative_captcha'
 
-gem 'unicorn'
+gem 'unicorn', group: :production
 
 gem 'socket.io-rails'
 
