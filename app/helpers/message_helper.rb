@@ -238,7 +238,7 @@ module MessageHelper
       html << text.html_safe
     end
 
-    if opts[:show_editor] && !message.edit_author.blank?
+    if opts[:show_editor] && !message.edit_author.blank? && !message.versions.blank?
       html << " <span class=\"versions\">(" << cf_link_to(t('messages.versions'),
                                                           versions_cf_message_path(thread, message),
                                                           rel: 'no-follow',

@@ -19,6 +19,8 @@ RSpec.describe CfMessagesController, type: :controller do
   end
 
   describe "GET #show" do
+    render_views
+
     it "shows a message" do
       get :show, { curr_forum: message.forum.slug,
                    year: message.created_at.year.to_s,
@@ -26,6 +28,35 @@ RSpec.describe CfMessagesController, type: :controller do
                    day: message.created_at.day.to_s,
                    tid: message.thread.slug.gsub(/.*\//, ''),
                    mid: message.message_id.to_s }
+    end
+
+    it "shows no versions link if there are no versions but an edit_author is set" do
+      message.edit_author = admin.username
+      message.save!
+
+      get :show, { curr_forum: message.forum.slug,
+                   year: message.created_at.year.to_s,
+                   mon: message.created_at.strftime("%b").downcase,
+                   day: message.created_at.day.to_s,
+                   tid: message.thread.slug.gsub(/.*\//, ''),
+                   mid: message.message_id.to_s }
+
+      expect(response.body).not_to have_css('.versions')
+    end
+
+    it "shows versions link if there are versions" do
+      message.edit_author = admin.username
+      message.versions.create!(subject: message.subject, content: message.content, author: message.author)
+      message.save!
+
+      get :show, { curr_forum: message.forum.slug,
+                   year: message.created_at.year.to_s,
+                   mon: message.created_at.strftime("%b").downcase,
+                   day: message.created_at.day.to_s,
+                   tid: message.thread.slug.gsub(/.*\//, ''),
+                   mid: message.message_id.to_s }
+
+      expect(response.body).to have_css('.versions')
     end
   end
 

@@ -53,7 +53,7 @@ module RightsHelper
 
     thread = CfThread.
              preload(:forum,
-                     messages: [:editor, :tags, :thread,
+                     messages: [:editor, :tags, :thread, :versions,
                                 {votes: :voters,
                                  owner: [:settings, :badges],
                                  message_references: {src_message: [{thread: :forum}, :owner, :tags, :votes]}}]).
