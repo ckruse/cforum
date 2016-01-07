@@ -2,9 +2,6 @@
 
 require "rails_helper"
 
-include Warden::Test::Helpers
-Warden.test_mode!
-
 describe "opening/closing threads uses JS" do
   let(:message) { create(:cf_message) }
   let(:user) { create(:cf_user) }

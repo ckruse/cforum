@@ -34,5 +34,7 @@ Cforum::Application.configure do
 
   config.action_mailer.default_url_options = { :host => 'cforum.local' }
   config.action_mailer.perform_deliveries = false
-  config.faye_url = "http://localhost:9090/faye"
+  config.mail_sender = 'cforum@wwwtech.de'
+  config.ws_url = "//localhost:9090/"
+  config.internal_faye_url = 'http://localhost:9090/message'
 end
