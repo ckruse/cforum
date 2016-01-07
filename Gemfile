@@ -28,7 +28,7 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'faker'
   gem 'rspec-rails'
-  gem 'selenium-webdriver'
+  gem 'poltergeist'
   gem 'capybara'
   gem 'spring-commands-rspec'
   gem 'guard-rspec'
