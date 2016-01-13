@@ -10,7 +10,7 @@ gem 'therubyracer'
 gem 'devise'
 gem "bcrypt-ruby", require: "bcrypt"
 gem 'kramdown'
-gem 'rouge'
+gem 'rouge', git: 'https://github.com/jneen/rouge'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
