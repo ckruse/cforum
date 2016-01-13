@@ -8,7 +8,7 @@ gem 'devise-i18n'
 gem 'therubyracer'
 
 gem 'devise'
-gem "bcrypt-ruby", require: "bcrypt"
+gem "bcrypt"
 gem 'kramdown'
 gem 'rouge', git: 'https://github.com/jneen/rouge'
 
