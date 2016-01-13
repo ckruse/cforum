@@ -1,304 +1,209 @@
 /* -*- coding: utf-8 -*- */
 
 code {
-  .annotation {
-    color:#007;
+  .cm {
+    color: #999988;
+    font-style: italic;
   }
-  .attribute-name {
-    color:#b48;
-  }
-  .attribute-value {
-    color:#700;
-  }
-  .binary {
-    color:#549;
-  }
-  .binary .char {
-    color:#325;
-  }
-  .binary .delimiter {
-    color:#325;
-  }
-  .char {
-    color:#D20;
-  }
-  .char .content {
-    color:#D20;
-  }
-  .char .delimiter {
-    color:#710;
-  }
-  .class {
-    color:#B06;
-    font-weight:bold;
-  }
-  .class-variable {
-    color:#369;
-  }
-  .color {
-    color:#0A0;
-  }
-  .comment {
-    color:#777;
-  }
-  .comment .char {
-    color:#444;
-  }
-  .comment .delimiter {
-    color:#444;
-  }
-  .constant {
-    color:#036;
-    font-weight:bold;
-  }
-  .decorator {
-    color:#B0B;
-  }
-  .definition {
-    color:#099;
-    font-weight:bold;
-  }
-  .delimiter {
-    color:black;
-  }
-  .directive {
-    color:#088;
-    font-weight:bold;
-  }
-  .docstring {
-    color:#D42;
-  }
-  .doctype {
-    color:#34b;
-  }
-  .done {
-    text-decoration: line-through;
-    color: gray;
-  }
-  .entity {
-    color:#800;
-    font-weight:bold;
-  }
-  .error {
-    color:#F00;
-    background-color:#FAA;
-  }
-  .escape {
-    color:#666;
-  }
-  .exception {
-    color:#C00;
-    font-weight:bold;
-  }
-  .float {
-    color:#60E;
-  }
-  .function {
-    color:#06B;
-    font-weight:bold;
-  }
-  .function .delimiter {
-    color:#024;
-    font-weight:bold;
-  }
-  .global-variable {
-    color:#d70;
-  }
-  .hex {
-    color:#02b;
-  }
-  .id {
-    color:#33D;
-    font-weight:bold;
-  }
-  .include {
-    color:#B44;
-    font-weight:bold;
-  }
-  .inline {
-    background-color: hsla(0,0%,0%,0.07);
-    color: black;
-  }
-  .inline-delimiter {
+  .cp {
+    color: #999999;
     font-weight: bold;
-    color: #666;
   }
-  .instance-variable {
-    color:#33B;
+  .c1 {
+    color: #999988;
+    font-style: italic;
   }
-  .integer {
-    color:#00D;
+  .cs {
+    color: #999999;
+    font-weight: bold;
+    font-style: italic;
   }
-  .imaginary {
-    color:#f00;
+  .c, .cd {
+    color: #999988;
+    font-style: italic;
   }
-  .important {
-    color:#D00;
+  .err {
+    color: #a61717;
+    background-color: #e3d2d2;
   }
-  .key {
-    color: #606;
+  .gd {
+    color: #000000;
+    background-color: #ffdddd;
   }
-  .key .char {
-    color: #60f;
+  .ge {
+    color: #000000;
+    font-style: italic;
   }
-  .key .delimiter {
-    color: #404;
+  .gr {
+    color: #aa0000;
   }
-  .keyword {
-    color:#080;
-    font-weight:bold;
+  .gh {
+    color: #999999;
   }
-  .label {
-    color:#970;
-    font-weight:bold;
+  .gi {
+    color: #000000;
+    background-color: #ddffdd;
   }
-  .local-variable {
-    color:#950;
+  .go {
+    color: #888888;
   }
-  .map .content {
-    color:#808;
+  .gp {
+    color: #555555;
   }
-  .map .delimiter {
-    color:#40A;
+  .gs {
+    font-weight: bold;
   }
-  .map {
-    background-color:hsla(200,100%,50%,0.06);
+  .gu {
+    color: #aaaaaa;
   }
-  .namespace {
-    color:#707;
-    font-weight:bold;
+  .gt {
+    color: #aa0000;
   }
-  .octal {
-    color:#40E;
+  .kc {
+    color: #000000;
+    font-weight: bold;
   }
-  .operator { }
-  .predefined {
-    color:#369;
-    font-weight:bold;
+  .kd {
+    color: #000000;
+    font-weight: bold;
   }
-  .predefined-constant { color:#069; }
-  .predefined-type {
-    color:#0a8;
-    font-weight:bold;
+  .kn {
+    color: #000000;
+    font-weight: bold;
   }
-  .preprocessor {
-    color:#579;
+  .kp {
+    color: #000000;
+    font-weight: bold;
   }
-  .pseudo-class {
-    color:#00C;
-    font-weight:bold;
+  .kr {
+    color: #000000;
+    font-weight: bold;
   }
-  .regexp {
-    background-color:hsla(300,100%,50%,0.06);
+  .kt {
+    color: #445588;
+    font-weight: bold;
   }
-  .regexp .content {
-    color:#808;
+  .k, .kv {
+    color: #000000;
+    font-weight: bold;
   }
-  .regexp .delimiter {
-    color:#404;
+  .mf {
+    color: #009999;
   }
-  .regexp .modifier {
-    color:#C2C;
+  .mh {
+    color: #009999;
   }
-  .reserved {
-    color:#080;
-    font-weight:bold;
+  .il {
+    color: #009999;
   }
-  .shell {
-    background-color:hsla(120,100%,50%,0.06);
+  .mi {
+    color: #009999;
   }
-  .shell .content {
-    color:#2B2;
+  .mo {
+    color: #009999;
   }
-  .shell .delimiter {
-    color:#161;
+  .m, .mb, .mx {
+    color: #009999;
   }
-  .string {
-    background-color:hsla(0,100%,50%,0.05);
+  .sb {
+    color: #d14;
   }
-  .string .char {
-    color: #b0b;
+  .sc {
+    color: #d14;
   }
-  .string .content {
-    color: #D20;
+  .sd {
+    color: #d14;
   }
-  .string .delimiter {
-    color: #710;
+  .s2 {
+    color: #d14;
   }
-  .string .modifier {
-    color: #E40;
+  .se {
+    color: #d14;
   }
-  .symbol {
-    color:#A60;
+  .sh {
+    color: #d14;
   }
-  .symbol .content {
-    color:#A60;
+  .si {
+    color: #d14;
   }
-  .symbol .delimiter {
-    color:#740;
+  .sx {
+    color: #d14;
   }
-  .tag {
-    color:#070;
-    font-weight:bold;
+  .sr {
+    color: #009926;
   }
-  .type {
-    color:#339;
-    font-weight:bold;
+  .s1 {
+    color: #d14;
   }
-  .value {
-    color: #088;
+  .ss {
+    color: #990073;
   }
-  .variable {
-    color:#037;
+  .s {
+    color: #d14;
   }
-  .insert {
-    background: hsla(120,100%,50%,0.12);
+  .na {
+    color: #008080;
   }
-  .delete {
-    background: hsla(0,100%,50%,0.12);
+  .bp {
+    color: #999999;
   }
-  .change {
-    color: #bbf;
-    background: #007;
+  .nb {
+    color: #0086B3;
   }
-  .head {
-    color: #f8f;
-    background: #505;
+  .nc {
+    color: #445588;
+    font-weight: bold;
   }
-  .head .filename {
-    color: white;
+  .no {
+    color: #008080;
   }
-  .delete .eyecatcher {
-    background-color: hsla(0,100%,50%,0.2);
-    border: 1px solid hsla(0,100%,45%,0.5);
-    margin: -1px;
-    border-bottom: none;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+  .nd {
+    color: #3c5d5d;
+    font-weight: bold;
   }
-  .insert .eyecatcher {
-    background-color: hsla(120,100%,50%,0.2);
-    border: 1px solid hsla(120,100%,25%,0.5);
-    margin: -1px;
-    border-top: none;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+  .ni {
+    color: #800080;
   }
-  .insert .insert {
-    color: #0c0;
-    background:transparent;
-    font-weight:bold;
+  .ne {
+    color: #990000;
+    font-weight: bold;
   }
-  .delete .delete {
-    color: #c00;
-    background:transparent;
-    font-weight:bold;
+  .nf {
+    color: #990000;
+    font-weight: bold;
   }
-  .change .change {
-    color: #88f;
+  .nl {
+    color: #990000;
+    font-weight: bold;
   }
-  .head .head {
-    color: #f4f;
+  .nn {
+    color: #555555;
+  }
+  .nt {
+    color: #000080;
+  }
+  .vc {
+    color: #008080;
+  }
+  .vg {
+    color: #008080;
+  }
+  .vi {
+    color: #008080;
+  }
+  .nv {
+    color: #008080;
+  }
+  .ow {
+    color: #000000;
+    font-weight: bold;
+  }
+  .o {
+    color: #000000;
+    font-weight: bold;
+  }
+  .w {
+    color: #bbbbbb;
   }
 }
 

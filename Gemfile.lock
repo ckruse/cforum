@@ -216,6 +216,7 @@ GEM
     ref (2.0.0)
     responders (2.1.1)
       railties (>= 4.2.0, < 5.1)
+    rouge (1.10.1)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -295,7 +296,6 @@ DEPENDENCIES
   bcrypt-ruby
   capybara
   capybara-screenshot
-  coderay
   coffee-rails
   content_for_in_controllers
   daemons
@@ -323,6 +323,7 @@ DEPENDENCIES
   quiet_assets
   rails (~> 4.2.0)
   rails-i18n
+  rouge
   rspec-rails
   sass-rails (> 4.0.0)
   socket.io-rails

@@ -70,7 +70,8 @@ module ParserHelper
       root_url: opts[:root_url] || app.root_url,
       math_engine_opts: { preview: true },
       new_window: app.uconf('open_links_in_tab') == 'yes',
-      notify_mentions: true
+      notify_mentions: true,
+      syntax_highlighter: 'rouge'
     )
 
     if @doc.blank?
