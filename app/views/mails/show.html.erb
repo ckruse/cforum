@@ -14,4 +14,5 @@ content_for(:body_classes, 'mail show recipient-' + user_to_class_name(@mail.rec
   <% end %>
 
   <%= cf_link_to t('mails.delete'), mail_path(@mail.sender_name, @mail), method: :delete, data: {confirm: t('global.are_you_sure')}, class: 'cf-btn' %>
+  <%= cf_link_to t('mails.mark_unread'), mail_path(@mail.sender_name, @mail), method: :post, class: 'cf-btn' %>
 </div>
