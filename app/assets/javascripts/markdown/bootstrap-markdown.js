@@ -157,11 +157,10 @@
         this.$textarea.css('resize', this.$options.resize);
       }
 
-      this.$textarea
-        .on('focus', $.proxy(this.focus, this))
-        .on('keypress', $.proxy(this.keypress, this))
-        .on('keyup', $.proxy(this.keyup, this))
-        .on('change', $.proxy(this.change, this));
+      this.$textarea.on('focus', $.proxy(this.focus, this));
+      this.$textarea.on('keypress', $.proxy(this.keypress, this));
+      this.$textarea.on('keyup', $.proxy(this.keyup, this));
+      this.$textarea.on('change', $.proxy(this.change, this));
 
       if(this.eventSupported('keydown')) {
         this.$textarea.on('keydown', $.proxy(this.keydown, this));
