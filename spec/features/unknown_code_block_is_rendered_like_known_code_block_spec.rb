@@ -9,7 +9,7 @@ RSpec.describe "problematic site is in preview" do
 
   include CForum::Tools
 
-  it "has no problematic site when value is empty" do
+  it "renders to code class=block" do
     visit cf_message_path(message.thread, message)
     expect(page.find(".posting-content")).to have_css("code.block")
   end
