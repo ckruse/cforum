@@ -96,6 +96,7 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
   def convert_codeblock(el, indent)
     ret = super(el, indent)
     ret.gsub!(/<div class="highlighter-rouge"><pre class="highlight"><code>\n?(.*)<\/code><\/pre>\n<\/div>/m, '<code class="block">\1</code>')
+    ret.gsub!(/<pre><code class="[^"]+">\n?(.*)<\/code><\/pre>/m, '<code class="block">\1</code>')
 
     ret
   end
