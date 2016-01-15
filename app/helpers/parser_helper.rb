@@ -103,6 +103,12 @@ module ParserHelper
         end
         quote_level = current_ql
 
+        if l =~ /^(?:> )*~~~\s*(?:\w+)/
+          l = l.gsub(/~~~(\s*)(\w+)/) do
+            "~~~" + $1 + $2.downcase
+          end
+        end
+
         ncnt << l
       end
 
