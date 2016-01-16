@@ -62,6 +62,41 @@ HTML
       expect(page.find(".posting-content code.block")).to have_css("span.nt", text: "<html>")
     end
   end
+
+  it "renders to code class=block when not at the beginning of the post" do
+    messages = []
+    messages << create(:cf_message, content: <<HTML
+ewfwefwef
+
+~~~html
+<html>
+~~~
+HTML
+                    )
+
+    messages << create(:cf_message, content: <<HTML
+ewfwefwef
+
+~~~html
+<html>
+~~~
+HTML
+                     )
+
+    messages << create(:cf_message, content: <<HTML
+ewfwefwef
+
+~~~html
+<html>
+~~~
+HTML
+                    )
+
+    messages.each do |message|
+      visit cf_message_path(message.thread, message)
+      expect(page.find(".posting-content code.block")).to have_css("span.nt", text: "<html>")
+    end
+  end
 end
 
 # eof
