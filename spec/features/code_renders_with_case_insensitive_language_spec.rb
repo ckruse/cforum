@@ -44,14 +44,14 @@ HTML
                     )
 
     messages << create(:cf_message, content: <<HTML
-> ~~~html
+> ~~~HTML
 > <html>
 > ~~~
 HTML
                      )
 
     messages << create(:cf_message, content: <<HTML
-> ~~~html
+> ~~~hTmL
 > <html>
 > ~~~
 HTML
@@ -77,7 +77,7 @@ HTML
     messages << create(:cf_message, content: <<HTML
 ewfwefwef
 
-~~~html
+~~~HTML
 <html>
 ~~~
 HTML
@@ -86,7 +86,7 @@ HTML
     messages << create(:cf_message, content: <<HTML
 ewfwefwef
 
-~~~html
+~~~hTmL
 <html>
 ~~~
 HTML
