@@ -53,7 +53,7 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
   end
   define_parser(:email_style_sig_span, SIGNATURE_START) unless @@parsers.has_key?(:email_style_sig_span)
 
-  define_parser(:span_html, /\0/) unless @@parsers.has_key?(:pan_html)
+  define_parser(:span_html, /\0/) unless @@parsers.has_key?(:span_html)
   define_parser(:block_html, /\0/) unless @@parsers.has_key?(:block_html)
   define_parser(:smart_quotes, /\0/) unless @@parsers.has_key?(:smart_quotes)
   define_parser(:typographic_syms, /\0/) unless @@parsers.has_key?(:typographic_syms)
