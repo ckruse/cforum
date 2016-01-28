@@ -78,7 +78,7 @@ RSpec.describe CfMessagesController, type: :controller do
     end
   end
 
-  describe "POST retag" do
+  describe "POST #retag" do
     it "changes tags" do
       sign_in admin
 
@@ -93,6 +93,35 @@ RSpec.describe CfMessagesController, type: :controller do
       expect {
         post :retag, message_params_from_slug(message).merge({tags: ["old republic"] })
       }.to change(message.tags, :count).by(1)
+    end
+  end
+
+  describe "POST #update" do
+    it "updates a message to markdown" do
+      message.format = 'cforum'
+      message.save
+
+      sign_in admin
+
+      post :update, message_params_from_slug(message).merge(cf_message: message.attributes,
+                                                            tags: ['rebellion'])
+
+      expect(response).to redirect_to cf_message_url(message.thread, assigns(:message))
+      message.reload
+      expect(message.format).to eq 'markdown'
+    end
+
+    it "doesn't create a version when format is not markdown" do
+      message.format = 'cforum'
+      message.save
+
+      sign_in admin
+
+      expect {
+        post :update, message_params_from_slug(message).merge(cf_message: message.attributes,
+                                                              tags: ['rebellion'])
+      }.to change(message.versions, :count).by(0)
+
     end
   end
 end

@@ -30,6 +30,7 @@ de:
     tag_suggestions: Tag-Vorschläge
     tags: Tags
     comma_separated_list: Komma-separierte Liste
+    edit_change_to_markdown: Achtung! Wenn Sie diesen Beitrag editieren, müssen Sie ihn nach Markdown konvertieren. Nach dem Editieren wird der Beitrag als Markdown geparsed werden.
 
     versions: Versionen
     message_versions: Versionen dieses Beitrags

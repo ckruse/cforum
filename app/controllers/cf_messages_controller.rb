@@ -166,6 +166,8 @@ class CfMessagesController < ApplicationController
     @max_tags = conf('max_tags_per_message')
     @edit = true
 
+    flash.now[:error] = t('messages.edit_change_to_markdown') if @message.format != 'markdown'
+
     notification_center.notify(SHOW_MESSAGE, @thread, @message, {})
   end
 
@@ -191,6 +193,11 @@ class CfMessagesController < ApplicationController
     set_mentions(@message)
 
     del_versions = params[:delete_previous_versions] == '1' and current_user.admin?
+
+    if @message.format != 'markdown'
+      del_versions = true
+      @message.format = 'markdown'
+    end
 
     if (@message.content_changed? or @message.subject_changed? or @message.author_changed?) and not del_versions
       @version = CfMessageVersion.new
