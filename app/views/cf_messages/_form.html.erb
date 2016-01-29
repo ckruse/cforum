@@ -66,7 +66,7 @@ with_name ||= false
   </div>
 </fieldset>
 
-<% if (current_user.try(:admin?) and @message.format == 'markdown') and @edit %>
+<% if @edit and (current_user.try(:admin?) and @message.format == 'markdown') %>
   <div class="cf-cgroup">
     <label>Vorherige Versionen löschen</label>
     <div class="cntrls">
