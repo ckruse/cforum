@@ -60,6 +60,9 @@ class MarkReadPlugin < Plugin
       end
     end
 
+    @app_controller.publish('thread:read', {type: 'thread', thread: thread},
+                            '/users/' + current_user.user_id.to_s)
+
     @app_controller.set_cached_entry(:mark_read, current_user.user_id, cache)
   end
 
@@ -76,6 +79,9 @@ class MarkReadPlugin < Plugin
       rescue ActiveRecord::RecordNotUnique
       end
     end
+
+    @app_controller.publish('message:read', {type: 'message', thread: thread, message: message},
+                            '/users/' + current_user.user_id.to_s)
 
     @app_controller.set_cached_entry(:mark_read, current_user.user_id, cache)
   end

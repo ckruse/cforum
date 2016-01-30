@@ -6,6 +6,26 @@ cforum.cf_threads = {
   numMessages: 0,
   newMessages: [],
 
+  removeNewMessage: function(mids) {
+    var nmessages = [], i, j, mid, add = true;
+
+    for(i = 0; i < cforum.cf_threads.newMessages.length; ++i) {
+      mid = cforum.cf_threads.newMessages[i];
+      for(j = 0; j < mids.length; ++i) {
+        if(mids[j] == mid) {
+          add = false;
+          break;
+        }
+
+        if(add) {
+          nmessages.push(mid);
+        }
+      }
+    }
+
+    cforum.cf_threads.newMessages = nmessages;
+  },
+
   new: function() {
     cforum.cf_threads.initGlobal();
 
@@ -32,6 +52,8 @@ cforum.cf_threads = {
   index: function() {
     cforum.client.on('thread:create', cforum.cf_threads.newThreadArriving);
     cforum.client.on('message:create', cforum.cf_threads.newMessageArriving);
+    cforum.client.on('thread:read', cforum.cf_threads.updateThread);
+    cforum.client.on('message:read', cforum.cf_threads.updateThread);
 
     if(!cforum.currentUser) {
       cforum.cf_threads.initOpenClose();
@@ -120,6 +142,32 @@ cforum.cf_threads = {
 
     cforum.cf_threads.showNewAlert();
     cforum.updateFavicon();
+  },
+
+  updateThread: function(message) {
+    var thread = $("#t" + message.thread.thread_id);
+
+    if(message.message) {
+      cforum.cf_threads.removeNewMessage([message.message.message_id]);
+    }
+    else {
+      cforum.cf_threads.removeNewMessage($.map(message.thread.messages, function(el) {
+        return el.message_id;
+      }));
+    }
+
+    if(thread.length == 0) {
+      return;
+    }
+
+    var url = cforum.baseUrl +
+          (cforum.currentForum ? cforum.currentForum.slug : 'all') +
+          message.thread.slug;
+
+    $.get(url, function(data) {
+      thread.replaceWith(data);
+      cforum.updateTitle();
+    });
   },
 
   newMessageArriving: function(message) {

@@ -23,6 +23,9 @@ class CfMessages::MarkReadController < ApplicationController
       end
     end
 
+    publish('thread:read', {type: 'thread', thread: @thread},
+            '/users/' + current_user.user_id.to_s)
+
     respond_to do |format|
       format.html do
         redirect_to cf_return_url(@thread),
