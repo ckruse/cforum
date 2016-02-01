@@ -7,23 +7,15 @@ cforum.cf_threads = {
   newMessages: [],
 
   removeNewMessage: function(mids) {
-    var nmessages = [], i, j, mid, add = true;
+    var difference = [];
 
-    for(i = 0; i < cforum.cf_threads.newMessages.length; ++i) {
-      mid = cforum.cf_threads.newMessages[i];
-      for(j = 0; j < mids.length; ++i) {
-        if(mids[j] == mid) {
-          add = false;
-          break;
-        }
-
-        if(add) {
-          nmessages.push(mid);
-        }
+    $.grep(cforum.cf_threads.newMessages, function(el) {
+      if($.inArray(el, mids) == -1) {
+        difference.push(el);
       }
-    }
+    });
 
-    cforum.cf_threads.newMessages = nmessages;
+    cforum.cf_threads.newMessages = difference;
   },
 
   new: function() {
