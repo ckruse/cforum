@@ -334,6 +334,7 @@ a.thread-forum-plate {
 
 @media only screen and (min-width: 35em) {
   .thread > header > .thread-icons {
+    position:relative;
     position:sticky;
   }
 
