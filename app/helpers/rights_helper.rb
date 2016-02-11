@@ -229,6 +229,7 @@ module RightsHelper
 
   def may_answer(m)
     return false if conf('use_archive') == 'yes' and m.thread.archived?
+    return false if m.flags['no-answer'] == 'yes'
     return m.open?
   end
 
