@@ -15,6 +15,7 @@ class CfThreadsController < ApplicationController
   include SuspiciousHelper
   include HighlightHelper
   include SearchHelper
+  include InterestingHelper
 
   SHOW_THREADLIST  = "show_threadlist"
   SHOW_NEW_THREAD  = "show_new_thread"
@@ -274,6 +275,7 @@ class CfThreadsController < ApplicationController
   def show_threads_functions(threads)
     check_threads_for_suspiciousness(threads)
     check_threads_for_highlighting(threads)
+    mark_threads_interesting(threads)
   end
 end
 

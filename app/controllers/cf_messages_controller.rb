@@ -15,6 +15,7 @@ class CfMessagesController < ApplicationController
   include SuspiciousHelper
   include HighlightHelper
   include SearchHelper
+  include InterestingHelper
 
   SHOW_NEW_MESSAGE     = "show_new_message"
   SHOW_MESSAGE         = "show_message"
@@ -408,11 +409,13 @@ class CfMessagesController < ApplicationController
   def show_message_funtions(thread, message)
     check_threads_for_suspiciousness([thread])
     check_threads_for_highlighting([thread])
+    mark_threads_interesting([thread])
   end
 
   def show_new_message_functions(thread, parent, message, preview)
     set_user_data_vars(message, parent) unless preview
     check_threads_for_highlighting([thread])
+    mark_threads_interesting([thread])
   end
 end
 

@@ -5,6 +5,7 @@ class CfMessages::InterestingController < ApplicationController
 
   include SuspiciousHelper
   include HighlightHelper
+  include InterestingHelper
 
   SHOW_INTERESTING_MESSAGELIST = "show_interesting_messagelist"
 
@@ -64,6 +65,7 @@ class CfMessages::InterestingController < ApplicationController
 
     check_messages_for_suspiciousness(@messages)
     check_messages_for_highlight(@messages)
+    mark_messages_interesting(@messages)
 
     ret = notification_center.notify(SHOW_INTERESTING_MESSAGELIST, @messages)
 
