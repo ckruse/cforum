@@ -19,7 +19,7 @@
 //= require init.js
 //= require_tree ./auto/
 
-/* global cforum, MathJax */
+/* global cforum */
 
 function hasLocalstorage() {
   try {
