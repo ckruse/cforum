@@ -1,4 +1,17 @@
 module ThreadsHelper
+  def hide_read_threads(threads)
+    if params[:srt] == 'yes'
+      session[:srt] = true
+    elsif params[:srt] == 'no'
+      session.delete :srt
+    end
+
+    return threads if current_user.blank? or @view_all or uconf('hide_read_threads') != 'yes' or session[:srt]
+
+    threads.where("EXISTS(SELECT a.message_id FROM messages a LEFT JOIN read_messages b ON a.message_id = b.message_id AND b.user_id = ? WHERE thread_id = threads.thread_id AND read_message_id IS NULL AND a.deleted = false) OR EXISTS(SELECT a.message_id FROM messages AS a INNER JOIN interesting_messages USING(message_id) WHERE thread_id = threads.thread_id AND interesting_messages.user_id = ? AND deleted = false)",
+                  current_user.user_id, current_user.user_id)
+  end
+
   def get_threads(forum, order = 'threads.created_at DESC', user = current_user, with_sticky = false, thread_conditions = {})
     conditions = {}
     conditions[:forum_id] = forum.forum_id if forum
@@ -49,6 +62,9 @@ module ThreadsHelper
 
     @threads = @threads.order(order)
     @sticky_threads = @sticky_threads.order(order) if with_sticky
+
+    @threads = hide_read_threads(@threads)
+    @sticky_threads = hide_read_threads(@sticky_threads) if with_sticky
 
     ret = notification_center.notify(CfThreadsController::MODIFY_THREADLIST_QUERY_OBJ)
     ret.each do |b|
