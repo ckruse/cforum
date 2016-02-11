@@ -1,16 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class UserDataPlugin < Plugin
-  def show_new_thread(thread)
-    return if get('preview')
-    set_vars(thread.message, nil)
-  end
-
-  def show_new_message(thread, parent, message)
-    return if get('preview')
-    set_vars(message, parent)
-  end
-
+module UserDataHelper
   def gen_content(content, name, std_replacement = '')
     content  ||= ""
 
@@ -38,7 +28,7 @@ class UserDataPlugin < Plugin
     content
   end
 
-  def set_vars(msg, parent)
+  def set_user_data_vars(msg, parent = nil)
     if user = current_user
       msg.email    ||= user.conf('email')
       msg.homepage ||= user.conf('url')
@@ -53,17 +43,6 @@ class UserDataPlugin < Plugin
     end
   end
 
-  def show_new_priv_message(msg)
-    msg.body = gen_content(msg.body, msg.recipient.try(:username))
-  end
-
-end
-
-ApplicationController.init_hooks << Proc.new do |app_controller|
-  ud_plugin = UserDataPlugin.new(app_controller)
-  app_controller.notification_center.register_hook(CfThreadsController::SHOW_NEW_THREAD, ud_plugin)
-  app_controller.notification_center.register_hook(CfMessagesController::SHOW_NEW_MESSAGE, ud_plugin)
-    app_controller.notification_center.register_hook(MailsController::SHOW_NEW_PRIV_MESSAGE, ud_plugin)
 end
 
 # eof

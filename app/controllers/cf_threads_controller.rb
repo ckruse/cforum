@@ -11,6 +11,7 @@ class CfThreadsController < ApplicationController
   include ThreadsHelper
   include MentionsHelper
   include ReferencesHelper
+  include UserDataHelper
 
   SHOW_THREADLIST  = "show_threadlist"
   SHOW_NEW_THREAD  = "show_new_thread"
@@ -57,6 +58,8 @@ class CfThreadsController < ApplicationController
     @tags = parse_tags
 
     @max_tags = conf('max_tags_per_message')
+
+    set_user_data_vars(@thread.message)
 
     notification_center.notify(SHOW_NEW_THREAD, @thread)
   end

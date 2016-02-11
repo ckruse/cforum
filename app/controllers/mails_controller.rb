@@ -1,6 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 class MailsController < ApplicationController
+  include UserDataHelper
+
   before_filter :index_users
 
   authorize_controller { authorize_user }
@@ -82,6 +84,8 @@ class MailsController < ApplicationController
       @mail.subject      = @parent.subject =~ /^Re:/i ? @parent.subject : 'Re: ' + @parent.subject
       @mail.body         = @parent.to_quote(self) if params.has_key?(:quote_old_message)
     end
+
+    @mail.body = gen_content(@mail.body, @mail.recipient.try(:username))
 
     notification_center.notify(SHOW_NEW_PRIV_MESSAGE, @mail)
   end

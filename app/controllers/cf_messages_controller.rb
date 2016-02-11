@@ -11,6 +11,7 @@ class CfMessagesController < ApplicationController
   include TagsHelper
   include MentionsHelper
   include ReferencesHelper
+  include UserDataHelper
 
   SHOW_NEW_MESSAGE     = "show_new_message"
   SHOW_MESSAGE         = "show_message"
@@ -101,6 +102,8 @@ class CfMessagesController < ApplicationController
     @message.subject = @parent.subject
     @message.problematic_site = @parent.problematic_site
     @message.content = @parent.to_quote(self) if params.has_key?(:quote_old_message)
+
+    set_user_data_vars(@message, @parent)
 
     notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
   end
