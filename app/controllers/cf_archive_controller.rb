@@ -5,6 +5,7 @@ class CfArchiveController < ApplicationController
 
   include TagsHelper
   include ThreadsHelper
+  include SuspiciousHelper
 
   SHOW_ARCHIVE_THREADLIST  = "show_archive_threadlist"
 
@@ -99,6 +100,8 @@ class CfArchiveController < ApplicationController
     @threads.each do |thread|
       sort_thread(thread)
     end
+
+    check_threads_for_suspiciousness(@threads)
 
     ret = notification_center.notify(SHOW_ARCHIVE_THREADLIST, @threads)
 

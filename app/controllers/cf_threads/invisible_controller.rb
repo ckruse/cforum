@@ -3,6 +3,8 @@
 class CfThreads::InvisibleController < ApplicationController
   authorize_controller { authorize_user }
 
+  include SuspiciousHelper
+
   SHOW_INVISIBLE_THREADLIST = "show_invisible_threadlist"
 
   def list_invisible_threads
@@ -30,6 +32,8 @@ class CfThreads::InvisibleController < ApplicationController
     @threads.each do |thread|
       sort_thread(thread)
     end
+
+    check_threads_for_suspiciousness(@threads)
 
     ret = notification_center.notify(SHOW_INVISIBLE_THREADLIST, @threads)
 

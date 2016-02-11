@@ -12,6 +12,7 @@ class CfMessagesController < ApplicationController
   include MentionsHelper
   include ReferencesHelper
   include UserDataHelper
+  include SuspiciousHelper
 
   SHOW_NEW_MESSAGE     = "show_new_message"
   SHOW_MESSAGE         = "show_message"
@@ -60,6 +61,8 @@ class CfMessagesController < ApplicationController
         @votes[v.message_id] = v
       end
     end
+
+    check_threads_for_suspiciousness([@thread])
 
     respond_to do |format|
       format.html do

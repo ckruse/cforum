@@ -12,6 +12,7 @@ class CfThreadsController < ApplicationController
   include MentionsHelper
   include ReferencesHelper
   include UserDataHelper
+  include SuspiciousHelper
 
   SHOW_THREADLIST  = "show_threadlist"
   SHOW_NEW_THREAD  = "show_new_thread"
@@ -22,6 +23,8 @@ class CfThreadsController < ApplicationController
 
   def index
     index_threads
+    check_threads_for_suspiciousness(@threads)
+
     ret = notification_center.notify(SHOW_THREADLIST, @threads)
 
     unless ret.include?(:redirected)
