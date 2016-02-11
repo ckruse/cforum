@@ -40,6 +40,7 @@ group :development, :test do
   gem 'libnotify'
 end
 
+gem 'simplecov', require: false, group: :test
 gem 'spring', group: :development
 
 gem 'sass-rails', '> 4.0.0'
