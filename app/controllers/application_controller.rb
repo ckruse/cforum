@@ -22,9 +22,10 @@ class ApplicationController < ActionController::Base
   include MarkReadHelper
   include InvisibleHelper
   include CssHelper
+  include MotdHelper
 
   before_filter :do_init, :locked?, :set_forums, :notifications,
-                :run_before_handler, :check_authorizations, :set_css
+                :run_before_handler, :check_authorizations, :set_css, :set_motd
   after_filter :run_after_handler, :store_location
 
   before_action :configure_permitted_parameters, if: :devise_controller?

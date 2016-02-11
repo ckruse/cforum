@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class MotdPlugin < Plugin
+module MotdHelper
   class Motd
     include ParserHelper
 
@@ -21,8 +21,7 @@ class MotdPlugin < Plugin
     end
   end
 
-
-  def before_handler
+  def set_motd
     where = 'forum_id IS NULL'
     args = []
 
@@ -36,19 +35,12 @@ class MotdPlugin < Plugin
 
     unless confs.blank?
       confs.each do |conf|
-        motds << Motd.new(conf.options['motd']).to_html(@app_controller) unless conf.options['motd'].blank?
+        motds << Motd.new(conf.options['motd']).to_html(self) unless conf.options['motd'].blank?
       end
     end
 
-    set('motds', motds)
+    @motds = motds
   end
-
-end
-
-ApplicationController.init_hooks << Proc.new do |app_controller|
-  motd_plugin = MotdPlugin.new(app_controller)
-  app_controller.notification_center.
-    register_hook(ApplicationController::BEFORE_HANDLER, motd_plugin)
 end
 
 # eof
