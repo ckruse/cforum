@@ -9,6 +9,8 @@ class CfMessages::VoteController < ApplicationController
 
   authorize_controller { authorize_user && authorize_forum(permission: :write?) }
 
+  include SearchHelper
+
   # TODO: votable with anoynmous user
   def vote
     raise CForum::ForbiddenException.new if current_user.blank?
@@ -47,6 +49,9 @@ class CfMessages::VoteController < ApplicationController
         create_new_vote(vtype)
       end
     end
+
+    rescore_message(@message)
+
     notification_center.notify(VOTED_MESSAGE, @message)
 
 
@@ -143,6 +148,9 @@ class CfMessages::VoteController < ApplicationController
         CfScore.delete_all(['vote_id = ?', @vote.vote_id])
         @vote.destroy
       end
+
+      rescore_message(@message)
+
       notification_center.notify(UNVOTED_MESSAGE, @message, @vote)
 
       respond_to do |format|

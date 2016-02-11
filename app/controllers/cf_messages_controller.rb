@@ -14,6 +14,7 @@ class CfMessagesController < ApplicationController
   include UserDataHelper
   include SuspiciousHelper
   include HighlightHelper
+  include SearchHelper
 
   SHOW_NEW_MESSAGE     = "show_new_message"
   SHOW_MESSAGE         = "show_message"
@@ -154,6 +155,8 @@ class CfMessagesController < ApplicationController
                                  message: @message, parent: @parent},
               '/forums/' + current_forum.slug)
 
+      search_index_message(@thread, @message)
+
       notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message, @tags)
       redirect_to cf_message_url(@thread, @message), :notice => I18n.t('messages.created')
     else
@@ -280,6 +283,8 @@ class CfMessagesController < ApplicationController
                                  message: @message, parent: @parent},
               '/forums/' + current_forum.slug)
 
+      search_index_message(@thread, @message)
+
       notification_center.notify(UPDATED_MESSAGE, @thread, @parent,
                                  @message, @tags)
       redirect_to cf_message_url(@thread, @message), notice: I18n.t('messages.updated')
@@ -308,6 +313,9 @@ class CfMessagesController < ApplicationController
         @message.delete_with_subtree
         audit(@message, 'delete')
       end
+
+      search_unindex_message_with_answers(@message)
+
       notification_center.notify(DELETED_MESSAGE, @thread, @message)
     end
 
@@ -327,6 +335,9 @@ class CfMessagesController < ApplicationController
         @message.restore_with_subtree
         audit(@message, 'restore')
       end
+
+      search_index_message(@thread, @message)
+
       notification_center.notify(RESTORED_MESSAGE, @thread, @message)
     end
 

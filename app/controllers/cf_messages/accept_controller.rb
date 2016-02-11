@@ -3,6 +3,8 @@
 class CfMessages::AcceptController < ApplicationController
   authorize_controller { authorize_forum(permission: :write?) }
 
+  include SearchHelper
+
   ACCEPTING_MESSAGE    = "accepting_message"
   ACCEPTED_MESSAGE     = "accepted_message"
 
@@ -27,6 +29,9 @@ class CfMessages::AcceptController < ApplicationController
       @message.save
       give_score
     end
+
+    rescore_message(@message)
+
     notification_center.notify(ACCEPTED_MESSAGE, @thread, @message)
 
     peon(class_name: 'BadgeDistributor',

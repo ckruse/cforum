@@ -14,6 +14,7 @@ class CfThreadsController < ApplicationController
   include UserDataHelper
   include SuspiciousHelper
   include HighlightHelper
+  include SearchHelper
 
   SHOW_THREADLIST  = "show_threadlist"
   SHOW_NEW_THREAD  = "show_new_thread"
@@ -142,6 +143,8 @@ class CfThreadsController < ApplicationController
         publish('thread:create', {type: 'thread', thread: @thread,
                                   message: @message},
                 '/forums/' + @forum.slug)
+
+        search_index_message(@thread, @message)
 
         notification_center.notify(NEW_THREAD_SAVED, @thread, @message)
 
