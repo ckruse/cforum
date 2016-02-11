@@ -322,6 +322,9 @@ module MessageHelper
     message.ip         = Digest::SHA1.hexdigest(request.remote_ip)
 
     message.parent_id  = parent.try(:message_id)
+
+    flattr_id = uconf('flattr')
+    message.flags['flattr_id'] = flattr_id if not flattr_id.blank?
   end
 
   def set_message_author(message, author = current_user.try(:username))
