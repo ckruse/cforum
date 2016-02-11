@@ -374,16 +374,18 @@ end
       <p class="termitel-sponsor"><%= cf_link_to "https://termitel.de/" do %><%= image_tag 'termitel-fuer-ihren-vertrieb.jpg', alt: "Termitel - für Ihren Vertrieb" %><% end %></p>
     </footer>
 
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script>
-     MathJax.Hub.Config({
-       displayAlign: "left",
-       menuSettings: { CHTMLpreview: false },
-       tex2jax: {
-         inlineMath: [],
-         displayMath: []
-       }
-     });
-    </script>
+    <% if Rails.env != 'test' %>
+      <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script>
+       MathJax.Hub.Config({
+         displayAlign: "left",
+         menuSettings: { CHTMLpreview: false },
+         tex2jax: {
+           inlineMath: [],
+           displayMath: []
+         }
+       });
+      </script>
+    <% end %>
   </body>
 </html>
