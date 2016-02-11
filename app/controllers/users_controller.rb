@@ -8,6 +8,8 @@ class UsersController < ApplicationController
   DESTROYING_USER = "destroying_user"
   DESTROYED_USER  = "destroyed_user"
 
+  include HighlightHelper
+
   authorize_action([:edit, :update, :confirm_destroy, :destroy]) do
     not current_user.blank? and (current_user.admin? or current_user.user_id.to_s == params[:id])
   end
@@ -128,6 +130,8 @@ class UsersController < ApplicationController
       return
     end
 
+    highlight_showing_settings(@user)
+
     notification_center.notify(SHOWING_SETTINGS, @user)
 
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
@@ -151,6 +155,9 @@ class UsersController < ApplicationController
     saved = false
     CfUser.transaction do
       if @user.update_attributes(user_params)
+
+        highlight_saving_settings(@settings)
+
         notification_center.notify(SAVING_SETTINGS, @user, @settings)
         @settings.save!
 

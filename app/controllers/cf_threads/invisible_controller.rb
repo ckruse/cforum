@@ -4,6 +4,7 @@ class CfThreads::InvisibleController < ApplicationController
   authorize_controller { authorize_user }
 
   include SuspiciousHelper
+  include HighlightHelper
 
   SHOW_INVISIBLE_THREADLIST = "show_invisible_threadlist"
 
@@ -34,6 +35,7 @@ class CfThreads::InvisibleController < ApplicationController
     end
 
     check_threads_for_suspiciousness(@threads)
+    check_threads_for_highlighting(@threads)
 
     ret = notification_center.notify(SHOW_INVISIBLE_THREADLIST, @threads)
 

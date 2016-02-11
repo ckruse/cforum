@@ -4,6 +4,7 @@ class CfMessages::InterestingController < ApplicationController
   authorize_controller { authorize_user && authorize_forum(permission: :read?) }
 
   include SuspiciousHelper
+  include HighlightHelper
 
   SHOW_INTERESTING_MESSAGELIST = "show_interesting_messagelist"
 
@@ -62,6 +63,7 @@ class CfMessages::InterestingController < ApplicationController
                 order(:created_at).page(params[:page]).per(@limit)
 
     check_messages_for_suspiciousness(@messages)
+    check_messages_for_highlight(@messages)
 
     ret = notification_center.notify(SHOW_INTERESTING_MESSAGELIST, @messages)
 

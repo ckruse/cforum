@@ -13,6 +13,7 @@ class CfMessagesController < ApplicationController
   include ReferencesHelper
   include UserDataHelper
   include SuspiciousHelper
+  include HighlightHelper
 
   SHOW_NEW_MESSAGE     = "show_new_message"
   SHOW_MESSAGE         = "show_message"
@@ -62,7 +63,7 @@ class CfMessagesController < ApplicationController
       end
     end
 
-    check_threads_for_suspiciousness([@thread])
+    show_message_funtions(@thread, @message)
 
     respond_to do |format|
       format.html do
@@ -106,7 +107,7 @@ class CfMessagesController < ApplicationController
     @message.problematic_site = @parent.problematic_site
     @message.content = @parent.to_quote(self) if params.has_key?(:quote_old_message)
 
-    set_user_data_vars(@message, @parent)
+    show_new_message_functions(@thread, @parent, @message, false)
 
     notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
   end
@@ -158,6 +159,9 @@ class CfMessagesController < ApplicationController
     else
       @message.valid? unless @preview
       @preview = true
+
+      show_new_message_functions(@thread, @parent, @message, false)
+
       notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
       render :new
     end
@@ -173,6 +177,8 @@ class CfMessagesController < ApplicationController
     @edit = true
 
     flash.now[:error] = t('messages.edit_change_to_markdown') if @message.format != 'markdown'
+
+    show_message_funtions(@thread, @message)
 
     notification_center.notify(SHOW_MESSAGE, @thread, @message, {})
   end
@@ -280,6 +286,9 @@ class CfMessagesController < ApplicationController
     else
       @message.valid? unless @preview
       @edit = true
+
+      show_message_funtions(@thread, @message)
+
       notification_center.notify(SHOW_MESSAGE, @thread, @message, {})
       render :edit
     end
@@ -383,6 +392,16 @@ class CfMessagesController < ApplicationController
   def preview
     m = CfMessage.new(content: params[:content])
     render text: m.to_html(self)
+  end
+
+  def show_message_funtions(thread, message)
+    check_threads_for_suspiciousness([thread])
+    check_threads_for_highlighting([thread])
+  end
+
+  def show_new_message_functions(thread, parent, message, preview)
+    set_user_data_vars(message, parent) unless preview
+    check_threads_for_highlighting([thread])
   end
 end
 

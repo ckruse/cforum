@@ -6,6 +6,7 @@ require Rails.root + 'lib/cf_plaintext.rb'
 
 module ParserHelper
   include CforumMarkup
+  include HighlightHelper
 
   NOTIFY_MENTION = 'notify_mention'
 
@@ -41,7 +42,11 @@ module ParserHelper
       username = Regexp.escape(m[0])
 
       cnt = cnt.gsub(/(\A|[^a-zäöüß0-9_.@-])@(#{username})\b/) do
-        classes = app.notification_center.notify(NOTIFY_MENTION, m) if do_notify
+        if do_notify
+          classes = app.notification_center.notify(NOTIFY_MENTION, m)
+          classes << highlight_notify_mention(m)
+        end
+
         retval = $1 + '[@' + $2 + '](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user'
 
         unless classes.blank?

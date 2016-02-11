@@ -13,6 +13,7 @@ class CfThreadsController < ApplicationController
   include ReferencesHelper
   include UserDataHelper
   include SuspiciousHelper
+  include HighlightHelper
 
   SHOW_THREADLIST  = "show_threadlist"
   SHOW_NEW_THREAD  = "show_new_thread"
@@ -23,7 +24,8 @@ class CfThreadsController < ApplicationController
 
   def index
     index_threads
-    check_threads_for_suspiciousness(@threads)
+
+    show_threads_functions(@threads)
 
     ret = notification_center.notify(SHOW_THREADLIST, @threads)
 
@@ -39,6 +41,8 @@ class CfThreadsController < ApplicationController
 
   def show
     @thread, @id = get_thread
+
+    show_threads_functions([@thread])
 
     notification_center.notify(SHOW_THREADLIST, [@thread])
 
@@ -264,6 +268,10 @@ class CfThreadsController < ApplicationController
     end
   end
 
+  def show_threads_functions(threads)
+    check_threads_for_suspiciousness(threads)
+    check_threads_for_highlighting(threads)
+  end
 end
 
 # eof
