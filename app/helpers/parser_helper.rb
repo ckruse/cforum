@@ -44,7 +44,7 @@ module ParserHelper
       cnt = cnt.gsub(/(\A|[^a-zäöüß0-9_.@-])@(#{username})\b/) do
         if do_notify
           classes = app.notification_center.notify(NOTIFY_MENTION, m)
-          classes << highlight_notify_mention(m)
+          classes << highlight_notify_mention(m, app)
         end
 
         retval = $1 + '[@' + $2 + '](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user'

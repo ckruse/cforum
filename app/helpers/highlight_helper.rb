@@ -71,14 +71,14 @@ module HighlightHelper
     end
   end
 
-  def highlight_notify_mention(mention)
-    return unless current_user
+  def highlight_notify_mention(mention, app)
+    return unless app.current_user
 
     classes = []
 
-    highlighted_users = uconf('highlighted_users')
+    highlighted_users = app.uconf('highlighted_users')
     highlighted_users ||= ''
-    highlight_self = uconf('highlight_self') == 'yes'
+    highlight_self = app.uconf('highlight_self') == 'yes'
 
     return if highlighted_users.blank? and not highlight_self
 
@@ -87,17 +87,17 @@ module HighlightHelper
       user_map[s.strip.downcase] = true
     end
 
-    cu_nam = current_user.username.strip.downcase
+    cu_nam = app.current_user.username.strip.downcase
     n = mention.first.strip.downcase
 
     if user_map[n]
       classes << '.highlighted-user'
-      classes << user_to_class_name(mention.first)
+      classes << app.user_to_class_name(mention.first)
     end
 
     if highlight_self and n == cu_nam
       classes << '.highlighted-self'
-      classes << user_to_class_name(mention.first)
+      classes << app.user_to_class_name(mention.first)
     end
 
     classes
