@@ -94,11 +94,20 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
   end
 
   def convert_codeblock(el, indent)
-    ret = super(el, indent)
-    ret.gsub!(/<div class="highlighter-rouge"><pre class="highlight"><code>\n?(.*)<\/code><\/pre>\n<\/div>/m, '<code class="block">\1</code>')
-    ret.gsub!(/<pre><code class="[^"]+">\n?(.*)<\/code><\/pre>/m, '<code class="block">\1</code>')
+    attr = el.attr.dup
+    lang = extract_code_language!(attr) || @options[:kramdown_default_lang]
+    code = pygmentize(el.value, lang)
 
-    ret
+    attr['class'] = (attr['class'].to_s + " block language-#{lang}").strip
+    "#{' '*indent}<code#{html_attributes(attr)}>#{code}</code>\n"
+  end
+
+  def convert_codespan(el, indent)
+    attr = el.attr.dup
+    lang = extract_code_language!(attr) || @options[:kramdown_default_lang]
+    code = pygmentize(el.value, lang)
+    attr['class'] = (attr['class'].to_s + " language-#{lang}").strip if lang
+    "<code#{html_attributes(attr)}>#{code}</code>"
   end
 
   def convert_email_style_sig(el, indent)
@@ -154,6 +163,16 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
 
     content = (ol.children.empty? ? '' : format_as_indented_block_html('div', {:class => "footnotes"}, convert(ol, 2), 0))
     content + @sig_content.to_s
+  end
+
+  def pygmentize(code, lang)
+    if lang
+      Pygments.highlight(code,
+                         lexer: lang,
+                         options: { startinline: true, encoding: 'utf-8', nowrap: true })
+    else
+      escape_html(code)
+    end
   end
 end
 

@@ -66,9 +66,6 @@ module ParserHelper
   def to_doc(app, opts = {})
     opts = opts.symbolize_keys!.reverse_merge!(
       input: 'CfMarkdown',
-      coderay_wrap: nil,
-      coderay_css: :class,
-      coderay_line_numbers: nil,
       header_offset: opts[:header_start_index] || app.conf('header_start_index'),
       auto_id_prefix: id_prefix + '-',
       no_follow: true,

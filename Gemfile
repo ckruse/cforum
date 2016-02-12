@@ -11,7 +11,7 @@ gem 'therubyracer'
 gem 'devise'
 gem "bcrypt"
 gem 'kramdown'
-gem 'rouge', git: 'https://github.com/jneen/rouge'
+gem 'pygments.rb'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
