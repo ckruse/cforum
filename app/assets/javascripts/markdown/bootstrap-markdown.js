@@ -1300,7 +1300,7 @@
             else if(content.indexOf('\n') > -1) {
               var lang = window.prompt(t('code_lang'));
 
-              if(lang && lang.length > 20) {
+              if((lang && lang.length > 20) || lang === null) {
                 return;
               }
 
