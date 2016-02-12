@@ -173,6 +173,8 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
     else
       escape_html(code)
     end
+  rescue MentosError
+    escape_html(code)
   end
 end
 
