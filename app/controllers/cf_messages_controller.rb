@@ -164,7 +164,7 @@ class CfMessagesController < ApplicationController
       @message.valid? unless @preview
       @preview = true
 
-      show_new_message_functions(@thread, @parent, @message, false)
+      show_new_message_functions(@thread, @parent, @message, @preview)
 
       notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
       render :new
