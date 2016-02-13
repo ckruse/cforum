@@ -109,7 +109,7 @@ class CfMessagesController < ApplicationController
     @message.problematic_site = @parent.problematic_site
     @message.content = @parent.to_quote(self) if params.has_key?(:quote_old_message)
 
-    show_new_message_functions(@thread, @parent, @message, false)
+    show_new_message_functions(@thread, @parent, @message, @preview)
 
     notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
   end
