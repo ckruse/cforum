@@ -1,0 +1,15 @@
+<div class="cf-cgroup">
+  <label for="settings-subject_black_list"><%= t('admin.forums.settings.subject_black_list') %></label>
+  <div class="cntrls">
+    <%= text_area_tag 'settings[subject_black_list]', @settings.options['subject_black_list'], id: 'settings-subject_black_list' %>
+    <label class="checkbox"><%= check_box_tag 'settings[subject_black_list]', '_DEFAULT_', @settings.options['subject_black_list'].blank?, id: 'settings-subject_black_list-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('subject_black_list')), origin: t(is_global_conf('subject_black_list') ? 'global.global_conf' : 'global.global_default')) %></label>
+  </div>
+</div>
+
+<div class="cf-cgroup">
+  <label for="settings-content_black_list"><%= t('admin.forums.settings.content_black_list') %></label>
+  <div class="cntrls">
+    <%= text_area_tag 'settings[content_black_list]', @settings.options['content_black_list'], id: 'settings-content_black_list' %>
+    <label class="checkbox"><%= check_box_tag 'settings[content_black_list]', '_DEFAULT_', @settings.options['content_black_list'].blank?, id: 'settings-content_black_list-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('content_black_list')), origin: t(is_global_conf('content_black_list') ? 'global.global_conf' : 'global.global_default')) %></label>
+  </div>
+</div>

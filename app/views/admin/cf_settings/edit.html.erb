@@ -15,6 +15,12 @@ content_for :h1, t('admin.settings.global_settings')
     <%= render 'settings_close_votes' %>
   </fieldset>
 
+  <fieldset class="tab-pane" id="settings-spam-settings">
+    <legend><%= t('admin.forums.settings_spam_settings') %></legend>
+    <%= render 'settings_spam_settings' %>
+  </fieldset>
+
+
   <p class="form-actions">
     <%= t.submit t('global.save'), :class => 'cf-primary-btn' %>
   </p>

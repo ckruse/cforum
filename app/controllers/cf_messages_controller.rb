@@ -134,6 +134,7 @@ class CfMessagesController < ApplicationController
     retvals  = notification_center.notify(CREATING_NEW_MESSAGE, @thread, @parent, @message, @tags)
 
     invalid = true unless validate_tags(@tags)
+    invalid = true if is_spam(@message)
 
     set_user_cookies(@message)
 
@@ -416,6 +417,21 @@ class CfMessagesController < ApplicationController
     set_user_data_vars(message, parent) unless preview
     check_threads_for_highlighting([thread])
     mark_threads_interesting([thread])
+  end
+
+  def is_spam(msg)
+    subject_black_list = conf('subject_black_list').to_s.split(/\015\012|\015|\012/)
+    content_black_list = conf('content_black_list').to_s.split(/\015\012|\015|\012/)
+
+    subject_black_list.each do |expr|
+      return true if Regexp.new(expr, Regexp::IGNORECASE).match(msg.subject)
+    end
+
+    content_black_list.each do |expr|
+      return true if Regexp.new(expr, Regexp::IGNORECASE).match(msg.content)
+    end
+
+    return false
   end
 end
 

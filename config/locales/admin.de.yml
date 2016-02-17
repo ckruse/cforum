@@ -17,6 +17,7 @@ de:
       forum_data: Forums-Daten
       settings_nam: Allgemein
       settings_close_votes: Abstimmungen
+      settings_spam_settings: Spam-Einstellungen
       scores: Punkte
 
       error_message:
@@ -69,6 +70,8 @@ de:
         vote_down_value: Downvote-Punkte
         accept_value: Accept-Punkte
         accept_self_value: Accept-Punkte bei eigenem Beitrag
+        subject_black_list: Betreff-Blacklist
+        content_black_list: Beitrags-Blacklist
         
 
     users:

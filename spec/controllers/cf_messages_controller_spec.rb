@@ -96,6 +96,30 @@ RSpec.describe CfMessagesController, type: :controller do
 
       expect(response).to render_template "new"
     end
+
+    it "fails to create a post with a spammy subject" do
+      s = CfSetting.first!
+      s.options['subject_black_list'] = "some spammy text"
+      s.save!
+
+      attrs = attributes_for(:cf_message, forum: message.thread.forum)
+      attrs[:subject] = 'some spammy text'
+      post :create, message_params_from_slug(message).merge({tags: [tag.tag_name], cf_message: attrs})
+
+      expect(response).to render_template "new"
+    end
+
+    it "fails to create a post with spammy content" do
+      s = CfSetting.first!
+      s.options['content_black_list'] = "some spammy text"
+      s.save!
+
+      attrs = attributes_for(:cf_message, forum: message.thread.forum)
+      attrs[:content] = 'some spammy text'
+      post :create, message_params_from_slug(message).merge({tags: [tag.tag_name], cf_message: attrs})
+
+      expect(response).to render_template "new"
+    end
   end
 
   describe "POST #retag" do
