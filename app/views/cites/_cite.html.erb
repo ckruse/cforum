@@ -35,10 +35,10 @@ end
           </span>
         <% end %>
 
-        <%= cf_link_to cite.author, cite_path(cite) %>
+        <%= cf_link_to cite.author, cite.url %>
       </span>
 
-      <time datetime="<%= cite.cite_date.strftime("%FT%T%:z") %>"><%= cf_link_to l(cite.cite_date, format: uconf('date_format_date')), cite_path(cite) %></time>
+      <time datetime="<%= cite.cite_date.strftime("%FT%T%:z") %>"><%= cf_link_to l(cite.cite_date, format: uconf('date_format_date')), cite.url %></time>
     </div>
   </header>
 
@@ -63,7 +63,7 @@ end
   <div class="posting-content cite"><%= cite.to_html(@app_controller) %></div>
 
   <div>
-    <% unless cite.creator.blank? %><%= t('cites.created_by') %>
+    <% unless cite.creator.blank? %><%= t('cites.created_by_at') %>
       <span class="author">
         <% if not cite.creator_user_id.blank? %>
           <span class="registered-user">
@@ -74,6 +74,6 @@ end
           <span class="icon-message original-poster"><%= cite.creator %></span>
         <% end %>
       </span>
-    <% end %><% if not cite.url.blank? and not cite.message_id.blank? and @forums.include?(cite.message.forum) %><%= cf_link_to t('cites.source'), cite.url %><% end %>
+    <% end %><% if not cite.url.blank? and not cite.message_id.blank? and @forums.include?(cite.message.forum) %> <%= l(cite.created_at, format: uconf('date_format_date')) %><% end %>
   </div>
 </article>

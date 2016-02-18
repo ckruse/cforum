@@ -12,7 +12,7 @@ de:
     search: 'Zitatesammlung durchsuchen'
     read: 'Zitate lesen'
     destroy_cite: Zitat löschen
-    created_by: eingereicht von
+    created_by_at: 'eingereicht:'
     do_vote: über Zitate abstimmen
     do_read_cites: Zitate lesen
     no_votes_active: Zur Zeit sind keine Zitate zur Abstimmung aktiv.
