@@ -49,5 +49,36 @@ RSpec.describe CfThreadsController do
                                     forum_id: forum.forum_id} }
       }.to change(CfThread, :count).by(1)
     end
+
+    it "fails to create a post with a spammy subject" do
+      s = CfSetting.first!
+      s.options['subject_black_list'] = "some spammy text"
+      s.save!
+
+      attrs = attributes_for(:cf_message, forum: nil)
+      attrs[:subject] = 'some spammy text'
+      post :create, { curr_forum: 'all',
+                      tags: [tag.tag_name],
+                      cf_thread: {message: attrs,
+                                  forum_id: forum.forum_id} }
+
+      expect(response).to render_template "new"
+    end
+
+    it "fails to create a post with spammy content" do
+      s = CfSetting.first!
+      s.options['content_black_list'] = "some spammy text"
+      s.save!
+
+      attrs = attributes_for(:cf_message, forum: nil)
+      attrs[:content] = 'some spammy text'
+
+      post :create, { curr_forum: 'all',
+                      tags: [tag.tag_name],
+                      cf_thread: {message: attrs,
+                                  forum_id: forum.forum_id} }
+
+      expect(response).to render_template "new"
+    end
   end
 end

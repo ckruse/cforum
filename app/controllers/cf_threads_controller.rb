@@ -16,6 +16,7 @@ class CfThreadsController < ApplicationController
   include HighlightHelper
   include SearchHelper
   include InterestingHelper
+  include SpamHelper
 
   SHOW_THREADLIST  = "show_threadlist"
   SHOW_NEW_THREAD  = "show_new_thread"
@@ -104,6 +105,7 @@ class CfThreadsController < ApplicationController
     retvals  = notification_center.notify(NEW_THREAD, @thread, @message, @tags)
 
     invalid = true unless validate_tags(@tags, @forum)
+    invalid = true if is_spam(@message)
 
     set_user_cookies(@message)
 
