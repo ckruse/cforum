@@ -16,6 +16,7 @@ class CfMessagesController < ApplicationController
   include HighlightHelper
   include SearchHelper
   include InterestingHelper
+  include SpamHelper
 
   SHOW_NEW_MESSAGE     = "show_new_message"
   SHOW_MESSAGE         = "show_message"
@@ -417,23 +418,6 @@ class CfMessagesController < ApplicationController
     set_user_data_vars(message, parent) unless preview
     check_threads_for_highlighting([thread])
     mark_threads_interesting([thread])
-  end
-
-  def is_spam(msg)
-    subject_black_list = conf('subject_black_list').to_s.split(/\015\012|\015|\012/)
-    content_black_list = conf('content_black_list').to_s.split(/\015\012|\015|\012/)
-
-    subject_black_list.each do |expr|
-      next if expr =~ /^#/ or expr =~ /^\s*$/
-      return true if Regexp.new(expr, Regexp::IGNORECASE).match(msg.subject)
-    end
-
-    content_black_list.each do |expr|
-      next if expr =~ /^#/ or expr =~ /^\s*$/
-      return true if Regexp.new(expr, Regexp::IGNORECASE).match(msg.content)
-    end
-
-    return false
   end
 end
 
