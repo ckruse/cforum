@@ -105,7 +105,10 @@ class CfThreadsController < ApplicationController
     retvals  = notification_center.notify(NEW_THREAD, @thread, @message, @tags)
 
     invalid = true unless validate_tags(@tags, @forum)
-    invalid = true if is_spam(@message)
+    if is_spam(@message)
+      invalid = true
+      flash.now[:error] = t("global.spam_filter")
+    end
 
     set_user_cookies(@message)
 

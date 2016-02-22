@@ -36,6 +36,7 @@ de:
     global_conf: globale Konfiguration
     from: Von
     to: Bis
+    spam_filter: Dieser Beitrag wurde als Spam identifiziert und deshalb nicht gespeichert.
 
     scores:
       right_upvote: Upvote-Recht
