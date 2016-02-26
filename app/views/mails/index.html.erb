@@ -36,7 +36,7 @@ content_for(:body_classes, 'mail index' + (@user ?  ' ' +  user_to_class_name(@u
       <td><%= cf_link_to m.subject, mail_path(m.sender_name, m) %></td>
       <td><%= l(m.created_at, format: date_format) %></td>
       <td>
-        <%= cf_link_to '', mail_path(m.sender_name, m), method: :delete, data: {confirm: t('global.are_you_sure')}, class: 'icon-delete-mail', title: t('mails.delete') %>
+        <%= cf_link_to '', mail_path(m.sender_name, m), method: :delete, data: {'cf-confirm': t('global.are_you_sure')}, class: 'icon-delete-mail', title: t('mails.delete') %>
 
         <% if m.is_read? %>
           <%= cf_link_to '', mail_path(m.sender_name, m), method: :post, class: 'icon-mark-unread', title: t('mails.mark_unread') %>
@@ -58,7 +58,7 @@ content_for(:body_classes, 'mail index' + (@user ?  ' ' +  user_to_class_name(@u
 </table>
 
 <p class="form-actions">
-  <button class="cf-primary-btn" data-confirm="<%= t('global.are_you_sure') %>">Löschen</button>
+  <button class="cf-primary-btn" data-cf-confirm="<%= t('global.are_you_sure') %>">Löschen</button>
 </p>
 
 <%= paginate @mails, params: { sort: sort_column, dir: sort_direction } %>

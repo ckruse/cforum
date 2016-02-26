@@ -13,6 +13,6 @@ content_for(:body_classes, 'mail show recipient-' + user_to_class_name(@mail.rec
     <%= cf_link_to t('mails.answer_mail_wo_quote'), new_mail_path('priv_message_id' => @mail.priv_message_id), class: 'cf-btn' %>
   <% end %>
 
-  <%= cf_link_to t('mails.delete'), mail_path(@mail.sender_name, @mail), method: :delete, data: {confirm: t('global.are_you_sure')}, class: 'cf-btn' %>
+  <%= cf_link_to t('mails.delete'), mail_path(@mail.sender_name, @mail), method: :delete, data: {'cf-confirm': t('global.are_you_sure')}, class: 'cf-btn' %>
   <%= cf_link_to t('mails.mark_unread'), mail_path(@mail.sender_name, @mail), method: :post, class: 'cf-btn' %>
 </div>

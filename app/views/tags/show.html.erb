@@ -14,7 +14,7 @@ content_for(:body_classes, 'tags show forum-' + (current_forum.try(:slug) || 'al
     <% @tag.synonyms.each do |syn| %>
       <li class="tags"><%= syn.synonym %><% if current_user.try(:admin) %>
         <%= cf_link_to "", edit_tag_synonym_path(current_forum.slug, @tag, syn), class: 'icon-edit-tag-synonym' %>
-        <%= cf_link_to "", tag_synonym_path(current_forum.slug, @tag, syn), class: 'icon-delete-tag-synonym', method: :delete, data: {confirm: t('global.are_you_sure')} %>
+        <%= cf_link_to "", tag_synonym_path(current_forum.slug, @tag, syn), class: 'icon-delete-tag-synonym', method: :delete, data: {'cf-confirm': t('global.are_you_sure')} %>
       <% end %></li>
     <% end %>
   </ul>

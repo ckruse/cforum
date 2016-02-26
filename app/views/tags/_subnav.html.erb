@@ -11,7 +11,7 @@
     <% if current_user and current_user.admin and @tag and @tag.tag_id %>
       <li><%= cf_link_to t('tags.merge'), merge_tag_path(current_forum, @tag) %></li>
       <li<% if action_name == 'edit' or action_name == 'update' %> class="active"<% end %>><%= cf_link_to t('tags.do_edit_tag'), edit_tag_path(current_forum.slug, @tag) %></li>
-      <li><%= cf_link_to t('tags.do_delete_tag'), tag_path(current_forum.slug, @tag), method: :delete, data: {confirm: t('global.are_you_sure')} %></li>
+      <li><%= cf_link_to t('tags.do_delete_tag'), tag_path(current_forum.slug, @tag), method: :delete, data: {'cf-confirm' => t('global.are_you_sure')} %></li>
     <% end %>
   </ul>
 <% end %>

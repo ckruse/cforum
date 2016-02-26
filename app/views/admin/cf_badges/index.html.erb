@@ -25,7 +25,7 @@ content_for :h1, t('admin.badges.index')
                        class: "icon-edit-badge",
                        title: t('admin.badges.edit')) %>
         <%= cf_button_to(admin_badge_path(badge),
-                         data: {confirm: t('global.are_you_sure')},
+                         data: {'cf-confirm': t('global.are_you_sure')},
                          method: :delete,
                          class: 'icon-delete-badge',
                          title: t('admin.badges.delete')) %>

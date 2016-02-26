@@ -26,7 +26,7 @@ content_for :body_classes, 'cites show'
   <% if current_user.try(:admin?) or may?(RightsHelper::MODERATOR_TOOLS) %>
     <%= cf_link_to t('cites.edit_cite'), edit_cite_path(@cite), class: 'cf-btn' %>
     <%= cf_link_to(t('cites.destroy_cite'), cite_path(@cite), method: :delete,
-                   data: { confirm: t('global.are_you_sure') }, class: 'cf-btn') %>
+                   data: { 'cf-confirm': t('global.are_you_sure') }, class: 'cf-btn') %>
   <% end %>
 </p>
 
