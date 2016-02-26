@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery2
+//= require confirmations.js
 //= require jquery_ujs
 //= require jquery-ui/autocomplete
 //= require socket.io
