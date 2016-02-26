@@ -47,6 +47,8 @@ content_for(:body_classes, 'mail index' + (@user ?  ' ' +  user_to_class_name(@u
         <% unless m.partner_id(current_user).blank? %>
           <%= cf_link_to '', new_mail_path('priv_message_id' => m.priv_message_id), class: 'icon-answer-mail-wo-quote', title: t('mails.answer_mail_wo_quote') %>
           <%= cf_link_to '', new_mail_path('priv_message_id' => m.priv_message_id, quote_old_message: 'yes'), class: 'icon-answer-mail', title: t('mails.answer_mail') %>
+          <%= cf_link_to('', new_mail_path(cf_priv_message: {recipient_id: m.partner_id(current_user)}),
+                         class: 'icon-new-mail', title: t('mails.new_mail')) %>
         <% end %>
       </td>
     </tr>
