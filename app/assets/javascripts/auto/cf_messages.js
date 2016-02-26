@@ -115,6 +115,27 @@ cforum.cf_messages = {
         }
       });
     }
+
+    if($('body').hasClass('nested-view') && history.pushState) {
+      $('.root a').on('click', function(event) {
+        var $this = $(this);
+
+        if($this.attr('href').match(/\/\w+\/\d+\/\w+\/\d+\/[^\/]+\/(\d+)#m\d+/)) {
+          var mid = RegExp.$1;
+
+          if(document.location.href.match(/\/\w+\/\d+\/\w+\/\d+\/[^\/]+\/(\d+)#m\d+/)) {
+            var old_mid = RegExp.$1;
+
+            if(old_mid != mid) {
+              var new_url = document.location.href.replace(/\d+#m\d+/, mid + "#" + mid);
+              event.preventDefault();
+              history.pushState(mid, "", new_url);
+              $("html,body").scrollTop($("#m" + mid).offset().top);
+            }
+          }
+        }
+      });
+    }
   },
 
   init: function() {
