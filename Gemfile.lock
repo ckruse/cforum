@@ -66,7 +66,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
-    concurrent-ruby (1.0.0)
+    concurrent-ruby (1.0.1)
     content_for_in_controllers (0.0.2)
     daemons (1.2.3)
     database_cleaner (1.5.1)
@@ -175,7 +175,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    puma (3.0.1)
+    puma (3.0.2)
     pygments.rb (0.6.3)
       posix-spawn (~> 0.3.6)
       yajl-ruby (~> 1.2.0)
@@ -256,7 +256,7 @@ GEM
     slop (3.6.0)
     socket.io-rails (1.4.5)
       railties (>= 3.1)
-    spring (1.6.3)
+    spring (1.6.4)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
     sprockets (3.5.2)
