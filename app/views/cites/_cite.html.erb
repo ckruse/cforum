@@ -35,16 +35,19 @@ end
           </span>
         <% end %>
 
-        <% if cite.url.blank? %>
-          <%= cite.author %>
-        <% else %>
+        <% if not cite.url.blank? and (cite.message_id.blank? or @forums.include?(cite.message.forum)) %>
           <%= cf_link_to cite.author, cite.url %>
+        <% else %>
+          <%= cite.author %>
         <% end %>
       </span>
 
       <time datetime="<%= cite.cite_date.strftime("%FT%T%:z") %>">
-        <% if cite.url.blank? %><%= l(cite.cite_date, format: uconf('date_format_date')) %>
-        <% else %><%= cf_link_to l(cite.cite_date, format: uconf('date_format_date')), cite.url %><% end %>
+        <% if not cite.url.blank? and (cite.message_id.blank? or @forums.include?(cite.message.forum)) %>
+          <%= cf_link_to l(cite.cite_date, format: uconf('date_format_date')), cite.url %>
+        <% else %>
+          <%= l(cite.cite_date, format: uconf('date_format_date')) %>
+        <% end %>
       </time>
     </div>
   </header>
@@ -81,6 +84,7 @@ end
           <span class="icon-message original-poster"><%= cite.creator %></span>
         <% end %>
       </span>
-    <% end %><% if not cite.url.blank? and not cite.message_id.blank? and @forums.include?(cite.message.forum) %> <%= l(cite.created_at, format: uconf('date_format_date')) %><% end %>
+    <% end %>
+    <%= l(cite.created_at, format: uconf('date_format_date')) %>
   </div>
 </article>
