@@ -48,7 +48,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = CfUser.find(params[:id])
+    @user = CfUser.preload(badges_users: :badge).find(params[:id])
     @settings = @user.settings || CfSetting.new
     @settings.options ||= {}
     @user_score = CfScore.where(user_id: @user.user_id).sum('value')
@@ -118,6 +118,8 @@ class UsersController < ApplicationController
     if (@user.confirmed_at.blank? or not @user.unconfirmed_email.blank?) and (not current_user.blank? and current_user.username == @user.username)
       flash[:error] = I18n.t('users.confirm_first')
     end
+
+    @badges = @user.unique_badges
   end
 
   def edit

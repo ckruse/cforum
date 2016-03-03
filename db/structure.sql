@@ -2,12 +2,16 @@
 -- PostgreSQL database dump
 --
 
+-- Dumped from database version 9.5.1
+-- Dumped by pg_dump version 9.5.1
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -540,7 +544,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: auditing; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: auditing; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE auditing (
@@ -574,7 +578,7 @@ ALTER SEQUENCE auditing_auditing_id_seq OWNED BY auditing.auditing_id;
 
 
 --
--- Name: badges; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: badges; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE badges (
@@ -610,7 +614,7 @@ ALTER SEQUENCE badges_badge_id_seq OWNED BY badges.badge_id;
 
 
 --
--- Name: badges_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: badges_users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE badges_users (
@@ -642,7 +646,7 @@ ALTER SEQUENCE badges_users_badge_user_id_seq OWNED BY badges_users.badge_user_i
 
 
 --
--- Name: cites; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: cites; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE cites (
@@ -682,7 +686,7 @@ ALTER SEQUENCE cites_cite_id_seq OWNED BY cites.cite_id;
 
 
 --
--- Name: cites_votes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: cites_votes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE cites_votes (
@@ -715,7 +719,7 @@ ALTER SEQUENCE cites_votes_cite_vote_id_seq OWNED BY cites_votes.cite_vote_id;
 
 
 --
--- Name: close_votes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: close_votes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE close_votes (
@@ -751,7 +755,7 @@ ALTER SEQUENCE close_votes_close_vote_id_seq OWNED BY close_votes.close_vote_id;
 
 
 --
--- Name: close_votes_voters; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: close_votes_voters; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE close_votes_voters (
@@ -783,7 +787,7 @@ ALTER SEQUENCE close_votes_voters_close_votes_voter_id_seq OWNED BY close_votes_
 
 
 --
--- Name: counter_table; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: counter_table; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE counter_table (
@@ -814,7 +818,7 @@ ALTER SEQUENCE counter_table_count_id_seq OWNED BY counter_table.count_id;
 
 
 --
--- Name: forum_stats; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: forum_stats; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE forum_stats (
@@ -846,7 +850,7 @@ ALTER SEQUENCE forum_stats_forum_stat_id_seq OWNED BY forum_stats.forum_stat_id;
 
 
 --
--- Name: forums; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: forums; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE forums (
@@ -883,7 +887,7 @@ ALTER SEQUENCE forums_forum_id_seq OWNED BY forums.forum_id;
 
 
 --
--- Name: forums_groups_permissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: forums_groups_permissions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE forums_groups_permissions (
@@ -914,7 +918,7 @@ ALTER SEQUENCE forums_groups_permissions_forum_group_permission_id_seq OWNED BY 
 
 
 --
--- Name: groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: groups; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE groups (
@@ -945,7 +949,7 @@ ALTER SEQUENCE groups_group_id_seq OWNED BY groups.group_id;
 
 
 --
--- Name: groups_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: groups_users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE groups_users (
@@ -975,7 +979,7 @@ ALTER SEQUENCE groups_users_group_user_id_seq OWNED BY groups_users.group_user_i
 
 
 --
--- Name: interesting_messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: interesting_messages; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE interesting_messages (
@@ -1007,7 +1011,7 @@ ALTER SEQUENCE interesting_messages_interesting_message_id_seq OWNED BY interest
 
 
 --
--- Name: invisible_threads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: invisible_threads; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE invisible_threads (
@@ -1037,7 +1041,7 @@ ALTER SEQUENCE invisible_threads_invisible_thread_id_seq OWNED BY invisible_thre
 
 
 --
--- Name: media; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: media; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE media (
@@ -1071,7 +1075,7 @@ ALTER SEQUENCE media_medium_id_seq OWNED BY media.medium_id;
 
 
 --
--- Name: message_references; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: message_references; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE message_references (
@@ -1103,7 +1107,7 @@ ALTER SEQUENCE message_references_message_reference_id_seq OWNED BY message_refe
 
 
 --
--- Name: message_versions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: message_versions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE message_versions (
@@ -1137,7 +1141,7 @@ ALTER SEQUENCE message_versions_message_version_id_seq OWNED BY message_versions
 
 
 --
--- Name: messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: messages; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE messages (
@@ -1187,7 +1191,7 @@ ALTER SEQUENCE messages_message_id_seq OWNED BY messages.message_id;
 
 
 --
--- Name: messages_tags; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: messages_tags; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE messages_tags (
@@ -1217,7 +1221,7 @@ ALTER SEQUENCE messages_tags_message_tag_id_seq OWNED BY messages_tags.message_t
 
 
 --
--- Name: notifications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: notifications; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE notifications (
@@ -1254,7 +1258,7 @@ ALTER SEQUENCE notifications_notification_id_seq OWNED BY notifications.notifica
 
 
 --
--- Name: opened_closed_threads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: opened_closed_threads; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE opened_closed_threads (
@@ -1285,7 +1289,7 @@ ALTER SEQUENCE opened_closed_threads_opened_closed_thread_id_seq OWNED BY opened
 
 
 --
--- Name: peon_jobs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: peon_jobs; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE peon_jobs (
@@ -1321,7 +1325,7 @@ ALTER SEQUENCE peon_jobs_peon_job_id_seq OWNED BY peon_jobs.peon_job_id;
 
 
 --
--- Name: priv_messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: priv_messages; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE priv_messages (
@@ -1359,7 +1363,7 @@ ALTER SEQUENCE priv_messages_priv_message_id_seq OWNED BY priv_messages.priv_mes
 
 
 --
--- Name: read_messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: read_messages; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE read_messages (
@@ -1389,7 +1393,7 @@ ALTER SEQUENCE read_messages_read_message_id_seq OWNED BY read_messages.read_mes
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE schema_migrations (
@@ -1398,7 +1402,7 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: scores; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: scores; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE scores (
@@ -1431,7 +1435,7 @@ ALTER SEQUENCE scores_score_id_seq OWNED BY scores.score_id;
 
 
 --
--- Name: search_documents; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: search_documents; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE search_documents (
@@ -1475,7 +1479,7 @@ ALTER SEQUENCE search_documents_search_document_id_seq OWNED BY search_documents
 
 
 --
--- Name: search_sections; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: search_sections; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE search_sections (
@@ -1507,7 +1511,7 @@ ALTER SEQUENCE search_sections_search_section_id_seq OWNED BY search_sections.se
 
 
 --
--- Name: settings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: settings; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE settings (
@@ -1538,7 +1542,7 @@ ALTER SEQUENCE settings_setting_id_seq OWNED BY settings.setting_id;
 
 
 --
--- Name: tag_synonyms; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: tag_synonyms; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE tag_synonyms (
@@ -1569,7 +1573,7 @@ ALTER SEQUENCE tag_synonyms_tag_synonym_id_seq OWNED BY tag_synonyms.tag_synonym
 
 
 --
--- Name: tags; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: tags; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE tags (
@@ -1580,7 +1584,7 @@ CREATE TABLE tags (
     num_messages bigint DEFAULT 0 NOT NULL,
     suggest boolean DEFAULT true NOT NULL
 )
-WITH (fillfactor=90);
+WITH (fillfactor='90');
 
 
 --
@@ -1603,7 +1607,7 @@ ALTER SEQUENCE tags_tag_id_seq OWNED BY tags.tag_id;
 
 
 --
--- Name: threads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: threads; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE threads (
@@ -1642,7 +1646,7 @@ ALTER SEQUENCE threads_thread_id_seq OWNED BY threads.thread_id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE users (
@@ -1695,7 +1699,7 @@ ALTER SEQUENCE users_user_id_seq OWNED BY users.user_id;
 
 
 --
--- Name: votes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: votes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE votes (
@@ -1964,7 +1968,7 @@ ALTER TABLE ONLY votes ALTER COLUMN vote_id SET DEFAULT nextval('votes_vote_id_s
 
 
 --
--- Name: auditing_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: auditing_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY auditing
@@ -1972,7 +1976,7 @@ ALTER TABLE ONLY auditing
 
 
 --
--- Name: badges_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: badges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges
@@ -1980,7 +1984,7 @@ ALTER TABLE ONLY badges
 
 
 --
--- Name: badges_slug_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: badges_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges
@@ -1988,7 +1992,7 @@ ALTER TABLE ONLY badges
 
 
 --
--- Name: badges_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: badges_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges_users
@@ -1996,15 +2000,7 @@ ALTER TABLE ONLY badges_users
 
 
 --
--- Name: badges_users_user_id_badge_id_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY badges_users
-    ADD CONSTRAINT badges_users_user_id_badge_id_key UNIQUE (user_id, badge_id);
-
-
---
--- Name: cites_old_id_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: cites_old_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cites
@@ -2012,7 +2008,7 @@ ALTER TABLE ONLY cites
 
 
 --
--- Name: cites_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: cites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cites
@@ -2020,7 +2016,7 @@ ALTER TABLE ONLY cites
 
 
 --
--- Name: cites_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: cites_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cites_votes
@@ -2028,7 +2024,7 @@ ALTER TABLE ONLY cites_votes
 
 
 --
--- Name: close_votes_message_id_vote_type_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: close_votes_message_id_vote_type_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes
@@ -2036,7 +2032,7 @@ ALTER TABLE ONLY close_votes
 
 
 --
--- Name: close_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: close_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes
@@ -2044,7 +2040,7 @@ ALTER TABLE ONLY close_votes
 
 
 --
--- Name: close_votes_voters_close_vote_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: close_votes_voters_close_vote_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes_voters
@@ -2052,7 +2048,7 @@ ALTER TABLE ONLY close_votes_voters
 
 
 --
--- Name: close_votes_voters_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: close_votes_voters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes_voters
@@ -2060,7 +2056,7 @@ ALTER TABLE ONLY close_votes_voters
 
 
 --
--- Name: counter_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: counter_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY counter_table
@@ -2068,7 +2064,7 @@ ALTER TABLE ONLY counter_table
 
 
 --
--- Name: forum_stats_forum_id_moment_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: forum_stats_forum_id_moment_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forum_stats
@@ -2076,7 +2072,7 @@ ALTER TABLE ONLY forum_stats
 
 
 --
--- Name: forum_stats_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: forum_stats_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forum_stats
@@ -2084,7 +2080,7 @@ ALTER TABLE ONLY forum_stats
 
 
 --
--- Name: forums_groups_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: forums_groups_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forums_groups_permissions
@@ -2092,7 +2088,7 @@ ALTER TABLE ONLY forums_groups_permissions
 
 
 --
--- Name: forums_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: forums_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forums
@@ -2100,7 +2096,7 @@ ALTER TABLE ONLY forums
 
 
 --
--- Name: groups_name_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: groups_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups
@@ -2108,7 +2104,7 @@ ALTER TABLE ONLY groups
 
 
 --
--- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups
@@ -2116,7 +2112,7 @@ ALTER TABLE ONLY groups
 
 
 --
--- Name: groups_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: groups_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups_users
@@ -2124,7 +2120,7 @@ ALTER TABLE ONLY groups_users
 
 
 --
--- Name: interesting_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: interesting_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY interesting_messages
@@ -2132,7 +2128,7 @@ ALTER TABLE ONLY interesting_messages
 
 
 --
--- Name: invisible_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: invisible_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY invisible_threads
@@ -2140,7 +2136,7 @@ ALTER TABLE ONLY invisible_threads
 
 
 --
--- Name: media_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: media_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY media
@@ -2148,7 +2144,7 @@ ALTER TABLE ONLY media
 
 
 --
--- Name: message_references_dst_message_id_src_message_id_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: message_references_dst_message_id_src_message_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY message_references
@@ -2156,7 +2152,7 @@ ALTER TABLE ONLY message_references
 
 
 --
--- Name: message_references_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: message_references_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY message_references
@@ -2164,7 +2160,7 @@ ALTER TABLE ONLY message_references
 
 
 --
--- Name: message_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: message_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY message_versions
@@ -2172,7 +2168,7 @@ ALTER TABLE ONLY message_versions
 
 
 --
--- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -2180,7 +2176,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: messages_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: messages_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages_tags
@@ -2188,7 +2184,7 @@ ALTER TABLE ONLY messages_tags
 
 
 --
--- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY notifications
@@ -2196,7 +2192,7 @@ ALTER TABLE ONLY notifications
 
 
 --
--- Name: opened_closed_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: opened_closed_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY opened_closed_threads
@@ -2204,7 +2200,7 @@ ALTER TABLE ONLY opened_closed_threads
 
 
 --
--- Name: peon_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: peon_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY peon_jobs
@@ -2212,7 +2208,7 @@ ALTER TABLE ONLY peon_jobs
 
 
 --
--- Name: priv_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: priv_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY priv_messages
@@ -2220,7 +2216,7 @@ ALTER TABLE ONLY priv_messages
 
 
 --
--- Name: read_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: read_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY read_messages
@@ -2228,7 +2224,7 @@ ALTER TABLE ONLY read_messages
 
 
 --
--- Name: scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY scores
@@ -2236,7 +2232,7 @@ ALTER TABLE ONLY scores
 
 
 --
--- Name: search_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: search_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_documents
@@ -2244,7 +2240,7 @@ ALTER TABLE ONLY search_documents
 
 
 --
--- Name: search_documents_reference_id_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: search_documents_reference_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_documents
@@ -2252,7 +2248,7 @@ ALTER TABLE ONLY search_documents
 
 
 --
--- Name: search_documents_url_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: search_documents_url_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_documents
@@ -2260,7 +2256,7 @@ ALTER TABLE ONLY search_documents
 
 
 --
--- Name: search_sections_name_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: search_sections_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_sections
@@ -2268,7 +2264,7 @@ ALTER TABLE ONLY search_sections
 
 
 --
--- Name: search_sections_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: search_sections_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_sections
@@ -2276,7 +2272,7 @@ ALTER TABLE ONLY search_sections
 
 
 --
--- Name: settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY settings
@@ -2284,7 +2280,7 @@ ALTER TABLE ONLY settings
 
 
 --
--- Name: tag_synonyms_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: tag_synonyms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tag_synonyms
@@ -2292,7 +2288,7 @@ ALTER TABLE ONLY tag_synonyms
 
 
 --
--- Name: tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tags
@@ -2300,7 +2296,7 @@ ALTER TABLE ONLY tags
 
 
 --
--- Name: threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY threads
@@ -2308,7 +2304,7 @@ ALTER TABLE ONLY threads
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -2316,7 +2312,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: users_websocket_token_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: users_websocket_token_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -2324,7 +2320,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY votes
@@ -2332,357 +2328,357 @@ ALTER TABLE ONLY votes
 
 
 --
--- Name: counter_table_table_name_group_crit_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: counter_table_table_name_group_crit_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX counter_table_table_name_group_crit_idx ON counter_table USING btree (table_name, group_crit);
 
 
 --
--- Name: forums_slug_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: forums_slug_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX forums_slug_idx ON forums USING btree (slug);
 
 
 --
--- Name: invisible_threads_thread_id_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: invisible_threads_thread_id_user_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX invisible_threads_thread_id_user_id_idx ON invisible_threads USING btree (thread_id, user_id);
 
 
 --
--- Name: messages_editor_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: messages_editor_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX messages_editor_id_idx ON messages USING btree (editor_id);
 
 
 --
--- Name: messages_forum_id_created_at_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: messages_forum_id_created_at_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX messages_forum_id_created_at_idx ON messages USING btree (forum_id, created_at);
 
 
 --
--- Name: messages_mid_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: messages_mid_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX messages_mid_idx ON messages USING btree (mid);
 
 
 --
--- Name: messages_parent_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: messages_parent_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX messages_parent_id_idx ON messages USING btree (parent_id);
 
 
 --
--- Name: messages_tags_message_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: messages_tags_message_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX messages_tags_message_id_idx ON messages_tags USING btree (message_id);
 
 
 --
--- Name: messages_tags_tag_id_message_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: messages_tags_tag_id_message_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX messages_tags_tag_id_message_id_idx ON messages_tags USING btree (tag_id, message_id);
 
 
 --
--- Name: messages_thread_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: messages_thread_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX messages_thread_id_idx ON messages USING btree (thread_id);
 
 
 --
--- Name: messages_updated_at_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: messages_updated_at_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX messages_updated_at_idx ON messages USING btree (updated_at);
 
 
 --
--- Name: messages_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: messages_user_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX messages_user_id_idx ON messages USING btree (user_id);
 
 
 --
--- Name: notifications_recipient_id_oid_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: notifications_recipient_id_oid_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX notifications_recipient_id_oid_idx ON notifications USING btree (recipient_id, oid);
 
 
 --
--- Name: opened_closed_threads_thread_id_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: opened_closed_threads_thread_id_user_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX opened_closed_threads_thread_id_user_id_idx ON opened_closed_threads USING btree (thread_id, user_id);
 
 
 --
--- Name: peon_jobs_work_done_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: peon_jobs_work_done_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX peon_jobs_work_done_idx ON peon_jobs USING btree (work_done);
 
 
 --
--- Name: priv_messages_owner_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: priv_messages_owner_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX priv_messages_owner_id_idx ON priv_messages USING btree (owner_id);
 
 
 --
--- Name: priv_messages_recipient_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: priv_messages_recipient_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX priv_messages_recipient_id_idx ON priv_messages USING btree (recipient_id);
 
 
 --
--- Name: priv_messages_sender_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: priv_messages_sender_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX priv_messages_sender_id_idx ON priv_messages USING btree (sender_id);
 
 
 --
--- Name: read_messages_message_id_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: read_messages_message_id_user_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX read_messages_message_id_user_id_idx ON read_messages USING btree (message_id, user_id);
 
 
 --
--- Name: read_messages_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: read_messages_user_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX read_messages_user_id_idx ON read_messages USING btree (user_id);
 
 
 --
--- Name: scores_user_id_message_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: scores_user_id_message_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX scores_user_id_message_id_idx ON scores USING btree (user_id, message_id) WHERE (message_id IS NOT NULL);
 
 
 --
--- Name: scores_user_id_vote_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: scores_user_id_vote_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX scores_user_id_vote_id_idx ON scores USING btree (user_id, vote_id) WHERE (vote_id IS NOT NULL);
 
 
 --
--- Name: search_documents_author_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: search_documents_author_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX search_documents_author_idx ON search_documents USING gin (ts_author);
 
 
 --
--- Name: search_documents_content_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: search_documents_content_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX search_documents_content_idx ON search_documents USING gin (ts_content);
 
 
 --
--- Name: search_documents_document_created_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: search_documents_document_created_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX search_documents_document_created_idx ON search_documents USING btree (document_created);
 
 
 --
--- Name: search_documents_document_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: search_documents_document_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX search_documents_document_idx ON search_documents USING gin (ts_document);
 
 
 --
--- Name: search_documents_tags_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: search_documents_tags_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX search_documents_tags_idx ON search_documents USING gin (tags);
 
 
 --
--- Name: search_documents_title_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: search_documents_title_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX search_documents_title_idx ON search_documents USING gin (ts_title);
 
 
 --
--- Name: search_documents_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: search_documents_user_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX search_documents_user_id_idx ON search_documents USING btree (user_id);
 
 
 --
--- Name: settings_forum_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: settings_forum_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX settings_forum_id_idx ON settings USING btree (forum_id);
 
 
 --
--- Name: settings_forum_id_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: settings_forum_id_user_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX settings_forum_id_user_id_idx ON settings USING btree (forum_id, user_id);
 
 
 --
--- Name: settings_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: settings_user_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX settings_user_id_idx ON settings USING btree (user_id);
 
 
 --
--- Name: tag_synonyms_forum_id_synonym_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: tag_synonyms_forum_id_synonym_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX tag_synonyms_forum_id_synonym_idx ON tag_synonyms USING btree (forum_id, synonym);
 
 
 --
--- Name: tag_synonyms_synonym_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: tag_synonyms_synonym_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX tag_synonyms_synonym_idx ON tag_synonyms USING btree (synonym);
 
 
 --
--- Name: tag_synonyms_tag_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: tag_synonyms_tag_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX tag_synonyms_tag_id_idx ON tag_synonyms USING btree (tag_id);
 
 
 --
--- Name: tags_forum_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: tags_forum_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX tags_forum_id_idx ON tags USING btree (forum_id);
 
 
 --
--- Name: tags_tag_name_forum_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: tags_tag_name_forum_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX tags_tag_name_forum_id_idx ON tags USING btree (tag_name, forum_id);
 
 
 --
--- Name: threads_archived_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: threads_archived_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX threads_archived_idx ON threads USING btree (archived);
 
 
 --
--- Name: threads_created_at_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: threads_created_at_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX threads_created_at_idx ON threads USING btree (created_at);
 
 
 --
--- Name: threads_forum_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: threads_forum_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX threads_forum_id_idx ON threads USING btree (forum_id);
 
 
 --
--- Name: threads_message_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: threads_message_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX threads_message_id_idx ON threads USING btree (message_id);
 
 
 --
--- Name: threads_slug_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: threads_slug_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX threads_slug_idx ON threads USING btree (slug);
 
 
 --
--- Name: threads_sticky_created_at_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: threads_sticky_created_at_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX threads_sticky_created_at_idx ON threads USING btree (sticky, created_at);
 
 
 --
--- Name: threads_tid_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: threads_tid_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX threads_tid_idx ON threads USING btree (tid);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
 
 
 --
--- Name: users_authentication_token_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: users_authentication_token_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX users_authentication_token_idx ON users USING btree (authentication_token);
 
 
 --
--- Name: users_confirmation_token_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: users_confirmation_token_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX users_confirmation_token_idx ON users USING btree (confirmation_token);
 
 
 --
--- Name: users_email_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: users_email_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX users_email_idx ON users USING btree (lower((email)::text));
 
 
 --
--- Name: users_reset_password_token_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: users_reset_password_token_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX users_reset_password_token_idx ON users USING btree (reset_password_token);
 
 
 --
--- Name: users_username_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: users_username_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX users_username_idx ON users USING btree (lower((username)::text));
 
 
 --
--- Name: votes_user_id_message_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: votes_user_id_message_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX votes_user_id_message_id_idx ON votes USING btree (user_id, message_id);
@@ -3258,7 +3254,7 @@ ALTER TABLE ONLY votes
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user",public;
+SET search_path TO "$user", public;
 
 INSERT INTO schema_migrations (version) VALUES ('1');
 
@@ -3429,6 +3425,8 @@ INSERT INTO schema_migrations (version) VALUES ('84');
 INSERT INTO schema_migrations (version) VALUES ('85');
 
 INSERT INTO schema_migrations (version) VALUES ('86');
+
+INSERT INTO schema_migrations (version) VALUES ('87');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
 

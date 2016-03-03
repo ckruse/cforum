@@ -158,13 +158,15 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 
 <h2><%= t('users.badges') %></h2>
 
-<% if @user.badges.blank? %>
+<% if @badges.blank? %>
   <p><%= t('users.no_badges_so_far') %></p>
 <% else %>
   <ul class="badge-user-list">
-    <% @user.badges_users.each do |ub| %>
-      <li><%= image_tag ub.badge.badge_medal_type + '.png', class: "medal-image",
-          alt: t("badges.badge_medal_types." + ub.badge.badge_medal_type) %> <%= cf_link_to ub.badge.name, ub.badge %> (<%= l(ub.created_at, format: date_format) %>)</li>
+    <% @badges.each do |ub| %>
+      <li><%= image_tag(ub[:badge].badge_medal_type + '.png', class: "medal-image",
+                        alt: t("badges.badge_medal_types." + ub[:badge].badge_medal_type)) %>
+        <%= cf_link_to ub[:badge].name, ub[:badge] %>
+        <% if ub[:times] > 1 %>× <%= ub[:times] %><% end %> (<%= l(ub[:created_at], format: date_format) %>)</li>
     <% end %>
   </ul>
 <% end %>
