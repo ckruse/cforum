@@ -20,6 +20,7 @@ de:
       create_close_reopen_vote: Recht Sperr-/Entsperr-Abstimmungen zu erstellen
       moderator_tools: Zugriff auf Moderationstools
       seo_profi: SEO-Profi
+      yearling: Jährling
 
     badge_medal_types:
       bronze: Bronze
@@ -39,4 +40,5 @@ de:
       create_close_reopen_vote: Der Anwender erhält das Recht, Sperr- oder Entsperr-Abstimmungen zu erstellen.
       moderator_tools: Der Anwender erhält Zugriff auf Moderationstools.
       seo_profi: Der Anwender kann Suchmaschinen erlauben, dem Homepage-Link zu folgen.
+      yearling: Der Anwender ist ein Jahr registriert.
       

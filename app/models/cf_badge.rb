@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 
 class CfBadge < ActiveRecord::Base
@@ -11,8 +12,8 @@ class CfBadge < ActiveRecord::Base
   has_many :users, through: :badges_users
 
   validates :name, presence: true, length: {in: 2..255}, allow_blank: false
-  validates :score_needed, presence: true, numericality: { only_integer: true },
-            allow_blank: false
+  validates :score_needed, numericality: { only_integer: true },
+            allow_blank: true
   validates :badge_type, presence: true, allow_blank: false,
             inclusion: { in: %w(custom upvote downvote retag
                                visit_close_reopen create_tag edit_question

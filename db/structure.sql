@@ -583,7 +583,7 @@ ALTER SEQUENCE auditing_auditing_id_seq OWNED BY auditing.auditing_id;
 
 CREATE TABLE badges (
     badge_id integer NOT NULL,
-    score_needed integer NOT NULL,
+    score_needed integer,
     name character varying NOT NULL,
     description text,
     slug character varying NOT NULL,
@@ -3427,6 +3427,8 @@ INSERT INTO schema_migrations (version) VALUES ('85');
 INSERT INTO schema_migrations (version) VALUES ('86');
 
 INSERT INTO schema_migrations (version) VALUES ('87');
+
+INSERT INTO schema_migrations (version) VALUES ('88');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
 
