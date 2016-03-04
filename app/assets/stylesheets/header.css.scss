@@ -20,12 +20,9 @@
       display: inline;
       margin-right: 1.5em;
 
-      a:link, a:visited, input { opacity: .75; }
-      a:hover, a:focus, input:focus, input:hover { opacity: 1; }
-      a {
-        display: inline-block;
-        color: white;
-      }
+      a { display: inline-block; }
+      a:link, a:visited { color: #e6f2f7; }
+      a:hover, a:focus { color: white; }
     }
   }
 }
