@@ -42,9 +42,64 @@ module Peon
         end
       end
 
+      def check_for_no_messages(user)
+        no_messages = user.messages.where(deleted: false).count
+
+        if no_messages >= 100
+          b = user.badges.find { |badge| badge.slug == 'chisel' }
+          give_badge(user, CfBadge.where(slug: 'chisel').first!) if b.blank?
+        end
+
+        if no_messages >= 1000
+          b = user.badges.find { |badge| badge.slug == 'brush' }
+          give_badge(user, CfBadge.where(slug: 'brush').first!) if b.blank?
+        end
+
+        if no_messages >= 2500
+          b = user.badges.find { |badge| badge.slug == 'quill' }
+          give_badge(user, CfBadge.where(slug: 'quill').first!) if b.blank?
+        end
+
+        if no_messages >= 5000
+          b = user.badges.find { |badge| badge.slug == 'pen' }
+          give_badge(user, CfBadge.where(slug: 'pen').first!) if b.blank?
+        end
+
+        if no_messages >= 7500
+          b = user.badges.find { |badge| badge.slug == 'printing_press' }
+          give_badge(user, CfBadge.where(slug: 'printing_press').first!) if b.blank?
+        end
+
+        if no_messages >= 10000
+          b = user.badges.find { |badge| badge.slug == 'typewriter' }
+          give_badge(user, CfBadge.where(slug: 'typewriter').first!) if b.blank?
+        end
+
+        if no_messages >= 20000
+          b = user.badges.find { |badge| badge.slug == 'matrix_printer' }
+          give_badge(user, CfBadge.where(slug: 'matrix_printer').first!) if b.blank?
+        end
+
+        if no_messages >= 30000
+          b = user.badges.find { |badge| badge.slug == 'inkjet_printer' }
+          give_badge(user, CfBadge.where(slug: 'inkjet_printer').first!) if b.blank?
+        end
+
+        if no_messages >= 40000
+          b = user.badges.find { |badge| badge.slug == 'laser_printer' }
+          give_badge(user, CfBadge.where(slug: 'laser_printer').first!) if b.blank?
+        end
+
+        if no_messages >= 50000
+          b = user.badges.find { |badge| badge.slug == '1000_monkeys' }
+          give_badge(user, CfBadge.where(slug: '1000_monkeys').first!) if b.blank?
+        end
+      end
+
       def run_periodical(args)
         CfUser.order(:user_id).all.each do |u|
           check_for_yearling_badges(u)
+          check_for_no_messages(u)
           return
         end
       end

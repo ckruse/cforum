@@ -21,6 +21,16 @@ de:
       moderator_tools: Zugriff auf Moderationstools
       seo_profi: SEO-Profi
       yearling: Jährling
+      chisel: Meißel
+      brush: Pinsel
+      quill: Feder
+      pen: Stift
+      printing_press: Druckerpresse
+      typewriter: Schreibmaschine
+      matrix_printer: Nadeldrucker
+      inkjet_printer: Tintenstrahldrucker
+      laser_printer: Laserdrucker
+      1000_monkeys: 1000 Affen
 
     badge_medal_types:
       bronze: Bronze
@@ -41,4 +51,14 @@ de:
       moderator_tools: Der Anwender erhält Zugriff auf Moderationstools.
       seo_profi: Der Anwender kann Suchmaschinen erlauben, dem Homepage-Link zu folgen.
       yearling: Der Anwender ist ein Jahr registriert.
-      
+      chisel: Der Anwender hat 100 Beiträge verfasst.
+      brush: Der Anwender hat 1.000 Beiträge verfasst.
+      quill: Der Anwender hat 2.500 Beiträge verfasst.
+      pen: Der Anwender hat 5.000 Beiträge verfasst.
+      printing_press: Der Anwender hat 7.500 Beiträge verfasst.
+      typewriter: Der Anwender hat 10.000 Beiträge verfasst.
+      matrix_printer: Der Awender hat 20.000 Beiträge verfasst.
+      inkjet_printer: Der Anwender hat 30.000 Beiträge verfasst.
+      laser_printer: Der Anwender aht 40.000 Beiträge verfasst.
+      1000_monkeys: Der Anwender hat 50.000 Beiträge verfasst.
+

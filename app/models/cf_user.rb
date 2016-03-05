@@ -30,6 +30,8 @@ class CfUser < ActiveRecord::Base
            foreign_key: :user_id
   has_many :badges, through: :badges_users
 
+  has_many :messages, class_name: 'CfMessage', foreign_key: :user_id
+
   def conf(nam)
     vals = settings.options unless settings.blank?
     vals ||= {}
