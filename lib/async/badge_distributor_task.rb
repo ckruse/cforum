@@ -72,6 +72,25 @@ module Peon
         end
       end
 
+      def check_autobiographer_badge(user_id)
+        user = CfUser.find(user_id)
+        settings = CfSetting.where(user_id: user_id).first
+        return if settings.blank?
+
+        b = user.badges.find { |badge| badge.slug == 'autobiographer' }
+        return if not b.blank?
+
+        if not settings.options['description'].blank? and
+          not settings.options['url'].blank? and
+          (not settings.options['email'].blank? or
+           not settings.options['jabber_id'].blank? or
+           not settings.options['twitter_handle'].blank? or
+           not settings.options['flattr'].blank?)
+          badge = CfBadge.where(slug: 'autobiographer').first!
+          give_badge(user, badge)
+        end
+      end
+
       def work_work(args)
         if @periodical
           run_periodical(args)
@@ -84,6 +103,8 @@ module Peon
 
         case args['type']
         when 'removed-vote', 'changed-vote', 'unaccepted'
+        when 'updated-profile'
+          check_autobiographer_badge(args['user_id'])
         when 'voted', 'accepted'
           if not @message.user_id.blank?
             score = @message.owner.score

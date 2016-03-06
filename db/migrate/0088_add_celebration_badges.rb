@@ -26,6 +26,12 @@ ALTER TABLE badges
                     badge_type: 'custom',
                     badge_medal_type: 'bronze')
 
+    CfBadge.create!(name: I18n.t('badges.badge_types.autobiographer'),
+                    slug: "autobiographer",
+                    description: I18n.t('badges.default_descs.autobiographer'),
+                    badge_type: 'custom',
+                    badge_medal_type: 'bronze')
+
 
     BADGES.each do |badge|
       CfBadge.create!(name: I18n.t('badges.badge_types.' + badge[:name]),
@@ -42,6 +48,7 @@ ALTER TABLE badges
       CfBadge.where(slug: badge[:name]).delete_all
     end
 
+    CfBadge.where(slug: 'autobiographer').delete_all
     CfBadge.where(slug: 'yearling').delete_all
 
     execute <<-SQL

@@ -163,6 +163,10 @@ class UsersController < ApplicationController
         notification_center.notify(SAVING_SETTINGS, @user, @settings)
         @settings.save!
 
+        peon(class_name: 'BadgeDistributor',
+             arguments: {type: 'updated-profile',
+                         user_id: @user.user_id})
+
         saved = true
       end
     end
