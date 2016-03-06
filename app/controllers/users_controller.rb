@@ -163,9 +163,7 @@ class UsersController < ApplicationController
         notification_center.notify(SAVING_SETTINGS, @user, @settings)
         @settings.save!
 
-        peon(class_name: 'BadgeDistributor',
-             arguments: {type: 'updated-profile',
-                         user_id: @user.user_id})
+        check_for_autobiographer(@user, @settings)
 
         saved = true
       end
@@ -244,6 +242,26 @@ class UsersController < ApplicationController
                 page(params[:page]).
                 per(conf('pagination'))
   end
+
+  private
+
+  def check_for_autobiographer(user, settings)
+    return if settings.blank?
+
+    b = user.badges.find { |badge| badge.slug == 'autobiographer' }
+    return if not b.blank?
+
+    if not settings.options['description'].blank? and
+      not settings.options['url'].blank? and
+      (not settings.options['email'].blank? or
+       not settings.options['jabber_id'].blank? or
+       not settings.options['twitter_handle'].blank? or
+       not settings.options['flattr'].blank?)
+      badge = CfBadge.where(slug: 'autobiographer').first!
+      give_badge(user, badge)
+    end
+  end
+
 end
 
 # eof
