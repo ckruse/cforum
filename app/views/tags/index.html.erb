@@ -6,7 +6,9 @@ def get_size(count)
   constant = Math.log(@max_count - (@min_count - 1)) /
     ((@f_max - @f_min) == 0 ? 1 : (@f_max - @f_min));
 
-  (Math.log(count - (@min_count - 1)) / constant + @f_min).round(5)
+  cnt = count - (@min_count - 1)
+  cnt = 0 if cnt < 0
+  (Math.log(cnt) / constant + @f_min).round(5)
 end
 
 content_for :title, t("tags.tags_for_forum", forum: current_forum.name)
