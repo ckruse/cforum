@@ -50,6 +50,21 @@ module Peon
         end
       end
 
+      def check_for_voter_badges(vote)
+        no_upvotes = CfVote.where(user_id: vote.user_id, vtype: CfVote::UPVOTE).count()
+        no_downvotes = CfVote.where(user_id: vote.user_id, vtype: CfVote::DOWNVOTE).count()
+
+        if no_upvotes >= 0
+          b = vote.user.badges.find { |ubadge| ubadge.slug == 'enthusiast' }
+          give_badge(vote.user, CfBadge.where(slug: 'enthusiast').first!) if b.blank?
+        end
+
+        if no_downvotes >= 0
+          b = vote.user.badges.find { |ubadge| ubadge.slug == 'critic' }
+          give_badge(vote.user, CfBadge.where(slug: 'critic').first!) if b.blank?
+        end
+      end
+
       def run_periodical(args)
         CfUser.order(:user_id).all.each do |u|
           check_for_yearling_badges(u)
@@ -64,12 +79,16 @@ module Peon
         end
 
         @message = nil
+        @vote = nil
 
         @message = CfMessage.find(args['message_id']) if args['message_id']
+        @vote = CfVote.find(args['vote_id']) if args['vote_id']
 
         case args['type']
         when 'removed-vote', 'changed-vote', 'unaccepted'
         when 'voted', 'accepted'
+          check_for_voter_badges(@vote)
+
           if not @message.user_id.blank?
             check_for_owner_vote_badges(@message.owner, @message) if args['type'] == 'voted'
 

@@ -38,6 +38,8 @@ de:
       great_answer: Großartige Antwort
       superb_answer: Super Antwort
       controverse: Kontroverse
+      enthusiast: Enthusiast
+      critic: Kritiker
 
     badge_medal_types:
       bronze: Bronze
@@ -75,4 +77,6 @@ de:
       great_answer: Eine Antwort ist mindestens 15 positive bewertet worden.
       superb_answer: Eine Antwort ist mindestens 20 positive bewertet worden.
       controverse: Eine Antwort ist mindestens fünf mal positiv und fünf mal negativ bewertet worden.
+      enthusiast: Der Anwender hat mindestens einen Beitrag positiv bewertet.
+      critic: Der Anwender hat mindestens einen Beitrag negativ bewertet.
 

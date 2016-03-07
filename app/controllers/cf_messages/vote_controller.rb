@@ -245,7 +245,8 @@ class CfMessages::VoteController < ApplicationController
 
     peon(class_name: 'BadgeDistributor',
          arguments: {type: 'voted',
-                     message_id: @message.message_id})
+                     message_id: @message.message_id,
+                     vote_id: @vote.vote_id})
   end
 
 end
