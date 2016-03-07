@@ -32,6 +32,11 @@ de:
       laser_printer: Laserdrucker
       1000_monkeys: 1000 Affen
       autobiographer: Autobiograph
+      donee: Beschenkter
+      nice_answer: Schöne Antwort
+      good_answer: Gute Antwort
+      great_answer: Großartige Antwort
+      superb_answer: Super Antwort
 
     badge_medal_types:
       bronze: Bronze
@@ -63,4 +68,9 @@ de:
       laser_printer: Der Anwender aht 40.000 Beiträge verfasst.
       1000_monkeys: Der Anwender hat 50.000 Beiträge verfasst.
       autobiographer: Der Anwender hat in seinem Profil Beschreibung, Homepage und entweder E-Mail-Adresse, Jabber-ID, Twitter-Handle oder Flattr-ID angegeben
+      donee: Eine Nachricht hat mindestens eine positive Bewertung bekommen.
+      nice_answer: Eine Antwort hat mindestens fünf positive Bewertungen bekommen.
+      good_answer: Eine Antwort hat mindestens 10 positive Bewertungen bekommen.
+      great_answer: Eine Antwort hat mindestens 15 positive Bewertungen bekommen.
+      superb_answer: Eine Antwort hat mindestens 20 positive Bewertungen bekommen.
 

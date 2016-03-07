@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 class AddCelebrationBadges < ActiveRecord::Migration
-  BADGES = [
+  WRITER_BADGES = [
     { messages: 100, name: 'chisel', type: 'bronze' },
     { messages: 1000, name: 'brush', type: 'bronze' },
     { messages: 2500, name: 'quill', type: 'bronze' },
@@ -12,6 +12,14 @@ class AddCelebrationBadges < ActiveRecord::Migration
     { messages: 30000, name: 'inkjet_printer', type: 'silver' },
     { messages: 40000, name: 'laser_printer', type: 'silver' },
     { messages: 50000, name: '1000_monkeys', type: 'gold' }
+  ]
+
+  SCORE_BADGES = [
+    {votes: 1, name: 'donee', type: 'bronze'},
+    {votes: 5, name: 'nice_answer', type: 'bronze'},
+    {votes: 10, name: 'good_answer', type: 'silver'},
+    {votes: 15, name: 'great_answer', type: 'silver'},
+    {votes: 20, name: 'superb_answer', type: 'gold'}
   ]
 
   def up
@@ -33,7 +41,7 @@ ALTER TABLE badges
                     badge_medal_type: 'bronze')
 
 
-    BADGES.each do |badge|
+    (WRITER_BADGES + SCORE_BADGES).each do |badge|
       CfBadge.create!(name: I18n.t('badges.badge_types.' + badge[:name]),
                       slug: badge[:name],
                       description: I18n.t('badges.default_descs.' + badge[:name]),
@@ -44,7 +52,7 @@ ALTER TABLE badges
   end
 
   def down
-    BADGES.each do |badge|
+    (WRITER_BADGES + SCORE_BADGES).each do |badge|
       CfBadge.where(slug: badge[:name]).delete_all
     end
 

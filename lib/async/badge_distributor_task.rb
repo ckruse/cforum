@@ -26,6 +26,25 @@ module Peon
         end
       end
 
+      def check_for_owner_vote_badges(user, message)
+        badges = [
+          {votes: 1, name: 'donee'},
+          {votes: 5, name: 'nice_answer'},
+          {votes: 10, name: 'good_answer'},
+          {votes: 15, name: 'great_answer'},
+          {votes: 20, name: 'superb_answer'}
+        ]
+
+        votes = message.score
+
+        badges.each do |badge|
+          if votes >= badge[:votes]
+            b = user.badges.find { |user_badge| user_badge.slug == badge[:name] }
+            give_badge(user, CfBadge.where(slug: badge[:name]).first!) if b.blank?
+          end
+        end
+      end
+
       def run_periodical(args)
         CfUser.order(:user_id).all.each do |u|
           check_for_yearling_badges(u)
@@ -47,6 +66,8 @@ module Peon
         when 'removed-vote', 'changed-vote', 'unaccepted'
         when 'voted', 'accepted'
           if not @message.user_id.blank?
+            check_for_owner_vote_badges(@message.owner, @message) if args['type'] == 'voted'
+
             score = @message.owner.score
             badges = CfBadge.where('score_needed <= ?', score)
             user_badges = @message.owner.badges
