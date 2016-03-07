@@ -15,11 +15,12 @@ class AddCelebrationBadges < ActiveRecord::Migration
   ]
 
   SCORE_BADGES = [
-    {votes: 1, name: 'donee', type: 'bronze'},
-    {votes: 5, name: 'nice_answer', type: 'bronze'},
-    {votes: 10, name: 'good_answer', type: 'silver'},
-    {votes: 15, name: 'great_answer', type: 'silver'},
-    {votes: 20, name: 'superb_answer', type: 'gold'}
+    {name: 'donee', type: 'bronze'},
+    {name: 'nice_answer', type: 'bronze'},
+    {name: 'good_answer', type: 'silver'},
+    {name: 'great_answer', type: 'silver'},
+    {name: 'superb_answer', type: 'gold'},
+    {name: 'controverse', type: 'bronze'}
   ]
 
   def up

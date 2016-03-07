@@ -43,6 +43,11 @@ module Peon
             give_badge(user, CfBadge.where(slug: badge[:name]).first!) if b.blank?
           end
         end
+
+        if message.upvotes >= 5 and message.downvotes >= 5
+          b = user.badges.find { |user_badge| user_badge.slug == 'controverse' }
+          give_badge(user, CfBadge.where(slug: 'controverse').first!) if b.blank?
+        end
       end
 
       def run_periodical(args)
