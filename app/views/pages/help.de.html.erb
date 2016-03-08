@@ -158,7 +158,7 @@ content_for :body_classes, 'help'
   <dl>
     <% @badges.each do |badge| %>
       <dt><%= image_tag badge.badge_medal_type + '.png' %> <%= cf_link_to badge.name, cf_badge_path(badge) %></dt>
-      <dd><strong><%= badge.score_needed %> Punkte:</strong> <%= badge.description %></dd>
+      <dd><% unless badge.score_needed.blank? %><strong><%= badge.score_needed %> Punkte:</strong> <% end %><%= badge.description %></dd>
     <% end %>
   </dl>
 
