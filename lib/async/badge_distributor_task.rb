@@ -83,11 +83,13 @@ module Peon
         @message = CfMessage.find(args['message_id']) if args['message_id']
         @vote = CfVote.find(args['vote_id']) if args['vote_id']
 
+        if %w(changed-vote voted).include?(args['type'])
+          check_for_voter_badges(@vote)
+        end
+
         case args['type']
         when 'removed-vote', 'changed-vote', 'unaccepted'
         when 'voted', 'accepted'
-          check_for_voter_badges(@vote)
-
           if not @message.user_id.blank?
             check_for_owner_vote_badges(@message.owner, @message) if args['type'] == 'voted'
 
