@@ -23,7 +23,7 @@ content_for(:body_classes, 'badges index')
         <td><%= image_tag badge.badge_medal_type + '.png' %></td>
         <td><%= cf_link_to badge.name, badge %></td>
         <td><%= badge.score_needed %></td>
-        <td><%= badge.users.length %></td>
+        <td><%= badge.users.uniq.length %></td>
       </tr>
     <% end %>
   </tbody>

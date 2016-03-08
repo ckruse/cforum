@@ -36,6 +36,16 @@ class CfBadge < ActiveRecord::Base
   def id_prefix
     ''
   end
+
+  def unique_users
+    unique_users = {}
+    badges_users.each do |ub|
+      unique_users[ub.user_id] ||= {user: ub.user, created_at: ub.created_at, times: 0}
+      unique_users[ub.user_id][:times] += 1
+    end
+
+    unique_users.values.sort { |a,b| a[:created_at] <=> b[:created_at] }
+  end
 end
 
 # eof

@@ -19,7 +19,9 @@ content_for :h1 do
 
 
 <ul class="badge-user-list">
-  <% @badge.badges_users.each do |ub| %>
-    <li><%= cf_link_to image_tag(ub.user.avatar.url(:thumb)) + " " + ub.user.username, user_path(ub.user) %> (<%= l(ub.created_at, format: date_format) %>)</li>
+  <% un_users = @badge.unique_users %>
+  <% un_users.each do |ub| %>
+    <li><%= cf_link_to image_tag(ub[:user].avatar.url(:thumb)) + " " + ub[:user].username, user_path(ub[:user]) %>
+      <% if ub[:times] > 1 %>× <%= ub[:times] %><% end %> (<%= l(ub[:created_at], format: date_format) %>)</li>
   <% end %>
 </ul>

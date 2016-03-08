@@ -7,7 +7,7 @@ class BadgesController < ApplicationController
     @limit = conf('pagination').to_i
     @badges = sort_query(%w(score_needed badge_medal_type name no_users),
                          CfBadge.preload(:users),
-                         no_users: 'SELECT COUNT(*) FROM badges_users WHERE badges_users.badge_id = badges.badge_id')
+                         no_users: 'SELECT COUNT(DISTINCT user_id) FROM badges_users WHERE badges_users.badge_id = badges.badge_id')
               .page(params[:page]).per(@limit)
 
 
