@@ -25,11 +25,11 @@ RSpec.describe CfBadge, type: :model do
                        badge_medal_type: 'gold')).to be_invalid
   end
 
-  it "is invalid wo score_needed" do
+  it "is valid wo score_needed" do
     expect(CfBadge.new(name: 'Golden Star',
                        slug: 'golden-star',
                        badge_type: 'custom',
-                       badge_medal_type: 'gold')).to be_invalid
+                       badge_medal_type: 'gold')).to be_valid
   end
 
   it "is invalid wo badge_type" do
