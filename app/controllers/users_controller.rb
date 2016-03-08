@@ -258,7 +258,21 @@ class UsersController < ApplicationController
        not settings.options['twitter_handle'].blank? or
        not settings.options['flattr'].blank?)
       badge = CfBadge.where(slug: 'autobiographer').first!
-      give_badge(user, badge)
+
+      user.badges_users.create!(badge_id: badge.badge_id,
+                                created_at: Time.zone.now,
+                                updated_at: Time.zone.now)
+
+      audit(user, 'badge-gained', nil)
+      notify_user(user: user,
+                  hook: '',
+                  subject: I18n.t('badges.badge_won',
+                                  name: badge.name,
+                                  mtype: I18n.t("badges.badge_medal_types." + badge.badge_medal_type)),
+                  path: cf_badge_path(badge),
+                  oid: badge.badge_id,
+                  otype: 'badge')
+
     end
   end
 
