@@ -33,7 +33,7 @@ content_for(:body_classes, 'notifications index')
       <td><%= l(n.created_at, format: date_format) %></td>
       <td>
         <%= cf_link_to('', notification_path(n), method: :delete, data: {
-          'cf-confirm': t('global.are_you_sure')},
+          'cf-confirm' => t('global.are_you_sure')},
                        class: 'icon-delete-nofication',
                        title: t('notifications.delete')) %>
         <% if n.is_read? %>

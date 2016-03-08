@@ -23,7 +23,7 @@ content_for :h1, t('admin.search_sections.index')
                        class: "icon-edit-search-section",
                        title: t('admin.search_sections.edit')) %>
         <%= cf_button_to(admin_search_section_path(section),
-                         data: {'cf-confirm': t('global.are_you_sure')},
+                         data: {'cf-confirm' => t('global.are_you_sure')},
                          method: :delete,
                          class: 'icon-delete-search-section',
                          title: t('admin.search_sections.delete')) %>

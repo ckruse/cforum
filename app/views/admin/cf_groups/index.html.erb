@@ -24,7 +24,7 @@ content_for :h1, t("global.groups")
       <td>
         <%= cf_button_to(admin_group_path(g),
                          method: :delete,
-                         data: {'cf-confirm': t('global.are_you_sure')},
+                         data: {'cf-confirm' => t('global.are_you_sure')},
                          class: 'icon-delete-group',
                          title: t('admin.groups.delete_group')) %>
         <%= cf_link_to '', edit_admin_group_path(g), class: 'icon-edit-group', title: t('admin.groups.edit_group') %>
