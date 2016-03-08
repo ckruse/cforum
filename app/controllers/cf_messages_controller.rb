@@ -408,6 +408,7 @@ class CfMessagesController < ApplicationController
 
   def preview
     m = CfMessage.new(content: params[:content])
+    set_mentions(m)
     render text: m.to_html(self)
   end
 
