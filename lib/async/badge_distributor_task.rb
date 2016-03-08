@@ -51,15 +51,12 @@ module Peon
       end
 
       def check_for_voter_badges(vote)
-        no_upvotes = CfVote.where(user_id: vote.user_id, vtype: CfVote::UPVOTE).count()
-        no_downvotes = CfVote.where(user_id: vote.user_id, vtype: CfVote::DOWNVOTE).count()
-
-        if no_upvotes >= 0
+        if vote.vtype == CfVote::UPVOTE
           b = vote.user.badges.find { |ubadge| ubadge.slug == 'enthusiast' }
           give_badge(vote.user, CfBadge.where(slug: 'enthusiast').first!) if b.blank?
         end
 
-        if no_downvotes >= 0
+        if vote.vtype == CfVote::DOWNVOTE
           b = vote.user.badges.find { |ubadge| ubadge.slug == 'critic' }
           give_badge(vote.user, CfBadge.where(slug: 'critic').first!) if b.blank?
         end
