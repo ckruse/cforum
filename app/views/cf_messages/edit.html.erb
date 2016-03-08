@@ -5,14 +5,15 @@ content_for :body_id, 'messages-edit'
 content_for :body_classes, 'messages edit forum-' + (current_forum.try(:slug) || 'all') + (@preview ? ' preview' : '')
 %>
 
-<article class="thread-message">
-
-  <% if not @preview and @message.parent %>
-    <%= render 'cf_messages/message', controls: :no, m: @message.parent, first: true %>
-  <% elsif @preview %>
-    <%= render 'cf_messages/message', controls: :no, m: @message, first: true %>
-  <% end %>
-</article>
+<% if @preview or @message.parent %>
+  <article class="thread-message">
+    <% if not @preview and @message.parent %>
+      <%= render 'cf_messages/message', controls: :no, m: @message.parent, first: true %>
+    <% elsif @preview %>
+      <%= render 'cf_messages/message', controls: :no, m: @message, first: true %>
+    <% end %>
+  </article>
+<% end %>
 
 <%= form_for(@message, url: edit_cf_message_path(@thread, @message),
              html: {class: 'form-horizontal'}) do |f| %>
