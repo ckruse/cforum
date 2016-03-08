@@ -180,6 +180,7 @@ class CfMessages::VoteController < ApplicationController
 
       peon(class_name: 'BadgeDistributor',
            arguments: {type: 'changed-vote',
+                       vote_id: @vote.vote_id,
                        message_id: @message.message_id})
     else
       CfVote.connection.execute "UPDATE messages SET upvotes = upvotes - 1, downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
