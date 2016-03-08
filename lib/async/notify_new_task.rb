@@ -153,6 +153,21 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     end
   end
 
+  def perform_badges(message)
+    if not message.user_id.blank?
+      perform_no_messages_badge(message.owner)
+
+      if not message.parent_id.blank? and message.parent.upvotes >= 1
+        votes = CfVote.where(message_id: message.parent_id, user_id: message.user_id).first
+        b = message.owner.badges.find { |user_badge| user_badge.slug == 'teacher' }
+
+        if b.blank? and votes.blank? and message.parent.user_id != message.user_id
+          give_badge(message.owner, CfBadge.where(slug: 'teacher').first!)
+        end
+      end
+    end
+  end
+
 
   def work_work(args)
     @notified = {}
@@ -164,7 +179,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     @parent     = @thread.find_message @message.parent_id
 
     perform_mentions
-    perform_no_messages_badge(@message.owner) unless @message.user_id.blank?
+    perform_badges(@message)
 
     case args['type']
     when 'thread'

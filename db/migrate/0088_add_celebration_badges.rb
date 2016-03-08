@@ -22,7 +22,8 @@ class AddCelebrationBadges < ActiveRecord::Migration
     {name: 'superb_answer', type: 'gold'},
     {name: 'controverse', type: 'bronze'},
     {name: 'enthusiast', type: 'bronze'},
-    {name: 'critic', type: 'bronze'}
+    {name: 'critic', type: 'bronze'},
+    {name: 'teacher', type: 'bronze'}
   ]
 
   def up

@@ -40,6 +40,7 @@ de:
       controverse: Kontroverse
       enthusiast: Enthusiast
       critic: Kritiker
+      teacher: Lehrer
 
     badge_medal_types:
       bronze: Bronze
@@ -79,4 +80,5 @@ de:
       controverse: Eine Antwort ist mindestens fünf mal positiv und fünf mal negativ bewertet worden.
       enthusiast: Der Anwender hat mindestens einen Beitrag positiv bewertet.
       critic: Der Anwender hat mindestens einen Beitrag negativ bewertet.
+      teacher: Der Anwender hat einen Beitrag beantwortet, der mindestens eine positive Bewertung erhalten hat.
 
