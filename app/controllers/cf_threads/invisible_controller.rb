@@ -7,6 +7,7 @@ class CfThreads::InvisibleController < ApplicationController
   include HighlightHelper
   include InterestingHelper
   include LinkTagsHelper
+  include OpenCloseHelper
 
   SHOW_INVISIBLE_THREADLIST = "show_invisible_threadlist"
 
@@ -44,6 +45,7 @@ class CfThreads::InvisibleController < ApplicationController
     check_threads_for_highlighting(@threads)
     mark_threads_interesting(@threads)
     is_read_threadlist(@threads)
+    open_close_threadlist(@threads)
     thread_list_link_tags
 
     ret = notification_center.notify(SHOW_INVISIBLE_THREADLIST, @threads)

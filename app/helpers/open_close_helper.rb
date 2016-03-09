@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-class OpenCloseThreadPlugin < Plugin
-  def show_threadlist(threads)
+module OpenCloseHelper
+  def open_close_threadlist(threads)
     return unless current_user
-    return if application_controller.view_all or params[:fold] == 'false'
+    return if view_all or params[:fold] == 'false'
 
     # default state is setable via user config
     default_state   = uconf('open_close_default')
@@ -21,7 +21,7 @@ class OpenCloseThreadPlugin < Plugin
 
       if close_when_read
         mids = t.sorted_messages.map { |m| m.message_id }
-        rslt = @app_controller.is_read(current_user.user_id, mids)
+        rslt = is_read(current_user.user_id, mids)
 
         t.attribs['open_state'] = 'closed' if not rslt.blank? and rslt.length == mids.length
       end
@@ -36,16 +36,6 @@ class OpenCloseThreadPlugin < Plugin
       end
     end
   end
-  alias show_archive_threadlist show_threadlist
-  alias show_invisible_threadlist show_threadlist
-end
-
-ApplicationController.init_hooks << Proc.new do |app_controller|
-  oc_plugin = OpenCloseThreadPlugin.new(app_controller)
-  app_controller.notification_center.register_hook(CfThreadsController::SHOW_THREADLIST, oc_plugin)
-  app_controller.notification_center.register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST, oc_plugin)
-  app_controller.notification_center.register_hook(CfThreads::InvisibleController::SHOW_INVISIBLE_THREADLIST,
-                                                   oc_plugin)
 end
 
 # eof

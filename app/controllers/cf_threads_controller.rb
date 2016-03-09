@@ -18,6 +18,7 @@ class CfThreadsController < ApplicationController
   include InterestingHelper
   include SpamHelper
   include LinkTagsHelper
+  include OpenCloseHelper
 
   SHOW_THREADLIST  = "show_threadlist"
   SHOW_NEW_THREAD  = "show_new_thread"
@@ -285,6 +286,7 @@ class CfThreadsController < ApplicationController
     leave_out_invisible_for_threadlist(threads)
     thread_list_link_tags
     is_read_threadlist(threads)
+    open_close_threadlist(threads)
   end
 end
 
