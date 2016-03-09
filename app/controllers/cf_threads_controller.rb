@@ -281,6 +281,7 @@ class CfThreadsController < ApplicationController
     check_threads_for_suspiciousness(threads)
     check_threads_for_highlighting(threads)
     mark_threads_interesting(threads)
+    leave_out_invisible_for_threadlist(threads)
   end
 end
 

@@ -106,6 +106,7 @@ class CfArchiveController < ApplicationController
     check_threads_for_suspiciousness(@threads)
     check_threads_for_highlighting(@threads)
     mark_threads_interesting(@threads)
+    leave_out_invisible_for_threadlist(@threads)
 
     ret = notification_center.notify(SHOW_ARCHIVE_THREADLIST, @threads)
 

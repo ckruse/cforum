@@ -22,6 +22,7 @@ class CfThreads::InvisibleController < ApplicationController
       order = 'threads.created_at DESC'
     end
 
+    cache = get_cached_entry(:invisible, current_user.user_id) || {}
 
     @threads = CfThread.
                preload(:forum, messages: [:owner, :tags, {votes: :voters}]).
@@ -33,7 +34,10 @@ class CfThreads::InvisibleController < ApplicationController
 
     @threads.each do |thread|
       sort_thread(thread)
+      cache[thread.thread_id] = true
     end
+
+    set_cached_entry(:invisible, current_user.user_id, cache)
 
     check_threads_for_suspiciousness(@threads)
     check_threads_for_highlighting(@threads)

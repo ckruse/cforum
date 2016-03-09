@@ -81,6 +81,32 @@ module InvisibleHelper
 
     invisible_threads
   end
+
+  def leave_out_invisible(threads)
+    return threads if current_user.blank? or get('view_all')
+    @invisible_modified = true
+    threads.where("NOT EXISTS(SELECT thread_id FROM invisible_threads WHERE user_id = ? AND invisible_threads.thread_id = threads.thread_id)", current_user.user_id)
+  end
+
+  def leave_out_invisible_for_threadlist(threads)
+    return unless current_user
+
+    # when we modified the query object we know that there can't be
+    # any invisible threads; so avoid the extra work and just mark
+    # them all as visible in the cache
+    if @invisible_modified
+      cache = get_cached_entry(:invisible, current_user.user_id) || {}
+
+      threads.each do |t|
+        cache[t.thread_id] = false
+      end
+
+      set_cached_entry(:invisible, current_user.user_id, cache)
+    else
+      # we build up the cache to avoid threads.length queries
+      is_invisible(current_user, threads)
+    end
+  end
 end
 
 # eof
