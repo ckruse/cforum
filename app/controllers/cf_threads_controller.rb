@@ -284,6 +284,7 @@ class CfThreadsController < ApplicationController
     mark_threads_interesting(threads)
     leave_out_invisible_for_threadlist(threads)
     thread_list_link_tags
+    is_read_threadlist(threads)
   end
 end
 

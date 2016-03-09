@@ -420,8 +420,10 @@ class CfMessagesController < ApplicationController
 
     if type == :thread
       show_thread_link_tags(thread, message)
+      mark_message_read(thread, message)
     else
       show_message_link_tags(thread, message)
+      mark_thread_read(thread)
     end
   end
 
@@ -429,6 +431,7 @@ class CfMessagesController < ApplicationController
     set_user_data_vars(message, parent) unless preview
     check_threads_for_highlighting([thread])
     mark_threads_interesting([thread])
+    mark_message_read(thread, parent)
   end
 end
 
