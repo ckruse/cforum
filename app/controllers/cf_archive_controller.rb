@@ -8,6 +8,7 @@ class CfArchiveController < ApplicationController
   include SuspiciousHelper
   include HighlightHelper
   include InterestingHelper
+  include LinkTagsHelper
 
   SHOW_ARCHIVE_THREADLIST  = "show_archive_threadlist"
 
@@ -107,6 +108,7 @@ class CfArchiveController < ApplicationController
     check_threads_for_highlighting(@threads)
     mark_threads_interesting(@threads)
     leave_out_invisible_for_threadlist(@threads)
+    thread_list_link_tags
 
     ret = notification_center.notify(SHOW_ARCHIVE_THREADLIST, @threads)
 

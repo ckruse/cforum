@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class LinkTagsPlugin < Plugin
+module LinkTagsHelper
   def to_shallow(msgs, ary)
     msgs.each do |m|
       ary << m
@@ -42,14 +42,11 @@ class LinkTagsPlugin < Plugin
     ''
   end
 
-  def show_threadlist(threads)
-    set('link_tags', top_link.html_safe)
+  def thread_list_link_tags
+    @link_tags = top_link.html_safe
   end
-  alias show_archive_threadlist show_threadlist
-  alias show_invisible_threadlist show_threadlist
-  alias show_interesting_messagelist show_threadlist
 
-  def show_thread(thread, message = nil, votes = nil)
+  def show_thread_link_tags(thread, message = nil)
     msgs = []
     to_shallow([thread.message], msgs)
 
@@ -62,7 +59,7 @@ class LinkTagsPlugin < Plugin
     set('link_tags', html.html_safe)
   end
 
-  def show_message(thread, message, votes)
+  def show_message_link_tags(thread, message)
     msgs = []
     to_shallow([thread.message], msgs)
 
@@ -74,31 +71,6 @@ class LinkTagsPlugin < Plugin
 
     set('link_tags', html.html_safe)
   end
-end
-
-ApplicationController.init_hooks << Proc.new do |app_controller|
-  lt_plugin = LinkTagsPlugin.new(app_controller)
-
-  app_controller.notification_center.
-    register_hook(CfThreadsController::SHOW_THREADLIST,
-                  lt_plugin)
-  app_controller.notification_center.
-    register_hook(CfMessagesController::SHOW_THREAD,
-                  lt_plugin)
-  app_controller.notification_center.
-    register_hook(CfMessagesController::SHOW_MESSAGE,
-                  lt_plugin)
-
-  app_controller.notification_center.
-    register_hook(CfArchiveController::SHOW_ARCHIVE_THREADLIST,
-                  lt_plugin)
-  app_controller.notification_center.
-    register_hook(CfThreads::InvisibleController::SHOW_INVISIBLE_THREADLIST,
-                  lt_plugin)
-
-  app_controller.notification_center.
-    register_hook(CfMessages::InterestingController::SHOW_INTERESTING_MESSAGELIST,
-                  lt_plugin)
 end
 
 # eof

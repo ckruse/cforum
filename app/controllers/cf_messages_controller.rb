@@ -17,6 +17,7 @@ class CfMessagesController < ApplicationController
   include SearchHelper
   include InterestingHelper
   include SpamHelper
+  include LinkTagsHelper
 
   SHOW_NEW_MESSAGE     = "show_new_message"
   SHOW_MESSAGE         = "show_message"
@@ -66,7 +67,7 @@ class CfMessagesController < ApplicationController
       end
     end
 
-    show_message_funtions(@thread, @message)
+    show_message_funtions(@thread, @message, @read_mode == 'thread-view' ? :thread : :nested)
 
     respond_to do |format|
       format.html do
@@ -412,10 +413,16 @@ class CfMessagesController < ApplicationController
     render text: m.to_html(self)
   end
 
-  def show_message_funtions(thread, message)
+  def show_message_funtions(thread, message, type = :thread)
     check_threads_for_suspiciousness([thread])
     check_threads_for_highlighting([thread])
     mark_threads_interesting([thread])
+
+    if type == :thread
+      show_thread_link_tags(thread, message)
+    else
+      show_message_link_tags(thread, message)
+    end
   end
 
   def show_new_message_functions(thread, parent, message, preview)
