@@ -164,6 +164,11 @@ class CfMessagesController < ApplicationController
 
       search_index_message(@thread, @message)
 
+      peon(class_name: 'NotifyNewTask',
+           arguments: {type: 'message',
+                       thread: @thread.thread_id,
+                       message: @message.message_id})
+
       notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message, @tags)
       redirect_to cf_message_url(@thread, @message), :notice => I18n.t('messages.created')
     else
@@ -323,6 +328,8 @@ class CfMessagesController < ApplicationController
 
       search_unindex_message_with_answers(@message)
 
+      unnotify_users(@message.message_id, ['message:create-answer', 'message:create-activity'])
+
       notification_center.notify(DELETED_MESSAGE, @thread, @message)
     end
 
@@ -344,6 +351,10 @@ class CfMessagesController < ApplicationController
       end
 
       search_index_message(@thread, @message)
+      peon(class_name: 'NotifyNewTask',
+           arguments: {type: 'message',
+                       thread: @thread.thread_id,
+                       message: @message.message_id})
 
       notification_center.notify(RESTORED_MESSAGE, @thread, @message)
     end
@@ -421,9 +432,11 @@ class CfMessagesController < ApplicationController
     if type == :thread
       show_thread_link_tags(thread, message)
       mark_message_read(thread, message)
+      notifications if check_for_deleting_notification(thread, message)
     else
       show_message_link_tags(thread, message)
       mark_thread_read(thread)
+      unnotify_for_thread(thread)
     end
   end
 
@@ -432,6 +445,41 @@ class CfMessagesController < ApplicationController
     check_threads_for_highlighting([thread])
     mark_threads_interesting([thread])
     mark_message_read(thread, parent)
+  end
+
+  def unnotify_for_thread(thread)
+    return if current_user.blank?
+
+    had_one = false
+    message_ids = thread.messages.map { |m| m.message_id }
+
+    to_delete = []
+    to_mark_read = []
+    notifications = CfNotification.
+                    where(recipient_id: user.user_id,
+                          oid: message_ids).
+                    where("otype IN ('message:create-answer','message:create-activity', 'message:mention')").
+                    all
+
+    notifications.each do |n|
+      had_one = true
+
+      if (n.otype == 'message:create-answer' and
+          uconf('delete_read_notifications_on_answer') == 'yes') or
+        (n.otype == 'message:create-activity' and
+         uconf('delete_read_notifications_on_activity') == 'yes') or
+        (n.otype == 'message:mention' and
+         uconf('delete_read_notifications_on_mention') == 'yes')
+        to_delete << n.notification_id
+      else
+        to_mark_read << n.notification_id
+      end
+    end
+
+    CfNotification.where(notification_id: to_delete).delete_all unless to_delete.blank?
+    CfNotification.where(notification_id: to_mark_read).update_all(is_read: true) unless to_mark_read.blank?
+
+    application_controller.notifications if had_one
   end
 end
 

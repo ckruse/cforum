@@ -20,12 +20,32 @@ class BadgesController < ApplicationController
   def show
     @badge = CfBadge.preload(:users).where(slug: params[:slug]).first!
 
+    unnotify_for_badge(@badge)
     notification_center.notify(SHOW_BADGE, @badge)
 
     respond_to do |format|
       format.html
       format.json { render json: @badge }
     end
+  end
+
+  def unnotify_for_badge(badge)
+    return if current_user.blank?
+
+    had_one = false
+    notifications = CfNotification.where(otype: 'badge',
+                                         oid: badge.badge_id,
+                                         recipient_id: current_user.user_id,
+                                         is_read: false).all
+
+    notifications.each do |n|
+      n.is_read = true
+      n.save
+
+      had_one = true
+    end
+
+    notifications if had_one
   end
 end
 

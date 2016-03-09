@@ -154,6 +154,11 @@ class CfThreadsController < ApplicationController
 
         search_index_message(@thread, @message)
 
+        peon(class_name: 'NotifyNewTask',
+             arguments: {type: 'thread',
+                         thread: @thread.thread_id,
+                         message: @message.message_id})
+
         notification_center.notify(NEW_THREAD_SAVED, @thread, @message)
 
         format.html { redirect_to cf_message_url(@thread, @message), notice: I18n.t("threads.created") }
@@ -211,6 +216,11 @@ class CfThreadsController < ApplicationController
 
     respond_to do |format|
       if saved
+        peon(class_name: 'ThreadMovedTask',
+             arguments: {thread: @thread.thread_id,
+                         old_forum: @forum.forum_id,
+                         new_forum: @move_to.forum_id})
+
         notification_center.notify(THREAD_MOVED, @thread, @forum, @move_to)
         format.html { redirect_to cf_message_url(@thread, @thread.message), notice: t('threads.moved') }
       else
