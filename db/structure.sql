@@ -590,7 +590,8 @@ CREATE TABLE badges (
     badge_medal_type badge_medal_type_t DEFAULT 'bronze'::badge_medal_type_t NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    badge_type character varying(250) NOT NULL
+    badge_type character varying(250) NOT NULL,
+    "order" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -3429,6 +3430,8 @@ INSERT INTO schema_migrations (version) VALUES ('86');
 INSERT INTO schema_migrations (version) VALUES ('87');
 
 INSERT INTO schema_migrations (version) VALUES ('88');
+
+INSERT INTO schema_migrations (version) VALUES ('89');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
 

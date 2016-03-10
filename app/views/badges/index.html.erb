@@ -10,6 +10,7 @@ content_for(:body_classes, 'badges index')
 <table class="cf-default-table">
   <thead>
     <tr>
+      <th><%= sortable CfBadge.human_attribute_name(:order), :order, :cf_badges_path %></th>
       <th><%= sortable CfBadge.human_attribute_name(:badge_medal_type), :badge_medal_type, :cf_badges_path %></th>
       <th><%= sortable CfBadge.human_attribute_name(:name), :name, :cf_badges_path %></th>
       <th><%= sortable CfBadge.human_attribute_name(:score_needed), :score_needed, :cf_badges_path %></th>
@@ -20,6 +21,7 @@ content_for(:body_classes, 'badges index')
   <tbody>
     <% @badges.each do |badge| %>
       <tr>
+        <td><%= badge.order %></td>
         <td><%= image_tag badge.badge_medal_type + '.png' %></td>
         <td><%= cf_link_to badge.name, badge %></td>
         <td><%= badge.score_needed %></td>
