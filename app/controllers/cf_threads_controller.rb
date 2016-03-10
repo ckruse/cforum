@@ -20,21 +20,12 @@ class CfThreadsController < ApplicationController
   include LinkTagsHelper
   include OpenCloseHelper
 
-  SHOW_THREADLIST  = "show_threadlist"
-  SHOW_NEW_THREAD  = "show_new_thread"
-  NEW_THREAD       = "new_thread"
-  NEW_THREAD_SAVED = "new_thread_saved"
-  MODIFY_THREADLIST_QUERY_OBJ = 'modify_threadlist_query_obj'
-  THREAD_MOVED     = "thread_moved"
-
   def index
     index_threads
 
-    show_threads_functions(@threads)
+    ret = show_threads_functions(@threads)
 
-    ret = notification_center.notify(SHOW_THREADLIST, @threads)
-
-    unless ret.include?(:redirected)
+    unless ret == :redirected
       respond_to do |format|
         format.html
         format.json { render json: @threads, include: {:messages => {include: [:owner, :tags]} } }
@@ -48,8 +39,6 @@ class CfThreadsController < ApplicationController
     @thread, @id = get_thread
 
     show_threads_functions([@thread])
-
-    notification_center.notify(SHOW_THREADLIST, [@thread])
 
     respond_to do |format|
       format.html { render partial: 'thread', layout: false, locals: { thread: @thread } }
@@ -72,8 +61,6 @@ class CfThreadsController < ApplicationController
     @max_tags = conf('max_tags_per_message')
 
     set_user_data_vars(@thread.message)
-
-    notification_center.notify(SHOW_NEW_THREAD, @thread)
   end
 
   def create
@@ -104,7 +91,6 @@ class CfThreadsController < ApplicationController
 
     @tags    = parse_tags
     @preview = true if params[:preview]
-    retvals  = notification_center.notify(NEW_THREAD, @thread, @message, @tags)
 
     invalid = true unless validate_tags(@tags, @forum)
     if is_spam(@message)
@@ -115,7 +101,7 @@ class CfThreadsController < ApplicationController
     set_user_cookies(@message)
 
     saved = false
-    if not invalid and not @preview and not retvals.include?(false)
+    if not invalid and not @preview
       CfThread.transaction do
         num = 1
 
@@ -159,15 +145,12 @@ class CfThreadsController < ApplicationController
                          thread: @thread.thread_id,
                          message: @message.message_id})
 
-        notification_center.notify(NEW_THREAD_SAVED, @thread, @message)
-
         format.html { redirect_to cf_message_url(@thread, @message), notice: I18n.t("threads.created") }
         format.json { render json: @thread, status: :created, location: @thread }
       else
         # provoke a validation in case of missing tags
         @thread.message.valid? unless @preview
         @preview = true
-        notification_center.notify(SHOW_NEW_THREAD, @thread)
 
         format.html { render action: "new" }
         format.json { render json: @thread.errors, status: :unprocessable_entity }
@@ -221,7 +204,6 @@ class CfThreadsController < ApplicationController
                          old_forum: @forum.forum_id,
                          new_forum: @move_to.forum_id})
 
-        notification_center.notify(THREAD_MOVED, @thread, @forum, @move_to)
         format.html { redirect_to cf_message_url(@thread, @thread.message), notice: t('threads.moved') }
       else
         format.html { render :moving }

@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
 
 class CfMessages::VoteController < ApplicationController
-  VOTING_MESSAGE       = "voting_message"
-  VOTED_MESSAGE        = "voted_message"
-
-  UNVOTING_MESSAGE     = "unvoting_message"
-  UNVOTED_MESSAGE      = "unvoted_message"
-
   authorize_controller { authorize_user && authorize_forum(permission: :write?) }
 
   include SearchHelper
@@ -40,8 +34,6 @@ class CfMessages::VoteController < ApplicationController
 
     check_for_downvote_score(vtype) or return
 
-
-    notification_center.notify(VOTING_MESSAGE, @message)
     CfVote.transaction do
       if @vote
         update_existing_vote(vtype)
@@ -51,9 +43,6 @@ class CfMessages::VoteController < ApplicationController
     end
 
     rescore_message(@message)
-
-    notification_center.notify(VOTED_MESSAGE, @message)
-
 
     respond_to do |format|
       format.html do
@@ -136,8 +125,6 @@ class CfMessages::VoteController < ApplicationController
     @vote = CfVote.where(user_id: current_user.user_id, message_id: @message.message_id).first
 
     if not @vote.blank? and @vote.vtype == vtype
-      notification_center.notify(UNVOTING_MESSAGE, @message, @vote)
-
       CfVote.transaction do
         if @vote.vtype == CfVote::UPVOTE
           CfVote.connection.execute "UPDATE messages SET upvotes = upvotes - 1 WHERE message_id = " + @message.message_id.to_s
@@ -150,8 +137,6 @@ class CfMessages::VoteController < ApplicationController
       end
 
       rescore_message(@message)
-
-      notification_center.notify(UNVOTED_MESSAGE, @message, @vote)
 
       respond_to do |format|
         format.html { redirect_to cf_message_url(@thread, @message), notice: t('messages.vote_removed') }

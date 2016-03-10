@@ -69,13 +69,6 @@ module ThreadsHelper
     @threads = leave_out_invisible(@threads)
     @sticky_threads = leave_out_invisible(@sticky_threads) if with_sticky
 
-    ret = notification_center.notify(CfThreadsController::MODIFY_THREADLIST_QUERY_OBJ)
-    ret.each do |b|
-      next if b.blank?
-      @threads = b.call(@threads)
-      @sticky_threads = b.call(@sticky_threads) if with_sticky
-    end
-
     [@sticky_threads, @threads]
   end
 

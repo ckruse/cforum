@@ -19,22 +19,6 @@ class CfMessagesController < ApplicationController
   include SpamHelper
   include LinkTagsHelper
 
-  SHOW_NEW_MESSAGE     = "show_new_message"
-  SHOW_MESSAGE         = "show_message"
-  SHOW_THREAD          = "show_thread"
-
-  CREATING_NEW_MESSAGE = "creating_new_message"
-  CREATED_NEW_MESSAGE  = "created_new_message"
-
-  UPDATING_MESSAGE     = "updating_message"
-  UPDATED_MESSAGE      = "updated_message"
-
-  DELETING_MESSAGE     = "deleting_message"
-  DELETED_MESSAGE      = "deleted_message"
-
-  RESTORING_MESSAGE    = "restoring_message"
-  RESTORED_MESSAGE     = "restored_message"
-
   def show
     @thread, @message, @id = get_thread_w_post
 
@@ -72,10 +56,8 @@ class CfMessagesController < ApplicationController
     respond_to do |format|
       format.html do
         if @read_mode == 'thread-view'
-          notification_center.notify(SHOW_MESSAGE, @thread, @message, @votes)
           render 'show-thread'
         else
-          notification_center.notify(SHOW_THREAD, @thread, @message, @votes)
           render 'show-nested'
         end
       end
@@ -112,8 +94,6 @@ class CfMessagesController < ApplicationController
     @message.content = @parent.to_quote(self) if params.has_key?(:quote_old_message)
 
     show_new_message_functions(@thread, @parent, @message, @preview)
-
-    notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
   end
 
   def create
@@ -133,7 +113,6 @@ class CfMessagesController < ApplicationController
 
     @tags    = parse_tags
     @preview = true if params[:preview]
-    retvals  = notification_center.notify(CREATING_NEW_MESSAGE, @thread, @parent, @message, @tags)
 
     invalid = true unless validate_tags(@tags)
     if is_spam(@message)
@@ -144,7 +123,7 @@ class CfMessagesController < ApplicationController
     set_user_cookies(@message)
 
     saved = false
-    if not invalid and not retvals.include?(false) and not @preview
+    if not invalid and not @preview
       CfMessage.transaction do
         raise ActiveRecord::Rollback unless @message.save
         raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
@@ -169,7 +148,6 @@ class CfMessagesController < ApplicationController
                        thread: @thread.thread_id,
                        message: @message.message_id})
 
-      notification_center.notify(CREATED_NEW_MESSAGE, @thread, @parent, @message, @tags)
       redirect_to cf_message_url(@thread, @message), :notice => I18n.t('messages.created')
     else
       @message.valid? unless @preview
@@ -177,7 +155,6 @@ class CfMessagesController < ApplicationController
 
       show_new_message_functions(@thread, @parent, @message, @preview)
 
-      notification_center.notify(SHOW_NEW_MESSAGE, @thread, @parent, @message)
       render :new
     end
   end
@@ -194,8 +171,6 @@ class CfMessagesController < ApplicationController
     flash.now[:error] = t('messages.edit_change_to_markdown') if @message.format != 'markdown'
 
     show_message_funtions(@thread, @message)
-
-    notification_center.notify(SHOW_MESSAGE, @thread, @message, {})
   end
 
   def update
@@ -245,13 +220,10 @@ class CfMessagesController < ApplicationController
     end
 
     @preview = true if params[:preview]
-    retvals  = notification_center.notify(UPDATING_MESSAGE, @thread, @message,
-                                          @tags)
-
     invalid = true unless validate_tags(@tags)
 
     saved = false
-    if not invalid and not retvals.include?(false) and not @preview
+    if not invalid and not @preview
       CfMessage.transaction do
         if @message.save
           save_references(@message)
@@ -297,8 +269,6 @@ class CfMessagesController < ApplicationController
 
       search_index_message(@thread, @message)
 
-      notification_center.notify(UPDATED_MESSAGE, @thread, @parent,
-                                 @message, @tags)
       redirect_to cf_message_url(@thread, @message), notice: I18n.t('messages.updated')
     else
       @message.valid? unless @preview
@@ -306,7 +276,6 @@ class CfMessagesController < ApplicationController
 
       show_message_funtions(@thread, @message)
 
-      notification_center.notify(SHOW_MESSAGE, @thread, @message, {})
       render :edit
     end
   end
@@ -318,20 +287,14 @@ class CfMessagesController < ApplicationController
   def destroy
     @thread, @message, @id = get_thread_w_post
 
-    retvals = notification_center.notify(DELETING_MESSAGE, @thread, @message)
-
-    unless retvals.include?(false)
-      CfMessage.transaction do
-        @message.delete_with_subtree
-        audit(@message, 'delete')
-      end
-
-      search_unindex_message_with_answers(@message)
-
-      unnotify_users(@message.message_id, ['message:create-answer', 'message:create-activity'])
-
-      notification_center.notify(DELETED_MESSAGE, @thread, @message)
+    CfMessage.transaction do
+      @message.delete_with_subtree
+      audit(@message, 'delete')
     end
+
+    search_unindex_message_with_answers(@message)
+
+    unnotify_users(@message.message_id, ['message:create-answer', 'message:create-activity'])
 
     respond_to do |format|
       format.html { redirect_to cf_return_url(@thread, @message, view_all: true), notice: I18n.t('messages.destroyed') }
@@ -342,22 +305,16 @@ class CfMessagesController < ApplicationController
   def restore
     @thread, @message, @id = get_thread_w_post
 
-    retvals = notification_center.notify(RESTORING_MESSAGE, @thread, @message)
-
-    unless retvals.include?(false)
-      CfMessage.transaction do
-        @message.restore_with_subtree
-        audit(@message, 'restore')
-      end
-
-      search_index_message(@thread, @message)
-      peon(class_name: 'NotifyNewTask',
-           arguments: {type: 'message',
-                       thread: @thread.thread_id,
-                       message: @message.message_id})
-
-      notification_center.notify(RESTORED_MESSAGE, @thread, @message)
+    CfMessage.transaction do
+      @message.restore_with_subtree
+      audit(@message, 'restore')
     end
+
+    search_index_message(@thread, @message)
+    peon(class_name: 'NotifyNewTask',
+         arguments: {type: 'message',
+                     thread: @thread.thread_id,
+                     message: @message.message_id})
 
     respond_to do |format|
       format.html { redirect_to cf_return_url(@thread, @message, view_all: true), notice: I18n.t('messages.restored') }

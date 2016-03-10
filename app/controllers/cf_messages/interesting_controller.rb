@@ -8,8 +8,6 @@ class CfMessages::InterestingController < ApplicationController
   include InterestingHelper
   include LinkTagsHelper
 
-  SHOW_INTERESTING_MESSAGELIST = "show_interesting_messagelist"
-
   def mark_interesting
     if current_user.blank?
       flash[:error] = t('global.only_as_user')
@@ -64,13 +62,12 @@ class CfMessages::InterestingController < ApplicationController
                 where(deleted: false, threads: {deleted: false}).
                 order(:created_at).page(params[:page]).per(@limit)
 
-    check_messages_for_suspiciousness(@messages)
-    check_messages_for_highlight(@messages)
-    mark_messages_interesting(@messages)
-    are_read(@messages)
-    thread_list_link_tags
-
-    ret = notification_center.notify(SHOW_INTERESTING_MESSAGELIST, @messages)
+    ret = []
+    ret << check_messages_for_suspiciousness(@messages)
+    ret << check_messages_for_highlight(@messages)
+    ret << mark_messages_interesting(@messages)
+    ret << are_read(@messages)
+    ret << thread_list_link_tags
 
     unless ret.include?(:redirected)
       respond_to do |format|

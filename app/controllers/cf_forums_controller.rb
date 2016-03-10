@@ -1,8 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 class CfForumsController < ApplicationController
-  SHOW_FORUMLIST = "show_forumlist"
-
   def index
     if params[:t] || params[:m]
       redirect_thread
@@ -31,8 +29,6 @@ class CfForumsController < ApplicationController
 
     gather_portal_infos unless current_user.blank?
     forum_list_read(@overview_threads, @activities)
-
-    notification_center.notify(SHOW_FORUMLIST, @overview_threads, @activities)
 
     unless current_user.blank?
       @overview_threads.each do |thread|

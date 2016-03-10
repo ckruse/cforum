@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 class BadgesController < ApplicationController
-  SHOW_BADGE = "show_badge"
-
   def index
     @limit = conf('pagination').to_i
     @badges = sort_query(%w(badge_medal_type score_needed name no_users),
@@ -21,7 +19,6 @@ class BadgesController < ApplicationController
     @badge = CfBadge.preload(:users).where(slug: params[:slug]).first!
 
     unnotify_for_badge(@badge)
-    notification_center.notify(SHOW_BADGE, @badge)
 
     respond_to do |format|
       format.html

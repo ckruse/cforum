@@ -7,8 +7,6 @@ class MailsController < ApplicationController
 
   authorize_controller { authorize_user }
 
-  SHOW_NEW_PRIV_MESSAGE = 'show_new_priv_message'
-
   def index_users
     cu    = current_user
     mails = CfPrivMessage.
@@ -86,8 +84,6 @@ class MailsController < ApplicationController
     end
 
     @mail.body = gen_content(@mail.body, @mail.recipient.try(:username))
-
-    notification_center.notify(SHOW_NEW_PRIV_MESSAGE, @mail)
   end
 
   def create

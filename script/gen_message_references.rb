@@ -5,7 +5,6 @@ dir = File.dirname(__FILE__)
 require File.join(dir, "..", "config", "boot")
 require File.join(dir, "..", "config", "environment")
 require File.join(dir, '..', 'lib', 'tools.rb')
-require Rails.root + 'lib/notification_center'
 
 include CForum::Tools
 include ReferencesHelper
@@ -37,10 +36,6 @@ def from_uri(uri)
   return
 end
 
-$ncenter = NotificationCenter.new
-def notification_center
-  $ncenter
-end
 
 $config_manager = ConfigManager.new
 no_messages = 1000

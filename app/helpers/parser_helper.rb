@@ -8,8 +8,6 @@ module ParserHelper
   include CforumMarkup
   include HighlightHelper
 
-  NOTIFY_MENTION = 'notify_mention'
-
   @@parser_modules = {}
 
   def self.parser_modules
@@ -43,7 +41,6 @@ module ParserHelper
 
       cnt = cnt.gsub(/(\A|[^a-zäöüß0-9_.@-])@(#{username})\b/) do
         if do_notify
-          classes = app.notification_center.notify(NOTIFY_MENTION, m)
           classes << highlight_notify_mention(m, app)
         end
 

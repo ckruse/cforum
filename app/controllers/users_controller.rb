@@ -1,13 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 class UsersController < ApplicationController
-  SAVING_SETTINGS  = "saving_settings"
-  SAVED_SETTINGS   = "saved_settings"
-  SHOWING_SETTINGS = "showing_settings"
-
-  DESTROYING_USER = "destroying_user"
-  DESTROYED_USER  = "destroyed_user"
-
   include HighlightHelper
 
   authorize_action([:edit, :update, :confirm_destroy, :destroy]) do
@@ -134,8 +127,6 @@ class UsersController < ApplicationController
 
     highlight_showing_settings(@user)
 
-    notification_center.notify(SHOWING_SETTINGS, @user)
-
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
   end
 
@@ -160,7 +151,6 @@ class UsersController < ApplicationController
 
         highlight_saving_settings(@settings)
 
-        notification_center.notify(SAVING_SETTINGS, @user, @settings)
         @settings.save!
 
         check_for_autobiographer(@user, @settings)
@@ -168,8 +158,6 @@ class UsersController < ApplicationController
         saved = true
       end
     end
-
-    notification_center.notify(SAVED_SETTINGS, @user, @settings)
 
     respond_to do |format|
       if saved
@@ -191,10 +179,8 @@ class UsersController < ApplicationController
   def destroy
     @user = CfUser.find(params[:id])
 
-    notification_center.notify(DESTROYING_USER, @user, @settings)
     @user.destroy
     audit(@user, 'destroy', nil)
-    notification_center.notify(DESTROYED_USER, @user, @settings)
 
     respond_to do |format|
       format.html { redirect_to root_url, notice: I18n.t('users.deleted') }

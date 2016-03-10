@@ -8,8 +8,6 @@ class CitesController < ApplicationController
 
   before_action :set_cite, only: [:show, :edit, :update, :destroy, :vote]
 
-  EDITED_CITE = 'edited_cite'
-
   def index(archived = true)
     @limit = conf('pagination').to_i
     @cites = CfCite.
@@ -189,7 +187,6 @@ class CitesController < ApplicationController
 
       search_index_cite(@cite)
 
-      notification_center.notify(EDITED_CITE, @cite)
       redirect_to cite_url(@cite), notice: t('cites.updated')
     else
       render :edit

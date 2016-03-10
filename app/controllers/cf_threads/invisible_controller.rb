@@ -9,8 +9,6 @@ class CfThreads::InvisibleController < ApplicationController
   include LinkTagsHelper
   include OpenCloseHelper
 
-  SHOW_INVISIBLE_THREADLIST = "show_invisible_threadlist"
-
   def list_invisible_threads
     @limit = conf('pagination').to_i
 
@@ -41,14 +39,13 @@ class CfThreads::InvisibleController < ApplicationController
 
     set_cached_entry(:invisible, current_user.user_id, cache)
 
-    check_threads_for_suspiciousness(@threads)
-    check_threads_for_highlighting(@threads)
-    mark_threads_interesting(@threads)
-    is_read_threadlist(@threads)
-    open_close_threadlist(@threads)
-    thread_list_link_tags
-
-    ret = notification_center.notify(SHOW_INVISIBLE_THREADLIST, @threads)
+    ret = []
+    ret << check_threads_for_suspiciousness(@threads)
+    ret << check_threads_for_highlighting(@threads)
+    ret << mark_threads_interesting(@threads)
+    ret << is_read_threadlist(@threads)
+    ret << open_close_threadlist(@threads)
+    ret << thread_list_link_tags
 
     unless ret.include?(:redirected)
       respond_to do |format|

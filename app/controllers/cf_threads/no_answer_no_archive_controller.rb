@@ -1,35 +1,19 @@
 # -*- coding: utf-8 -*-
 
 class CfThreads::NoAnswerNoArchiveController < ApplicationController
-  NO_ANSWER          = "no_answer"
-  NO_ANSWERED        = "no_answered"
-  NO_ANSWER_REMOVING = "no_answer_removing"
-  NO_ANSWER_REMOVED  = "no_answer_removed"
-
-  NO_ARCHIVE          = "no_archive"
-  NO_ARCHIVED         = "no_archived"
-  NO_ARCHIVE_REMOVING = "no_archive_removing"
-  NO_ARCHIVE_REMOVED  = "no_archive_removed"
-
   authorize_controller { authorize_forum(permission: :moderator?) }
 
   def no_answer
     @thread, @message, @id = get_thread_w_post
 
-    retvals = notification_center.notify(@message.flags['no-answer-admin'] == 'yes' ? NO_ANSWER_REMOVING : NO_ANSWER, @thread, @message)
-
-    unless retvals.include?(false)
-      CfMessage.transaction do
-        if @message.flags['no-answer-admin'] == 'yes'
-          @message.flag_with_subtree('no-answer-admin', 'no')
-          audit(@message, 'no-answer-admin-no')
-        else
-          @message.flag_with_subtree('no-answer-admin', 'yes')
-          audit(@message, 'no-answer-admin-yes')
-        end
+    CfMessage.transaction do
+      if @message.flags['no-answer-admin'] == 'yes'
+        @message.flag_with_subtree('no-answer-admin', 'no')
+        audit(@message, 'no-answer-admin-no')
+      else
+        @message.flag_with_subtree('no-answer-admin', 'yes')
+        audit(@message, 'no-answer-admin-yes')
       end
-
-      notification_center.notify(@message.flags['no-answer-admin'] == 'yes' ? NO_ANSWERED : NO_ANSWER_REMOVED, @thread, @message)
     end
 
     respond_to do |format|
@@ -48,24 +32,18 @@ class CfThreads::NoAnswerNoArchiveController < ApplicationController
   def no_archive
     @thread, @id = get_thread
 
-    retvals = notification_center.notify(@thread.flags['no-archive'] == 'yes' ? NO_ARCHIVE_REMOVING : NO_ARCHIVE, @thread)
+    CfMessage.transaction do
+      @thread.flags_will_change!
 
-    unless retvals.include?(false)
-      CfMessage.transaction do
-        @thread.flags_will_change!
-
-        if @thread.flags['no-archive'] == 'yes'
-          @thread.flags.delete 'no-archive'
-          audit(@thread, 'no-archive-no')
-        else
-          @thread.flags['no-archive'] = 'yes'
-          audit(@thread, 'no-archive-yes')
-        end
-
-        @thread.save
+      if @thread.flags['no-archive'] == 'yes'
+        @thread.flags.delete 'no-archive'
+        audit(@thread, 'no-archive-no')
+      else
+        @thread.flags['no-archive'] = 'yes'
+        audit(@thread, 'no-archive-yes')
       end
 
-      notification_center.notify(@thread.flags['no-archive'] == 'yes' ? NO_ARCHIVED : NO_ARCHIVE_REMOVED, @thread)
+      @thread.save
     end
 
     respond_to do |format|

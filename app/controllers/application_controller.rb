@@ -2,7 +2,6 @@
 
 $CF_VERSION = '4.2'
 
-require Rails.root + 'lib/notification_center'
 require Rails.root + 'lib/tools'
 require Rails.root + 'lib/plugin'
 require Rails.root + 'lib/peon'
@@ -27,20 +26,17 @@ class ApplicationController < ActionController::Base
   include TitleHelper
 
   before_filter :do_init, :locked?, :set_forums, :notifications,
-                :run_before_handler, :check_authorizations,
-                :set_css, :set_motd, :set_own_files, :set_title_infos
-  after_filter :run_after_handler, :store_location
+                :check_authorizations, :set_css, :set_motd,
+                :set_own_files, :set_title_infos
+  after_filter :store_location
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protect_from_forgery
 
-  attr_reader :notification_center, :plugin_apis, :view_all
+  attr_reader :plugin_apis, :view_all
 
   helper_method :uconf, :conf, :view_all
-
-  BEFORE_HANDLER = "before_handler"
-  AFTER_HANDLER  = "after_handler"
 
   #
   # Plugins
@@ -50,22 +46,12 @@ class ApplicationController < ActionController::Base
     cookies
   end
 
-  def run_before_handler
-    notification_center.notify(BEFORE_HANDLER)
-  end
-
-  def run_after_handler
-    notification_center.notify(AFTER_HANDLER)
-  end
-
-
   #
   # normal stuff
   #
 
   def do_init
     @app_controller      = self
-    @notification_center = NotificationCenter.new
     @config_manager      = ConfigManager.new
     @view_all            = false
     @_current_forum      = nil

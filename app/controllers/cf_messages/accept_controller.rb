@@ -5,16 +5,12 @@ class CfMessages::AcceptController < ApplicationController
 
   include SearchHelper
 
-  ACCEPTING_MESSAGE    = "accepting_message"
-  ACCEPTED_MESSAGE     = "accepted_message"
-
   def accept
     @thread, @message, @id = get_thread_w_post
 
     check_for_na and return
     check_for_access or return
 
-    notification_center.notify(ACCEPTING_MESSAGE, @thread, @message)
     CfMessage.transaction do
       @message.flags_will_change!
 
@@ -31,8 +27,6 @@ class CfMessages::AcceptController < ApplicationController
     end
 
     rescore_message(@message)
-
-    notification_center.notify(ACCEPTED_MESSAGE, @thread, @message)
 
     peon(class_name: 'BadgeDistributor',
          arguments: {type: @message.flags['accepted'] == 'yes' ? 'accepted' : 'unaccepted',

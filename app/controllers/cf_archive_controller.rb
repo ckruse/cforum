@@ -11,8 +11,6 @@ class CfArchiveController < ApplicationController
   include LinkTagsHelper
   include OpenCloseHelper
 
-  SHOW_ARCHIVE_THREADLIST  = "show_archive_threadlist"
-
   def years
     @first_year = CfThread.order('created_at ASC').limit(1)
     @last_year = CfThread.order('created_at DESC').limit(1)
@@ -105,15 +103,14 @@ class CfArchiveController < ApplicationController
       sort_thread(thread)
     end
 
-    check_threads_for_suspiciousness(@threads)
-    check_threads_for_highlighting(@threads)
-    mark_threads_interesting(@threads)
-    leave_out_invisible_for_threadlist(@threads)
-    is_read_threadlist(@threads)
-    open_close_threadlist(@threads)
-    thread_list_link_tags
-
-    ret = notification_center.notify(SHOW_ARCHIVE_THREADLIST, @threads)
+    ret = []
+    ret << check_threads_for_suspiciousness(@threads)
+    ret << check_threads_for_highlighting(@threads)
+    ret << mark_threads_interesting(@threads)
+    ret << leave_out_invisible_for_threadlist(@threads)
+    ret << is_read_threadlist(@threads)
+    ret << open_close_threadlist(@threads)
+    ret << thread_list_link_tags
 
     unless ret.include?(:redirected)
       respond_to do |format|

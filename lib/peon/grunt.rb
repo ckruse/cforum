@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 dir = File.dirname(__FILE__)
-require File.join(dir, "..", "notification_center")
 require File.join(dir, "..", "config_manager")
 
 require 'thread'
@@ -14,7 +13,7 @@ module Peon
   class Grunt
     include Singleton
 
-    attr_accessor :notification_center, :config_manager
+    attr_accessor :config_manager
 
     def initialize
       @queues  = []
@@ -24,7 +23,6 @@ module Peon
       @running = true
       @jobs    = {}
 
-      @notification_center = NotificationCenter.new
       @config_manager      = ConfigManager.new(false)
 
       db_conf  = Rails.application.config.database_configuration[Rails.env]
