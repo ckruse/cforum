@@ -40,6 +40,7 @@ module ParserHelper
       username = Regexp.escape(m[0])
 
       cnt = cnt.gsub(/(\A|[^a-zäöüß0-9_.@-])@(#{username})\b/) do
+        classes = []
         if do_notify
           classes << highlight_notify_mention(m, app)
         end
