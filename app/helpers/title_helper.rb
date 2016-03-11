@@ -7,12 +7,12 @@ module TitleHelper
     title = []
 
     if uconf('show_unread_notifications_in_title') == 'yes'
-      notifications = get('new_notifications') || []
+      notifications = @new_notifications || []
       title << notifications.length.to_s
     end
 
     if uconf('show_unread_pms_in_title') == 'yes'
-      priv_msgs = get('new_mails').length
+      priv_msgs = @new_mails.length
       title << priv_msgs.to_s
     end
 
