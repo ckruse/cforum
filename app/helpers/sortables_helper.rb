@@ -36,10 +36,10 @@ module SortablesHelper
     order_name = if replacements and replacements[@_sort_column]
                    replacements[@_sort_column]
                  else
-                   @_sort_column
+                   "\"" + @_sort_column.to_s + "\""
                  end
 
-    return query_object.order("(\"#{order_name}\") #{@_sort_direction}")
+    return query_object.order("(#{order_name}) #{@_sort_direction}")
   end
 
   def sortable(colname, col, method)
