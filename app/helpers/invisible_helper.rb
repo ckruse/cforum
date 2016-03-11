@@ -83,7 +83,7 @@ module InvisibleHelper
   end
 
   def leave_out_invisible(threads)
-    return threads if current_user.blank? or get('view_all')
+    return threads if current_user.blank? or @view_all
     @invisible_modified = true
     threads.where("NOT EXISTS(SELECT thread_id FROM invisible_threads WHERE user_id = ? AND invisible_threads.thread_id = threads.thread_id)", current_user.user_id)
   end

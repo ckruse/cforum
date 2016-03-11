@@ -3,14 +3,12 @@
 $CF_VERSION = '4.2'
 
 require Rails.root + 'lib/tools'
-require Rails.root + 'lib/plugin'
 require Rails.root + 'lib/peon'
 
 class ApplicationController < ActionController::Base
   include ApplicationHelper
   include AuditHelper
   include RightsHelper
-  include PluginHelper
   include NotifyHelper
   include ExceptionHelpers
   include PublishHelper
@@ -34,17 +32,9 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
-  attr_reader :plugin_apis, :view_all
+  attr_reader :view_all
 
   helper_method :uconf, :conf, :view_all
-
-  #
-  # Plugins
-  #
-
-  def get_cookies
-    cookies
-  end
 
   #
   # normal stuff
@@ -55,8 +45,6 @@ class ApplicationController < ActionController::Base
     @config_manager      = ConfigManager.new
     @view_all            = false
     @_current_forum      = nil
-
-    load_and_init_plugins
 
     CForum::Tools.init
   end

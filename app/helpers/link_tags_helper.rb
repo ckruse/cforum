@@ -56,7 +56,7 @@ module LinkTagsHelper
     html << "\n" + next_link(thread, msgs, message)
     html << "\n" + prev_link(thread, msgs, message)
 
-    set('link_tags', html.html_safe)
+    @link_tags = html.html_safe
   end
 
   def show_message_link_tags(thread, message)
@@ -69,7 +69,7 @@ module LinkTagsHelper
     html << "\n" + next_link(thread, msgs, message)
     html << "\n" + prev_link(thread, msgs, message)
 
-    set('link_tags', html.html_safe)
+    @link_tags = html.html_safe
   end
 end
 
