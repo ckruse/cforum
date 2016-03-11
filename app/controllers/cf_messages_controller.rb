@@ -436,7 +436,7 @@ class CfMessagesController < ApplicationController
     CfNotification.where(notification_id: to_delete).delete_all unless to_delete.blank?
     CfNotification.where(notification_id: to_mark_read).update_all(is_read: true) unless to_mark_read.blank?
 
-    application_controller.notifications if had_one
+    notifications if had_one
   end
 end
 
