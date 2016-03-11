@@ -413,7 +413,7 @@ class CfMessagesController < ApplicationController
     to_delete = []
     to_mark_read = []
     notifications = CfNotification.
-                    where(recipient_id: user.user_id,
+                    where(recipient_id: current_user.user_id,
                           oid: message_ids).
                     where("otype IN ('message:create-answer','message:create-activity', 'message:mention')").
                     all
