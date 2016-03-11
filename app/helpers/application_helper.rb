@@ -59,7 +59,7 @@ module ApplicationHelper
 
     str << ' title="' + encode_entities(args[:title]) + '"' unless args[:title].blank?
     str << ' class="' + encode_entities(args[:class]) + '"' unless args[:class].blank?
-    str << ' data-cf-confirm="' + encode_entities(args[:data][:confirm]) + '"' if not args[:data].blank? and not args[:data][:confirm].blank?
+    str << ' data-cf-confirm="' + encode_entities(args[:data]['cf-confirm']) + '"' if not args[:data].blank? and not args[:data]['cf-confirm'].blank?
     str << ' type="submit">'
     unless block.blank?
       str << capture { block.call }
