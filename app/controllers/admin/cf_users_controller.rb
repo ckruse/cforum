@@ -50,6 +50,7 @@ class Admin::CfUsersController < ApplicationController
 
   def create
     @user = CfUser.new(user_params)
+    audit(@user, 'create')
 
     if @user.save
       redirect_to edit_admin_user_url(@user), notice: I18n.t('admin.users.created')
@@ -60,6 +61,7 @@ class Admin::CfUsersController < ApplicationController
 
   def destroy
     @user.destroy
+    audit(@user, 'destroy')
 
     redirect_to admin_users_url, notice: I18n.t('admin.users.deleted')
   end
