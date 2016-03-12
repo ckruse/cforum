@@ -18,6 +18,7 @@ class CfMessagesController < ApplicationController
   include InterestingHelper
   include SpamHelper
   include LinkTagsHelper
+  include NotifyHelper
 
   def show
     @thread, @message, @id = get_thread_w_post
@@ -294,7 +295,7 @@ class CfMessagesController < ApplicationController
 
     search_unindex_message_with_answers(@message)
 
-    unnotify_users(@message.message_id, ['message:create-answer', 'message:create-activity'])
+    unnotify_user(@message.message_id, ['message:create-answer', 'message:create-activity'])
 
     respond_to do |format|
       format.html { redirect_to cf_return_url(@thread, @message, view_all: true), notice: I18n.t('messages.destroyed') }
