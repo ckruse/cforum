@@ -81,7 +81,7 @@ module CforumMarkup
         end
 
         # empty directive
-        if content.blank?
+        if directive.blank?
           ncnt << "[#{directive}#{colon}"
           doc.pos = save
           next
