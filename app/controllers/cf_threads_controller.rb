@@ -38,6 +38,9 @@ class CfThreadsController < ApplicationController
   def show
     @thread, @id = get_thread
 
+    # don't show users threads he may not access via /all
+    raise CForum::ForbiddenException unless @thread.forum.read?(current_user)
+
     show_threads_functions([@thread])
 
     respond_to do |format|
