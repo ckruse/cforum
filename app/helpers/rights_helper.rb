@@ -136,7 +136,7 @@ module RightsHelper
     end
 
     # not possible if thread is archived
-    if conf('use_archive') == 'yes' and thread.archived?
+    if thread.archived?
       if redirect
         flash[:error] = t('messages.editing_disabled')
         redirect_to cf_message_url(thread, message)
@@ -228,7 +228,7 @@ module RightsHelper
   end
 
   def may_answer(m)
-    return false if conf('use_archive') == 'yes' and m.thread.archived?
+    return false if m.thread.archived?
     return false if m.flags['no-answer'] == 'yes'
     return m.open?
   end

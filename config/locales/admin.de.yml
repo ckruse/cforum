@@ -43,7 +43,6 @@ de:
         close_subtree: Nachricht und Antworten schließen
         hide_subtree: Nachricht und Antworten ausblenden
         items_per_page: Einträge pro Seite
-        use_archive: Archiv nutzen
         max_threads: maximale Anzahl von Threads
         max_messages_per_thread: maximale Anzahl von Nachrichten pro Thread
         quote_old_message: alte Nachricht zitieren

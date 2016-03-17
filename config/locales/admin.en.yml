@@ -35,7 +35,6 @@ en:
 
       settings:
         items_per_page: Items per page
-        use_archive: Use archive
         max_threads: Maximum amount of threads
         max_messages_per_thread: Maximum amount of messages per thread
         quote_old_message: Alte Nachricht zitieren

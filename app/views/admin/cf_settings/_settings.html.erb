@@ -48,15 +48,6 @@
       </div>
 
       <div class="cf-cgroup">
-        <label for="settings-use_archive-yes"><%= t('admin.forums.settings.use_archive') %></label>
-        <div class="cntrls">
-          <label class="radio"><%= radio_button_tag 'settings[use_archive]', 'yes', @settings.options['use_archive'] == 'yes', id: 'settings-use_archive-yes' %> <%= t('global.yeah') %></label>
-          <label class="radio"><%= radio_button_tag 'settings[use_archive]', 'no', @settings.options['use_archive'] == 'no', id: 'settings-use_archive-no' %> <%= t('global.nope') %></label>
-          <label class="radio"><%= radio_button_tag 'settings[use_archive]', '_DEFAULT_', @settings.options['use_archive'].blank?, id: 'settings-use_archive-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('use_archive')), origin: t(is_global_conf('use_archive') ? 'global.global_conf' : 'global.global_default')) %></label>
-        </div>
-      </div>
-
-      <div class="cf-cgroup">
         <label for="settings-max_threads"><%= t('admin.forums.settings.max_threads') %></label>
         <div class="cntrls">
           <%= text_field_tag 'settings[max_threads]', @settings.options['max_threads'], id: 'settings-max_threads' %>

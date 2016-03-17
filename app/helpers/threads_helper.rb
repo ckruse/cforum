@@ -15,7 +15,7 @@ module ThreadsHelper
   def get_threads(forum, order = 'threads.created_at DESC', user = current_user, with_sticky = false, thread_conditions = {})
     conditions = {}
     conditions[:forum_id] = forum.forum_id if forum
-    conditions[:archived] = false if conf('use_archive') == 'yes'
+    conditions[:archived] = false
 
     unless @view_all
       conditions[:deleted] = false

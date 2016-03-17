@@ -2,6 +2,5 @@ en:
   options:
     errors:
       pagination: The option „Items per page” has to consist of numbers!
-      use_archive: The option „Use archive” has to be either yes or no!
       quote_char: The quoting character is invalid!
       quote_old_message: The Option „quote old message” has to be either yes or no!

@@ -27,6 +27,5 @@ class SettingValidator < ActiveModel::EachValidator
 end
 
 SettingValidator.validators['pagination'] = lambda { |nam, val| val.blank? or val =~ /^\d+$/ }
-SettingValidator.validators['use_archive'] = lambda { |nam, val| %w{yes no}.include?(val) }
 
 # eof

@@ -66,7 +66,7 @@ module Peon
         forums = CfForum.all
 
         forums.each do |f|
-          archive_forum(f) if conf('use_archive', f) == 'yes'
+          archive_forum(f)
         end
       end
     end
