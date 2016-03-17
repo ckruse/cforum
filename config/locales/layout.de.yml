@@ -56,9 +56,9 @@ de:
       duplicate: http://forum.selfhtml.org/zu-diesem-forum/2001/may/28/test-bitte-ignorieren/572405
       username: "Regina Schlauklug"
       email: "r.schlauklug@example.com"
-      email_optional: "r.schlauklug@example.com (Optional)"
+      email_optional: "r.schlauklug@example.com (optional)"
       subject: "Problem mit flex-box und float:left"
       homepage: http://example.com
-      homepage_optional: http://example.com (Optional)
-      problematic_site_optional: http://example.com (Optional)
+      homepage_optional: http://example.com (optional)
+      problematic_site_optional: http://example.com (optional)
 
