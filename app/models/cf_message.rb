@@ -37,6 +37,8 @@ class CfMessage < ActiveRecord::Base
 
   has_many :message_references, ->{ order(created_at: :desc) }, class_name: 'MessageReference', foreign_key: :dst_message_id
 
+  has_one :cite, class_name: 'CfCite', foreign_key: :message_id
+
   validates_presence_of :forum_id, :thread_id
 
   after_initialize do

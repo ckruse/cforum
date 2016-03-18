@@ -350,6 +350,63 @@ module MessageHelper
       cookies[:cforum_homepage] = {value: @message.homepage, expires: 1.year.from_now}
     end
   end
+
+
+  def std_conditions(conditions, tid = false)
+    if conditions.is_a?(String)
+      if tid
+        conditions = {thread_id: conditions}
+      else
+        conditions = {slug: conditions}
+      end
+    end
+
+    conditions[:messages] = {deleted: false} unless @view_all
+
+    conditions
+  end
+
+  def get_thread
+    tid = false
+    id  = nil
+
+    if params[:year] and params[:mon] and params[:day] and params[:tid]
+      id = CfThread.make_id(params)
+    else
+      id = params[:id]
+      tid = true
+    end
+
+    thread = CfThread.
+             preload(:forum,
+                     messages: [:editor, :tags, :thread, :versions, :cite,
+                                {votes: :voters,
+                                 owner: [:settings, :badges],
+                                 message_references: {src_message: [{thread: :forum}, :owner, :tags, :votes]}}]).
+             includes(messages: :owner).
+             where(std_conditions(id, tid)).
+             references(messages: :owner).
+             first
+
+    raise ActiveRecord::RecordNotFound if thread.blank?
+
+    # sort messages
+    sort_thread(thread)
+
+    return thread, id
+  end
+
+  def get_thread_w_post
+    thread, id = get_thread
+
+    message = nil
+    unless params[:mid].blank?
+      message = thread.find_message(params[:mid].to_i)
+      raise ActiveRecord::RecordNotFound if message.nil?
+    end
+
+    return thread, message, id
+  end
 end
 
 # eof
