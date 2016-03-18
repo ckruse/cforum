@@ -91,6 +91,8 @@ de:
 
     error_present: muss angegeben werden (mindestens %{min}, maximal %{max} Zeichen).
 
+    this_message_got_cited: "Diese Nachricht wurde im %{link} zitiert."
+
     close_vote:
       agreeing: Sehe ich auch so
       take_back: Stimme zurücknehmen

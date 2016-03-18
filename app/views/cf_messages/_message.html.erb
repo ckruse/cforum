@@ -160,6 +160,12 @@ controls ||= :yes
     </ul>
   <% end %>
 
+  <% unless @message.cite.blank? %>
+    <p class="message-cite"><%= t('messages.this_message_got_cited',
+                                  link: cf_link_to(t('cites.cite', id: @message.cite.cite_id),
+                                                   cite_path(@message.cite))).html_safe %></p>
+  <% end %>
+
   <% if controls == :yes %>
     <div class="forum-links">
       <nav>
