@@ -44,7 +44,7 @@ end
     </div>
 
     <% if not cite.url.blank? and (cite.message_id.blank? or @forums.include?(cite.message.forum)) %>
-      <div class="origin"><%= cf_link_to cite.message.subject, cite.url %></div>
+      <div class="origin"><%= cf_link_to cite.message_id.blank? ? cite.url : cite.message.subject, cite.url %></div>
     <% end %>
   </header>
 
