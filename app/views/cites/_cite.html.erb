@@ -35,21 +35,17 @@ end
           </span>
         <% end %>
 
-        <% if not cite.url.blank? and (cite.message_id.blank? or @forums.include?(cite.message.forum)) %>
-          <%= cf_link_to cite.author, cite.url %>
-        <% else %>
-          <%= cite.author %>
-        <% end %>
+        <%= cf_link_to cite.author, cite_path(cite) %>
       </span>
 
       <time datetime="<%= cite.cite_date.strftime("%FT%T%:z") %>">
-        <% if not cite.url.blank? and (cite.message_id.blank? or @forums.include?(cite.message.forum)) %>
-          <%= cf_link_to l(cite.cite_date, format: uconf('date_format_date')), cite.url %>
-        <% else %>
-          <%= l(cite.cite_date, format: uconf('date_format_date')) %>
-        <% end %>
+        <%= cf_link_to l(cite.cite_date, format: uconf('date_format_date')), cite_path(cite) %>
       </time>
     </div>
+
+    <% if not cite.url.blank? and (cite.message_id.blank? or @forums.include?(cite.message.forum)) %>
+      <div class="origin"><%= cf_link_to cite.message.subject, cite.url %></div>
+    <% end %>
   </header>
 
   <% if not current_user.blank? and not cite.archived? %>
