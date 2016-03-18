@@ -62,3 +62,5 @@ de:
       homepage_optional: http://example.com (optional)
       problematic_site_optional: http://example.com (optional)
 
+    voluntary_but_public: "freiwillige Angabe, für jeden sichtbar"
+
