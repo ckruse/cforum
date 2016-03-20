@@ -187,6 +187,10 @@ module RightsHelper
 
     return false
   end
+
+  def may_read?(message, user = current_user)
+    message.forum.read?(user) and (not message.deleted or message.forum.moderator?(user))
+  end
 end
 
 ApplicationController.extend RightsHelper
