@@ -23,9 +23,15 @@ unless cite.archived?
                end
 end
 
+gen_link = (not cite.url.blank? and (cite.message_id.blank? or may_read?(cite.message)))
+
 %><article class="thread-message cite">
   <header class="message">
     <h2><%= cf_link_to t('cites.cite', id: cite.cite_id), cite_path(cite) %></h2>
+
+    <% if gen_link %>
+      <div class="origin"><%= cf_link_to cite.message_id.blank? ? cite.url : cite.message.subject, cite.url %></div>
+    <% end %>
 
     <div class="details">
       <span class="author">
@@ -33,19 +39,21 @@ end
           <span class="registered-user">
             <%= cf_link_to image_tag(cite.user.avatar(:thumb)), user_path(cite.user) %>
           </span>
-        <% end %>
 
-        <%= cf_link_to cite.author, cite_path(cite) %>
+          <%= cf_link_to cite.author, cite_path(cite) %>
+        <% else %>
+          <%= cite.author %>
+        <% end %>
       </span>
 
       <time datetime="<%= cite.cite_date.strftime("%FT%T%:z") %>">
-        <%= cf_link_to l(cite.cite_date, format: uconf('date_format_date')), cite_path(cite) %>
+        <% if gen_link %>
+          <%= cf_link_to l(cite.cite_date, format: uconf('date_format_date')), cite_path(cite) %>
+        <% else %>
+          <%= l(cite.cite_date, format: uconf('date_format_date')) %>
+        <% end %>
       </time>
     </div>
-
-    <% if not cite.url.blank? and (cite.message_id.blank? or @forums.include?(cite.message.forum)) %>
-      <div class="origin"><%= cf_link_to cite.message_id.blank? ? cite.url : cite.message.subject, cite.url %></div>
-    <% end %>
   </header>
 
   <% if not current_user.blank? and not cite.archived? %>
@@ -74,7 +82,7 @@ end
         <% if not cite.creator_user_id.blank? %>
           <span class="registered-user">
             <%= cf_link_to image_tag(cite.creator_user.avatar(:thumb)), user_path(cite.creator_user) %>
-            <%= cite.creator %>
+            <%= cf_link_to cite.creator, user_path(cite.creator_user) %>
           </span>
         <% else %>
           <span class="icon-message original-poster"><%= cite.creator %></span>
