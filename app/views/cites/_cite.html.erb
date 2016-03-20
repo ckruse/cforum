@@ -40,7 +40,7 @@ gen_link = (not cite.url.blank? and (cite.message_id.blank? or may_read?(cite.me
             <%= cf_link_to image_tag(cite.user.avatar(:thumb)), user_path(cite.user) %>
           </span>
 
-          <%= cf_link_to cite.author, cite_path(cite) %>
+          <%= cf_link_to cite.author, user_path(cite) %>
         <% else %>
           <%= cite.author %>
         <% end %>
@@ -48,7 +48,7 @@ gen_link = (not cite.url.blank? and (cite.message_id.blank? or may_read?(cite.me
 
       <time datetime="<%= cite.cite_date.strftime("%FT%T%:z") %>">
         <% if gen_link %>
-          <%= cf_link_to l(cite.cite_date, format: uconf('date_format_date')), cite_path(cite) %>
+          <%= cf_link_to l(cite.cite_date, format: uconf('date_format_date')), cite.url %>
         <% else %>
           <%= l(cite.cite_date, format: uconf('date_format_date')) %>
         <% end %>
