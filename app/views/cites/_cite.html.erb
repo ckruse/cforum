@@ -40,7 +40,7 @@ gen_link = (not cite.url.blank? and (cite.message_id.blank? or may_read?(cite.me
             <%= cf_link_to image_tag(cite.user.avatar(:thumb)), user_path(cite.user) %>
           </span>
 
-          <%= cf_link_to cite.author, user_path(cite) %>
+          <%= cf_link_to cite.author, user_path(cite.user) %>
         <% else %>
           <%= cite.author %>
         <% end %>
