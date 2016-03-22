@@ -27,6 +27,7 @@ class ApplicationController < ActionController::Base
                 :check_authorizations, :set_css, :set_motd,
                 :set_own_files, :set_title_infos
   after_filter :store_location
+  after_filter -> { flash.discard }, if: -> { request.xhr? } # clear flash for AJAX actions
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
