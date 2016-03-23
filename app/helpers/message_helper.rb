@@ -194,7 +194,7 @@ module MessageHelper
     elsif message.user_id
       html << cf_link_to(message.author, user_path(message.user_id))
     else
-      html << message.author
+      html << message.author.to_s
     end
 
     html << '</span>' if message.user_id
