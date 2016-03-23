@@ -130,6 +130,7 @@ i.icon-thread {
 .author-email {
   @extend .fa;
   @extend .fa-envelope;
+  vertical-align: 1px;
 }
 
 .author-homepage {
