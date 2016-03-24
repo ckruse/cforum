@@ -129,7 +129,9 @@ cforum.cf_threads = {
     }
 
     if(uconf('load_messages_via_js') != 'no') {
-      cforum.cf_threads.showNewThread(message);
+      window.setTimeout(function() {
+        cforum.cf_threads.showNewThread(message);
+      }, 500);
     }
 
     cforum.cf_threads.showNewAlert();
@@ -156,10 +158,12 @@ cforum.cf_threads = {
           (cforum.currentForum ? cforum.currentForum.slug : 'all') +
           message.thread.slug;
 
-    $.get(url, function(data) {
-      thread.replaceWith(data);
-      cforum.updateTitle();
-    });
+    window.setTimeout(function() {
+      $.get(url, function(data) {
+        thread.replaceWith(data);
+        cforum.updateTitle();
+      });
+    }, 500);
   },
 
   newMessageArriving: function(message) {
