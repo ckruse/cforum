@@ -18,7 +18,7 @@ module Peon
       end
 
       def root_url
-        'http://' + ActionMailer::Base.default_url_options[:host] + root_path
+        (ActionMailer::Base.default_url_options[:protocol] || 'http') + '://' + ActionMailer::Base.default_url_options[:host] + root_path
       end
 
       def give_badge(user, badge)
