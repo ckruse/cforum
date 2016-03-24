@@ -72,6 +72,4 @@ gem 'unicorn', group: :production
 
 gem 'socket.io-rails'
 
-gem 'dalli'
-
 # eof

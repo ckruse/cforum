@@ -69,7 +69,6 @@ GEM
     concurrent-ruby (1.0.1)
     content_for_in_controllers (0.0.2)
     daemons (1.2.3)
-    dalli (2.7.6)
     database_cleaner (1.5.1)
     devise (3.5.6)
       bcrypt (~> 3.0)
@@ -141,10 +140,12 @@ GEM
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.10)
-    mail (2.6.3)
-      mime-types (>= 1.16, < 3)
+    mail (2.6.4)
+      mime-types (>= 1.16, < 4)
     method_source (0.8.2)
-    mime-types (2.99.1)
+    mime-types (3.0)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2016.0221)
     mimemagic (0.3.0)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
@@ -277,9 +278,8 @@ GEM
     tilt (2.0.2)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uglifier (2.7.2)
-      execjs (>= 0.3.0)
-      json (>= 1.8.0)
+    uglifier (3.0.0)
+      execjs (>= 0.3.0, < 3)
     unicorn (5.0.1)
       kgio (~> 2.6)
       rack
@@ -308,7 +308,6 @@ DEPENDENCIES
   coffee-rails
   content_for_in_controllers
   daemons
-  dalli
   database_cleaner
   devise
   devise-i18n
