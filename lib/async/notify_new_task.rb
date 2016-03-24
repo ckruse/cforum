@@ -87,11 +87,16 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     end
   end
 
+  def may_read?(message, user)
+    message.forum.read?(user) and (not message.deleted or message.forum.moderator?(user))
+  end
+
   def notify_mention(user)
     Rails.logger.debug "found mention of user: #{user.inspect}"
 
     cfg = uconf('notify_on_mention', user, @thread.forum)
 
+    return unless may_read?(@message, user)
     return if user.user_id == @message.user_id
     return if cfg == 'no'
     return if CfNotification.where(recipient_id: user.user_id,
