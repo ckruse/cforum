@@ -30,6 +30,12 @@ controls ||= :yes
   <% end %>
 
   <div class="message-links">
+    <% unless m.cite.blank? %>
+      <p class="message-cite"><%= t('messages.this_message_got_cited',
+                                    link: cf_link_to(t('cites.cite', id: m.cite.cite_id),
+                                                     cite_path(m.cite))).html_safe %></p>
+    <% end %>
+
     <% if not m.flags['flattr_id'].blank? %>
       <p class="flattr">
         <%= t('layout.flattr_author') %>
@@ -158,12 +164,6 @@ controls ||= :yes
         </li>
       <% end %>
     </ul>
-  <% end %>
-
-  <% unless m.cite.blank? %>
-    <p class="message-cite"><%= t('messages.this_message_got_cited',
-                                  link: cf_link_to(t('cites.cite', id: m.cite.cite_id),
-                                                   cite_path(m.cite))).html_safe %></p>
   <% end %>
 
   <% if controls == :yes %>

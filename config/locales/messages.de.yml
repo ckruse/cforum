@@ -91,7 +91,7 @@ de:
 
     error_present: muss angegeben werden (mindestens %{min}, maximal %{max} Zeichen).
 
-    this_message_got_cited: "Diese Nachricht wurde im %{link} zitiert."
+    this_message_got_cited: "Grundlage für %{link}"
 
     close_vote:
       agreeing: Sehe ich auch so
