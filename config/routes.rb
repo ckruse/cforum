@@ -15,6 +15,8 @@ Cforum::Application.routes.draw do
         as: :new_user_registration
   end
 
+  get '/m:id' => 'cf_forums#message_redirect', id: /\d+/
+
   get "/search" => "cf_search#show", as: :search
   post "/search" => "cf_search#show"
 

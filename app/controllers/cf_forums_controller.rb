@@ -193,6 +193,10 @@ class CfForumsController < ApplicationController
     }
   end
 
+  def message_redirect
+    msg = CfMessage.preload(thread: :forum).find(params[:id])
+    redirect_to cf_message_url(msg.thread, msg)
+  end
 
   private
 
