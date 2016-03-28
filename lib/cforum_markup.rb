@@ -12,26 +12,31 @@ module CforumMarkup
     code_open = 0
     in_quote = 0
     in_math = false
+    consecutive_newlines = 0
 
     while !doc.eos?
       if doc.scan(/<br \/>-- <br \/>/)
         ncnt << "\n-- \n"
         in_quote = 0
+        consecutive_newlines = 1
 
       elsif doc.scan(/\$\$/)
         in_math = !in_math
         ncnt << doc.matched
+        consecutive_newlines = 0
 
       elsif doc.scan(/(<br \/>|^)([\s ]*)#/)
         if $1 == "<br />"
           ncnt << "\n"
           in_quote = 0
+          consecutive_newlines += 1
         end
 
         ncnt << $2.to_s + (code_open > 0 ? "#" : '\\#')
 
-      elsif doc.scan(/(?:<br \/>)+/)
+      elsif doc.scan(/<br \/>/)
         in_quote = 0
+        consecutive_newlines += 1
 
         if doc.matched.length / 6 > 1
           ncnt << "\n" * (doc.matched.length / 6)
@@ -46,8 +51,11 @@ module CforumMarkup
       elsif doc.scan(/(-{2,})|\*|_/)
         ncnt << '\\' if code_open <= 0 and not in_math
         ncnt << doc.matched
+        consecutive_newlines = 0
 
       elsif doc.scan(/<img[^>]+>/)
+        consecutive_newlines = 0
+
         data = doc.matched
         alt = ""
         src = ""
@@ -84,6 +92,7 @@ module CforumMarkup
         if directive.blank?
           ncnt << "[#{directive}#{colon}"
           doc.pos = save
+          consecutive_newlines = 0
           next
         end
 
@@ -91,6 +100,7 @@ module CforumMarkup
         if doc.eos? and no_end
           ncnt << "[#{directive}#{colon}"
           doc.pos = save
+          consecutive_newlines = 0
           next
         end
 
@@ -100,6 +110,7 @@ module CforumMarkup
           if val.blank?
             ncnt << "[#{directive}#{colon}"
             doc.pos = save
+            consecutive_newlines = 0
             next
           end
 
@@ -113,20 +124,27 @@ module CforumMarkup
 
         when 'code'
           if code_open <= 0
-            val = '~~~'
+            val = if consecutive_newlines < 2
+                    "\n" + ("> " * in_quote) + "\n" + ("> " * in_quote) + "~~~"
+                  else
+                    #raise "ho" + consecutive_newlines.inspect + "\n" + ncnt.inspect if ncnt =~ /&quot;valider&quot;\?\n\n~~~/
+                    '~~~'
+                  end
 
             unless content.blank?
               _, lang = content.split(/=/, 2)
               val << ' ' + lang unless lang.blank?
             end
 
-            doc.scan(/<br \/>/)
+            doc.scan(/\s*<br \/>/)
 
             ncnt << val + "\n"
           end
 
           code_open += 1
         end
+
+        consecutive_newlines = 0
 
       elsif doc.scan(/\[code\]/)
         ncnt << "~~~" if code_open <= 0
@@ -151,9 +169,10 @@ module CforumMarkup
 
     cnt = ''
     ncnt.lines.each_with_index do |l,i|
+
       if l =~ /^(?:(> )*)~~~/ and i > 0
         q = $1
-        if ncnt.lines[i - 1] != ~ /^(> )*$/
+        if ncnt.lines[i - 1] !~ /^(> )*$/
           cnt << "#{q}\n"
         end
       end
@@ -161,10 +180,10 @@ module CforumMarkup
       cnt << l
     end
 
-    cnt.gsub!(/^[[:space:]]+~~~/, "~~~")
+    cnt.gsub!(/^[[:blank:]]+~~~/, "~~~")
     cnt.gsub!(/~~~\n(.*)\n~~~/, '`\1`')
-    cnt.gsub!(/~~~[[:space:]]*(\w+)\n(.*)\n~~~/, '`\2`{: .language-\1}')
-    cnt.gsub!(/(?<!\n\n)~~~(.*?)~~~/m, "\n\n~~~\\1~~~")
+    cnt.gsub!(/~~~[[:blank:]]*(\w+)\n(.*)\n~~~/, '`\2`{: .language-\1}')
+    #cnt.gsub!(/(?<!\n\n)~~~(.*?)~~~/m, "\n\n~~~\\1~~~")
 
     coder.decode(cnt)
   end
