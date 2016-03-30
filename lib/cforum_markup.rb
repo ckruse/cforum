@@ -13,6 +13,7 @@ module CforumMarkup
     in_quote = 0
     in_math = false
     consecutive_newlines = 0
+    code_stack = []
 
     while !doc.eos?
       if doc.scan(/<br \/>-- <br \/>/)
@@ -136,9 +137,11 @@ module CforumMarkup
               val << ' ' + lang unless lang.blank?
             end
 
-            doc.scan(/\s*<br \/>/)
+            val << "\n"
+            val << ("> " * in_quote) unless doc.scan(/\s*<br \/>/)
 
-            ncnt << val + "\n"
+            code_stack << [ncnt, val, lang]
+            ncnt = ''
           end
 
           code_open += 1
@@ -152,8 +155,16 @@ module CforumMarkup
 
       elsif doc.scan(/\[\/code\]/)
         if code_open > 0
+          top = code_stack.pop
+
+          if ncnt =~ /\n/
+            ncnt = top[0] + top[1] + ncnt + "\n" + ("> " * in_quote) + "~~~"
+          else
+            ncnt = top[0] + "`" + ncnt + "`"
+            ncnt << '{:.language-' + top[2] + '}' unless top[2].blank?
+          end
+
           code_open -= 1
-          ncnt << "\n" + ("> " * in_quote) + "~~~"
         else
           ncnt << '[/code]'
         end
@@ -167,9 +178,15 @@ module CforumMarkup
       end
     end
 
+    # broken cforum markup
+    unless code_stack.blank?
+      while top = code_stack.pop
+        ncnt = top[0] + '[code' + (top[2].blank? ? ']' : ' lang=' + top[2] + ']') + ncnt
+      end
+    end
+
     cnt = ''
     ncnt.lines.each_with_index do |l,i|
-
       if l =~ /^(?:(> )*)~~~/ and i > 0
         q = $1
         if ncnt.lines[i - 1] !~ /^(> )*$/
