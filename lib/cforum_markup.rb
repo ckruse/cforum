@@ -157,11 +157,13 @@ module CforumMarkup
         if code_open > 0
           top = code_stack.pop
 
-          if ncnt =~ /\n/
-            ncnt = top[0] + top[1] + ncnt + "\n" + ("> " * in_quote) + "~~~"
-          else
-            ncnt = top[0] + "`" + ncnt + "`"
-            ncnt << '{:.language-' + top[2] + '}' unless top[2].blank?
+          if not top.blank? # broken markup
+            if ncnt =~ /\n/
+              ncnt = top[0] + top[1] + ncnt + "\n" + ("> " * in_quote) + "~~~"
+            else
+              ncnt = top[0] + "`" + ncnt + "`"
+              ncnt << '{:.language-' + top[2] + '}' unless top[2].blank?
+            end
           end
 
           code_open -= 1
