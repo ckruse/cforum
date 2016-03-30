@@ -149,10 +149,6 @@ module CforumMarkup
 
         consecutive_newlines = 0
 
-      elsif doc.scan(/\[code\]/)
-        ncnt << "~~~" if code_open <= 0
-        code_open += 1
-
       elsif doc.scan(/\[\/code\]/)
         if code_open > 0
           top = code_stack.pop
