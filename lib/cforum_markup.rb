@@ -3,10 +3,10 @@
 require 'strscan'
 
 module CforumMarkup
-  def cforum2markdown(content)
-    content = content.gsub(/&#160;/, ' ')
-    content.gsub!(/\[\/?latex\]/, '$$')
-    doc = StringScanner.new(content)
+  def cforum2markdown(document_content)
+    document_content = document_content.gsub(/&#160;/, ' ')
+    document_content.gsub!(/\[\/?latex\]/, '$$')
+    doc = StringScanner.new(document_content)
     ncnt = ''
     coder = HTMLEntities.new
     code_open = 0
