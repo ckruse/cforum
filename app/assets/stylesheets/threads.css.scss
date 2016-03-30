@@ -21,13 +21,21 @@ a:visited:hover, a:visited:hover {
   color: #990909;
 }
 
-a.thread-forum-plate {
+@mixin thread-forum-plate {
   font-size: 90%;
   font-weight: bold;
   background-color: #9AAAB3;
   border-radius: 0 .3em .3em;
   padding: .2em .6em .15em;
+}
 
+span.thread-forum-plate {
+  @include thread-forum-plate;
+  color: #fff;
+}
+
+a.thread-forum-plate {
+  @include thread-forum-plate;
   &:link,
   &:visited {
     color: #fff;
