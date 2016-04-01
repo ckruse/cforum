@@ -4,8 +4,8 @@ require "rails_helper"
 
 describe CfMessages::VoteController do
   context "authorized user" do
-    let(:user) { create(:cf_user) }
-    let(:user1) { create(:cf_user) }
+    let(:user) { create(:user) }
+    let(:user1) { create(:user) }
     let(:score) { CfScore.create!(user_id: user.user_id, value: 10)}
     let(:message) { create(:cf_message, owner: user1) }
     let(:badges) do

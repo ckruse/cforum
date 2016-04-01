@@ -3,8 +3,8 @@
 require "rails_helper"
 
 describe CfMessages::AcceptController do
-  let(:user) { create(:cf_user) }
-  let(:user1) { create(:cf_user) }
+  let(:user) { create(:user) }
+  let(:user1) { create(:user) }
   let(:message) { create(:cf_message, owner: user1) }
   let(:message1) { create(:cf_message, owner: user) }
 

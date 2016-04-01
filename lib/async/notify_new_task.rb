@@ -128,7 +128,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
       mentions.each do |mention|
         next if mention.third # ignore mentions in cites
 
-        user = CfUser.find(mention.second)
+        user = User.find(mention.second)
         notify_mention(user)
       end
     end

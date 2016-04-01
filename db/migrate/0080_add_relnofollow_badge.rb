@@ -9,7 +9,7 @@ class AddRelnofollowBadge < ActiveRecord::Migration
                       badge_medal_type: 'bronze',
                       description: I18n.t('badges.default_descs.seo_profi'))
 
-    users = CfUser.where('(SELECT SUM(value) FROM scores WHERE user_id = users.user_id) >= 700')
+    users = User.where('(SELECT SUM(value) FROM scores WHERE user_id = users.user_id) >= 700')
     users.each do |u|
       b.users << u
 

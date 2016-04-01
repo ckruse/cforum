@@ -7,8 +7,8 @@ class CfMessage < ActiveRecord::Base
   self.primary_key = 'message_id'
   self.table_name  = 'messages'
 
-  belongs_to :owner, class_name: 'CfUser', foreign_key: :user_id
-  belongs_to :editor, class_name: 'CfUser', foreign_key: :editor_id
+  belongs_to :owner, class_name: 'User', foreign_key: :user_id
+  belongs_to :editor, class_name: 'User', foreign_key: :editor_id
   belongs_to :thread, class_name: 'CfThread', foreign_key: :thread_id
   belongs_to :forum, class_name: 'CfForum', foreign_key: :forum_id
   belongs_to :parent, class_name: 'CfMessage', foreign_key: :parent_id

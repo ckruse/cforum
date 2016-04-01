@@ -331,7 +331,7 @@ module MessageHelper
     if not author.blank?
       @message.author = author
     elsif not @message.author.blank?
-      unless CfUser.where('LOWER(username) = LOWER(?)', @message.author.strip).first.blank?
+      unless User.where('LOWER(username) = LOWER(?)', @message.author.strip).first.blank?
         flash.now[:error] = I18n.t('errors.name_taken')
         return false
       end

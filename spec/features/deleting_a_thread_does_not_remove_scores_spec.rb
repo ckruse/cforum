@@ -7,7 +7,7 @@ Warden.test_mode!
 
 describe "deleting a thread" do
   let(:message) { create(:cf_message) }
-  let(:user) { create(:cf_user) }
+  let(:user) { create(:user) }
   let(:vote) do
     CfVote.create!(user_id: user.user_id,
                    message_id: message.message_id,

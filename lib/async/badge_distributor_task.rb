@@ -63,7 +63,7 @@ module Peon
       end
 
       def run_periodical(args)
-        CfUser.order(:user_id).all.each do |u|
+        User.order(:user_id).all.each do |u|
           check_for_yearling_badges(u)
         end
       end

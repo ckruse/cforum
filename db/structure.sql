@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.1
--- Dumped by pg_dump version 9.5.1
+-- Dumped from database version 9.5.2
+-- Dumped by pg_dump version 9.5.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -578,6 +578,37 @@ ALTER SEQUENCE auditing_auditing_id_seq OWNED BY auditing.auditing_id;
 
 
 --
+-- Name: badge_groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE badge_groups (
+    badge_group_id integer NOT NULL,
+    name text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: badge_groups_badge_group_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE badge_groups_badge_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: badge_groups_badge_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE badge_groups_badge_group_id_seq OWNED BY badge_groups.badge_group_id;
+
+
+--
 -- Name: badges; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -593,6 +624,36 @@ CREATE TABLE badges (
     badge_type character varying(250) NOT NULL,
     "order" integer DEFAULT 0 NOT NULL
 );
+
+
+--
+-- Name: badges_badge_groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE badges_badge_groups (
+    badges_badge_group_id integer NOT NULL,
+    badge_group_id integer NOT NULL,
+    badge_id integer NOT NULL
+);
+
+
+--
+-- Name: badges_badge_groups_badges_badge_group_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE badges_badge_groups_badges_badge_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: badges_badge_groups_badges_badge_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE badges_badge_groups_badges_badge_group_id_seq OWNED BY badges_badge_groups.badges_badge_group_id;
 
 
 --
@@ -1738,10 +1799,24 @@ ALTER TABLE ONLY auditing ALTER COLUMN auditing_id SET DEFAULT nextval('auditing
 
 
 --
+-- Name: badge_group_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY badge_groups ALTER COLUMN badge_group_id SET DEFAULT nextval('badge_groups_badge_group_id_seq'::regclass);
+
+
+--
 -- Name: badge_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges ALTER COLUMN badge_id SET DEFAULT nextval('badges_badge_id_seq'::regclass);
+
+
+--
+-- Name: badges_badge_group_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY badges_badge_groups ALTER COLUMN badges_badge_group_id SET DEFAULT nextval('badges_badge_groups_badges_badge_group_id_seq'::regclass);
 
 
 --
@@ -1974,6 +2049,22 @@ ALTER TABLE ONLY votes ALTER COLUMN vote_id SET DEFAULT nextval('votes_vote_id_s
 
 ALTER TABLE ONLY auditing
     ADD CONSTRAINT auditing_pkey PRIMARY KEY (auditing_id);
+
+
+--
+-- Name: badge_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY badge_groups
+    ADD CONSTRAINT badge_groups_pkey PRIMARY KEY (badge_group_id);
+
+
+--
+-- Name: badges_badge_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY badges_badge_groups
+    ADD CONSTRAINT badges_badge_groups_pkey PRIMARY KEY (badges_badge_group_id);
 
 
 --
@@ -2820,6 +2911,22 @@ ALTER TABLE ONLY auditing
 
 
 --
+-- Name: badges_badge_groups_badge_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY badges_badge_groups
+    ADD CONSTRAINT badges_badge_groups_badge_group_id_fkey FOREIGN KEY (badge_group_id) REFERENCES badge_groups(badge_group_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: badges_badge_groups_badge_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY badges_badge_groups
+    ADD CONSTRAINT badges_badge_groups_badge_id_fkey FOREIGN KEY (badge_id) REFERENCES badges(badge_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: badges_users_badge_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3434,4 +3541,6 @@ INSERT INTO schema_migrations (version) VALUES ('88');
 INSERT INTO schema_migrations (version) VALUES ('89');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
+
+INSERT INTO schema_migrations (version) VALUES ('90');
 

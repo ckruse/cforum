@@ -29,7 +29,7 @@ class Admin::CfGroupsController < ApplicationController
     @forums = CfForum.all
 
     @users = []
-    @users = CfUser.find(params[:users]) unless params[:users].blank?
+    @users = User.find(params[:users]) unless params[:users].blank?
 
     @forums_groups_permissions = []
     if not params[:forums].blank? and not params[:permissions].blank?
@@ -77,7 +77,7 @@ class Admin::CfGroupsController < ApplicationController
     @forums = CfForum.all
 
     @users = []
-    @users = CfUser.find(params[:users]) unless params[:users].blank?
+    @users = User.find(params[:users]) unless params[:users].blank?
 
     @forums_groups_permissions = []
     if not params[:forums].blank? and not params[:permissions].blank?

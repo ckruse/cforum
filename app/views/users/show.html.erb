@@ -23,7 +23,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
           <td><%= number_with_delimiter(@messages_count) %></td>
         </tr>
         <% if current_user == @user %><tr>
-          <th><%= CfUser.human_attribute_name("email") %>:</th>
+          <th><%= User.human_attribute_name("email") %>:</th>
           <td><%= @user.email %> <em>(<%= t('global.only_visible_for_you') %>)</em></td>
         </tr><% end %>
         <tr>

@@ -38,7 +38,7 @@ de:
     models:
       cf_message: Nachricht
       cf_thread: Thread
-      cf_user: Benutzer
+      user: Benutzer
       cf_forum: Forum
       cf_close_vote: Sperr-Abstimmung
       badge: Abzeichen
@@ -65,7 +65,7 @@ de:
         description: Beschreibung
         keywords: Schlagworte
 
-      cf_user:
+      user:
         username: Benutzername
         email: E-Mail
         admin: Administrator

@@ -20,7 +20,7 @@ module MentionsHelper
         next if not last_char.blank? and last_char =~ /[a-zäöüß0-9_.@-]/
         nick = doc[1].strip[0..60]
 
-        while nick.length > 2 and (user = CfUser.where(username: nick).first).blank?
+        while nick.length > 2 and (user = User.where(username: nick).first).blank?
           unless nick.gsub!(/[^\w]+$/, "")
             nick.gsub!(/\s*\w+$/, '')
           end

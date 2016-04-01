@@ -1,21 +1,21 @@
 # -*- encoding: utf-8 -*-
 
-class Admin::CfUsersController < ApplicationController
+class Admin::UsersController < ApplicationController
   authorize_controller { authorize_admin }
 
   before_filter :load_resource
 
   def load_resource
-    @user = CfUser.find(params[:id]) if params[:id]
+    @user = User.find(params[:id]) if params[:id]
   end
 
   def index
     @limit = conf('pagination_users').to_i
 
     if params[:s].blank?
-      @users = CfUser
+      @users = User
     else
-      @users = CfUser.where('LOWER(username) LIKE LOWER(?)', '%' + params[:s].strip + '%')
+      @users = User.where('LOWER(username) LIKE LOWER(?)', '%' + params[:s].strip + '%')
       @search_term = params[:s]
     end
 
@@ -33,7 +33,7 @@ class Admin::CfUsersController < ApplicationController
   end
 
   def user_params
-    params.require(:cf_user).permit(:username, :email, :password, :active, :admin)
+    params.require(:user).permit(:username, :email, :password, :active, :admin)
   end
 
   def update
@@ -45,11 +45,11 @@ class Admin::CfUsersController < ApplicationController
   end
 
   def new
-    @user = CfUser.new
+    @user = User.new
   end
 
   def create
-    @user = CfUser.new(user_params)
+    @user = User.new(user_params)
     audit(@user, 'create')
 
     if @user.save

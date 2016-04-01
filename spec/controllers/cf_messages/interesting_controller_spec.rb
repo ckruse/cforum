@@ -4,7 +4,7 @@ require "rails_helper"
 
 describe CfMessages::InterestingController do
   let(:message) { create(:cf_message) }
-  let(:user) { create(:cf_user) }
+  let(:user) { create(:user) }
 
   it "should mark interesting" do
     sign_in user

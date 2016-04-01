@@ -54,8 +54,8 @@ RSpec.describe CfPrivMessage, type: :model do
                            sender_id: 1,
                            recipient_id: 2,
                            owner_id: 1)
-    expect(pm.partner_id(build(:cf_user, user_id: 1))).to eq 2
-    expect(pm.partner_id(build(:cf_user, user_id: 2))).to eq 1
+    expect(pm.partner_id(build(:user, user_id: 1))).to eq 2
+    expect(pm.partner_id(build(:user, user_id: 2))).to eq 1
   end
 end
 

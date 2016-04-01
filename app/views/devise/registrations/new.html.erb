@@ -19,22 +19,22 @@ content_for(:h1, t('devise.sign_up'))
   <% end %>
 
   <div class="cf-cgroup">
-    <%= negative_label_tag(@captcha, :username, CfUser.human_attribute_name(:username)) %>
+    <%= negative_label_tag(@captcha, :username, User.human_attribute_name(:username)) %>
     <div class="cntrls"><%= negative_text_field_tag(@captcha, :username, placeholder: t("layout.placeholders.username")) %></div>
   </div>
 
   <div class="cf-cgroup">
-    <%= negative_label_tag(@captcha, :email, CfUser.human_attribute_name(:email)) %>
+    <%= negative_label_tag(@captcha, :email, User.human_attribute_name(:email)) %>
     <div class="cntrls"><%= negative_text_field_tag(@captcha, :email, placeholder: t("layout.placeholders.email"), type: 'email') %></div>
   </div>
 
   <div class="cf-cgroup">
-    <%= negative_label_tag(@captcha, :password, CfUser.human_attribute_name(:password)) %>
+    <%= negative_label_tag(@captcha, :password, User.human_attribute_name(:password)) %>
     <div class="cntrls"><%= negative_text_field_tag(@captcha, :password, type: 'password') %></div>
   </div>
 
   <div class="cf-cgroup">
-    <%= negative_label_tag(@captcha, :password_confirmation, CfUser.human_attribute_name(:password_confirmation)) %>
+    <%= negative_label_tag(@captcha, :password_confirmation, User.human_attribute_name(:password_confirmation)) %>
     <div class="cntrls"><%= negative_text_field_tag(@captcha, :password_confirmation, type: 'password') %></div>
   </div>
 

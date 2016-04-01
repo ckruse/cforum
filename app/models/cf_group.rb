@@ -5,7 +5,7 @@ class CfGroup < ActiveRecord::Base
   self.table_name  = 'groups'
 
   has_many :groups_users, class_name: 'CfGroupUser', foreign_key: :group_id, dependent: :destroy
-  has_many :users, class_name: 'CfUser', through: :groups_users
+  has_many :users, through: :groups_users
 
   has_many :forums_groups_permissions, class_name: 'CfForumGroupPermission', foreign_key: :group_id, dependent: :destroy
 

@@ -4,7 +4,7 @@ class CfNotification < ActiveRecord::Base
   self.primary_key = 'notification_id'
   self.table_name  = 'notifications'
 
-  belongs_to :recipient, class_name: 'CfUser', foreign_key: :recipient_id
+  belongs_to :recipient, class_name: 'User', foreign_key: :recipient_id
 
   validates :subject, presence: true, length: {in: 2..250}
   validates :path, presence: true, length: {in: 5..250}

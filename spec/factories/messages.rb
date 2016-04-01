@@ -12,7 +12,7 @@ FactoryGirl.define do
     deleted false
 
     association :thread, factory: :cf_thread
-    association :owner, factory: :cf_user
+    association :owner, factory: :user
     forum {|m| m.thread.forum}
   end
 end

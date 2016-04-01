@@ -6,7 +6,7 @@ module InvisibleHelper
     thread = [thread] unless thread.is_a?(Array)
 
     thread = thread.map { |t| t.is_a?(CfThread) ? t.thread_id : t.to_i }
-    user_id = user.is_a?(CfUser) ? user.user_id : user
+    user_id = user.is_a?(User) ? user.user_id : user
 
     sql = "INSERT INTO invisible_threads (user_id, thread_id) VALUES (" + user_id.to_s + ", "
 
@@ -25,7 +25,7 @@ module InvisibleHelper
     thread = [thread] unless thread.is_a?(Array)
 
     thread = thread.map { |t| t.is_a?(CfThread) ? t.thread_id : t.to_i }
-    user_id = user.is_a?(CfUser) ? user.user_id : user
+    user_id = user.is_a?(User) ? user.user_id : user
 
     sql = "DELETE FROM invisible_threads WHERE user_id = " +
           user_id.to_s + " AND thread_id = "
@@ -43,7 +43,7 @@ module InvisibleHelper
     thread = [thread] if not thread.is_a?(Array) and not thread.is_a?(ActiveRecord::Relation)
     thread = thread.map {|t| t.is_a?(CfThread) ? t.thread_id : t.to_i}
 
-    user_id = user.is_a?(CfUser) ? user.user_id : user
+    user_id = user.is_a?(User) ? user.user_id : user
 
     new_cache = {}
     cache = get_cached_entry(:invisible, user_id) || {}

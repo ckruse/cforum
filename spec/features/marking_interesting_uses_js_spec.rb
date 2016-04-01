@@ -7,7 +7,7 @@ Warden.test_mode!
 
 describe "marking as interesting uses JS" do
   let(:message) { create(:cf_message) }
-  let(:user) { create(:cf_user) }
+  let(:user) { create(:user) }
 
   before(:each) { login_as(user , scope: :user) }
 

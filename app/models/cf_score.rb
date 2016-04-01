@@ -4,7 +4,7 @@ class CfScore < ActiveRecord::Base
   self.primary_key = 'score_id'
   self.table_name  = 'scores'
 
-  belongs_to :user, class_name: 'CfUser'
+  belongs_to :user
   belongs_to :vote, class_name: 'CfVote'
   belongs_to :message, class_name: 'CfMessage'
 

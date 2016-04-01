@@ -3,7 +3,7 @@ en:
     models:
       cf_message: Message
       cf_thread: Thread
-      cf_user: User
+      user: User
       cf_forum: Forum
 
     attributes:

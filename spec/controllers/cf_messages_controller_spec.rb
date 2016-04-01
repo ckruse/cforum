@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe CfMessagesController, type: :controller do
-  let(:admin) { create(:cf_user_admin) }
+  let(:admin) { create(:user_admin) }
   let(:message) { create(:cf_message) }
   let(:tag) { create(:cf_tag, forum: message.forum) }
 
@@ -159,7 +159,7 @@ RSpec.describe CfMessagesController, type: :controller do
     end
 
     it "redirects when trying to edit as wrong user" do
-      user1 = create(:cf_user)
+      user1 = create(:user)
       sign_in user1
       get :edit, message_params_from_slug(message)
       expect(response).to redirect_to cf_message_url(message.thread, message)
@@ -201,7 +201,7 @@ RSpec.describe CfMessagesController, type: :controller do
     end
 
     it "renders new when wrong user" do
-      user1 = create(:cf_user)
+      user1 = create(:user)
       sign_in user1
       post :update, message_params_from_slug(message).merge(cf_message: message.attributes,
                                                             tags: ['rebellion'])

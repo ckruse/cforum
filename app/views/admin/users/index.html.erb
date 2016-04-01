@@ -10,12 +10,12 @@ content_for :h1, t('admin.users.user_administration')
 <table class="cf-default-table">
   <thead>
     <tr>
-      <th><%= sortable CfUser.human_attribute_name(:username), :username, :admin_users_path %></th>
-      <th><%= sortable CfUser.human_attribute_name(:email), :email, :admin_users_path %></th>
-      <th><%= sortable CfUser.human_attribute_name(:admin), :admin, :admin_users_path %></th>
-      <th><%= sortable CfUser.human_attribute_name(:active), :active, :admin_users_path %></th>
-      <th><%= sortable CfUser.human_attribute_name(:created_at), :created_at, :admin_users_path %></th>
-      <th><%= sortable CfUser.human_attribute_name(:updated_at), :updated_at, :admin_users_path %></th>
+      <th><%= sortable User.human_attribute_name(:username), :username, :admin_users_path %></th>
+      <th><%= sortable User.human_attribute_name(:email), :email, :admin_users_path %></th>
+      <th><%= sortable User.human_attribute_name(:admin), :admin, :admin_users_path %></th>
+      <th><%= sortable User.human_attribute_name(:active), :active, :admin_users_path %></th>
+      <th><%= sortable User.human_attribute_name(:created_at), :created_at, :admin_users_path %></th>
+      <th><%= sortable User.human_attribute_name(:updated_at), :updated_at, :admin_users_path %></th>
       <th> </th>
     </tr>
   </thead>

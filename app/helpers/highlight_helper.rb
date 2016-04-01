@@ -61,12 +61,12 @@ module HighlightHelper
   end
 
   def highlight_showing_settings(user)
-    @highlighted_users_list = CfUser.where(username: user.conf('highlighted_users').split(/\s*,\s*/))
+    @highlighted_users_list = User.where(username: user.conf('highlighted_users').split(/\s*,\s*/))
   end
 
   def highlight_saving_settings(settings)
     unless settings.options["highlighted_users"].blank?
-      users = CfUser.where(user_id: JSON.parse(settings.options["highlighted_users"]))
+      users = User.where(user_id: JSON.parse(settings.options["highlighted_users"]))
       settings.options["highlighted_users"] = (users.map {|u| u.username}).join(",")
     end
   end

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 FactoryGirl.define do
-  factory :cf_user do
+  factory :user do
     username
     email
     password "some password"
@@ -11,11 +11,11 @@ FactoryGirl.define do
     confirmed_at DateTime.now
   end
 
-  factory :cf_user_admin, parent: :cf_user do
+  factory :user_admin, parent: :user do
     admin true
   end
 
-  factory :cf_user_moderator, parent: :cf_user do
+  factory :user_moderator, parent: :user do
     badges { [create(:badge, badge_type: RightsHelper::MODERATOR_TOOLS)] }
   end
 end

@@ -7,7 +7,7 @@ class CfCiteVote < ActiveRecord::Base
   self.primary_key = 'cite_vote_id'
   self.table_name  = 'cites_votes'
 
-  belongs_to :user, class_name: 'CfUser'
+  belongs_to :user
   belongs_to :cite, class_name: 'CfCite'
 
   validates_presence_of :user_id

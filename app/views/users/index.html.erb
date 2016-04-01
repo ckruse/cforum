@@ -4,16 +4,16 @@ content_for :h1, t('users.users')
 %>
 
 <form class="form-search">
-  <input name="s" value="<%= @search_term %>" type="text" placeholder="<%= CfUser.human_attribute_name(:username) %>" class="cf-search-query">
+  <input name="s" value="<%= @search_term %>" type="text" placeholder="<%= User.human_attribute_name(:username) %>" class="cf-search-query">
 </form>
 
 <table class="cf-default-table">
   <thead>
     <tr>
-      <th><%= sortable CfUser.human_attribute_name(:username), :username, :users_path %></th>
+      <th><%= sortable User.human_attribute_name(:username), :username, :users_path %></th>
       <th><%= sortable t('global.score'), :score, :users_path %></th>
       <th><%= sortable t('users.num_msgs'), :num_msgs, :users_path %></th>
-      <th><%= sortable CfUser.human_attribute_name(:created_at), :created_at, :users_path %></th>
+      <th><%= sortable User.human_attribute_name(:created_at), :created_at, :users_path %></th>
     </tr>
   </thead>
 

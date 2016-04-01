@@ -103,7 +103,7 @@ def handle_messages(old_msg, x_msg, thread)
       if f['name'] == 'UserName' then
         uname = f.content.force_encoding('utf-8')
 
-        usr = CfUser.find_by_username(uname)
+        usr = User.find_by_username(uname)
         if !usr then
           email = nil
           $old_db.exec("SELECT email FROM auth WHERE username = '" + uname + "'") do |result|
@@ -112,13 +112,13 @@ def handle_messages(old_msg, x_msg, thread)
             end
           end
 
-          usr = CfUser.new(username: uname, created_at: the_date, updated_at: the_date, email: email)
+          usr = User.new(username: uname, created_at: the_date, updated_at: the_date, email: email)
           usr.skip_confirmation!
 
           begin
             usr.save!(validate: false)
           rescue ActiveRecord::RecordNotUnique
-            usr = CfUser.where(username: uname).first
+            usr = User.where(username: uname).first
 
             if usr.blank?
               usr.email = nil

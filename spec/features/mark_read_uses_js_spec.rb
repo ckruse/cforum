@@ -4,7 +4,7 @@ require "rails_helper"
 
 describe "marking as read uses JS" do
   let(:message) { create(:cf_message) }
-  let(:user) { create(:cf_user) }
+  let(:user) { create(:user) }
 
   before(:each) { login_as(user , scope: :user) }
 

@@ -131,8 +131,8 @@ class ConfigManager
     @value_cache = {:users => {}, :forums => {}} unless @use_cache
 
     unless user.blank?
-      user = CfUser.find_by_username(user.to_s) if not user.is_a?(CfUser) and not user.is_a?(Integer)
-      user = user.user_id if user.is_a?(CfUser)
+      user = User.find_by_username(user.to_s) if not user.is_a?(User) and not user.is_a?(Integer)
+      user = user.user_id if user.is_a?(User)
     end
 
     unless forum.blank?

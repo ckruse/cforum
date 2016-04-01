@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 Cforum::Application.routes.draw do
-  devise_for(:users, class_name: 'CfUser', path_names: {sign_in: 'login',
-                                                        sign_out: 'logout'},
+  devise_for(:users, path_names: {sign_in: 'login',
+                                  sign_out: 'logout'},
              skip: :registration,
              controllers: {confirmations: "users/confirmations"})
 
@@ -54,7 +54,7 @@ Cforum::Application.routes.draw do
   get 'help' => 'pages#help', as: :help
 
   namespace 'admin' do
-    resources :users, controller: :cf_users, except: :show
+    resources :users, except: :show
     resources :groups, controller: :cf_groups, except: :show
     resources :forums, controller: :cf_forums, except: :show
     resources :badges, except: :show
@@ -69,7 +69,7 @@ Cforum::Application.routes.draw do
     get '/audit' => 'audit#index'
     get '/audit/:id' => 'audit#show'
 
-    root to: "cf_users#index"
+    root to: "users#index"
   end
 
   get '/all' => 'cf_threads#index'

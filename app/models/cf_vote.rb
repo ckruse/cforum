@@ -7,7 +7,7 @@ class CfVote < ActiveRecord::Base
   self.primary_key = 'vote_id'
   self.table_name  = 'votes'
 
-  belongs_to :user, class_name: 'CfUser'
+  belongs_to :user
   belongs_to :message, class_name: 'CfMessage'
 
   validates_presence_of :user_id, :message_id, :vtype

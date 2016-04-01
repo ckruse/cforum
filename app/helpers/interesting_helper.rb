@@ -36,7 +36,7 @@ module InterestingHelper
     message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
     message = message.map { |m| m.is_a?(CfMessage) ? m.message_id : m.to_i }
 
-    user_id = user.is_a?(CfUser) ? user.user_id : user
+    user_id = user.is_a?(User) ? user.user_id : user
 
     new_cache = {}
     cache = get_cached_entry(:interesting, user_id) || {}

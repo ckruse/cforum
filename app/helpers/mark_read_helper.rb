@@ -9,7 +9,7 @@ module MarkReadHelper
 
     return if message.blank?
 
-    user_id = user.is_a?(CfUser) ? user.user_id : user
+    user_id = user.is_a?(User) ? user.user_id : user
 
     new_cache = {}
     cache = get_cached_entry(:mark_read, user_id)

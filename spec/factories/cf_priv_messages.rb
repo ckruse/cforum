@@ -5,8 +5,8 @@ FactoryGirl.define do
     subject "Use the force!"
     body { generate(:random_string) }
 
-    association :sender, factory: :cf_user
-    association :recipient, factory: :cf_user
+    association :sender, factory: :user
+    association :recipient, factory: :user
     owner_id { sender_id }
 
     sender_name { sender.username }

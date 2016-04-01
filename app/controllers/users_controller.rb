@@ -11,14 +11,14 @@ class UsersController < ApplicationController
     @limit = conf('pagination_users').to_i
 
     if not params[:s].blank?
-      @users = CfUser.where('LOWER(username) LIKE LOWER(?)', '%' + params[:s].strip + '%')
+      @users = User.where('LOWER(username) LIKE LOWER(?)', '%' + params[:s].strip + '%')
       @search_term = params[:s]
     elsif not params[:nick].blank?
-      @users = CfUser.where('LOWER(username) LIKE LOWER(?)', params[:nick].strip + '%')
+      @users = User.where('LOWER(username) LIKE LOWER(?)', params[:nick].strip + '%')
       params[:sort] = 'num_msgs'
       params[:dir] = 'desc'
     else
-      @users = CfUser
+      @users = User
     end
 
     num_msgs = "(SELECT COUNT(*) FROM messages WHERE user_id = users.user_id AND created_at >= NOW() - INTERVAL '30 days')"
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = CfUser.preload(badge_users: :badge).find(params[:id])
+    @user = User.preload(badge_users: :badge).find(params[:id])
     @settings = @user.settings || CfSetting.new
     @settings.options ||= {}
     @user_score = CfScore.where(user_id: @user.user_id).sum('value')
@@ -116,7 +116,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = CfUser.find(params[:id])
+    @user = User.find(params[:id])
     @settings = @user.settings || CfSetting.new
     @settings.options ||= {}
 
@@ -131,12 +131,12 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:cf_user).permit(:username, :email, :password,
-                                    :password_confirmation, :avatar)
+    params.require(:user).permit(:username, :email, :password,
+                                 :password_confirmation, :avatar)
   end
 
   def update
-    @user = CfUser.find(params[:id])
+    @user = User.find(params[:id])
     @messages_count = CfMessage.where(user_id: @user.user_id).count()
 
     @settings = CfSetting.find_by_user_id(@user.user_id)
@@ -146,7 +146,7 @@ class UsersController < ApplicationController
     @settings.options = params[:settings] || {}
 
     saved = false
-    CfUser.transaction do
+    User.transaction do
       if @user.update_attributes(user_params)
 
         highlight_saving_settings(@settings)
@@ -173,11 +173,11 @@ class UsersController < ApplicationController
   end
 
   def confirm_destroy
-    @user = CfUser.find(params[:id])
+    @user = User.find(params[:id])
   end
 
   def destroy
-    @user = CfUser.find(params[:id])
+    @user = User.find(params[:id])
 
     @user.destroy
     audit(@user, 'destroy', nil)
@@ -189,7 +189,7 @@ class UsersController < ApplicationController
   end
 
   def show_scores
-    @user = CfUser.find(params[:id])
+    @user = User.find(params[:id])
 
     sql = CfForum.visible_sql(current_user)
 
@@ -217,7 +217,7 @@ class UsersController < ApplicationController
   end
 
   def show_messages
-    @user = CfUser.find(params[:id])
+    @user = User.find(params[:id])
 
     sql = CfForum.visible_sql(current_user)
 

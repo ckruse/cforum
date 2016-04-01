@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe CitesController, type: :controller do
-  let(:admin) { create(:cf_user_admin) }
+  let(:admin) { create(:user_admin) }
 
   describe "GET #index" do
     it "assigns all cites as @cites" do

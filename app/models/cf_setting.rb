@@ -4,8 +4,8 @@ class CfSetting < ActiveRecord::Base
   self.primary_key = 'setting_id'
   self.table_name  = 'settings'
 
-  belongs_to :forum, class_name: 'CfForum', :foreign_key => :forum_id
-  belongs_to :user, class_name: 'CfUser', :foreign_key => :user_id
+  belongs_to :forum, class_name: 'CfForum', foreign_key: :forum_id
+  belongs_to :user, foreign_key: :user_id
 
   validates :options, setting: true
 

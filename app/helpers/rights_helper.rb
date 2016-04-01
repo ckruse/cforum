@@ -17,7 +17,7 @@ module RightsHelper
 
   def may?(badge_type, user = current_user)
     return false if user.blank?
-    user = CfUser.find(user) unless user.is_a?(CfUser)
+    user = User.find(user) unless user.is_a?(User)
     return true if user.admin
 
     badge = user.badges.find { |b| b.badge_type == badge_type }

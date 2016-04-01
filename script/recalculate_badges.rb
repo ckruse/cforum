@@ -17,7 +17,7 @@ BadgeUser.transaction do
   BadgeUser.delete_all
   badges = Badge.all
 
-  CfUser.all.each do |u|
+  User.all.each do |u|
     badges.each do |b|
       if u.score >= b.score_needed
         u.badge_users.create(badge_id: b.badge_id)

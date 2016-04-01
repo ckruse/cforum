@@ -24,7 +24,7 @@ class MailsController < ApplicationController
   def index
     if params[:user]
       @user  = params[:user]
-      @user_object = CfUser.where(username: params[:user]).first
+      @user_object = User.where(username: params[:user]).first
       @mails = CfPrivMessage.
                preload(:sender, :recipient).
                where("owner_id = ? AND (sender_name = ? OR recipient_name = ?)",
@@ -99,7 +99,7 @@ class MailsController < ApplicationController
 
     saved = false
     if not @mail.recipient_id.blank?
-      recipient = CfUser.find(@mail.recipient_id)
+      recipient = User.find(@mail.recipient_id)
 
       @mail.recipient_name = recipient.username
 
