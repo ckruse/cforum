@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = CfUser.preload(badges_users: :badge).find(params[:id])
+    @user = CfUser.preload(badge_users: :badge).find(params[:id])
     @settings = @user.settings || CfSetting.new
     @settings.options ||= {}
     @user_score = CfScore.where(user_id: @user.user_id).sum('value')
@@ -243,11 +243,11 @@ class UsersController < ApplicationController
        not settings.options['jabber_id'].blank? or
        not settings.options['twitter_handle'].blank? or
        not settings.options['flattr'].blank?)
-      badge = CfBadge.where(slug: 'autobiographer').first!
+      badge = Badge.where(slug: 'autobiographer').first!
 
-      user.badges_users.create!(badge_id: badge.badge_id,
-                                created_at: Time.zone.now,
-                                updated_at: Time.zone.now)
+      user.badge_users.create!(badge_id: badge.badge_id,
+                               created_at: Time.zone.now,
+                               updated_at: Time.zone.now)
 
       audit(user, 'badge-gained', nil)
       notify_user(user: user,
@@ -255,7 +255,7 @@ class UsersController < ApplicationController
                   subject: I18n.t('badges.badge_won',
                                   name: badge.name,
                                   mtype: I18n.t("badges.badge_medal_types." + badge.badge_medal_type)),
-                  path: cf_badge_path(badge),
+                  path: badge_path(badge),
                   oid: badge.badge_id,
                   otype: 'badge')
 

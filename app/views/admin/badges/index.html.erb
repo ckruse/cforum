@@ -7,10 +7,10 @@ content_for :h1, t('admin.badges.index')
   <thead>
     <tr>
       <th> </th>
-      <th><%= CfBadge.human_attribute_name(:name) %></th>
-      <th><%= CfBadge.human_attribute_name(:score_needed) %></th>
-      <th><%= CfBadge.human_attribute_name(:badge_type) %></th>
-      <th><%= CfBadge.human_attribute_name(:badge_medal_type) %></th>
+      <th><%= Badge.human_attribute_name(:name) %></th>
+      <th><%= Badge.human_attribute_name(:score_needed) %></th>
+      <th><%= Badge.human_attribute_name(:badge_type) %></th>
+      <th><%= Badge.human_attribute_name(:badge_medal_type) %></th>
       <th> </th>
     </tr>
   </thead>

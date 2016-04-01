@@ -9,14 +9,14 @@ describe CfMessages::VoteController do
     let(:score) { CfScore.create!(user_id: user.user_id, value: 10)}
     let(:message) { create(:cf_message, owner: user1) }
     let(:badges) do
-      [create(:cf_badge, badge_type: RightsHelper::UPVOTE),
-       create(:cf_badge, badge_type: RightsHelper::DOWNVOTE)]
+      [create(:badge, badge_type: RightsHelper::UPVOTE),
+       create(:badge, badge_type: RightsHelper::DOWNVOTE)]
     end
 
     before(:each) do
       score # lazyness sucks
-      user.badges_users.create!(badge_id: badges.first.badge_id)
-      user.badges_users.create!(badge_id: badges.second.badge_id)
+      user.badge_users.create!(badge_id: badges.first.badge_id)
+      user.badge_users.create!(badge_id: badges.second.badge_id)
     end
 
     it "should upvote when user is logged in" do
@@ -35,7 +35,7 @@ describe CfMessages::VoteController do
     end
 
     it "shouldn't upvote when user has no badge" do
-      user.badges_users.clear
+      user.badge_users.clear
 
       sign_in user
       post :vote, message_params_from_slug(message).merge(type: 'up')

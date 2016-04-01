@@ -1,12 +1,12 @@
 # -*- encoding: utf-8 -*-
 
-class Admin::CfBadgesController < ApplicationController
+class Admin::BadgesController < ApplicationController
   authorize_controller { authorize_admin }
 
   before_filter :load_badge
 
   def index
-    @badges = CfBadge.order('UPPER(name) ASC')
+    @badges = Badge.order('UPPER(name) ASC')
 
     respond_to do |format|
       format.html
@@ -18,8 +18,8 @@ class Admin::CfBadgesController < ApplicationController
   end
 
   def badge_params
-    params.require(:cf_badge).permit(:name, :score_needed, :badge_type,
-                                     :badge_medal_type, :slug, :description)
+    params.require(:badge).permit(:name, :score_needed, :badge_type,
+                                  :badge_medal_type, :slug, :description)
   end
 
   def update
@@ -32,11 +32,11 @@ class Admin::CfBadgesController < ApplicationController
   end
 
   def new
-    @badge = CfBadge.new
+    @badge = Badge.new
   end
 
   def create
-    @badge = CfBadge.new(badge_params)
+    @badge = Badge.new(badge_params)
 
     if @badge.save
       redirect_to edit_admin_badge_url(@badge),
@@ -53,6 +53,6 @@ class Admin::CfBadgesController < ApplicationController
 
   private
   def load_badge
-    @badge = CfBadge.where(slug: params[:id]).first! if params[:id]
+    @badge = Badge.where(slug: params[:id]).first! if params[:id]
   end
 end

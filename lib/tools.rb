@@ -247,13 +247,13 @@ module CForum
     end
 
 
-    def cf_badges_path(args = {})
+    def badges_path(args = {})
       root_path + 'badges' + query_string(args)
     end
 
-    def cf_badge_path(badge, args = {})
+    def badge_path(badge, args = {})
       badge = badge.slug unless badge.is_a?(String)
-      cf_badges_path + '/' + badge + query_string(args)
+      badges_path + '/' + badge + query_string(args)
     end
 
     def cf_archive_path(forum)
@@ -362,13 +362,13 @@ module CForum
         query_string(args)
     end
 
-    def cf_badges_url
+    def badges_url
       root_url + 'badges'
     end
 
-    def cf_badge_url(badge)
+    def badge_url(badge)
       badge = badge.slug unless badge.is_a?(String)
-      cf_badges_url + '/' + badge
+      badges_url + '/' + badge
     end
 
     def cf_archive_url(forum)

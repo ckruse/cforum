@@ -22,16 +22,16 @@ module Peon
       end
 
       def give_badge(user, badge)
-        CfBadge.transaction do
-          user.badges_users.create!(badge_id: badge.badge_id,
-                                    created_at: Time.zone.now,
-                                    updated_at: Time.zone.now)
+        Badge.transaction do
+          user.badge_users.create!(badge_id: badge.badge_id,
+                                   created_at: Time.zone.now,
+                                   updated_at: Time.zone.now)
 
           audit(user, 'badge-gained', nil)
           notify_user(user, '', I18n.t('badges.badge_won',
                                        name: badge.name,
                                        mtype: I18n.t("badges.badge_medal_types." + badge.badge_medal_type)),
-                      cf_badge_path(badge), badge.badge_id, 'badge')
+                      badge_path(badge), badge.badge_id, 'badge')
         end
       end
 

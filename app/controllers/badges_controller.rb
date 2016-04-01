@@ -4,7 +4,7 @@ class BadgesController < ApplicationController
   def index
     @limit = conf('pagination').to_i
     @badges = sort_query(%w(order badge_medal_type score_needed name no_users),
-                         CfBadge.preload(:users),
+                         Badge.preload(:users),
                          no_users: 'SELECT COUNT(DISTINCT user_id) FROM badges_users WHERE badges_users.badge_id = badges.badge_id')
               .page(params[:page]).per(@limit)
 
@@ -16,7 +16,7 @@ class BadgesController < ApplicationController
   end
 
   def show
-    @badge = CfBadge.preload(:users).where(slug: params[:slug]).first!
+    @badge = Badge.preload(:users).where(slug: params[:slug]).first!
 
     unnotify_for_badge(@badge)
 

@@ -10,8 +10,8 @@ module Peon
       end
 
       def check_for_yearling_badges(user)
-        yearling = CfBadge.where(slug: 'yearling').first!
-        last_yearling = user.badges_users.where(badge_id: yearling.badge_id).order(created_at: :desc).first
+        yearling = Badge.where(slug: 'yearling').first!
+        last_yearling = user.badge_users.where(badge_id: yearling.badge_id).order(created_at: :desc).first
 
         difference = if last_yearling.blank?
                        DateTime.now - user.created_at.to_datetime
@@ -40,25 +40,25 @@ module Peon
         badges.each do |badge|
           if votes >= badge[:votes]
             b = user.badges.find { |user_badge| user_badge.slug == badge[:name] }
-            give_badge(user, CfBadge.where(slug: badge[:name]).first!) if b.blank?
+            give_badge(user, Badge.where(slug: badge[:name]).first!) if b.blank?
           end
         end
 
         if message.upvotes >= 5 and message.downvotes >= 5
           b = user.badges.find { |user_badge| user_badge.slug == 'controverse' }
-          give_badge(user, CfBadge.where(slug: 'controverse').first!) if b.blank?
+          give_badge(user, Badge.where(slug: 'controverse').first!) if b.blank?
         end
       end
 
       def check_for_voter_badges(vote)
         if vote.vtype == CfVote::UPVOTE
           b = vote.user.badges.find { |ubadge| ubadge.slug == 'enthusiast' }
-          give_badge(vote.user, CfBadge.where(slug: 'enthusiast').first!) if b.blank?
+          give_badge(vote.user, Badge.where(slug: 'enthusiast').first!) if b.blank?
         end
 
         if vote.vtype == CfVote::DOWNVOTE
           b = vote.user.badges.find { |ubadge| ubadge.slug == 'critic' }
-          give_badge(vote.user, CfBadge.where(slug: 'critic').first!) if b.blank?
+          give_badge(vote.user, Badge.where(slug: 'critic').first!) if b.blank?
         end
       end
 
@@ -91,21 +91,21 @@ module Peon
             check_for_owner_vote_badges(@message.owner, @message) if args['type'] == 'voted'
 
             score = @message.owner.score
-            badges = CfBadge.where('score_needed <= ?', score)
+            badges = Badge.where('score_needed <= ?', score)
             user_badges = @message.owner.badges
 
             badges.each do |b|
               found = user_badges.find { |obj| obj.badge_id == b.badge_id }
 
               unless found
-                @message.owner.badges_users.create(badge_id: b.badge_id, created_at: DateTime.now, updated_at: DateTime.now)
+                @message.owner.badge_users.create(badge_id: b.badge_id, created_at: DateTime.now, updated_at: DateTime.now)
                 @message.owner.reload
                 audit(@message.owner, 'badge-gained', nil)
                 notify_user(
                   @message.owner, '', I18n.t('badges.badge_won',
                                              name: b.name,
                                              mtype: I18n.t("badges.badge_medal_types." + b.badge_medal_type)),
-                  cf_badge_path(b), b.badge_id, 'badge'
+                  badge_path(b), b.badge_id, 'badge'
                 )
               end
             end

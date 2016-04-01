@@ -153,7 +153,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     badges.each do |badge|
       if no_messages >= badge[:messages]
         b = user.badges.find { |user_badge| user_badge.slug == badge[:name] }
-        give_badge(user, CfBadge.where(slug: badge[:name]).first!) if b.blank?
+        give_badge(user, Badge.where(slug: badge[:name]).first!) if b.blank?
       end
     end
   end
@@ -167,7 +167,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
         b = message.owner.badges.find { |user_badge| user_badge.slug == 'teacher' }
 
         if b.blank? and votes.blank? and message.parent.user_id != message.user_id
-          give_badge(message.owner, CfBadge.where(slug: 'teacher').first!)
+          give_badge(message.owner, Badge.where(slug: 'teacher').first!)
         end
       end
     end

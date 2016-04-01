@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 FactoryGirl.define do
-  factory :cf_badge do
+  factory :badge do
     score_needed { 10 }
     name { generate(:badge_name) }
     slug { name.parameterize }

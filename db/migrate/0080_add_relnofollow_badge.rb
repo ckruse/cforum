@@ -4,10 +4,10 @@ class AddRelnofollowBadge < ActiveRecord::Migration
   include NotifyHelper
 
   def up
-    b = CfBadge.create!(score_needed: 700, name: I18n.t('badges.badge_types.seo_profi'),
-                        slug: 'seo_profi', badge_type: 'seo_profi',
-                        badge_medal_type: 'bronze',
-                        description: I18n.t('badges.default_descs.seo_profi'))
+    b = Badge.create!(score_needed: 700, name: I18n.t('badges.badge_types.seo_profi'),
+                      slug: 'seo_profi', badge_type: 'seo_profi',
+                      badge_medal_type: 'bronze',
+                      description: I18n.t('badges.default_descs.seo_profi'))
 
     users = CfUser.where('(SELECT SUM(value) FROM scores WHERE user_id = users.user_id) >= 700')
     users.each do |u|
@@ -24,7 +24,7 @@ class AddRelnofollowBadge < ActiveRecord::Migration
   end
 
   def down
-    b = CfBadge.find_by_slug('seo_profi')
+    b = Badge.find_by_slug('seo_profi')
     b.destroy unless b.blank?
   end
 end

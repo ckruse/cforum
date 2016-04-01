@@ -1,15 +1,13 @@
-
 # -*- coding: utf-8 -*-
 
-class CfBadge < ActiveRecord::Base
+class Badge < ActiveRecord::Base
   include ParserHelper
 
   self.primary_key = 'badge_id'
   self.table_name  = 'badges'
 
-  has_many :badges_users, class_name: CfBadgeUser, dependent: :delete_all,
-           foreign_key: :badge_id
-  has_many :users, through: :badges_users
+  has_many :badge_users, dependent: :delete_all
+  has_many :users, through: :badge_users
 
   validates :name, presence: true, length: {in: 2..255}, allow_blank: false
   validates :score_needed, numericality: { only_integer: true },
@@ -39,7 +37,7 @@ class CfBadge < ActiveRecord::Base
 
   def unique_users
     unique_users = {}
-    badges_users.each do |ub|
+    badge_users.each do |ub|
       unique_users[ub.user_id] ||= {user: ub.user, created_at: ub.created_at, times: 0}
       unique_users[ub.user_id][:times] += 1
     end

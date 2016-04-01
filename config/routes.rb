@@ -38,8 +38,8 @@ Cforum::Application.routes.draw do
   delete '/mails' => 'mails#batch_destroy'
   post '/mails/:user/:id' => 'mails#mark_read_unread'
 
-  get '/badges' => 'badges#index', as: :cf_badges
-  get '/badges/:slug' => 'badges#show', as: :cf_badge
+  get '/badges' => 'badges#index', as: :badges
+  get '/badges/:slug' => 'badges#show', as: :badge
 
   get '/users/:id/destroy' => 'users#confirm_destroy', as: :users_confirm_destroy
   get '/users/:id/scores' => 'users#show_scores', as: :user_scores
@@ -57,7 +57,7 @@ Cforum::Application.routes.draw do
     resources :users, controller: :cf_users, except: :show
     resources :groups, controller: :cf_groups, except: :show
     resources :forums, controller: :cf_forums, except: :show
-    resources :badges, controller: :cf_badges, except: :show
+    resources :badges, except: :show
     resources :search_sections, except: :show
 
     get 'settings' => 'cf_settings#edit', as: 'cf_settings'

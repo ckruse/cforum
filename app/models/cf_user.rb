@@ -26,9 +26,9 @@ class CfUser < ActiveRecord::Base
   has_many :groups_users, class_name: 'CfGroupUser', foreign_key: :user_id
   has_many :groups, class_name: 'CfGroup', through: :groups_users
 
-  has_many :badges_users, ->{ order(:created_at) }, class_name: CfBadgeUser, dependent: :delete_all,
+  has_many :badge_users, ->{ order(:created_at) }, dependent: :delete_all,
            foreign_key: :user_id
-  has_many :badges, through: :badges_users
+  has_many :badges, through: :badge_users
 
   has_many :messages, class_name: 'CfMessage', foreign_key: :user_id
 
@@ -148,7 +148,7 @@ class CfUser < ActiveRecord::Base
 
   def unique_badges
     unique_badges = {}
-    badges_users.each do |ub|
+    badge_users.each do |ub|
       unique_badges[ub.badge_id] ||= {badge: ub.badge, created_at: ub.created_at, times: 0}
       unique_badges[ub.badge_id][:times] += 1
     end

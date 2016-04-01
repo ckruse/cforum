@@ -53,13 +53,13 @@ describe CfUser do
   describe "has_badge?" do
     it "returns true when user has badge" do
       user = CfUser.new
-      user.badges = [CfBadge.new(badge_type: 'silver medal')]
+      user.badges = [Badge.new(badge_type: 'silver medal')]
       expect(user.has_badge?('silver medal')).to be true
     end
 
     it "returns false when user doesn't have that badge" do
       user = CfUser.new
-      user.badges = [CfBadge.new(badge_type: 'silver medal')]
+      user.badges = [Badge.new(badge_type: 'silver medal')]
       expect(user.has_badge?('gold medal')).to be false
     end
 
@@ -103,7 +103,7 @@ describe CfUser do
     end
 
     it "returns true if user has moderator badge" do
-      user = CfUser.new(badges: [CfBadge.new(badge_type: RightsHelper::MODERATOR_TOOLS)])
+      user = CfUser.new(badges: [Badge.new(badge_type: RightsHelper::MODERATOR_TOOLS)])
       expect(user.moderator?).to be true
     end
 

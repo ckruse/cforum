@@ -28,44 +28,44 @@ class AddCelebrationBadges < ActiveRecord::Migration
 
   def up
     execute <<-SQL
-ALTER TABLE badges
-  ALTER COLUMN score_needed DROP NOT NULL;
+    ALTER TABLE badges
+      ALTER COLUMN score_needed DROP NOT NULL;
     SQL
 
-    CfBadge.create!(name: I18n.t('badges.badge_types.yearling'),
-                    slug: "yearling",
-                    description: I18n.t('badges.default_descs.yearling'),
-                    badge_type: 'custom',
-                    badge_medal_type: 'bronze')
+    Badge.create!(name: I18n.t('badges.badge_types.yearling'),
+                  slug: "yearling",
+                  description: I18n.t('badges.default_descs.yearling'),
+                  badge_type: 'custom',
+                  badge_medal_type: 'bronze')
 
-    CfBadge.create!(name: I18n.t('badges.badge_types.autobiographer'),
-                    slug: "autobiographer",
-                    description: I18n.t('badges.default_descs.autobiographer'),
-                    badge_type: 'custom',
-                    badge_medal_type: 'bronze')
+    Badge.create!(name: I18n.t('badges.badge_types.autobiographer'),
+                  slug: "autobiographer",
+                  description: I18n.t('badges.default_descs.autobiographer'),
+                  badge_type: 'custom',
+                  badge_medal_type: 'bronze')
 
 
     (WRITER_BADGES + SCORE_BADGES).each do |badge|
-      CfBadge.create!(name: I18n.t('badges.badge_types.' + badge[:name]),
-                      slug: badge[:name],
-                      description: I18n.t('badges.default_descs.' + badge[:name]),
-                      badge_type: 'custom',
-                      badge_medal_type: badge[:type])
+      Badge.create!(name: I18n.t('badges.badge_types.' + badge[:name]),
+                    slug: badge[:name],
+                    description: I18n.t('badges.default_descs.' + badge[:name]),
+                    badge_type: 'custom',
+                    badge_medal_type: badge[:type])
     end
 
   end
 
   def down
     (WRITER_BADGES + SCORE_BADGES).each do |badge|
-      CfBadge.where(slug: badge[:name]).delete_all
+      Badge.where(slug: badge[:name]).delete_all
     end
 
-    CfBadge.where(slug: 'autobiographer').delete_all
-    CfBadge.where(slug: 'yearling').delete_all
+    Badge.where(slug: 'autobiographer').delete_all
+    Badge.where(slug: 'yearling').delete_all
 
     execute <<-SQL
-ALTER TABLE badges
-  ALTER COLUMN score_needed SET NOT NULL;
+    ALTER TABLE badges
+      ALTER COLUMN score_needed SET NOT NULL;
     SQL
   end
 end

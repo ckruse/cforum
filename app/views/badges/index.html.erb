@@ -10,11 +10,11 @@ content_for(:body_classes, 'badges index')
 <table class="cf-default-table">
   <thead>
     <tr>
-      <th><%= sortable CfBadge.human_attribute_name(:order), :order, :cf_badges_path %></th>
-      <th><%= sortable CfBadge.human_attribute_name(:badge_medal_type), :badge_medal_type, :cf_badges_path %></th>
-      <th><%= sortable CfBadge.human_attribute_name(:name), :name, :cf_badges_path %></th>
-      <th><%= sortable CfBadge.human_attribute_name(:score_needed), :score_needed, :cf_badges_path %></th>
-      <th><%= sortable t("badges.no_users"), :no_users, :cf_badges_path %>
+      <th><%= sortable Badge.human_attribute_name(:order), :order, :badges_path %></th>
+      <th><%= sortable Badge.human_attribute_name(:badge_medal_type), :badge_medal_type, :badges_path %></th>
+      <th><%= sortable Badge.human_attribute_name(:name), :name, :badges_path %></th>
+      <th><%= sortable Badge.human_attribute_name(:score_needed), :score_needed, :badges_path %></th>
+      <th><%= sortable t("badges.no_users"), :no_users, :badges_path %>
     </tr>
   </thead>
 

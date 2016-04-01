@@ -41,7 +41,7 @@ de:
       cf_user: Benutzer
       cf_forum: Forum
       cf_close_vote: Sperr-Abstimmung
-      cf_badge: Abzeichen
+      badge: Abzeichen
       medium: Medium
       search_section: Such-Sektion
       cf_cite: Zitat
@@ -103,7 +103,7 @@ de:
         updated_at: geändert
         is_read: gelesen
 
-      cf_badge:
+      badge:
         name: Name
         score_needed: benötigte Punktzahl
         badge_type: Badge-Art
