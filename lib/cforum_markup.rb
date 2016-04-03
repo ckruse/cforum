@@ -214,8 +214,8 @@ module CforumMarkup
   end
 
   def cforum_gen_image(href)
-    href, title = href.split('@title=', 2) if href =~ /@title=/
-    '![' + (title.blank? ? href : title) + "](#{href})"
+    href, title = href.split('@alt=', 2)
+    '![' + (title.blank? ? "" : title) + "](#{href})"
   end
 
   def cforum_gen_link(directive, content)
