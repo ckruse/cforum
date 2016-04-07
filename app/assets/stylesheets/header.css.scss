@@ -168,6 +168,11 @@ nav.quicklinks {
 
   .search {
     ::input-placeholder { color: white; }
+
+    input[type=search] {
+      border-radius: 0px 0.5em 0.5em;
+      border: 1px solid #D5D5D5;
+    }
   }
 }
 
