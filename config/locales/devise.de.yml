@@ -14,13 +14,6 @@ de:
     passwords:
       send_instructions: Rücksetzungsanweisungen wurden versendet.
       send_the_instructions: Rücksetzungsanweisungen versenden
-      hello: Hallo
-      change_password_below: Besuchen Sie den untenstehenden Link, um Ihr Passwort zurückzusetzen
-      change: Passwort ändern
-      ignore_if_unwanted: Ignorieren Sie diese Mail einfach, falls Sie keine Passwortrücksetzung angefordert haben.
-      password_wont_change: Ihr Passwort wird nicht geändert.
 
     confirmations:
       welcome: Willkommen
-      confirm_below: Besuchen Sie den unten stehenden Link, um Ihren Account zu bestätigen.
-      confirm_account: Account bestätigen

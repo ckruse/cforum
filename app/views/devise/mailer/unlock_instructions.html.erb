@@ -1,6 +1,6 @@
-<p><%= t('devise.unlocks.hello') %> <%= @resource.email %>!</p>
+<p><%= t('devise.mailer.unlock_instructions.greeting', recipient: @resource.email) %></p>
 
-<p><%= t('devise.unlocks.account_locked') %></p>
-<p><%= t('devise.unlocks.visit_link_to_unlock') %>:</p>
+<p><%= t('devise.mailer.unlock_instructions.message') %></p>
+<p><%= t('devise.mailer.unlock_instructions.instruction') %>:</p>
 
-<p><%= link_to t('devise.unlocks.unlock'), unlock_url(@resource, :unlock_token => @token) %></p>
+<p><%= link_to t('devise.mailer.unlock_instructions.action'), unlock_url(@resource, unlock_token: @token) %></p>
