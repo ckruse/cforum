@@ -129,4 +129,13 @@
   .medal-image { max-height:1em; }
 }
 
+#registrations-new {
+  .success {
+    border:1px solid #0f0;
+  }
+  .failure {
+    border:1px solid #f00;
+  }
+}
+
 /* eof */

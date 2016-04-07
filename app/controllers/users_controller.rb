@@ -17,6 +17,8 @@ class UsersController < ApplicationController
       @users = User.where('LOWER(username) LIKE LOWER(?)', params[:nick].strip + '%')
       params[:sort] = 'num_msgs'
       params[:dir] = 'desc'
+    elsif not params[:exact].blank?
+      @users = User.where('LOWER(username) = LOWER(?)', params[:exact].strip)
     else
       @users = User
     end
