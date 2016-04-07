@@ -71,14 +71,15 @@ i.icon-thread {
 
 .icon-delete-user, .icon-delete-forum, .icon-delete-group, .icon-remove-permission,
 .icon-delete-badge, .icon-delete-tag-synonym, .icon-delete-mail,
-.icon-delete-nofication, .icon-del-tag, .icon-delete-search-section {
+.icon-delete-nofication, .icon-del-tag, .icon-delete-search-section,
+.icon-delete-badge-group {
   @extend .fa;
   @extend .fa-trash;
   cursor: pointer;
 }
 
 .icon-edit-user, .icon-edit-forum, .icon-edit-group, .icon-edit-badge,
-.icon-edit-tag-synonym, .icon-edit-search-section {
+.icon-edit-tag-synonym, .icon-edit-search-section, .icon-edit-badge-group {
   @extend .fa;
   @extend .fa-edit;
   cursor: pointer;

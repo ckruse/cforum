@@ -1,0 +1,25 @@
+<% if @badge_group.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= t('admin.badge_groups.error_message',
+              count: @badge_group.errors.count) %></h2>
+
+    <ul>
+      <% @badge_group.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="cf-cgroup">
+  <%= f.label :name %>
+  <div class="cntrls">
+    <%= f.text_field :name %>
+  </div>
+</div>
+
+<div class="badge-list">
+  <% @badges.each do |badge| %>
+    <label><%= check_box_tag 'badges[]', badge.badge_id, badge.in?(@badge_group.badges) %> <%= badge.name %></label>
+  <% end %>
+</div>

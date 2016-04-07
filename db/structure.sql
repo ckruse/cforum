@@ -2420,6 +2420,13 @@ ALTER TABLE ONLY votes
 
 
 --
+-- Name: badge_groups_lower_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX badge_groups_lower_idx ON badge_groups USING btree (lower(name));
+
+
+--
 -- Name: counter_table_table_name_group_crit_idx; Type: INDEX; Schema: public; Owner: -
 --
 

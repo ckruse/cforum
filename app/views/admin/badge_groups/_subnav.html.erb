@@ -1,0 +1,5 @@
+<%= render 'admin/admin_subnav' %>
+
+<ul>
+  <li<% if action_name == 'new' %> class="active"<% end %>><%= cf_link_to t('admin.badge_groups.new_badge_group'), new_admin_badge_group_path %></li>
+</ul>

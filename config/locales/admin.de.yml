@@ -132,6 +132,22 @@ de:
       edit: Such-Sektion bearbeiten
       delete: "Such-Sektion löschen"
 
+    badge_groups:
+      new_badge_group: Neue Medaillen-Gruppe
+      badge_groups: Medaillen-Gruppen
+      no_badge_groups: keine Medaillen-Gruppen gefunden
+      updated: Medaillen-Gruppe erfolgreich geändert
+      created: Medaillen-Gruppe erfolgreich erstellt
+      destroyed: Medaillen-Gruppe erfolgreich gelöscht
+      edit_badge_group: Medaillen-Gruppe „%{name}“ bearbeiten
+
+      edit: Medaillen-Gruppe bearbeiten
+      delete: Medaillen-Gruppe löschen
+
+      error_message:
+        other: "%{count} Fehler verhinderten, dass diese Medaillen-Gruppe gespeichert werden konnte:"
+        one: "%{count} Fehler verhindert, dass diese Medaillen-Gruppe gespeichert werden konnte:"
+
     audit:
       audit_log: Audit-Log
       search: Suche

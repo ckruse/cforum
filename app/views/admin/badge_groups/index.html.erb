@@ -1,0 +1,33 @@
+<%
+content_for :title, t('admin.badge_groups.badge_groups')
+content_for :h1, t('admin.badge_groups.badge_groups')
+%>
+
+<table class="cf-default-table">
+  <thead>
+    <tr>
+      <th><%= BadgeGroup.human_attribute_name(:name) %></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if @badge_groups.blank? %>
+      <tr class="no-data"><td colspan="2"><%= t('admin.badge_groups.no_badge_groups') %></td></tr>
+    <% end %>
+
+    <% @badge_groups.each do |badge_group| %>
+      <tr>
+        <td><%= badge_group.name %></td>
+        <td>
+          <%= cf_link_to('', edit_admin_badge_group_path(badge_group),
+                         class: "icon-edit-badge-group", title: t('admin.badge_groups.edit')) %>
+          <%= cf_button_to(admin_badge_group_path(badge_group),
+                           data: {'cf-confirm' => t('global.are_you_sure')},
+                           method: :delete, class: 'icon-delete-badge-group',
+                           title: t('admin.badge_groups.delete')) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
