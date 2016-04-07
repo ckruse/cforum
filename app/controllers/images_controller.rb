@@ -10,7 +10,7 @@ class ImagesController < ApplicationController
   end
 
   def show
-    @medium = Medium.where(filename: params[:id] + '.' + params[:format]).first!
+    @medium = Medium.where(filename: params[:id].to_s + '.' + params[:format].to_s).first!
 
     expires_in 1.month, public: true
 
