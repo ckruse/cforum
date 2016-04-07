@@ -102,19 +102,19 @@ de:
       members: Mitglieder
 
     badges:
-      index: Abzeichen
-      updated: Abzeichen erfolgreich geändert
-      created: Abzeichen erfolgreich erstellt
-      destroyed: Abzeichen erfolgreich gelöscht
+      index: Medaille
+      updated: Medaille erfolgreich geändert
+      created: Medaille erfolgreich erstellt
+      destroyed: Medaille erfolgreich gelöscht
 
       error_message:
-        other: "%{count} Fehler verhinderten, dass Dieses Abzeichen gespeichert werden konnte:"
-        one: "%{count} Fehler verhindert, dass Dieses Abzeichen gespeichert werden konnte:"
-      new_badge: neues Abzeichen erstellen
-      edit: "Abzeichen %{name} bearbeiten"
+        other: "%{count} Fehler verhinderten, dass diese Medaille gespeichert werden konnte:"
+        one: "%{count} Fehler verhindert, dass diese Medaille gespeichert werden konnte:"
+      new_badge: neue Medaille erstellen
+      edit: "Medaille %{name} bearbeiten"
 
-      edit: Abzeichen bearbeiten
-      delete: "Abzeichen löschen"
+      edit: Medaille bearbeiten
+      delete: "Medaille löschen"
 
     search_sections:
       new_search_section: Neue Such-Sektion
