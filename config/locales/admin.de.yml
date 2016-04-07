@@ -126,7 +126,7 @@ de:
       error_message:
         other: "%{count} Fehler verhinderten, dass diese Such-Sektion gespeichert werden konnte:"
         one: "%{count} Fehler verhindert, dass diese Such-Sektion gespeichert werden konnte:"
-      new_badge: neue Such-Sektion erstellen
+      new_search_section: neue Such-Sektion erstellen
       edit: "Such-Sektion %{name} bearbeiten"
 
       edit: Such-Sektion bearbeiten
