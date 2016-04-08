@@ -155,7 +155,6 @@ end
             (<span class="mails new" id="mails"
                    title="<%= t("mails.new_mails_num",
                                 count: @new_mails.length) %>"><%= @new_mails.length %></span>)</li>
-          <li id="optionen-help"><%= cf_link_to(t('help.help'), help_path) %></li>
           <li id="optionen-logout"><%= cf_link_to(t('layout.logout'), destroy_user_session_path, method: :delete) %></li>
         <% else %>
           <li id="user-not-signed-in"><%= image_tag("https://forum.selfhtml.org/images/thumb/missing.png") %> nicht angemeldet</li>
@@ -242,6 +241,7 @@ end
             </li>
             <li><%= cf_link_to t('search.search'), search_path %></li>
             <li><%= cf_link_to t("layout.chat"), "https://kiwiirc.com/client/irc.epd-me.net/?nick=" + (current_user.try(:username) || "Guest%7C" + rand(9999).to_s) + "&channel=#selfhtml", rel: 'nofollow' %></li>
+            <li><%= cf_link_to(t('help.help'), help_path) %></li>
             <% if controller_path != "cf_search" %>
               <li class="search">
                 <%= form_tag search_path + '#results', method: 'get', rel: 'nofollow' do %>
