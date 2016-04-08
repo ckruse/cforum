@@ -214,9 +214,9 @@ cforum.cf_threads = {
       $("#cf_thread_forum_id").on('change', function() {
         var val = $(this).val();
 
-        for(var i = 0; i < cforum.forums.length; ++i) {
-          if(cforum.forums[i].forum_id == val) {
-            cforum.currentForum = cforum.forums[i];
+        for(var i = 0; i < cforum.userForums.length; ++i) {
+          if(cforum.userForums[i].forum_id == val) {
+            cforum.currentForum = cforum.userForums[i];
             break;
           }
         }

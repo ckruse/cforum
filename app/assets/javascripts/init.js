@@ -59,9 +59,9 @@ cforum = {
           if(cforum.currentForum) {
             cforum.client.emit('join', {forum: cforum.currentForum.slug});
           }
-          else if(cforum.forums) {
-            for(var i = 0; i < cforum.forums.length; ++i) {
-              cforum.client.emit('join', {forum: cforum.forums[i].slug});
+          else if(cforum.userForums) {
+            for(var i = 0; i < cforum.userForums.length; ++i) {
+              cforum.client.emit('join', {forum: cforum.userForums[i].slug});
             }
           }
         });
