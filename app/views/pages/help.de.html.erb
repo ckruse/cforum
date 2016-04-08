@@ -149,20 +149,19 @@ content_for :body_classes, 'help'
   </p>
 </section>
 
-<section id="medals">
+<% @badge_groups.each do |bg| %>
+  <section id="<%= bg.name.parameterize %>">
+    <h2><%= bg.name %></h2>
 
-  <h2>Medaillen</h2>
+    <dl>
+      <% bg.badges.each do |badge| %>
+        <dt><%= image_tag badge.badge_medal_type + '.png' %> <%= cf_link_to badge.name, badge_path(badge) %></dt>
+        <dd><% unless badge.score_needed.blank? %><strong><%= badge.score_needed %> Punkte:</strong> <% end %><%= badge.description %></dd>
+      <% end %>
+    </dl>
 
-  <p>Zurzeit gibt es diese Medaillen:</p>
-
-  <dl>
-    <% @badges.each do |badge| %>
-      <dt><%= image_tag badge.badge_medal_type + '.png' %> <%= cf_link_to badge.name, badge_path(badge) %></dt>
-      <dd><% unless badge.score_needed.blank? %><strong><%= badge.score_needed %> Punkte:</strong> <% end %><%= badge.description %></dd>
-    <% end %>
-  </dl>
-
-</section>
+  </section>
+<% end %>
 
 <section id="cites">
 

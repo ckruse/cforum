@@ -7,7 +7,7 @@ class PagesController < ApplicationController
                         CfForumGroupPermission::ACCESS_MODERATE).
                   order(:username)
 
-    @badges = Badge.order(:badge_medal_type, :score_needed, :name)
+    @badge_groups = BadgeGroup.preload(:badges).order(:name).all
 
     @cites = CfCite.
              select("date_trunc('month', created_at) AS created_at, COUNT(*) AS cnt").
