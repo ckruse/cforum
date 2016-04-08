@@ -44,7 +44,7 @@ start_date = nil
 start_date = Time.zone.parse(ARGV[0]) if ARGV.length > 0
 
 begin
-  msgs = CfMessage.
+  msgs = Message.
          includes(:thread, :forum, :tags).
          order(:message_id).
          limit(no_messages).
@@ -58,7 +58,7 @@ begin
 
   current_block += 1
 
-  CfMessage.transaction do
+  Message.transaction do
     msgs.each do |m|
       MessageReference.where(src_message_id: m.message_id).delete_all
       references = find_references(m.to_html(self), ['forum.de.selfhtml.org', 'forum.selfhtml.org'])
@@ -70,7 +70,7 @@ begin
         mid = from_uri(ref)
         next if mid.blank?
         next if already_referenced.include?(mid)
-        next unless CfMessage.where(message_id: mid).exists?
+        next unless Message.where(message_id: mid).exists?
 
         MessageReference.create!(src_message_id: m.message_id,
                                  dst_message_id: mid,

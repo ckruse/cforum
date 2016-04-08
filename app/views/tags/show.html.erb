@@ -28,17 +28,17 @@ content_for(:body_classes, 'tags show forum-' + (current_forum.try(:slug) || 'al
   <table class="cf-default-table">
     <thead>
       <tr>
-        <th><%= CfMessage.human_attribute_name(:subject) %></th>
-        <th><%= CfMessage.human_attribute_name(:author) %></th>
+        <th><%= Message.human_attribute_name(:subject) %></th>
+        <th><%= Message.human_attribute_name(:author) %></th>
         <th><%= t('tags.tags') %></th>
-        <th><%= CfMessage.human_attribute_name(:created_at) %></th>
+        <th><%= Message.human_attribute_name(:created_at) %></th>
       </tr>
     </thead>
 
     <tbody>
       <% @messages.each do |msg| %>
         <tr>
-          <td><%= cf_link_to msg.subject, cf_message_path(msg.thread, msg), class: 'block' %></td>
+          <td><%= cf_link_to msg.subject, message_path(msg.thread, msg), class: 'block' %></td>
           <td>
             <% if msg.user_id %>
               <%= cf_link_to(image_tag(msg.owner.avatar(:thumb)) + msg.author, user_path(msg.owner), title: t('messages.user_link', user: msg.owner.username)) %>

@@ -21,7 +21,7 @@ class Admin::AuditController < ApplicationController
                                    params[:stop_date][:day].to_s + ' 23:59:59')
     end
 
-    @audits = CfAuditing.
+    @audits = Auditing.
               preload(:user).
               joins('LEFT JOIN users USING(user_id)').
               where('auditing.created_at >= ?', @start_date).

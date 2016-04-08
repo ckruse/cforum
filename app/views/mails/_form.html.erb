@@ -12,7 +12,7 @@
 
 
   <fieldset>
-    <%= render 'widgets/users_selector', name: 'cf_priv_message[recipient_id]', id: 'recipient_id', users: @mail.recipient ? [@mail.recipient] : nil, desc: 'Empfänger', single: true %>
+    <%= render 'widgets/users_selector', name: 'priv_message[recipient_id]', id: 'recipient_id', users: @mail.recipient ? [@mail.recipient] : nil, desc: 'Empfänger', single: true %>
 
     <div class="cf-cgroup">
       <%= t.label :subject %>

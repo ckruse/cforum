@@ -28,7 +28,7 @@ module Peon
 
       def work_work(args)
         min_age = conf('cites_min_age_to_archive', nil).to_i
-        cites = CfCite.
+        cites = Cite.
                 preload(:votes).
                 where('archived = false AND NOW() >= created_at + INTERVAL ?', min_age.to_s + ' weeks').
                 all

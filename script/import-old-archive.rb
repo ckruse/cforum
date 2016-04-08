@@ -14,8 +14,8 @@ ActiveRecord::Base.logger = Rails.logger
 
 $old_db = PG.connect(dbname: 'oldusers')
 
-$default_forum = CfForum.where(slug: 'self').first!
-meta = CfForum.where(slug: 'meta').first!
+$default_forum = Forum.where(slug: 'self').first!
+meta = Forum.where(slug: 'meta').first!
 $map = {
   # meta forums
   'ZU DIESEM FORUM' => meta,
@@ -37,7 +37,7 @@ end
 def handle_messages(old_msg, x_msg, thread)
   mid = x_msg['id'].gsub(/^m/, '')
 
-  msg = CfMessage.
+  msg = Message.
         where(mid: mid,
               thread_id: thread.thread_id).
         first
@@ -49,7 +49,7 @@ def handle_messages(old_msg, x_msg, thread)
     the_date = Time.at(x_msg.find_first('./Header/Date')['longSec'].force_encoding('utf-8').to_i)
     the_date = DateTime.parse("1970-01-01 00:00:00").to_time if the_date.blank?
 
-    msg = CfMessage.new(
+    msg = Message.new(
       mid: mid,
       author: x_msg.find_first('./Header/Author/Name').content.force_encoding('utf-8'),
       subject: x_msg.find_first('./Header/Subject').content.force_encoding('utf-8'),
@@ -85,15 +85,15 @@ def handle_messages(old_msg, x_msg, thread)
     if not category.blank?
       category = category.downcase.strip
 
-      t = CfTag.find_by_forum_id_and_tag_name thread.forum_id, category
+      t = Tag.find_by_forum_id_and_tag_name thread.forum_id, category
 
       begin
-        t = CfTag.create!(:tag_name => category, forum_id: thread.forum_id) if t.blank?
+        t = Tag.create!(:tag_name => category, forum_id: thread.forum_id) if t.blank?
       rescue ActiveRecord::RecordNotUnique
-        t = CfTag.find_by_forum_id_and_tag_name! thread.forum_id, category
+        t = Tag.find_by_forum_id_and_tag_name! thread.forum_id, category
       end
 
-      CfMessageTag.create!(
+      MessageTag.create!(
         tag_id: t.tag_id,
         message_id: msg.message_id
       )

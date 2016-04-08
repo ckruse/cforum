@@ -1,7 +1,7 @@
 /* -*- coding: utf-8 -*- */
 /* global cforum, t, moment, Highcharts */
 
-cforum.cf_forums = {
+cforum.forums = {
   statsValues: null,
   usersTwelveMonths: null,
 
@@ -14,26 +14,26 @@ cforum.cf_forums = {
       chart: { type: 'line' },
       title: null,
       xAxis: {
-        categories: $.map(cforum.cf_forums.statsValues, function(val, i) { return Highcharts.dateFormat("%B %Y", new Date(val.moment)); })
+        categories: $.map(cforum.forums.statsValues, function(val, i) { return Highcharts.dateFormat("%B %Y", new Date(val.moment)); })
       },
       yAxis: [
         { title: { text: t('highcharts.cnt_threads') } },
         { title: { text: t('highcharts.cnt_messages') }, opposite: true }],
       series: [{
         name: t('highcharts.threads'),
-        data: $.map(cforum.cf_forums.statsValues, function(val, i) { return val.threads; }),
+        data: $.map(cforum.forums.statsValues, function(val, i) { return val.threads; }),
         yAxis: 0
       },
       {
         name: t('highcharts.messages'),
-        data: $.map(cforum.cf_forums.statsValues, function(val, i) { return val.messages; }),
+        data: $.map(cforum.forums.statsValues, function(val, i) { return val.messages; }),
         yAxis: 1
       }]
     });
 
     var lastYear = moment().subtract(13, 'months').startOf('month');
 
-    var yearValues = $.grep(cforum.cf_forums.statsValues, function(val, i) {
+    var yearValues = $.grep(cforum.forums.statsValues, function(val, i) {
       var mmt = moment(val.moment);
       if(mmt.isBefore(lastYear)) {
         return false;
@@ -66,7 +66,7 @@ cforum.cf_forums = {
       chart: { type: 'spline' },
       title: null,
       xAxis: {
-        categories: $.map(cforum.cf_forums.usersTwelveMonths,
+        categories: $.map(cforum.forums.usersTwelveMonths,
                           function(val, i) { return Highcharts.dateFormat("%B %Y", new Date(val.moment)); })
       },
       yAxis: {
@@ -74,7 +74,7 @@ cforum.cf_forums = {
       },
       series: [{
         name: t('highcharts.users'),
-        data: $.map(cforum.cf_forums.usersTwelveMonths, function(val, i) { return val.cnt; })
+        data: $.map(cforum.forums.usersTwelveMonths, function(val, i) { return val.cnt; })
       }]
     });
   }

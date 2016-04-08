@@ -11,7 +11,7 @@ RSpec.describe "cites/show", type: :view do
   helper_method :uconf, :conf
 
   before(:each) do
-    @cite = assign(:cite, create(:cf_cite))
+    @cite = assign(:cite, create(:cite))
   end
 
   it "renders attributes in <p>" do

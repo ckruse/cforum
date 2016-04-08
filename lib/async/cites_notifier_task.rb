@@ -2,9 +2,9 @@
 
 class Peon::Tasks::CitesNotifier < Peon::Tasks::PeonTask
   def send_create_notifications(args)
-    cite = CfCite.find(args['cite_id'])
+    cite = Cite.find(args['cite_id'])
 
-    users = CfSetting.
+    users = Setting.
             preload(:user).
             where("user_id IS NOT NULL AND ((options->'notify_on_cite') != 'no' OR (options->'notify_on_cite') IS NULL)")
 
@@ -29,10 +29,10 @@ class Peon::Tasks::CitesNotifier < Peon::Tasks::PeonTask
   end
 
   def send_destroy_notifications(args)
-    val = CfNotification.where(oid: args['cite_id'], otype: 'cite:create', is_read: false).delete_all
+    val = Notification.where(oid: args['cite_id'], otype: 'cite:create', is_read: false).delete_all
     Rails.logger.debug('DELETE: ' + val.inspect)
 
-    CfNotification.
+    Notification.
       preload(:recipient).
       where(oid: args['cite_id'], otype: 'cite:create').
       all.each do |notification|

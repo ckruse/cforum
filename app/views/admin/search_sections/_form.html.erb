@@ -32,6 +32,6 @@
 <div class="cf-cgroup">
   <%= f.label :forum_id %>
   <div class="cntrls">
-    <%= f.collection_select :forum_id, CfForum.order(:position).all, :forum_id, :name, include_blank: true %>
+    <%= f.collection_select :forum_id, Forum.order(:position).all, :forum_id, :name, include_blank: true %>
   </div>
 </div>

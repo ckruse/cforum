@@ -33,7 +33,7 @@ end
     <link rel="author" href="<%= root_url %>humans.txt">
 
     <% if controller_path == 'cf_threads' and action_name == 'index' and uconf('autorefresh').to_i > 0 %>
-      <meta http-equiv="refresh" content="<%= uconf('autorefresh').to_i * 60 %>; URL=<%= cf_forum_url(current_forum) %>">
+      <meta http-equiv="refresh" content="<%= uconf('autorefresh').to_i * 60 %>; URL=<%= forum_url(current_forum) %>">
     <% end %>
 
     <link rel="shortcut icon" href="//src.selfhtml.org/favicon2.ico" type="image/x-icon" title="<%= t("layout.icon") %>">
@@ -52,8 +52,8 @@ end
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
 
-    <link rel="alternate" title="Atom Feed" type="application/atom+xml" href="<%= cf_forum_url(current_forum, format: :atom) %>">
-    <link rel="alternate" title="RSS Feed" type="application/rss+xml" href="<%= cf_forum_url(current_forum, format: :rss) %>">
+    <link rel="alternate" title="Atom Feed" type="application/atom+xml" href="<%= forum_url(current_forum, format: :atom) %>">
+    <link rel="alternate" title="RSS Feed" type="application/rss+xml" href="<%= forum_url(current_forum, format: :rss) %>">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -173,7 +173,7 @@ end
                                           forum: current_forum ?
                                           t('layout.forum', name: current_forum.name) :
                                           t('layout.all_forums'))),
-                         cf_forum_url(current_forum, format: :rss),
+                         forum_url(current_forum, format: :rss),
                          title: t("layout.rss_feed",
                                   forum: current_forum ?
                                   t('layout.forum', name: current_forum.name) :
@@ -185,7 +185,7 @@ end
                                           forum: current_forum ?
                                           t('layout.forum', name: current_forum.name) :
                                           t('layout.all_forums'))),
-                         cf_forum_url(current_forum, format: :atom),
+                         forum_url(current_forum, format: :atom),
                          title: t("layout.atom_feed",
                                   forum: current_forum ?
                                   t('layout.forum', name: current_forum.name) :
@@ -204,7 +204,7 @@ end
             <li class="dropdown" tabindex="0"><span class="anchor"><%= t('global.forums') %></span>
               <ul class="menu">
                 <li<% if current_forum.blank? and controller_path == 'cf_threads' %> class="active"<% end %>>
-                  <%= link_to t('layout.all_forums'), cf_forum_path %>
+                  <%= link_to t('layout.all_forums'), forum_path %>
                   <%= cf_link_to stats_path('all'), title: t('layout.statistics'), class: 'stats' do %>
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="22" height="14" viewBox="0, 0, 22, 14">
                       <g id="Ebene_1">
@@ -219,7 +219,7 @@ end
                 </li>
                 <% @forums.each do |f| %>
                   <li<% if current_forum.try(:forum_id) == f.forum_id %> class="active"<% end %>>
-                    <%= link_to f.name, cf_forum_path(f) %>
+                    <%= link_to f.name, forum_path(f) %>
                     <%= cf_link_to stats_path(f), title: t('layout.statistics'), class: 'stats' do %>
                       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="22" height="14" viewBox="0, 0, 22, 14">
                         <g id="Ebene_1">
@@ -265,35 +265,35 @@ end
             <% if @message and @thread and not @thread.new_record? %>
               <% if @read_mode != 'thread-view' %>
                 <li><%= cf_link_to(t('layout.thread_view'),
-                                   cf_message_path(@thread, @message,
-                                                   p: params[:p],
-                                                   rm: 'thread-view')) %></li>
+                                   message_path(@thread, @message,
+                                                p: params[:p],
+                                                rm: 'thread-view')) %></li>
               <% else %>
                 <li><%= cf_link_to(t('layout.nested_view'),
-                                   cf_message_path(@thread, @message,
-                                                   p: params[:p],
-                                                   rm: 'nested-view')) %></li>
+                                   message_path(@thread, @message,
+                                                p: params[:p],
+                                                rm: 'nested-view')) %></li>
               <% end %>
             <% end %>
 
             <% if controller_path == 'cf_threads' and current_user.blank? %>
               <% if @order != 'ascending' %>
                 <li><%= link_to(t('layout.sort_ascending'),
-                                cf_forum_path(current_forum,
-                                              p: params[:p],
-                                              order: 'ascending')) %></li>
+                                forum_path(current_forum,
+                                           p: params[:p],
+                                           order: 'ascending')) %></li>
               <% end %>
               <% if @order != 'descending' %>
                 <li><%= link_to(t('layout.sort_descending'),
-                                cf_forum_path(current_forum,
-                                              p: params[:p],
-                                              order: 'descending')) %></li>
+                                forum_path(current_forum,
+                                           p: params[:p],
+                                           order: 'descending')) %></li>
               <% end %>
               <% if @order != 'newest-first' %>
                 <li><%= link_to(t('layout.sort_newestfirst'),
-                                cf_forum_path(current_forum,
-                                              p: params[:p],
-                                              order: 'newest-first')) %></li>
+                                forum_path(current_forum,
+                                           p: params[:p],
+                                           order: 'newest-first')) %></li>
               <% end %>
             <% end %>
 
@@ -312,7 +312,7 @@ end
               if @message.blank?
                 path = cf_threads_path(current_forum, view_all: @view_all ? nil : "yes")
               else
-                path = cf_message_path(@thread, @message, view_all: @view_all ? nil : "yes")
+                path = message_path(@thread, @message, view_all: @view_all ? nil : "yes")
               end
               %>
               <% if @view_all %>
@@ -322,7 +322,7 @@ end
               <% end %>
             <% end %>
 
-            <% if %w(cf_threads cf_messages cf_archive).include?(controller_path) %>
+            <% if %w(cf_threads messages cf_archive).include?(controller_path) %>
               <li id="link-archiv"><%= cf_link_to t("threads.archive"), cf_archive_path(current_forum) %></li>
             <% end %>
 
@@ -335,9 +335,9 @@ end
 
               <% if uconf('hide_read_threads') == 'yes' %>
                 <% if session[:srt] %>
-                  <li id="optionen-hide-read-threads"><%= cf_link_to t('plugins.hide_read_threads.hide_read_threads'), cf_forum_path(current_forum, 'srt' => 'no') %></li>
+                  <li id="optionen-hide-read-threads"><%= cf_link_to t('plugins.hide_read_threads.hide_read_threads'), forum_path(current_forum, 'srt' => 'no') %></li>
                 <% else %>
-                  <li id="optionen-show-read-threads"><%= cf_link_to t('plugins.hide_read_threads.show_read_threads'), cf_forum_path(current_forum, 'srt' => 'yes') %></li>
+                  <li id="optionen-show-read-threads"><%= cf_link_to t('plugins.hide_read_threads.show_read_threads'), forum_path(current_forum, 'srt' => 'yes') %></li>
                 <% end %>
               <% end %>
 
@@ -348,7 +348,7 @@ end
         </nav>
 
       </header>
-      
+
       <% if not @motds.blank? or content_for?(:aside) %>
         <aside class="flex-item">
           <% if not @motds.blank? %>

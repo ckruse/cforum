@@ -30,7 +30,7 @@ module MotdHelper
       args << current_forum.forum_id
     end
 
-    confs = CfSetting.where(where + ' AND user_id IS NULL', *args).all
+    confs = Setting.where(where + ' AND user_id IS NULL', *args).all
     motds = []
 
     unless confs.blank?

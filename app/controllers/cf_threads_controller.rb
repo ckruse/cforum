@@ -57,7 +57,7 @@ class CfThreadsController < ApplicationController
 
   def new
     @thread = CfThread.new
-    @thread.message = CfMessage.new(params[:cf_thread].blank? ? {} :
+    @thread.message = Message.new(params[:cf_thread].blank? ? {} :
                                       message_params)
     @tags = parse_tags
 
@@ -71,13 +71,13 @@ class CfThreadsController < ApplicationController
 
     @forum = current_forum
     if @forum.blank?
-      @forum = CfForum.
+      @forum = Forum.
                where(forum_id: params[:cf_thread][:forum_id]).
-               where("forum_id IN (" + CfForum.visible_sql(current_user) + ')').first!
+               where("forum_id IN (" + Forum.visible_sql(current_user) + ')').first!
     end
 
     @thread  = CfThread.new()
-    @message = CfMessage.new(message_params)
+    @message = Message.new(message_params)
     @thread.message  =  @message
     @thread.slug     = CfThread.gen_id(@thread)
 
@@ -148,7 +148,7 @@ class CfThreadsController < ApplicationController
                          thread: @thread.thread_id,
                          message: @message.message_id})
 
-        format.html { redirect_to cf_message_url(@thread, @message), notice: I18n.t("threads.created") }
+        format.html { redirect_to message_url(@thread, @message), notice: I18n.t("threads.created") }
         format.json { render json: @thread, status: :created, location: @thread }
       else
         # provoke a validation in case of missing tags
@@ -167,12 +167,12 @@ class CfThreadsController < ApplicationController
     @thread.gen_tree
 
     if current_user.admin
-      @forums = CfForum.order('name ASC')
+      @forums = Forum.order('name ASC')
     else
-      @forums = CfForum.where(
+      @forums = Forum.where(
         "forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ? AND permission = ?)",
         current_user.user_id,
-        CfForumGroupPermission::ACCESS_MODERATE
+        ForumGroupPermission::ACCESS_MODERATE
       ).order('name ASC')
     end
   end
@@ -180,7 +180,7 @@ class CfThreadsController < ApplicationController
   def move
     moving
 
-    @move_to = CfForum.find params[:move_to]
+    @move_to = Forum.find params[:move_to]
     @forum   = @thread.forum
     raise CForum::ForbiddenException unless @forums.include?(@move_to)
 
@@ -207,7 +207,7 @@ class CfThreadsController < ApplicationController
                          old_forum: @forum.forum_id,
                          new_forum: @move_to.forum_id})
 
-        format.html { redirect_to cf_message_url(@thread, @thread.message), notice: t('threads.moved') }
+        format.html { redirect_to message_url(@thread, @thread.message), notice: t('threads.moved') }
       else
         format.html { render :moving }
       end
@@ -222,9 +222,9 @@ class CfThreadsController < ApplicationController
 
     if @thread.save
       audit(@thread, @thread.sticky ? 'sticky' : 'unsticky')
-      redirect_to cf_forum_url(current_forum), notice: @thread.sticky ? I18n.t("threads.stickied") : I18n.t("threads.unstickied")
+      redirect_to forum_url(current_forum), notice: @thread.sticky ? I18n.t("threads.stickied") : I18n.t("threads.unstickied")
     else
-      redirect_to cf_forum_url(current_forum), alert: I18n.t("threads.sticky_error")
+      redirect_to forum_url(current_forum), alert: I18n.t("threads.sticky_error")
     end
   end
 
@@ -260,7 +260,7 @@ class CfThreadsController < ApplicationController
       end
 
       unless found
-        redirect_to cf_forum_url(current_forum) + '#t' + params[:tid]
+        redirect_to forum_url(current_forum) + '#t' + params[:tid]
         return
       end
 
@@ -268,9 +268,9 @@ class CfThreadsController < ApplicationController
       paging -= sticky_threads[0]['count'].to_i
       page = pos / paging
 
-      redirect_to cf_forum_url(current_forum, p: page) + '#t' + params[:tid]
+      redirect_to forum_url(current_forum, p: page) + '#t' + params[:tid]
     else
-      redirect_to cf_forum_url(current_forum) + '#t' + params[:tid]
+      redirect_to forum_url(current_forum) + '#t' + params[:tid]
     end
   end
 

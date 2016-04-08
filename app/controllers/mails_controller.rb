@@ -9,7 +9,7 @@ class MailsController < ApplicationController
 
   def index_users
     cu    = current_user
-    mails = CfPrivMessage.
+    mails = PrivMessage.
             select("(CASE recipient_id WHEN #{cu.user_id} THEN sender_name ELSE recipient_name END) AS username, is_read, COUNT(*) AS cnt").
             where('owner_id = ?', current_user.user_id).
             group("username, case recipient_id when #{cu.user_id} then sender_id else recipient_id end, is_read")
@@ -25,13 +25,13 @@ class MailsController < ApplicationController
     if params[:user]
       @user  = params[:user]
       @user_object = User.where(username: params[:user]).first
-      @mails = CfPrivMessage.
+      @mails = PrivMessage.
                preload(:sender, :recipient).
                where("owner_id = ? AND (sender_name = ? OR recipient_name = ?)",
                      current_user.user_id, @user, @user)
 
     else
-      @mails = CfPrivMessage.
+      @mails = PrivMessage.
                preload(:sender, :recipient).
                where(owner_id: current_user.user_id)
     end
@@ -44,14 +44,14 @@ class MailsController < ApplicationController
   end
 
   def show
-    @mail = CfPrivMessage.includes(:sender, :recipient).
+    @mail = PrivMessage.includes(:sender, :recipient).
       where(owner_id: current_user.user_id, priv_message_id: params[:id]).first!
 
     unless @mail.is_read
-      CfPrivMessage.transaction do
+      PrivMessage.transaction do
         @mail.update(is_read: true)
 
-        if n = CfNotification.where(recipient_id: current_user.user_id,
+        if n = Notification.where(recipient_id: current_user.user_id,
                                     oid: @mail.priv_message_id,
                                     otype: 'mails:create', is_read: false).first
           @new_notifications -= [n]
@@ -68,15 +68,15 @@ class MailsController < ApplicationController
   end
 
   def priv_message_params
-    params.require(:cf_priv_message).permit(:recipient_id, :subject, :body)
+    params.require(:priv_message).permit(:recipient_id, :subject, :body)
   end
 
   def new
-    @mail = CfPrivMessage.new(params[:cf_priv_message].blank? ? {} :
+    @mail = PrivMessage.new(params[:priv_message].blank? ? {} :
                               priv_message_params)
 
     if not params[:priv_message_id].blank? and
-        @parent = CfPrivMessage.where(owner_id: current_user.user_id,
+        @parent = PrivMessage.where(owner_id: current_user.user_id,
                                       priv_message_id: params[:priv_message_id]).first!
       @mail.recipient_id = @parent.recipient_id == current_user.user_id ? @parent.sender_id : @parent.recipient_id
       @mail.subject      = @parent.subject =~ /^Re:/i ? @parent.subject : 'Re: ' + @parent.subject
@@ -87,13 +87,13 @@ class MailsController < ApplicationController
   end
 
   def create
-    @mail           = CfPrivMessage.new(priv_message_params)
+    @mail           = PrivMessage.new(priv_message_params)
     @mail.sender_id = current_user.user_id
     @mail.sender_name = current_user.username
     @mail.owner_id  = current_user.user_id
     @mail.is_read   = true
 
-    @mail.body      = CfPrivMessage.to_internal(@mail.body)
+    @mail.body      = PrivMessage.to_internal(@mail.body)
 
     @preview = !params[:preview].blank?
 
@@ -103,15 +103,15 @@ class MailsController < ApplicationController
 
       @mail.recipient_name = recipient.username
 
-      @mail_recipient           = CfPrivMessage.new(priv_message_params)
+      @mail_recipient           = PrivMessage.new(priv_message_params)
       @mail_recipient.sender_id = current_user.user_id
       @mail_recipient.sender_name = current_user.username
       @mail_recipient.recipient_name = recipient.username
       @mail_recipient.owner_id  = recipient.user_id
-      @mail_recipient.body      = CfPrivMessage.to_internal(@mail_recipient.body)
+      @mail_recipient.body      = PrivMessage.to_internal(@mail_recipient.body)
 
       if not @preview
-        CfPrivMessage.transaction do
+        PrivMessage.transaction do
           if @mail.save
             saved = @mail_recipient.save
           end
@@ -154,7 +154,7 @@ class MailsController < ApplicationController
   end
 
   def destroy
-    @mail = CfPrivMessage.where(owner_id: current_user.user_id,
+    @mail = PrivMessage.where(owner_id: current_user.user_id,
                                 priv_message_id: params[:id]).first!
     @mail.destroy
 
@@ -166,8 +166,8 @@ class MailsController < ApplicationController
 
   def batch_destroy
     unless params[:ids].blank?
-      CfPrivMessage.transaction do
-        @mails = CfPrivMessage.where(owner_id: current_user.user_id,
+      PrivMessage.transaction do
+        @mails = PrivMessage.where(owner_id: current_user.user_id,
                                      priv_message_id: params[:ids])
         @mails.each do |m|
           m.destroy
@@ -179,7 +179,7 @@ class MailsController < ApplicationController
   end
 
   def mark_read_unread
-    @mail = CfPrivMessage.where(owner_id: current_user.user_id,
+    @mail = PrivMessage.where(owner_id: current_user.user_id,
                                 priv_message_id: params[:id]).first!
 
     @mail.is_read = !@mail.is_read

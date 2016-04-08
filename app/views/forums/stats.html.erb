@@ -1,0 +1,92 @@
+<%
+fname = current_forum.try(:name) || t('forums.all_forums')
+created = current_forum.try(:created_at) || (@forums.min_by { |f| f.created_at }).created_at
+
+content_for :title, t('forums.stats', name: fname)
+content_for :h1, t('forums.stats', name: fname)
+content_for :body_id, 'forums-stats'
+content_for :body_classes, 'forums stats'
+%>
+
+<%= javascript_include_tag "stats" %>
+<script>
+ cforum.forums.statsValues = <%= @stats.to_json.html_safe %>;
+ cforum.forums.usersTwelveMonths = <%= @users_twelve_months.to_json.html_safe %>;
+</script>
+
+<section id="overview">
+  <p><%== t('forums.stats_text',
+            name: fname,
+            created: l(created, format: date_format), 
+            num_messages: number_with_delimiter(@num_messages),
+            num_threads: number_with_delimiter(@num_threads)) %>
+  </p>
+</section>
+
+<section id="chart-last-year">
+  <h2><%= t('forums.by_date_year') %></h2>
+
+  <div class="chart-year chart"></div>
+</section>
+
+<section id="chart-last-year">
+  <h2><%= t('forums.users_by_date_year') %></h2>
+
+  <div class="chart-users-year chart"></div>
+</section>
+
+
+<% [:today, :last_week, :week, :month, :year].each do |type| %>
+<section id="stats-<%= type %>">
+  <% if type == :last_week %>
+    <h2><%= t('forums.state_' + type.to_s, name: l(Time.now - 7.days, format: '%A')) %></h2>
+  <% else %>
+    <h2><%= t('forums.state_' + type.to_s) %></h2>
+  <% end %>
+
+  <p>
+    <%= t('forums.no_messages_and_threads',
+          messages: number_with_delimiter(@status[type][:messages]),
+          users: number_with_delimiter(@status[type][:num_users]),
+          threads: number_with_delimiter(@status[type][:threads])) %>
+  </p>
+
+  <h3><%= t('forums.most_used_tags') %></h3>
+
+  <ul class="user-info-tags">
+    <% if @status[type][:tags].blank? %>
+      <li><%= t('forums.no_tags') %></li>
+    <% end %>
+    <% @status[type][:tags].each do |tag| %>
+      <li><%= cf_link_to tag_path(tag[0].forum, tag[0]), class: "cf-tag" do %>
+        <% if current_forum.blank? %><span><%= tag[0].forum.short_name %>:</span><% end %>
+        <%= tag[0].tag_name %>
+      <% end %> <span class="cnt"><%= number_with_delimiter(tag[1]) %></span></li>
+    <% end %>
+  </ul>
+
+  <h3><%= t('forums.most_active_users') %></h3>
+
+  <ul class="users-list">
+    <% if @status[type][:users].blank? %>
+      <li><%= t('forums.no_users') %></li>
+    <% end %>
+    <% @status[type][:users].each do |user| %>
+      <li>
+        <span class="registered-user">
+          <%= cf_link_to(image_tag(user.owner.avatar(:thumb), class: 'avatar'), user_path(user.owner), title: t('messages.user_link', user: user.owner.username), class: 'user-link') %>
+          <%= cf_link_to user.owner.username, user_path(user.owner) %>
+        </span>
+        <span class="cnt"><%= number_with_delimiter(user.cnt) %></span>
+      </li>
+    <% end %>
+  </ul>
+</section>
+<% end %>
+
+<section id="chart-overall">
+  <h2><%= t('forums.by_date_all') %></h2>
+
+  <div class="chart-all chart"></div>
+</section>
+

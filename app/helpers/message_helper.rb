@@ -95,16 +95,16 @@ module MessageHelper
 
       if not opts[:prev_deleted]
         if message.deleted?
-          html << cf_button_to(restore_cf_message_path(thread, message), params: std_args, class: 'icon-message restore', title: t('messages.restore_message'))
+          html << cf_button_to(restore_message_path(thread, message), params: std_args, class: 'icon-message restore', title: t('messages.restore_message'))
         else
-          html << cf_button_to(cf_message_path(thread, message), method: :delete, params: std_args, class: 'icon-message delete', title: t('messages.delete_message'))
+          html << cf_button_to(message_path(thread, message), method: :delete, params: std_args, class: 'icon-message delete', title: t('messages.delete_message'))
         end
       end
 
       if not message.open?
-        html << cf_button_to(no_answer_cf_message_path(thread, message), params: std_args, class: 'icon-message answer', title: t('plugins.no_answer_no_archive.answer'))
+        html << cf_button_to(no_answer_message_path(thread, message), params: std_args, class: 'icon-message answer', title: t('plugins.no_answer_no_archive.answer'))
       else
-        html << cf_button_to(no_answer_cf_message_path(thread, message), params: std_args, class: 'icon-message no-answer', title: t('plugins.no_answer_no_archive.no_answer'))
+        html << cf_button_to(no_answer_message_path(thread, message), params: std_args, class: 'icon-message no-answer', title: t('plugins.no_answer_no_archive.no_answer'))
       end
     end
 
@@ -120,12 +120,12 @@ module MessageHelper
       end
 
       if message.attribs[:is_interesting]
-        html << cf_button_to(boring_cf_message_path(thread, message),
+        html << cf_button_to(boring_message_path(thread, message),
                              params: std_args,
                              class: "icon-message mark-boring",
                              title: t('plugins.interesting_messages.mark_message_boring'))
       else
-        html << cf_button_to(interesting_cf_message_path(thread, message),
+        html << cf_button_to(interesting_message_path(thread, message),
                              params: std_args,
                              class: "icon-message mark-interesting",
                              title: t('plugins.interesting_messages.mark_message_interesting'))
@@ -140,7 +140,7 @@ module MessageHelper
 
 
     if opts[:first] and current_forum.blank?
-      html << "  " << cf_link_to(thread.forum.short_name, cf_forum_path(thread.forum), class: 'thread-forum-plate') << "\n"
+      html << "  " << cf_link_to(thread.forum.short_name, forum_path(thread.forum), class: 'thread-forum-plate') << "\n"
     end
 
     if opts[:show_icons]
@@ -158,11 +158,11 @@ module MessageHelper
           html << "</span>"
         end
 
-        html << " <h2>" << cf_link_to(message.subject, cf_message_path(thread, message)) << "</h2>"
+        html << " <h2>" << cf_link_to(message.subject, message_path(thread, message)) << "</h2>"
       else
         if thread.thread_id and message.message_id
           if (opts[:hide_repeating_subjects] and message.subject_changed?) or not opts[:hide_repeating_subjects]
-            html << "  <h3>" << cf_link_to(message.subject, cf_message_path(thread, message)) << "</h3>"
+            html << "  <h3>" << cf_link_to(message.subject, message_path(thread, message)) << "</h3>"
           end
         else
           html << "  <h3>" << message.subject << "</h3>"
@@ -190,7 +190,7 @@ module MessageHelper
     end
 
     if opts[:author_link_to_message]
-      html << cf_link_to(message.author, cf_message_path(thread, message))
+      html << cf_link_to(message.author, message_path(thread, message))
     elsif message.user_id
       html << cf_link_to(message.author, user_path(message.user_id))
     else
@@ -231,7 +231,7 @@ module MessageHelper
            "</time>"
 
     if thread.thread_id and message.message_id
-      html << cf_link_to(cf_message_path(thread, message)) do
+      html << cf_link_to(message_path(thread, message)) do
         text.html_safe
       end
     else
@@ -240,7 +240,7 @@ module MessageHelper
 
     if opts[:show_editor] && !message.edit_author.blank? && !message.versions.blank?
       html << " <span class=\"versions\">(" << cf_link_to(t('messages.versions'),
-                                                          versions_cf_message_path(thread, message),
+                                                          versions_message_path(thread, message),
                                                           rel: 'no-follow',
                                                           class: 'version-link')
 
@@ -315,7 +315,7 @@ module MessageHelper
     message.user_id    = user.try(:user_id)
     message.thread_id  = thread.thread_id
 
-    message.content    = CfMessage.to_internal(message.content)
+    message.content    = Message.to_internal(message.content)
 
     message.created_at = Time.zone.now
     message.updated_at = message.created_at

@@ -10,27 +10,27 @@ class SynonymsController < ApplicationController
   respond_to :html, :json
 
   def load_resource
-    @tag = CfTag.where(forum_id: current_forum.forum_id,
-                       slug: params[:tag_id]).first!
+    @tag = Tag.where(forum_id: current_forum.forum_id,
+                     slug: params[:tag_id]).first!
 
     if params[:id]
-      @synonym = CfTagSynonym.where(forum_id: current_forum.forum_id,
-                                    tag_id: @tag.tag_id,
-                                    tag_synonym_id: params[:id]).first!
+      @synonym = TagSynonym.where(forum_id: current_forum.forum_id,
+                                  tag_id: @tag.tag_id,
+                                  tag_synonym_id: params[:id]).first!
     end
   end
 
   def tag_synonym_params
-    params.require(:cf_tag_synonym).permit(:synonym)
+    params.require(:tag_synonym).permit(:synonym)
   end
 
   def new
-    @synonym = CfTagSynonym.new
+    @synonym = TagSynonym.new
     respond_with @synonym
   end
 
   def create
-    @synonym = CfTagSynonym.new(tag_synonym_params)
+    @synonym = TagSynonym.new(tag_synonym_params)
     @synonym.synonym.downcase! if @synonym.synonym
     @synonym.forum_id = current_forum.forum_id
     @synonym.tag_id = @tag.tag_id

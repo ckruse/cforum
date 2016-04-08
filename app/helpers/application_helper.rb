@@ -5,7 +5,7 @@ module ApplicationHelper
 
   def current_forum
     if not params[:curr_forum].blank? and not params[:curr_forum] == 'all'
-      @_current_forum = CfForum.find_by_slug(params[:curr_forum]) if !@_current_forum || @_current_forum.slug != params[:curr_forum]
+      @_current_forum = Forum.find_by_slug(params[:curr_forum]) if !@_current_forum || @_current_forum.slug != params[:curr_forum]
       raise ActiveRecord::RecordNotFound unless @_current_forum
       return @_current_forum
     end
@@ -34,12 +34,12 @@ module ApplicationHelper
   end
 
   def conf_val_or_default(name)
-    @cf_forum ? conf(name) : ConfigManager::DEFAULTS[name]
+    @forum ? conf(name) : ConfigManager::DEFAULTS[name]
   end
 
   def is_global_conf(name)
-    return false if @cf_forum.blank?
-    @global_settings ||= CfSetting.where('user_id IS NULL and forum_id IS NULL').first
+    return false if @forum.blank?
+    @global_settings ||= Setting.where('user_id IS NULL and forum_id IS NULL').first
     @global_settings.options.has_key?(name)
   end
 

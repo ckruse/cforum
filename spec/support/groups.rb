@@ -1,29 +1,29 @@
 # -*- coding: utf-8 -*-
 
 FactoryGirl.define do
-  factory :cf_group do
+  factory :group do
     name { generate(:group_name) }
   end
 
-  factory :cf_forum_group_permission do
-    permission CfForumGroupPermission::ACCESS_READ
+  factory :forum_group_permission do
+    permission ForumGroupPermission::ACCESS_READ
 
-    association :group, factory: :cf_group
-    association :forum, factory: :cf_forum
+    association :group, factory: :group
+    association :forum, factory: :forum
   end
 
-  factory :cf_forum_group_write_permission, class: CfForumGroupPermission do
-    permission CfForumGroupPermission::ACCESS_WRITE
+  factory :forum_group_write_permission, class: ForumGroupPermission do
+    permission ForumGroupPermission::ACCESS_WRITE
 
-    association :group, factory: :cf_group
-    association :forum, factory: :cf_forum
+    association :group, factory: :group
+    association :forum, factory: :forum
   end
 
-  factory :cf_forum_group_moderate_permission, class: CfForumGroupPermission do
-    permission CfForumGroupPermission::ACCESS_MODERATE
+  factory :forum_group_moderate_permission, class: ForumGroupPermission do
+    permission ForumGroupPermission::ACCESS_MODERATE
 
-    association :group, factory: :cf_group
-    association :forum, factory: :cf_forum
+    association :group, factory: :group
+    association :forum, factory: :forum
   end
 end
 

@@ -27,7 +27,7 @@ module Peon
                 Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + t.thread_id.to_s + ' because of to many messages'
 
                 CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + t.thread_id.to_s
-                CfMessage.connection.execute 'UPDATE messages SET ip = NULL where thread_id = ' + t.thread_id.to_s
+                Message.connection.execute 'UPDATE messages SET ip = NULL where thread_id = ' + t.thread_id.to_s
                 CfThread.connection.execute "DELETE FROM invisible_threads WHERE thread_id = " + t.thread_id.to_s
                 audit(t, 'archive', nil)
               end
@@ -53,7 +53,7 @@ module Peon
               audit(t, 'archive', nil)
 
               CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + tid
-              CfMessage.connection.execute 'UPDATE messages SET ip = NULL where thread_id = ' + tid
+              Message.connection.execute 'UPDATE messages SET ip = NULL where thread_id = ' + tid
               CfThread.connection.execute "DELETE FROM invisible_threads WHERE thread_id = " + t.thread_id.to_s
             end
           end
@@ -63,7 +63,7 @@ module Peon
 
       def work_work(args)
         # run for each forum separately
-        forums = CfForum.all
+        forums = Forum.all
 
         forums.each do |f|
           archive_forum(f)

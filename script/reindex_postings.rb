@@ -37,7 +37,7 @@ start_date = nil
 start_date = Time.zone.parse(ARGV[0]) if ARGV.length > 0
 
 begin
-  msgs = CfMessage.
+  msgs = Message.
          includes(:thread, :forum, :tags).
          order(:message_id).
          limit(no_messages).
@@ -52,7 +52,7 @@ begin
   current_block += 1
   i = 0
 
-  CfMessage.transaction do
+  Message.transaction do
     msgs.each do |m|
       base_relevance = conf('search_forum_relevance')
 
@@ -73,7 +73,7 @@ begin
       doc.title = m.subject
       doc.content = m.to_search(self, notify_mentions: false)
       doc.search_section_id = sections[m.forum_id].search_section_id
-      doc.url = cf_message_url(m.thread, m)
+      doc.url = message_url(m.thread, m)
       doc.relevance = base_relevance.to_f + (m.score.to_f / 10.0) + (m.flags['accepted'] == 'yes' ? 0.5 : 0.0) + ('0.0' + m.created_at.year.to_s).to_f
       doc.lang = Cforum::Application.config.search_dict
       doc.document_created = m.created_at

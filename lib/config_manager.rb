@@ -110,15 +110,15 @@ class ConfigManager
 
   def read_settings(user = nil, forum = nil)
     if not user.blank? and not @value_cache[:users].has_key?(user)
-      @value_cache[:users][user] = CfSetting.find_by_user_id(user)
+      @value_cache[:users][user] = Setting.find_by_user_id(user)
     end
 
     if not forum.blank? and not @value_cache[:forums].has_key?(forum)
-      @value_cache[:forums][forum] = CfSetting.find_by_forum_id(forum)
+      @value_cache[:forums][forum] = Setting.find_by_forum_id(forum)
     end
 
     unless @value_cache.has_key?(:global)
-      @value_cache[:global] = CfSetting.where('user_id IS NULL and forum_id IS NULL').first
+      @value_cache[:global] = Setting.where('user_id IS NULL and forum_id IS NULL').first
     end
   end
 
@@ -136,8 +136,8 @@ class ConfigManager
     end
 
     unless forum.blank?
-      forum = CfForum.find_by_slug forum.to_s if not forum.is_a?(CfForum) and not forum.is_a?(Integer)
-      forum = forum.forum_id if forum.is_a?(CfForum)
+      forum = Forum.find_by_slug forum.to_s if not forum.is_a?(Forum) and not forum.is_a?(Integer)
+      forum = forum.forum_id if forum.is_a?(Forum)
     end
 
     read_settings(user, forum)

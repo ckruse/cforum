@@ -35,7 +35,7 @@ describe User do
 
   describe "conf" do
     it "returns default when config option isn't set" do
-      user = User.new(settings: CfSetting.new(options: {}))
+      user = User.new(settings: Setting.new(options: {}))
       expect(user.conf('highlight_self')).to eq ConfigManager::DEFAULTS['highlight_self']
     end
 
@@ -45,7 +45,7 @@ describe User do
     end
 
     it "returns config value when set" do
-      user = User.new(settings: CfSetting.new(options: {'highlight_self' => 'no'}))
+      user = User.new(settings: Setting.new(options: {'highlight_self' => 'no'}))
       expect(user.conf('highlight_self')).to eq 'no'
     end
   end
@@ -83,7 +83,7 @@ describe User do
     end
 
     it "returns true if user is moderator for a specific forum" do
-      perm = create(:cf_forum_group_moderate_permission)
+      perm = create(:forum_group_moderate_permission)
       user = create(:user)
       perm.group.users << user
 
@@ -91,7 +91,7 @@ describe User do
     end
 
     it "returns false if user is not moderator nor admin" do
-      forum = create(:cf_write_forum)
+      forum = create(:write_forum)
       user = build(:user)
       expect(user.moderate?(forum)).to be false
     end
@@ -111,12 +111,12 @@ describe User do
       user = User.create!(username: "Luke Skywalker",
                             email: "l.skywalker@example.org",
                             password: '123')
-      forum = CfForum.create!(name: 'Aldebaran',
-                              short_name: 'Aldebaran',
-                              slug: 'aldebaran')
-      group = CfGroup.create!(name: 'Rebellion')
+      forum = Forum.create!(name: 'Aldebaran',
+                            short_name: 'Aldebaran',
+                            slug: 'aldebaran')
+      group = Group.create!(name: 'Rebellion')
       group.users << user
-      group.forums_groups_permissions << CfForumGroupPermission.new(permission: CfForumGroupPermission::ACCESS_MODERATE,
+      group.forums_groups_permissions << ForumGroupPermission.new(permission: ForumGroupPermission::ACCESS_MODERATE,
                                                                     forum: forum)
 
       expect(group).to be_valid
@@ -132,45 +132,45 @@ describe User do
 
   describe "write?" do
     it "returns true if forum's standard permission is write" do
-      forum = build(:cf_write_forum)
+      forum = build(:write_forum)
       user = build(:user)
       expect(user.write?(forum)).to be true
     end
 
     it "returns true if forum's standard permission is write for registered users" do
-      forum = build(:cf_known_write_forum)
+      forum = build(:known_write_forum)
       user = build(:user)
       expect(user.write?(forum)).to be true
     end
 
     it "returns true if user is admin" do
-      forum = build(:cf_forum)
+      forum = build(:forum)
       user = build(:user_admin)
       expect(user.write?(forum)).to be true
     end
 
     it "returns true if user has moderator badge" do
-      forum = build(:cf_forum)
+      forum = build(:forum)
       user = build(:user_moderator)
       expect(user.write?(forum)).to be true
     end
 
     it "returns true if user is in group with write permissions" do
-      perm = create(:cf_forum_group_write_permission)
+      perm = create(:forum_group_write_permission)
       user = create(:user)
       perm.group.users << user
       expect(user.write?(perm.forum)).to be true
     end
 
     it "returns true if user is in group with moderator permissions" do
-      perm = create(:cf_forum_group_moderate_permission)
+      perm = create(:forum_group_moderate_permission)
       user = create(:user)
       perm.group.users << user
       expect(user.write?(perm.forum)).to be true
     end
 
     it "returns false otherwise" do
-      forum = build(:cf_read_forum)
+      forum = build(:read_forum)
       user = build(:user)
       expect(user.write?(forum)).to be false
     end
@@ -178,64 +178,64 @@ describe User do
 
   describe "read?" do
     it "returns true if forum's standard permission is read" do
-      forum = build(:cf_read_forum)
+      forum = build(:read_forum)
       user = build(:user)
       expect(user.read?(forum)).to be true
     end
 
     it "returns true if forum's standard permission is write" do
-      forum = build(:cf_write_forum)
+      forum = build(:write_forum)
       user = build(:user)
       expect(user.read?(forum)).to be true
     end
 
     it "returns true if forum's standard permission is read for registered users" do
-      forum = build(:cf_known_read_forum)
+      forum = build(:known_read_forum)
       user = build(:user)
       expect(user.read?(forum)).to be true
     end
 
     it "returns true if forum's standard permission is write for registered users" do
-      forum = build(:cf_known_write_forum)
+      forum = build(:known_write_forum)
       user = build(:user)
       expect(user.read?(forum)).to be true
     end
 
     it "returns true if user is admin" do
-      forum = build(:cf_forum)
+      forum = build(:forum)
       user = build(:user_admin)
       expect(user.read?(forum)).to be true
     end
 
     it "returns true if user has moderator badge" do
-      forum = build(:cf_forum)
+      forum = build(:forum)
       user = build(:user_moderator)
       expect(user.read?(forum)).to be true
     end
 
     it "returns true if user is in group with read permissions" do
-      perm = create(:cf_forum_group_permission)
+      perm = create(:forum_group_permission)
       user = create(:user)
       perm.group.users << user
       expect(user.read?(perm.forum)).to be true
     end
 
     it "returns true if user is in group with write permissions" do
-      perm = create(:cf_forum_group_write_permission)
+      perm = create(:forum_group_write_permission)
       user = create(:user)
       perm.group.users << user
       expect(user.read?(perm.forum)).to be true
     end
 
     it "returns true if user is in group with moderator permissions" do
-      perm = create(:cf_forum_group_moderate_permission)
+      perm = create(:forum_group_moderate_permission)
       user = create(:user)
       perm.group.users << user
       expect(user.read?(perm.forum)).to be true
     end
 
     it "returns false otherwise" do
-      forum = build(:cf_forum)
+      forum = build(:forum)
       user = build(:user)
       expect(user.read?(forum)).to be false
     end
@@ -244,7 +244,7 @@ describe User do
   describe "score" do
     it "returns the sum of scores for a user" do
       user = create(:user)
-      CfScore.create!(user_id: user.user_id, value: 10)
+      Score.create!(user_id: user.user_id, value: 10)
       expect(user.score).to eq 10
     end
 

@@ -6,8 +6,8 @@ unless cite.archived?
 
   if not vote.nil?
     vote = cite.votes[vote]
-    has_upvote = true if not vote.blank? and vote.vote_type == CfCiteVote::UPVOTE
-    has_downvote = true if not vote.blank? and vote.vote_type == CfCiteVote::DOWNVOTE
+    has_upvote = true if not vote.blank? and vote.vote_type == CiteVote::UPVOTE
+    has_downvote = true if not vote.blank? and vote.vote_type == CiteVote::DOWNVOTE
   end
 
   downvote_msg = if has_downvote

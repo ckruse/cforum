@@ -3,8 +3,8 @@ atom_feed do |feed|
   feed.updated(@thread.sorted_messages.last.created_at)
 
   @thread.sorted_messages.each do |msg|
-    feed.entry(msg, id: cf_message_url(@thread, msg),
-               url: cf_message_url(@thread, msg),
+    feed.entry(msg, id: message_url(@thread, msg),
+               url: message_url(@thread, msg),
                published: msg.created_at,
                updated: msg.updated_at) do |entry|
       entry.title(msg.subject)

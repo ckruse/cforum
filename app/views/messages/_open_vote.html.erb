@@ -1,0 +1,27 @@
+<h3>Entsperr-Abstimmung (<%= m.open_vote.voters.length %>/<%= conf("close_vote_votes") %>)</h3>
+
+<p>
+  <% if m.open_vote.finished %>
+    Diese Nachricht (und damit auch alle folgenden) wurden wieder geöffnet.
+  <% else %>
+    Diese Nachricht (und damit auch alle folgenden) soll wieder geöffnet werden.
+  <% end %>
+
+  Der angegebene Grund:
+  <em><% if m.open_vote.reason == 'custom' %>
+    <%= m.open_vote.custom_reason %>
+  <% else %>
+    <%= t('messages.close_vote.' + m.open_vote.reason) %>
+  <% end %></em>
+</p>
+
+<% if may?(RightsHelper::VISIT_CLOSE_REOPEN) and not m.open_vote.finished %>
+  <p>
+    <%= cf_link_to(m.open_vote.has_voted?(current_user) ?
+                   t('messages.close_vote.take_back') :
+                   t('messages.close_vote.agreeing'),
+                   open_message_path(@thread, m),
+                   class:  (m.open_vote.has_voted?(current_user) ? "cf-primary-btn" : 'cf-btn'),
+                   method: :patch) %>
+  </p>
+<% end %>

@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "marking as read uses JS" do
-  let(:message) { create(:cf_message) }
+  let(:message) { create(:message) }
   let(:user) { create(:user) }
 
   before(:each) { login_as(user , scope: :user) }
@@ -11,7 +11,7 @@ describe "marking as read uses JS" do
   include CForum::Tools
 
   it "doesn't reload when clicking the mark read icon", js: true do
-    visit cf_forum_path(message.forum)
+    visit forum_path(message.forum)
 
     page.find('#t' + message.thread_id.to_s + ' .icon-thread.mark-thread-read').click
     wait_for_ajax

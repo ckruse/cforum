@@ -7,7 +7,7 @@ class NotificationsController < ApplicationController
     @limit = uconf('pagination').to_i
     @limit = 50 if @limit <= 0
 
-    @notifications = CfNotification.where(recipient_id: current_user.user_id).
+    @notifications = Notification.where(recipient_id: current_user.user_id).
                      page(params[:page]).per(@limit)
     @notifications = sort_query(%w(created_at is_read subject),
                                 @notifications, {}, {dir: :desc})
@@ -19,7 +19,7 @@ class NotificationsController < ApplicationController
   end
 
   def show
-    @notification = CfNotification.where(recipient_id: current_user.user_id,
+    @notification = Notification.where(recipient_id: current_user.user_id,
                                          notification_id: params[:id]).first!
 
     @notification.is_read = true
@@ -29,7 +29,7 @@ class NotificationsController < ApplicationController
   end
 
   def update
-    @notification = CfNotification.where(recipient_id: current_user.user_id,
+    @notification = Notification.where(recipient_id: current_user.user_id,
                                          notification_id: params[:id]).first!
 
     respond_to do |format|
@@ -48,8 +48,8 @@ class NotificationsController < ApplicationController
 
   def batch_destroy
     unless params[:ids].blank?
-      CfNotification.transaction do
-        @notifications = CfNotification.where(recipient_id: current_user.user_id, notification_id: params[:ids])
+      Notification.transaction do
+        @notifications = Notification.where(recipient_id: current_user.user_id, notification_id: params[:ids])
         @notifications.each do |n|
           n.destroy
         end
@@ -60,7 +60,7 @@ class NotificationsController < ApplicationController
   end
 
   def destroy
-    @notification = CfNotification.where(recipient_id: current_user.user_id, notification_id: params[:id]).first!
+    @notification = Notification.where(recipient_id: current_user.user_id, notification_id: params[:id]).first!
     @notification.destroy
 
     respond_to do |format|

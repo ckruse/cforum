@@ -28,9 +28,9 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
 
     begin
       if parent.owner and parent.owner.user_id == user.user_id
-        NotifyNewMailer.new_answer(user, thread, parent, message, cf_message_url(thread, message), message.to_txt).deliver_now
+        NotifyNewMailer.new_answer(user, thread, parent, message, message_url(thread, message), message.to_txt).deliver_now
       else
-        NotifyNewMailer.new_message(user, thread, parent, message, cf_message_url(thread, message), message.to_txt).deliver_now
+        NotifyNewMailer.new_message(user, thread, parent, message, message_url(thread, message), message.to_txt).deliver_now
       end
 
       @sent_mails[user.email] = true
@@ -61,7 +61,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
                            subject: @message.subject) :
                     I18n.t('notifications.new_message', nick: @message.author,
                            subject: @message.subject),
-          cf_message_path(@thread, @message),
+          message_path(@thread, @message),
           @message.message_id,
                     'message:create-' + (@parent.user_id == m.user_id ?
                                          'answer' :
@@ -79,7 +79,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     Rails.logger.debug('notify new task: send mention mail to ' + user.email)
 
     begin
-      NotifyNewMailer.new_mention(user, @thread, @message, cf_message_url(@thread, @message), @message.to_txt).deliver_now
+      NotifyNewMailer.new_mention(user, @thread, @message, message_url(@thread, @message), @message.to_txt).deliver_now
       @sent_mails[user.email] = true
 
     rescue => e
@@ -99,7 +99,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     return unless may_read?(@message, user)
     return if user.user_id == @message.user_id
     return if cfg == 'no'
-    return if CfNotification.where(recipient_id: user.user_id,
+    return if Notification.where(recipient_id: user.user_id,
                                    otype: 'message:mention',
                                    oid: @message.message_id).exists?
     return if @notified[user.user_id]
@@ -113,7 +113,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
                 nil,
                 I18n.t('notifications.new_mention', nick: @message.author,
                        subject: @message.subject),
-                cf_message_path(@thread, @message),
+                message_path(@thread, @message),
                 @message.message_id,
                 'message:mention',
                 'icon-new-activity')
@@ -163,7 +163,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
       perform_no_messages_badge(message.owner)
 
       if not message.parent_id.blank? and message.parent.upvotes >= 1
-        votes = CfVote.where(message_id: message.parent_id, user_id: message.user_id).first
+        votes = Vote.where(message_id: message.parent_id, user_id: message.user_id).first
         b = message.owner.badges.find { |user_badge| user_badge.slug == 'teacher' }
 
         if b.blank? and votes.blank? and message.parent.user_id != message.user_id

@@ -58,10 +58,10 @@ content_for :h1, t('admin.audit.audit_log')
 <table class="cf-default-table">
   <thead>
     <tr>
-      <th><%= CfAuditing.human_attribute_name(:act) %></th>
-      <th><%= CfAuditing.human_attribute_name(:user_id) %></th>
+      <th><%= Auditing.human_attribute_name(:act) %></th>
+      <th><%= Auditing.human_attribute_name(:user_id) %></th>
       <th>Objekt</th>
-      <th><%= CfAuditing.human_attribute_name(:created_at) %></th>
+      <th><%= Auditing.human_attribute_name(:created_at) %></th>
     </tr>
   </thead>
 

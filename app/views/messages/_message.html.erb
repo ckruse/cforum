@@ -1,0 +1,202 @@
+<%
+do_parent ||= false
+controls ||= :yes
+%>
+<%= message_header(@thread, m, first: first, do_parent: do_parent,
+                   tree: false, show_editor: true,
+                   author_link_to_message: false) %>
+
+  <% if m.flags["no-answer"] != 'yes' and m.flags['no-answer-admin'] != 'yes' and controls == :yes %>
+    <%= render 'votes_accept', m: m %>
+  <% end %>
+
+  <% unless m.problematic_site.blank? %><p class="problematic-site"><%= cf_link_to Message.human_attribute_name(:problematic_site), m.problematic_site, rel: 'nofollow' %></p><% end %>
+  <div class="posting-content">
+    <%= m.to_html(@app_controller) %>
+  </div>
+
+  <% if not m.flags['flagged'].blank? and not current_user.blank? and current_user.moderate?(current_forum) %>
+    <div class="flagged-message">
+      <p>
+        <%= t('plugins.flag_plugin.message_is_flagged', reason: t('messages.close_vote.' + m.flags['flagged'])) %>
+        <% if m.flags['flagged'] == 'custom' %>
+          <br><%= t('messages.close_vote.' + m.flags['flagged']) %>: <%= m.flags['custom_reason'] %>
+        <% end %>
+        <% if m.flags['flagged'] == 'duplicate' %>
+          <%= cf_link_to t('plugins.flag_plugin.duplicate_message'), m.flags['flagged_dup_url'] %>
+        <% end %>
+      </p>
+    </div>
+  <% end %>
+
+  <div class="message-links">
+    <% unless m.cite.blank? %>
+      <p class="message-cite"><%= t('messages.this_message_got_cited',
+                                    link: cf_link_to(t('cites.cite', id: m.cite.cite_id),
+                                                     cite_path(m.cite))).html_safe %></p>
+    <% end %>
+
+    <% if not m.flags['flattr_id'].blank? %>
+      <p class="flattr">
+        <%= t('layout.flattr_author') %>
+        <%= cf_link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(m.flags['flattr_id']) +
+          "&url=" + CGI.escape(message_url(@thread, m, rm: 'thread-view')) +
+          "&title=" + CGI.escape(m.subject), class: 'flattr-link' do %>
+          <img src="//button.flattr.com/flattr-badge-large.png" alt="Flattr this!" title="Flattr this!" class="flattr-button">
+        <% end %>
+      </p>
+    <% end %>
+
+    <% if controls == :yes %>
+      <div class="controls">
+        <% if m.open? and @thread.forum.write?(current_user) %>
+          <% if may_answer(m) %>
+            <%= cf_link_to t("messages.new_answer"), new_message_path(@thread, m, 'quote_old_message' => 'yes'), class: 'cf-btn', rel: 'nofollow' %>
+            <%= cf_link_to t("messages.new_answer_wo_quote"), new_message_path(@thread, m), class: 'cf-btn', rel: 'nofollow' %>
+          <% end %>
+
+          <% if current_user and m.user_id and current_user.user_id != m.user_id %>
+            <%= cf_link_to(t("mails.new_mail"),
+                           new_mail_path(priv_message: {recipient_id: m.user_id,
+                                                           subject: t('mails.regarding_message',
+                                                                      subject: m.subject,
+                                                                      time: l(m.created_at, format: date_format("date_format_post")))}),
+                           class: 'cf-btn', rel: 'nofollow') %>
+          <% end %>
+
+          <% if may?(RightsHelper::RETAG) and not check_editable(@thread, m, false) %>
+            <%= cf_link_to t('messages.retag'), retag_message_path(@thread, m), class: 'cf-btn', rel: 'nofollow' %>
+          <% end %>
+
+          <% if m.flags['flagged'].blank? %>
+            <%= cf_link_to(t('plugins.flag_plugin.flag_message'), flag_message_path(@thread, m),
+                           class: 'cf-btn',
+                           title: t('plugins.flag_plugin.flag_message'), rel: 'nofollow') %>
+          <% elsif current_user and current_user.moderate?(current_forum) %>
+            <%= cf_link_to('', unflag_message_path(@thread, m),
+                           method: :delete,
+                           class: 'cf-btn icon-flag-message active',
+                           title: t('plugins.flag_plugin.unflag_message'), rel: 'nofollow') %>
+          <% end %>
+
+        <% else %>
+          <% if current_user and m.user_id %>
+            <%= cf_link_to(t("mails.new_mail"),
+                           new_mail_path(priv_message: {recipient_id: m.user_id,
+                                                           subject: t('mails.regarding_message',
+                                                                      subject: m.subject,
+                                                                      time: l(m.created_at, format: date_format("date_format_post")))}),
+                           class: 'cf-btn', rel: 'nofollow') %>
+          <% end %>
+        <% end %>
+
+        <% if check_editable(@thread, m, false) %>
+          <%= cf_link_to t('messages.edit_message'), edit_message_path(@thread, m), class: 'cf-btn', rel: 'nofollow' %>
+        <% end %>
+
+        <% if may?(RightsHelper::CREATE_CLOSE_REOPEN_VOTE) and
+          m.flags['no-answer-admin'] != 'yes' %>
+          <%
+          # allow close vote if
+            # - message is not closed
+            # - message hasn't got a close vote already
+            if m.open? and m.close_vote.blank?
+          %>
+            <%= cf_link_to(t('messages.close_vote.close_message_button'),
+                           close_message_path(@thread, m), class: 'cf-btn', rel: 'nofollow') %>
+          <% end %>
+          <%
+          # allow open vote if
+            # - message is closed
+            # - message hasn't got an open vote already
+            if not m.open? and m.open_vote.blank?
+          %>
+            <%= cf_link_to(t('messages.close_vote.open_message_button'),
+                           open_message_path(@thread, m), class: 'cf-btn', rel: 'nofollow') %>
+          <% end %>
+        <% end %>
+
+        <% unless current_user.blank? %>
+          <% if m.attribs[:is_interesting] %>
+            <%= cf_button_to(boring_message_path(@thread, m),
+                             title: t('plugins.interesting_messages.mark_message_boring'),
+                             class: 'cf-btn',
+                             params: std_args) do %><% t('plugins.interesting_messages.mark_message_boring') %><% end %>
+          <% else %>
+            <%= cf_button_to(interesting_message_path(@thread, m),
+                             title: t('plugins.interesting_messages.mark_message_interesting'),
+                             class: 'cf-btn',
+                             params: std_args) do %><% t('plugins.interesting_messages.mark_message_interesting') %><% end %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <% unless m.close_vote.blank? %>
+        <%= render 'close_vote', m: m %>
+      <% end %>
+
+      <% unless m.open_vote.blank? %>
+        <%= render 'open_vote', m: m %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if m.message_id == @thread.message.message_id and not @thread.accepted.blank? %>
+    <h3><%= t('messages.accepted_answers') %></h3>
+
+    <ul class="accepted">
+      <% @thread.accepted.each do |m| %>
+      <li>
+        <article class="thread threadlist"><%= message_header(@thread, m, first: false, do_parent: false, show_votes: true, id_prefix: 'accepted-') %></article>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% unless m.references(@forums, 5).blank? %>
+    <h3><%= t('messages.these_messages_reference') %></h3>
+    <ul class="message-references">
+      <% m.references(@forums, 5).each do |ref| %>
+        <li>
+          <article class="thread threadlist"><% ref.src_message.thread.message = ref.src_message %>
+            <%= message_header(ref.src_message.thread, ref.src_message, id: false, show_votes: true) %>
+          </article>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% if controls == :yes %>
+    <div class="forum-links">
+      <nav>
+        <ul>
+          <li><%= cf_link_to t('layout.home'), root_path %></li>
+          <li><%= cf_link_to t('forums.all_forums'), redirect_to_page_path(nil, @thread) %></li>
+          <% if current_forum %>
+            <li><%= cf_link_to current_forum.name, redirect_to_page_path(current_forum, @thread) %></li>
+          <% end %>
+
+          <% if current_user.blank? %>
+            <li><%= cf_link_to(t('layout.login'), new_user_session_path, rel: 'nofollow') %></li>
+            <li><%= cf_link_to t("layout.register"), new_user_registration_path, rel: 'nofollow' %></li>
+          <% end %>
+
+          <% if current_user and current_user.moderate?(current_forum) %>
+            <% if @view_all %>
+              <li>
+                <% if m.deleted? %>
+                  <%= cf_link_to t("forums.normal_view"), forum_path(current_forum, view_all: nil), rel: 'nofollow' %>
+                <% else %>
+                  <%= cf_link_to t("forums.normal_view"), message_path(@thread, m, view_all: nil), rel: 'nofollow' %>
+                <% end %>
+              </li>
+            <% else %>
+              <li><%= cf_link_to t("forums.admin_view"), message_path(@thread, m, view_all: true), rel: 'nofollow' %></li>
+            <% end %>
+          <% end %>
+
+          <li><%= cf_link_to t('messages.message_in_tree'), '#tree-m' + m.message_id.to_s %>
+        </ul>
+      </nav>
+    </div>
+  <% end %>

@@ -5,7 +5,7 @@ FactoryGirl.define do
     Faker::Lorem.paragraphs.join("\n\n")
   end
 
-  factory :cf_cite do
+  factory :cite do
     sequence(:author) { |n| "Author #{n}" }
     cite { generate(:random_cite) }
     url 'http://example.org/'

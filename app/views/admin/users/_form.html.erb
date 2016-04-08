@@ -48,6 +48,6 @@
 <div class="form-actions">
   <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
   <%= cf_link_to t('global.cancel'), admin_users_path, class: 'cf-btn' %>
-  <%= cf_link_to(t("mails.new_mail"), new_mail_path(cf_priv_message: {recipient_id: @user.user_id}),
+  <%= cf_link_to(t("mails.new_mail"), new_mail_path(priv_message: {recipient_id: @user.user_id}),
                  class: 'cf-btn', rel: 'nofollow') %>
 </div>

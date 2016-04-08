@@ -9,7 +9,7 @@ module InterestingHelper
 
     message.each do |m|
       begin
-        CfMessage.connection.execute(sql + m.message_id.to_s + ")")
+        Message.connection.execute(sql + m.message_id.to_s + ")")
       rescue ActiveRecord::RecordNotUnique
       end
     end
@@ -20,12 +20,12 @@ module InterestingHelper
   def mark_boring(user, message)
     return if user.blank?
     message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
-    message = message.map { |m| m.is_a?(CfMessage) ? m.message_id : m.to_i }
+    message = message.map { |m| m.is_a?(Message) ? m.message_id : m.to_i }
 
     sql = "DELETE FROM intesting_messages WHERE user_id =  " + current_user.user_id.to_s +
       " AND message_id IN (" + message.join(',') + ")"
 
-    CfMessage.connection.execute(sql)
+    Message.connection.execute(sql)
 
     true
   end
@@ -34,7 +34,7 @@ module InterestingHelper
     return if user.blank?
 
     message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
-    message = message.map { |m| m.is_a?(CfMessage) ? m.message_id : m.to_i }
+    message = message.map { |m| m.is_a?(Message) ? m.message_id : m.to_i }
 
     user_id = user.is_a?(User) ? user.user_id : user
 
@@ -59,7 +59,7 @@ module InterestingHelper
 
     intesting_messages = []
 
-    result = CfMessage.connection.
+    result = Message.connection.
              execute("SELECT message_id FROM interesting_messages WHERE message_id IN (" +
                      message.join(", ") + ") AND user_id = " + user_id.to_s)
     result.each do |row|
@@ -89,7 +89,7 @@ module InterestingHelper
     end
 
     if not ids.blank?
-      result = CfMessage.connection.execute("SELECT message_id FROM interesting_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + user.user_id.to_s)
+      result = Message.connection.execute("SELECT message_id FROM interesting_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + user.user_id.to_s)
       result.each do |row|
         new_cache[row['message_id'].to_i] = true
 
@@ -128,7 +128,7 @@ module InterestingHelper
     end
 
     unless had_all
-      result = CfMessage.connection.execute("SELECT message_id FROM interesting_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + user.user_id.to_s)
+      result = Message.connection.execute("SELECT message_id FROM interesting_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + user.user_id.to_s)
       result.each do |row|
         new_cache[row['message_id'].to_i] = true
         msgs[row['message_id']].attribs['classes'] << 'interesting' if msgs[row['message_id']]

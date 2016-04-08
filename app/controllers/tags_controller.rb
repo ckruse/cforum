@@ -10,14 +10,14 @@ class TagsController < ApplicationController
   def index
     if not params[:s].blank?
       clean_tag = params[:s].strip + '%'
-      @tags = CfTag.
+      @tags = Tag.
               preload(:synonyms).
               where("forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))",
                     current_forum.forum_id, clean_tag, clean_tag).
               order('tag_name ASC')
 
     elsif not params[:tags].blank? # tags param is set when we should suggest tags
-      @tags = CfTag.preload(:synonyms).where("forum_id = ? AND suggest = true", current_forum.forum_id)
+      @tags = Tag.preload(:synonyms).where("forum_id = ? AND suggest = true", current_forum.forum_id)
       sql_parts = []
       sql_sub_parts = []
       sql_params = []
@@ -35,7 +35,7 @@ class TagsController < ApplicationController
                           *sql_params)
               .order('num_messages DESC')
     else
-      @tags = CfTag.preload(:synonyms).order('tag_name ASC').where(forum_id: current_forum.forum_id)
+      @tags = Tag.preload(:synonyms).order('tag_name ASC').where(forum_id: current_forum.forum_id)
     end
 
     respond_to do |format|
@@ -64,14 +64,14 @@ class TagsController < ApplicationController
 
     if not term.blank?
       clean_tag = term.strip + '%'
-      @tags = CfTag.
+      @tags = Tag.
               preload(:synonyms).
               where("forum_id = ? AND suggest = true AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))",
                     current_forum.forum_id,
                     clean_tag,
                     clean_tag)
     else
-      @tags = CfTag.preload(:synonyms).where(forum_id: current_forum.forum_id, suggest: true)
+      @tags = Tag.preload(:synonyms).where(forum_id: current_forum.forum_id, suggest: true)
     end
 
     @tags_list = []
@@ -93,13 +93,13 @@ class TagsController < ApplicationController
   # GET /collections/1.json
   def show
     @limit = uconf('pagination').to_i
-    @tag = CfTag.preload(:synonyms).where('tags.forum_id = ? AND slug = ?',
+    @tag = Tag.preload(:synonyms).where('tags.forum_id = ? AND slug = ?',
                                           current_forum.forum_id, params[:id]).
       first!
 
     @tag.num_messages ||= 0
 
-    @messages = CfMessage.preload(:owner, tags: :synonyms, thread: :forum).
+    @messages = Message.preload(:owner, tags: :synonyms, thread: :forum).
       joins('INNER JOIN messages_tags USING(message_id)').
       where('messages_tags.tag_id' => @tag.tag_id,
             forum_id: current_forum.forum_id).
@@ -114,15 +114,15 @@ class TagsController < ApplicationController
   end
 
   def tag_params
-    params.require(:cf_tag).permit(:tag_name, :suggest)
+    params.require(:tag).permit(:tag_name, :suggest)
   end
 
   def new
-    @tag = CfTag.new
+    @tag = Tag.new
   end
 
   def create
-    @tag = CfTag.new(tag_params)
+    @tag = Tag.new(tag_params)
     @tag.forum_id = current_forum.forum_id
 
     @tag.slug = @tag.tag_name.parameterize unless @tag.tag_name.blank?
@@ -136,12 +136,12 @@ class TagsController < ApplicationController
   end
 
   def edit
-    @tag = CfTag.where('tags.forum_id = ? AND slug = ?',
+    @tag = Tag.where('tags.forum_id = ? AND slug = ?',
                        current_forum.forum_id, params[:id]).first!
   end
 
   def update
-    @tag = CfTag.where('tags.forum_id = ? AND slug = ?',
+    @tag = Tag.where('tags.forum_id = ? AND slug = ?',
                        current_forum.forum_id, params[:id]).first!
 
     @tag.attributes = tag_params
@@ -157,7 +157,7 @@ class TagsController < ApplicationController
   end
 
   def destroy
-    @tag = CfTag.
+    @tag = Tag.
            where('tags.forum_id = ? AND slug = ?',
                  current_forum.forum_id, params[:id]).first!
 
@@ -173,22 +173,22 @@ class TagsController < ApplicationController
   end
 
   def merge
-    @tag = CfTag.where('tags.forum_id = ? AND slug = ?',
+    @tag = Tag.where('tags.forum_id = ? AND slug = ?',
                        current_forum.forum_id, params[:id]).first!
-    @tags = CfTag.order('tag_name ASC').where(forum_id: current_forum.forum_id)
+    @tags = Tag.order('tag_name ASC').where(forum_id: current_forum.forum_id)
   end
 
   def do_merge
-    @tag = CfTag.where('tags.forum_id = ? AND slug = ?',
+    @tag = Tag.where('tags.forum_id = ? AND slug = ?',
                        current_forum.forum_id, params[:id]).first!
-    @merge_tag = CfTag.where('tags.forum_id = ? AND tag_id = ?',
+    @merge_tag = Tag.where('tags.forum_id = ? AND tag_id = ?',
                              current_forum.forum_id, params[:merge_tag]).first!
 
-    CfMessage.transaction do
-      CfMessageTag.where(tag_id: @tag.tag_id).
+    Message.transaction do
+      MessageTag.where(tag_id: @tag.tag_id).
         update_all(tag_id: @merge_tag.tag_id)
 
-      CfTagSynonym.where(tag_id: @tag.tag_id).
+      TagSynonym.where(tag_id: @tag.tag_id).
         update_all(tag_id: @merge_tag.tag_id)
 
       @merge_tag.synonyms.create!(synonym: @tag.tag_name,

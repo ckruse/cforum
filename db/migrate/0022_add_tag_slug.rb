@@ -6,7 +6,7 @@ class AddTagSlug < ActiveRecord::Migration
       ALTER TABLE tags ADD COLUMN slug CHARACTER VARYING(250);
     SQL
 
-    CfTag.all.each do |t|
+    Tag.all.each do |t|
       t.slug = t.tag_name.parameterize
       t.save
     end

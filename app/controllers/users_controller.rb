@@ -44,21 +44,21 @@ class UsersController < ApplicationController
 
   def show
     @user = User.preload(badge_users: :badge).find(params[:id])
-    @settings = @user.settings || CfSetting.new
+    @settings = @user.settings || Setting.new
     @settings.options ||= {}
-    @user_score = CfScore.where(user_id: @user.user_id).sum('value')
+    @user_score = Score.where(user_id: @user.user_id).sum('value')
 
-    @messages_count = CfMessage.where(user_id: @user.user_id, deleted: false).count()
+    @messages_count = Message.where(user_id: @user.user_id, deleted: false).count()
 
-    sql = CfForum.visible_sql(current_user)
+    sql = Forum.visible_sql(current_user)
 
-    @last_messages = CfMessage.
+    @last_messages = Message.
       preload(:owner, :tags, votes: :voters, thread: :forum).
       where("user_id = ? AND deleted = false AND forum_id IN (#{sql})", @user.user_id).
       order('created_at DESC').
       limit(5)
 
-    @tags_cnts = CfMessageTag.
+    @tags_cnts = MessageTag.
       preload(tag: :forum).
       joins("INNER JOIN messages USING(message_id)").
       select("tag_id, COUNT(*) AS cnt").
@@ -67,13 +67,13 @@ class UsersController < ApplicationController
       order("cnt DESC").
       limit(10)
 
-    @point_msgs = CfMessage.
+    @point_msgs = Message.
       preload(:owner, :tags, votes: :voters, thread: :forum).
       where("deleted = false AND upvotes > 0 AND user_id = ? AND forum_id IN (#{sql})", @user.user_id).
       order('upvotes DESC').
       limit(10)
 
-    scored_msgs = CfScore.
+    scored_msgs = Score.
       preload(message: [:owner, :tags, {thread: :forum, votes: :voters}], vote: {message: [:owner, :tags, {thread: :forum, votes: :voters}]}).
       joins("LEFT JOIN messages m1 USING(message_id)
              LEFT JOIN votes USING(vote_id)
@@ -119,7 +119,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-    @settings = @user.settings || CfSetting.new
+    @settings = @user.settings || Setting.new
     @settings.options ||= {}
 
     if (@user.confirmed_at.blank? or not @user.unconfirmed_email.blank?) and (not current_user.admin? or current_user.username == @user.username)
@@ -129,7 +129,7 @@ class UsersController < ApplicationController
 
     highlight_showing_settings(@user)
 
-    @messages_count = CfMessage.where(user_id: @user.user_id).count()
+    @messages_count = Message.where(user_id: @user.user_id).count()
   end
 
   def user_params
@@ -139,10 +139,10 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @messages_count = CfMessage.where(user_id: @user.user_id).count()
+    @messages_count = Message.where(user_id: @user.user_id).count()
 
-    @settings = CfSetting.find_by_user_id(@user.user_id)
-    @settings = CfSetting.new if @settings.blank?
+    @settings = Setting.find_by_user_id(@user.user_id)
+    @settings = Setting.new if @settings.blank?
 
     @settings.user_id = @user.user_id
     @settings.options = params[:settings] || {}
@@ -193,9 +193,9 @@ class UsersController < ApplicationController
   def show_scores
     @user = User.find(params[:id])
 
-    sql = CfForum.visible_sql(current_user)
+    sql = Forum.visible_sql(current_user)
 
-    @scored_msgs = CfScore.
+    @scored_msgs = Score.
                    preload(message: [:owner, :tags,
                                      {thread: :forum, votes: :voters}],
                            vote: {message: [:owner, :tags,
@@ -221,9 +221,9 @@ class UsersController < ApplicationController
   def show_messages
     @user = User.find(params[:id])
 
-    sql = CfForum.visible_sql(current_user)
+    sql = Forum.visible_sql(current_user)
 
-    @messages = CfMessage.
+    @messages = Message.
                 preload(:owner, :tags, votes: :voters, thread: :forum).
                 where("user_id = ? AND deleted = false AND forum_id IN (#{sql})", @user.user_id).
                 order('created_at DESC').

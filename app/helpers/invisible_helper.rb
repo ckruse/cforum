@@ -12,7 +12,7 @@ module InvisibleHelper
 
     thread.each do |t|
       begin
-        CfMessage.connection.execute(sql + t.to_s + ")")
+        Message.connection.execute(sql + t.to_s + ")")
       rescue ActiveRecord::RecordNotUnique
       end
     end
@@ -32,7 +32,7 @@ module InvisibleHelper
 
     CfThread.transaction do
       thread.each do |t|
-        CfMessage.connection.execute(sql + t.to_s)
+        Message.connection.execute(sql + t.to_s)
       end
     end
   end

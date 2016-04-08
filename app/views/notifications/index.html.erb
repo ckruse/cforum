@@ -13,8 +13,8 @@ content_for(:body_classes, 'notifications index')
       <th><input type="checkbox" id="check-all-box"></th>
       <th><%= sortable '', :is_read, :notifications_path %></th>
       <th> </th>
-      <th><%= sortable CfNotification.human_attribute_name(:subject), :subject, :notifications_path %></th>
-      <th><%= sortable CfNotification.human_attribute_name(:created_at), :created_at, :notifications_path %></th>
+      <th><%= sortable Notification.human_attribute_name(:subject), :subject, :notifications_path %></th>
+      <th><%= sortable Notification.human_attribute_name(:created_at), :created_at, :notifications_path %></th>
       <th> </th>
     </tr>
   </thead>

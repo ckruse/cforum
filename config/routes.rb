@@ -15,18 +15,18 @@ Cforum::Application.routes.draw do
         as: :new_user_registration
   end
 
-  get '/m:id' => 'cf_forums#message_redirect', id: /\d+/
+  get '/m:id' => 'forums#message_redirect', id: /\d+/
 
-  get "/search" => "cf_search#show", as: :search
-  post "/search" => "cf_search#show"
+  get "/search" => "search#show", as: :search
+  post "/search" => "search#show"
 
   get 'cites/old/:id' => 'cites#redirect'
   get 'cites/voting' => 'cites#vote_index', as: :cites_vote
   post 'cites/:id/vote' => 'cites#vote', as: :cite_vote
   resources 'cites'
 
-  get "/forums" => "cf_forums#redirector", as: :forum_redirector
-  get '/forums_titles' => "cf_forums#title"
+  get "/forums" => "forums#redirector", as: :forum_redirector
+  get '/forums_titles' => "forums#title"
 
   # we use a custom url style for mails to achieve grouping
   get '/mails' => 'mails#index', as: :mails
@@ -49,23 +49,23 @@ Cforum::Application.routes.draw do
   resources :notifications, except: [:edit, :new, :create]
   delete 'notifications' => 'notifications#batch_destroy'
 
-  post 'preview' => 'cf_messages#preview'
+  post 'preview' => 'messages#preview'
 
   get 'help' => 'pages#help', as: :help
 
   namespace 'admin' do
     resources :users, except: :show
-    resources :groups, controller: :cf_groups, except: :show
-    resources :forums, controller: :cf_forums, except: :show
+    resources :groups, controller: :groups, except: :show
+    resources :forums, controller: :forums, except: :show
     resources :badges, except: :show
     resources :search_sections, except: :show
     resources :badge_groups, except: :show
 
-    get 'settings' => 'cf_settings#edit', as: 'cf_settings'
-    post 'settings' => 'cf_settings#update'
+    get 'settings' => 'settings#edit', as: 'settings'
+    post 'settings' => 'settings#update'
 
-    get '/forums/:id/merge' => 'cf_forums#merge', as: 'forums_merge'
-    post '/forums/:id/merge' => 'cf_forums#do_merge', as: 'forums_do_merge'
+    get '/forums/:id/merge' => 'forums#merge', as: 'forums_merge'
+    post '/forums/:id/merge' => 'forums#do_merge', as: 'forums_do_merge'
 
     get '/audit' => 'audit#index'
     get '/audit/:id' => 'audit#show'
@@ -75,7 +75,7 @@ Cforum::Application.routes.draw do
 
   get '/all' => 'cf_threads#index'
 
-  get '/interesting' => 'cf_messages/interesting#list_interesting_messages',
+  get '/interesting' => 'messages/interesting#list_interesting_messages',
       as: :interesting_messages
   get '/invisible' => 'cf_threads/invisible#list_invisible_threads',
       as: :hidden_threads
@@ -87,14 +87,14 @@ Cforum::Application.routes.draw do
   resources 'images', except: [:new, :edit, :update]
 
   # old archive url
-  get '/archiv' => 'cf_forums#redirect_archive'
-  get '/archiv/:year' => 'cf_forums#redirect_archive_year', year: /\d{4}/
-  get '/archiv/:year/:mon' => 'cf_forums#redirect_archive_mon', year: /\d{4}/, mon: /\d{1,2}/
-  get '/archiv/:year/:mon/:tid' => 'cf_forums#redirect_archive_thread', year: /\d{4}/, mon: /\d{1,2}/, tid: /t\d+/
+  get '/archiv' => 'forums#redirect_archive'
+  get '/archiv/:year' => 'forums#redirect_archive_year', year: /\d{4}/
+  get '/archiv/:year/:mon' => 'forums#redirect_archive_mon', year: /\d{4}/, mon: /\d{1,2}/
+  get '/archiv/:year/:mon/:tid' => 'forums#redirect_archive_thread', year: /\d{4}/, mon: /\d{1,2}/, tid: /t\d+/
 
 
   scope ":curr_forum" do
-    get 'stats' => 'cf_forums#stats'
+    get 'stats' => 'forums#stats'
     get 'tags/autocomplete' => 'tags#autocomplete'
     post 'tags/suggestions' => 'tags#suggestions'
     get 'tags/:id/merge' => 'tags#merge', as: :merge_tag
@@ -107,7 +107,7 @@ Cforum::Application.routes.draw do
 
     get '/' => 'cf_threads#index', as: 'cf_threads'
 
-    post '/mark_all_visited' => 'cf_messages/mark_read#mark_all_read',
+    post '/mark_all_visited' => 'messages/mark_read#mark_all_read',
          as: 'mark_all_read'
 
     post '/close_all' => 'cf_threads/open_close#close_all',
@@ -115,9 +115,9 @@ Cforum::Application.routes.draw do
     post '/open_all' => 'cf_threads/open_close#open_all',
          as: 'open_all_threads'
 
-    get '/archive' => 'cf_archive#years', as: :cf_archive
-    get '/:year' => 'cf_archive#year', as: :cf_archive_year, year: /\d{4}/
-    get '/:year/:month' => 'cf_archive#month', as: :cf_archive_month, year: /\d{4}/, mon: /\w{3}/
+    get '/archive' => 'archive#years', as: :archive
+    get '/:year' => 'archive#year', as: :archive_year, year: /\d{4}/
+    get '/:year/:month' => 'archive#month', as: :archive_month, year: /\d{4}/, mon: /\w{3}/
 
     #
     # thread urls
@@ -136,7 +136,7 @@ Cforum::Application.routes.draw do
          mon: /\w{3}/, day: /\d{1,2}/
     post '/:year/:mon/:day/:tid/no_archive' => 'cf_threads/no_answer_no_archive#no_archive',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_archive_cf_thread'
-    post '/:year/:mon/:day/:tid/mark_read' => 'cf_messages/mark_read#mark_thread_read', year: /\d{4}/,
+    post '/:year/:mon/:day/:tid/mark_read' => 'messages/mark_read#mark_thread_read', year: /\d{4}/,
          mon: /\w{3}/, day: /\d{1,2}/, as: :mark_thread_read
 
     post '/:year/:mon/:day/:tid/open' => 'cf_threads/open_close#open',
@@ -152,78 +152,78 @@ Cforum::Application.routes.draw do
     #
     # message urls
     #
-    get '/:year/:mon/:day/:tid/:mid' => 'cf_messages#show', year: /\d{4}/,
-        mon: /\w{3}/, day: /\d{1,2}/, as: 'cf_message'
-    get '/:year/:mon/:day/:tid/:mid/edit' => 'cf_messages#edit',
-        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'edit_cf_message'
-    patch '/:year/:mon/:day/:tid/:mid/edit' => 'cf_messages#update',
+    get '/:year/:mon/:day/:tid/:mid' => 'messages#show', year: /\d{4}/,
+        mon: /\w{3}/, day: /\d{1,2}/, as: 'message'
+    get '/:year/:mon/:day/:tid/:mid/edit' => 'messages#edit',
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'edit_message'
+    patch '/:year/:mon/:day/:tid/:mid/edit' => 'messages#update',
           year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
-    delete '/:year/:mon/:day/:tid/:mid' => 'cf_messages#destroy',
+    delete '/:year/:mon/:day/:tid/:mid' => 'messages#destroy',
            year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
-    get '/:year/:mon/:day/:tid/:mid/retag' => 'cf_messages#show_retag',
-        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'retag_cf_message'
-    post '/:year/:mon/:day/:tid/:mid/retag' => 'cf_messages#retag',
+    get '/:year/:mon/:day/:tid/:mid/retag' => 'messages#show_retag',
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'retag_message'
+    post '/:year/:mon/:day/:tid/:mid/retag' => 'messages#retag',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
-    post '/:year/:mon/:day/:tid/:mid/vote' => 'cf_messages/vote#vote',
-         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'vote_cf_message'
+    post '/:year/:mon/:day/:tid/:mid/vote' => 'messages/vote#vote',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'vote_message'
 
-    post '/:year/:mon/:day/:tid/:mid/interesting' => 'cf_messages/interesting#mark_interesting',
-         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'interesting_cf_message'
-    post '/:year/:mon/:day/:tid/:mid/boring' => 'cf_messages/interesting#mark_boring',
-         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'boring_cf_message'
+    post '/:year/:mon/:day/:tid/:mid/interesting' => 'messages/interesting#mark_interesting',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'interesting_message'
+    post '/:year/:mon/:day/:tid/:mid/boring' => 'messages/interesting#mark_boring',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'boring_message'
 
 
     #
     # admin actions
     #
-    post '/:year/:mon/:day/:tid/:mid/restore' => 'cf_messages#restore',
-         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'restore_cf_message'
+    post '/:year/:mon/:day/:tid/:mid/restore' => 'messages#restore',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'restore_message'
     post '/:year/:mon/:day/:tid/:mid/no_answer' => 'cf_threads/no_answer_no_archive#no_answer',
-         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_answer_cf_message'
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_answer_message'
 
     #
     # Plugins
     #
-    post '/:year/:mon/:day/:tid/:mid/accept' => 'cf_messages/accept#accept',
-         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'accept_cf_message'
+    post '/:year/:mon/:day/:tid/:mid/accept' => 'messages/accept#accept',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'accept_message'
 
     get '/:year/:mon/:day/:tid/:mid/close' => 'close_vote#new',
-        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'close_cf_message'
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'close_message'
     put '/:year/:mon/:day/:tid/:mid/close' => 'close_vote#create',
         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
     patch '/:year/:mon/:day/:tid/:mid/close' => 'close_vote#vote',
           year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
     get '/:year/:mon/:day/:tid/:mid/open' => 'close_vote#new_open',
-        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'open_cf_message'
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'open_message'
     put '/:year/:mon/:day/:tid/:mid/open' => 'close_vote#create_open',
         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
     patch '/:year/:mon/:day/:tid/:mid/open' => 'close_vote#vote_open',
           year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
 
-    get '/:year/:mon/:day/:tid/:mid/flag' => 'cf_messages/flag#flag',
-        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'flag_cf_message'
-    put '/:year/:mon/:day/:tid/:mid/flag' => 'cf_messages/flag#flagging',
+    get '/:year/:mon/:day/:tid/:mid/flag' => 'messages/flag#flag',
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'flag_message'
+    put '/:year/:mon/:day/:tid/:mid/flag' => 'messages/flag#flagging',
         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
-    delete '/:year/:mon/:day/:tid/:mid/unflag' => 'cf_messages/flag#unflag',
+    delete '/:year/:mon/:day/:tid/:mid/unflag' => 'messages/flag#unflag',
            year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
-    get '/:year/:mon/:day/:tid/:mid/versions' => 'cf_messages#versions',
-        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'cf_message_versions'
+    get '/:year/:mon/:day/:tid/:mid/versions' => 'messages#versions',
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'message_versions'
 
     #
     # new and create messages
     #
-    get '/:year/:mon/:day/:tid/:mid/new' => 'cf_messages#new', year: /\d{4}/,
-        mon: /\w{3}/, day: /\d{1,2}/, as: 'new_cf_message'
-    post '/:year/:mon/:day/:tid/:mid' => 'cf_messages#create', year: /\d{4}/,
+    get '/:year/:mon/:day/:tid/:mid/new' => 'messages#new', year: /\d{4}/,
+        mon: /\w{3}/, day: /\d{1,2}/, as: 'new_message'
+    post '/:year/:mon/:day/:tid/:mid' => 'messages#create', year: /\d{4}/,
          mon: /\w{3}/, day: /\d{1,2}/
   end
 
   # show forum index in root
-  root to: 'cf_forums#index'
+  root to: 'forums#index'
 end
 
 # eof

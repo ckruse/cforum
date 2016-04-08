@@ -9,21 +9,21 @@ module LinkTagsHelper
   end
 
   def top_link
-    '<link rel="top" href="' + cf_forum_path(current_forum) + '" title="' + encode_entities(current_forum ? current_forum.name : 'All Forums') + '">'
+    '<link rel="top" href="' + forum_path(current_forum) + '" title="' + encode_entities(current_forum ? current_forum.name : 'All Forums') + '">'
   end
 
   def first_link(thread, msgs)
-    '<link rel="first" href="' + cf_message_path(thread, msgs[0]) + '" title="' + t('plugins.link_tags.first_msg') + '">'
+    '<link rel="first" href="' + message_path(thread, msgs[0]) + '" title="' + t('plugins.link_tags.first_msg') + '">'
   end
 
   def last_link(thread, msgs)
-    '<link rel="last" href="' + cf_message_path(thread, msgs[-1]) + '" title="' + t('plugins.link_tags.last_msg') + '">'
+    '<link rel="last" href="' + message_path(thread, msgs[-1]) + '" title="' + t('plugins.link_tags.last_msg') + '">'
   end
 
   def prev_link(thread, msgs, message)
     msgs.each_with_index do |m, i|
       if m.message_id == message.message_id
-        return '<link rel="prev" href="' + cf_message_path(thread, msgs[i - 1]) + '" title="' + t('plugins.link_tags.prev_msg') + '">' if i > 0
+        return '<link rel="prev" href="' + message_path(thread, msgs[i - 1]) + '" title="' + t('plugins.link_tags.prev_msg') + '">' if i > 0
         return ''
       end
     end
@@ -34,7 +34,7 @@ module LinkTagsHelper
   def next_link(thread, msgs, message)
     msgs.each_with_index do |m, i|
       if m.message_id == message.message_id
-        return '<link rel="next" href="' + cf_message_path(thread, msgs[i + 1]) + '" title="' + t('plugins.link_tags.next_msg') + '">' if msgs[i + 1] # TODO: Localize
+        return '<link rel="next" href="' + message_path(thread, msgs[i + 1]) + '" title="' + t('plugins.link_tags.next_msg') + '">' if msgs[i + 1] # TODO: Localize
         return ''
       end
     end

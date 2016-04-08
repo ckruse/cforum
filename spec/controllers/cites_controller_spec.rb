@@ -7,7 +7,7 @@ RSpec.describe CitesController, type: :controller do
 
   describe "GET #index" do
     it "assigns all cites as @cites" do
-      cite = create(:cf_cite, archived: true)
+      cite = create(:cite, archived: true)
       get :index, {}
       expect(assigns(:cites)).to eq([cite])
     end
@@ -16,13 +16,13 @@ RSpec.describe CitesController, type: :controller do
   describe "GET #new" do
     it "assigns a new cite as @cite" do
       get :new, {}
-      expect(assigns(:cite)).to be_a_new(CfCite)
+      expect(assigns(:cite)).to be_a_new(Cite)
     end
   end
 
   describe "GET #show" do
     it "assigns the cite as @cite" do
-      cite = create(:cf_cite)
+      cite = create(:cite)
       get :show, {id: cite.to_param}
       expect(assigns(:cite)).to eq(cite)
     end
@@ -30,7 +30,7 @@ RSpec.describe CitesController, type: :controller do
 
   describe "GET #edit" do
     it "assigns the requested cite as @cite" do
-      cite = create(:cf_cite)
+      cite = create(:cite)
       sign_in admin
 
       get :edit, {id: cite.to_param}
@@ -42,30 +42,30 @@ RSpec.describe CitesController, type: :controller do
     context "with valid params" do
       it "creates a new Cite" do
         expect {
-          post :create, {cf_cite: attributes_for(:cf_cite)}
-        }.to change(CfCite, :count).by(1)
+          post :create, {cite: attributes_for(:cite)}
+        }.to change(Cite, :count).by(1)
       end
 
       it "assigns a newly created cite as @cite" do
-        post :create, {cf_cite: attributes_for(:cf_cite)}
-        expect(assigns(:cite)).to be_a(CfCite)
+        post :create, {cite: attributes_for(:cite)}
+        expect(assigns(:cite)).to be_a(Cite)
         expect(assigns(:cite)).to be_persisted
       end
 
       it "redirects to the index" do
-        post :create, {cf_cite: attributes_for(:cf_cite)}
+        post :create, {cite: attributes_for(:cite)}
         expect(response).to redirect_to(cite_url(assigns(:cite)))
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved cite as @cite" do
-        post :create, {cf_cite: {author: 'Lea'}}
-        expect(assigns(:cite)).to be_a_new(CfCite)
+        post :create, {cite: {author: 'Lea'}}
+        expect(assigns(:cite)).to be_a_new(Cite)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {cf_cite: {author: 'Lea'}}
+        post :create, {cite: {author: 'Lea'}}
         expect(response).to render_template("new")
       end
     end
@@ -76,10 +76,10 @@ RSpec.describe CitesController, type: :controller do
       it "updates the requested cite" do
         sign_in admin
 
-        cite = create(:cf_cite)
-        new_cite = attributes_for(:cf_cite)
+        cite = create(:cite)
+        new_cite = attributes_for(:cite)
 
-        put :update, {id: cite.to_param, cf_cite: new_cite}
+        put :update, {id: cite.to_param, cite: new_cite}
         cite.reload
 
         expect(cite.author).to eq new_cite[:author]
@@ -89,16 +89,16 @@ RSpec.describe CitesController, type: :controller do
       it "assigns the requested cite as @cite" do
         sign_in admin
 
-        cite = create(:cf_cite)
-        put :update, {id: cite.to_param, cf_cite: attributes_for(:cf_cite)}
+        cite = create(:cite)
+        put :update, {id: cite.to_param, cite: attributes_for(:cite)}
         expect(assigns(:cite)).to eq(cite)
       end
 
       it "redirects to the cite" do
         sign_in admin
 
-        cite = create(:cf_cite)
-        put :update, {id: cite.to_param, cf_cite: attributes_for(:cf_cite)}
+        cite = create(:cite)
+        put :update, {id: cite.to_param, cite: attributes_for(:cite)}
         expect(response).to redirect_to(cite_url(cite))
       end
     end
@@ -107,16 +107,16 @@ RSpec.describe CitesController, type: :controller do
       it "assigns the cite as @cite" do
         sign_in admin
 
-        cite = create(:cf_cite)
-        put :update, {id: cite.to_param, cf_cite: {cite: ''}}
+        cite = create(:cite)
+        put :update, {id: cite.to_param, cite: {cite: ''}}
         expect(assigns(:cite)).to eq(cite)
       end
 
       it "re-renders the 'edit' template" do
         sign_in admin
 
-        cite = create(:cf_cite)
-        put :update, {id: cite.to_param, cf_cite: {cite: ''}}
+        cite = create(:cite)
+        put :update, {id: cite.to_param, cite: {cite: ''}}
         expect(response).to render_template("edit")
       end
     end
@@ -124,16 +124,16 @@ RSpec.describe CitesController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested cite" do
-      cite = create(:cf_cite)
+      cite = create(:cite)
       sign_in admin
 
       expect {
         delete :destroy, {id: cite.to_param}
-      }.to change(CfCite, :count).by(-1)
+      }.to change(Cite, :count).by(-1)
     end
 
     it "redirects to the cites list" do
-      cite = create(:cf_cite)
+      cite = create(:cite)
       sign_in admin
 
       delete :destroy, {id: cite.to_param}

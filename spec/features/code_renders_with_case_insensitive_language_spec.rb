@@ -7,21 +7,21 @@ RSpec.describe "highlights with different cases" do
 
   it "renders to code class=block" do
     messages = []
-    messages << create(:cf_message, content: <<HTML
+    messages << create(:message, content: <<HTML
 ~~~html
 <html>
 ~~~
 HTML
                     )
 
-    messages << create(:cf_message, content: <<HTML
+    messages << create(:message, content: <<HTML
 ~~~HTML
 <html>
 ~~~
 HTML
                      )
 
-    messages << create(:cf_message, content: <<HTML
+    messages << create(:message, content: <<HTML
 ~~~hTmL
 <html>
 ~~~
@@ -29,28 +29,28 @@ HTML
                     )
 
     messages.each do |message|
-      visit cf_message_path(message.thread, message)
+      visit message_path(message.thread, message)
       expect(page.find(".posting-content code.block")).to have_css("span.nt", text: "<html>")
     end
   end
 
   it "renders to code class=block in block quotes" do
     messages = []
-    messages << create(:cf_message, content: <<HTML
+    messages << create(:message, content: <<HTML
 > ~~~html
 > <html>
 > ~~~
 HTML
                     )
 
-    messages << create(:cf_message, content: <<HTML
+    messages << create(:message, content: <<HTML
 > ~~~HTML
 > <html>
 > ~~~
 HTML
                      )
 
-    messages << create(:cf_message, content: <<HTML
+    messages << create(:message, content: <<HTML
 > ~~~hTmL
 > <html>
 > ~~~
@@ -58,14 +58,14 @@ HTML
                     )
 
     messages.each do |message|
-      visit cf_message_path(message.thread, message)
+      visit message_path(message.thread, message)
       expect(page.find(".posting-content code.block")).to have_css("span.nt", text: "<html>")
     end
   end
 
   it "renders to code class=block when not at the beginning of the post" do
     messages = []
-    messages << create(:cf_message, content: <<HTML
+    messages << create(:message, content: <<HTML
 ewfwefwef
 
 ~~~html
@@ -74,7 +74,7 @@ ewfwefwef
 HTML
                     )
 
-    messages << create(:cf_message, content: <<HTML
+    messages << create(:message, content: <<HTML
 ewfwefwef
 
 ~~~HTML
@@ -83,7 +83,7 @@ ewfwefwef
 HTML
                      )
 
-    messages << create(:cf_message, content: <<HTML
+    messages << create(:message, content: <<HTML
 ewfwefwef
 
 ~~~hTmL
@@ -93,7 +93,7 @@ HTML
                     )
 
     messages.each do |message|
-      visit cf_message_path(message.thread, message)
+      visit message_path(message.thread, message)
       expect(page.find(".posting-content code.block")).to have_css("span.nt", text: "<html>")
     end
   end

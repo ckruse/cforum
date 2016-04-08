@@ -104,7 +104,7 @@ def repair_content(content)
 end
 
 begin
-  msgs = CfMessage.
+  msgs = Message.
          order(:message_id).
          limit(no_messages).
          offset(no_messages * current_block)

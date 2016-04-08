@@ -65,21 +65,21 @@ class ApplicationController < ActionController::Base
 
   def set_forums
     if not current_user
-      @forums = CfForum.where("standard_permission = ? OR standard_permission = ?",
-                              CfForumGroupPermission::ACCESS_READ,
-                              CfForumGroupPermission::ACCESS_WRITE).
-        order('position ASC, UPPER(name) ASC')
+      @forums = Forum.where("standard_permission = ? OR standard_permission = ?",
+                            ForumGroupPermission::ACCESS_READ,
+                            ForumGroupPermission::ACCESS_WRITE).
+                order('position ASC, UPPER(name) ASC')
 
     elsif current_user and current_user.admin
-      @forums = CfForum.order('position ASC, UPPER(name) ASC')
+      @forums = Forum.order('position ASC, UPPER(name) ASC')
 
     else
-      @forums = CfForum.where(
+      @forums = Forum.where(
         "(standard_permission IN (?, ?, ?, ?)) OR forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ?)",
-        CfForumGroupPermission::ACCESS_READ,
-        CfForumGroupPermission::ACCESS_WRITE,
-        CfForumGroupPermission::ACCESS_KNOWN_READ,
-        CfForumGroupPermission::ACCESS_KNOWN_WRITE,
+        ForumGroupPermission::ACCESS_READ,
+        ForumGroupPermission::ACCESS_WRITE,
+        ForumGroupPermission::ACCESS_KNOWN_READ,
+        ForumGroupPermission::ACCESS_KNOWN_WRITE,
         current_user.user_id
       ).order('position ASC, UPPER(name) ASC')
     end

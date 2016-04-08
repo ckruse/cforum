@@ -21,16 +21,16 @@ class User < ActiveRecord::Base
 
   attr_accessor :login
 
-  has_one :settings, class_name: 'CfSetting', foreign_key: :user_id, dependent: :destroy
+  has_one :settings, class_name: 'Setting', foreign_key: :user_id, dependent: :destroy
 
-  has_many :groups_users, class_name: 'CfGroupUser', foreign_key: :user_id
-  has_many :groups, class_name: 'CfGroup', through: :groups_users
+  has_many :group_users, foreign_key: :user_id
+  has_many :groups, through: :group_users
 
   has_many :badge_users, ->{ order(:created_at) }, dependent: :delete_all,
            foreign_key: :user_id
   has_many :badges, through: :badge_users
 
-  has_many :messages, class_name: 'CfMessage', foreign_key: :user_id
+  has_many :messages, foreign_key: :user_id
 
   def conf(nam)
     vals = settings.options unless settings.blank?
@@ -71,11 +71,11 @@ class User < ActiveRecord::Base
     return false if forum.blank?
 
     @permissions ||= {}
-    @permissions[forum.forum_id] ||= CfForumGroupPermission
+    @permissions[forum.forum_id] ||= ForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user_id, forum.forum_id)
 
     @permissions[forum.forum_id].each do |p|
-      return true if p.permission == CfForumGroupPermission::ACCESS_MODERATE
+      return true if p.permission == ForumGroupPermission::ACCESS_MODERATE
     end
 
     return false
@@ -85,39 +85,39 @@ class User < ActiveRecord::Base
     return true if admin?
     return true if has_badge?(RightsHelper::MODERATOR_TOOLS)
 
-    return CfForumGroupPermission.exists?(["group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND permission = ?",
-                                           user_id, CfForumGroupPermission::ACCESS_MODERATE])
+    return ForumGroupPermission.exists?(["group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND permission = ?",
+                                           user_id, ForumGroupPermission::ACCESS_MODERATE])
   end
 
   def write?(forum)
-    return true if forum.standard_permission == CfForumGroupPermission::ACCESS_WRITE
-    return true if forum.standard_permission == CfForumGroupPermission::ACCESS_KNOWN_WRITE
+    return true if forum.standard_permission == ForumGroupPermission::ACCESS_WRITE
+    return true if forum.standard_permission == ForumGroupPermission::ACCESS_KNOWN_WRITE
     return true if admin?
     return true if has_badge?(RightsHelper::MODERATOR_TOOLS)
 
     @permissions ||= {}
-    @permissions[forum.forum_id] ||= CfForumGroupPermission
+    @permissions[forum.forum_id] ||= ForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user_id, forum.forum_id)
 
     @permissions[forum.forum_id].each do |p|
-      return true if p.permission == CfForumGroupPermission::ACCESS_MODERATE or p.permission == CfForumGroupPermission::ACCESS_WRITE
+      return true if p.permission == ForumGroupPermission::ACCESS_MODERATE or p.permission == ForumGroupPermission::ACCESS_WRITE
     end
 
     return false
   end
 
   def read?(forum)
-    return true if forum.standard_permission == CfForumGroupPermission::ACCESS_READ or forum.standard_permission == CfForumGroupPermission::ACCESS_WRITE
-    return true if forum.standard_permission == CfForumGroupPermission::ACCESS_KNOWN_READ or forum.standard_permission == CfForumGroupPermission::ACCESS_KNOWN_WRITE
+    return true if forum.standard_permission == ForumGroupPermission::ACCESS_READ or forum.standard_permission == ForumGroupPermission::ACCESS_WRITE
+    return true if forum.standard_permission == ForumGroupPermission::ACCESS_KNOWN_READ or forum.standard_permission == ForumGroupPermission::ACCESS_KNOWN_WRITE
     return true if admin?
     return true if has_badge?(RightsHelper::MODERATOR_TOOLS)
 
     @permissions ||= {}
-    @permissions[forum.forum_id] ||= CfForumGroupPermission
+    @permissions[forum.forum_id] ||= ForumGroupPermission
       .where("group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?", user_id, forum.forum_id)
 
     @permissions[forum.forum_id].each do |p|
-      return true if p.permission == CfForumGroupPermission::ACCESS_MODERATE or p.permission == CfForumGroupPermission::ACCESS_WRITE or p.permission == CfForumGroupPermission::ACCESS_READ
+      return true if p.permission == ForumGroupPermission::ACCESS_MODERATE or p.permission == ForumGroupPermission::ACCESS_WRITE or p.permission == ForumGroupPermission::ACCESS_READ
     end
 
     return false
@@ -125,7 +125,7 @@ class User < ActiveRecord::Base
 
   def score
     unless @score
-      @score = CfScore.where(user_id: self.user_id).sum('value')
+      @score = Score.where(user_id: self.user_id).sum('value')
     end
 
     @score

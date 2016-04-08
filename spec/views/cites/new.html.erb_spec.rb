@@ -7,7 +7,7 @@ RSpec.describe "cites/new", type: :view do
   helper_method :uconf
 
   before(:each) do
-    assign(:cite, create(:cf_cite))
+    assign(:cite, create(:cite))
   end
 
   it "renders new cite form" do

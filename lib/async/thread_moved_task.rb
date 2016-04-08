@@ -6,7 +6,7 @@ class Peon::Tasks::ThreadMovedTask < Peon::Tasks::PeonTask
     Rails.logger.debug('notify new task: send mail to ' + user.email)
 
     begin
-      ThreadMovedMailer.thread_moved(user, thread, old_forum, new_forum, cf_message_url(thread, thread.messages.first)).deliver_now
+      ThreadMovedMailer.thread_moved(user, thread, old_forum, new_forum, message_url(thread, thread.messages.first)).deliver_now
     rescue => e
       Rails.logger.error('Error sending mail to ' + user.email.to_s + ': ' + e.message + "\n" + e.backtrace.join("\n"))
     end
@@ -16,8 +16,8 @@ class Peon::Tasks::ThreadMovedTask < Peon::Tasks::PeonTask
     # we don't care about exceptions, grunt will manage this for us
     begin
       @thread     = CfThread.includes(:forum, messages: :owner).find args['thread']
-      @old_forum  = CfForum.find(args['old_forum'])
-      @new_forum  = CfForum.find(args['new_forum'])
+      @old_forum  = Forum.find(args['old_forum'])
+      @new_forum  = Forum.find(args['new_forum'])
     rescue ActiveRecord::RecordNotFound
       return
     end
@@ -48,7 +48,7 @@ class Peon::Tasks::ThreadMovedTask < Peon::Tasks::PeonTask
                  subject: @thread.messages.first.subject,
                  old_forum: @old_forum.name,
                  new_forum: @new_forum.name),
-          cf_message_path(@thread, @thread.messages.first),
+          message_path(@thread, @thread.messages.first),
           @thread.thread_id,
           'thread:moved',
           'icon-new-activity'
@@ -56,7 +56,7 @@ class Peon::Tasks::ThreadMovedTask < Peon::Tasks::PeonTask
       end
     end
 
-    int_messages = CfInterestingMessage.
+    int_messages = InterestingMessage.
                    preload(:user).
                    joins(:message).
                    where('thread_id = ?', @thread.thread_id).all
@@ -84,7 +84,7 @@ class Peon::Tasks::ThreadMovedTask < Peon::Tasks::PeonTask
                  subject: @thread.messages.first.subject,
                  old_forum: @old_forum.name,
                  new_forum: @new_forum.name),
-          cf_message_path(@thread, @thread.messages.first),
+          message_path(@thread, @thread.messages.first),
           @thread.thread_id,
           'thread:moved',
           'icon-new-activity'

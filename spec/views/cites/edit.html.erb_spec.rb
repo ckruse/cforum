@@ -7,7 +7,7 @@ RSpec.describe "cites/edit", type: :view do
   helper_method :uconf
 
   before(:each) do
-    @cite = assign(:cite, create(:cf_cite))
+    @cite = assign(:cite, create(:cite))
   end
 
   it "renders the edit cite form" do

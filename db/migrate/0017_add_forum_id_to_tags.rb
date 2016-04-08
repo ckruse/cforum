@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-class CfTag < ActiveRecord::Base
+class Tag < ActiveRecord::Base
   self.primary_key = 'tag_id'
   self.table_name  = 'tags'
 
   has_many :tags_threads, class_name: 'CfTagThread', :foreign_key => :tag_id, :dependent => :destroy
   has_many :threads, class_name: 'CfThread', :through => :tags_threads
-  belongs_to :forum, class_name: 'CfForum', :foreign_key => :forum_id
+  belongs_to :forum
 
   validates_presence_of :tag_name, :forum_id
   validates :tag_name, length: {:in => 2..50}
@@ -25,7 +25,7 @@ class CfTagThread < ActiveRecord::Base
   self.table_name  = 'tags_threads'
 
   belongs_to :thread, class_name: 'CfThread', :foreign_key => :thread_id
-  belongs_to :tag, class_name: 'CfTag', :foreign_key => :tag_id
+  belongs_to :tag, class_name: 'Tag', :foreign_key => :tag_id
 
   validates_presence_of :tag_id, :thread_id
 end
@@ -48,9 +48,9 @@ CREATE UNIQUE INDEX tags_forum_id_tag_name_idx ON tags (forum_id, tag_name);
       end
 
       if tt.tag.forum_id != tt.thread.forum_id
-        CfTag.transaction do
-          tag = CfTag.find_by_forum_id_and_tag_name tt.thread.forum_id, tt.tag.tag_name
-          tag = CfTag.create!(tag_name: tt.tag.tag_name, forum_id: tt.thread.forum_id) if tag.blank?
+        Tag.transaction do
+          tag = Tag.find_by_forum_id_and_tag_name tt.thread.forum_id, tt.tag.tag_name
+          tag = Tag.create!(tag_name: tt.tag.tag_name, forum_id: tt.thread.forum_id) if tag.blank?
 
           tt.tag_id = tag.tag_id
           tt.save

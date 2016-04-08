@@ -5,7 +5,7 @@ FactoryGirl.define do
     Faker::Lorem.paragraphs.join("\n\n")
   end
 
-  factory :cf_message do
+  factory :message do
     subject "Use the force!"
     content { generate(:random_string) }
     author "Obi-Wan"

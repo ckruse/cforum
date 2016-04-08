@@ -15,7 +15,7 @@ RSpec.describe "mails/show", type: :view do
   helper_method :current_user, :conf, :uconf
 
   before(:each) do
-    @mail = assign(:mail, create(:cf_priv_message))
+    @mail = assign(:mail, create(:priv_message))
   end
 
   it "renders attributes in <p>" do

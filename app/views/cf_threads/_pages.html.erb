@@ -13,13 +13,13 @@ end_page = all_pages_count if end_page > all_pages_count
 if @all_threads_count > @limit
 %><div class="cf-pages">
   <ul>
-    <li class="first<% if @page == 0 %> disabled<% end %>"><%= cf_link_to '«', cf_forum_path(current_forum), target: nil %></li>
+    <li class="first<% if @page == 0 %> disabled<% end %>"><%= cf_link_to '«', forum_path(current_forum), target: nil %></li>
 
     <% (start_page..end_page).each do |i| %>
-    <li<% if i - 1 == @page %> class="active disabled"<% end %>><%= cf_link_to i, cf_forum_path(current_forum, p: i-1), target: nil %></li>
+    <li<% if i - 1 == @page %> class="active disabled"<% end %>><%= cf_link_to i, forum_path(current_forum, p: i-1), target: nil %></li>
     <% end %>
 
-    <li class="last<% if @page == all_pages_count - 1 %> disabled<% end %>"><%= cf_link_to '»', cf_forum_path(current_forum, p: all_pages_count - 1), target: nil %></li>
+    <li class="last<% if @page == all_pages_count - 1 %> disabled<% end %>"><%= cf_link_to '»', forum_path(current_forum, p: all_pages_count - 1), target: nil %></li>
   </ul>
 </div>
 <% end %>

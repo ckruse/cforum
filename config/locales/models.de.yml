@@ -36,19 +36,19 @@ de:
       <<: *errors
 
     models:
-      cf_message: Nachricht
+      message: Nachricht
       cf_thread: Thread
       user: Benutzer
-      cf_forum: Forum
-      cf_close_vote: Sperr-Abstimmung
+      forum: Forum
+      close_vote: Sperr-Abstimmung
       badge: Abzeichen
       medium: Medium
       search_section: Such-Sektion
-      cf_cite: Zitat
+      cite: Zitat
       badge_group: Medaillen-Gruppe
 
     attributes:
-      cf_message:
+      message:
         subject: Betreff
         content: Inhalt
         author: Name
@@ -58,7 +58,7 @@ de:
         updated_at: Geändert
         problematic_site: problematische Seite
 
-      cf_forum:
+      forum:
         name: Name
         short_name: Kurzname
         slug: Slug
@@ -81,11 +81,11 @@ de:
       cf_forum_access:
         permission: Zugriffsrecht
 
-      cf_group:
+      group:
         created_at: erstellt
         updated_at: geändert
 
-      cf_priv_message:
+      priv_message:
         sender: Autor
         recipient: Empfänger
         subject: Betreff
@@ -93,7 +93,7 @@ de:
         updated_at: geändert
         body: Inhalt
 
-      cf_close_vote:
+      close_vote:
         reason: Sperr-Grund
         duplicate_slug: Duplikats-URL
         custom_reason: sonstiger Grund
@@ -115,7 +115,7 @@ de:
         name: Name
         badges: Medaillen
 
-      cf_tag:
+      tag:
         tag_name: Tag-Name
         slug: Slug
         suggest: Vorschlagen
@@ -129,14 +129,14 @@ de:
         position: Position
         active_by_default: Aktiv im Default
 
-      cf_cite:
+      cite:
         creator: Eingereicht von
         author: Autor
         cite: Zitat
         url: URL
         message_id: ""
 
-      cf_auditing:
+      auditing:
         act: Aktion
         user_id: Benutzer
         created_at: Erstellt

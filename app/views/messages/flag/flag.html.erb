@@ -1,0 +1,56 @@
+<%
+content_for :title, t('plugins.flag_plugin.flag_message', subject: @message.subject, author: @message.author)
+content_for :h1, t('plugins.flag_plugin.only_flag_message')
+%>
+<h2><%= t('plugins.flag_plugin.flag_message', subject: @message.subject, author: @message.author) %></h2>
+
+<%= form_tag flag_message_path(@thread, @message), method: :put, class: 'form-horizontal' do %>
+
+  <div class="cf-cgroup">
+    <label><%= t('plugins.flag_plugin.flag_reason') %></label>
+
+    <div class="cntrls">
+      <label class="radio">
+        <%= radio_button_tag :reason, "off-topic", params[:reason] == 'off-topic' %>
+        <%= t('messages.close_vote.off-topic') %>
+      </label>
+
+      <label class="radio">
+        <%= radio_button_tag :reason, "not-constructive", params[:reason] == 'not-constructive' %>
+        <%= t('messages.close_vote.not-constructive') %>
+      </label>
+
+      <label class="radio">
+        <%= radio_button_tag :reason, "duplicate", params[:reason] == 'duplicate' %>
+        <%= t('messages.close_vote.duplicate') %>
+      </label>
+
+      <label class="radio">
+        <%= radio_button_tag :reason, "custom", params[:reason] == 'custom' %>
+        <%= t('messages.close_vote.custom') %>
+      </label>
+    </div>
+  </div>
+
+  <div class="cf-cgroup" data-depends-on="reason=duplicate">
+    <label><%= CloseVote.human_attribute_name :duplicate_slug %></label>
+
+    <div class="cntrls">
+      <%= url_field_tag :duplicate_slug, params[:duplicate_slug],  placeholder: t('layout.placeholders.duplicate') %>
+    </div>
+  </div>
+
+  <div class="cf-cgroup" data-depends-on="reason=custom">
+    <label><%= CloseVote.human_attribute_name :custom_reason %></label>
+
+    <div class="cntrls">
+      <%= text_field_tag :custom_reason, params[:custom_reason] %>
+    </div>
+  </div>
+
+  <p class="form-actions">
+    <%= submit_tag t('global.save'), class: 'cf-primary-btn' %>
+    <%= cf_link_to t('global.cancel'), root_path, class: 'cf-btn' %>
+  </p>
+
+<% end %>

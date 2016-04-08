@@ -44,7 +44,7 @@ module ReferencesHelper
       mid = mid_from_uri(ref)
       next if mid.blank?
       next if already_referenced.include?(mid)
-      next unless CfMessage.where(message_id: mid).exists?
+      next unless Message.where(message_id: mid).exists?
 
       MessageReference.create!(src_message_id: message.message_id,
                                dst_message_id: mid,

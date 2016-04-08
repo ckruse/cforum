@@ -37,7 +37,7 @@ section = SearchSection.create!(name: I18n.t('cites.cites'), position: -1) if se
 base_relevance = conf('search_cites_relevance')
 
 begin
-  cites = CfCite.
+  cites = Cite.
          includes(:user, :creator_user).
          order(:cite_id).
          limit(no_messages).
@@ -52,7 +52,7 @@ begin
   current_block += 1
   i = 0
 
-  CfMessage.transaction do
+  Message.transaction do
     cites.each do |cite|
       doc = SearchDocument.where(url: root_url + 'cites/' + cite.cite_id.to_s).first
       if doc.blank?

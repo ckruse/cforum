@@ -13,7 +13,7 @@ class AddRelnofollowBadge < ActiveRecord::Migration
     users.each do |u|
       b.users << u
 
-      CfNotification.create!(recipient_id: u.user_id,
+      Notification.create!(recipient_id: u.user_id,
                              subject: I18n.t('badges.badge_won',
                                              name: b.name,
                                              mtype: I18n.t("badges.badge_medal_types." + b.badge_medal_type)),

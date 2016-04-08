@@ -1,10 +1,10 @@
 en:
   activerecord:
     models:
-      cf_message: Message
+      message: Message
       cf_thread: Thread
       user: User
-      cf_forum: Forum
+      forum: Forum
 
     attributes:
-      cf_message:
+      message:

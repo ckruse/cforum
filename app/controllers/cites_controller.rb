@@ -10,7 +10,7 @@ class CitesController < ApplicationController
 
   def index(archived = true)
     @limit = conf('pagination').to_i
-    @cites = CfCite.
+    @cites = Cite.
              preload(:user, :creator_user, message: :forum).
              where(archived: archived).
              order('cite_id DESC').
@@ -35,13 +35,13 @@ class CitesController < ApplicationController
       end
     end
 
-    vtype = params[:type] == 'up' ? CfCiteVote::UPVOTE : CfCiteVote::DOWNVOTE
+    vtype = params[:type] == 'up' ? CiteVote::UPVOTE : CiteVote::DOWNVOTE
 
-    @vote = CfCiteVote.where(user_id: current_user.user_id,
+    @vote = CiteVote.where(user_id: current_user.user_id,
                              cite_id: @cite.cite_id).first
 
     if @vote.blank?
-      @vote = CfCiteVote.new(cite_id: @cite.cite_id,
+      @vote = CiteVote.new(cite_id: @cite.cite_id,
                              user_id: current_user.user_id,
                              vote_type: vtype)
 
@@ -105,7 +105,7 @@ class CitesController < ApplicationController
 
   def show
     if not current_user.blank? and uconf('delete_read_notifications_on_cite') == 'yes'
-      CfNotification.
+      Notification.
         where(recipient_id: current_user.user_id,
               oid: @cite.cite_id,
               otype: 'cite:create').
@@ -113,12 +113,12 @@ class CitesController < ApplicationController
     end
 
     if @cite.archived?
-      @next_cite = CfCite.
+      @next_cite = Cite.
                    where('cite_id < ?', @cite.cite_id).
                    order('cite_id DESC').
                    where(archived: true).
                    first
-      @prev_cite = CfCite.
+      @prev_cite = Cite.
                    where('cite_id > ?', @cite.cite_id).
                    where(archived: true).
                    order('cite_id ASC').
@@ -128,7 +128,7 @@ class CitesController < ApplicationController
 
   # GET /cites/new
   def new
-    @cite = CfCite.new
+    @cite = Cite.new
   end
 
   # GET /cites/1/edit
@@ -137,7 +137,7 @@ class CitesController < ApplicationController
 
   # POST /cites
   def create
-    @cite = CfCite.new(cite_params)
+    @cite = Cite.new(cite_params)
     @cite.creator_user_id = current_user.user_id unless current_user.blank?
 
     if not @cite.url.blank? and @cite.url[0..(root_url.length-1)] == root_url and @cite.url =~ /\/\w+(\/\d{4,}\/[a-z]{3}\/\d{1,2}\/[^\/]+)\/(\d+)/
@@ -147,8 +147,8 @@ class CitesController < ApplicationController
       @thread = CfThread.preload(:forum).where(slug: slug).first
 
       unless @thread.blank?
-        @message = CfMessage.where(thread_id: @thread.thread_id,
-                                   message_id: mid).first
+        @message = Message.where(thread_id: @thread.thread_id,
+                                 message_id: mid).first
       end
 
       unless @message.blank?
@@ -165,9 +165,9 @@ class CitesController < ApplicationController
 
     if @cite.save
       if current_user
-        @vote = CfCiteVote.create(cite_id: @cite.cite_id,
+        @vote = CiteVote.create(cite_id: @cite.cite_id,
                                   user_id: current_user.user_id,
-                                  vote_type: CfCiteVote::UPVOTE)
+                                  vote_type: CiteVote::UPVOTE)
       end
 
       peon(class_name: 'CitesNotifier',
@@ -206,7 +206,7 @@ class CitesController < ApplicationController
 
   def redirect
     id = params[:id].gsub(/\D+/, '')
-    @cite = CfCite.where(old_id: id).first!
+    @cite = Cite.where(old_id: id).first!
     redirect_to cite_url(@cite), status: 301
   end
 
@@ -214,14 +214,14 @@ class CitesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_cite
-    @cite = CfCite.preload(:user, :creator_user, message: :forum).find(params[:id])
+    @cite = Cite.preload(:user, :creator_user, message: :forum).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
   def cite_params
     allowed_attribs = [:cite, :url, :author, :creator]
 
-    params.require(:cf_cite).permit(*allowed_attribs)
+    params.require(:cite).permit(*allowed_attribs)
   end
 end
 

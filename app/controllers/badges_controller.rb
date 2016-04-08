@@ -30,7 +30,7 @@ class BadgesController < ApplicationController
     return if current_user.blank?
 
     had_one = false
-    notifications = CfNotification.where(otype: 'badge',
+    notifications = Notification.where(otype: 'badge',
                                          oid: badge.badge_id,
                                          recipient_id: current_user.user_id,
                                          is_read: false).all

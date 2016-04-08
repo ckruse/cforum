@@ -6,7 +6,7 @@ class SearchSection < ActiveRecord::Base
 
   validates_presence_of :name, :position
 
-  belongs_to :forum, class_name: 'CfForum', foreign_key: :forum_id
+  belongs_to :forum
 end
 
 # eof

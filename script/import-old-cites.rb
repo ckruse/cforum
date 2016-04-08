@@ -16,7 +16,7 @@ File.open(ARGV[0], 'r:utf-8') do |fd|
   xml_doc  = Nokogiri::XML(fd)
   cites = xml_doc.xpath('/zitatesammlung/zitat')
   cites.each do |cite|
-    c = CfCite.new
+    c = Cite.new
     c.author = cite.xpath('./autor').first.content
     c.url = cite.xpath('./quelle').first.content
     c.cite = cite.xpath('./text').first.content
@@ -43,7 +43,7 @@ File.open(ARGV[0], 'r:utf-8') do |fd|
       thread = CfThread.preload(:forum).where(slug: slug).first
 
       unless thread.blank?
-        message = CfMessage.where(thread_id: thread.thread_id, message_id: mid).first
+        message = Message.where(thread_id: thread.thread_id, message_id: mid).first
       end
     end
 
@@ -51,8 +51,8 @@ File.open(ARGV[0], 'r:utf-8') do |fd|
       thread = CfThread.preload(:forum).where(tid: tid.to_i).first
 
       unless thread.blank?
-        message = CfMessage.where(thread_id: thread.thread_id, mid: mid).first
-        c.url = cf_message_url(thread, message) unless message.blank?
+        message = Message.where(thread_id: thread.thread_id, mid: mid).first
+        c.url = message_url(thread, message) unless message.blank?
       end
     end
 

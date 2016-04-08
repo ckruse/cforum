@@ -11,7 +11,7 @@ FactoryGirl.define do
       n.strftime("/%Y/%b/").downcase + n.day.to_s + "/" + generate(:thread_slug)
     }
 
-    association :forum, factory: :cf_write_forum
+    association :forum, factory: :write_forum
     archived false
     latest_message { DateTime.now }
   end

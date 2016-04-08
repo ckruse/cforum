@@ -3,15 +3,15 @@
 
 cforum.cites = {
   new: function() {
-    $('#cf_cite_url').on('change', function() {
+    $('#cite_url').on('change', function() {
       var val = $(this).val();
 
       if(val.substr(0, cforum.baseUrl.length) == cforum.baseUrl) {
-        $('#cf_cite_author').closest('.cf-cgroup').fadeOut('fast');
-        $('#cf_cite_cite').focus();
+        $('#cite_author').closest('.cf-cgroup').fadeOut('fast');
+        $('#cite_cite').focus();
       }
       else {
-        $('#cf_cite_author').closest('.cf-cgroup').fadeIn('fast');
+        $('#cite_author').closest('.cf-cgroup').fadeIn('fast');
       }
     });
   }

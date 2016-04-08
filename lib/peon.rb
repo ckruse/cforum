@@ -50,7 +50,7 @@ module Peon
       def notify_user(user, hook, subject, path, oid, otype, icon = nil)
         return if not hook.blank? and @config_manager.get(hook, user) != 'yes'
 
-        n = CfNotification.create!(
+        n = Notification.create!(
           recipient_id: user.user_id,
           subject: subject,
           path: path,
@@ -81,8 +81,8 @@ class Object
 
     args[:arguments] = args[:arguments].to_json
 
-    j = CfPeonJob.create!(args)
-    CfPeonJob.connection.execute 'NOTIFY ' + args[:queue_name] + ", '" + j.peon_job_id.to_s + "'"
+    j = PeonJob.create!(args)
+    PeonJob.connection.execute 'NOTIFY ' + args[:queue_name] + ", '" + j.peon_job_id.to_s + "'"
 
     j
   end

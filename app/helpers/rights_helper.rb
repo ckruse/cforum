@@ -73,7 +73,7 @@ module RightsHelper
     if conf('editing_enabled') != 'yes'
       if redirect
         flash[:error] = t('messages.editing_disabled')
-        redirect_to cf_message_url(thread, message)
+        redirect_to message_url(thread, message)
       end
 
       return
@@ -83,7 +83,7 @@ module RightsHelper
     if thread.archived?
       if redirect
         flash[:error] = t('messages.editing_disabled')
-        redirect_to cf_message_url(thread, message)
+        redirect_to message_url(thread, message)
       end
 
       return
@@ -103,7 +103,7 @@ module RightsHelper
     if conf('edit_until_has_answer') == 'yes' and not message.messages.empty?
       if redirect
         flash[:error] = t('messages.editing_not_allowed_with_answer')
-        redirect_to cf_message_url(thread, message)
+        redirect_to message_url(thread, message)
       end
 
       return
@@ -135,7 +135,7 @@ module RightsHelper
       if redirect
         flash[:error] = t('messages.message_too_old_to_edit',
                           minutes: @max_editable_age)
-        redirect_to cf_message_url(thread, message)
+        redirect_to message_url(thread, message)
       end
 
       return
@@ -144,7 +144,7 @@ module RightsHelper
     unless edit_it
       if redirect
         flash[:error] = t('messages.only_author_or_mod_may_edit')
-        redirect_to cf_message_url(thread, message)
+        redirect_to message_url(thread, message)
       end
 
       return

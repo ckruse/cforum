@@ -6,12 +6,12 @@ include Warden::Test::Helpers
 Warden.test_mode!
 
 describe "deleting a thread" do
-  let(:message) { create(:cf_message) }
+  let(:message) { create(:message) }
   let(:user) { create(:user) }
   let(:vote) do
-    CfVote.create!(user_id: user.user_id,
+    Vote.create!(user_id: user.user_id,
                    message_id: message.message_id,
-                   vtype: CfVote::UPVOTE)
+                   vtype: Vote::UPVOTE)
   end
 
   before(:each) { login_as(user, scope: :user) }
@@ -19,7 +19,7 @@ describe "deleting a thread" do
   include CForum::Tools
 
   it "doesn't remove score when gotten via vote" do
-    CfScore.create!(user_id: user.user_id,
+    Score.create!(user_id: user.user_id,
                     vote_id: vote.vote_id,
                     value: 10)
 
@@ -28,7 +28,7 @@ describe "deleting a thread" do
   end
 
   it "doesn't remove score when gotten via message" do
-    CfScore.create!(user_id: user.user_id,
+    Score.create!(user_id: user.user_id,
                     message_id: message.message_id,
                     value: 15)
 

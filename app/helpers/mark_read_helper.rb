@@ -5,7 +5,7 @@ module MarkReadHelper
     return if user.blank? || message.blank?
 
     message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
-    message = message.map {|m| m.is_a?(CfMessage) ? m.message_id : m.to_i}
+    message = message.map {|m| m.is_a?(Message) ? m.message_id : m.to_i}
 
     return if message.blank?
 
@@ -32,7 +32,7 @@ module MarkReadHelper
 
     read_messages = []
 
-    result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + message.join(", ") + ") AND user_id = " + user_id.to_s)
+    result = Message.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + message.join(", ") + ") AND user_id = " + user_id.to_s)
     result.each do |row|
       m = row['message_id'].to_i
       read_messages << m
@@ -54,7 +54,7 @@ module MarkReadHelper
     end
 
     unless ids.blank?
-      result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+      result = Message.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
       result.each do |row|
         msgs[row['message_id']].attribs['classes'] << 'visited' if msgs[row['message_id']]
       end
@@ -72,7 +72,7 @@ module MarkReadHelper
       next if cache[m.message_id]
 
       begin
-        CfMessage.connection.execute(sql + m.message_id.to_s + ")")
+        Message.connection.execute(sql + m.message_id.to_s + ")")
         cache[m.message_id] = true
       rescue ActiveRecord::RecordNotUnique
       end
@@ -105,7 +105,7 @@ module MarkReadHelper
     end
 
     if not ids.blank?
-      result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+      result = Message.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
       result.each do |row|
         new_cache[row['message_id'].to_i] = true
 
@@ -130,7 +130,7 @@ module MarkReadHelper
       next if cache[m.message_id]
 
       begin
-        CfMessage.connection.execute(sql + m.message_id.to_s + ")")
+        Message.connection.execute(sql + m.message_id.to_s + ")")
         cache[m.message_id] = true
       rescue ActiveRecord::RecordNotUnique
       end
@@ -150,7 +150,7 @@ module MarkReadHelper
 
     if not cache[message.message_id]
       begin
-        CfMessage.connection.execute("INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", " + message.message_id.to_s + ")")
+        Message.connection.execute("INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", " + message.message_id.to_s + ")")
         cache[message.message_id] = true
       rescue ActiveRecord::RecordNotUnique
       end
@@ -171,7 +171,7 @@ module MarkReadHelper
     end
 
     ids = messages.map { |a| a.message_id }
-    result = CfMessage.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+    result = Message.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
 
     result.each do |row|
       a = messages.find { |m| m.message_id == row['message_id'].to_i }

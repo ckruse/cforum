@@ -61,7 +61,7 @@ module Peon
       end
 
       # load old tasks
-      jobs = CfPeonJob.where('work_done = false AND max_tries > tries').all
+      jobs = PeonJob.where('work_done = false AND max_tries > tries').all
       jobs.each do |j|
         @jobs[j.queue_name] << j
       end
@@ -99,7 +99,7 @@ module Peon
           Rails.logger.info "grunt run: event: #{event}, payload: #{payload}"
 
           begin
-            job = CfPeonJob.find payload
+            job = PeonJob.find payload
 
             @locks[event].synchronize do
               @jobs[event] << job

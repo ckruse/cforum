@@ -51,12 +51,12 @@ module Peon
       end
 
       def check_for_voter_badges(vote)
-        if vote.vtype == CfVote::UPVOTE
+        if vote.vtype == Vote::UPVOTE
           b = vote.user.badges.find { |ubadge| ubadge.slug == 'enthusiast' }
           give_badge(vote.user, Badge.where(slug: 'enthusiast').first!) if b.blank?
         end
 
-        if vote.vtype == CfVote::DOWNVOTE
+        if vote.vtype == Vote::DOWNVOTE
           b = vote.user.badges.find { |ubadge| ubadge.slug == 'critic' }
           give_badge(vote.user, Badge.where(slug: 'critic').first!) if b.blank?
         end
@@ -77,8 +77,8 @@ module Peon
         @message = nil
         @vote = nil
 
-        @message = CfMessage.find(args['message_id']) if args['message_id']
-        @vote = CfVote.find(args['vote_id']) if args['vote_id']
+        @message = Message.find(args['message_id']) if args['message_id']
+        @vote = Vote.find(args['vote_id']) if args['vote_id']
 
         if %w(changed-vote voted).include?(args['type'])
           check_for_voter_badges(@vote)

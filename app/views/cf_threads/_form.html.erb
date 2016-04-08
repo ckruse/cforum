@@ -6,7 +6,7 @@
       <ul>
         <% @thread.message.errors.each do |k, msg| %>
           <% next if k == :thread_id %>
-          <li><%= CfMessage.human_attribute_name(k) %> <%= msg %></li>
+          <li><%= Message.human_attribute_name(k) %> <%= msg %></li>
         <% end %>
       </ul>
     </div>
@@ -20,7 +20,7 @@
   <% end %>
 
   <%= f.fields_for :message, f.object.message do |builder| %>
-    <%= render "cf_messages/form", f: builder %>
+    <%= render "messages/form", f: builder %>
   <% end %>
 
   <ul id="charta">
@@ -32,6 +32,6 @@
   <p>
     <%= f.submit t('messages.preview'), class: 'cf-btn', name: 'preview' %>
     <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
-    <%= cf_link_to t('global.cancel'), cf_forum_path(current_forum), class: 'cf-btn' %>
+    <%= cf_link_to t('global.cancel'), forum_path(current_forum), class: 'cf-btn' %>
   </p>
 <% end %>
