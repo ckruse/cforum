@@ -4,7 +4,18 @@ content_for(:h1, t('devise.change_password'))
 %>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: 'form-horizontal' }) do |f| %>
-  <%= devise_error_messages! %>
+  <% if resource.errors.any? %>
+    <div class="alert alert-error">
+      <h4><%= t("users.could_not_change_password") %></h4>
+
+      <ul>
+        <% for message in resource.errors.full_messages %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <%= f.hidden_field :reset_password_token %>
 
   <div class="cf-cgroup">

@@ -51,6 +51,9 @@ de:
     thread-view: Thread-Ansicht
     nested-view: Nested-Ansicht
 
+    could_not_reset_password: "Das Passwort konnte nicht zurück gesetzt werden:"
+    could_not_change_password: "Das Passwort konnte nicht geändert werden:"
+
     error_message:
       other: "%{count} verhinderten, dass dieser Benutzer gespeichert werden konnte:"
       one: "%{count} verhindert, dass dieser Benutzer gespeichert werden konnte:"
