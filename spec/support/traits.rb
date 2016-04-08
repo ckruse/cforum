@@ -20,6 +20,10 @@ FactoryGirl.define do
   sequence :group_name do |n|
     "Group #{n}"
   end
+
+  sequence :badge_group_name do |n|
+    "Badge Group #{n}"
+  end
 end
 
 # eof

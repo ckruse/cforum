@@ -1,4 +1,6 @@
 class Admin::BadgeGroupsController < ApplicationController
+  authorize_controller { authorize_admin }
+
   before_action :set_badge_group, only: [:edit, :update, :destroy]
   before_action :load_badges, only: [:edit, :update, :new, :create]
 
