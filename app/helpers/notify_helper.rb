@@ -4,7 +4,7 @@ module NotifyHelper
   def notify_user(opts = {})
     opts = {icon: nil, default: 'yes', body: nil}.merge(opts)
 
-    cfg = @config_manager.get(opts[:hook], opts[:default], opts[:user])
+    cfg = @config_manager.get(opts[:hook], opts[:user])
     return if cfg == 'no'
 
     n = Notification.create!(
