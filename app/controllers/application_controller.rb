@@ -23,7 +23,8 @@ class ApplicationController < ActionController::Base
   include OwnFilesHelper
   include TitleHelper
 
-  before_filter :do_init, :locked?, :set_forums, :notifications,
+  before_filter :prepare_exception_notifier, :do_init, :locked?,
+                :set_forums, :notifications,
                 :check_authorizations, :set_css, :set_motd,
                 :set_own_files, :set_title_infos
   after_filter :store_location
@@ -133,6 +134,13 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :email])
+  end
+
+  private
+  def prepare_exception_notifier
+    request.env["exception_notifier.exception_data"] = {
+      :current_user => current_user
+    }
   end
 end
 
