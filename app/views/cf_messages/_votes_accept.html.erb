@@ -57,7 +57,7 @@ upvote_msg = if not may_upvote_msg.blank?
               class="cf-btn vote icon-vote-up<% if has_upvote %> active<% end %>
                      <% if current_user.blank? or not may?(RightsHelper::UPVOTE) %> disabled<% end %>">+</button>
 
-      <%= cf_link_to ' ', "http://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bewertungsregeln", class: 'infos', title: t('messages.infos_for_scoring') %>
+      <%= cf_link_to ' ', "https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bewertungsregeln", class: 'infos', title: t('messages.infos_for_scoring') %>
     <% end %>
   <% end %>
 </div>
