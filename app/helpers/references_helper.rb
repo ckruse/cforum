@@ -3,7 +3,7 @@
 module ReferencesHelper
   def mid_from_uri(uri)
     uri = uri.gsub(/#.*$/, '')
-    return $1.to_i if uri =~ /\/(\d+)$/
+    return $1.to_i if uri =~ /\/m?(\d+)$/
     return
   end
 
@@ -18,14 +18,18 @@ module ReferencesHelper
     links.map { |l| l['href'] }
   end
 
+  def is_reference_uri(uri, hosts)
+    parsed_uri = URI.parse(uri)
+    hosts.include?(parsed_uri.host) and (parsed_uri.path =~ /^\/[\w-]+\/\d{4}\/\w{3}\/\d+\/[\w-]+\/\d+$/ or parsed_uri.path =~ /^\/m\d+$/)
+  end
+
   def find_references(content, hosts)
     hosts = [hosts] unless hosts.is_a?(Array)
     links = find_links(content)
 
     links.select { |l|
       begin
-        u = URI.parse(l)
-        hosts.include?(u.host) and u.path =~ /^\/[\w-]+\/\d{4}\/\w{3}\/\d+\/[\w-]+\/\d+$/
+        is_reference_uri(l, hosts)
       rescue
         false
       end
