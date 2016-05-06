@@ -127,10 +127,16 @@ cforum.messages = {
             var old_mid = RegExp.$1;
 
             if(old_mid != mid) {
-              var new_url = document.location.href.replace(/\d+#m\d+/, mid + "#" + mid);
+              console.log(old_mid, mid);
+              var new_url = document.location.href.replace(/\d+#m\d+/, mid + "#m" + mid);
               event.preventDefault();
               history.pushState(mid, "", new_url);
               $("html,body").scrollTop($("#m" + mid).offset().top);
+
+              if(uconf('fold_read_nested') == 'yes' && !cforum.viewAll) {
+                $("#m" + old_mid).closest('.posting-nested').addClass('folded');
+                $("#m" + mid).closest('.posting-nested').removeClass('folded');
+              }
             }
           }
         }
