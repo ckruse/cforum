@@ -33,4 +33,12 @@ td .status-unread {
   border-radius: 0.25em;
 }
 
+.mail.index {
+  .folded { display:none; }
+  .fold-marker td:first-of-type {
+    color:#3481cd;
+    cursor:pointer;
+  }
+}
+
 /* eof */

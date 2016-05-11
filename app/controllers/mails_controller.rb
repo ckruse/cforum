@@ -39,8 +39,22 @@ class MailsController < ApplicationController
     @mails = sort_query(%w(created_at sender recipient subject),
                         @mails, {sender: "sender_name",
                                  recipient: "recipient_name"},
-                        {dir: :desc}).
-             page(params[:page]).per(conf('pagination').to_i)
+                        {dir: :desc})#.
+             #page(params[:page]).per(conf('pagination').to_i)
+
+    @mail_groups = {}
+    @mail_groups_keys = []
+    @mails.each do |mail|
+      key = mail.subject.gsub(/^Re: /, '') + '-' + mail.partner(current_user)
+      @mail_groups_keys << key if @mail_groups[key].blank?
+
+      @mail_groups[key] ||= []
+      @mail_groups[key] << mail
+    end
+
+    @mail_groups_keys.each do |k|
+      @mail_groups[k] = @mail_groups[k].sort { |a,b| a.created_at <=> b.created_at }
+    end
   end
 
   def show

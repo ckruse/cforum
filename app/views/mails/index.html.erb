@@ -7,60 +7,40 @@ content_for(:body_classes, 'mail index' + (@user ?  ' ' +  user_to_class_name(@u
 
 <%= form_tag mails_path, class: 'form-horizontal', :method => :delete do %>
 
-<table class="cf-default-table">
-  <thead>
-    <tr>
-      <th><input type="checkbox" id="check-all-box">
-      <th> </th>
-      <th><%= sortable PrivMessage.human_attribute_name(:sender), :sender, lambda { |dir,col| index_mail_link(col, dir) } %></th>
-      <th><%= sortable PrivMessage.human_attribute_name(:recipient), :recipient, lambda { |dir,col| index_mail_link(col, dir) } %></th>
-      <th><%= sortable PrivMessage.human_attribute_name(:subject), :subject, lambda { |dir,col| index_mail_link(col, dir) } %></th>
-      <th><%= sortable PrivMessage.human_attribute_name(:created_at), :created_at, lambda { |dir,col| index_mail_link(col, dir) } %></th>
-      <th> </th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% if @mails.blank? %>
-      <tr class="no-data">
-        <td colspan="7"><%= t('mails.no_mails') %></td>
+  <table class="cf-default-table">
+    <thead>
+      <tr>
+        <% if uconf('mail_index_grouped') == 'yes' %><th> </th><% end %>
+        <th><input type="checkbox" id="check-all-box"></th>
+        <th> </th>
+        <th><%= sortable PrivMessage.human_attribute_name(:sender), :sender, lambda { |dir,col| index_mail_link(col, dir) } %></th>
+        <th><%= sortable PrivMessage.human_attribute_name(:recipient), :recipient, lambda { |dir,col| index_mail_link(col, dir) } %></th>
+        <th><%= sortable PrivMessage.human_attribute_name(:subject), :subject, lambda { |dir,col| index_mail_link(col, dir) } %></th>
+        <th><%= sortable PrivMessage.human_attribute_name(:created_at), :created_at, lambda { |dir,col| index_mail_link(col, dir) } %></th>
+        <th> </th>
       </tr>
-    <% end %>
+    </thead>
 
-    <% @mails.each do |m| %>
-    <tr>
-      <td><input type="checkbox" name="ids[]" value="<%= m.priv_message_id %>" class="mid-checkbox"></td>
-      <td class="unread-mark"><% unless m.is_read? %><span class="status-unread">&nbsp;</span><% end %></td>
-      <td><%= cf_link_to (m.sender_id ? image_tag(m.sender.avatar(:thumb)) : '') + " " + m.sender_name, mail_path(m.sender_name, m) %></td>
-      <td><%= cf_link_to (m.recipient_id ? image_tag(m.recipient.avatar(:thumb)) : '') + " " + m.recipient_name, mail_path(m.sender_name, m) %></td>
-      <td><%= cf_link_to m.subject, mail_path(m.sender_name, m) %></td>
-      <td><%= l(m.created_at, format: date_format) %></td>
-      <td>
-        <%= cf_link_to '', mail_path(m.sender_name, m), method: :delete, data: {'cf-confirm' => t('global.are_you_sure')}, class: 'icon-delete-mail', title: t('mails.delete') %>
+    <tbody>
+      <% if @mails.blank? %>
+        <tr class="no-data">
+          <td colspan="7"><%= t('mails.no_mails') %></td>
+        </tr>
+      <% end %>
 
-        <% if m.is_read? %>
-          <%= cf_link_to '', mail_path(m.sender_name, m), method: :post, class: 'icon-mark-unread', title: t('mails.mark_unread') %>
-        <% else %>
-          <%= cf_link_to '', mail_path(m.sender_name, m), method: :post, class: 'icon-mark-read', title: t('mails.mark_read') %>
-        <% end %>
+      <% if uconf('mail_index_grouped') == 'yes' %>
+        <%= render 'mails_grouped' %>
+      <% else %>
+        <%= render 'mails' %>
+      <% end %>
 
-        <% unless m.partner_id(current_user).blank? %>
-          <%= cf_link_to '', new_mail_path('priv_message_id' => m.priv_message_id), class: 'icon-answer-mail-wo-quote', title: t('mails.answer_mail_wo_quote') %>
-          <%= cf_link_to '', new_mail_path('priv_message_id' => m.priv_message_id, quote_old_message: 'yes'), class: 'icon-answer-mail', title: t('mails.answer_mail') %>
-          <%= cf_link_to('', new_mail_path(priv_message: {recipient_id: m.partner_id(current_user)}),
-                         class: 'icon-new-mail', title: t('mails.new_mail')) %>
-        <% end %>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
+    </tbody>
+  </table>
 
-</table>
+  <p class="form-actions">
+    <button class="cf-primary-btn" data-cf-confirm="<%= t('global.are_you_sure') %>">Löschen</button>
+  </p>
 
-<p class="form-actions">
-  <button class="cf-primary-btn" data-cf-confirm="<%= t('global.are_you_sure') %>">Löschen</button>
-</p>
-
-<%= paginate @mails, params: { sort: sort_column, dir: sort_direction } %>
+<%# paginate @mails, params: { sort: sort_column, dir: sort_direction } %>
 
 <% end %>

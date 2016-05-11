@@ -1,0 +1,8 @@
+<% @mail_groups_keys.each do |mg_key| %>
+  <% @mail_groups[mg_key].each_with_index do |m, i| %>
+    <tr class="<% if i == 0 %>fold-marker<% else %>folded<% end %>">
+      <td><% if i == 0 %>▶<% end %></td>
+      <%= render 'mail_row', m: m %>
+    </tr>
+  <% end %>
+<% end %>

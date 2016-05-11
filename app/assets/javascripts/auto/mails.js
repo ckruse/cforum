@@ -13,6 +13,29 @@ cforum.mails = {
       }
 
     });
+
+    $('.fold-marker td:first-of-type').on('click', function() {
+      var $this = $(this);
+      var node = $this.closest('tr');
+
+      for(node = node.next('tr'); !node.hasClass('fold-marker'); node = node.next()) {
+        if(node.hasClass('folded')) {
+          node.css('display', 'none').removeClass('folded').fadeIn('fast');
+        }
+        else {
+          node.fadeOut('fast', function() { $(this).addClass('folded'); });
+        }
+      }
+
+      if($this.hasClass('open')) {
+        $this.removeClass('open');
+        $this.text('▶');
+      }
+      else {
+        $this.addClass('open');
+        $this.text('▼');
+      }
+    });
   },
 
   init: function() {

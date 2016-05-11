@@ -72,3 +72,5 @@ de:
 
       notify_on_cite: Benachrichtigung bei neuem Zitat-Vorschlag
       delete_read_notifications_on_cite: Gelesene Benachrichtigungen für neue Zitat-Vorschläge automatisch löschen
+
+      mail_index_grouped: Post-Index gruppieren

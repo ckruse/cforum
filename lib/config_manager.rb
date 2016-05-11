@@ -48,6 +48,8 @@ class ConfigManager
     'date_format_default' => '%d.%m.%Y %H:%M',
     'date_format_date' => '%d.%m.%Y',
 
+    'mail_index_grouped' => 'yes',
+
     # search settings
     'search_forum_relevance' => 1,
     'search_cites_relevance' => 0.9,
