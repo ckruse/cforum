@@ -24,6 +24,7 @@ gem 'content_for_in_controllers'
 gem 'kaminari'
 
 group :development, :test do
+  gem 'listen', '~> 3.0.7'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'quiet_assets'
