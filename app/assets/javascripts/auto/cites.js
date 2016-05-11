@@ -14,6 +14,8 @@ cforum.cites = {
         $('#cite_author').closest('.cf-cgroup').fadeIn('fast');
       }
     });
+
+    cforum.messages.initPreview("cite_cite");
   }
 };
 

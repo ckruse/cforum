@@ -32,4 +32,11 @@
     <%= f.label :cite %>
     <div class="cntrls"><%= f.text_area :cite %></div>
   </div>
+
+  <% if uconf('live_preview') == 'yes' %>
+    <article class="thread-message preview">
+      <h3>Vorschau</h3>
+      <div class="posting-content" id="on-the-fly-preview"></div>
+    </article>
+  <% end %>
 </fieldset>
