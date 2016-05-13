@@ -191,6 +191,18 @@ cforum.messages = {
         clickable: true,
         acceptedFiles: 'image/*',
         previewTemplate : '<div style="display:none"></div>',
+
+        dictDefaultMessage: t('upload.dictDefaultMessage'),
+        dictFallbackMessage: t("upload.dictFallbackMessage"),
+        dictFallbackText: t("upload.dictFallbackText"),
+        dictFileTooBig: t('upload.dictFileTooBig'),
+        dictInvalidFileType: t("upload.dictInvalidFileType"),
+        dictResponseError: t("upload.dictResponseError"),
+        dictCancelUpload: t("upload.dictCancelUpload"),
+        dictCancelUploadConfirmation: t("upload.dictCancelUploadConfirmation"),
+        dictRemoveFile: t("upload.dictRemoveFile"),
+        dictMaxFilesExceeded: t("upload.dictMaxFilesExceeded"),
+
         fallback: function() { },
         init: function() {
           this.on("success", function(file, rsp) {
@@ -212,10 +224,22 @@ cforum.messages = {
           });
 
           this.on('error', function(file, response) {
+            var msg;
             var imgup = $('.image-upload');
+
+            if(typeof response == 'string') {
+              msg = response;
+            }
+            else if(response.error) {
+              msg = response.error;
+            }
+            else {
+              msg = t('internal_error');
+            }
+
             imgup.removeClass('loading');
             imgup.html(t('upload.image_area'));
-            cforum.alert.error(response.error || t('internal_error'));
+            cforum.alert.error(msg);
           });
 
           this.on('sending', function(file, xhr, formData) {

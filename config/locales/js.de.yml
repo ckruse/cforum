@@ -18,6 +18,16 @@ de:
       upload:
         image_area: 'Bilder hierher ziehen oder klicken, um sie hochzuladen. Beachten Sie die <a href="http://selfhtml.org/impressum.html#upload">Nutzungsbedingungen</a>.'
         alternative_text: Alternativ-Text
+        dictDefaultMessage: Bilder hierher ziehen oder klicken, um sie hochzuladen.
+        dictFallbackMessage: Ihr Browser unterstützt keinen Datei-Upload über Drag’n’Drop.
+        dictFallbackText: Bitte benutzen Sie das Upload-Formular unten, wie in den guten alten Zeiten.
+        dictFileTooBig: "Datei ist zu groß ({{filesize}} MiB). Maximale Größe: {{maxFilesize}} MiB."
+        dictInvalidFileType: Sie können keine Dateien diesen Typs hochladen.
+        dictResponseError: "Der Server hat mit Status-Code {{statusCode}} geantwortet."
+        dictCancelUpload: Upload abbrechen
+        dictCancelUploadConfirmation: Sind Sie sicher, dass Sie den Upload abbrechen wollen?
+        dictRemoveFile: Datei entfernen
+        dictMaxFilesExceeded: Sie können keine weiteren Dateien hochladen.
 
       buttons:
         tab:
