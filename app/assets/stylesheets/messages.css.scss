@@ -162,8 +162,8 @@ main h2 { margin-left:0; }
     }
   }
 
-  .deleted, 
-  .deleted a, 
+  .deleted,
+  .deleted a,
   .deleted ~ .posting-content,
   .deleted ~ .posting-content * {
     color: #900;
@@ -217,7 +217,7 @@ main h2 { margin-left:0; }
     .icon-vote-up.active, .icon-vote-up:hover { background-image: asset-data-url("bewertung-plus-gruen.png"); }
     .icon-vote-down.disabled { background-image: asset-data-url("bewertung-minus-grau.png"); }
     .icon-vote-up.disabled  { background-image: asset-data-url("bewertung-plus-grau.png"); }
-    
+
     .unaccepted-answer, .accepted-answer:hover { background-image: asset-data-url("bewertung-ok-gelb.png"); }
     .accepted-answer, .unaccepted-answer:hover { background-image: asset-data-url("bewertung-ok-gruen.png"); }
 
@@ -255,7 +255,7 @@ main h2 { margin-left:0; }
   .controls { margin-bottom:1em; }
   form.button_to { display:inline; }
   .cf-btn { margin-bottom:0.2em; }
-  
+
 }
 
 .thread-message.preview .posting-content {
@@ -268,7 +268,7 @@ main h2 { margin-left:0; }
   background-image:asset-url('archived.png');
   background-position:top right;
   background-repeat: no-repeat;
-  
+
   & > p:first-child {
     display: inline-block;
     background-color: inherit;
@@ -391,7 +391,7 @@ blockquote.show-quotes .unfold {
   border-top: 5px solid white;
   padding: .8em;
   text-align: center;
-  
+
   a:last-child {
     color: #3481CD;
     &:hover, &:active, &:focus { color: #990909; }
