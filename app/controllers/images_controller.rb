@@ -26,7 +26,7 @@ class ImagesController < ApplicationController
 
     if params[:file].content_type !~ /^image\//
       error = t('images.wrong_content_type')
-    elsif params[:file].size > 2 * 1024 * 1024
+    elsif params[:file].size > conf('max_image_filesize').to_f * 1024 * 1024
       error = t('images.image_too_big')
     else
       path, fname = Medium.gen_filename(params[:file].original_filename)

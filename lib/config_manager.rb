@@ -100,7 +100,9 @@ class ConfigManager
     'links_white_list' => '',
 
     'notify_on_cite' => 'yes',
-    'delete_read_notifications_on_cite' => 'no'
+    'delete_read_notifications_on_cite' => 'no',
+
+    'max_image_filesize' => 2
   }
 
   def initialize(use_cache = true)

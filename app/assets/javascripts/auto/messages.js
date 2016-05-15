@@ -186,7 +186,8 @@ cforum.messages = {
       $("#message_input").after('<div class="image-upload">' + t('upload.image_area') + '</div>');
       $(".image-upload").dropzone({
         createImageThumbnails: false,
-        maxFilesize: 2, // 2mb max filesize
+        maxFilesize: cforum.imageMaxSize || 2, // default to 2mb
+        filesizeBase: 1024,
         url: cforum.baseUrl + 'images.json',
         clickable: true,
         acceptedFiles: 'image/*',

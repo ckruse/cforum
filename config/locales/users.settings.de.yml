@@ -74,3 +74,5 @@ de:
       delete_read_notifications_on_cite: Gelesene Benachrichtigungen für neue Zitat-Vorschläge automatisch löschen
 
       mail_index_grouped: Post-Index gruppieren
+
+      max_image_filesize: Maximale Bildgröße (in Mib)
