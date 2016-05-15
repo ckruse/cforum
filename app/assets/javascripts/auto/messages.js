@@ -328,6 +328,9 @@ cforum.messages = {
       return;
     }
 
+    minput.before("<span class=\"message-character-count\"></span>");
+    var mcount = $(".message-character-count");
+
     var checkLength = function() {
       // we need to work on \015\012 line endings because HTTP defines
       // this as the correct line endings; Safari and Chrome, on the
@@ -338,17 +341,19 @@ cforum.messages = {
       var val = minput.val().replace(/\015\012|\012|\015/g, "\015\012");
       var len = val.length;
 
+      mcount.text(len + " / " + maxLen);
+
       if(len >= maxLen) {
-        minput.addClass('length-error');
-        minput.removeClass('length-warning');
+        minput.addClass('length-error').removeClass('length-warning');
+        mcount.addClass('length-error').removeClass('length-warning');
       }
       else if(len >= maxLen - 300) {
-        minput.addClass('length-warning');
-        minput.removeClass('length-error');
+        minput.addClass('length-warning').removeClass('length-error');
+        mcount.addClass('length-warning').removeClass('length-error');
       }
       else {
-        minput.removeClass('length-warning');
-        minput.removeClass('length-error');
+        minput.removeClass('length-warning').removeClass('length-error');
+        mcount.removeClass('length-warning').removeClass('length-error');
       }
     };
 
