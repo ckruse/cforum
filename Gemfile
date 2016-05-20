@@ -15,7 +15,7 @@ gem 'pygments.rb'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'autoprefixer-rails', '< 6.3.6.1'
+gem 'autoprefixer-rails'
 
 gem 'daemons'
 

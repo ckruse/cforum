@@ -1,0 +1,6 @@
+browsers:
+  - '> 1%'
+  - 'last 2 versions'
+  - 'Firefox ESR'
+  - 'Firefox >= 43'
+  - 'iOS 8.4'
