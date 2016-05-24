@@ -71,16 +71,17 @@
       color: black;
       border: none;
     }
+  }
 
-    ol {
+  .thread-nested ol {
       padding-left: 0;
     }
-  }
+  
   
   .cf-tags-list::before {
     content: 'Tags: ';
   }
-  .cf-tag {
+  li.cf-tag {
     border: none;
     background: transparent;
     margin-left: 0;
@@ -89,16 +90,22 @@
     &:not(:last-child)::after {
       content: ', ';
     }
+
+    a {
+      color: #000;
+    }
   }
   
   .problematic-site {
     border: none;
-    border-bottom: 1pt dotted #222;
-    margin: 0.25em 0 0 0;
-    padding: 0 0 0.25em 0;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    width: auto;
 
     a::before {
       content: '';
+      margin: 0;
     }
     a::after {
       content: ': ' attr(href);
