@@ -62,7 +62,9 @@ class Messages::InterestingController < ApplicationController
                 where(deleted: false, threads: {deleted: false}).
                 page(params[:page]).per(@limit)
 
-    @messages = sort_query(%w(created_at), @messages, {created_at: 'messages.created_at'})
+    @messages = sort_query(%w(created_at), @messages,
+                           {created_at: 'messages.created_at'},
+                           {dir: :desc})
 
     ret = []
     ret << check_messages_for_suspiciousness(@messages)
