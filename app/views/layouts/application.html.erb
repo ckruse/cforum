@@ -246,6 +246,8 @@ end
             <% if controller_path != "cf_search" %>
               <li class="search">
                 <%= form_tag search_path + '#results', method: 'get', rel: 'nofollow' do %>
+                  <%= hidden_field_tag 'sections[]', 1, id: nil %>
+                  <%= hidden_field_tag 'sections[]', 2, id: nil %>
                   <%= search_field_tag 'term', params[:term], placeholder: t('search.search_top') %>
                 <% end %>
               </li>
