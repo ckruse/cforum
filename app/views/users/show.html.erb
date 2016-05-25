@@ -83,11 +83,9 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
     <%= cf_link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(@settings.conf('flattr')) +
     "&url=" + CGI.escape(user_url(@user)) +
     "&title=" + CGI.escape(t('users.selfforum_user', name: @user.username)) do %>
-    <img src="https://flattr.com/_img/icons/flattr_logo_16.png"
-         alt=""
-         title=""
-         width="16"
-         height="16">&nbsp;Flattr this!
+      <img src="//button.flattr.com/flattr-badge-large.png"
+           alt="Flattr this!"
+           title="Flattr this!">
     <% end %>
   </p>
 <% end %>
