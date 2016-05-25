@@ -184,7 +184,9 @@
 }
 
 .cf-btn:hover, .cf-btn:focus, .cf-btn.focus,
-.cf-btn:active, .cf-btn.active {
+.cf-btn:active, .cf-btn.active,
+a.cf-btn:hover, a.cf-btn:focus, a.cf-btn:active,
+a.cf-btn:link:hover, a.cf-btn:link:focus, a.cf-btn:link:active {
     color: #333;
     background-color: #E6E6E6;
     border-color: #ADADAD;
@@ -206,7 +208,9 @@ a.cf-primary-btn:link, a.cf-primary-btn:visited {
 }
 
 .cf-primary-btn:hover, .cf-primary-btn:focus, .cf-primary-btn.focus,
-.cf-primary-btn:active, .cf-primary-btn.active {
+.cf-primary-btn:active, .cf-primary-btn.active,
+a.cf-primary-btn:hover, a.cf-primary-btn:focus, a.cf-primary-btn:active,
+a.cf-primary-btn:link:hover, a.cf-primary-btn:link:focus, a.cf-primary-btn:link:active{
     color: #FFF;
     background-color: #286090;
     border-color: #204D74;
