@@ -46,6 +46,7 @@ de:
       search_section: Such-Sektion
       cite: Zitat
       badge_group: Medaillen-Gruppe
+      peon_job: Hintergrund-Auftrag
 
     attributes:
       message:
@@ -140,3 +141,14 @@ de:
         act: Aktion
         user_id: Benutzer
         created_at: Erstellt
+
+      peon_job:
+        peon_job_id: Auftrags-Nr
+        max_tries: Maximale Versuche
+        tries: Versuche
+        work_done: Erledigt
+        class_name: Klassen-Name
+        errstr: Fehlertext
+        stacktrace: Stacktrace
+        created_at: Erstellt
+        updated_at: Geändert

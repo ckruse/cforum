@@ -1,0 +1,39 @@
+<%
+content_for :title, t('admin.jobs.jobs')
+content_for :h1, t('admin.jobs.jobs')
+content_for(:body_id, "jobs-index")
+content_for(:body_classes, 'jobs index')
+%>
+
+<table class="cf-default-table">
+  <thead>
+    <tr>
+      <th><%= sortable PeonJob.human_attribute_name(:peon_job_id), :peon_job_id, :admin_jobs_path %></th>
+      <th><%= sortable PeonJob.human_attribute_name(:created_at), :created_at, :admin_jobs_path %></th>
+      <th><%= sortable PeonJob.human_attribute_name(:max_tries), :max_tries, :admin_jobs_path %></th>
+      <th><%= sortable PeonJob.human_attribute_name(:tries), :tries, :admin_jobs_path %></th>
+      <th><%= sortable PeonJob.human_attribute_name(:work_done), :work_done, :admin_jobs_path %></th>
+      <th><%= sortable PeonJob.human_attribute_name(:class_name), :class_name, :admin_jobs_path %></th>
+      <th><%= PeonJob.human_attribute_name(:errstr) %></th>
+      <th><%= PeonJob.human_attribute_name(:stacktrace) %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @jobs.each do |job| %>
+      <tr>
+        <td><%= job.peon_job_id %></td>
+        <td><%= l(job.created_at, format: date_format) %></td>
+        <td><%= job.max_tries %></td>
+        <td><%= job.tries %></td>
+        <td><%= t(job.work_done ? 'global.yeah' : 'global.nope') %></td>
+        <td><%= job.class_name %></td>
+        <td><%= job.errstr %></td>
+        <td><%= job.stacktrace %></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>
+
+<%= paginate @jobs %>

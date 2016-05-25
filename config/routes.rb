@@ -70,6 +70,8 @@ Cforum::Application.routes.draw do
     get '/audit' => 'audit#index'
     get '/audit/:id' => 'audit#show'
 
+    get '/jobs' => 'jobs#index'
+
     root to: "users#index"
   end
 

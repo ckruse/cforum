@@ -1363,7 +1363,9 @@ CREATE TABLE peon_jobs (
     class_name character varying(250) NOT NULL,
     arguments character varying NOT NULL,
     errstr character varying,
-    stacktrace character varying
+    stacktrace character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -3550,4 +3552,6 @@ INSERT INTO schema_migrations (version) VALUES ('89');
 INSERT INTO schema_migrations (version) VALUES ('9');
 
 INSERT INTO schema_migrations (version) VALUES ('90');
+
+INSERT INTO schema_migrations (version) VALUES ('91');
 

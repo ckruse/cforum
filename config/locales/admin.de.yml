@@ -232,3 +232,5 @@ de:
           create: Sperr- oder Entsperr-Abstimmung erstellt
           finished: Sperr- oder Entsperr-Abstimmung abgeschlossen
 
+    jobs:
+      jobs: Hintergrund-Aufträge
