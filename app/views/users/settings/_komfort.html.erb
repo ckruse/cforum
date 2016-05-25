@@ -85,11 +85,4 @@
     </div>
   </div>
 
-  <div class="cf-cgroup">
-    <label for="settings_mail_index_grouped"><%= t('users.settings.mail_index_grouped') %></label>
-    <div class="cntrls">
-      <%= hidden_field_tag 'settings[mail_index_grouped]', 'no', id: '' %>
-      <label class="checkbox"><%= check_box_tag 'settings[mail_index_grouped]', 'yes', @settings.conf('mail_index_grouped') != 'no' %></label>
-    </div>
-  </div>
 </fieldset>

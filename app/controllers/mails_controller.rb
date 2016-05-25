@@ -39,8 +39,7 @@ class MailsController < ApplicationController
     @mails = sort_query(%w(created_at sender recipient subject),
                         @mails, {sender: "sender_name",
                                  recipient: "recipient_name"},
-                        {dir: :desc})#.
-             #page(params[:page]).per(conf('pagination').to_i)
+                        {dir: :desc})
 
     @mail_groups = {}
     @mail_groups_keys = []
@@ -53,7 +52,13 @@ class MailsController < ApplicationController
     end
 
     @mail_groups_keys.each do |k|
-      @mail_groups[k] = @mail_groups[k].sort { |a,b| a.created_at <=> b.created_at }
+      @mail_groups[k] = @mail_groups[k].sort { |a,b|
+        if uconf('mail_thread_sort') == 'ascending'
+          a.created_at <=> b.created_at
+        else
+          b.created_at <=> a.created_at
+        end
+      }
     end
   end
 

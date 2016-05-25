@@ -88,6 +88,24 @@
     </div>
   </div>
 
+  <div class="cf-cgroup">
+    <label for="settings_mail_index_grouped"><%= t('users.settings.mail_index_grouped') %></label>
+    <div class="cntrls">
+      <%= hidden_field_tag 'settings[mail_index_grouped]', 'no', id: '' %>
+      <label class="checkbox"><%= check_box_tag 'settings[mail_index_grouped]', 'yes', @settings.conf('mail_index_grouped') != 'no' %></label>
+    </div>
+  </div>
+
+  <div class="cf-cgroup">
+    <label><%= t('users.settings.mail_thread_sort') %></label>
+    <div class="cntrls">
+      <label class="radio"><input type="radio" value="ascending" name="settings[mail_thread_sort]"<%= disabled %><% if @settings.conf('mail_thread_sort') == 'ascending' %> checked="checked"<% end %>> <%= t('global.ascending') %></label>
+      <label class="radio"><input type="radio" value="descending" name="settings[mail_thread_sort]"<%= disabled %><% if @settings.conf('mail_thread_sort') == 'descending' %> checked="checked"<% end %>> <%= t('global.descending') %></label>
+    </div>
+  </div>
+
+
+
   <%= render 'widgets/users_selector', desc: t('users.settings.highlighted_users'), name: "settings[highlighted_users][]", id: "settings_highlighted_users", users: @highlighted_users_list %>
 
 </fieldset>

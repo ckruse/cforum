@@ -49,6 +49,7 @@ class ConfigManager
     'date_format_date' => '%d.%m.%Y',
 
     'mail_index_grouped' => 'yes',
+    'mail_thread_sort' => 'ascending',
 
     # search settings
     'search_forum_relevance' => 1,

@@ -38,6 +38,8 @@ de:
     from: Von
     to: Bis
     spam_filter: Dieser Beitrag wurde als Spam identifiziert und deshalb nicht gespeichert.
+    ascending: aufsteigend
+    descending: absteigend
 
     scores:
       right_upvote: Upvote-Recht
