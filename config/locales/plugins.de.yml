@@ -54,6 +54,8 @@ de:
       mark_message_boring: Interessant-Markierung entfernen
       interesting_messages: interessante Beiträge
       no_messages: bisher keine als interessant markierte Beiträge
+      sort_ascending: aufsteigend sortieren
+      sort_descending: absteigend sortieren
 
     choose_css:
       choose_alternative_css: alternatives CSS auswählen

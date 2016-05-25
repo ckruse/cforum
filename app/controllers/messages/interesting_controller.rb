@@ -60,7 +60,9 @@ class Messages::InterestingController < ApplicationController
                 joins('INNER JOIN interesting_messages im ON im.message_id = messages.message_id').
                 where('im.user_id = ?', current_user.user_id).
                 where(deleted: false, threads: {deleted: false}).
-                order(:created_at).page(params[:page]).per(@limit)
+                page(params[:page]).per(@limit)
+
+    @messages = sort_query(%w(created_at), @messages, {created_at: 'messages.created_at'})
 
     ret = []
     ret << check_messages_for_suspiciousness(@messages)

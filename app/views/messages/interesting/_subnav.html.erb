@@ -1,0 +1,8 @@
+<ul class="interesting-messages-nav">
+  <% if @_sort_direction == :desc %>
+    <li><%= cf_link_to t('plugins.interesting_messages.sort_ascending'), interesting_messages_path(sort: :created_at, dir: :asc) %></li>
+  <% else %>
+    <li><%= cf_link_to t('plugins.interesting_messages.sort_descending'), interesting_messages_path(sort: :created_at, dir: :desc) %></li>
+  <% end %>
+</ul>
+
