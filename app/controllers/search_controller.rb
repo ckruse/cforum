@@ -45,13 +45,17 @@ class SearchController < ApplicationController
          term = term[0..-2]
        end
 
-       v = ''
-       v << '!' if negated
-       v << SearchDocument.connection.quote(term)
-       v << ':*' if wildcard
+       if term.blank?
+         nil
+       else
+         v = ''
+         v << '!' if negated
+         v << SearchDocument.connection.quote(term)
+         v << ':*' if wildcard
 
-       v
-     }).join(" & ")
+         v
+       end
+     }).delete_if(&:blank?).join(" & ")
   end
 
   def ts_headline(content, query, name, dict = Cforum::Application.config.search_dict)
