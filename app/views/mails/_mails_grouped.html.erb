@@ -1,7 +1,8 @@
 <% @mail_groups_keys.each do |mg_key| %>
+  <% has_unread = has_unread?(@mail_groups[mg_key]) %>
   <% @mail_groups[mg_key].each_with_index do |m, i| %>
-    <tr class="<% if i == 0 %>fold-marker<% else %>folded<% end %>">
-      <td><% if i == 0 %>▶<% end %></td>
+    <tr class="<% if i == 0 %>fold-marker<% elsif not has_unread %>folded<% end %>">
+      <td<% if has_unread %> class="open"<% end %>><% if i == 0 %><% if has_unread %>▼<% else %>▶<% end %><% end %></td>
       <%= render 'mail_row', m: m %>
     </tr>
   <% end %>

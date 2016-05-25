@@ -8,4 +8,11 @@ module MailsHelper
       mails_path(sort: col, dir: dir)
     end
   end
+
+  def has_unread?(mails_group)
+    m = mails_group.find { |mail| not mail.is_read }
+    not m.blank?
+  end
 end
+
+# eof
