@@ -539,6 +539,19 @@ END;
 $$;
 
 
+--
+-- Name: timestamp2local(timestamp without time zone, character varying); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION timestamp2local(ts_p timestamp without time zone, tz_p character varying) RETURNS timestamp with time zone
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  RETURN (SELECT (ts_p AT TIME ZONE 'UTC') AT TIME ZONE tz_p);
+END;
+$$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -3554,4 +3567,6 @@ INSERT INTO schema_migrations (version) VALUES ('9');
 INSERT INTO schema_migrations (version) VALUES ('90');
 
 INSERT INTO schema_migrations (version) VALUES ('91');
+
+INSERT INTO schema_migrations (version) VALUES ('92');
 
