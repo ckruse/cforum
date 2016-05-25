@@ -8,6 +8,11 @@ class Admin::JobsController < ApplicationController
                        PeonJob).
             page(params[:page])
 
+    @stat_jobs = PeonJob.
+                 select("DATE_TRUNC('day', created_at) \"day\", COUNT(*) cnt").
+                 where(created_at: (Time.zone.now - 30.days)..Time.zone.now).
+                 group("DATE_TRUNC('day', created_at)").
+                 all
   end
 
 end

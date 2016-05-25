@@ -5,6 +5,14 @@ content_for(:body_id, "jobs-index")
 content_for(:body_classes, 'jobs index')
 %>
 
+<%= javascript_include_tag "stats" %>
+
+<div id="chart"></div>
+
+<script>
+ cforum.admin.jobs.jobsCount = <%= @stat_jobs.to_json.html_safe %>;
+</script>
+
 <table class="cf-default-table">
   <thead>
     <tr>

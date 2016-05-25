@@ -82,10 +82,12 @@ de:
         cnt_threads: Anzahl neuer Threads
         cnt_messages: Anzahl neuer Beiträge
         cnt_cites: Anzahl neuer Zitate
+        cnt_jobs: Anzahl Hintergrund-Aufträge
         threads: neue Threads
         messages: neue Beiträge
         cites: neue Zitate
         users: Autoren
+        jobs: Hintergrund-Aufträge
         decimalPoint: ","
         thousandsSep: '.'
         loading: 'Daten werden geladen…'
