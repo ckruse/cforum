@@ -27,7 +27,8 @@ content_for(:body_classes, 'jobs index')
         <td><%= job.max_tries %></td>
         <td><%= job.tries %></td>
         <td><%= t(job.work_done ? 'global.yeah' : 'global.nope') %></td>
-        <td><%= job.class_name %></td>
+        <td><%= job.class_name %><br>
+          <%= job.arguments.gsub(/,/, ', ') %></td>
         <td><%= job.errstr %></td>
         <td><%= job.stacktrace %></td>
       </tr>
