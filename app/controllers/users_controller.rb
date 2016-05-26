@@ -7,6 +7,10 @@ class UsersController < ApplicationController
     not current_user.blank? and (current_user.admin? or current_user.user_id.to_s == params[:id])
   end
 
+  authorize_action(:show_votes) do
+    not current_user.blank? and current_user.user_id.to_s == params[:id]
+  end
+
   def index
     @limit = conf('pagination_users').to_i
 
@@ -216,6 +220,21 @@ class UsersController < ApplicationController
       @scored_msgs = @scored_msgs.where("m2.user_id = ?", @user.user_id)
     end
 
+  end
+
+  def show_votes
+    @user = User.find(params[:id])
+    sql = Forum.visible_sql(current_user)
+
+    @votes = Vote.
+             joins(:message).
+             preload(:score, message: [:owner, :tags,
+                                       {thread: :forum, votes: :voters}]).
+             where(user_id: @user.user_id).
+             where("forum_id IN (#{sql}) AND deleted = false").
+             order("created_at DESC").
+             page(params[:page]).
+             per(conf('pagination'))
   end
 
   def show_messages

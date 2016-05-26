@@ -152,7 +152,12 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
   </table>
 <% end %>
 
-<p><%= cf_link_to t('users.all_votes'), user_scores_path(@user) %></p>
+<p>
+  <%= cf_link_to t('users.all_scores'), user_scores_path(@user) %>
+  <% if @user.user_id == current_user.try(:user_id) %>
+    <%= cf_link_to t('users.all_votes'), user_votes_path(@user) %>
+  <% end %>
+</p>
 
 <h2><%= t('users.badges') %></h2>
 

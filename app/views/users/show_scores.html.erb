@@ -1,8 +1,8 @@
 <%
-content_for :title, t('users.all_votes_for_user', name: @user.username)
-content_for :h1, t('users.all_votes_for_user', name: @user.username)
-content_for(:body_id, "users-votes")
-content_for(:body_classes, 'users votes ' + user_to_class_name(@user))
+content_for :title, t('users.all_scores_for_user', name: @user.username)
+content_for :h1, t('users.all_scores_for_user', name: @user.username)
+content_for(:body_id, "users-scores")
+content_for(:body_classes, 'users scores ' + user_to_class_name(@user))
 %>
 
 <%= paginate @scored_msgs %>

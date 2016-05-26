@@ -40,8 +40,11 @@ de:
 
     confirm_first: Sie müssen Ihr Profil erst bestätigen.
 
+    all_scores: alle Punkte
+    all_scores_for_user: alle Punkte für Benutzer „%{name}“
+
     all_votes: alle Bewertungen
-    all_votes_for_user: alle Bewertungen für Benutzer „%{name}“
+    all_votes_for_user: alle Bewertungen vom Benutzer „%{name}“
 
     all_messages: alle Beiträge
     all_messages_for_user: alle Beiträge von Benutzer „%{name}“

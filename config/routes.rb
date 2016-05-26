@@ -43,6 +43,7 @@ Cforum::Application.routes.draw do
 
   get '/users/:id/destroy' => 'users#confirm_destroy', as: :users_confirm_destroy
   get '/users/:id/scores' => 'users#show_scores', as: :user_scores
+  get '/users/:id/votes' => 'users#show_votes', as: :user_votes
   get '/users/:id/messages' => 'users#show_messages', as: :user_messages
   resources :users, except: [:new, :create]
 
