@@ -2,6 +2,37 @@
 /* global cforum */
 
 cforum.users = {
+  messagesByMonths: null,
+
+  show: function() {
+    Highcharts.setOptions({
+      lang: t('highcharts')
+    });
+
+    var keys = cforum.users.messagesByMonths.sort(function(a,b) {
+      var a_date = new Date(a.created_at);
+      var b_date = new Date(b.created_at);
+      return a_date.getTime() - b_date.getTime();
+    });
+
+    $("#user-activity-stats").highcharts({
+      chart: { type: 'spline' },
+      title: null,
+      xAxis: {
+        categories: $.map(keys,
+                          function(val, i) {
+                            return Highcharts.dateFormat("%B %Y",
+                                                         new Date(val.created_at));
+                          })
+      },
+      yAxis: { title: { text: t('highcharts.cnt_messages') } },
+      series: [{
+        name: t('highcharts.messages'),
+        data: $.map(keys, function(val, i) { return val.cnt; })
+      }]
+    });
+  },
+
   registrations: {
     checkUsername: function() {
       var $uname = $("[data-js=username]");

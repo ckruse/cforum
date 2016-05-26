@@ -26,6 +26,7 @@ de:
     num_msgs: Aktivität in den letzten 30 Tagen
     score_num: "%{num} Punkte"
     registered_since: registriert seit
+    user_activity: Benutzer-Aktivität
     newest_messages: neueste Nachrichten
     no_messages_so_far: bisher keine Beiträge
     tags: Tags

@@ -52,6 +52,13 @@ class UsersController < ApplicationController
     @settings.options ||= {}
     @user_score = Score.where(user_id: @user.user_id).sum('value')
 
+    @messages_by_months = Message.
+                          select("DATE_TRUNC('month', created_at) created_at, COUNt(*) cnt").
+                          where(user_id: @user.user_id,
+                                deleted: false).
+                          group("DATE_TRUNC('month', created_at)").
+                          all
+
     @messages_count = Message.where(user_id: @user.user_id, deleted: false).count()
 
     sql = Forum.visible_sql(current_user)

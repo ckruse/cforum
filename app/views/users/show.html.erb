@@ -5,6 +5,8 @@ content_for(:body_id, "users-show")
 content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 %>
 
+<%= javascript_include_tag "stats" %>
+
 <div class="clearfix">
   <div class="user-info-table">
     <table>
@@ -90,6 +92,13 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
   </p>
 <% end %>
 
+
+<h2><%= t("users.user_activity") %></h2>
+<script>
+ cforum.users.messagesByMonths = <%= @messages_by_months.to_json.html_safe %>;
+</script>
+
+<div id="user-activity-stats"></div>
 
 <h2><%= t('users.newest_messages') %></h2>
 
