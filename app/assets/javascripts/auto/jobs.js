@@ -8,11 +8,17 @@ cforum.admin.jobs = {
       lang: t('highcharts')
     });
 
+    var keys = cforum.admin.jobs.jobsCount.sort(function(a,b) {
+      var a_date = new Date(a.day);
+      var b_date = new Date(b.day);
+      return a_date.getTime() - b_date.getTime();
+    });
+
     $("#chart").highcharts({
       chart: { type: 'spline' },
       title: null,
       xAxis: {
-        categories: $.map(cforum.admin.jobs.jobsCount,
+        categories: $.map(keys,
                           function(val, i) {
                             return Highcharts.dateFormat("%A, %d. %B %Y",
                                                          new Date(val.day));
@@ -21,7 +27,7 @@ cforum.admin.jobs = {
       yAxis: { title: { text: t('highcharts.cnt_jobs') } },
       series: [{
         name: t('highcharts.jobs'),
-        data: $.map(cforum.admin.jobs.jobsCount, function(val, i) { return val.cnt; })
+        data: $.map(keys, function(val, i) { return val.cnt; })
       }]
     });
   }
