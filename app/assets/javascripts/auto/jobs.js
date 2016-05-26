@@ -11,7 +11,7 @@ cforum.admin.jobs = {
     var keys = cforum.admin.jobs.jobsCount.sort(function(a,b) {
       var a_date = new Date(a.day);
       var b_date = new Date(b.day);
-      return b_date.getTime() - a_date.getTime();
+      return a_date.getTime() - b_date.getTime();
     });
 
     $("#chart").highcharts({
