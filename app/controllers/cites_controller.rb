@@ -46,6 +46,15 @@ class CitesController < ApplicationController
                              vote_type: vtype)
 
       if @vote.save
+        if uconf('delete_read_notifications_on_cite') == 'yes'
+          Notification.
+            where(recipient_id: current_user.user_id,
+                  oid: @cite.cite_id,
+                  otype: 'cite:create').
+            delete_all
+        end
+
+
         respond_to do |format|
           format.html { redirect_to cites_vote_url, notice: t('messages.successfully_voted') }
           format.json do
