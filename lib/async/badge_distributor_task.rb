@@ -60,6 +60,22 @@ module Peon
           b = vote.user.badges.find { |ubadge| ubadge.slug == 'critic' }
           give_badge(vote.user, Badge.where(slug: 'critic').first!) if b.blank?
         end
+
+        badges = [100, 250, 500, 1000, 2500, 5000, 10000]
+        voter_badge = Badge.where(slug: 'voter').first!
+        all_user_votes = Vote.where(user_id: vote.user_id).count
+        all_user_badges = BadgeUser.where(user_id: vote.user_id, badge_id: voter_badge.badge_id).count
+        user_should_have_badges = 0
+
+        badges.each do |vote_no|
+          user_should_have_badges += 1 if all_user_votes >= vote_no
+        end
+
+        if user_should_have_badges - all_user_badges > 0
+          (user_should_have_badges - all_user_badges).times do
+            give_badge(vote.user, voter_badge)
+          end
+        end
       end
 
       def run_periodical(args)

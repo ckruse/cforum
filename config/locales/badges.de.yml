@@ -41,6 +41,7 @@ de:
       enthusiast: Enthusiast
       critic: Kritiker
       teacher: Lehrer
+      voter: Der Bewerter
 
     badge_medal_types:
       bronze: Bronze
@@ -81,4 +82,5 @@ de:
       enthusiast: Der Anwender hat mindestens einen Beitrag positiv bewertet.
       critic: Der Anwender hat mindestens einen Beitrag negativ bewertet.
       teacher: Der Anwender hat einen Beitrag beantwortet, der mindestens eine positive Bewertung erhalten hat.
+      voter: Der Anwender hat 100, 250, 500, 1000, 2500, 5000 oder 10000 Beiträge bewertet.
 
