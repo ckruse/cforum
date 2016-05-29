@@ -95,6 +95,19 @@ module ThreadsHelper
 
     @sticky_threads, @threads = get_threads(forum, order, current_user, with_sticky)
 
+    if params[:only_wo_answer]
+      open_threads = CfThread.
+                     joins(:messages).
+                     where(archived: false, deleted: false, messages: {deleted: false}).
+                     where('threads.forum_id IN (' + Forum.visible_sql(current_user) + ')').
+                     group("threads.thread_id").
+                     having('COUNT(*) <= 1')
+
+      @threads = @threads.where(thread_id: open_threads)
+      @sticky_threads = @sticky_threads.where(thread_id: open_threads)
+    end
+
+
     if uconf('page_messages') == 'yes'
       if page.nil?
         @page  = params[:p].to_i

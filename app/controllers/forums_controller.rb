@@ -27,6 +27,21 @@ class ForumsController < ApplicationController
       @overview_threads += threads
     end
 
+    @open_threads = CfThread.
+                    preload(:forum, messages: :owner).
+                    where(thread_id: CfThread.
+                           joins(:messages).
+                           where(archived: false, deleted: false, messages: {deleted: false}).
+                           where(forum_id: @forums).
+                           group("threads.thread_id").
+                           having('COUNT(*) <= 1')).
+                    order(latest_message: :asc).
+                    limit(5)
+    @open_threads.each do |thread|
+      thread.attribs[:latest_message] = thread.messages.first
+      thread.attribs[:first] = thread.messages.first
+    end
+
     gather_portal_infos unless current_user.blank?
     forum_list_read(@overview_threads, @activities)
 
