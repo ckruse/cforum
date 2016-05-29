@@ -100,6 +100,7 @@ module ThreadsHelper
                      joins(:messages).
                      where(archived: false, deleted: false, messages: {deleted: false}).
                      where('threads.forum_id IN (' + Forum.visible_sql(current_user) + ')').
+                     where("(messages.flags->'no-answer-admin' = 'no' OR (messages.flags->'no-answer-admin') IS NULL) AND (messages.flags->'no-answer' = 'no' OR (messages.flags->'no-answer') IS NULL)").
                      group("threads.thread_id").
                      having('COUNT(*) <= 1')
 
