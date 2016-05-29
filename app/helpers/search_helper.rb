@@ -82,6 +82,166 @@ module SearchHelper
 
     doc.save!
   end
+
+  def to_ts_query(terms)
+    (terms.map { |t|
+       negated = false
+       wildcard = false
+       term = t.gsub(/\\/, '\\\\\\')
+
+       if t[0] == '-'
+         negated = true
+         term = term[1..-1]
+       end
+
+       if t[-1] == '*'
+         wildcard = true
+         term = term[0..-2]
+       end
+
+       if term.blank?
+         nil
+       else
+         v = ''
+         v << '!' if negated
+         v << SearchDocument.connection.quote(term)
+         v << ':*' if wildcard
+
+         v
+       end
+     }).delete_if(&:blank?).join(" & ")
+  end
+
+  def ts_headline(content, query, name, dict = Cforum::Application.config.search_dict)
+    title_config = 'MaxFragments=3'
+
+    "ts_headline('" + dict + "', " + content +
+      ", to_tsquery('" + dict + "', " + query + "), '" +
+      title_config + "\') AS " + name
+  end
+
+  def parse_search_terms(search_str)
+    doc = StringScanner.new(search_str)
+    terms = {
+      author: [],
+      title: [],
+      content: [],
+      all: [],
+      tags: []
+    }
+
+    current = :all
+
+    while !doc.eos?
+      doc.skip(/\s+/)
+
+      if doc.scan(/author:/)
+        current = :author
+
+      elsif doc.scan(/title:/)
+        current = :title
+
+      elsif doc.scan(/body:/)
+        current = :content
+
+      elsif doc.scan(/tag:/)
+        current = :tags
+
+      elsif doc.scan(/"/)
+        term = ''
+        while !doc.eos?
+          if doc.scan(/\\/)
+            if doc.scan(/"/)
+              term << '"'
+            else
+              term << '\\'
+            end
+
+          elsif doc.scan(/"/)
+            break
+
+          else
+            doc.scan(/./)
+            term << doc.matched
+          end
+        end
+
+        terms[current] << term
+        current = :all
+
+      elsif doc.scan(/\S+/)
+        terms[current] << doc.matched
+        current = :all
+      end
+    end
+
+    terms
+  end
+
+  def gen_search_query(query)
+    search_results = SearchDocument
+    select = ['relevance']
+    select_title = []
+
+    unless query[:all].blank?
+      q = to_ts_query(query[:all])
+      quoted_q = SearchDocument.connection.quote(q)
+
+      search_results = search_results.
+                       where("ts_document @@ to_tsquery('" +
+                             Cforum::Application.config.search_dict +
+                             "', ?)", q)
+      select << "ts_rank_cd(ts_document, to_tsquery('" +
+        Cforum::Application.config.search_dict +
+        "', " + quoted_q + "), 32)"
+
+      select_title << ts_headline("author || ' ' || title || ' ' || content", quoted_q,  "headline_doc")
+    end
+
+    unless query[:title].blank?
+      q = to_ts_query(query[:title])
+      quoted_q = SearchDocument.connection.quote(q)
+
+      search_results = search_results.
+                       where("ts_title @@ to_tsquery('" +
+                             Cforum::Application.config.search_dict +
+                             "', ?)", q)
+
+      select << "ts_rank_cd(ts_title, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + "), 32)"
+      select_title << ts_headline("title", quoted_q, "headline_title")
+    end
+
+    unless query[:content].blank?
+      q = to_ts_query(query[:content])
+      quoted_q = SearchDocument.connection.quote(q)
+
+      search_results = search_results.
+                       where("ts_content @@ to_tsquery('" +
+                             Cforum::Application.config.search_dict +
+                             "', ?)", q)
+
+      select << "ts_rank_cd(ts_content, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + "), 32)"
+      select_title << ts_headline("content", quoted_q, "headline_content")
+    end
+
+    unless query[:author].blank?
+      q = to_ts_query(query[:author])
+      quoted_q = SearchDocument.connection.quote(q)
+
+      search_results = search_results.
+                       where("ts_author @@ to_tsquery('simple', ?)", q)
+
+      select << "ts_rank_cd(ts_author, to_tsquery('simple', " + quoted_q + "), 32)"
+      select_title << ts_headline('author', quoted_q, 'headline_author', 'simple')
+    end
+
+    unless query[:tags].empty?
+      search_results = search_results.where("tags @> ARRAY[?]::text[]", query[:tags].map { |t| t.downcase })
+    end
+
+    return search_results, select.join(' + ') + " AS rank", select_title
+  end
+
 end
 
 # eof
