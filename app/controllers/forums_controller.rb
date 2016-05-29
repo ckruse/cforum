@@ -38,6 +38,9 @@ class ForumsController < ApplicationController
                            having('COUNT(*) <= 1')).
                     order(latest_message: :asc).
                     limit(5)
+
+    @open_threads = leave_out_invisible(@open_threads)
+
     @open_threads.each do |thread|
       thread.attribs[:latest_message] = thread.messages.first
       thread.attribs[:first] = thread.messages.first
