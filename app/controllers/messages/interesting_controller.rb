@@ -7,6 +7,7 @@ class Messages::InterestingController < ApplicationController
   include HighlightHelper
   include InterestingHelper
   include LinkTagsHelper
+  include SearchHelper
 
   def mark_interesting
     if current_user.blank?
@@ -54,13 +55,29 @@ class Messages::InterestingController < ApplicationController
   def list_interesting_messages
     @limit = conf('pagination').to_i
 
-    @messages = Message.
-                preload(:owner, :tags, thread: :forum, votes: :voters).
-                includes(:thread).
-                joins('INNER JOIN interesting_messages im ON im.message_id = messages.message_id').
-                where('im.user_id = ?', current_user.user_id).
-                where(deleted: false, threads: {deleted: false}).
-                page(params[:page]).per(@limit)
+    if params[:term].blank?
+      @messages = Message.
+                  preload(:owner, :tags, thread: :forum, votes: :voters).
+                  includes(:thread).
+                  joins('INNER JOIN interesting_messages im ON im.message_id = messages.message_id').
+                  where('im.user_id = ?', current_user.user_id).
+                  where(deleted: false, threads: {deleted: false}).
+                  page(params[:page]).per(@limit)
+
+    else
+      query = parse_search_terms(params[:term])
+      @search_documents, _ = gen_search_query(query)
+
+      @search_documents = @search_documents.
+                          joins("INNER JOIN interesting_messages im ON im.message_id = search_documents.reference_id AND im.user_id = " + current_user.user_id.to_s)
+
+      @messages = Message.
+                  preload(:owner, :tags, thread: :forum, votes: :voters).
+                  includes(:thread).
+                  where(message_id: @search_documents.select("reference_id")).
+                  where(deleted: false, threads: {deleted: false}).
+                  page(params[:page]).per(@limit)
+    end
 
     @messages = sort_query(%w(created_at), @messages,
                            {created_at: 'messages.created_at'},
