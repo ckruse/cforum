@@ -42,7 +42,9 @@ de:
     last_message: letzter Beitrag
     last_thread: Thread erstellt
     first_unread: ältester ungelesener Beitrag
-    ago: 'vor %{time}: '
+    ago:
+      zero: 'vor %{time}'
+      one: 'vor %{time}: '
 
     placeholders:
       greeting: Hallo {$vname},
