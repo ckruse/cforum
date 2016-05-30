@@ -205,11 +205,7 @@ main h2 { margin-left:0; }
       padding: 9px;
       vertical-align: 8px;
       background: none no-repeat center scroll transparent;
-      background-size: 80%;
-    }
-    .accept { 
-      background-size: 100%;
-      vertical-align: -1px; 
+      background-size: contain;
     }
 
     .icon-vote-down[disabled], .icon-vote-down[disabled]:hover { background-image: asset-url("bewertung-minus-grau.svg"); }
@@ -225,10 +221,7 @@ main h2 { margin-left:0; }
     .unaccepted-answer, .accepted-answer:hover { background-image: asset-url("bewertung-ok-gelb.svg"); }
     .accepted-answer, .unaccepted-answer:hover { background-image: asset-url("bewertung-ok-gruen.svg"); }
 
-    .infos {
-      background-size:80%;
-      background-image: asset-url('bewertung-info-blaugrau.svg');
-    }
+    .infos { background-image: asset-url('bewertung-info-blaugrau.svg'); }
     .infos:hover { background-image: asset-url('bewertung-info-rot.svg'); }
   }
 

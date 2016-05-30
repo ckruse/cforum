@@ -31,7 +31,7 @@ upvote_msg = if not may_upvote_msg.blank?
     <%= form_tag vote_message_path(@thread, m), :method => :post, class: 'form-inline' do %>
       <% if not @thread.message.message_id == m.message_id %>
         <% if not @thread.acceptance_forbidden?(current_user, cookies[:cforum_user]) %>
-          <%= cf_link_to("", accept_message_path(@thread, m),
+          <%= cf_link_to("✓", accept_message_path(@thread, m),
                          method: 'post', class: (m.flags['accepted'] == 'yes' ? 'accepted-answer' : 'unaccepted-answer') + ' cf-btn accept',
                          title: m.flags['accepted'] == 'yes' ? t('messages.unaccept_answer') : t('messages.accept_answer')) %>
         <% else %>
