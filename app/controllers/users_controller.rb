@@ -56,6 +56,7 @@ class UsersController < ApplicationController
                           select("DATE_TRUNC('month', created_at) created_at, COUNt(*) cnt").
                           where(user_id: @user.user_id,
                                 deleted: false).
+                          order("DATE_TRUNC('month', created_at)").
                           group("DATE_TRUNC('month', created_at)").
                           all
 

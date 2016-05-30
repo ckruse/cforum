@@ -14,7 +14,7 @@ cforum.users = {
 
     for(var i = 0; i < cforum.users.messagesByMonths.length; ++i) {
       v = cforum.users.messagesByMonths[i];
-      d = new Date(v.created_at);
+      d = new Date(v.created_at.replace(/\.[^.]+$/, ''));
 
       if(!min || d < min) {
         min = d;
@@ -43,8 +43,7 @@ cforum.users = {
       xAxis: {
         categories: $.map(keys,
                           function(val, i) {
-                            return Highcharts.dateFormat("%B %Y",
-                                                         new Date(val));
+                            return Highcharts.dateFormat("%B %Y", val);
                           })
       },
       yAxis: { title: { text: t('highcharts.cnt_messages') } },
