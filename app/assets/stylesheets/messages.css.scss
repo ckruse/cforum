@@ -205,24 +205,28 @@ main h2 { margin-left:0; }
       padding: 9px;
       vertical-align: 8px;
       background: none no-repeat center scroll transparent;
+      background-size:100%;
     }
     .accept { vertical-align: 0; }
 
-    .icon-vote-down[disabled], .icon-vote-down[disabled]:hover { background-image: asset-data-url("bewertung-minus-grau.png"); }
-    .icon-vote-up[disabled], .icon-vote-up[disabled]:hover { background-image: asset-data-url("bewertung-plus-grau.png"); }
+    .icon-vote-down[disabled], .icon-vote-down[disabled]:hover { background-image: asset-url("bewertung-minus-grau.svg"); }
+    .icon-vote-up[disabled], .icon-vote-up[disabled]:hover { background-image: asset-url("bewertung-plus-grau.svg"); }
 
-    .icon-vote-down, .icon-vote-down.active:hover { background-image: asset-data-url("bewertung-minus-gelb.png"); }
-    .icon-vote-up, .icon-vote-up.active:hover { background-image: asset-data-url("bewertung-plus-gelb.png"); }
-    .icon-vote-down.active, .icon-vote-down:hover { background-image: asset-data-url("bewertung-minus-rot.png"); }
-    .icon-vote-up.active, .icon-vote-up:hover { background-image: asset-data-url("bewertung-plus-gruen.png"); }
-    .icon-vote-down.disabled { background-image: asset-data-url("bewertung-minus-grau.png"); }
-    .icon-vote-up.disabled  { background-image: asset-data-url("bewertung-plus-grau.png"); }
+    .icon-vote-down, .icon-vote-down.active:hover { background-image: asset-url("bewertung-minus-gelb.svg"); }
+    .icon-vote-up, .icon-vote-up.active:hover { background-image: asset-url("bewertung-plus-gelb.svg"); }
+    .icon-vote-down.active, .icon-vote-down:hover { background-image: asset-url("bewertung-minus-rot.svg"); }
+    .icon-vote-up.active, .icon-vote-up:hover { background-image: asset-url("bewertung-plus-gruen.svg"); }
+    .icon-vote-down.disabled { background-image: asset-url("bewertung-minus-grau.svg"); }
+    .icon-vote-up.disabled  { background-image: asset-url("bewertung-plus-grau.svg"); }
 
-    .unaccepted-answer, .accepted-answer:hover { background-image: asset-data-url("bewertung-ok-gelb.png"); }
-    .accepted-answer, .unaccepted-answer:hover { background-image: asset-data-url("bewertung-ok-gruen.png"); }
+    .unaccepted-answer, .accepted-answer:hover { background-image: asset-url("bewertung-ok-gelb.svg"); }
+    .accepted-answer, .unaccepted-answer:hover { background-image: asset-url("bewertung-ok-gruen.svg"); }
 
-    .infos { background-image: asset-data-url('bewertung-info-blaugrau.png'); }
-    .infos:hover { background-image: asset-data-url('bewertung-info-rot.png'); }
+    .infos {
+      background-size:80%;
+      background-image: asset-url('bewertung-info-blaugrau.svg');
+    }
+    .infos:hover { background-image: asset-url('bewertung-info-rot.svg'); }
   }
 
 
