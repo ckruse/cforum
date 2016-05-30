@@ -168,7 +168,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
   <% end %>
 </p>
 
-<h2><%= t('users.badges') %> (<%= cf_link_to(t('help.info'), help_path + '#badges') %>)</h2>
+<h2><%= t('users.badges') %> <%= cf_link_to(image_tag('bewertung-info-blaugrau.svg', class: "svg-i"), help_path + '#badges', title: t('help.info')) %></h2>
 
 <% if @badges.blank? %>
   <p><%= t('users.no_badges_so_far') %></p>
