@@ -186,7 +186,7 @@ main h2 { margin-left:0; }
     margin-top:1em;
 
     .icon-vote-down::before,
-    .icon-vote-up:before {
+    .icon-vote-up::before {
       content: none;
     }
 
@@ -205,9 +205,12 @@ main h2 { margin-left:0; }
       padding: 9px;
       vertical-align: 8px;
       background: none no-repeat center scroll transparent;
-      background-size:100%;
+      background-size: 80%;
     }
-    .accept { vertical-align: 0; }
+    .accept { 
+      background-size: 100%;
+      vertical-align: -1px; 
+    }
 
     .icon-vote-down[disabled], .icon-vote-down[disabled]:hover { background-image: asset-url("bewertung-minus-grau.svg"); }
     .icon-vote-up[disabled], .icon-vote-up[disabled]:hover { background-image: asset-url("bewertung-plus-grau.svg"); }
