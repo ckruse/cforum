@@ -1,5 +1,5 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum */
+/* global cforum, t, Highcharts */
 
 cforum.users = {
   messagesByMonths: null,
@@ -9,11 +9,33 @@ cforum.users = {
       lang: t('highcharts')
     });
 
-    var keys = cforum.users.messagesByMonths.sort(function(a,b) {
-      var a_date = new Date(a.created_at);
-      var b_date = new Date(b.created_at);
-      return a_date.getTime() - b_date.getTime();
-    });
+    var dateAsKeys = {};
+    var min, max, d, v;
+
+    for(var i = 0; i < cforum.users.messagesByMonths.length; ++i) {
+      v = cforum.users.messagesByMonths[i];
+      d = new Date(v.created_at);
+
+      if(!min || d < min) {
+        min = d;
+      }
+
+      if(!max || d > max) {
+        max = d;
+      }
+
+      dateAsKeys[d.getYear() + "-" + d.getMonth()] = v.cnt;
+    }
+
+    var keys = [];
+    for(d = min; d <= max; d.setMonth(d.getMonth() + 1)) {
+      var curKey = d.getYear() + "-" + d.getMonth();
+      keys.push(new Date(d));
+
+      if(!dateAsKeys[curKey]) {
+        dateAsKeys[curKey] = 0;
+      }
+    }
 
     $("#user-activity-stats").highcharts({
       chart: { type: 'spline' },
@@ -22,13 +44,13 @@ cforum.users = {
         categories: $.map(keys,
                           function(val, i) {
                             return Highcharts.dateFormat("%B %Y",
-                                                         new Date(val.created_at));
+                                                         new Date(val));
                           })
       },
       yAxis: { title: { text: t('highcharts.cnt_messages') } },
       series: [{
         name: t('highcharts.messages'),
-        data: $.map(keys, function(val, i) { return val.cnt; })
+        data: $.map(keys, function(val, i) { return dateAsKeys[val.getYear() + "-" + val.getMonth()]; })
       }]
     });
   },
