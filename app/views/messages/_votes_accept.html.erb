@@ -1,4 +1,5 @@
 <%
+bottom ||= false
 has_upvote = has_downvote = false
 has_upvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == Vote::UPVOTE
 has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == Vote::DOWNVOTE
@@ -26,7 +27,7 @@ upvote_msg = if not may_upvote_msg.blank?
                end
              end
 
-%><div class="voting">
+%><div class="voting<% if bottom %> bottom<% end %>">
   <% if @thread.forum.write?(current_user) %>
     <%= form_tag vote_message_path(@thread, m), :method => :post, class: 'form-inline' do %>
       <% if not @thread.message.message_id == m.message_id %>

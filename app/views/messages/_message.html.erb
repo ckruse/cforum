@@ -29,6 +29,10 @@ controls ||= :yes
     </div>
   <% end %>
 
+  <% if m.flags["no-answer"] != 'yes' and m.flags['no-answer-admin'] != 'yes' and controls == :yes %>
+    <%= render 'votes_accept', m: m, bottom: true %>
+  <% end %>
+
   <div class="message-links">
     <% unless m.cite.blank? %>
       <p class="message-cite"><%= t('messages.this_message_got_cited',

@@ -232,6 +232,11 @@ main h2 { margin-left:0; }
     .infos:hover { background-image: asset-url('bewertung-info-rot.svg'); }
   }
 
+  & > .voting.bottom {
+    display:block;
+    width:auto;
+  }
+
 
   header h2 a,
   header h3 a,
