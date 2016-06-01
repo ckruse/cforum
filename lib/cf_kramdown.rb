@@ -122,8 +122,6 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
       end
     end
 
-    el.attr['target'] = '_blank' if @options[:new_window]
-
     super(el, indent)
   end
 
