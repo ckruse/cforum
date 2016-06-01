@@ -21,9 +21,12 @@ $(function() {
     data = data.substring(1);
 
     $this.blur();
+    $this.addClass("spinning");
 
     $.post(action + '.json', data).
       done(function(data) {
+        $this.removeClass("spinning");
+
         if(data.status == 'success') {
           $this.toggleClass('active');
           cforum.alert.success(data.message);
@@ -53,6 +56,7 @@ $(function() {
         }
       }).
       fail(function(xhr, textStatus, errorThrown) {
+        $this.removeClass("spinning");
         cforum.alert.error('Etwas ist schief gegangen!');
       });
 
@@ -65,10 +69,13 @@ $(function() {
     var $this = $(ev.target);
     var action = $this.attr("href");
 
+    $this.addClass("spinning");
     $this.blur();
 
     $.post(action + ".json").
       done(function(data) {
+        $this.removeClass("spinning");
+
         if(data.status == 'success') {
           cforum.alert.success(data.message);
 
@@ -79,6 +86,10 @@ $(function() {
             $this.removeClass("accepted-answer").addClass("unaccepted-answer");
           }
         }
+      }).
+      fail(function() {
+        $this.removeClass("spinning");
+        cforum.alert.error('Etwas ist schief gegangen!');
       });
   });
 });

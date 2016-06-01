@@ -208,6 +208,13 @@ main h2 { margin-left:0; }
       background-size: contain;
     }
 
+    .vote.icon-vote-down.spinning, .vote.icon-vote-up.spinning,
+    .vote.icon-vote-down.spinning:hover, .vote.icon-vote-up.spinning:hover,
+    .accepted-answer.spinning, .unaccepted-answer.spinning,
+    .accepted-answer.spinning:hover, .unaccepted-answer.spinning:hover {
+      background-image: asset-url("ajax-loader.svg");
+    }
+
     .icon-vote-down[disabled], .icon-vote-down[disabled]:hover { background-image: asset-url("bewertung-minus-grau.svg"); }
     .icon-vote-up[disabled], .icon-vote-up[disabled]:hover { background-image: asset-url("bewertung-plus-grau.svg"); }
 
