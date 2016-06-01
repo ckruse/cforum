@@ -53,10 +53,6 @@ $(function() {
         }
       }).
       fail(function(xhr, textStatus, errorThrown) {
-        if(window.console) {
-          console.log(xhr, textStatus, errorThrown);
-        }
-
         cforum.alert.error('Etwas ist schief gegangen!');
       });
 
