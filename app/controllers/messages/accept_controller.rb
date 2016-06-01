@@ -32,7 +32,15 @@ class Messages::AcceptController < ApplicationController
          arguments: {type: @message.flags['accepted'] == 'yes' ? 'accepted' : 'unaccepted',
                      message_id: @message.message_id})
 
-    redirect_to message_url(@thread, @message), notice: (@message.flags['accepted'] == 'yes' ? t('messages.accepted') : t('messages.unaccepted'))
+    respond_to do |format|
+      format.html do
+        redirect_to message_url(@thread, @message), notice: (@message.flags['accepted'] == 'yes' ? t('messages.accepted') : t('messages.unaccepted'))
+      end
+
+      format.json do
+        render json: { status: 'success', message: (@message.flags['accepted'] == 'yes' ? t('messages.accepted') : t('messages.unaccepted')) }
+      end
+    end
   end
 
   def check_for_na

@@ -57,6 +57,30 @@ $(function() {
       });
 
   });
+
+  $(".cf-btn.accept").on("click", function(ev) {
+    ev.preventDefault();
+    ev.stopPropagation();
+
+    var $this = $(ev.target);
+    var action = $this.attr("href");
+
+    $this.blur();
+
+    $.post(action + ".json").
+      done(function(data) {
+        if(data.status == 'success') {
+          cforum.alert.success(data.message);
+
+          if($this.hasClass("unaccepted-answer")) {
+            $this.removeClass("unaccepted-answer").addClass("accepted-answer");
+          }
+          else {
+            $this.removeClass("accepted-answer").addClass("unaccepted-answer");
+          }
+        }
+      });
+  });
 });
 
 /* eof */
