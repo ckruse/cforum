@@ -95,7 +95,8 @@
 
       .image-upload.loading {
         span { display:none; }
-        background:asset-data-url('ajax-loader.gif') center center no-repeat;
+        background:asset-data-url('ajax-loader.svg') center center no-repeat;
+        background-size:contain;
       }
 
       input[type=radio], input[type=checkbox] { width:auto; }
