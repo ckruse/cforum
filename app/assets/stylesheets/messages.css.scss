@@ -342,24 +342,24 @@ hr {
 
 /* Code-Blöcke */
 code.block {
-	display: block;
-	white-space: pre;
-	white-space: pre-wrap;
-	max-height: 50em;
-	overflow: auto;
-	background: #fcfcfc;
-	border: 1px solid #8a9da8;
-	border-radius: 0 .4em .4em;
-	margin-top: .5em;
-	padding: .3em .4em .3em .5em;
+  display: block;
+  white-space: pre;
+  white-space: pre-wrap;
+  max-height: 50em;
+  overflow: auto;
+  background: #fcfcfc;
+  border: 1px solid #8a9da8;
+  border-radius: 0 .4em .4em;
+  margin-top: .5em;
+  padding: .3em .4em .3em .5em;
   line-height:1.2em;
 }
 code.block code.block {
-	border: 0 none;
-	margin: 0;
-	padding: 0;
-	max-height: none;
-	background: transparent;
+  border: 0 none;
+  margin: 0;
+  padding: 0;
+  max-height: none;
+  background: transparent;
 }
 /* end Code-Blöcke */
 
