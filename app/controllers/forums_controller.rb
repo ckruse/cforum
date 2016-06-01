@@ -36,7 +36,7 @@ class ForumsController < ApplicationController
                            where("(messages.flags->'no-answer-admin' = 'no' OR (messages.flags->'no-answer-admin') IS NULL) AND (messages.flags->'no-answer' = 'no' OR (messages.flags->'no-answer') IS NULL)").
                            group("threads.thread_id").
                            having('COUNT(*) <= 1')).
-                    order(latest_message: :asc).
+                    order(latest_message: :desc).
                     limit(5)
 
     @open_threads = leave_out_invisible(@open_threads)
