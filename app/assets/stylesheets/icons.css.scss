@@ -22,6 +22,16 @@
   }
 }
 
+.icon-message.spinning:before {
+  content: none;
+}
+.icon-message.spinning {
+  background:asset-url("ajax-loader.svg") center center no-repeat;
+  background-size:contain;
+  width:1em;
+  height:1em;
+}
+
 .icon-thread {
   @extend .fa;
   cursor: pointer;
@@ -37,6 +47,17 @@
   &.mark-visible { @extend .fa-recycle; }
   &.mark-thread-read { @extend .fa-check; }
 }
+
+.icon-thread.spinning:before {
+  content:none;
+}
+.icon-thread.spinning {
+  background:asset-url("ajax-loader.svg") center center no-repeat;
+  background-size:contain;
+  width:1em;
+  height:1em;
+}
+
 
 i.icon-thread {
   margin-right: .3em;

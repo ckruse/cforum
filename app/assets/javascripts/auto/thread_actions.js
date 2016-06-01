@@ -34,6 +34,8 @@ $(function() {
 
     ev.preventDefault();
 
+    $this.addClass("spinning");
+
     var article = $this.closest('article');
     var form = $this.closest('form');
     var action = form.attr('action');
@@ -52,6 +54,7 @@ $(function() {
     $.post(action + '.json', data).
       done(function(data) {
         if($this.is('.icon-thread.mark-invisible') || $this.is('.icon-thread.mark-visible')) {
+          $this.removeClass("spinning");
           article.fadeOut('fast', function() { article.remove(); });
         }
         else {
@@ -62,11 +65,18 @@ $(function() {
           }
 
           $.get(loc).
-            done(function(content) { article.replaceWith(content); }).
-            fail(function() { cforum.alert.error('Etwas ist schief gegangen!'); });
+            done(function(content) {
+              article.replaceWith(content);
+              $this.removeClass("spinning");
+            }).
+            fail(function() {
+              $this.removeClass("spinning");
+              cforum.alert.error('Etwas ist schief gegangen!');
+            });
         }
       }).
       fail(function(xhr, textStatus, errorThrown) {
+        $this.removeClass("spinning");
         cforum.alert.error('Etwas ist schief gegangen!');
       });
   });
