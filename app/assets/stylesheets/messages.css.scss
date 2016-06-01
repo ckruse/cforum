@@ -317,8 +317,8 @@ main h2 { margin-left:0; }
       margin-left: -.5em;
     }
 
-    .posting-content, .message-links, .forum-links, .problematic-site {
-      display:none !important;
+    .posting-content, .message-links, .forum-links, .problematic-site, .voting.bottom {
+      display:none;
     }
   }
 }
