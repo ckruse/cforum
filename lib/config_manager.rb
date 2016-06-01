@@ -93,7 +93,6 @@ class ConfigManager
     'fold_quotes' => 'no',
     'live_preview' => 'yes',
 
-    'open_links_in_tab' => 'no',
     'load_messages_via_js' => 'yes',
 
     'hide_read_threads' => 'no',

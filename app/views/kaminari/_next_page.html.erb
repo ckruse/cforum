@@ -7,5 +7,5 @@
     remote:        data-remote
 -%>
 <li<% if current_page.last? %> class="disabled"<% end %>>
-  <%= cf_link_to_unless current_page.last?, t('views.pagination.next_page'), url, rel: 'next', remote: remote, target: nil %>
+  <%= cf_link_to_unless current_page.last?, t('views.pagination.next_page'), url, rel: 'next', remote: remote %>
 </li>

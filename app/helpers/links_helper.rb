@@ -20,10 +20,6 @@ module LinksHelper
       args << attrs
     end
 
-    if uconf('open_links_in_tab') == 'yes' and not attrs.has_key?(:target)
-      attrs[:target] = '_blank'
-    end
-
     url = args.second
     url = args.first if not block.blank?
     if not is_url_whitelisted?(url) and not attrs.has_key?(:rel)
@@ -39,10 +35,6 @@ module LinksHelper
     else
       attrs = {}
       args << attrs
-    end
-
-    if uconf('open_links_in_tab') == 'yes' and not attrs.has_key?(:target)
-      attrs[:target] = '_blank'
     end
 
     url = args.third
