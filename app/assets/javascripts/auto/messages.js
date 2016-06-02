@@ -127,7 +127,6 @@ cforum.messages = {
             var old_mid = RegExp.$1;
 
             if(old_mid != mid) {
-              console.log(old_mid, mid);
               var new_url = document.location.href.replace(/\d+#m\d+/, mid + "#m" + mid);
               event.preventDefault();
               history.pushState(mid, "", new_url);
