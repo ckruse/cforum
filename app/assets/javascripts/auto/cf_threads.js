@@ -131,6 +131,9 @@ cforum.cf_threads = {
     if(uconf('load_messages_via_js') != 'no') {
       window.setTimeout(function() {
         cforum.cf_threads.showNewThread(message);
+
+        cforum.events.trigger("update", message);
+        cforum.events.trigger("update:thread", message);
       }, 500);
     }
 
@@ -162,6 +165,9 @@ cforum.cf_threads = {
       $.get(url, function(data) {
         thread.replaceWith(data);
         cforum.updateTitle();
+
+        cforum.events.trigger("update", message);
+        cforum.events.trigger("update:thread", message);
       });
     }, 500);
   },
@@ -203,6 +209,9 @@ cforum.cf_threads = {
               m.addClass('new');
             }
           }
+
+          cforum.events.trigger("update", message);
+          cforum.events.trigger("update:message", message);
         });
     }
 

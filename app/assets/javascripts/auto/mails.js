@@ -56,6 +56,9 @@ cforum.mails = {
       var title = mails.attr('title');
       title = title.replace(/\d+/, txt);
       mails.parent().children().attr('title', title);
+
+      cforum.events.trigger("update", data);
+      cforum.events.trigger("update:mail", data);
     }
 
     mails.animate({'font-size': '1.3em'}, 200, function() {

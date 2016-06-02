@@ -28,6 +28,9 @@ cforum.notifications = {
       var title = noti.attr('title');
       title = title.replace(/\d+/, txt);
       noti.parent().children().attr('title', title);
+
+      cforum.events.trigger("update", data);
+      cforum.events.trigger("update:notifications", data);
     }
 
     noti.animate({'font-size': '1.3em'}, 200, function() {

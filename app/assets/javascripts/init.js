@@ -2,6 +2,7 @@
 /* global cforum:true, uconf, io */
 
 cforum = {
+  events: $({}),
   utils: {
     exec: function(controller, action) {
       var ns = cforum;
