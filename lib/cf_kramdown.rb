@@ -116,6 +116,12 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
   end
 
   def convert_a(el, indent)
+    if el.attr['href'].start_with?('javascript:')
+      res = inner(el, indent)
+      res1 = escape_html(el.attr["href"], :text)
+      return "[#{res}](#{res1})"
+    end
+
     if @options[:no_follow]
       if (@options[:root_url].blank? or not el.attr['href'].start_with?(@options[:root_url])) and not is_url_whitelisted?(el.attr['href'])
         el.attr['rel'] = 'nofollow'
