@@ -23,7 +23,7 @@ module TagsHelper
           tag_obj = Tag.create(forum_id: forum.forum_id, tag_name: t)
 
           if tag_obj.tag_id.blank?
-            flash[:error] = t('messages.tag_invalid')
+            flash[:error] = t('messages.tags_invalid')
             raise ActiveRecord::Rollback.new
           end
 

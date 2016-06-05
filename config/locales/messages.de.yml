@@ -12,7 +12,7 @@ de:
     error_message:
       other: "%{count} Fehler verhinderten, dass dieser Beitrag gespeichert werden konnte:"
       one: "%{count} Fehler verhindert, dass dieser Beitrag gespeichert werden konnte:"
-    tags_invalid: Das Tag ist fehlerhaft.
+    tags_invalid: Ein Tag ist fehlerhaft.
     too_many_tags: "Sie dürfen nur maximal %{max_tags} Tags verwenden."
     not_enough_tags: 
       other: "Sie müssen mindestens %{count} Tags verwenden."
