@@ -1,0 +1,21 @@
+/* -*- coding: utf-8 -*- */
+
+.tabs-active {
+  .tabswitcher {
+    border-bottom: 2px solid #C4D4DA;
+
+    li {
+      margin-right: 0.3em;
+      border-bottom:0;
+      border-bottom-left-radius:0;
+      border-bottom-right-radius:0;
+    }
+
+    li.active { background-color:#F1F3F4; }
+
+  }
+
+  .cf-tab-pane:not(.active) { display:none; }
+}
+
+/* eof */
