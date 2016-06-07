@@ -118,7 +118,7 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
   def convert_a(el, indent)
     @entity_decoder ||= HTMLEntities.new
     href = @entity_decoder.decode(el.attr['href'])
-    if href.downcase.start_with?('javascript:')
+    if href.downcase.gsub(/[\s\0-\32]/u, '').start_with?('javascript:')
       res = inner(el, indent)
       res1 = escape_html(el.attr["href"])
       return "[#{res}](#{res1})"
