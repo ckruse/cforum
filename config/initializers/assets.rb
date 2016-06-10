@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
 
-Rails.application.config.assets.precompile += %w( html5shiv.js html5shiv-printshiv.js stats.js )
+Rails.application.config.assets.precompile += %w( stats.js )
 
 # eof

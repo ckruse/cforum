@@ -55,12 +55,6 @@ end
     <link rel="alternate" title="Atom Feed" type="application/atom+xml" href="<%= forum_url(current_forum, format: :atom) %>">
     <link rel="alternate" title="RSS Feed" type="application/rss+xml" href="<%= forum_url(current_forum, format: :rss) %>">
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <%= javascript_include_tag "html5shiv" %>
-      <%= javascript_include_tag "html5shiv-printshiv" %>
-    <![endif]-->
-
     <%= yield(:head) %>
 
     <% if @css_style %><link href="<%= @css_style %>" rel="stylesheet" media="all"><% end %>
