@@ -8,11 +8,13 @@ content_for :body_id, 'forums-stats'
 content_for :body_classes, 'forums stats'
 %>
 
-<%= javascript_include_tag "stats" %>
-<script>
- cforum.forums.statsValues = <%= @stats.to_json.html_safe %>;
- cforum.forums.usersTwelveMonths = <%= @users_twelve_months.to_json.html_safe %>;
-</script>
+<% content_for :additional_js do %>
+  <%= javascript_include_tag "stats" %>
+  <script>
+   cforum.forums.statsValues = <%= @stats.to_json.html_safe %>;
+   cforum.forums.usersTwelveMonths = <%= @users_twelve_months.to_json.html_safe %>;
+  </script>
+<% end %>
 
 <section id="overview">
   <p><%== t('forums.stats_text',

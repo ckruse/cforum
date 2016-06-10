@@ -29,9 +29,11 @@ content_for :body_classes, 'messages new forum-' + (current_forum.try(:slug) || 
   <%= render "form", f: f %>
 
   <% if @parent and not params.has_key?(:quote_old_message) %>
-    <script>
-     cforum.messages.quotedMessage = <%== @parent.to_quote(self).to_json %>;
-    </script>
+    <% content_for :additional_js do %>
+      <script>
+       cforum.messages.quotedMessage = <%== @parent.to_quote(self).to_json %>;
+      </script>
+    <% end %>
   <% end %>
 
   <ul id="charta">

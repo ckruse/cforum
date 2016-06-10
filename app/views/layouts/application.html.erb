@@ -49,7 +49,6 @@ end
     <% if @link_tags %><%= @link_tags %><% end %>
 
     <%= stylesheet_link_tag "application", :media => "all", title: "SELFHTML Forum Stylesheet" %>
-    <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
 
     <link rel="alternate" title="Atom Feed" type="application/atom+xml" href="<%= forum_url(current_forum, format: :atom) %>">
@@ -59,37 +58,14 @@ end
 
     <% if @css_style %><link href="<%= @css_style %>" rel="stylesheet" media="all"><% end %>
     <% if @own_css_file %><link href="<%= @own_css_file %>" rel="stylesheet" media="all" title="SELFHTML Forum Stylesheet"><% end %>
-    <% if @own_js_file %><script src="<%= @own_js_file %>"></script><% end %>
 
     <% if @own_css %><style>
     <%= @own_css.html_safe %>
     </style><% end %>
 
-    <% if @own_js %><script>
-    <%= @own_js.html_safe %>
-    </script><% end %>
-
-    <script>
-      <% if current_user %>
-      cforum.currentUser = <%= current_user.to_json(include: [:badges, settings: {only: :options}]).html_safe %>;
-      cforum.websocketToken = <%= current_user.websocket_token.to_json.html_safe %>;
-      <% end %>
-      cforum.baseUrl = <%= root_url.to_json.html_safe %>;
-      cforum.basePath = <%= root_path.to_json.html_safe %>;
-      <% if current_forum %>cforum.currentForum = <%= current_forum.to_json.html_safe %>;<% end %>
-      <% if @max_tags %>cforum.tags.maxTags = <%= @max_tags %>;<% end %>
-
-      cforum.l10n = <%= I18n.t('js.messages').to_json.html_safe %>;
-      cforum.locale = <%== I18n.locale.to_json %>;
-      cforum.userForums = <%== @forums.to_json %>;
-      cforum.viewAll = <%== @view_all.to_json %>;
-      cforum.imageMaxSize = <%= conf("max_image_filesize") %>;
-    </script>
-
     <title><%= @title_infos %> <% if content_for?(:title) %><%= yield(:title) %> - <% end %><% if current_forum %><%= current_forum.short_name %> -<% else %><% if controller_path == 'cf_threads' %> <%= t('layout.all_forums') %> -<% end %><% end %> <%= t "layout.title" %></title>
 
     <% unless conf('css_ressource').blank? %><link rel="stylesheet" href="<%= conf('css_ressource') %>" title="SELFHTML Forum Stylesheet"><% end %>
-    <% unless conf('js_ressource').blank? %><script src="<%= conf('js_ressource') %>"></script><% end %>
   </head>
 
   <body data-controller="<%= controller_path %>" data-action="<%= action_name %>"<% if content_for?(:body_id) %> id="<%= yield(:body_id) %>"<% end %><% if content_for?(:body_classes) %> class="<%= yield(:body_classes) %>"<% end %>>
@@ -371,6 +347,32 @@ end
       <p class="termitel-sponsor"><%= cf_link_to "https://termitel.de/" do %><%= image_tag 'termitel-fuer-ihren-vertrieb.jpg', alt: "Termitel - für Ihren Vertrieb" %><% end %></p>
     </footer>
 
+    <%= javascript_include_tag "application" %>
+    <% if @own_js_file %><script src="<%= @own_js_file %>"></script><% end %>
+
+    <% if @own_js %><script>
+    <%= @own_js.html_safe %>
+    </script><% end %>
+
+    <script>
+     <% if current_user %>
+     cforum.currentUser = <%= current_user.to_json(include: [:badges, settings: {only: :options}]).html_safe %>;
+     cforum.websocketToken = <%= current_user.websocket_token.to_json.html_safe %>;
+     <% end %>
+     cforum.baseUrl = <%= root_url.to_json.html_safe %>;
+     cforum.basePath = <%= root_path.to_json.html_safe %>;
+     <% if current_forum %>cforum.currentForum = <%= current_forum.to_json.html_safe %>;<% end %>
+     <% if @max_tags %>cforum.tags.maxTags = <%= @max_tags %>;<% end %>
+
+     cforum.l10n = <%= I18n.t('js.messages').to_json.html_safe %>;
+     cforum.locale = <%== I18n.locale.to_json %>;
+     cforum.userForums = <%== @forums.to_json %>;
+     cforum.viewAll = <%== @view_all.to_json %>;
+     cforum.imageMaxSize = <%= conf("max_image_filesize") %>;
+    </script>
+
+    <% unless conf('js_ressource').blank? %><script src="<%= conf('js_ressource') %>"></script><% end %>
+
     <% if Rails.env != 'test' %>
       <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
       <script>
@@ -384,5 +386,8 @@ end
        });
       </script>
     <% end %>
+
+    <%= yield(:additional_js) %>
+
   </body>
 </html>

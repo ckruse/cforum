@@ -5,7 +5,10 @@ content_for :body_id, 'forum-help'
 content_for :body_classes, 'help'
 %>
 
-<%= javascript_include_tag "stats" %>
+<% content_for :additional_js do %>
+  <%= javascript_include_tag "stats" %>
+  <script>cforum.pages.helpCites = <%= @cites.to_json.html_safe %>;</script>
+<% end %>
 
 <section id="forum-charta">
 
@@ -178,7 +181,6 @@ content_for :body_classes, 'help'
 
   <p>Nachfolgende Grafik zeigt, wieviele neue Zitate in den letzten 12 Monaten hinzugekommen sind.</p>
 
-  <script>cforum.pages.helpCites = <%= @cites.to_json.html_safe %>;</script>
   <div class="chart-cites chart"></div>
 </section>
 
