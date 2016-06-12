@@ -87,8 +87,7 @@
         text-align:center;
         vertical-align:middle;
         width:100%;
-        height:3em;
-        line-height:3em;
+        min-height:3em;
         background-color:#f5f5f5;
         cursor:pointer;
       }
@@ -353,6 +352,10 @@ input[type="search"] { -webkit-appearance: textfield; }
         float: left;
         width: 70%;
 
+        .image-upload {
+          line-height:3em;
+        }
+
         input, select, textarea {
           padding-left:1%;
           padding-right:1%;
@@ -369,12 +372,10 @@ input[type="search"] { -webkit-appearance: textfield; }
 
         textarea.big.md-input {
           width:95.5%;
-          margin:0;
+          margin:0 auto 1em auto;
 
           padding-left:.5em;
           padding-right:.5em;
-          margin-left:auto;
-          margin-right:auto;
         }
       }
     }
