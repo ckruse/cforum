@@ -327,7 +327,7 @@ cforum.messages = {
       return;
     }
 
-    minput.before("<span class=\"message-character-count\"></span>");
+    minput.before("<div class=\"character-count-container\"><span class=\"message-character-count\"></span></div>");
     var mcount = $(".message-character-count");
 
     var checkLength = function() {
