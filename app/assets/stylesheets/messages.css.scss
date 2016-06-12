@@ -298,9 +298,9 @@ main h2 { margin-left:0; }
   .posting-nested.folded {
     cursor:pointer;
 
-    & > header { padding-left: 1em; }
+    & > .posting-header { padding-left: 1em; }
 
-    & > header ~ h3:first-of-type { margin-top: .8em; }
+    & > .posting-header ~ h3:first-of-type { margin-top: .8em; }
 
     &::before {
       background-color: transparent;
@@ -314,7 +314,7 @@ main h2 { margin-left:0; }
       margin-left: -.5em;
     }
 
-    .posting-content, .message-links, .forum-links, .problematic-site, .voting.bottom {
+    .posting-content, .forum-links, .problematic-site, .posting-footer {
       display:none;
     }
   }
