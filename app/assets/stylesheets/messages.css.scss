@@ -179,11 +179,11 @@ main h2 { margin-left:0; }
    * voting and accepting
    */
 
-  & > .voting {
+  & > .posting-header > .voting, & > .posting-footer > .voting {
     text-align: right;
     vertical-align: bottom;
     padding-right: .5em;
-    margin-top:1em;
+    white-space: nowrap;
 
     .icon-vote-down::before,
     .icon-vote-up::before {
@@ -232,7 +232,7 @@ main h2 { margin-left:0; }
     .infos:hover { background-image: asset-url('bewertung-info-rot.svg'); }
   }
 
-  & > .voting.bottom { float:right; }
+  //& > .voting.bottom { float:right; }
 
 
   header h2 a,
@@ -482,12 +482,17 @@ blockquote.show-quotes .unfold {
     max-width: 95vw;
     width: 55em;
 
-    & > header, & > .voting  { display: table-cell; }
-    & > header { width: 45em; }
+    .posting-header, .posting-footer {
+      display:flex;
+      flex-direction: row;
+      align-items: flex-end;
 
-    & > .voting {
-      width: 9em;
-      margin-top:0em;
+      header, .message-links { flex-grow:1; }
+    }
+
+    .posting-footer {
+      align-items: flex-start;
+      .voting { order:1; }
     }
 
     .posting-content {
