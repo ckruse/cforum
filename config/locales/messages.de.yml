@@ -54,6 +54,7 @@ de:
     all_msgs_num: Anzahl aller Beiträge
     unread_messages_num: Anzahl ungelesener Beiträge
     user_link: Benutzer %{user}
+    link_to_profile_of: Zum Profil von
     original_poster: Thread-Ersteller
     previous_message: "Vorheriger Beitrag zum Thema:"
     preview: Vorschau

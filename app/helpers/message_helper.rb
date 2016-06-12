@@ -182,7 +182,13 @@ module MessageHelper
       if not message.message_id == thread.message.message_id and message.user_id == thread.message.user_id
         html << " original-poster"
       end
-      html << "\">" << cf_link_to(image_tag(message.owner.avatar(:thumb), class: 'avatar'), user_path(message.owner), title: t('messages.user_link', user: message.owner.username), class: 'user-link') << " "
+      html << "\">" << cf_link_to("<span class=\"visually-hidden\">#{t('messages.link_to_profile_of')} </span>".html_safe +
+                                  image_tag(message.owner.avatar(:thumb), class: 'avatar',
+                                            alt: t('messages.user_link', user: message.owner.username)),
+                                  user_path(message.owner),
+                                  title: t('messages.user_link',
+                                           user: message.owner.username),
+                                  class: 'user-link') << " "
     else
       if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
         html << '<span class="icon-message original-poster" title="' << t('messages.original_poster') << '"> </span>'
@@ -190,7 +196,7 @@ module MessageHelper
     end
 
     if opts[:author_link_to_message]
-      html << cf_link_to(message.author, message_path(thread, message))
+      html << cf_link_to(message.author, message_path(thread, message), 'aria-hidden' => 'true')
     elsif message.user_id
       html << cf_link_to(message.author, user_path(message.user_id))
     else
