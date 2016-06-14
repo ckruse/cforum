@@ -1,6 +1,10 @@
 /* -*- coding: utf-8 -*- */
 
 $(document).ready(function() {
+  if($('.cf-tab-content').length == 0) {
+    return;
+  }
+
   var targetlist = '<nav><ul class="tabswitcher"></ul></nav>', targets = '';
   $('.cf-tab-content').prepend(targetlist);
   $('.cf-tab-pane').each(function(){
@@ -13,6 +17,11 @@ $(document).ready(function() {
   var hash = document.location.hash;
   if(!hash && history.pushState) {
     var first = $(".tabswitcher li a:first");
+
+    if(first.length == 0) {
+      return;
+    }
+
     hash = first.attr("href");
     history.pushState({}, first.text(), hash);
   }
