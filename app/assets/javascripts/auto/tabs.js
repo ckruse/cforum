@@ -15,7 +15,7 @@ $(document).ready(function() {
   $("body").addClass("tabs-active");
 
   var hash = document.location.hash;
-  if(!hash && history.pushState) {
+  if(!hash && history.replaceState) {
     var first = $(".tabswitcher li a:first");
 
     if(first.length == 0) {
@@ -23,7 +23,7 @@ $(document).ready(function() {
     }
 
     hash = first.attr("href");
-    history.pushState({}, first.text(), hash);
+    history.replaceState({}, first.text(), hash);
   }
 
   $(hash).addClass('active');
