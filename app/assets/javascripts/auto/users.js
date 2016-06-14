@@ -17,18 +17,18 @@ cforum.users = {
       d = new Date(v.created_at.replace(/\.[^.]+$/, ''));
 
       if(!min || d < min) {
-        min = d;
+        min = new Date(d);
       }
 
       if(!max || d > max) {
-        max = d;
+        max = new Date(d);
       }
 
       dateAsKeys[d.getYear() + "-" + d.getMonth()] = v.cnt;
     }
 
     var keys = [];
-    for(d = min; d <= max; d.setMonth(d.getMonth() + 1)) {
+    for(d = new Date(min); d <= max; d.setMonth(d.getMonth() + 1)) {
       var curKey = d.getYear() + "-" + d.getMonth();
       keys.push(new Date(d));
 
