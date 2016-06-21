@@ -21,13 +21,7 @@ content_for :body_classes, 'forums'
     <%= cf_link_to t('forums.all_forums'), forum_path('all') %>
     <%= cf_link_to stats_path('all'), title: t('layout.statistics') do %>
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="27" height="17" viewBox="0, 0, 22, 14">
-        <g id="Ebene_1">
-          <path d="M-0.001,13 L21.999,13 L21.999,14 L-0.001,14 z" fill="#BFBFBF"/>
-          <path d="M17,-0.001 L20,-0.001 L20,12.999 L17,12.999 z" fill="#8CB433"/>
-          <path d="M12,4 L15,4 L15,13 L12,13 z" fill="#5C7FDD"/>
-          <path d="M7,2 L10,2 L10,13 L7,13 z" fill="#E7C248"/>
-          <path d="M2,7 L5,7 L5,13 L2,13 z" fill="#C52D00"/>
-        </g>
+        <use xlink:href="#stats-icon"></use>
       </svg>
     <% end %>
   </h3>
@@ -47,13 +41,7 @@ content_for :body_classes, 'forums'
         <%= cf_link_to forum.name, forum_path(forum) %>
         <%= cf_link_to stats_path(forum), title: t('layout.statistics') do %>
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="27" height="17" viewBox="0, 0, 22, 14">
-            <g id="Ebene_1">
-              <path d="M-0.001,13 L21.999,13 L21.999,14 L-0.001,14 z" fill="#BFBFBF"/>
-              <path d="M17,-0.001 L20,-0.001 L20,12.999 L17,12.999 z" fill="#8CB433"/>
-              <path d="M12,4 L15,4 L15,13 L12,13 z" fill="#5C7FDD"/>
-              <path d="M7,2 L10,2 L10,13 L7,13 z" fill="#E7C248"/>
-              <path d="M2,7 L5,7 L5,13 L2,13 z" fill="#C52D00"/>
-            </g>
+            <use xlink:href="#stats-icon"></use>
           </svg>
         <% end %>
       </h3>
