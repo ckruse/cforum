@@ -1,19 +1,19 @@
 <%= render 'message_header', thread: thread, message: thread.attribs[:first] %>
 <% if not thread.attribs[:latest_message].message_id == thread.attribs[:first].message_id %>
   <span class="last-answer">
-    <%= t('layout.last_message') %> <time datetime="<%= thread.attribs[:latest_message].created_at %>"><%= t('layout.ago', time: relative_time(thread.attribs[:latest_message].created_at), count: 1) %></time>
+    <%= t('layout.last_message') %> <time datetime="<%= thread.attribs[:latest_message].created_at.strftime("%FT%T%:z") %>"><%= t('layout.ago', time: relative_time(thread.attribs[:latest_message].created_at), count: 1) %></time>
     <%= render 'message_header', thread: thread, message: thread.attribs[:latest_message] %>
   </span>
 
   <% if not thread.attribs[:first_unread].blank? and thread.attribs[:first_unread].message_id != thread.attribs[:first].message_id %>
     <span class="first-unread">
-      <%= t('layout.first_unread') %> <time datetime="<%= thread.attribs[:first_unread].created_at %>"><%= t('layout.ago', time: relative_time(thread.attribs[:first_unread].created_at), count: 1) %></time>
+      <%= t('layout.first_unread') %> <time datetime="<%= thread.attribs[:first_unread].created_at.strftime("%FT%T%:z") %>"><%= t('layout.ago', time: relative_time(thread.attribs[:first_unread].created_at), count: 1) %></time>
       <%= render 'message_header', thread: thread, message: thread.attribs[:first_unread] %>
     </span>
   <% end %>
 <% else %>
   <span class="last-answer">
-    <%= t('layout.last_thread') %> <time datetime="<%= thread.attribs[:latest_message].created_at %>"><%= t('layout.ago', time: relative_time(thread.attribs[:latest_message].created_at), count: 0) %></time>
+    <%= t('layout.last_thread') %> <time datetime="<%= thread.attribs[:latest_message].created_at.strftime("%FT%T%:z") %>"><%= t('layout.ago', time: relative_time(thread.attribs[:latest_message].created_at), count: 0) %></time>
   </span>
 <% end %>
 
