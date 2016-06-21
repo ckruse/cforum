@@ -17,14 +17,14 @@ content_for :body_classes, 'forums'
 <% end %>
 
 <ol class="forums-list">
-  <li><h3 class="forum-name">
+  <li><h2 class="forum-name">
     <%= cf_link_to t('forums.all_forums'), forum_path('all') %>
     <%= cf_link_to stats_path('all'), title: t('layout.statistics') do %>
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="27" height="17" viewBox="0, 0, 22, 14">
         <use xlink:href="#stats-icon"></use>
       </svg>
     <% end %>
-  </h3>
+  </h2>
   <% thread = (@overview_threads.sort {|a,b| b.latest_message <=> a.latest_message}).first %>
   <% unless thread.blank? %>
     <ul>
@@ -37,14 +37,14 @@ content_for :body_classes, 'forums'
 
   <% @forums.each do |forum| %>
     <li>
-      <h3 class="forum-name">
+      <h2 class="forum-name">
         <%= cf_link_to forum.name, forum_path(forum) %>
         <%= cf_link_to stats_path(forum), title: t('layout.statistics') do %>
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="27" height="17" viewBox="0, 0, 22, 14">
             <use xlink:href="#stats-icon"></use>
           </svg>
         <% end %>
-      </h3>
+      </h2>
       <ul>
         <% @activities[forum.forum_id].each do |thread| %>
           <li class="thread"><%= render 'thread_infos', thread: thread %></li>
