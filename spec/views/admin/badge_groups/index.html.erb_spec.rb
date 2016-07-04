@@ -1,15 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "admin/badge_groups/index", type: :view do
-  def conf(name)
-    ConfigManager::DEFAULTS[name]
-  end
-
-  def uconf(name)
-    ConfigManager::DEFAULTS[name]
-  end
-  helper_method :uconf, :conf
-
   let(:badge_groups) do
     [ FactoryGirl.create(:badge_group),
       FactoryGirl.create(:badge_group) ]

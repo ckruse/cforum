@@ -1,16 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "admin/badge_groups/edit", type: :view do
-  def conf(name)
-    ConfigManager::DEFAULTS[name]
-  end
-
-  def uconf(name)
-    ConfigManager::DEFAULTS[name]
-  end
-  helper_method :uconf, :conf
-
-
   before(:each) do
     @badge_group = assign(:badge_group, FactoryGirl.create(:badge_group))
     @badges = assign(:badges, Badge.order(:order).all)

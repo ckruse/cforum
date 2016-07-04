@@ -3,19 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe "mails/show", type: :view do
-  def conf(name)
-    ConfigManager::DEFAULTS[name]
-  end
-  def uconf(name)
-    ConfigManager::DEFAULTS[name]
-  end
-  def current_user
-    @mail.owner
-  end
-  helper_method :current_user, :conf, :uconf
-
   before(:each) do
     @mail = assign(:mail, create(:priv_message))
+    sign_in @mail.owner
   end
 
   it "renders attributes in <p>" do
