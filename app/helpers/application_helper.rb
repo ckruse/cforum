@@ -101,6 +101,20 @@ module ApplicationHelper
     return I18n.translate('relative_time.months', count: (diff_in_minutes / 43200.0).round) if diff_in_minutes < 518400
     return I18n.translate('relative_time.years', count: (diff_in_minutes / 518400.0).round)
   end
+
+  def uconf(name)
+    @config_manager ||= ConfigManager.new
+    @config_manager.get(name, current_user, current_forum)
+  end
+
+  def conf(name)
+    @config_manager ||= ConfigManager.new
+    @config_manager.get(name, nil, current_forum)
+  end
+
+  def view_all
+    @view_all ||= false
+  end
 end
 
 require 'pp'

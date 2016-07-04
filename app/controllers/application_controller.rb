@@ -33,29 +33,15 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
-  attr_reader :view_all
-
-  helper_method :uconf, :conf, :view_all
-
   #
   # normal stuff
   #
 
   def do_init
     @app_controller      = self
-    @config_manager      = ConfigManager.new
-    @view_all            = false
     @_current_forum      = nil
 
     CForum::Tools.init
-  end
-
-  def uconf(name)
-    @config_manager.get(name, current_user, current_forum)
-  end
-
-  def conf(name)
-    @config_manager.get(name, nil, current_forum)
   end
 
   def locked?
