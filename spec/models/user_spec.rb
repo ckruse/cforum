@@ -265,4 +265,19 @@ describe User do
     expect(json =~ /"websocket_token":/).to be_nil
     expect(json =~ /"authentication_token":/).to be_nil
   end
+
+  it "returns a unique list of badges" do
+    badge = create(:badge)
+    user = create(:user)
+
+    user.badges << badge
+    user.badges << badge
+
+    expect(user.unique_badges).to eq [{badge: badge, times: 2, created_at: user.badge_users.first.created_at}]
+  end
+
+  it "returns an audit json string" do
+    user = build(:user)
+    expect(user.audit_json).to eq(user.as_json(include: :badges))
+  end
 end
