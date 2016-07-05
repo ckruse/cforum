@@ -8,6 +8,11 @@ class ForumGroupPermission < ActiveRecord::Base
   ACCESS_KNOWN_WRITE = 'known-write'
   ACCESS_KNOWN_READ  = 'known-read'
 
+  PERMISSIONS = [
+    ACCESS_MODERATE, ACCESS_WRITE, ACCESS_READ,
+    ACCESS_KNOWN_WRITE, ACCESS_KNOWN_READ
+  ]
+
   self.primary_key = 'forum_group_permission_id'
   self.table_name  = 'forums_groups_permissions'
 
@@ -15,10 +20,7 @@ class ForumGroupPermission < ActiveRecord::Base
   belongs_to :forum
 
   validates_presence_of :permission, :group_id, :forum_id
-  validates :permission, inclusion: [
-    ACCESS_MODERATE, ACCESS_WRITE, ACCESS_READ,
-    ACCESS_KNOWN_WRITE, ACCESS_KNOWN_READ
-  ]
+  validates :permission, inclusion: PERMISSIONS
 end
 
 # eof
