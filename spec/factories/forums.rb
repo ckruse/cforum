@@ -25,6 +25,10 @@ FactoryGirl.define do
     standard_permission ForumGroupPermission::ACCESS_KNOWN_WRITE
   end
 
+  factory :moderate_forum, parent: :forum do
+    standard_permission ForumGroupPermission::ACCESS_MODERATE
+  end
+
 end
 
 

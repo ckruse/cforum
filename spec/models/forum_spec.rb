@@ -167,4 +167,51 @@ describe Forum do
       expect(forum.read?(build(:user))).to be false
     end
   end
+
+  describe "visible sql" do
+    it "generates SQL returning only public forums" do
+      forums = [ create(:write_forum), create(:known_write_forum),
+                 create(:read_forum), create(:known_read_forum),
+                 create(:forum), create(:moderate_forum) ]
+
+      ret_forums = Forum.where("forum_id IN (" + Forum.visible_sql +  ")").order(:forum_id)
+
+      expect(ret_forums.to_a).to eq([forums[0], forums[2], forums[5]])
+    end
+
+    it "generates SQL returning forums visible to user" do
+      forums = [ create(:write_forum), create(:known_write_forum),
+                 create(:read_forum), create(:known_read_forum),
+                 create(:forum), create(:moderate_forum) ]
+      u = create(:user)
+
+      ret_forums = Forum.where("forum_id IN (" + Forum.visible_sql(u) +  ")").order(:forum_id)
+
+      expect(ret_forums.to_a).to eq([forums[0], forums[1], forums[2], forums[3], forums[5]])
+    end
+
+    it "generates SQL returning all forums for admin user" do
+      forums = [ create(:write_forum), create(:known_write_forum),
+                 create(:read_forum), create(:known_read_forum),
+                 create(:forum), create(:moderate_forum) ]
+      u = create(:user_admin)
+
+      ret_forums = Forum.where("forum_id IN (" + Forum.visible_sql(u) +  ")").order(:forum_id)
+
+      expect(ret_forums.to_a).to eq(forums)
+    end
+
+    it "generates SQL for group with read permissions" do
+      forums = [ create(:forum), create(:forum) ]
+      user = create(:user)
+
+      group = Group.create!(name: "foo")
+      group.users << user
+      group.forums_groups_permissions.create!(forum_id: forums.first.forum_id,
+                                              permission: ForumGroupPermission::ACCESS_WRITE)
+
+      ret_forums = Forum.where("forum_id IN (" + Forum.visible_sql(user) +  ")").order(:forum_id)
+      expect(ret_forums.to_a).to eq([forums.first])
+    end
+  end
 end
