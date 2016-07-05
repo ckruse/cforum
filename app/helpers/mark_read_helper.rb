@@ -171,13 +171,14 @@ module MarkReadHelper
     end
 
     ids = messages.map { |a| a.message_id }
-    result = Message.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+    unless ids.blank?
+      result = Message.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
 
-    result.each do |row|
-      a = messages.find { |m| m.message_id == row['message_id'].to_i }
-      a.attribs['classes'] << 'visited' if a
+      result.each do |row|
+        a = messages.find { |m| m.message_id == row['message_id'].to_i }
+        a.attribs['classes'] << 'visited' if a
+      end
     end
-
   end
 end
 
