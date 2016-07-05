@@ -18,7 +18,7 @@ de:
     weblog: Weblog
     atom_feed: Atom-Feed (%{forum})
     rss_feed: RSS-Feed (%{forum})
-    all_forums: gesamtes Forum
+    all_forums: alle Foren
     forum: Forum %{name}
     settings: Einstellungen
     options: Optionen
