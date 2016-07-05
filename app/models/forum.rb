@@ -67,8 +67,9 @@ class Forum < ActiveRecord::Base
 
   #default_scope where('public = true')
 
-  def self.visible_sql(user)
+  def self.visible_sql(user = nil)
     sql = ''
+    perm_list = (ForumGroupPermission::PERMISSIONS.map { |p| "'" + p + "'" }).join(", ")
 
     if user
       if user.admin?
@@ -79,28 +80,22 @@ class Forum < ActiveRecord::Base
             DISTINCT forums.forum_id
           FROM
               forums
-            INNER JOIN
+            LEFT JOIN
               forums_groups_permissions USING(forum_id)
-            INNER JOIN
+            LEFT JOIN
               groups_users USING(group_id)
           WHERE
-              (standard_permission = 'read' OR standard_permission = 'write')
+              (standard_permission IN (#{perm_list}))
             OR
               (
-                (
-                    permission = 'read'
-                  OR
-                    permission = 'write'
-                  OR
-                    permission = 'moderate'
-                )
+                  permission IN (#{perm_list})
                 AND
                   user_id = #{user.user_id}
               )
         "
       end
     else
-      sql = "SELECT forum_id FROM forums WHERE standard_permission = 'read' OR standard_permission = 'write'"
+      sql = "SELECT forum_id FROM forums WHERE standard_permission = 'read' OR standard_permission = 'write' or standard_permission = 'moderate'"
     end
 
     sql
