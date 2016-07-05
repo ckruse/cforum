@@ -45,8 +45,8 @@ class ApplicationController < ActionController::Base
   end
 
   def locked?
-    if conf('locked') == "yes" and (not current_user or not current_user.admin?)
-      render :locked, status: 500, layout: nil
+    if conf('locked') == "yes" and not current_user.try(:admin?)
+      render :locked, status: 403, layout: nil
     end
   end
 
@@ -75,12 +75,7 @@ class ApplicationController < ActionController::Base
     user = current_user
 
     if params.has_key?(:view_all) and params[:view_all] != 'false'
-      if forum.blank?
-        @view_all = true if not user.blank? and user.admin?
-      else
-        @view_all = forum.moderator?(user)
-      end
-
+      @view_all = true if user.try(:admin?) or user.try(:moderate?, forum)
       set_url_attrib(:view_all, 'yes') if @view_all
     end
   end
