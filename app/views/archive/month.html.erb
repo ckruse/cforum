@@ -1,6 +1,6 @@
 <%
-content_for :title, t('archive.archive_month', month: l(@month, format: '%B %Y'), forum: current_forum ? current_forum.name : t('archive.all_forums'))
-content_for :h1, t('archive.archive_month', month: l(@month, format: '%B %Y'), forum: current_forum ? current_forum.name : t('archive.all_forums'))
+content_for :title, t('archive.archive_month', month: l(@month, format: '%B %Y'), forum: current_forum ? current_forum.name : t('forums.all_forums'))
+content_for :h1, t('archive.archive_month', month: l(@month, format: '%B %Y'), forum: current_forum ? current_forum.name : t('forums.all_forums'))
 content_for :body_id, 'archive-month'
 content_for :body_classes, 'archive month forum-' + (current_forum.try(:slug) || 'all')
 %>

@@ -3,4 +3,3 @@ de:
     archive_years: "Archiv %{forum}: Jahresübersicht"
     archive_year: "Archiv %{forum}: Jahr %{year}"
     archive_month: "Archiv %{forum}: %{month}"
-    all_forums: alle Foren

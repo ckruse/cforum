@@ -63,7 +63,7 @@ end
     <%= @own_css.html_safe %>
     </style><% end %>
 
-    <title><%= @title_infos %> <% if content_for?(:title) %><%= yield(:title) %> - <% end %><% if current_forum %><%= current_forum.short_name %> -<% else %><% if controller_path == 'cf_threads' %> <%= t('layout.all_forums') %> -<% end %><% end %> <%= t "layout.title" %></title>
+    <title><%= @title_infos %> <% if content_for?(:title) %><%= yield(:title) %> - <% end %><% if current_forum %><%= current_forum.short_name %> -<% else %><% if controller_path == 'cf_threads' %> <%= t('forums.all_forums') %> -<% end %><% end %> <%= t "layout.title" %></title>
 
     <% unless conf('css_ressource').blank? %><link rel="stylesheet" href="<%= conf('css_ressource') %>" title="SELFHTML Forum Stylesheet"><% end %>
   </head>
@@ -143,24 +143,24 @@ end
                                    alt: t("layout.rss_feed",
                                           forum: current_forum ?
                                           t('layout.forum', name: current_forum.name) :
-                                          t('layout.all_forums'))),
+                                          t('forums.all_forums'))),
                          forum_url(current_forum, format: :rss),
                          title: t("layout.rss_feed",
                                   forum: current_forum ?
                                   t('layout.forum', name: current_forum.name) :
-                                  t('layout.all_forums')),
+                                  t('forums.all_forums')),
                          class: 'rss') %>
 
           <%= cf_link_to(image_tag('feed-atom.svg',
                                    alt: t("layout.atom_feed",
                                           forum: current_forum ?
                                           t('layout.forum', name: current_forum.name) :
-                                          t('layout.all_forums'))),
+                                          t('forums.all_forums'))),
                          forum_url(current_forum, format: :atom),
                          title: t("layout.atom_feed",
                                   forum: current_forum ?
                                   t('layout.forum', name: current_forum.name) :
-                                  t('layout.all_forums')),
+                                  t('forums.all_forums')),
                          class: 'atom') %>
 
           <%= cf_link_to(image_tag('donate.svg', alt: t("layout.donate")),
@@ -175,7 +175,7 @@ end
             <li class="dropdown" tabindex="0"><span class="anchor"><%= t('global.forums') %></span>
               <ul class="menu">
                 <li<% if current_forum.blank? and controller_path == 'cf_threads' %> class="active"<% end %>>
-                  <%= link_to t('layout.all_forums'), forum_path %>
+                  <%= link_to t('forums.all_forums'), forum_path %>
                   <%= cf_link_to stats_path('all'), title: t('layout.statistics'), class: 'stats' do %>
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="22" height="14" viewBox="0, 0, 22, 14">
                       <g id="stats-icon">
