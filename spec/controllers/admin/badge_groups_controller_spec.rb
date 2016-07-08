@@ -5,12 +5,11 @@ require 'rails_helper'
 RSpec.describe Admin::BadgeGroupsController, type: :controller do
 
   let(:admin) { FactoryGirl.create(:user_admin) }
+  let(:badges) { [ create(:badge, badge_type: Badge::UPVOTE),
+                   create(:badge, badge_type: Badge::DOWNVOTE),
+                   create(:badge, badge_type: Badge::FLAG) ] }
 
-  # This should return the minimal set of attributes required to create a valid
-  # BadgeGroup. As you add validations to BadgeGroup, be sure to
-  # adjust the attributes here as well.
   let(:valid_attributes) {
-    #skip("Add a hash of attributes valid for your model")
     {name: "Foo"}
   }
 
@@ -23,7 +22,10 @@ RSpec.describe Admin::BadgeGroupsController, type: :controller do
   # BadgeGroupsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  before(:each) { sign_in admin }
+  before(:each) do
+    sign_in admin
+    badges # ensure that badges are created
+  end
 
   describe "GET #index" do
     it "assigns all badge_groups as @badge_groups" do
@@ -45,6 +47,7 @@ RSpec.describe Admin::BadgeGroupsController, type: :controller do
       badge_group = BadgeGroup.create! valid_attributes
       get :edit, {id: badge_group.to_param}, valid_session
       expect(assigns(:badge_group)).to eq(badge_group)
+      expect(assigns(:badges)).to eq(badges)
     end
   end
 
@@ -52,7 +55,8 @@ RSpec.describe Admin::BadgeGroupsController, type: :controller do
     context "with valid params" do
       it "creates a new BadgeGroup" do
         expect {
-          post :create, {badge_group: valid_attributes}, valid_session
+          post :create, {badge_group: valid_attributes, badges: badges.map { |b| b.badge_id }}, valid_session
+          expect(assigns(:badge_group).badges).to eq(badges)
         }.to change(BadgeGroup, :count).by(1)
       end
 
@@ -89,9 +93,10 @@ RSpec.describe Admin::BadgeGroupsController, type: :controller do
 
       it "updates the requested badge_group" do
         badge_group = BadgeGroup.create! valid_attributes
-        put :update, {id: badge_group.to_param, badge_group: new_attributes}, valid_session
+        put :update, {id: badge_group.to_param, badge_group: new_attributes, badges: badges.map { |b| b.badge_id }}, valid_session
         badge_group.reload
         expect(badge_group.name).to eq 'Foo 1'
+        expect(badge_group.badges).to eq badges
       end
 
       it "assigns the requested badge_group as @badge_group" do
