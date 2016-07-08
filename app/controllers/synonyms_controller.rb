@@ -2,7 +2,7 @@
 
 class SynonymsController < ApplicationController
   authorize_controller { authorize_forum(permission: :read?) }
-  authorize_action([:new, :create]) { may?(RightsHelper::CREATE_TAG_SYNONYM) }
+  authorize_action([:new, :create]) { may?(Badge::CREATE_TAG_SYNONYM) }
   authorize_action([:edit, :update, :destroy]) { authorize_admin }
 
   before_filter :load_resource

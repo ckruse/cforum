@@ -54,7 +54,7 @@ module TagsHelper
   end
 
   def invalid_tags(forum, tags, user = current_user)
-    may_create = may?(RightsHelper::CREATE_TAGS)
+    may_create = may?(Badge::CREATE_TAGS)
     invalid = []
 
     tags.each do |t|

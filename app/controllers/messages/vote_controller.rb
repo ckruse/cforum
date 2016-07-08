@@ -23,10 +23,10 @@ class Messages::VoteController < ApplicationController
 
     if params[:type] == 'up'
       vtype = Vote::UPVOTE
-      check_if_user_may(RightsHelper::UPVOTE, 'messages.insufficient_rights_to_upvote') or return
+      check_if_user_may(Badge::UPVOTE, 'messages.insufficient_rights_to_upvote') or return
     else
       vtype = Vote::DOWNVOTE
-      check_if_user_may(RightsHelper::DOWNVOTE, 'messages.insufficient_rights_to_downvote') or return
+      check_if_user_may(Badge::DOWNVOTE, 'messages.insufficient_rights_to_downvote') or return
     end
 
     # remove voting if user already voted with the same parameters

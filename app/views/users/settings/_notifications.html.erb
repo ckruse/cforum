@@ -105,7 +105,7 @@
     </div>
   </div>
 
-  <% if @user.admin or @user.has_badge?(RightsHelper::MODERATOR_TOOLS) or @user.moderator? %>
+  <% if @user.admin or @user.has_badge?(Badge::MODERATOR_TOOLS) or @user.moderator? %>
     <div class="cf-cgroup">
       <label><%= t('users.settings.notification_on_flagged') %></label>
       <div class="cntrls">

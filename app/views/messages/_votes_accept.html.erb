@@ -4,8 +4,8 @@ has_upvote = has_downvote = false
 has_upvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == Vote::UPVOTE
 has_downvote = true if @votes and @votes[m.message_id] and @votes[m.message_id].vtype == Vote::DOWNVOTE
 
-may_downvote_msg = may_vote(m, RightsHelper::DOWNVOTE)
-may_upvote_msg = may_vote(m, RightsHelper::UPVOTE)
+may_downvote_msg = may_vote(m, Badge::DOWNVOTE)
+may_upvote_msg = may_vote(m, Badge::UPVOTE)
 
 downvote_msg = if not may_downvote_msg.blank?
                  may_downvote_msg
@@ -47,7 +47,7 @@ upvote_msg = if not may_upvote_msg.blank?
               title="<%= downvote_msg %>"
               <% unless may_downvote_msg.blank? %>disabled="disabled"<% end %>
               class="cf-btn vote icon-vote-down<% if has_downvote %> active<% end %>
-                     <% if current_user.blank? or not may?(RightsHelper::DOWNVOTE) %> disabled<% end %>">‒</button>
+                     <% if current_user.blank? or not may?(Badge::DOWNVOTE) %> disabled<% end %>">‒</button>
 
       <span class="votes" title="<%= t('messages.votes_tree', count: m.upvotes + m.downvotes, score: m.score_str) %>"><%= m.score_str %></span>
 
@@ -56,7 +56,7 @@ upvote_msg = if not may_upvote_msg.blank?
               title="<%= upvote_msg %>"
               <% unless may_upvote_msg.blank? %>disabled="disabled"<% end %>
               class="cf-btn vote icon-vote-up<% if has_upvote %> active<% end %>
-                     <% if current_user.blank? or not may?(RightsHelper::UPVOTE) %> disabled<% end %>">+</button>
+                     <% if current_user.blank? or not may?(Badge::UPVOTE) %> disabled<% end %>">+</button>
 
       <%= cf_link_to ' ', "https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bewertungsregeln", class: 'infos', title: t('messages.infos_for_scoring') %>
     <% end %>

@@ -3,6 +3,24 @@
 class Badge < ActiveRecord::Base
   include ParserHelper
 
+  # this is the list of known rights/permissions
+  UPVOTE                   = "upvote"
+  DOWNVOTE                 = "downvote"
+  FLAG                     = "flag"
+  RETAG                    = "retag"
+  VISIT_CLOSE_REOPEN       = "visit_close_reopen"
+  CREATE_TAGS              = "create_tag"
+  CREATE_TAG_SYNONYM       = "create_tag_synonym"
+  EDIT_QUESTION            = "edit_question"
+  EDIT_ANSWER              = "edit_answer"
+  CREATE_CLOSE_REOPEN_VOTE = "create_close_reopen"
+  MODERATOR_TOOLS          = "moderator_tools"
+
+  RIGHTS = [ UPVOTE, DOWNVOTE, FLAG,
+             RETAG, VISIT_CLOSE_REOPEN, CREATE_TAGS,
+             CREATE_TAG_SYNONYM, EDIT_QUESTION, EDIT_ANSWER,
+             CREATE_CLOSE_REOPEN_VOTE, MODERATOR_TOOLS ]
+
   self.primary_key = 'badge_id'
   self.table_name  = 'badges'
 
@@ -13,10 +31,7 @@ class Badge < ActiveRecord::Base
   validates :score_needed, numericality: { only_integer: true },
             allow_blank: true
   validates :badge_type, presence: true, allow_blank: false,
-            inclusion: { in: %w(custom upvote downvote retag
-                               visit_close_reopen create_tag edit_question
-                               edit_answer create_tag_synonym seo_profi
-                               create_close_reopen_vote moderator_tools) }
+            inclusion: { in: %w(custom) + RIGHTS }
   validates :badge_type, uniqueness: true, unless: "badge_type == 'custom'"
   validates :badge_medal_type, presence: true, allow_blank: false,
             inclusion: { in: %w(bronze silver gold) }

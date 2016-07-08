@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
 
   def moderate?(forum = nil)
     return true if admin?
-    return true if has_badge?(RightsHelper::MODERATOR_TOOLS)
+    return true if has_badge?(Badge::MODERATOR_TOOLS)
     return false if forum.blank?
 
     @permissions ||= {}
@@ -83,7 +83,7 @@ class User < ActiveRecord::Base
 
   def moderator?
     return true if admin?
-    return true if has_badge?(RightsHelper::MODERATOR_TOOLS)
+    return true if has_badge?(Badge::MODERATOR_TOOLS)
 
     return ForumGroupPermission.exists?(["group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND permission = ?",
                                            user_id, ForumGroupPermission::ACCESS_MODERATE])
@@ -93,7 +93,7 @@ class User < ActiveRecord::Base
     return true if forum.standard_permission == ForumGroupPermission::ACCESS_WRITE
     return true if forum.standard_permission == ForumGroupPermission::ACCESS_KNOWN_WRITE
     return true if admin?
-    return true if has_badge?(RightsHelper::MODERATOR_TOOLS)
+    return true if has_badge?(Badge::MODERATOR_TOOLS)
 
     @permissions ||= {}
     @permissions[forum.forum_id] ||= ForumGroupPermission
@@ -110,7 +110,7 @@ class User < ActiveRecord::Base
     return true if forum.standard_permission == ForumGroupPermission::ACCESS_READ or forum.standard_permission == ForumGroupPermission::ACCESS_WRITE
     return true if forum.standard_permission == ForumGroupPermission::ACCESS_KNOWN_READ or forum.standard_permission == ForumGroupPermission::ACCESS_KNOWN_WRITE
     return true if admin?
-    return true if has_badge?(RightsHelper::MODERATOR_TOOLS)
+    return true if has_badge?(Badge::MODERATOR_TOOLS)
 
     @permissions ||= {}
     @permissions[forum.forum_id] ||= ForumGroupPermission

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 class CitesController < ApplicationController
-  authorize_action([:edit, :update, :destroy]) { may?(RightsHelper::MODERATOR_TOOLS) or authorize_admin }
+  authorize_action([:edit, :update, :destroy]) { may?(Badge::MODERATOR_TOOLS) or authorize_admin }
   authorize_action(:vote_index) { authorize_user }
 
   include SearchHelper

@@ -9,8 +9,8 @@ describe Messages::VoteController do
     let(:score) { Score.create!(user_id: user.user_id, value: 10)}
     let(:message) { create(:message, owner: user1) }
     let(:badges) do
-      [create(:badge, badge_type: RightsHelper::UPVOTE),
-       create(:badge, badge_type: RightsHelper::DOWNVOTE)]
+      [create(:badge, badge_type: Badge::UPVOTE),
+       create(:badge, badge_type: Badge::DOWNVOTE)]
     end
 
     before(:each) do

@@ -23,7 +23,7 @@ content_for :body_classes, 'cites show'
 <p class="form-actions">
   <%= cf_link_to t('cites.cites'), cites_path, class: 'cf-btn' %>
 
-  <% if current_user.try(:admin?) or may?(RightsHelper::MODERATOR_TOOLS) %>
+  <% if current_user.try(:admin?) or may?(Badge::MODERATOR_TOOLS) %>
     <%= cf_link_to t('cites.edit_cite'), edit_cite_path(@cite), class: 'cf-btn' %>
     <%= cf_link_to(t('cites.destroy_cite'), cite_path(@cite), method: :delete,
                    data: { 'cf-confirm' => t('global.are_you_sure') }, class: 'cf-btn') %>

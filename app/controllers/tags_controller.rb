@@ -2,7 +2,7 @@
 
 class TagsController < ApplicationController
   authorize_controller { authorize_forum(permission: :read?) }
-  authorize_action([:new, :create]) { may?(RightsHelper::CREATE_TAGS) }
+  authorize_action([:new, :create]) { may?(Badge::CREATE_TAGS) }
   authorize_action([:edit, :update, :destroy, :merge, :do_merge]) { authorize_admin }
 
   # GET /collections

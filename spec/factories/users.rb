@@ -16,7 +16,7 @@ FactoryGirl.define do
   end
 
   factory :user_moderator, parent: :user do
-    badges { [create(:badge, badge_type: RightsHelper::MODERATOR_TOOLS)] }
+    badges { [create(:badge, badge_type: Badge::MODERATOR_TOOLS)] }
   end
 end
 

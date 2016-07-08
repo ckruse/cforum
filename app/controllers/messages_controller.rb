@@ -6,7 +6,7 @@ class MessagesController < ApplicationController
   authorize_action([:show, :show_header, :versions]) { authorize_forum(permission: :read?) }
   authorize_action([:new, :create, :edit, :update]) { authorize_forum(permission: :write?) }
   authorize_action([:destroy, :restore]) { authorize_forum(permission: :moderator?) }
-  authorize_action([:show_retag, :retag]) { may?(RightsHelper::RETAG) }
+  authorize_action([:show_retag, :retag]) { may?(Badge::RETAG) }
 
   include TagsHelper
   include MentionsHelper
@@ -247,7 +247,7 @@ class MessagesController < ApplicationController
           raise ActiveRecord::Rollback if @version and not @version.save
         end
 
-        if params[:retag_answers] == '1' and may?(RightsHelper::RETAG)
+        if params[:retag_answers] == '1' and may?(Badge::RETAG)
           @message.all_answers do |m|
             m.tags.delete_all
 

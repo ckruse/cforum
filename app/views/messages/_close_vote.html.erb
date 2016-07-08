@@ -15,7 +15,7 @@
   <% end %></em>
 </p>
 
-<% if may?(RightsHelper::VISIT_CLOSE_REOPEN) and not m.close_vote.finished %>
+<% if may?(Badge::VISIT_CLOSE_REOPEN) and not m.close_vote.finished %>
   <p>
     <%= cf_link_to(m.close_vote.has_voted?(current_user) ?
                    t('messages.close_vote.take_back') :

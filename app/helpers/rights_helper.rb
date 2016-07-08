@@ -1,20 +1,6 @@
 # -*- coding: utf-8 -*-
 
 module RightsHelper
-  # this is the list of known rights/permissions
-  UPVOTE                   = "upvote"
-  DOWNVOTE                 = "downvote"
-  FLAG                     = "flag"
-  RETAG                    = "retag"
-  VISIT_CLOSE_REOPEN       = "visit_close_reopen"
-  CREATE_TAGS              = "create_tag"
-  CREATE_TAG_SYNONYM       = "create_tag_synonym"
-  EDIT_QUESTION            = "edit_question"
-  EDIT_ANSWER              = "edit_answer"
-  CREATE_CLOSE_REOPEN_VOTE = "create_close_reopen"
-  MODERATOR_TOOLS          = "moderator_tools"
-
-
   def may?(badge_type, user = current_user)
     return false if user.blank?
     user = User.find(user) unless user.is_a?(User)
@@ -124,9 +110,9 @@ module RightsHelper
       if is_owner
         edit_it = true
         check_age = true
-      elsif may?(EDIT_QUESTION) and is_thread_msg
+      elsif may?(Badge::EDIT_QUESTION) and is_thread_msg
         edit_it = true
-      elsif may?(EDIT_ANSWER)
+      elsif may?(Badge::EDIT_ANSWER)
         edit_it = true
       end
     end

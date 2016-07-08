@@ -71,7 +71,7 @@ controls ||= :yes
                              class: 'cf-btn', rel: 'nofollow') %>
             <% end %>
 
-            <% if may?(RightsHelper::RETAG) and not check_editable(@thread, m, false) %>
+            <% if may?(Badge::RETAG) and not check_editable(@thread, m, false) %>
               <%= cf_link_to t('messages.retag'), retag_message_path(@thread, m), class: 'cf-btn', rel: 'nofollow' %>
             <% end %>
 
@@ -101,7 +101,7 @@ controls ||= :yes
             <%= cf_link_to t('messages.edit_message'), edit_message_path(@thread, m), class: 'cf-btn', rel: 'nofollow' %>
           <% end %>
 
-          <% if may?(RightsHelper::CREATE_CLOSE_REOPEN_VOTE) and
+          <% if may?(Badge::CREATE_CLOSE_REOPEN_VOTE) and
             m.flags['no-answer-admin'] != 'yes' %>
             <%
             # allow close vote if

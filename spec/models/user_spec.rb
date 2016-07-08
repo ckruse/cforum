@@ -103,7 +103,7 @@ describe User do
     end
 
     it "returns true if user has moderator badge" do
-      user = User.new(badges: [Badge.new(badge_type: RightsHelper::MODERATOR_TOOLS)])
+      user = User.new(badges: [Badge.new(badge_type: Badge::MODERATOR_TOOLS)])
       expect(user.moderator?).to be true
     end
 

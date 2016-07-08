@@ -1,10 +1,10 @@
-<% if current_user and (may?(RightsHelper::CREATE_TAGS) or current_user.admin?) %>
+<% if current_user and (may?(Badge::CREATE_TAGS) or current_user.admin?) %>
   <ul>
-    <% if may?(RightsHelper::CREATE_TAGS) %>
+    <% if may?(Badge::CREATE_TAGS) %>
       <li<% if action_name == 'new' or action_name == 'create' %> class="active"<% end %>><%= cf_link_to t('tags.new_tag'), new_tag_path(current_forum.slug) %></li>
     <% end %>
 
-    <% if may?(RightsHelper::CREATE_TAG_SYNONYM) and @tag and @tag.tag_id %>
+    <% if may?(Badge::CREATE_TAG_SYNONYM) and @tag and @tag.tag_id %>
       <li<% if action_name == 'new_synonym' %> class="active"<% end %>><%= cf_link_to t('tags.new_tag_synonym'), new_tag_synonym_path(current_forum.slug, @tag) %></li>
     <% end %>
 
