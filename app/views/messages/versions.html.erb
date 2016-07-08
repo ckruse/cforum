@@ -29,7 +29,7 @@ prev = @message.subject + "\n\n" + @message.content
       </time>
     </header>
 
-    <div class="posting-content"><%= Diffy::Diff.new(v.diff_content, prev).to_s(:html).html_safe %></div>
+    <div class="posting-content"><%= diff_posting(v.diff_content, prev) %></div>
   </article>
   <% prev = v.diff_content %>
 <% end %>

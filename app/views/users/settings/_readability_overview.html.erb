@@ -104,6 +104,13 @@
     </div>
   </div>
 
+  <div class="cf-cgroup">
+    <label for="settings_diff_context_lines"><%= t('users.settings.diff_context_lines') %></label>
+    <div class="cntrls">
+      <%= number_field_tag 'settings[diff_context_lines]', @settings.conf('diff_context_lines') %></label>
+    </div>
+  </div>
+
 
 
   <%= render 'widgets/users_selector', desc: t('users.settings.highlighted_users'), name: "settings[highlighted_users][]", id: "settings_highlighted_users", users: @highlighted_users_list %>

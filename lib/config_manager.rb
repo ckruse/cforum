@@ -102,7 +102,9 @@ class ConfigManager
     'notify_on_cite' => 'yes',
     'delete_read_notifications_on_cite' => 'no',
 
-    'max_image_filesize' => 2
+    'max_image_filesize' => 2,
+
+    'diff_context_lines' => nil
   }
 
   def initialize(use_cache = true)
