@@ -93,6 +93,12 @@ de:
     error_present: muss angegeben werden (mindestens %{min}, maximal %{max} Zeichen).
 
     this_message_got_cited: "Grundlage für %{link}"
+    delete_previous_versions: Vorherige Versionen löschen
+
+    forum_usage: "Dieses Forum nutzt %{markdown_link}. Im %{wiki_link} erhalten Sie %{help_link}."
+    markdown: Markdown
+    wiki: Wiki
+    help_with_formatting: Hilfe bei der Formatierung Ihrer Beiträge
 
     close_vote:
       agreeing: Sehe ich auch so

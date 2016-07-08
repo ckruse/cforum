@@ -40,7 +40,10 @@ with_name ||= false
 </fieldset>
 
 <fieldset>
-  <p id="forum-usage">Dieses Forum nutzt <%= cf_link_to 'Markdown', 'http://markdown.de/syntax/index.html' %>. Im <%= cf_link_to 'Wiki', 'https://wiki.selfhtml.org/' %> erhalten Sie <%= cf_link_to 'Hilfe bei der Formatierung Ihrer Beiträge', 'https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bedienung' %>.</p>
+  <p id="forum-usage"><%== t("messages.forum_usage",
+                             markdown_link: cf_link_to(t("messages.markdown"), 'http://markdown.de/syntax/index.html'),
+                             wiki_link: cf_link_to(t("messages.wiki"), 'https://wiki.selfhtml.org/'),
+                             help_link: cf_link_to(t("messages.help_with_formatting"), 'https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bedienung')) %></p>
   <div class="cf-cgroup cf-textarea-only">
     <div class="cntrls">
       <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt, required: true %>
@@ -49,7 +52,7 @@ with_name ||= false
 
   <% if uconf('live_preview') == 'yes' %>
     <article class="thread-message preview">
-      <h3>Vorschau</h3>
+      <h3><%= t("messages.preview") %></h3>
       <div class="posting-content" id="on-the-fly-preview"></div>
     </article>
   <% end %>
@@ -77,7 +80,7 @@ with_name ||= false
 
 <% if @edit and (current_user.try(:admin?) and @message.format == 'markdown') %>
   <div class="cf-cgroup">
-    <label>Vorherige Versionen löschen</label>
+    <label><%= t("messages.delete_previous_versions") %></label>
     <div class="cntrls">
       <label class="checkbox"><%= check_box_tag 'delete_previous_versions', '1', params[:delete_previous_versions] == '1' %></label>
     </div>
