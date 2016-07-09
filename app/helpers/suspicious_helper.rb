@@ -2,7 +2,7 @@
 
 module SuspiciousHelper
   def check_threads_for_suspiciousness(threads)
-    return if not current_user.blank? and uconf('mark_suspicious') == 'no'
+    return if uconf('mark_suspicious') == 'no'
 
     threads.each do |t|
       t.sorted_messages.each do |m|
@@ -12,7 +12,7 @@ module SuspiciousHelper
   end
 
   def check_messages_for_suspiciousness(messages)
-    return if not current_user.blank? and uconf('mark_suspicious') == 'no'
+    return if uconf('mark_suspicious') == 'no'
 
     messages.each do |m|
       m.attribs['classes'] << 'suspicious' if name_suspicious?(m.author)

@@ -88,7 +88,7 @@ class ConfigManager
     'own_js_file' => nil,
     'own_css' => nil,
     'own_js' => nil,
-    'mark_suspicious' => 'no',
+    'mark_suspicious' => 'yes',
     'page_messages' => 'yes',
     'fold_quotes' => 'no',
     'live_preview' => 'yes',

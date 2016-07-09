@@ -16,7 +16,7 @@ module CforumMarkup
     code_stack = []
 
     while !doc.eos?
-      if doc.scan(/<br \/>-- <br \/>/)
+      if doc.scan(/<br ?\/>-- <br ?\/>/)
         ncnt << "\n-- \n"
         in_quote = 0
         consecutive_newlines = 1
@@ -26,21 +26,25 @@ module CforumMarkup
         ncnt << doc.matched
         consecutive_newlines = 0
 
-      elsif doc.scan(/(<br \/>|^)([\s ]*)#/)
-        if $1 == "<br />"
+      elsif doc.scan(/(<br ?\/>|^)([\s ]*)#/)
+        matched = doc.matched
+
+        if matched =~ /^<br ?\/>/
           ncnt << "\n"
           in_quote = 0
           consecutive_newlines += 1
+          matched = matched.gsub(/^<br ?\/>/, '')
         end
 
-        ncnt << $2.to_s + (code_open > 0 ? "#" : '\\#')
+        ncnt << matched.gsub(/#\Z/, '') + (code_open > 0 ? "#" : '\\#')
 
-      elsif doc.scan(/<br \/>/)
+      elsif doc.scan(/(?:<br ?\/>)+/)
         in_quote = 0
         consecutive_newlines += 1
+        size = doc.matched.scan(/<br ?\/>/).size
 
-        if doc.matched.length / 6 > 1
-          ncnt << "\n" * (doc.matched.length / 6)
+        if size > 1
+          ncnt << "\n" * size
         else
           ncnt << "  \n"
         end
@@ -64,7 +68,7 @@ module CforumMarkup
         src = $1 if data =~ /src="([^"]+)"/
         alt = $1 if data =~ /alt="([^"]+)"/
 
-        alt = src if alt.blank?
+        alt = '' if alt.blank?
 
         ncnt << "![#{alt}](#{src})"
 
@@ -138,7 +142,7 @@ module CforumMarkup
             end
 
             val << "\n"
-            val << ("> " * in_quote) unless doc.scan(/\s*<br \/>/)
+            val << ("> " * in_quote) unless doc.scan(/\s*<br ?\/>/)
 
             code_stack << [ncnt, val, lang]
             ncnt = ''
@@ -206,7 +210,7 @@ module CforumMarkup
   def cforum_gen_pref(href)
     orig = href
     href, title = href.split('@title=', 2) if href =~ /@title=/
-    t, m = href.split(/(&amp)?;/)
+    t, m = href.split(/(?:&amp)?;/)
 
     return '[pref:' + orig + ']' if t.blank? or m.blank?
 
@@ -228,9 +232,9 @@ module CforumMarkup
       if %w(self8 self81 self811 self812 sel811 sef811 slef812).include?(ref)
         href = "http://de.selfhtml.org/#{href}"
       elsif ref == 'self7'
-        href = "http://aktuell.de.selfhtml.org/archiv/doku/7.0/#{href})"
+        href = "http://aktuell.de.selfhtml.org/archiv/doku/7.0/#{href}"
       elsif ref == 'zitat'
-        href = "http://community.de.selfhtml.org/zitatesammlung/zitat#{href})"
+        href = "/cites/old/#{href}"
       else
         return nil
       end
