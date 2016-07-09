@@ -92,12 +92,12 @@ module HighlightHelper
 
     if user_map[n]
       classes << '.highlighted-user'
-      classes << app.user_to_class_name(mention.first)
+      classes << "." + app.user_to_class_name(mention.first)
     end
 
     if highlight_self and n == cu_nam
       classes << '.highlighted-self'
-      classes << app.user_to_class_name(mention.first)
+      classes << "." + app.user_to_class_name(mention.first)
     end
 
     classes
