@@ -2,6 +2,8 @@
 
 module MentionsHelper
   def find_mentions(msg)
+    return [] if msg.blank? or msg.content.blank?
+
     doc = StringScanner.new(msg.content)
     users = []
     in_cite = false
