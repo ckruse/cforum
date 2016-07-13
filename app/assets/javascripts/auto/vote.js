@@ -29,7 +29,6 @@ $(function() {
         $this.removeClass("spinning");
 
         if(data.status == 'success') {
-          $this.toggleClass('active');
           cforum.alert.success(data.message);
 
           var votes = message.find('.votes');
@@ -38,11 +37,13 @@ $(function() {
           var other_vote, title, title_this;
 
           if($this.is('.icon-vote-down')) {
+            message.find(".icon-vote-down").toggleClass("active");
             other_vote = message.find('.icon-vote-up');
             title = t('vote_up');
             title_this = $this.hasClass('active') ? t('take_back_vote') : t('vote_down');
           }
           else {
+            message.find(".icon-vote-up").toggleClass("active");
             other_vote = message.find('.icon-vote-down');
             title = t('vote_down');
             title_this = $this.hasClass('active') ? t('take_back_vote') : t('vote_up');
