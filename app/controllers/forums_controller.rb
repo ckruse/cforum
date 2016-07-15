@@ -15,7 +15,9 @@ class ForumsController < ApplicationController
                 order(latest_message: :desc).
                 where(deleted: false).
                 limit(3).
-                all.to_a
+                all
+
+      threads = leave_out_invisible(threads).to_a
 
       threads.each do |thread|
         not_deleted = thread.messages.select { |m| m.deleted == false }
