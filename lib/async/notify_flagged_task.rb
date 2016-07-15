@@ -1,11 +1,21 @@
 # -*- coding: utf-8 -*-
 
 class Peon::Tasks::NotifyFlaggedTask < Peon::Tasks::PeonTask
+  include LinksHelper
+
   def work_work(args)
     @message = nil
     @message = Message.preload(:forum, :thread).find(args['message_id']) if args['message_id']
 
     users = User.where("admin = true OR user_id IN (SELECT user_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE forum_id = ? AND permission = ?) OR user_id IN (SELECT user_id FROM badges_users INNER JOIN badges USING(badge_id) WHERE badge_type = ?)", @message.forum_id, ForumGroupPermission::ACCESS_MODERATE, Badge::MODERATOR_TOOLS)
+
+    desc = I18n.t('messages.close_vote.' + @message.flags['flagged'])
+    if @message.flags['flagged'] == 'custom'
+      desc << "  \n" + @message.flags['custom_reason']
+    end
+    if @message.flags['flagged'] == 'duplicate'
+      desc << "  \n[" + I18n.t('plugins.flag_plugin.duplicate_message') + "](" + @message.flags['flagged_dup_url'] + ")"
+    end
 
     users.each do |u|
       if uconf('notify_on_flagged', u, @message.forum) != 'no'
@@ -16,7 +26,8 @@ class Peon::Tasks::NotifyFlaggedTask < Peon::Tasks::PeonTask
                     message_path(@message.thread, @message, view_all: 'yes'),
                     @message.message_id,
                     'message:flagged',
-                    nil
+                    nil,
+                    desc
                    )
 
         if uconf('notify_on_flagged', u, @message.forum) == 'email'

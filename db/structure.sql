@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.2
--- Dumped by pg_dump version 9.5.2
+-- Dumped from database version 9.5.3
+-- Dumped by pg_dump version 9.5.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1309,7 +1309,8 @@ CREATE TABLE notifications (
     oid bigint NOT NULL,
     otype character varying(100) NOT NULL,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    description text
 );
 
 
@@ -3571,4 +3572,6 @@ INSERT INTO schema_migrations (version) VALUES ('91');
 INSERT INTO schema_migrations (version) VALUES ('92');
 
 INSERT INTO schema_migrations (version) VALUES ('93');
+
+INSERT INTO schema_migrations (version) VALUES ('94');
 

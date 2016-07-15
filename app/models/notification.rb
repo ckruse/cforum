@@ -1,6 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 class Notification < ActiveRecord::Base
+  include ParserHelper
+
   self.primary_key = 'notification_id'
   self.table_name  = 'notifications'
 
@@ -12,6 +14,18 @@ class Notification < ActiveRecord::Base
   validates :recipient_id, presence: true
   validates :oid, presence: true
   validates :otype, presence: true
+
+  def get_content
+    description
+  end
+
+  def get_format
+    'markdown'
+  end
+
+  def id_prefix
+    'notifications'
+  end
 end
 
 # eof

@@ -47,12 +47,13 @@ module Peon
         @config_manager.get(name, user, forum)
       end
 
-      def notify_user(user, hook, subject, path, oid, otype, icon = nil)
+      def notify_user(user, hook, subject, path, oid, otype, icon = nil, description = nil)
         return if not hook.blank? and @config_manager.get(hook, user) != 'yes'
 
         n = Notification.create!(
           recipient_id: user.user_id,
           subject: subject,
+          description: description,
           path: path,
           icon: icon,
           oid: oid,
