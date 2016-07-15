@@ -25,7 +25,7 @@ with_name ||= false
   <div class="cf-cgroup">
     <%= f.label :homepage %>
     <div class="cntrls">
-      <%= f.text_field :homepage, placeholder: t('layout.placeholders.homepage_optional'), maxlength: 250 %>
+      <%= f.url_field :homepage, placeholder: t('layout.placeholders.homepage_optional'), maxlength: 250 %>
       <small><%= t('layout.voluntary_but_public') %></small>
     </div>
   </div>
@@ -33,7 +33,7 @@ with_name ||= false
   <div class="cf-cgroup">
     <%= f.label :problematic_site %>
     <div class="cntrls">
-      <%= f.text_field :problematic_site, placeholder: t('layout.placeholders.problematic_site_optional'), maxlength: 250 %>
+      <%= f.url_field :problematic_site, placeholder: t('layout.placeholders.problematic_site_optional'), maxlength: 250 %>
       <small><%= t('layout.voluntary_but_public') %></small>
     </div>
   </div>
