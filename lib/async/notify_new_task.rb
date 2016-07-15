@@ -3,6 +3,8 @@
 require 'strscan'
 
 class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
+  include InvisibleHelper
+
   def check_notify(usr, thread, message, parent)
     return if usr.blank?
 

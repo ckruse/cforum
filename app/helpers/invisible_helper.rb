@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 module InvisibleHelper
+  include CacheHelper
+
   def mark_invisible(user, thread)
     return if user.blank?
     thread = [thread] unless thread.is_a?(Array)
