@@ -13,7 +13,7 @@ class Peon::Tasks::NotifyFlaggedTask < Peon::Tasks::PeonTask
                     I18n.t('plugins.flag_plugin.message_has_been_flagged',
                            subject: @message.subject,
                            author: @message.author),
-                    message_path(@message.thread, @message),
+                    message_path(@message.thread, @message, view_all: 'yes'),
                     @message.message_id,
                     'message:flagged',
                     nil
