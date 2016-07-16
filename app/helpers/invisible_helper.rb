@@ -39,7 +39,7 @@ module InvisibleHelper
     end
   end
 
-  def is_invisible(user, thread)
+  def is_invisible(user, thread, invalidate_cache = false)
     return if user.blank?
 
     thread = [thread] if not thread.is_a?(Array) and not thread.is_a?(ActiveRecord::Relation)
@@ -49,6 +49,7 @@ module InvisibleHelper
 
     new_cache = {}
     cache = get_cached_entry(:invisible, user_id) || {}
+    cache = {} if invalidate_cache
 
     if cache
       has_all = true
