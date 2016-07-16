@@ -14,7 +14,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
 
     return if @sent_mails[usr.email] or @notified[usr.user_id] # do not send duplicate notifications
     return if usr.user_id == message.user_id # do not notify user about own messages
-    return if is_invisible(usr, thread) # do not notify on invisible threads
+    return if not is_invisible(usr, thread).blank? # do not notify on invisible threads
 
     return true if uconf('notify_on_activity', usr, thread.forum) != 'no' # do not notify when not wanted
 
