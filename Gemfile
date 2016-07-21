@@ -45,6 +45,7 @@ gem 'simplecov', require: false, group: :test
 gem 'spring', group: :development
 
 gem 'sass-rails', '> 4.0.0'
+gem 'sprockets', '~> 3.6.3'
 gem 'coffee-rails'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
