@@ -67,6 +67,10 @@
   color: #333;
 }
 
+.md-fullscreen-mode #forum-usage, .md-fullscreen-mode .image-upload {
+  display:none;
+}
+
 .md-editor.md-fullscreen-mode, .form-horizontal .cf-cgroup .cntrls .md-editor.md-fullscreen-mode {
   width: 100%;
   height: 100%;
