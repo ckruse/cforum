@@ -8,12 +8,12 @@ content_for(:body_classes, 'events index')
 <table class="cf-default-table">
   <thead>
     <tr>
-      <th><%= sortable Event.human_attribute_name(:name), :name, :admin_events_path %></th>
-      <th><%= sortable Event.human_attribute_name(:start_date), :start_date, :admin_events_path %></th>
-      <th><%= sortable Event.human_attribute_name(:end_date), :end_date, :admin_events_path %></th>
-      <th><%= sortable Event.human_attribute_name(:location), :location, :admin_events_path %></th>
-      <th><%= sortable Event.human_attribute_name(:created_at), :created_at, :admin_events_path %></th>
-      <th><%= sortable Event.human_attribute_name(:updated_at), :updated_at, :admin_events_path %></th>
+      <th><%= sortable Event.human_attribute_name(:name), :name, :events_path %></th>
+      <th><%= sortable Event.human_attribute_name(:start_date), :start_date, :events_path %></th>
+      <th><%= sortable Event.human_attribute_name(:end_date), :end_date, :events_path %></th>
+      <th><%= sortable Event.human_attribute_name(:location), :location, :events_path %></th>
+      <th><%= sortable Event.human_attribute_name(:created_at), :created_at, :events_path %></th>
+      <th><%= sortable Event.human_attribute_name(:updated_at), :updated_at, :events_path %></th>
     </tr>
   </thead>
 
