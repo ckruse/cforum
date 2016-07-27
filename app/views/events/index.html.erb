@@ -9,6 +9,7 @@ content_for(:body_classes, 'events index')
   <thead>
     <tr>
       <th><%= sortable Event.human_attribute_name(:name), :name, :events_path %></th>
+      <th class="numeric"><%= sortable t('events.attendees_num'), :attendees_num, :events_path %></th>
       <th><%= sortable Event.human_attribute_name(:start_date), :start_date, :events_path %></th>
       <th><%= sortable Event.human_attribute_name(:end_date), :end_date, :events_path %></th>
       <th><%= sortable Event.human_attribute_name(:location), :location, :events_path %></th>
@@ -19,12 +20,13 @@ content_for(:body_classes, 'events index')
 
   <tbody>
     <% if @events.blank? %>
-      <tr class="no-data"><td colspan="6"><%= t('admin.events.no_events') %></td></tr>
+      <tr class="no-data"><td colspan="7"><%= t('admin.events.no_events') %></td></tr>
     <% end %>
 
     <% @events.each do |event| %>
       <tr>
         <td><%= link_to event.name, event_path(event) %></td>
+        <td class="numeric"><%= event.attendees.length %></td>
         <td><%= l(event.start_date) %></td>
         <td><%= l(event.end_date) %></td>
         <td><%= event.location %></td>
