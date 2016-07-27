@@ -47,6 +47,8 @@ de:
       cite: Zitat
       badge_group: Medaillen-Gruppe
       peon_job: Hintergrund-Auftrag
+      event: Ereignis
+      attendee: Teilnehmer
 
     attributes:
       message:
@@ -153,3 +155,22 @@ de:
         created_at: Erstellt
         updated_at: Geändert
         arguments: Argumente
+
+      event:
+        name: Name
+        location: Ort
+        maps_link: Karten-URL
+        description: Beschreibung
+        start_date: Beginnt
+        end_date: Endet
+        visible: sichtbar
+        created_at: Erstellt
+        updated_at: Geändert
+
+      attendee:
+        name: Name
+        comment: Kommentar
+        starts_at: Start-Ort
+        planned_start: Geplanter Aufbruch
+        planned_arrival: Geplante Ankunft
+        seats: Sitzplätze

@@ -234,3 +234,17 @@ de:
 
     jobs:
       jobs: Hintergrund-Aufträge
+
+    events:
+      event_administration: Ereignis-Verwaltung
+      no_events: Keine Events gefunden
+      new_event: Neues Ereignis
+
+      updated: Ereignis erfolgreich geändert
+      created: Ereignis erfolgreich erstellt
+      destroyed: Ereignis erfolgreich gelöscht
+      edit_event: "Ereignis %{name} bearbeiten"
+
+      error_message:
+        other: "%{count} Fehler verhinderten, dass dieses Ereignis gespeichert werden konnte:"
+        one: "%{count} Fehler verhindert, dass dieses Ereignis gespeichert werden konnte:"

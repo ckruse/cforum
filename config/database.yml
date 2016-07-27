@@ -6,7 +6,7 @@
 development:
   adapter: postgresql
   database: cforum_development
-  pool: 5
+  pool: 20
   timeout: 5000
   username: ckruse
   password:

@@ -1,14 +1,14 @@
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><% t('admin.users.error_message', count: @users.errors.count) %>:</h2>
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <h2><% t('admin.users.error_message', count: @users.errors.count) %>:</h2>
 
-      <ul>
+    <ul>
       <% @user.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
+    </ul>
+  </div>
+<% end %>
 
 <div class="cf-cgroup">
   <%= f.label :username %>

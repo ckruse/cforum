@@ -1,0 +1,41 @@
+<%
+content_for :title, t('admin.events.event_administration')
+content_for :h1, t('admin.events.event_administration')
+%>
+
+<table class="cf-default-table">
+  <thead>
+    <tr>
+      <th><%= sortable Event.human_attribute_name(:name), :name, :admin_events_path %></th>
+      <th><%= sortable Event.human_attribute_name(:location), :location, :admin_events_path %></th>
+      <th><%= sortable Event.human_attribute_name(:start_date), :start_date, :admin_events_path %></th>
+      <th><%= sortable Event.human_attribute_name(:end_date), :end_date, :admin_events_path %></th>
+      <th><%= sortable Event.human_attribute_name(:visible), :visible, :admin_events_path %></th>
+      <th><%= sortable Event.human_attribute_name(:created_at), :created_at, :admin_events_path %></th>
+      <th><%= sortable Event.human_attribute_name(:updated_at), :updated_at, :admin_events_path %></th>
+      <th> </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if @events.blank? %>
+      <tr class="no-data"><td colspan="7"><%= t('admin.events.no_events') %></td></tr>
+    <% end %>
+    <% @events.each do |event| %>
+      <tr>
+        <td><%= link_to event.name, edit_admin_event_path(event) %></td>
+        <td><%= l(event.start_date) %></td>
+        <td><%= l(event.end_date) %></td>
+        <td><%= event.visible ? t('global.yeah') : t('global.nope') %></td>
+        <td><%= l(event.created_at) %></td>
+        <td><%= l(event.updated_at) %></td>
+        <td>
+          <%= link_to '', edit_admin_event_path(event), class: "icon-edit-event" %>
+          <%= link_to '', admin_event_path(event), method: :delete, data: { confirm: t('global.are_you_sure') }, class: 'icon-delete-event' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @events, params: { sort: sort_column, dir: sort_direction } %>

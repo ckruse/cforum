@@ -176,7 +176,7 @@
     outline-offset: -2px;
 }
 
-.cf-btn, .message-links .cf-btn {
+.cf-btn, .message-links .cf-btn, .button_to .cf-btn {
   @extend .btn;
   color: #333;
   background-color: #FFF;
@@ -186,7 +186,11 @@
 .cf-btn:hover, .cf-btn:focus, .cf-btn.focus,
 .cf-btn:active, .cf-btn.active,
 a.cf-btn:hover, a.cf-btn:focus, a.cf-btn:active,
-a.cf-btn:link:hover, a.cf-btn:link:focus, a.cf-btn:link:active {
+a.cf-btn:link:hover, a.cf-btn:link:focus, a.cf-btn:link:active,
+.button_to .cf-btn:hover, .button_to .cf-btn:focus, .button_to .cf-btn.focus,
+.button_to .cf-btn:active, .button_to .cf-btn.active,
+.button_to a.cf-btn:hover, .button_to a.cf-btn:focus, .button_to a.cf-btn:active,
+.button_to a.cf-btn:link:hover, .button_to a.cf-btn:link:focus, .button_to a.cf-btn:link:active {
     color: #333;
     background-color: #E6E6E6;
     border-color: #ADADAD;
@@ -196,7 +200,7 @@ a.cf-btn:link, a.cf-btn:visited {
   color: #333;
 }
 
-.cf-primary-btn {
+.cf-primary-btn, .button_to .cf-primary-btn {
   @extend .btn;
   color: #FFF;
   background-color: #337AB7;
@@ -210,7 +214,12 @@ a.cf-primary-btn:link, a.cf-primary-btn:visited {
 .cf-primary-btn:hover, .cf-primary-btn:focus, .cf-primary-btn.focus,
 .cf-primary-btn:active, .cf-primary-btn.active,
 a.cf-primary-btn:hover, a.cf-primary-btn:focus, a.cf-primary-btn:active,
-a.cf-primary-btn:link:hover, a.cf-primary-btn:link:focus, a.cf-primary-btn:link:active{
+a.cf-primary-btn:link:hover, a.cf-primary-btn:link:focus, a.cf-primary-btn:link:active,
+.button_to .cf-primary-btn:hover, .button_to .cf-primary-btn:focus, .button_to .cf-primary-btn.focus,
+.button_to .cf-primary-btn:active, .button_to .cf-primary-btn.active,
+.button_to a.cf-primary-btn:hover, .button_to a.cf-primary-btn:focus, .button_to a.cf-primary-btn:active,
+.button_to a.cf-primary-btn:link:hover, .button_to a.cf-primary-btn:link:focus, .button_to a.cf-primary-btn:link:active
+{
     color: #FFF;
     background-color: #286090;
     border-color: #204D74;
@@ -313,6 +322,16 @@ legend {
   select:nth-of-type(2) { max-width:12.35em; }
   select:nth-of-type(3) { max-width:7em; }
 }
+
+.form-horizontal .cf-cgroup.datetime-select .cntrls {
+  select { display:inline; }
+  select:first-of-type { max-width:4em; }
+  select:nth-of-type(2) { max-width:9em; }
+  select:nth-of-type(3) { max-width:5em; }
+  select:nth-of-type(4) { max-width:4em; }
+  select:nth-of-type(5) { max-width:4em; }
+}
+
 
 // safari fix: search inputs in safari can't have a padding
 input[type="search"] { -webkit-appearance: textfield; }

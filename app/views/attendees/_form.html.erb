@@ -1,0 +1,48 @@
+<% if @attendee.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= t('events.attendees.error_message', count: @attendee.errors.count) %></h2>
+
+    <ul>
+      <% @attendee.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<% if current_user.blank? %>
+  <div class="cf-cgroup">
+    <%= f.label :name %>
+    <div class="cntrls"><%= f.text_field :name %></div>
+  </div>
+<% end %>
+
+<div class="cf-cgroup">
+  <%= f.label :comment %>
+  <div class="cntrls"><%= f.text_field :comment %></div>
+</div>
+
+<div class="cf-cgroup">
+  <%= f.label :starts_at %>
+  <div class="cntrls"><%= f.text_field :starts_at %></div>
+</div>
+
+<div class="cf-cgroup">
+  <%= f.label :seats %>
+  <div class="cntrls"><%= f.number_field :seats, step: 1, min: 0 %></div>
+</div>
+
+<div class="cf-cgroup datetime-select">
+  <%= f.label :planned_start %>
+  <div class="cntrls"><%= f.datetime_select :planned_start, include_blank: true %></div>
+</div>
+
+<div class="cf-cgroup datetime-select">
+  <%= f.label :planned_arrival %>
+  <div class="cntrls"><%= f.datetime_select :planned_arrival %></div>
+</div>
+
+<div class="form-actions">
+  <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
+  <%= cf_link_to t('global.cancel'), @event, class: 'cf-btn' %>
+</div>

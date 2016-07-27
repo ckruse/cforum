@@ -557,6 +557,44 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: attendees; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE attendees (
+    attendee_id integer NOT NULL,
+    event_id integer NOT NULL,
+    user_id bigint,
+    name text NOT NULL,
+    comment text,
+    starts_at text,
+    planned_start timestamp without time zone,
+    planned_arrival timestamp without time zone NOT NULL,
+    seats integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: attendees_attendee_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE attendees_attendee_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: attendees_attendee_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE attendees_attendee_id_seq OWNED BY attendees.attendee_id;
+
+
+--
 -- Name: auditing; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -890,6 +928,43 @@ CREATE SEQUENCE counter_table_count_id_seq
 --
 
 ALTER SEQUENCE counter_table_count_id_seq OWNED BY counter_table.count_id;
+
+
+--
+-- Name: events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE events (
+    event_id integer NOT NULL,
+    name text NOT NULL,
+    description text NOT NULL,
+    location text,
+    maps_link text,
+    start_date date NOT NULL,
+    end_date date NOT NULL,
+    visible boolean NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: events_event_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE events_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: events_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE events_event_id_seq OWNED BY events.event_id;
 
 
 --
@@ -1808,6 +1883,13 @@ ALTER SEQUENCE votes_vote_id_seq OWNED BY votes.vote_id;
 
 
 --
+-- Name: attendee_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY attendees ALTER COLUMN attendee_id SET DEFAULT nextval('attendees_attendee_id_seq'::regclass);
+
+
+--
 -- Name: auditing_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1875,6 +1957,13 @@ ALTER TABLE ONLY close_votes_voters ALTER COLUMN close_votes_voter_id SET DEFAUL
 --
 
 ALTER TABLE ONLY counter_table ALTER COLUMN count_id SET DEFAULT nextval('counter_table_count_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY events ALTER COLUMN event_id SET DEFAULT nextval('events_event_id_seq'::regclass);
 
 
 --
@@ -2060,6 +2149,22 @@ ALTER TABLE ONLY votes ALTER COLUMN vote_id SET DEFAULT nextval('votes_vote_id_s
 
 
 --
+-- Name: attendees_event_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY attendees
+    ADD CONSTRAINT attendees_event_id_user_id_key UNIQUE (event_id, user_id);
+
+
+--
+-- Name: attendees_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY attendees
+    ADD CONSTRAINT attendees_pkey PRIMARY KEY (attendee_id);
+
+
+--
 -- Name: auditing_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2169,6 +2274,14 @@ ALTER TABLE ONLY close_votes_voters
 
 ALTER TABLE ONLY counter_table
     ADD CONSTRAINT counter_table_pkey PRIMARY KEY (count_id);
+
+
+--
+-- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY events
+    ADD CONSTRAINT events_pkey PRIMARY KEY (event_id);
 
 
 --
@@ -2447,6 +2560,13 @@ CREATE UNIQUE INDEX badge_groups_lower_idx ON badge_groups USING btree (lower(na
 --
 
 CREATE INDEX counter_table_table_name_group_crit_idx ON counter_table USING btree (table_name, group_crit);
+
+
+--
+-- Name: events_lower_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX events_lower_idx ON events USING btree (lower(name));
 
 
 --
@@ -2923,6 +3043,22 @@ CREATE TRIGGER threads__count_truncate_trigger AFTER TRUNCATE ON threads FOR EAC
 --
 
 CREATE TRIGGER threads__count_update_trigger AFTER UPDATE ON threads FOR EACH ROW EXECUTE PROCEDURE count_threads_update_trigger();
+
+
+--
+-- Name: attendees_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY attendees
+    ADD CONSTRAINT attendees_event_id_fkey FOREIGN KEY (event_id) REFERENCES events(event_id);
+
+
+--
+-- Name: attendees_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY attendees
+    ADD CONSTRAINT attendees_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 --
@@ -3574,4 +3710,6 @@ INSERT INTO schema_migrations (version) VALUES ('92');
 INSERT INTO schema_migrations (version) VALUES ('93');
 
 INSERT INTO schema_migrations (version) VALUES ('94');
+
+INSERT INTO schema_migrations (version) VALUES ('95');
 

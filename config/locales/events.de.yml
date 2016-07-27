@@ -1,0 +1,15 @@
+de:
+  events:
+    events: Ereignisse
+    attendee_list: Teilnehmer-Liste
+    attend: Teilnehmen
+    unattend: Teilnahme zurücknehmen
+    no_attendees: Zur Zeit sind keine Teilnehmer gelistet.
+    in: in %{location}
+    map: Karte
+    attendees_num: Anzahl Teilnehmer
+
+    atendees:
+      error_message:
+        other: "%{count} Fehler verhinderten, dass die Teilnahme gespeichert werden konnte:"
+        one: "%{count} Fehler verhindert, dass die Teilnahme gespeichert werden konnte:"

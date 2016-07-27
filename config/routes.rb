@@ -54,6 +54,10 @@ Cforum::Application.routes.draw do
 
   get 'help' => 'pages#help', as: :help
 
+  resources :events, except: [:edit, :new, :create, :update, :destroy] do
+    resources :attendees, only: [:new, :create, :destroy]
+  end
+
   namespace 'admin' do
     resources :users, except: :show
     resources :groups, controller: :groups, except: :show
@@ -61,6 +65,7 @@ Cforum::Application.routes.draw do
     resources :badges, except: :show
     resources :search_sections, except: :show
     resources :badge_groups, except: :show
+    resources :events, except: :show
 
     get 'settings' => 'settings#edit', as: 'settings'
     post 'settings' => 'settings#update'

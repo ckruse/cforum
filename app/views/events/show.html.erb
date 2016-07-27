@@ -1,0 +1,79 @@
+<%
+content_for :title, @event.name
+content_for :h1, @event.name
+content_for(:body_id, "events-show")
+content_for(:body_classes, 'events show event-' + @event.name.parameterize)
+%>
+
+<article class="thread-message event">
+  <header class="message">
+    <h2><%= link_to @event.name, event_path(@event) %></h2>
+
+    <div class="details">
+      <time datetime="<%= @event.start_date.strftime("%FT%T%:z") %>"><%= link_to l(@event.start_date, format: date_format('date_format_date')), event_path(@event) %></time>
+      <% if @event.end_date != @event.start_date %>
+        - <time datetime="<%= @event.end_date.strftime("%FT%T%:z") %>"><%= link_to l(@event.end_date, format: date_format('date_format_date')), event_path(@event) %></time>
+      <% end %>
+
+      <%= t('events.in', location: @event.location) %>
+    </div>
+  </header>
+
+  <div class="posting-content event">
+    <%= @event.to_html(@app_controller) %>
+
+    <% unless @event.maps_link.blank? %>
+      <h3><%= t('events.map') %></h3>
+
+      <iframe src="<%= @event.maps_link %>"></iframe>
+    <% end %>
+  </div>
+
+  <section>
+    <h3><%= t('events.attendee_list') %></h3>
+
+    <table class="cf-default-table">
+      <thead>
+        <tr>
+          <th><%= Attendee.human_attribute_name(:name) %></th>
+          <th><%= Attendee.human_attribute_name(:starts_at) %></th>
+          <th><%= Attendee.human_attribute_name(:planned_start) %></th>
+          <th><%= Attendee.human_attribute_name(:planned_arrival) %></th>
+          <th class="numeric"><%= Attendee.human_attribute_name(:seats) %></th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <% if @event.attendees.blank? %>
+          <tr class="no-data"><td colspan="6"><%= t('events.no_attendees') %></td></tr>
+        <% end %>
+
+        <% @event.attendees.each do |attendee| %>
+          <tr>
+            <td><%= cf_link_to_unless attendee.user_id.blank?, attendee.name, attendee.user %>
+              <% unless attendee.comment.blank? %><div class="comment"><%= attendee.comment %></div><% end %></td>
+            <td><%= attendee.starts_at %></td>
+            <td><%= attendee.planned_start ? l(attendee.planned_start, format: date_format) : '' %></td>
+            <td><%= attendee.planned_arrival ? l(attendee.planned_arrival, format: date_format) : '' %></td>
+            <td class="numeric"><%= attendee.seats %></td>
+          </tr>
+        <% end %>
+
+        <tfoot>
+          <tr>
+            <th colspan="4"><%= t('events.attendees_num') %></th>
+            <th class="numeric"><%= @event.attendees.length %></th>
+          </tr>
+        </tfoot>
+      </tbody>
+
+    </table>
+
+    <% unless @event.is_attendee(current_user) %>
+      <p><%= cf_link_to t('events.attend'), new_event_attendee_path(@event), class: 'cf-primary-btn' %></p>
+    <% else %>
+      <p><%= cf_button_to event_attendee_path(@event, @event.is_attendee(current_user)), method: :delete, class: 'cf-primary-btn' do %><%= t('events.unattend') %><% end %></p>
+    <% end %>
+  </section>
+</article>

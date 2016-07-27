@@ -1,0 +1,60 @@
+<% if @event.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= t('admin.events.error_message', count: @event.errors.count) %></h2>
+
+    <ul>
+      <% @event.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="cf-cgroup">
+  <%= f.label :name %>
+  <div class="cntrls"><%= f.text_field :name %></div>
+</div>
+
+<div class="cf-cgroup">
+  <%= f.label :location %>
+  <div class="cntrls"><%= f.text_field :location %></div>
+</div>
+
+<div class="cf-cgroup">
+  <%= f.label :maps_link %>
+  <div class="cntrls"><%= f.text_field :maps_link %></div>
+</div>
+
+<div class="cf-cgroup date-select">
+  <%= f.label :start_date %>
+  <div class="cntrls"><%= f.date_select :start_date, start_year: DateTime.now.year %></div>
+</div>
+
+<div class="cf-cgroup date-select">
+  <%= f.label :end_date %>
+  <div class="cntrls"><%= f.date_select :end_date, start_year: DateTime.now.year %></div>
+</div>
+
+<div class="cf-cgroup">
+  <%= f.label :visible %>
+  <div class="cntrls">
+    <label class="checkbox"><%= f.check_box :visible %></label>
+  </div>
+</div>
+
+<div class="cf-cgroup">
+  <%= f.label :description %>
+  <div class="cntrls"><%= f.text_area :description, id: 'event_description' %></div>
+</div>
+
+<% if uconf('live_preview') == 'yes' %>
+  <article class="thread-message preview">
+    <h3><%= t("messages.preview") %></h3>
+    <div class="posting-content" id="on-the-fly-preview"></div>
+  </article>
+<% end %>
+
+<div class="form-actions">
+  <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
+  <%= cf_link_to t('global.cancel'), admin_events_path, class: 'cf-btn' %>
+</div>
