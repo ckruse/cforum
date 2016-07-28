@@ -13,13 +13,14 @@ class Badge < ActiveRecord::Base
   CREATE_TAG_SYNONYM       = "create_tag_synonym"
   EDIT_QUESTION            = "edit_question"
   EDIT_ANSWER              = "edit_answer"
-  CREATE_CLOSE_REOPEN_VOTE = "create_close_reopen"
+  CREATE_CLOSE_REOPEN_VOTE = "create_close_reopen_vote"
   MODERATOR_TOOLS          = "moderator_tools"
+  SEO_PROFI                = 'seo_profi'
 
   RIGHTS = [ UPVOTE, DOWNVOTE, FLAG,
              RETAG, VISIT_CLOSE_REOPEN, CREATE_TAGS,
              CREATE_TAG_SYNONYM, EDIT_QUESTION, EDIT_ANSWER,
-             CREATE_CLOSE_REOPEN_VOTE, MODERATOR_TOOLS ]
+             CREATE_CLOSE_REOPEN_VOTE, MODERATOR_TOOLS, SEO_PROFI ]
 
   self.primary_key = 'badge_id'
   self.table_name  = 'badges'
