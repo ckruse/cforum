@@ -26,3 +26,5 @@ TAGS
 
 /public/system/
 /public/uploads/*
+/.vagrant/
+/cookbooks/
