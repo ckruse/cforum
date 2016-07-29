@@ -1,7 +1,10 @@
 de:
   events:
     events: Ereignisse
-    attendee_list: Teilnehmer-Liste
+    attendee_list:
+      one: Teilnehmer-Liste (ein Teilnehmer)
+      zero: Teilnehmer-Liste (keine Teilnehmer)
+      other: Teilnehmer-Liste (%{count} Teilnehmer)
     attend: Teilnehmen
     unattend: Teilnahme zurücknehmen
     no_attendees: Zur Zeit sind keine Teilnehmer gelistet.

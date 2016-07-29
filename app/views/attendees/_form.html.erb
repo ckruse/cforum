@@ -18,11 +18,6 @@
 <% end %>
 
 <div class="cf-cgroup">
-  <%= f.label :comment %>
-  <div class="cntrls"><%= f.text_field :comment %></div>
-</div>
-
-<div class="cf-cgroup">
   <%= f.label :starts_at %>
   <div class="cntrls"><%= f.text_field :starts_at %></div>
 </div>
@@ -42,7 +37,19 @@
   <div class="cntrls"><%= f.datetime_select :planned_arrival %></div>
 </div>
 
+<div class="cf-cgroup datetime-select">
+  <%= f.label :planned_leave %>
+  <div class="cntrls"><%= f.datetime_select :planned_leave, include_blank: true %></div>
+</div>
+
+<div class="cf-cgroup">
+  <%= f.label :comment %>
+  <div class="cntrls"><%= f.text_area :comment %></div>
+</div>
+
 <div class="form-actions">
   <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
   <%= cf_link_to t('global.cancel'), @event, class: 'cf-btn' %>
 </div>
+
+

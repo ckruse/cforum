@@ -8,6 +8,41 @@
   }
 
   .cf-default-table { width:calc(100% - 1em); }
+
+  ol {
+    list-style-type: none;
+    padding:0;
+
+    li {
+      padding-bottom:.5em;
+      margin-bottom:.5em;
+      border-bottom: 1px solid #ccc;
+    }
+
+    //li:last-of-type { border-bottom: none; }
+  }
+
+  ol {
+    width:calc(100% - 1em);
+  }
+
+  &.thread-message .controls { margin-bottom:0; }
+
+  dt, dd {
+    display:inline;
+    padding:0;
+    margin:0;
+  }
+  dt:after { content: ':'; }
+  dt {
+    display: inline-block;
+    font-weight: bold;
+    width:10em;
+  }
+  dd:after {
+    content: '\A';
+    white-space: pre;
+  }
 }
 
 /* eof */

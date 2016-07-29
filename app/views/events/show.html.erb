@@ -30,61 +30,47 @@ content_for(:body_classes, 'events show event-' + @event.name.parameterize)
   </div>
 
   <section>
-    <h3><%= t('events.attendee_list') %></h3>
+    <h3><%= t('events.attendee_list', count: @event.attendees.length) %></h3>
 
-    <table class="cf-default-table">
-      <thead>
-        <tr>
-          <th><%= Attendee.human_attribute_name(:name) %></th>
-          <th><%= Attendee.human_attribute_name(:starts_at) %></th>
-          <th><%= Attendee.human_attribute_name(:planned_start) %></th>
-          <th><%= Attendee.human_attribute_name(:planned_arrival) %></th>
-          <th class="numeric"><%= Attendee.human_attribute_name(:seats) %></th>
-          <th> </th>
-        </tr>
-      </thead>
+    <ol>
+      <% @event.attendees.each do |attendee| %>
+      <li>
+        <dl>
+          <dt><%= Attendee.human_attribute_name(:name) %></dt>
+          <dd><%= cf_link_to_unless attendee.user_id.blank?, attendee.name, attendee.user %></dd>
 
-      <tbody>
+          <dt><%= Attendee.human_attribute_name(:starts_at) %></dt>
+          <dd><%= attendee.starts_at %></dd>
 
-        <% if @event.attendees.blank? %>
-          <tr class="no-data"><td colspan="6"><%= t('events.no_attendees') %></td></tr>
+          <dt><%= Attendee.human_attribute_name(:planned_start) %></dt>
+          <dd><%= attendee.planned_start ? l(attendee.planned_start, format: date_format) : '' %></dd>
+
+          <dt><%= Attendee.human_attribute_name(:planned_arrival) %></dt>
+          <dd><%= attendee.planned_arrival ? l(attendee.planned_arrival, format: date_format) : '' %></dd>
+
+          <dt><%= Attendee.human_attribute_name(:planned_leave) %></dt>
+          <dd><%= attendee.planned_leave ? l(attendee.planned_leave, format: date_format) : '' %></dd>
+
+          <dt><%= Attendee.human_attribute_name(:seats) %></dt>
+          <dd><%= attendee.seats %></dd>
+        </dl>
+
+        <p><%= attendee.comment %></p>
+
+        <% unless current_user.blank? %>
+          <% if current_user.admin? or current_user.user_id == attendee.user_id %>
+            <div class="controls">
+              <%= cf_button_to event_attendee_path(@event, @event.is_attendee(current_user)), method: :delete, class: 'cf-btn' do %><%= t('events.unattend') %><% end %>
+              <%= cf_link_to t('global.edit'), edit_event_attendee_path(@event, attendee), class: 'cf-btn' %>
+            </div>
+          <% end %>
         <% end %>
-
-        <% @event.attendees.each do |attendee| %>
-          <tr>
-            <td><%= cf_link_to_unless attendee.user_id.blank?, attendee.name, attendee.user %>
-              <% unless attendee.comment.blank? %><div class="comment"><%= attendee.comment %></div><% end %></td>
-            <td><%= attendee.starts_at %></td>
-            <td><%= attendee.planned_start ? l(attendee.planned_start, format: date_format) : '' %></td>
-            <td><%= attendee.planned_arrival ? l(attendee.planned_arrival, format: date_format) : '' %></td>
-            <td class="numeric"><%= attendee.seats %></td>
-            <td>
-              <% if (current_user.try(:user_id) == attendee.user_id and not current_user.blank?) or current_user.try(:admin?) %>
-                <%= cf_link_to '', edit_event_attendee_path(@event, attendee), class: 'icon-edit-event' %>
-              <% end %>
-
-              <% if current_user.try(:admin?) %>
-                <%= cf_button_to event_attendee_path(@event, attendee), method: :delete, class: 'icon-delete-event' %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-
-        <tfoot>
-          <tr>
-            <th colspan="4"><%= t('events.attendees_num') %></th>
-            <th class="numeric"><%= @event.attendees.length %></th>
-            <th> </th>
-          </tr>
-        </tfoot>
-      </tbody>
-
-    </table>
+      </li>
+      <% end %>
+    </ol>
 
     <% unless @event.is_attendee(current_user) %>
       <p><%= cf_link_to t('events.attend'), new_event_attendee_path(@event), class: 'cf-primary-btn' %></p>
-    <% else %>
-      <p><%= cf_button_to event_attendee_path(@event, @event.is_attendee(current_user)), method: :delete, class: 'cf-primary-btn' do %><%= t('events.unattend') %><% end %></p>
     <% end %>
   </section>
 </article>

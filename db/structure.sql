@@ -571,7 +571,8 @@ CREATE TABLE attendees (
     planned_arrival timestamp without time zone NOT NULL,
     seats integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    planned_leave timestamp without time zone
 );
 
 
@@ -3712,4 +3713,6 @@ INSERT INTO schema_migrations (version) VALUES ('93');
 INSERT INTO schema_migrations (version) VALUES ('94');
 
 INSERT INTO schema_migrations (version) VALUES ('95');
+
+INSERT INTO schema_migrations (version) VALUES ('96');
 
