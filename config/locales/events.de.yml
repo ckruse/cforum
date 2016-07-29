@@ -19,6 +19,10 @@ de:
 
       edit: Teilnahme bearbeiten
 
+      placeholders:
+        starts_at: Steinfurt
+        comment: Freue mich auf das Treffen!
+
       error_message:
         other: "%{count} Fehler verhinderten, dass die Teilnahme gespeichert werden konnte:"
         one: "%{count} Fehler verhindert, dass die Teilnahme gespeichert werden konnte:"

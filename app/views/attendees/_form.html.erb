@@ -13,18 +13,18 @@
 <% if current_user.blank? %>
   <div class="cf-cgroup">
     <%= f.label :name %>
-    <div class="cntrls"><%= f.text_field :name %></div>
+    <div class="cntrls"><%= f.text_field :name, placeholder: t('layout.placeholders.username') %></div>
   </div>
 <% end %>
 
 <div class="cf-cgroup">
   <%= f.label :starts_at %>
-  <div class="cntrls"><%= f.text_field :starts_at %></div>
+  <div class="cntrls"><%= f.text_field :starts_at, placeholder: t('events.attendees.placeholders.starts_at'), maxlength: 255 %></div>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :seats %>
-  <div class="cntrls"><%= f.number_field :seats, step: 1, min: 0 %></div>
+  <div class="cntrls"><%= f.number_field :seats, step: 1, min: 0, placeholder: '2' %></div>
 </div>
 
 <div class="cf-cgroup datetime-select">
@@ -44,7 +44,7 @@
 
 <div class="cf-cgroup">
   <%= f.label :comment %>
-  <div class="cntrls"><%= f.text_area :comment %></div>
+  <div class="cntrls"><%= f.text_area :comment, placeholder: t('events.attendees.placeholders.comment') %></div>
 </div>
 
 <div class="form-actions">
