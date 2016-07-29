@@ -7,7 +7,7 @@ class Event < ActiveRecord::Base
 
   validates_presence_of :name, :description, :start_date, :end_date
 
-  has_many :attendees
+  has_many :attendees, ->{ order(:name) }
 
   def get_content
     description.to_s
