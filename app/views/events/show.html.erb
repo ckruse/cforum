@@ -60,7 +60,7 @@ content_for(:body_classes, 'events show event-' + @event.name.parameterize)
         <% unless current_user.blank? %>
           <% if current_user.admin? or current_user.user_id == attendee.user_id %>
             <div class="controls">
-              <%= cf_button_to event_attendee_path(@event, @event.is_attendee(current_user)), method: :delete, class: 'cf-btn' do %><%= t('events.unattend') %><% end %>
+              <%= cf_button_to event_attendee_path(@event, attendee), method: :delete, class: 'cf-btn' do %><%= t('events.unattend') %><% end %>
               <%= cf_link_to t('global.edit'), edit_event_attendee_path(@event, attendee), class: 'cf-btn' %>
             </div>
           <% end %>
