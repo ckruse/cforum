@@ -40,19 +40,19 @@ content_for(:body_classes, 'events show event-' + @event.name.parameterize)
           <dd><%= cf_link_to_unless attendee.user_id.blank?, attendee.name, attendee.user %></dd>
 
           <dt><%= Attendee.human_attribute_name(:starts_at) %></dt>
-          <dd><%= attendee.starts_at %></dd>
+          <dd><%= attendee.starts_at.blank? ? ('<em>' + t('global.unset') + "</em>").html_safe : attendee.starts_at %></dd>
 
           <dt><%= Attendee.human_attribute_name(:planned_start) %></dt>
-          <dd><%= attendee.planned_start ? l(attendee.planned_start, format: date_format) : '' %></dd>
+          <dd><%= attendee.planned_start ? l(attendee.planned_start, format: date_format) : ('<em>' + t('global.unset') + "</em>").html_safe %></dd>
 
           <dt><%= Attendee.human_attribute_name(:planned_arrival) %></dt>
-          <dd><%= attendee.planned_arrival ? l(attendee.planned_arrival, format: date_format) : '' %></dd>
+          <dd><%= attendee.planned_arrival ? l(attendee.planned_arrival, format: date_format) : ('<em>' + t('global.unset') + "</em>").html_safe %></dd>
 
           <dt><%= Attendee.human_attribute_name(:planned_leave) %></dt>
-          <dd><%= attendee.planned_leave ? l(attendee.planned_leave, format: date_format) : '' %></dd>
+          <dd><%= attendee.planned_leave ? l(attendee.planned_leave, format: date_format) : ('<em>' + t('global.unset') + "</em>").html_safe %></dd>
 
           <dt><%= Attendee.human_attribute_name(:seats) %></dt>
-          <dd><%= attendee.seats %></dd>
+          <dd><%= attendee.seats.blank? ? ('<em>' + t('global.unset') + "</em>").html_safe : attendee.seats %></dd>
         </dl>
 
         <p><%= attendee.comment %></p>

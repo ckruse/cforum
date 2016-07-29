@@ -42,6 +42,7 @@ de:
     ascending: aufsteigend
     descending: absteigend
     events: Ereignisse
+    unset: kein Wert
 
     scores:
       right_upvote: Upvote-Recht
