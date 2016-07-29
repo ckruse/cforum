@@ -55,7 +55,7 @@ Cforum::Application.routes.draw do
   get 'help' => 'pages#help', as: :help
 
   resources :events, except: [:edit, :new, :create, :update, :destroy] do
-    resources :attendees, only: [:new, :create, :destroy]
+    resources :attendees, except: [:show, :index]
   end
 
   namespace 'admin' do

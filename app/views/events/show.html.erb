@@ -40,6 +40,7 @@ content_for(:body_classes, 'events show event-' + @event.name.parameterize)
           <th><%= Attendee.human_attribute_name(:planned_start) %></th>
           <th><%= Attendee.human_attribute_name(:planned_arrival) %></th>
           <th class="numeric"><%= Attendee.human_attribute_name(:seats) %></th>
+          <th> </th>
         </tr>
       </thead>
 
@@ -57,6 +58,15 @@ content_for(:body_classes, 'events show event-' + @event.name.parameterize)
             <td><%= attendee.planned_start ? l(attendee.planned_start, format: date_format) : '' %></td>
             <td><%= attendee.planned_arrival ? l(attendee.planned_arrival, format: date_format) : '' %></td>
             <td class="numeric"><%= attendee.seats %></td>
+            <td>
+              <% if (current_user.try(:user_id) == attendee.user_id and not current_user.blank?) or current_user.try(:admin?) %>
+                <%= cf_link_to '', edit_event_attendee_path(@event, attendee), class: 'icon-edit-event' %>
+              <% end %>
+
+              <% if current_user.try(:admin?) %>
+                <%= cf_button_to event_attendee_path(@event, attendee), method: :delete, class: 'icon-delete-event' %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
 
@@ -64,6 +74,7 @@ content_for(:body_classes, 'events show event-' + @event.name.parameterize)
           <tr>
             <th colspan="4"><%= t('events.attendees_num') %></th>
             <th class="numeric"><%= @event.attendees.length %></th>
+            <th> </th>
           </tr>
         </tfoot>
       </tbody>

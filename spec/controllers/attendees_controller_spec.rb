@@ -53,16 +53,98 @@ RSpec.describe AttendeesController, type: :controller do
     end
   end
 
+  describe "GET #edit" do
+    let(:attendee) { create(:attendee, event: event, user: user) }
+    before(:each) { sign_in user }
+
+    it "assigns the requested event as @event" do
+      get :edit, event_id: event.to_param, id: attendee.to_param
+      expect(assigns(:event)).to eq(event)
+    end
+
+    it "assigns the requested attendee as @attendee" do
+      get :edit, event_id: event.to_param, id: attendee.to_param
+      expect(assigns(:attendee)).to eq(attendee)
+    end
+  end
+
+
+  describe "PUT #update" do
+    context "with valid params" do
+      let(:attendee) { create(:attendee, event: event, user: user) }
+      let(:new_attributes) {
+        {comment: 'Foo bar'}
+      }
+
+      before(:each) do
+        attendee
+        sign_in user
+      end
+
+      it "updates the requested attendee" do
+        put :update, event_id: event.to_param, id: attendee.to_param, attendee: new_attributes
+        attendee.reload
+        expect(attendee.comment).to eql('Foo bar')
+      end
+
+      it "assigns the requested event as @event" do
+        put :update, event_id: event.to_param, id: attendee.to_param, attendee: new_attributes
+        expect(assigns(:event)).to eq(event)
+      end
+
+      it "assigns the requested attendee as @attendee" do
+        put :update, event_id: event.to_param, id: attendee.to_param, attendee: new_attributes
+        attendee.reload
+        expect(assigns(:attendee)).to eq(attendee)
+      end
+
+      it "redirects to the event" do
+        put :update, event_id: event.to_param, id: attendee.to_param, attendee: new_attributes
+        expect(response).to redirect_to(event)
+      end
+    end
+
+    context "with invalid params" do
+      let(:attendee) { create(:attendee, event: event, user: user) }
+      let(:invalid_attributes) { { planned_arrival: '' } }
+
+      before(:each) do
+        attendee
+        sign_in user
+      end
+
+      it "assigns the event as @event" do
+        put :update, event_id: event.to_param, id: attendee.to_param, attendee: invalid_attributes
+        expect(assigns(:event)).to eq(event)
+      end
+
+      it "assigns the attendee as @attendee" do
+        put :update, event_id: event.to_param, id: attendee.to_param, attendee: invalid_attributes
+        expect(assigns(:attendee)).to eq(attendee)
+      end
+
+      it "re-renders the 'edit' template" do
+        put :update, event_id: event.to_param, id: attendee.to_param, attendee: invalid_attributes
+        expect(response).to render_template("edit")
+      end
+    end
+  end
+
+
   describe "DELETE #destroy" do
+    let(:attendee) { create(:attendee, event: event, user: user) }
+    before(:each) do
+      attendee # ugly but necessary, due to lazyness
+      sign_in user
+    end
+
     it "destroys the requested attendee" do
-      attendee = create(:attendee, event: event)
       expect {
         delete :destroy, event_id: event.event_id, id: attendee.to_param
       }.to change(Attendee, :count).by(-1)
     end
 
     it "redirects to the event" do
-      attendee = create(:attendee, event: event)
       delete :destroy, event_id: event.event_id, id: attendee.to_param
       expect(response).to redirect_to(event)
     end

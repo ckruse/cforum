@@ -9,7 +9,13 @@ de:
     map: Karte
     attendees_num: Anzahl Teilnehmer
 
-    atendees:
+    attendees:
+      created: Ihre Teilnahme wurde erfolgreich angemeldet.
+      updated: Ihre Teilnahme wurde erfolgreich geändert.
+      destroyed: Ihre Teilnahme wurde erfolgreich gelöscht.
+
+      edit: Teilnahme bearbeiten
+
       error_message:
         other: "%{count} Fehler verhinderten, dass die Teilnahme gespeichert werden konnte:"
         one: "%{count} Fehler verhindert, dass die Teilnahme gespeichert werden konnte:"
