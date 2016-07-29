@@ -33,6 +33,10 @@ content_for(:body_classes, 'events show event-' + @event.name.parameterize)
     <h3><%= t('events.attendee_list', count: @event.attendees.length) %></h3>
 
     <ol>
+      <% if @event.attendees.blank? %>
+      <li class="no-data"><%= t('events.no_attendees') %></li>
+      <% end %>
+
       <% @event.attendees.each do |attendee| %>
       <li>
         <dl>
