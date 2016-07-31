@@ -11,4 +11,15 @@ RSpec.describe "events/show", type: :view do
     expect(rendered).to match(@event.name)
     expect(rendered).to match(@event.location)
   end
+
+  it "links to new attendee path when event is open" do
+    render
+    expect(rendered).to have_selector("a[href='" + new_event_attendee_path(@event) + "']")
+  end
+
+  it "doesn't link to new attendee path when event is not open" do
+    @event.visible = false
+    render
+    expect(rendered).not_to have_selector("a[href='" + new_event_attendee_path(@event) + "']")
+  end
 end

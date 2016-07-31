@@ -44,7 +44,7 @@ content_for(:body_classes, 'events show event-' + @event.name.parameterize)
       <% end %>
     </ol>
 
-    <% unless @event.is_attendee(current_user) %>
+    <% if not @event.is_attendee(current_user) and @event.is_open? %>
       <p><%= cf_link_to t('events.attend'), new_event_attendee_path(@event), class: 'cf-primary-btn' %></p>
     <% end %>
   </section>

@@ -150,4 +150,40 @@ RSpec.describe AttendeesController, type: :controller do
     end
   end
 
+  describe "forbids access for closed events" do
+    let(:cevent) { create(:event, start_date: Date.today - 3, end_date: Date.today - 3) }
+    let(:attendee) { create(:attendee, event: cevent, user: user) }
+    before(:each) { sign_in user }
+
+    it "forbids #new for closed events" do
+      expect {
+        get :new, event_id: cevent.event_id
+      }.to raise_error(CForum::ForbiddenException)
+    end
+
+    it "forbids #create for closed events" do
+      expect {
+        post :create, event_id: cevent.event_id, attendee: attributes_for(:attendee)
+      }.to raise_error(CForum::ForbiddenException)
+    end
+
+    it "forbids #edit for closed events" do
+      expect {
+        get :edit, event_id: cevent.event_id, id: attendee.attendee_id
+      }.to raise_error(CForum::ForbiddenException)
+    end
+
+    it "forbids #update for closed events" do
+      expect {
+        put :update, event_id: cevent.event_id, id: attendee.attendee_id, attendee: attributes_for(:attendee)
+      }.to raise_error(CForum::ForbiddenException)
+    end
+    
+    it "forbids #destroy for closed events" do
+      expect {
+        delete :destroy, event_id: cevent.event_id, id: attendee.attendee_id
+      }.to raise_error(CForum::ForbiddenException)
+    end
+  end
+
 end

@@ -2,6 +2,15 @@ class AttendeesController < ApplicationController
   before_action :set_attendee, only: [:destroy, :edit, :update]
   before_action :set_event
 
+  authorize_controller do
+    set_event
+    if @event.is_open?
+      true
+    else
+      false
+    end
+  end
+
   authorize_action([:destroy, :edit, :update]) do
     set_attendee
     if @attendee.user_id == current_user.try(:user_id) and not current_user.blank?
