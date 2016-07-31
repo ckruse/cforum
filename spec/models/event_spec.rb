@@ -18,6 +18,18 @@ RSpec.describe Event, type: :model do
     expect(Event.new(name: 'Foo', description: 'bar', start_date: Time.zone.now)).to be_invalid
   end
 
+  context "is_attendee" do
+    let(:user) { create(:user) }
+    let(:attendee) { create(:attendee, user: user) }
+
+    it "returns the attendee for is_attendee" do
+      expect(attendee.event.is_attendee(user)).to eql attendee
+    end
+    it "returns nil when user is not an attendee" do
+      expect(attendee.event.is_attendee(create(:user))).to be_nil
+    end
+  end
+
   context "is_open?" do
     it "returns true when the event is open and visible" do
       expect(build(:event).is_open?).to be true
