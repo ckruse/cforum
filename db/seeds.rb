@@ -24,7 +24,7 @@
 # s.save
 
 unless User.where(username: "admin").exists?
-  usr = User.new(username: 'admin', email: 'foo@example.org', admin: true)
+  usr = User.new(username: 'admin', email: 'foo@example.org', password: "admin", admin: true)
   usr.skip_confirmation!
   usr.save!(validate: false)
 end
