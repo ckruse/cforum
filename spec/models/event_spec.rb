@@ -17,4 +17,19 @@ RSpec.describe Event, type: :model do
   it "is invalid w/o end_date" do
     expect(Event.new(name: 'Foo', description: 'bar', start_date: Time.zone.now)).to be_invalid
   end
+
+  context "is_open?" do
+    it "returns true when the event is open and visible" do
+      expect(build(:event).is_open?).to be true
+    end
+    it "returns false when the event is not open" do
+      expect(build(:event, start_date: Date.today - 3, end_date: Date.today - 4).is_open?).to be false
+    end
+    it "returns false when the event is invisible" do
+      expect(build(:event, visible: false).is_open?).to be false
+    end
+    it "returns true when the event has started but not ended" do
+      expect(build(:event, start_date: Date.today - 3, end_date: Date.today + 3).is_open?).to be true
+    end
+  end
 end

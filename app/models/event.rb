@@ -21,6 +21,12 @@ class Event < ActiveRecord::Base
     return if user.blank?
     attendees.find { |u| user.user_id == u.user_id }
   end
+
+  def is_open?
+    return false unless visible
+    return false if end_date < Date.today
+    true
+  end
 end
 
 # eof
