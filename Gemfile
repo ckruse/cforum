@@ -38,7 +38,6 @@ group :development, :test do
   gem 'puma'
   gem 'active_record_query_trace'
   gem 'terminal-notifier-guard'
-  gem 'libnotify'
 end
 
 gem 'simplecov', require: false, group: :test

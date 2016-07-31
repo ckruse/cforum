@@ -130,8 +130,6 @@ GEM
     kramdown (1.11.1)
     launchy (2.4.3)
       addressable (~> 2.3)
-    libnotify (0.9.1)
-      ffi (>= 1.0.11)
     libv8 (3.16.14.15)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -321,7 +319,6 @@ DEPENDENCIES
   jquery-ui-rails
   kaminari
   kramdown
-  libnotify
   listen (~> 3.0.7)
   negative_captcha
   paperclip
