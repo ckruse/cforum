@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class AttendeesController < ApplicationController
   before_action :set_attendee, only: [:destroy, :edit, :update]
   before_action :set_event
@@ -36,6 +38,7 @@ class AttendeesController < ApplicationController
     end
 
     if @attendee.save
+      notify_admins_about_attendee
       redirect_to @event, notice: t('events.attendees.created')
     else
       render :new
@@ -63,6 +66,7 @@ class AttendeesController < ApplicationController
   # DELETE /attendees/1
   def destroy
     @attendee.destroy
+    unnotify_admins
     redirect_to @event, notice: t('events.attendees.destroyed')
   end
 
@@ -80,4 +84,24 @@ class AttendeesController < ApplicationController
   def attendee_params
     params.require(:attendee).permit(:name, :comment, :starts_at, :planned_start, :planned_arrival, :planned_leave, :seats)
   end
+
+  def notify_admins_about_attendee
+    admins = User.where(admin: true).all
+    
+    admins.each do |admin|
+      notify_user(
+        user: admin,
+        subject: t('events.attendees.new_attendee_notification', attendee: @attendee.name, event: @event.name),
+        path: event_path(@event),
+        oid: @attendee.attendee_id,
+        otype: 'attendee:create'
+      )
+    end
+  end
+
+  def unnotify_admins
+    Notification.where(oid: @attendee.attendee_id, otype: "attendee:create", is_read: false).delete_all
+  end
 end
+
+# eof

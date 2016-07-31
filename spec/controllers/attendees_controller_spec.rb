@@ -38,6 +38,13 @@ RSpec.describe AttendeesController, type: :controller do
           post :create, event_id: event.event_id, attendee: attributes_for(:attendee, name: nil)
         }.to change(Attendee, :count).by(1)
       end
+
+      it "notifies all admins" do
+        create(:user_admin)
+        expect {
+          post :create, event_id: event.event_id, attendee: attributes_for(:attendee)
+        }.to change(Notification, :count).by(1)
+      end
     end
 
     context "with invalid params" do
@@ -147,6 +154,20 @@ RSpec.describe AttendeesController, type: :controller do
     it "redirects to the event" do
       delete :destroy, event_id: event.event_id, id: attendee.to_param
       expect(response).to redirect_to(event)
+    end
+
+    it "unnotifies admins" do
+      admin = create(:user_admin)
+      Notification.create!(oid: attendee.attendee_id,
+                           otype: "attendee:create",
+                           is_read: false,
+                           path: "/foo/bar/baz",
+                           subject: "Bar",
+                           recipient_id: admin.user_id)
+
+      expect {
+        delete :destroy, event_id: event.event_id, id: attendee.to_param
+      }.to change(Notification, :count).by(-1)
     end
   end
 

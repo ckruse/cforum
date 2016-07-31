@@ -19,6 +19,8 @@ de:
 
       edit: Teilnahme bearbeiten
 
+      new_attendee_notification: „%{attendee}” hat sich am Ereignis „%{event}” angemeldet!
+
       placeholders:
         starts_at: Steinfurt
         comment: Freue mich auf das Treffen!
