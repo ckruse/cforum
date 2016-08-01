@@ -6,9 +6,11 @@ describe Messages::InterestingController do
   let(:message) { create(:message) }
   let(:user) { create(:user) }
 
-  it "should mark interesting" do
+  before(:each) do
     sign_in user
+  end
 
+  it "should mark interesting" do
     post :mark_interesting, message_params_from_slug(message)
 
     expect(flash[:error]).to be_nil
@@ -17,8 +19,6 @@ describe Messages::InterestingController do
   end
 
   it "should mark boring" do
-    sign_in user
-
     InterestingMessage.create!(user_id: user.user_id,
                                  message_id: message.message_id)
 
@@ -30,8 +30,6 @@ describe Messages::InterestingController do
   end
 
   it "should list interesting messages" do
-    sign_in user
-
     InterestingMessage.create!(user_id: user.user_id,
                                  message_id: message.message_id)
 

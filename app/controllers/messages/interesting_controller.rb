@@ -10,12 +10,6 @@ class Messages::InterestingController < ApplicationController
   include SearchHelper
 
   def mark_interesting
-    if current_user.blank?
-      flash[:error] = t('global.only_as_user')
-      redirect_to cf_return_url
-      return
-    end
-
     @thread, @message, @id = get_thread_w_post
 
     begin
@@ -32,12 +26,6 @@ class Messages::InterestingController < ApplicationController
   end
 
   def mark_boring
-    if current_user.blank?
-      flash[:error] = t('global.only_as_user')
-      redirect_to cf_return_url
-      return
-    end
-
     @thread, @message, @id = get_thread_w_post
 
     im = InterestingMessage.where(message_id: @message.message_id,
