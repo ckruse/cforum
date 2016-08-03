@@ -38,6 +38,7 @@ class Admin::UsersController < ApplicationController
 
   def update
     if @user.update_attributes(user_params)
+      audit(@user, 'update')
       redirect_to edit_admin_user_url(@user), notice: I18n.t('admin.users.updated')
     else
       render :edit
@@ -50,9 +51,9 @@ class Admin::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    audit(@user, 'create')
 
     if @user.save
+      audit(@user, 'create')
       redirect_to edit_admin_user_url(@user), notice: I18n.t('admin.users.created')
     else
       render :new
