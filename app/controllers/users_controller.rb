@@ -153,7 +153,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @messages_count = Message.where(user_id: @user.user_id).count()
 
-    @settings = Setting.find_by_user_id(@user.user_id)
+    @settings = Setting.where(user_id: @user.user_id).first
     @settings = Setting.new if @settings.blank?
 
     @settings.user_id = @user.user_id
