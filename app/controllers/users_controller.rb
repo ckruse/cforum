@@ -175,7 +175,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if saved
-        sign_in @user, :bypass => true
+        bypass_sign_in @user
 
         format.html { redirect_to edit_user_path(@user), notice: I18n.t('users.updated') }
         format.json { head :no_content }
