@@ -43,6 +43,8 @@ end
 gem 'simplecov', require: false, group: :test
 gem 'spring', group: :development
 
+gem 'libnotify', group: :development, require: RUBY_PLATFORM.include?('linux') && 'libnotify'
+
 gem 'sass-rails', '> 4.0.0'
 gem 'sprockets', '~> 3.6.3'
 gem 'coffee-rails'
