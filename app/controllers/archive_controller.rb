@@ -90,12 +90,12 @@ class ArchiveController < ApplicationController
     end
 
 
-    @month = Date.civil(params[:year].to_i, month_num, 1)
+    @month = Time.zone.parse(params[:year].to_i.to_s + "-" + month_num.to_s + "-01 00:00")
+    last_day_of_month = @month.end_of_month
 
     _, @threads = get_threads(current_forum, order, current_user, false, archived: true)
     @threads = @threads.
-               where("DATE_TRUNC('month', threads.created_at) = ?",
-                     params[:year] + '-' + sprintf("%02d", month_num.to_i) + '-01 00:00').
+               where("threads.created_at BETWEEN ? AND ?", @month, last_day_of_month).
                page(@page).
                per(@limit)
 
