@@ -31,28 +31,23 @@ class Admin::GroupsController < ApplicationController
     @users = []
     @users = User.find(params[:users]) unless params[:users].blank?
 
-    @forums_groups_permissions = []
-    if not params[:forums].blank? and not params[:permissions].blank?
-      (params[:forums].length - 1).times do |i|
-        next if params[:forums][i].blank? or params[:permissions][i].blank?
-
-        @forums_groups_permissions << [params[:forums][i],params[:permissions][i]]
-      end
-    end
-
     saved = false
     Group.transaction do
       raise ActiveRecord::Rollback.new unless @group.update_attributes(group_params)
 
       @group.group_users.clear
       @users.each do |u|
-        raise ActiveRecord::Rollback.new unless GroupUser.create(group_id: @group.group_id, user_id: u.user_id)
+        @group.group_users.create!(user_id: u.user_id)
       end
 
       @group.forums_groups_permissions.clear
-      @forums_groups_permissions.each do |fgp|
-        @group.forums_groups_permissions.create!(forum_id: fgp[0],
-                                                 permission: fgp[1])
+      if not params[:forums].blank? and not params[:permissions].blank?
+        params[:forums].each_with_index do |forum, i|
+          next if forum.blank? or params[:permissions][i].blank?
+
+          @group.forums_groups_permissions.create!(forum_id: forum,
+                                                   permission: params[:permissions][i])
+        end
       end
 
       saved = true
@@ -79,28 +74,20 @@ class Admin::GroupsController < ApplicationController
     @users = []
     @users = User.find(params[:users]) unless params[:users].blank?
 
-    @forums_groups_permissions = []
-    if not params[:forums].blank? and not params[:permissions].blank?
-      (params[:forums].length - 1).times do |i|
-        next if params[:forums][i].blank? or params[:permissions][i].blank?
-
-        @forums_groups_permissions << ForumGroupPermission.new(
-          forum_id: params[:forums][i],
-          permission: params[:permissions][i]
-        )
-      end
-    end
-
     saved = false
     Group.transaction do
       raise ActiveRecord::Rollback.new unless @group.save
 
       @users.each do |u|
-        raise ActiveRecord::Rollback.new unless GroupUser.create(group_id: @group.group_id, user_id: u.user_id)
+        @group.group_users.create!(user_id: u.user_id)
+      end
 
-        @forums_groups_permissions.each do |fgp|
-          fgp.group_id = @group.group_id
-          fgp.save!
+      if not params[:forums].blank? and not params[:permissions].blank?
+        params[:forums].each_with_index do |forum, i|
+          next if forum.blank? or params[:permissions][i].blank?
+          @group.forums_groups_permissions.create!(forum_id: forum,
+                                                   permission: params[:permissions][i])
+
         end
       end
 
