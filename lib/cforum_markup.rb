@@ -160,14 +160,16 @@ module CforumMarkup
 
       elsif doc.scan(/\[\/code\]/)
         if code_open > 0
-          top = code_stack.pop
+          if code_open <= 1 # only close code when this [/code] is the last one
+            top = code_stack.pop
 
-          if not top.blank? # broken markup
-            if ncnt =~ /\n/
-              ncnt = top[0] + top[1] + ncnt + "\n" + ("> " * in_quote) + "~~~"
-            else
-              ncnt = top[0] + "`" + ncnt + "`"
-              ncnt << '{:.language-' + top[2] + '}' unless top[2].blank?
+            if not top.blank? # broken markup
+              if ncnt =~ /\n/
+                ncnt = top[0] + top[1] + ncnt + "\n" + ("> " * in_quote) + "~~~"
+              else
+                ncnt = top[0] + "`" + ncnt + "`"
+                ncnt << '{:.language-' + top[2] + '}' unless top[2].blank?
+              end
             end
           end
 

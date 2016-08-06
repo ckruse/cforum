@@ -119,6 +119,11 @@ RSpec.describe CforumMarkup do
       content = "[code lang=html]&lt;!--[if !(IE 6)]&gt;&lt;!--&gt;&lt;p&gt;nicht für IE 6&lt;/p&gt;&lt;!--&lt;![endif]--&gt;[/code]"
       expect(cforum2markdown(content)).to eq("`<!--[if !(IE 6)]><!--><p>nicht für IE 6</p><!--<![endif]-->`{:.language-html}")
     end
+
+    it "converts code in code correctly as in m1627963" do
+      content = "[code lang=html]&lt;?php [code lang=php]if (!empty($row[12])):[/code] ?&gt;<br />  &lt;div id=&quot;&lt;?php [code lang=php]echo $row[8];[/code] ?&gt;d1_nebenzeilen&quot;&gt;&lt;br&gt;&lt;?php [code lang=php]echo $row[12];[/code] ?&gt;&lt;/div&gt;<br />&lt;?php [code lang=php]endif;[/code] ?&gt;[/code]<br /><br />Was soll das [code lang=html]&lt;br&gt;[/code]"
+      expect(cforum2markdown(content)).to eql("\n\n~~~ html\n<?php if (!empty($row[12])): ?>  \n  <div id=\"<?php echo $row[8]; ?>d1_nebenzeilen\"><br><?php echo $row[12]; ?></div>  \n<?php endif; ?>\n\n~~~\n\nWas soll das `<br>`{:.language-html}")
+    end
   end
 
   describe "special foo" do
