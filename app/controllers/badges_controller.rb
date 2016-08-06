@@ -31,9 +31,9 @@ class BadgesController < ApplicationController
 
     had_one = false
     notifications = Notification.where(otype: 'badge',
-                                         oid: badge.badge_id,
-                                         recipient_id: current_user.user_id,
-                                         is_read: false).all
+                                       oid: badge.badge_id,
+                                       recipient_id: current_user.user_id,
+                                       is_read: false).all
 
     notifications.each do |n|
       n.is_read = true
