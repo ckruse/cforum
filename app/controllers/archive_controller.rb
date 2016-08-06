@@ -53,7 +53,7 @@ class ArchiveController < ApplicationController
       last_month = last_month.first.created_at
 
       q = ""
-      q = "forum_id = #{current_forum.forum_id} AND " unless current_forum.blank?
+      q << "forum_id = #{current_forum.forum_id} AND " unless current_forum.blank?
       q << 'deleted = false AND ' unless @view_all
       mon = first_month
       loop do
