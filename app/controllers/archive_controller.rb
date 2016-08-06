@@ -62,7 +62,7 @@ class ArchiveController < ApplicationController
         end
 
         break if mon.month == last_month.month
-        mon = Date.civil(mon.year, mon.month + 1, mon.day)
+        mon = Time.zone.parse(mon.year.to_s + "-" + (mon.month + 1).to_s + "-" + mon.day.to_s + " 00:00:00")
       end
     end
   end
