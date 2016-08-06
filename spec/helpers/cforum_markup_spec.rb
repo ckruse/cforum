@@ -114,6 +114,11 @@ RSpec.describe CforumMarkup do
     it "converts inline code w/o lang"
     it "converts inline code with lang"
     it "fixes code in quotes"
+
+    it "converts conditional comments like in m1308019" do
+      content = "[code lang=html]&lt;!--[if !(IE 6)]&gt;&lt;!--&gt;&lt;p&gt;nicht für IE 6&lt;/p&gt;&lt;!--&lt;![endif]--&gt;[/code]"
+      expect(cforum2markdown(content)).to eq("`<!--[if !(IE 6)]><!--><p>nicht für IE 6</p><!--<![endif]-->`{:.language-html}")
+    end
   end
 
   describe "special foo" do

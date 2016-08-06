@@ -149,6 +149,11 @@ module CforumMarkup
           end
 
           code_open += 1
+        else
+          ncnt << "[#{directive}#{colon}"
+          doc.pos = save
+          consecutive_newlines = 0
+          next
         end
 
         consecutive_newlines = 0
