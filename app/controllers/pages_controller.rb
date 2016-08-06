@@ -3,8 +3,8 @@
 class PagesController < ApplicationController
   def help
     @moderators = User.
-                  where("admin = true OR user_id IN (SELECT user_id FROM groups_users WHERE group_id IN (SELECT group_id FROM forums_groups_permissions WHERE permission = ?))",
-                        ForumGroupPermission::ACCESS_MODERATE).
+                  where("admin = true OR user_id IN (SELECT user_id FROM groups_users WHERE group_id IN (SELECT group_id FROM forums_groups_permissions WHERE permission = ?)) OR user_id IN (SELECT user_id FROM badges_users INNER JOIN badges USING(badge_id) WHERE badge_type = ?)",
+                        ForumGroupPermission::ACCESS_MODERATE, Badge::MODERATOR_TOOLS).
                   order(:username)
 
     @badge_groups = BadgeGroup.preload(:badges).order(:name).all
