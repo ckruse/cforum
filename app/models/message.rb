@@ -30,8 +30,8 @@ class Message < ActiveRecord::Base
   validates_length_of :content, in: 10..12288, allow_blank: true, message: I18n.t('messages.error_present', min: 10, max: 12288)
 
   validates :email, length: {in: 6..60 }, email: true, allow_blank: true
-  validates :homepage, length: {in: 2..250 }, allow_blank: true, url: {allow_blank: true, allow_nil: true}
-  validates :problematic_site, length: {in: 2..250 }, allow_blank: true, url: {allow_blank: true, allow_nil: true}
+  validates :homepage, length: {in: 2..250 }, allow_blank: true, url: {allow_blank: true, allow_nil: true, message: I18n.t("messages.error_url")}
+  validates :problematic_site, length: {in: 2..250 }, allow_blank: true, url: {allow_blank: true, allow_nil: true, message: I18n.t("messages.error_url")}
 
   has_many :votes, class_name: 'CloseVote', foreign_key: :message_id
 

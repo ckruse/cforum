@@ -91,6 +91,7 @@ de:
     infos_for_scoring: Informationen zu den Bewertungsregeln
 
     error_present: muss angegeben werden (mindestens %{min}, maximal %{max} Zeichen).
+    error_url: muss eine gültige URL sein.
 
     this_message_got_cited: "Grundlage für %{link}"
     delete_previous_versions: Vorherige Versionen löschen
