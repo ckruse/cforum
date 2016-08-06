@@ -33,6 +33,7 @@ group :development, :test do
   gem 'poltergeist'
   gem 'capybara'
   gem 'capybara-screenshot'
+  gem 'email_spec'
   gem 'spring-commands-rspec'
   gem 'guard-rspec'
   gem 'puma'

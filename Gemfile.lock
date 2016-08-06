@@ -80,6 +80,10 @@ GEM
     diff-lcs (1.2.5)
     diffy (3.1.0)
     docile (1.1.5)
+    email_spec (2.1.0)
+      htmlentities (~> 4.3.3)
+      launchy (~> 2.1)
+      mail (~> 2.6.3)
     email_validator (1.6.0)
       activemodel
     erubis (2.7.0)
@@ -310,6 +314,7 @@ DEPENDENCIES
   devise
   devise-i18n
   diffy
+  email_spec
   email_validator
   exception_notification
   factory_girl_rails
