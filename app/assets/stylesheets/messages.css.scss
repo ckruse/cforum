@@ -182,7 +182,6 @@ main h2 { margin-left:0; }
   & > .posting-header > .voting, & > .posting-footer > .voting {
     text-align: right;
     vertical-align: bottom;
-    padding-right: .5em;
     white-space: nowrap;
 
     .icon-vote-down::before,
@@ -476,27 +475,29 @@ blockquote.show-quotes .unfold {
   }
 
   .thread-message {
-    margin: 1em 1em 1em 0em;
-    padding: 0.6em 0px 0.25em 1em;
+    margin: 1em 1em 1em 0;
+    padding: 0.6em 1em 0.25em 1em;
     max-width: 100%;
     max-width: 95vw;
     width: 55em;
 
     .posting-header, .posting-footer {
       display:flex;
-      flex-direction: row;
       align-items: flex-end;
 
-      header, .message-links { flex-grow:1; }
+      header, .message-links { flex:1 1 auto; }
+      .voting { flex:1 1 auto; }
     }
 
     .posting-footer {
       align-items: flex-start;
-      .voting { order:1; }
+      .voting {
+        order:1;
+        flex: 0 0 auto;
+      }
     }
 
     .posting-content {
-      width: 95%;
       padding: 0.8em 1em 1em;
     }
   }
