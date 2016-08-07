@@ -31,7 +31,8 @@ class Peon::Tasks::NotifyFlaggedTask < Peon::Tasks::PeonTask
                    )
 
         if uconf('notify_on_flagged', u, @message.forum) == 'email'
-          NotifyFlaggedMailer.new_flagged(u, @message).deliver_now
+          NotifyFlaggedMailer.new_flagged(u, @message,
+                                          message_path(@message.thread, @message, view_all: "yes")).deliver_now
         end
       end
     end

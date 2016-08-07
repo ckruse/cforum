@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 class NotifyFlaggedMailer < ActionMailer::Base
-  def new_flagged(user, message)
+  def new_flagged(user, message, url)
     @user    = user
     @message = message
+    @url     = url
 
     mail(
       from: Rails.application.config.mail_sender,
