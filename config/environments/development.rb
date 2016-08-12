@@ -48,6 +48,7 @@ Cforum::Application.configure do
   config.ws_url = "//localhost:9090/"
   config.internal_faye_url = 'http://localhost:9090/message'
 
+  # these are fake; replace by real auth data!
   config.twitter = {
     consumer_key: "hdTBZKmdNuaIjf8ksZqdyTUzb",
     consumer_secret: "14q0aZOBbBj16sQtUfrDKzNqz4PDnTP81hp06FbUb4KPlnMGB1"
