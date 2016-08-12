@@ -248,3 +248,10 @@ de:
       error_message:
         other: "%{count} Fehler verhinderten, dass dieses Ereignis gespeichert werden konnte:"
         one: "%{count} Fehler verhindert, dass dieses Ereignis gespeichert werden konnte:"
+
+    twitter:
+      twitter: Twitter-Authentifizierung
+      authorized: Die Twitter-Authentifizierung wurde erfolgreich beendet.
+      authorize_failed: Die Twitter-Authentifizierung ist fehlgeschlagen!
+      start_authorization: Twitter-Authentifizierung starten
+      logged_in_as: Das Forum ist bei Twitter authentifiziert als <strong>%{name}</strong>.

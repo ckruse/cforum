@@ -190,6 +190,7 @@ controls ||= :yes
           <% end %>
 
           <% if current_user and current_user.moderate?(current_forum) %>
+            <li><%= cf_link_to t('plugins.twitter.tweet_message'), tweet_message_path(@thread, m) %></li>
             <% if @view_all %>
               <li>
                 <% if m.deleted? %>

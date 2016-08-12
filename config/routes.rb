@@ -78,6 +78,10 @@ Cforum::Application.routes.draw do
 
     get '/jobs' => 'jobs#index'
 
+    get '/twitter' => 'twitter#edit', as: :twitter
+    post '/twitter' => 'twitter#authorize'
+    get '/twitter/callback' => 'twitter#callback', as: :twitter_callback
+
     root to: "users#index"
   end
 
@@ -220,6 +224,11 @@ Cforum::Application.routes.draw do
 
     get '/:year/:mon/:day/:tid/:mid/versions' => 'messages#versions',
         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'message_versions'
+
+    get '/:year/:mon/:day/:tid/:mid/tweet' => 'messages/twitter#new',
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: :tweet_message
+    post '/:year/:mon/:day/:tid/:mid/tweet' => 'messages/twitter#create',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
     #
     # new and create messages

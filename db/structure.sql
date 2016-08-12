@@ -1800,6 +1800,37 @@ ALTER SEQUENCE threads_thread_id_seq OWNED BY threads.thread_id;
 
 
 --
+-- Name: twitter_authorizations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE twitter_authorizations (
+    twitter_authorization_id integer NOT NULL,
+    user_id integer,
+    token text NOT NULL,
+    secret text NOT NULL
+);
+
+
+--
+-- Name: twitter_authorizations_twitter_authorization_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE twitter_authorizations_twitter_authorization_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: twitter_authorizations_twitter_authorization_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE twitter_authorizations_twitter_authorization_id_seq OWNED BY twitter_authorizations.twitter_authorization_id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2133,6 +2164,13 @@ ALTER TABLE ONLY tags ALTER COLUMN tag_id SET DEFAULT nextval('tags_tag_id_seq':
 --
 
 ALTER TABLE ONLY threads ALTER COLUMN thread_id SET DEFAULT nextval('threads_thread_id_seq'::regclass);
+
+
+--
+-- Name: twitter_authorization_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY twitter_authorizations ALTER COLUMN twitter_authorization_id SET DEFAULT nextval('twitter_authorizations_twitter_authorization_id_seq'::regclass);
 
 
 --
@@ -2523,6 +2561,22 @@ ALTER TABLE ONLY tags
 
 ALTER TABLE ONLY threads
     ADD CONSTRAINT threads_pkey PRIMARY KEY (thread_id);
+
+
+--
+-- Name: twitter_authorizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY twitter_authorizations
+    ADD CONSTRAINT twitter_authorizations_pkey PRIMARY KEY (twitter_authorization_id);
+
+
+--
+-- Name: twitter_authorizations_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY twitter_authorizations
+    ADD CONSTRAINT twitter_authorizations_user_id_key UNIQUE (user_id);
 
 
 --
@@ -3503,6 +3557,14 @@ ALTER TABLE ONLY threads
 
 
 --
+-- Name: twitter_authorizations_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY twitter_authorizations
+    ADD CONSTRAINT twitter_authorizations_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: votes_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3715,4 +3777,6 @@ INSERT INTO schema_migrations (version) VALUES ('94');
 INSERT INTO schema_migrations (version) VALUES ('95');
 
 INSERT INTO schema_migrations (version) VALUES ('96');
+
+INSERT INTO schema_migrations (version) VALUES ('97');
 

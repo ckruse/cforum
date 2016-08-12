@@ -48,5 +48,10 @@ Cforum::Application.configure do
   config.ws_url = "//localhost:9090/"
   config.internal_faye_url = 'http://localhost:9090/message'
 
+  config.twitter = {
+    consumer_key: "hdTBZKmdNuaIjf8ksZqdyTUzb",
+    consumer_secret: "14q0aZOBbBj16sQtUfrDKzNqz4PDnTP81hp06FbUb4KPlnMGB1"
+  }
+
   #config.allow_concurrency = true
 end

@@ -78,3 +78,10 @@ de:
       unflag_message: Markierung entfernen
       message_is_flagged: "Dieser Beitrag wurde gemeldet. Angegebener Grund: %{reason}"
       duplicate_message: Doppelpost
+
+    twitter:
+      tweet_message: "Twittern"
+      tweet: "Beitrag twittern: %{subject} von %{author}"
+      tweet_text: Tweet-Text
+      twitter_text: "SELFHTML-Forum: %{subject} von %{author} %{url}"
+      tweeted: Der Tweet wurde erfolgreich erstellt.
