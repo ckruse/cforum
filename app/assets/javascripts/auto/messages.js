@@ -359,6 +359,52 @@ cforum.messages = {
 
     checkLength();
     minput.on('keyup', checkLength);
+  },
+
+  twitter: {
+    new: function() {
+      var minput = $("#tweet_text");
+      var maxLen = 140;
+
+      if(!minput.length) {
+        return;
+      }
+
+      minput.before("<div class=\"twitter-character-count-container\"><span class=\"twitter-message-character-count\"></span></div>");
+      var mcount = $(".twitter-message-character-count");
+
+      var cleanup = function(text) {
+        text = text.replace(/\015\012|\012|\015/g, "\012");
+        // this is naive but enough for a length check
+        text = text.replace(/https?:\/\/[a-zA-Z0-9:\/&+_,;%-]+/g, '');
+        text = text.replace(/#[a-zA-Z0-9]+/g, "");
+
+        return text;
+      };
+
+      var checkLength = function() {
+        var val = cleanup(minput.val());
+        var len = val.length;
+
+        mcount.text(len + " / " + maxLen);
+
+        if(len >= maxLen) {
+          minput.addClass('length-error').removeClass('length-warning');
+          mcount.addClass('length-error').removeClass('length-warning');
+        }
+        else if(len >= maxLen - 40) {
+          minput.addClass('length-warning').removeClass('length-error');
+          mcount.addClass('length-warning').removeClass('length-error');
+        }
+        else {
+          minput.removeClass('length-warning').removeClass('length-error');
+          mcount.removeClass('length-warning').removeClass('length-error');
+        }
+      };
+
+      checkLength();
+      minput.on('keyup', checkLength);
+    }
   }
 };
 

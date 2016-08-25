@@ -1,0 +1,19 @@
+/* -*- coding: utf-8 -*- */
+
+.twitter-character-count-container {
+  padding-bottom:.15em;
+
+  width: 100%;
+  max-width: calc(400px + 2%); // width + text area padding
+
+  text-align:right;
+
+  .twitter-message-character-count {
+    background: #f5f5f5;
+    padding: 0.25em;
+    border-radius: 4px 4px 0 0;
+    border: 1px solid #D5D5D5;
+  }
+}
+
+/* eof */
