@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class Messages::TwitterController < ApplicationController
   authorize_controller { authorize_forum(permission: :moderator?) }
   before_filter :load_ressource
@@ -37,3 +39,5 @@ class Messages::TwitterController < ApplicationController
     @thread, @message, @id = get_thread_w_post
   end
 end
+
+# eof
