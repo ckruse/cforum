@@ -80,7 +80,7 @@ de:
       duplicate_message: Doppelpost
 
     twitter:
-      tweet_message: "Twittern"
+      tweet_message: twittern
       tweet: "Beitrag twittern: %{subject} von %{author}"
       tweet_text: Tweet-Text
       twitter_text: "SELFHTML-Forum: %{subject} von %{author} %{url}"
