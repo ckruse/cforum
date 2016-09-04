@@ -9,7 +9,7 @@ content_for :h1, t('plugins.twitter.tweet', subject: @message.subject, author: @
     <label><%= t('plugins.twitter.tweet_text') %></label>
 
     <div class="cntrls">
-      <%= text_field_tag :tweet_text, @tweet_text %>
+      <%= text_area_tag :tweet_text, @tweet_text %>
     </div>
   </div>
 
