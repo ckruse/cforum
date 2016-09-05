@@ -420,12 +420,12 @@ blockquote.show-quotes .unfold {
   top:.5em;
 }
 
-#message_input.length-warning, .message-character-count.length-warning {
+textarea.length-warning, .message-character-count.length-warning, .twitter-message-character-count.length-warning {
   color: #8a6d3b;
   background-color: #fcf8e3;
   border-color: #faebcc;
 }
-#message_input.length-error, .message-character-count.length-error {
+textarea.length-error, .message-character-count.length-error, .twitter-message-character-count.length-error {
   color: #a94442;
   background-color: #f2dede;
   border-color: #ebccd1;
