@@ -7,11 +7,11 @@ class CloseVoteController < ApplicationController
 
   authorize_action([:new, :create]) { not current_user.blank? and
     (current_forum.moderator?(current_user) or
-     may?(CREATE_CLOSE_REOPEN_VOTE)) }
+     may?(Badge::CREATE_CLOSE_REOPEN_VOTE)) }
 
   authorize_action(:vote) { not current_user.blank? and
     (current_forum.moderator?(current_user) or
-     may?(VISIT_CLOSE_REOPEN)) }
+     may?(Badge::VISIT_CLOSE_REOPEN)) }
 
   def new
     @thread, @message, @id = get_thread_w_post
