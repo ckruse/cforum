@@ -13,7 +13,7 @@ controls ||= :yes
 </div>
 
   <% unless m.problematic_site.blank? %><p class="problematic-site"><%= cf_link_to Message.human_attribute_name(:problematic_site), m.problematic_site, rel: 'nofollow' %></p><% end %>
-  <div class="posting-content">
+  <div class="posting-content<% if m.deleted? %> deleted<% end %>">
     <%= m.to_html(@app_controller) %>
   </div>
 

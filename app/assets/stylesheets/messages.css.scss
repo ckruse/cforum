@@ -164,8 +164,8 @@ main h2 { margin-left:0; }
 
   .deleted,
   .deleted a,
-  .deleted ~ .posting-content,
-  .deleted ~ .posting-content * {
+  .deleted.posting-content,
+  .deleted.posting-content * {
     color: #900;
     border-color: #900;
   }
