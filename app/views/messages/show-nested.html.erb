@@ -28,7 +28,7 @@ content_for(:h1) do
   <ol class="answers">
     <% messages.each do |m| %>
       <li>
-        <div class="posting-nested thread-message">
+        <div class="posting-nested thread-message<% if @message.message_id == m.message_id %> active<% end %>">
           <%= render 'message', m: m, first: false %>
         </div>
 
@@ -42,7 +42,7 @@ content_for(:h1) do
 
 <div>
   <article class="thread-nested<% if @thread.archived %> archived<% end %>">
-    <div class="posting-nested thread-message">
+    <div class="posting-nested thread-message<% if @message.message_id == @thread.message.message_id %> active<% end %>">
       <%= render 'message', m: @thread.message, first: true %>
     </div>
 
