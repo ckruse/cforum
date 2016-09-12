@@ -376,7 +376,7 @@ cforum.messages = {
       var cleanup = function(text) {
         text = text.replace(/\015\012|\012|\015/g, "\012");
         // this is naive but enough for a length check
-        text = text.replace(/https?:\/\/[a-zA-Z0-9:\/&+_,;%-]+/g, '');
+        text = text.replace(/https?:\/\/[a-zA-Z0-9:\/&+_,;%.-]+/g, '');
         text = text.replace(/#[a-zA-Z0-9]+/g, "");
 
         return text;
