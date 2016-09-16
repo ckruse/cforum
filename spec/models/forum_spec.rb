@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Forum do
+RSpec.describe Forum, type: :model do
   it "is valid with name, short_name and slug" do
     expect(Forum.new(name: 'Rebellion',
                        short_name: 'Rebellion',

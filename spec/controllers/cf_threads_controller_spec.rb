@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CfThreadsController do
+RSpec.describe CfThreadsController, type: :controller do
   let(:forum) { create(:write_forum) }
   let(:tag) { create(:tag, forum: forum) }
 

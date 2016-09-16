@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe CfThread do
+RSpec.describe CfThread, type: :model do
   it "is valid with a slug and a forum id" do
     forum = create(:forum)
     thread = CfThread.new(forum_id: forum.forum_id,

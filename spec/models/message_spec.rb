@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Message do
+RSpec.describe Message, type: :model do
   describe "validations" do
     let(:thread) { create(:cf_thread) }
 

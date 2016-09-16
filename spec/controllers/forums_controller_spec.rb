@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
+
 require "rails_helper"
 
-RSpec.describe ForumsController do
+RSpec.describe ForumsController, type: :controller do
   let(:forum) { create(:forum) }
 
   describe "Stats" do
@@ -97,3 +99,5 @@ RSpec.describe ForumsController do
     end
   end
 end
+
+# eof

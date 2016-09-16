@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe Cite do
+RSpec.describe Cite, type: :model do
   it "is valid with a cite text" do
     expect(Cite.new(cite: 'Help me, Obi-Wan Kenobi. You\'re my only hope.')).to be_valid
   end

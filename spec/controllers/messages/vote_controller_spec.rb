@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe Messages::VoteController do
+RSpec.describe Messages::VoteController, type: :controller do
   context "authorized user" do
     let(:user) { create(:user) }
     let(:user1) { create(:user) }

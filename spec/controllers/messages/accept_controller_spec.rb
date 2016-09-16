@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe Messages::AcceptController do
+RSpec.describe Messages::AcceptController, type: :controller do
   let(:user) { create(:user) }
   let(:user1) { create(:user) }
   let(:message) { create(:message, owner: user1) }

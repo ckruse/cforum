@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
+
 require "rails_helper"
 
-describe User do
+RSpec.describe User, type: :model do
   it "is valid with username, email and password" do
     user = User.new(username: 'Luke Skywalker', email: 'l.skywalker@example.org', password: '123')
     expect(user).to be_valid
@@ -281,3 +283,5 @@ describe User do
     expect(user.audit_json).to eq(user.as_json(include: :badges))
   end
 end
+
+# eof
