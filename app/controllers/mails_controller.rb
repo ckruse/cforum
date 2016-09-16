@@ -86,10 +86,6 @@ class MailsController < ApplicationController
     end
   end
 
-  def priv_message_params
-    params.require(:priv_message).permit(:recipient_id, :subject, :body)
-  end
-
   def new
     @mail = PrivMessage.new(params[:priv_message].blank? ? {} :
                               priv_message_params)
@@ -213,6 +209,12 @@ class MailsController < ApplicationController
       end
     end
 
+  end
+
+  private
+
+  def priv_message_params
+    params.require(:priv_message).permit(:recipient_id, :subject, :body)
   end
 
 end
