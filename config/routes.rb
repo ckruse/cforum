@@ -146,8 +146,10 @@ Cforum::Application.routes.draw do
          mon: /\w{3}/, day: /\d{1,2}/
     post '/:year/:mon/:day/:tid/sticky' => 'cf_threads#sticky', year: /\d{4}/,
          mon: /\w{3}/, day: /\d{1,2}/
-    post '/:year/:mon/:day/:tid/no_archive' => 'cf_threads/no_answer_no_archive#no_archive',
+    post '/:year/:mon/:day/:tid/no_archive' => 'cf_threads/no_archive#no_archive',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_archive_cf_thread'
+    post '/:year/:mon/:day/:tid/archive' => 'cf_threads/no_archive#archive',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'archive_cf_thread'
     post '/:year/:mon/:day/:tid/mark_read' => 'messages/mark_read#mark_thread_read', year: /\d{4}/,
          mon: /\w{3}/, day: /\d{1,2}/, as: :mark_thread_read
 
@@ -191,8 +193,10 @@ Cforum::Application.routes.draw do
     #
     post '/:year/:mon/:day/:tid/:mid/restore' => 'messages#restore',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'restore_message'
-    post '/:year/:mon/:day/:tid/:mid/no_answer' => 'cf_threads/no_answer_no_archive#no_answer',
-         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'no_answer_message'
+    post '/:year/:mon/:day/:tid/:mid/forbid_answer' => 'messages/no_answer#forbid_answer',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'forbid_answer_message'
+    post '/:year/:mon/:day/:tid/:mid/allow_answer' => 'messages/no_answer#allow_answer',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'allow_answer_message'
 
     #
     # Plugins

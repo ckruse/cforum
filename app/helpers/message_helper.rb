@@ -81,7 +81,7 @@ module MessageHelper
         html << cf_button_to(sticky_cf_thread_path(thread), params: std_args, class: 'icon-thread sticky', title: (thread.sticky ? t('threads.mark_unsticky') : t('threads.mark_sticky')))
 
         if thread.flags['no-archive'] == 'yes'
-          html << cf_button_to(no_archive_cf_thread_path(thread), params: std_args, class: 'icon-thread archive', title: t('plugins.no_answer_no_archive.arc'))
+          html << cf_button_to(archive_cf_thread_path(thread), params: std_args, class: 'icon-thread archive', title: t('plugins.no_answer_no_archive.arc'))
         else
           html << cf_button_to(no_archive_cf_thread_path(thread), params: std_args, class: 'icon-thread no-archive', title: t('plugins.no_answer_no_archive.no_arc'))
         end
@@ -102,9 +102,9 @@ module MessageHelper
       end
 
       if not message.open?
-        html << cf_button_to(no_answer_message_path(thread, message), params: std_args, class: 'icon-message answer', title: t('plugins.no_answer_no_archive.answer'))
+        html << cf_button_to(allow_answer_message_path(thread, message), params: std_args, class: 'icon-message answer', title: t('plugins.no_answer_no_archive.answer'))
       else
-        html << cf_button_to(no_answer_message_path(thread, message), params: std_args, class: 'icon-message no-answer', title: t('plugins.no_answer_no_archive.no_answer'))
+        html << cf_button_to(forbid_answer_message_path(thread, message), params: std_args, class: 'icon-message no-answer', title: t('plugins.no_answer_no_archive.no_answer'))
       end
     end
 

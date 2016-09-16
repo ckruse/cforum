@@ -133,6 +133,10 @@ module CForum
       _cf_thread_path(thread) + "/sticky" + query_string(args)
     end
 
+    def archive_cf_thread_path(thread, args = {})
+      _cf_thread_path(thread) + "/archive" + query_string(args)
+    end
+
     def no_archive_cf_thread_path(thread, args = {})
       _cf_thread_path(thread) + "/no_archive" + query_string(args)
     end
@@ -202,8 +206,12 @@ module CForum
       _message_path_wo_anchor(thread, message) + "/accept" + query_string(args)
     end
 
-    def no_answer_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/no_answer" + query_string(args)
+    def forbid_answer_message_path(thread, message, args = {})
+      _message_path_wo_anchor(thread, message) + "/forbid_answer" + query_string(args)
+    end
+
+    def allow_answer_message_path(thread, message, args = {})
+      _message_path_wo_anchor(thread, message) + "/allow_answer" + query_string(args)
     end
 
     def close_message_path(thread, message, args = {})
