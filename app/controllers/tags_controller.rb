@@ -62,16 +62,18 @@ class TagsController < ApplicationController
   def autocomplete
     term = (params[:s] || params[:term]).to_s.strip
 
+    @tags = Tag.
+            preload(:synonyms).
+            where(forum_id: current_forum.forum_id,
+                  suggest: true)
+
     if not term.blank?
       clean_tag = term.strip + '%'
-      @tags = Tag.
+      @tags = @tags.
               preload(:synonyms).
-              where("forum_id = ? AND suggest = true AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))",
-                    current_forum.forum_id,
+              where("LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?))",
                     clean_tag,
                     clean_tag)
-    else
-      @tags = Tag.preload(:synonyms).where(forum_id: current_forum.forum_id, suggest: true)
     end
 
     @tags_list = []
