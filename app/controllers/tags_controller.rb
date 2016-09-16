@@ -177,7 +177,10 @@ class TagsController < ApplicationController
   def merge
     @tag = Tag.where('tags.forum_id = ? AND slug = ?',
                        current_forum.forum_id, params[:id]).first!
-    @tags = Tag.order('tag_name ASC').where(forum_id: current_forum.forum_id)
+    @tags = Tag.
+            where(forum_id: current_forum.forum_id).
+            where('tag_id != ?', @tag.tag_id).
+            order('tag_name ASC')
   end
 
   def do_merge
