@@ -30,14 +30,16 @@ class Messages::FlagController < ApplicationController
     end
 
     if not %w(off-topic not-constructive duplicate custom).include?(params[:reason])
-      flash[:error] = t("plugins.flag_plugin.reason_invalid")
+      flash.now[:error] = t("plugins.flag_plugin.reason_invalid")
       render :flag
       return
     end
 
+    @message.flags_will_change!
+
     if params[:reason] == 'duplicate'
       if params[:duplicate_slug].blank? or not params[:duplicate_slug] =~ /^https?:\/\//
-        flash[:error] = t("plugins.flag_plugin.dup_url_needed")
+        flash.now[:error] = t("plugins.flag_plugin.dup_url_needed")
         render :flag
         return
       end
@@ -46,7 +48,7 @@ class Messages::FlagController < ApplicationController
 
     elsif params[:reason] == 'custom'
       if params[:custom_reason].blank?
-        flash[:error] = t("plugins.flag_plugin.custom_reason_needed")
+        flash.now[:error] = t("plugins.flag_plugin.custom_reason_needed")
         render :flag
         return
       end
@@ -55,7 +57,6 @@ class Messages::FlagController < ApplicationController
     end
 
     @message.flags[:flagged] = params[:reason]
-    @message.flags_will_change!
     @message.save
 
     audit(@message, 'flagged-' + params[:reason])
@@ -68,9 +69,6 @@ class Messages::FlagController < ApplicationController
     redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.flagged')
   end
 
-  def flagged
-  end
-
   def unflag
     @thread, @message, @id = get_thread_w_post
 
@@ -78,7 +76,7 @@ class Messages::FlagController < ApplicationController
     @message.flags.delete('custom_reason')
     @message.flags.delete('flagged_dup_url')
     @message.flags_will_change!
-    @message.save
+    @message.save!
 
     audit(@message, 'unflagged')
 
