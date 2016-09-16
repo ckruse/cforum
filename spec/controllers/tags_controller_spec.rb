@@ -35,7 +35,7 @@ RSpec.describe TagsController, type: :controller do
            tags: tag.tag_name.gsub(/ .*/, '') + ',' + tag1.tag_name.gsub(/ .*/, ''),
            format: :json
 
-      expect(assigns(:tags).to_a).to eq([tag, tag1])
+      expect(assigns(:tags).to_a).to eq([tag1, tag])
     end
   end
 
