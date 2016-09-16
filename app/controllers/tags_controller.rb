@@ -33,7 +33,7 @@ class TagsController < ApplicationController
       @tags = @tags.where('(' + sql_parts.join(' OR ') + ') ' +
                           ' OR (tag_id IN (SELECT tag_id FROM tag_synonyms WHERE ' + sql_sub_parts.join(' OR ') + '))',
                           *sql_params)
-              .order('num_messages DESC')
+              .order('num_messages DESC, tag_id ASC')
     else
       @tags = Tag.preload(:synonyms).order('tag_name ASC').where(forum_id: current_forum.forum_id)
     end
