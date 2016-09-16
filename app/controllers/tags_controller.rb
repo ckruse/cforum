@@ -163,7 +163,7 @@ class TagsController < ApplicationController
            where('tags.forum_id = ? AND slug = ?',
                  current_forum.forum_id, params[:id]).first!
 
-    if @tag.messages.count > 0
+    if not @tag.messages.blank?
       redirect_to tag_url(current_forum.slug, @tag), alert: t('tags.tag_has_messages')
       return
     end
