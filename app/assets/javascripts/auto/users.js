@@ -1,5 +1,5 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum, t, Highcharts */
+/* global cforum, t, Highcharts, moment */
 
 cforum.users = {
   messagesByMonths: null,
@@ -14,23 +14,23 @@ cforum.users = {
 
     for(var i = 0; i < cforum.users.messagesByMonths.length; ++i) {
       v = cforum.users.messagesByMonths[i];
-      d = new Date(v.created_at.replace(/\.[^.]+$/, ''));
+      d = moment(v.created_at);
 
-      if(!min || d < min) {
-        min = new Date(d);
+      if(!min || d.isBefore(min)) {
+        min = moment(v.created_at);
       }
 
-      if(!max || d > max) {
-        max = new Date(d);
+      if(!max || d.isAfter(max)) {
+        max = moment(v.created_at);
       }
 
-      dateAsKeys[d.getYear() + "-" + d.getMonth()] = v.cnt;
+      dateAsKeys[d.year() + "-" + d.month()] = v.cnt;
     }
 
     var keys = [];
-    for(d = new Date(min); d <= max; d.setMonth(d.getMonth() + 1)) {
-      var curKey = d.getYear() + "-" + d.getMonth();
-      keys.push(new Date(d));
+    for(d = moment(min); d.isSameOrBefore(max); d = d.add(1, 'months')) {
+      var curKey = d.year() + "-" + d.month();
+      keys.push(moment(d));
 
       if(!dateAsKeys[curKey]) {
         dateAsKeys[curKey] = 0;
@@ -43,13 +43,13 @@ cforum.users = {
       xAxis: {
         categories: $.map(keys,
                           function(val, i) {
-                            return Highcharts.dateFormat("%B %Y", val);
+                            return val.format("MMMM YYYY");
                           })
       },
       yAxis: { title: { text: t('highcharts.cnt_messages') } },
       series: [{
         name: t('highcharts.messages'),
-        data: $.map(keys, function(val, i) { return dateAsKeys[val.getYear() + "-" + val.getMonth()]; })
+        data: $.map(keys, function(val, i) { return dateAsKeys[val.year() + "-" + val.month()]; })
       }]
     });
   },
