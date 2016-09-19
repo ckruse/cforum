@@ -68,5 +68,7 @@ module Cforum
     config.search_dict = 'german'
 
     config.exception_mail_receiver = 'cforum@wwwtech.de'
+
+    config.action_dispatch.ip_spoofing_check = false
   end
 end
