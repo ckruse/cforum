@@ -51,6 +51,9 @@ class ConfigManager
     'mail_index_grouped' => 'yes',
     'mail_thread_sort' => 'ascending',
 
+    'subject_black_list' => '',
+    'content_black_list' => '',
+
     # search settings
     'search_forum_relevance' => 1,
     'search_cites_relevance' => 0.9,
