@@ -15,7 +15,8 @@ class Admin::UsersController < ApplicationController
     if params[:s].blank?
       @users = User
     else
-      @users = User.where('LOWER(username) LIKE LOWER(?)', '%' + params[:s].strip + '%')
+      term = '%' + params[:s].strip + '%'
+      @users = User.where('LOWER(username) LIKE LOWER(?) OR LOWER(email) LIKE LOWER(?)', term, term)
       @search_term = params[:s]
     end
 
