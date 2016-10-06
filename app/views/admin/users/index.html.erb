@@ -4,7 +4,7 @@ content_for :h1, t('admin.users.user_administration')
 %>
 
 <%= form_tag admin_users_path, method: :get, class: 'form-search' do |t| %>
-  <input type="search" class="cf-search-query" name="s" placeholder="<%= t('global.search') %>">
+  <input type="search" class="cf-search-query" name="s" placeholder="<%= t('global.search') %>" value="<%= @search_term %>">
 <% end %>
 
 <table class="cf-default-table">
