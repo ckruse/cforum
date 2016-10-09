@@ -27,7 +27,7 @@ content_for(:body_classes, 'notifications index')
     <% @notifications.each do |n| %>
     <tr>
       <td><input class="nid-checkbox" type="checkbox" name="ids[]" value="<%= n.notification_id %>"></td>
-      <td><% unless n.is_read? %><span class="status-unread" title="<%= t('notifications.unread') %>">&nbsp;</span><% end %></td>
+      <td><% unless n.is_read? %><span class="icon-unread-mail" title="<%= t('notifications.unread') %>">&nbsp;</span><% end %></td>
       <td><% unless n.icon.blank? %><%= cf_link_to '', n.path, class: 'icon ' + n.icon %><% end %></td>
       <td>
         <%= cf_link_to n.subject, notification_path(n) %>

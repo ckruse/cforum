@@ -20,20 +20,22 @@ content_for(:body_classes, 'mail index' + (@user ?  ' ' +  user_to_class_name(@u
       </tr>
     </thead>
 
-    <tbody>
-      <% if @mails.blank? %>
+    <% if @mails.blank? %>
+      <tbody>
         <tr class="no-data">
           <td colspan="7"><%= t('mails.no_mails') %></td>
         </tr>
-      <% end %>
+      </tbody>
+    <% end %>
 
-      <% if uconf('mail_index_grouped') == 'yes' %>
-        <%= render 'mails_grouped' %>
-      <% else %>
+    <% if uconf('mail_index_grouped') == 'yes' %>
+      <%= render 'mails_grouped' %>
+    <% else %>
+      <tbody>
         <%= render 'mails' %>
-      <% end %>
-
-    </tbody>
+      </tbody>
+    <% end %>
+   
   </table>
 
   <p class="form-actions">
