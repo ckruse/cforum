@@ -75,6 +75,11 @@ cforum = {
           subscribe: function() {}
         };
       }
+
+      var mql = window.matchMedia("only screen and (min-width: 35em)");
+      if(!mql.matches) {
+        window.scrollTo(0, $("main").offset().top);
+      }
     }
   }
 };
