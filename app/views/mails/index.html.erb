@@ -13,8 +13,7 @@ content_for(:body_classes, 'mail index' + (@user ?  ' ' +  user_to_class_name(@u
         <% if uconf('mail_index_grouped') == 'yes' %><th> </th><% end %>
         <th><input type="checkbox" id="check-all-box"></th>
         <th> </th>
-        <th><%= sortable PrivMessage.human_attribute_name(:sender), :sender, lambda { |dir,col| index_mail_link(col, dir) } %></th>
-        <th><%= sortable PrivMessage.human_attribute_name(:recipient), :recipient, lambda { |dir,col| index_mail_link(col, dir) } %></th>
+        <th><%= sortable PrivMessage.human_attribute_name(:partner), :partner, lambda { |dir,col| index_mail_link(col, dir) } %></th>
         <th><%= sortable PrivMessage.human_attribute_name(:subject), :subject, lambda { |dir,col| index_mail_link(col, dir) } %></th>
         <th><%= sortable PrivMessage.human_attribute_name(:created_at), :created_at, lambda { |dir,col| index_mail_link(col, dir) } %></th>
         <th> </th>

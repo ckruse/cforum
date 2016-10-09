@@ -12,7 +12,7 @@ de:
       one: "%{count} ungelesene Nachricht"
       other: "%{count} ungelesene Nachrichten"
     post_from: Kommunikation mit %{name}
-    delete: Post löschen
+    delete: Nachricht löschen
     answer_mail: Nachricht beantworten
     answer_mail_wo_quote: Nachricht ohne Zitat beantworten
     send: senden
@@ -26,4 +26,7 @@ de:
     marked_unread: Die Nachricht wurde als ungelesen markiert.
     mark_read: Nachricht als gelesen markieren
     mark_unread: Nachricht als ungelesen markieren
+    mail_received: Nachricht empfangen
+    mail_sent: Nachricht gesendet
+    mail_unread: ungelesene Nachricht
 

@@ -218,5 +218,19 @@ i.icon-thread {
   @extend .fa-bug;
 }
 
+.icon-unread-mail {
+  @extend .fa;
+  @extend .fa-envelope;
+}
+
+.icon-mail-sent {
+  @extend .fa;
+  @extend .fa-send-o;
+}
+
+.icon-mail-received {
+  @extend .fa;
+  @extend .fa-download;
+}
 
 /* eof */

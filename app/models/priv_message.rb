@@ -26,6 +26,10 @@ class PrivMessage < ActiveRecord::Base
   def partner_id(myself)
     sender_id == myself.user_id ? recipient_id : sender_id
   end
+
+  def partner_user(myself)
+    sender_id == myself.user_id ? recipient : sender
+  end
 end
 
 # eof

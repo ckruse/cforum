@@ -1,7 +1,12 @@
 <td><input type="checkbox" name="ids[]" value="<%= m.priv_message_id %>" class="mid-checkbox"></td>
-<td class="unread-mark"><% unless m.is_read? %><span class="status-unread">&nbsp;</span><% end %></td>
-<td><%= cf_link_to (m.sender_id ? image_tag(m.sender.avatar(:thumb)) : '') + " " + m.sender_name, mail_path(m.sender_name, m) %></td>
-<td><%= cf_link_to (m.recipient_id ? image_tag(m.recipient.avatar(:thumb)) : '') + " " + m.recipient_name, mail_path(m.sender_name, m) %></td>
+<td>
+  <i class="<%= m.recipient_id == current_user.user_id ? 'icon-mail-received' : 'icon-mail-sent' %>" title="<%= t(m.recipient_id == current_user.user_id ? 'mails.mail_received' : 'mails.mail_sent') %>"></i>
+  <% unless m.is_read? %><span class="icon-unread-mail" title="<%= t('mails.mail_unread') %>"> </span><% end %>
+</td>
+<td><%= cf_link_to((m.partner_id(current_user) ?
+                    image_tag(m.partner_user(current_user).avatar(:thumb)) : '') + " " + m.partner(current_user),
+                   mail_path(m.partner(current_user), m)) %>
+</td>
 <td><%= cf_link_to m.subject, mail_path(m.sender_name, m) %></td>
 <td><%= l(m.created_at, format: date_format) %></td>
 <td>
