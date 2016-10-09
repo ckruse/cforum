@@ -77,7 +77,7 @@ cforum = {
       }
 
       var mql = window.matchMedia("only screen and (min-width: 35em)");
-      if(!mql.matches) {
+      if(!mql.matches && !document.location.hash) {
         window.scrollTo(0, $("main").offset().top);
       }
     }
