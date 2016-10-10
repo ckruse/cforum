@@ -218,7 +218,7 @@ i.icon-thread {
   @extend .fa-bug;
 }
 
-.icon-unread-mail {
+.icon-unread-mail, .icon-unread-notification {
   @extend .fa;
   @extend .fa-envelope;
 }
