@@ -7,7 +7,7 @@ content_for(:body_classes, 'mail index' + (@user ?  ' ' +  user_to_class_name(@u
 
 <%= form_tag mails_path, class: 'form-horizontal', :method => :delete do %>
 
-  <table class="cf-default-table">
+  <table class="cf-default-table<% if uconf('mail_index_grouped') == 'yes' %> grouped<% end %>">
     <thead>
       <tr>
         <% if uconf('mail_index_grouped') == 'yes' %><th> </th><% end %>
@@ -35,7 +35,7 @@ content_for(:body_classes, 'mail index' + (@user ?  ' ' +  user_to_class_name(@u
         <%= render 'mails' %>
       </tbody>
     <% end %>
-   
+
   </table>
 
   <p class="form-actions">

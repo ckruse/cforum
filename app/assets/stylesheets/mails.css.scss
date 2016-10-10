@@ -29,15 +29,6 @@
 .icon-unread-mail { color:#5CB85C; }
 
 .mail.index {
-  tbody:nth-child(2n) {
-    background-color: #f1f3f4;
-  }
-  tr:nth-child(2n) {
-    background-color: transparent;
-  }
-  tbody tr:hover {
-    background-color: #d5d5d5;
-  }
   .folded { display:none; }
   .fold-marker td:first-of-type {
     color:#3481cd;

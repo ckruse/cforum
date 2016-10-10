@@ -41,6 +41,17 @@
   td.numeric, th.numeric { text-align:right; }
 }
 
+.cf-default-table.grouped {
+  tbody:nth-child(2n) {
+    background-color: #f1f3f4;
+  }
+  tr:nth-child(2n) {
+    background-color: transparent;
+  }
+  tbody tr:hover {
+    background-color: #d5d5d5;
+  }
+}
 
 .cf-default-table.responsive {
   &, tr, th, td { display:block; }
