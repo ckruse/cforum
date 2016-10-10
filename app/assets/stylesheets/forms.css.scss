@@ -207,6 +207,8 @@ a.cf-btn:link, a.cf-btn:visited {
   border-color: #2E6DA4;
 }
 
+.cf-primary-btn.is-confirmed { transition: all 0.5s ease; }
+
 a.cf-primary-btn:link, a.cf-primary-btn:visited {
   color: #FFF;
 }
