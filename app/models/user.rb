@@ -16,8 +16,8 @@ class User < ActiveRecord::Base
 
   validates_presence_of :password, on: :create
   validates :password, length: {minimum: 3}, confirmation: true, if: :password, allow_blank: true
-  validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[^@]+\z/, message: I18n.t('users.no_at_in_name') }
-  validates :email, presence: true, uniqueness: { case_sensitive: false }, email: true
+  validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[^@]+\z/, message: I18n.t('users.no_at_in_name') }, length: {in: 2..255}
+  validates :email, presence: true, uniqueness: { case_sensitive: false }, email: true, length: {in: 2..255}
 
   attr_accessor :login
 
