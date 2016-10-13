@@ -19,24 +19,19 @@ cforum.mails = {
       var node = $this.closest('tr');
 
       for(node = node.next('tr'); node.length > 0 && !node.hasClass('fold-marker'); node = node.next()) {
-        if(node.hasClass('folded')) {
-          node.css('display', 'none').removeClass('folded').fadeIn('fast');
-        }
-        else {
-          node.fadeOut('fast', function() { $(this).addClass('folded'); });
-        }
+          node.toggleClass('folded');
       }
 
       if($this.hasClass('open')) {
-        $this.removeClass('open');
-        $this.parents('tbody').removeClass('open');
         $this.text('▶');
       }
       else {
-        $this.addClass('open');
-        $this.parents('tbody').addClass('open');
         $this.text('▼');
       }
+
+      $this.toggleClass('open');
+      $this.parents('tbody').toggleClass('open');
+      
     });
   },
 
