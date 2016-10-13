@@ -29,10 +29,12 @@ cforum.mails = {
 
       if($this.hasClass('open')) {
         $this.removeClass('open');
+        $this.parents('tbody').removeClass('open');
         $this.text('▶');
       }
       else {
         $this.addClass('open');
+        $this.parents('tbody').addClass('open');
         $this.text('▼');
       }
     });
