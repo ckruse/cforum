@@ -233,4 +233,13 @@ i.icon-thread {
   @extend .fa-download;
 }
 
+.show-password {
+  @extend .fa;
+  @extend .fa-eye;
+  cursor:pointer;
+  display:none;
+  margin-right:.5em;
+  font-size:1.1em;
+}
+
 /* eof */
