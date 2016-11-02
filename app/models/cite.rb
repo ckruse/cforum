@@ -31,7 +31,7 @@ class Cite < ActiveRecord::Base
     sum
   end
 
-  def get_content
+  def md_content
     self.cite
   end
 

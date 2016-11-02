@@ -28,7 +28,7 @@ class CfThreadsController < ApplicationController
     unless ret == :redirected
       respond_to do |format|
         format.html
-        format.json { render json: @threads, include: {:messages => {include: [:owner, :tags]} } }
+        format.json { render json: @threads, include: { messages: { include: [:owner, :tags] } } }
         format.rss
         format.atom
       end
@@ -57,8 +57,7 @@ class CfThreadsController < ApplicationController
 
   def new
     @thread = CfThread.new
-    @thread.message = Message.new(params[:cf_thread].blank? ? {} :
-                                      message_params)
+    @thread.message = Message.new(params[:cf_thread].blank? ? {} : message_params)
     @tags = parse_tags
 
     @max_tags = conf('max_tags_per_message')
@@ -71,22 +70,22 @@ class CfThreadsController < ApplicationController
 
     @forum = current_forum
     if @forum.blank?
-      @forum = Forum.
-               where(forum_id: params[:cf_thread][:forum_id]).
-               where("forum_id IN (" + Forum.visible_sql(current_user) + ')').first!
+      @forum = Forum
+                 .where(forum_id: params[:cf_thread][:forum_id])
+                 .where('forum_id IN (' + Forum.visible_sql(current_user) + ')').first!
     end
 
-    @thread  = CfThread.new()
+    @thread  = CfThread.new
     @message = Message.new(message_params)
-    @thread.message  =  @message
-    @thread.slug     = CfThread.gen_id(@thread)
+    @thread.message = @message
+    @thread.slug = CfThread.gen_id(@thread)
 
-    if @thread.slug =~ /\/$/ and not @thread.message.subject.blank?
-      flash.now[:error] = t("errors.could_not_generate_slug")
+    if @thread.slug.end_with?('/') =~ %r{/$} && !@thread.message.subject.blank?
+      flash.now[:error] = t('errors.could_not_generate_slug')
       invalid = true
     end
 
-    @thread.forum_id    = @forum.forum_id
+    @thread.forum_id = @forum.forum_id
     set_message_attibutes(@message, @thread)
     set_mentions(@message)
     @thread.latest_message = @message.created_at
@@ -98,13 +97,13 @@ class CfThreadsController < ApplicationController
     invalid = true unless validate_tags(@tags, @forum)
     if is_spam(@message)
       invalid = true
-      flash.now[:error] = t("global.spam_filter")
+      flash.now[:error] = t('global.spam_filter')
     end
 
     set_user_cookies(@message)
 
     saved = false
-    if not invalid and not @preview
+    if !invalid && !@preview
       CfThread.transaction do
         num = 1
 
@@ -136,52 +135,49 @@ class CfThreadsController < ApplicationController
     end
 
     respond_to do |format|
-      if not @preview and saved
-        publish('thread:create', {type: 'thread', thread: @thread,
-                                  message: @message},
+      if !@preview && saved
+        publish('thread:create', { type: 'thread', thread: @thread,
+                                   message: @message },
                 '/forums/' + @forum.slug)
 
         search_index_message(@thread, @message)
 
         peon(class_name: 'NotifyNewTask',
-             arguments: {type: 'thread',
-                         thread: @thread.thread_id,
-                         message: @message.message_id})
+             arguments: { type: 'thread',
+                          thread: @thread.thread_id,
+                          message: @message.message_id })
 
-        format.html { redirect_to message_url(@thread, @message), notice: I18n.t("threads.created") }
+        format.html { redirect_to message_url(@thread, @message), notice: I18n.t('threads.created') }
         format.json { render json: @thread, status: :created, location: @thread }
       else
         # provoke a validation in case of missing tags
         @thread.message.valid? unless @preview
         @preview = true
 
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @thread.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def moving
-    @id     = CfThread.make_id(params)
+    @id = CfThread.make_id(params)
     @thread = CfThread.includes(:forum).where(slug: @id).first!
     @thread.gen_tree
+    @forums = Forum.order(name: :asc)
 
-    if current_user.admin
-      @forums = Forum.order('name ASC')
-    else
-      @forums = Forum.where(
-        "forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ? AND permission = ?)",
-        current_user.user_id,
-        ForumGroupPermission::ACCESS_MODERATE
-      ).order('name ASC')
-    end
+    @forums = Forum.where('forum_id IN ' \
+                          '  (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) ' \
+                          '   WHERE user_id = ? AND permission = ?)',
+                          current_user.user_id,
+                          ForumGroupPermission::ACCESS_MODERATE) unless current_user.admin
   end
 
   def move
     moving
 
     @move_to = Forum.find params[:move_to]
-    @forum   = @thread.forum
+    @forum = @thread.forum
     raise CForum::ForbiddenException unless @forums.include?(@move_to)
 
     saved = false
@@ -203,9 +199,9 @@ class CfThreadsController < ApplicationController
     respond_to do |format|
       if saved
         peon(class_name: 'ThreadMovedTask',
-             arguments: {thread: @thread.thread_id,
-                         old_forum: @forum.forum_id,
-                         new_forum: @move_to.forum_id})
+             arguments: { thread: @thread.thread_id,
+                          old_forum: @forum.forum_id,
+                          new_forum: @move_to.forum_id })
 
         format.html { redirect_to message_url(@thread, @thread.message), notice: t('threads.moved') }
       else
@@ -215,16 +211,17 @@ class CfThreadsController < ApplicationController
   end
 
   def sticky
-    @id     = CfThread.make_id(params)
+    @id = CfThread.make_id(params)
     @thread = CfThread.find_by_slug!(@id)
 
     @thread.sticky = !@thread.sticky
 
     if @thread.save
-      audit(@thread, @thread.sticky ? 'sticky' : 'unsticky')
-      redirect_to forum_url(current_forum), notice: @thread.sticky ? I18n.t("threads.stickied") : I18n.t("threads.unstickied")
+      type = @thread.sticky ? 'sticky' : 'unsticky'
+      audit(@thread, type)
+      redirect_to forum_url(current_forum), notice: I18n.t('threads.' + type)
     else
-      redirect_to forum_url(current_forum), alert: I18n.t("threads.sticky_error")
+      redirect_to forum_url(current_forum), alert: I18n.t('threads.sticky_error')
     end
   end
 
@@ -253,7 +250,7 @@ class CfThreadsController < ApplicationController
           break
         end
 
-        if prev == nil || prev != row['thread_id']
+        if prev.nil? || prev != row['thread_id']
           pos += 1
           prev = row['thread_id']
         end

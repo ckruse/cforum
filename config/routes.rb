@@ -82,7 +82,7 @@ Cforum::Application.routes.draw do
     post '/twitter' => 'twitter#authorize'
     get '/twitter/callback' => 'twitter#callback', as: :twitter_callback
 
-    root to: "users#index"
+    root to: 'users#index'
   end
 
   get '/all' => 'cf_threads#index'
@@ -104,8 +104,7 @@ Cforum::Application.routes.draw do
   get '/archiv/:year/:mon' => 'forums#redirect_archive_mon', year: /\d{4}/, mon: /\d{1,2}/
   get '/archiv/:year/:mon/:tid' => 'forums#redirect_archive_thread', year: /\d{4}/, mon: /\d{1,2}/, tid: /t\d+/
 
-
-  scope ":curr_forum" do
+  scope ':curr_forum' do
     get 'stats' => 'forums#stats'
     get 'tags/autocomplete' => 'tags#autocomplete'
     post 'tags/suggestions' => 'tags#suggestions'
@@ -187,7 +186,6 @@ Cforum::Application.routes.draw do
     post '/:year/:mon/:day/:tid/:mid/boring' => 'messages/interesting#mark_boring',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'boring_message'
 
-
     #
     # admin actions
     #
@@ -217,7 +215,6 @@ Cforum::Application.routes.draw do
         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
     patch '/:year/:mon/:day/:tid/:mid/open' => 'close_vote#vote_open',
           year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
-
 
     get '/:year/:mon/:day/:tid/:mid/flag' => 'messages/flag#flag',
         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'flag_message'

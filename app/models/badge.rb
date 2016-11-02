@@ -43,7 +43,7 @@ class Badge < ActiveRecord::Base
     slug
   end
 
-  def get_content
+  def md_content
     description.to_s
   end
 

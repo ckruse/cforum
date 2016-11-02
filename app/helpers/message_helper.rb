@@ -2,45 +2,45 @@
 
 module MessageHelper
   def std_args(args = {})
-    local_args = {p: params[:p],
-                  page: params[:page],
-                  r: controller_path,
-                  f: current_forum.try(:slug) || 'all'}
+    local_args = { p: params[:p],
+                   page: params[:page],
+                   r: controller_path,
+                   f: current_forum.try(:slug) || 'all' }
     local_args.delete(:p) if local_args[:p].blank?
     local_args.delete(:page) if local_args[:page].blank?
     local_args.merge(args)
   end
 
   def message_header(thread, message, opts = {})
-    opts = {first: false, prev_deleted: false,
-      show_icons: false, do_parent: false,
-      tree: true, id: true, hide_repeating_subjects: false,
-      show_editor: false, id_prefix: nil, active_message: @message,
-      subject: true, tags: true, author_link_to_message: true}.merge(opts)
+    opts = { first: false, prev_deleted: false,
+             show_icons: false, do_parent: false,
+             tree: true, id: true, hide_repeating_subjects: false,
+             show_editor: false, id_prefix: nil, active_message: @message,
+             subject: true, tags: true, author_link_to_message: true }.merge(opts)
 
     classes = ['message']
     classes += message.attribs['classes']
     classes << 'first' if opts[:first]
     classes << 'deleted' if message.deleted?
-    classes << 'active' if opts[:active_message] and opts[:active_message].message_id == message.message_id
+    classes << 'active' if opts[:active_message] && (opts[:active_message].message_id == message.message_id)
 
     classes << thread.attribs['open_state'] == 'closed' ? 'closed' : 'open'
 
-    if not thread.accepted.blank?
-      classes << "accepted-answer" if thread.accepted.include?(message)
-      classes << "has-accepted-answer" if thread.message.message_id == message.message_id
+    unless thread.accepted.blank?
+      classes << 'accepted-answer' if thread.accepted.include?(message)
+      classes << 'has-accepted-answer' if thread.message.message_id == message.message_id
     end
     unless message.close_vote.blank?
-      classes << (message.close_vote.finished ? "close-vote-finished" :
-                  "close-vote-active")
+      classes << (message.close_vote.finished ? 'close-vote-finished' :
+                  'close-vote-active')
     end
     unless message.open_vote.blank?
-      classes << (message.close_vote.finished ? "open-vote-finished" :
-                  "open-vote-active")
+      classes << (message.close_vote.finished ? 'open-vote-finished' :
+                  'open-vote-active')
     end
 
-    html = "<header"
-    html << ' class="' << classes.join(" ") << '"' unless classes.blank?
+    html = '<header'
+    html << ' class="' << classes.join(' ') << '"' unless classes.blank?
     if opts[:id]
       html << ' id="'
       html << opts[:id_prefix] unless opts[:id_prefix].blank?
@@ -50,8 +50,8 @@ module MessageHelper
 
     opened = []
 
-    if opts[:first] and current_user and opts[:show_icons] and not @view_all
-      html << "<span class=\"thread-icons\">"
+    if opts[:first] && current_user && opts[:show_icons] && !@view_all
+      html << '<span class="thread-icons">'
       opened << 'span'
 
       if thread.attribs['open_state'] == 'closed'
@@ -69,14 +69,14 @@ module MessageHelper
       html << cf_button_to(mark_cf_thread_read_path(thread), params: std_args, class: 'icon-thread mark-thread-read', title: t('plugins.mark_read.mark_thread_read'))
     end
 
-    if not current_user.blank? and (current_user.admin? or current_user.moderate?(current_forum)) and opts[:show_icons] and @view_all
+    if !current_user.blank? && (current_user.admin? || current_user.moderate?(current_forum)) && opts[:show_icons] && @view_all
       if opts[:first]
         unless opened.include?('span')
-          html << "<span class=\"thread-icons\">"
+          html << '<span class="thread-icons">'
           opened << 'span'
         end
 
-        html << " " << cf_link_to('', move_cf_thread_path(thread), class: 'icon-thread move', title: t('threads.move_thread'))
+        html << ' ' << cf_link_to('', move_cf_thread_path(thread), class: 'icon-thread move', title: t('threads.move_thread'))
 
         html << cf_button_to(sticky_cf_thread_path(thread), params: std_args, class: 'icon-thread sticky', title: (thread.sticky ? t('threads.mark_unsticky') : t('threads.mark_sticky')))
 
@@ -86,14 +86,14 @@ module MessageHelper
           html << cf_button_to(no_archive_cf_thread_path(thread), params: std_args, class: 'icon-thread no-archive', title: t('plugins.no_answer_no_archive.no_arc'))
         end
 
-        html << "</span>"
+        html << '</span>'
         opened.pop
       end
 
-      html << "<span class=\"message-icons\">"
+      html << '<span class="message-icons">'
       opened << 'span'
 
-      if not opts[:prev_deleted]
+      unless opts[:prev_deleted]
         if message.deleted?
           html << cf_button_to(restore_message_path(thread, message), params: std_args, class: 'icon-message restore', title: t('messages.restore_message'))
         else
@@ -101,7 +101,7 @@ module MessageHelper
         end
       end
 
-      if not message.open?
+      if !message.open?
         html << cf_button_to(allow_answer_message_path(thread, message), params: std_args, class: 'icon-message answer', title: t('plugins.no_answer_no_archive.answer'))
       else
         html << cf_button_to(forbid_answer_message_path(thread, message), params: std_args, class: 'icon-message no-answer', title: t('plugins.no_answer_no_archive.no_answer'))
@@ -112,35 +112,34 @@ module MessageHelper
       html << '</' << el << '>'
     end
 
-    if current_user and opts[:show_icons] and not @view_all
-      html << "<span class=\"message-icons\">"
+    if current_user && opts[:show_icons] && !@view_all
+      html << '<span class="message-icons">'
 
-      if not @view_all and (message.flags['no-answer'] == 'yes' or message.flags['no-answer-admin'] == 'yes')
+      if !@view_all && ((message.flags['no-answer'] == 'yes') || (message.flags['no-answer-admin'] == 'yes'))
         html << '<span class="icon-message no-answer user" title="' + t('messages.is_no_answer') + '"> </span>'
       end
 
       if message.attribs[:is_interesting]
         html << cf_button_to(boring_message_path(thread, message),
                              params: std_args,
-                             class: "icon-message mark-boring",
+                             class: 'icon-message mark-boring',
                              title: t('plugins.interesting_messages.mark_message_boring'))
       else
         html << cf_button_to(interesting_message_path(thread, message),
                              params: std_args,
-                             class: "icon-message mark-interesting",
+                             class: 'icon-message mark-interesting',
                              title: t('plugins.interesting_messages.mark_message_interesting'))
       end
 
-      html << "</span>"
+      html << '</span>'
     else
-      if not @view_all and (message.flags['no-answer'] == 'yes' or message.flags['no-answer-admin'] == 'yes')
+      if !@view_all && ((message.flags['no-answer'] == 'yes') || (message.flags['no-answer-admin'] == 'yes'))
         html << '<span class="icon-message no-answer user" title="' + t('messages.is_no_answer') + '"> </span>'
       end
     end
 
-
-    if opts[:first] and current_forum.blank?
-      html << "  " << cf_link_to(thread.forum.short_name, forum_path(thread.forum), class: 'thread-forum-plate') << "\n"
+    if opts[:first] && current_forum.blank?
+      html << '  ' << cf_link_to(thread.forum.short_name, forum_path(thread.forum), class: 'thread-forum-plate') << "\n"
     end
 
     if opts[:show_icons]
@@ -150,119 +149,119 @@ module MessageHelper
     if opts[:subject]
       if opts[:first]
         if opts[:show_icons]
-          html << "<span class=\"num-infos\"><span class=\"num-msgs\" title=\"" << t("messages.num_messages",
-                                                                                     count: thread.messages.length) << "\">" << thread.messages.length.to_s << "</span>"
+          html << '<span class="num-infos"><span class="num-msgs" title="' << t('messages.num_messages',
+                                                                                count: thread.messages.length) << '">' << thread.messages.length.to_s << '</span>'
           unless thread.attribs[:msgs].blank?
-            html << "<span class=\"num-unread\" title=\"" << t("plugins.mark_read.num_unread", count: thread.attribs[:msgs][:unread]) << "\">" << thread.attribs[:msgs][:unread].to_s << "</span>"
+            html << '<span class="num-unread" title="' << t('plugins.mark_read.num_unread', count: thread.attribs[:msgs][:unread]) << '">' << thread.attribs[:msgs][:unread].to_s << '</span>'
           end
-          html << "</span>"
+          html << '</span>'
         end
 
-        html << " <h2>" << cf_link_to(message.subject, message_path(thread, message)) << "</h2>"
+        html << ' <h2>' << cf_link_to(message.subject, message_path(thread, message)) << '</h2>'
       else
-        if thread.thread_id and message.message_id
-          if (opts[:hide_repeating_subjects] and message.subject_changed?) or not opts[:hide_repeating_subjects]
-            html << "  <h3>" << cf_link_to(message.subject, message_path(thread, message)) << "</h3>"
+        if thread.thread_id && message.message_id
+          if (opts[:hide_repeating_subjects] && message.subject_changed?) || !(opts[:hide_repeating_subjects])
+            html << '  <h3>' << cf_link_to(message.subject, message_path(thread, message)) << '</h3>'
           end
         else
-          html << "  <h3>" << message.subject << "</h3>"
+          html << '  <h3>' << message.subject << '</h3>'
         end
       end
     end
 
-    html << %q{
+    html << '
   <div class="details">
-      }
+      '
 
-    html << " " << %q{
-      <span class="author">}
+    html << ' ' << '
+      <span class="author">'
 
     if message.user_id
-      html << "<span class=\"registered-user"
-      if not message.message_id == thread.message.message_id and message.user_id == thread.message.user_id
-        html << " original-poster"
+      html << '<span class="registered-user'
+      if (message.message_id != thread.message.message_id) && (message.user_id == thread.message.user_id)
+        html << ' original-poster'
       end
-      html << "\">" << cf_link_to("<span class=\"visually-hidden\">#{t('messages.link_to_profile_of')} </span>".html_safe +
+      html << '">' << cf_link_to("<span class=\"visually-hidden\">#{t('messages.link_to_profile_of')} </span>".html_safe +
                                   image_tag(message.owner.avatar(:thumb), class: 'avatar',
-                                            alt: t('messages.user_link', user: message.owner.username)),
-                                  user_path(message.owner),
-                                  title: t('messages.user_link',
-                                           user: message.owner.username),
-                                  class: 'user-link') << " "
+                                                                          alt: t('messages.user_link', user: message.owner.username)),
+                                 user_path(message.owner),
+                                 title: t('messages.user_link',
+                                          user: message.owner.username),
+                                 class: 'user-link') << ' '
     else
-      if not message.message_id == thread.message.message_id and not message.uuid.blank? and message.uuid == thread.message.uuid
+      if (message.message_id != thread.message.message_id) && !message.uuid.blank? && (message.uuid == thread.message.uuid)
         html << '<span class="icon-message original-poster" title="' << t('messages.original_poster') << '"> </span>'
       end
     end
 
-    if opts[:author_link_to_message]
-      html << cf_link_to(message.author, message_path(thread, message), 'aria-hidden' => 'true')
-    elsif message.user_id
-      html << cf_link_to(message.author, user_path(message.user_id))
-    else
-      html << message.author.to_s
-    end
+    html << if opts[:author_link_to_message]
+              cf_link_to(message.author, message_path(thread, message), 'aria-hidden' => 'true')
+            elsif message.user_id
+              cf_link_to(message.author, user_path(message.user_id))
+            else
+              message.author.to_s
+            end
 
     html << '</span>' if message.user_id
 
-    if not opts[:tree] and not thread.archived? and (not message.email.blank? or not message.homepage.blank?)
+    if !(opts[:tree]) && !thread.archived? && (!message.email.blank? || !message.homepage.blank?)
       html << ' <span class="author-infos">'
-      html << ' ' << cf_link_to('', 'mailto:' + message.email, class: 'author-email') if not message.email.blank?
+      html << ' ' << cf_link_to('', 'mailto:' + message.email, class: 'author-email') unless message.email.blank?
 
-      if not message.homepage.blank?
-        if not message.user_id.blank? and message.owner.has_badge?('seo_profi') and message.owner.conf('norelnofollow') == 'yes'
+      unless message.homepage.blank?
+        if !message.user_id.blank? && message.owner.has_badge?('seo_profi') && (message.owner.conf('norelnofollow') == 'yes')
           html << ' ' << cf_link_to('', message.homepage, class: 'author-homepage', rel: nil)
         else
           html << ' ' << cf_link_to('', message.homepage, class: 'author-homepage')
         end
       end
-      html << "</span>"
+      html << '</span>'
     end
 
-    if current_user and (current_user.admin? or (current_forum and current_user.moderate?(current_forum))) and @view_all
-      if not message.ip.blank?
-        html << " <span class=\"admin-infos ip\">" << message.ip << "</span>"
+    if current_user && (current_user.admin? || (current_forum && current_user.moderate?(current_forum))) && @view_all
+      unless message.ip.blank?
+        html << ' <span class="admin-infos ip">' << message.ip << '</span>'
       end
-      if not message.uuid.blank?
-        html << " <span class=\"admin-infos uuid\">" << message.uuid << "</span>"
+      unless message.uuid.blank?
+        html << ' <span class="admin-infos uuid">' << message.uuid << '</span>'
       end
     end
 
-    html << "</span> "
+    html << '</span> '
 
-    text = "<time datetime=\"" << message.created_at.strftime("%FT%T%:z") << '">' <<
+    text = '<time datetime="' << message.created_at.strftime('%FT%T%:z') << '">' <<
            encode_entities(l(message.created_at, format: opts[:tree] ?
-                                                   date_format("date_format_index") :
-                                                   date_format("date_format_post"))) <<
-           "</time>"
+                                                   date_format('date_format_index') :
+                                                   date_format('date_format_post'))) <<
+           '</time>'
 
-    if thread.thread_id and message.message_id
-      html << cf_link_to(message_path(thread, message)) do
-        text.html_safe
-      end
-    else
-      html << text.html_safe
-    end
+    html << if thread.thread_id && message.message_id
+              cf_link_to(message_path(thread, message)) do
+                text.html_safe
+              end
+            else
+              text.html_safe
+            end
 
     if opts[:show_editor] && !message.edit_author.blank? && !message.versions.blank?
-      html << " <span class=\"versions\">(" << cf_link_to(t('messages.versions'),
-                                                          versions_message_path(thread, message),
-                                                          rel: 'nofollow',
-                                                          class: 'version-link')
+      html << ' <span class="versions">(' << cf_link_to(t('messages.versions'),
+                                                        versions_message_path(thread, message),
+                                                        rel: 'nofollow',
+                                                        class: 'version-link')
 
-      html << ")</span>"
+      html << ')</span>'
     end
 
-    if not message.tags.blank? and opts[:tags]
-      html << %q{
+    if !message.tags.blank? && opts[:tags]
+      html << '
 
-    <ul class="cf-tags-list">}
+    <ul class="cf-tags-list">'
 
       for t in message.tags
-        html << "<li class=\"cf-tag\">" << cf_link_to(t.tag_name, tag_path(thread.forum.slug, t)) << "</li>"
+        html << '<li class="cf-tag">' << cf_link_to(t.tag_name, tag_path(thread.forum.slug, t)) << '</li>'
       end
 
-      html << "</ul>"
+      html << '</ul>'
     end
 
     if opts[:show_votes]
@@ -273,42 +272,43 @@ module MessageHelper
         '</span>'
     end
 
-
-    html << %q{
+    html << '
   </div>
-</header>}
+</header>'
 
     html.html_safe
   end
 
   def message_tree(thread, messages, opts = {})
-    opts = {prev_deleted: false, show_icons: false, id: true,
-            hide_repeating_subjects: false,
-            active_message: @message, subject: true,
-            tags: true, id_prefix: nil}.merge(opts)
+    opts = { prev_deleted: false, show_icons: false, id: true,
+             hide_repeating_subjects: false,
+             active_message: @message, subject: true,
+             tags: true, id_prefix: nil }.merge(opts)
 
     html = "<ol>\n"
     for message in messages
       classes = []
 
-      html << "<li"
-      html << " class=\"" << classes.join(" ") << "\"" unless classes.blank?
-      html << ">"
+      html << '<li'
+      html << ' class="' << classes.join(' ') << '"' unless classes.blank?
+      html << '>'
       html << message_header(thread, message, first: false,
-                             prev_deleted: opts[:prev_deleted],
-                             show_icons: opts[:show_icons],
-                             id: opts[:id],
-                             hide_repeating_subjects: opts[:hide_repeating_subjects],
-                             active_message: opts[:active_message],
-                             id_prefix: opts[:id_prefix])
-      html << message_tree(thread, message.messages, first: false,
-                           prev_deleted: message.deleted?,
-                           show_icons: opts[:show_icons],
-                           id: opts[:id],
-                           hide_repeating_subjects: opts[:hide_repeating_subjects],
-                           active_message: opts[:active_message],
-                           id_prefix: opts[:id_prefix]) unless message.messages.blank?
-      html << "</li>"
+                                              prev_deleted: opts[:prev_deleted],
+                                              show_icons: opts[:show_icons],
+                                              id: opts[:id],
+                                              hide_repeating_subjects: opts[:hide_repeating_subjects],
+                                              active_message: opts[:active_message],
+                                              id_prefix: opts[:id_prefix])
+      unless message.messages.blank?
+        html << message_tree(thread, message.messages, first: false,
+                                                       prev_deleted: message.deleted?,
+                                                       show_icons: opts[:show_icons],
+                                                       id: opts[:id],
+                                                       hide_repeating_subjects: opts[:hide_repeating_subjects],
+                                                       active_message: opts[:active_message],
+                                                       id_prefix: opts[:id_prefix])
+      end
+      html << '</li>'
     end
 
     html << "\n</ol>"
@@ -330,44 +330,43 @@ module MessageHelper
     message.parent_id  = parent.try(:message_id)
 
     flattr_id = uconf('flattr')
-    message.flags['flattr_id'] = flattr_id if not flattr_id.blank?
+    message.flags['flattr_id'] = flattr_id unless flattr_id.blank?
   end
 
-  def set_message_author(message, author = current_user.try(:username))
-    if not author.blank?
+  def set_message_author(_message, author = current_user.try(:username))
+    if !author.blank?
       @message.author = author
-    elsif not @message.author.blank?
+    elsif !@message.author.blank?
       unless User.where('LOWER(username) = LOWER(?)', @message.author.strip).first.blank?
         flash.now[:error] = I18n.t('errors.name_taken')
         return false
       end
     end
 
-    return true
+    true
   end
 
   def set_user_cookies(message)
     unless current_user
-      cookies[:cforum_user] = {value: request.uuid, expires: 1.year.from_now} if cookies[:cforum_user].blank?
+      cookies[:cforum_user] = { value: request.uuid, expires: 1.year.from_now } if cookies[:cforum_user].blank?
       message.uuid = cookies[:cforum_user]
 
-      cookies[:cforum_author]   = {value: @message.author, expires: 1.year.from_now}
-      cookies[:cforum_email]    = {value: @message.email, expires: 1.year.from_now}
-      cookies[:cforum_homepage] = {value: @message.homepage, expires: 1.year.from_now}
+      cookies[:cforum_author]   = { value: @message.author, expires: 1.year.from_now }
+      cookies[:cforum_email]    = { value: @message.email, expires: 1.year.from_now }
+      cookies[:cforum_homepage] = { value: @message.homepage, expires: 1.year.from_now }
     end
   end
 
-
   def std_conditions(conditions, tid = false)
     if conditions.is_a?(String)
-      if tid
-        conditions = {thread_id: conditions}
-      else
-        conditions = {slug: conditions}
-      end
+      conditions = if tid
+                     { thread_id: conditions }
+                   else
+                     { slug: conditions }
+                   end
     end
 
-    conditions[:messages] = {deleted: false} unless @view_all
+    conditions[:messages] = { deleted: false } unless @view_all
 
     conditions
   end
@@ -376,30 +375,30 @@ module MessageHelper
     tid = false
     id  = nil
 
-    if params[:year] and params[:mon] and params[:day] and params[:tid]
+    if params[:year] && params[:mon] && params[:day] && params[:tid]
       id = CfThread.make_id(params)
     else
       id = params[:id]
       tid = true
     end
 
-    thread = CfThread.
-             preload(:forum,
-                     messages: [:editor, :tags, :thread, :versions, :cite,
-                                {votes: :voters,
-                                 owner: [:settings, :badges],
-                                 message_references: {src_message: [{thread: :forum}, :owner, :tags, :votes]}}]).
-             includes(messages: :owner).
-             where(std_conditions(id, tid)).
-             references(messages: :owner).
-             first
+    thread = CfThread
+               .preload(:forum,
+                        messages: [:editor, :tags, :thread, :versions, :cite,
+                                   { votes: :voters,
+                                     owner: [:settings, :badges],
+                                     message_references: { src_message: [{ thread: :forum }, :owner, :tags, :votes] } }])
+               .includes(messages: :owner)
+               .where(std_conditions(id, tid))
+               .references(messages: :owner)
+               .first
 
     raise ActiveRecord::RecordNotFound if thread.blank?
 
     # sort messages
     sort_thread(thread)
 
-    return thread, id
+    [thread, id]
   end
 
   def get_thread_w_post
@@ -411,7 +410,7 @@ module MessageHelper
       raise ActiveRecord::RecordNotFound if message.nil?
     end
 
-    return thread, message, id
+    [thread, message, id]
   end
 end
 

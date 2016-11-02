@@ -9,9 +9,9 @@ de:
     moved: Der Thread wurde erfolgreich verschoben.
     move_thread: Thread verschieben
     move_to_forum: in Forum verschieben
-    stickied: Der Thread wurde erfolgreich angepinnt.
+    sticky: Der Thread wurde erfolgreich angepinnt.
     sticky_error: Es gab einen internen Fehler beim Anpinnen.
-    unstickied: Der Thread wurde erfolgreich gelöst.
+    unsticky: Der Thread wurde erfolgreich gelöst.
     mark_sticky: als angepinnt markieren
     mark_unsticky: nicht länger als angepinnt markieren
     write_new_thread: neuer Beitrag

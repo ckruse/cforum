@@ -9,7 +9,7 @@ class Event < ActiveRecord::Base
 
   has_many :attendees, ->{ order(:name) }
 
-  def get_content
+  def md_content
     description.to_s
   end
 

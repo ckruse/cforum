@@ -9,7 +9,7 @@ gem 'warden', '!= 1.2.5'
 gem 'therubyracer'
 
 gem 'devise'
-gem "bcrypt"
+gem 'bcrypt'
 gem 'kramdown'
 gem 'pygments.rb'
 
@@ -44,7 +44,9 @@ end
 gem 'simplecov', require: false, group: :test
 gem 'spring', group: :development
 
-gem 'libnotify', group: :development, require: RUBY_PLATFORM.include?('linux') && 'libnotify'
+gem 'libnotify',
+    group: :development,
+    require: RUBY_PLATFORM.include?('linux') && 'libnotify'
 
 gem 'sass-rails', '> 4.0.0'
 gem 'sprockets', '~> 3.6.3'
@@ -60,11 +62,11 @@ gem 'font-awesome-sass'
 gem 'email_validator'
 gem 'validate_url'
 
-gem "paperclip"
+gem 'paperclip'
 
-gem "stringex"
+gem 'stringex'
 
-gem "diffy"
+gem 'diffy'
 
 gem 'exception_notification'
 

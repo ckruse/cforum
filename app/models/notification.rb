@@ -15,11 +15,11 @@ class Notification < ActiveRecord::Base
   validates :oid, presence: true
   validates :otype, presence: true
 
-  def get_content
+  def md_content
     description
   end
 
-  def get_format
+  def md_format
     'markdown'
   end
 

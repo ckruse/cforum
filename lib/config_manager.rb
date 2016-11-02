@@ -3,7 +3,6 @@
 # Caches the settings which are often used
 # When you use many workers the Rails.cache gets messed upp
 # therefor we use some manual timeout.
-
 class ConfigManager
   DEFAULTS = {
     'pagination' => 50,
@@ -108,66 +107,71 @@ class ConfigManager
     'max_image_filesize' => 2,
 
     'diff_context_lines' => nil
-  }
+  }.freeze
 
   def initialize(use_cache = true)
     @use_cache = use_cache
-    @value_cache = {:users => {}, :forums => {}}
+    @value_cache = { users: {}, forums: {} }
 
     @mutex = Mutex.new unless use_cache
   end
 
+  def fill_user_cache(user)
+    @value_cache[:users][user] = Setting.find_by_user_id(user) unless @value_cache[:users].key?(user)
+  end
+
+  def fill_forum_cache(forum)
+    @value_cache[:forums][forum] = Setting.find_by_forum_id(forum) unless @value_cache[:forums].key?(forum)
+  end
+
   def read_settings(user = nil, forum = nil)
-    if not user.blank? and not @value_cache[:users].has_key?(user)
-      @value_cache[:users][user] = Setting.find_by_user_id(user)
-    end
+    fill_user_cache(user) unless user.blank?
+    fill_forum_cache(forum) unless forum.blank?
 
-    if not forum.blank? and not @value_cache[:forums].has_key?(forum)
-      @value_cache[:forums][forum] = Setting.find_by_forum_id(forum)
-    end
-
-    unless @value_cache.has_key?(:global)
-      @value_cache[:global] = Setting.where('user_id IS NULL and forum_id IS NULL').first
-    end
+    @value_cache[:global] = Setting
+                              .where('user_id IS NULL and forum_id IS NULL')
+                              .first unless @value_cache.key?(:global)
   end
 
   def get(name, user = nil, forum = nil)
     @mutex.lock if @mutex
 
-    Rails.logger.warn "unknown key: '#{name}'" unless DEFAULTS.has_key?(name)
+    Rails.logger.warn "unknown key: '#{name}'" unless DEFAULTS.key?(name)
 
     # reset cache before each setting query when cache is disabled
-    @value_cache = {:users => {}, :forums => {}} unless @use_cache
+    @value_cache = { users: {}, forums: {} } unless @use_cache
 
     unless user.blank?
-      user = User.find_by_username(user.to_s) if not user.is_a?(User) and not user.is_a?(Integer)
+      user = User.find_by_username(user.to_s) if !user.is_a?(User) && !user.is_a?(Integer)
       user = user.user_id if user.is_a?(User)
     end
 
     unless forum.blank?
-      forum = Forum.find_by_slug forum.to_s if not forum.is_a?(Forum) and not forum.is_a?(Integer)
+      forum = Forum.find_by_slug forum.to_s if !forum.is_a?(Forum) && !forum.is_a?(Integer)
       forum = forum.forum_id if forum.is_a?(Forum)
     end
 
     read_settings(user, forum)
 
-    if not @value_cache[:users][user].blank? and @value_cache[:users][user].options.has_key?(name)
-      return @value_cache[:users][user].options[name].blank? ? DEFAULTS[name] : @value_cache[:users][user].options[name]
+    if !@value_cache[:users][user].blank? && @value_cache[:users][user].options.key?(name)
+      return DEFAULTS[name] if @value_cache[:users][user].options[name].blank?
+      return @value_cache[:users][user].options[name]
     end
 
-    if not @value_cache[:forums][forum].blank? and @value_cache[:forums][forum].options.has_key?(name)
-      return @value_cache[:forums][forum].options[name].blank? ? DEFAULTS[name] : @value_cache[:forums][forum].options[name]
+    if !@value_cache[:forums][forum].blank? && @value_cache[:forums][forum].options.key?(name)
+      return DEFAULTS[name] if @value_cache[:forums][forum].options[name].blank?
+      return @value_cache[:forums][forum].options[name]
     end
 
-    if @value_cache[:global] and @value_cache[:global].options.has_key?(name)
-      return @value_cache[:global].options[name].blank? ? DEFAULTS[name] : @value_cache[:global].options[name]
+    if @value_cache[:global] && @value_cache[:global].options.key?(name)
+      return DEFAULTS[name] if @value_cache[:global].options[name].blank?
+      return @value_cache[:global].options[name]
     end
 
     DEFAULTS[name]
   ensure
     @mutex.unlock if @mutex
   end
-
 end
 
 # eof

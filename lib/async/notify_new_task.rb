@@ -125,7 +125,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
   end
 
   def perform_mentions
-    mentions = @message.get_mentions
+    mentions = @message.md_mentions
 
     unless mentions.blank?
       mentions.each do |mention|

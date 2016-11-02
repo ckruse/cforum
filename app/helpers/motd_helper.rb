@@ -8,11 +8,11 @@ module MotdHelper
       @content = content
     end
 
-    def get_content
+    def md_content
       @content
     end
 
-    def get_format
+    def md_format
       'markdown'
     end
 

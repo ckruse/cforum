@@ -14,19 +14,19 @@ module ParserHelper
     @@parser_modules
   end
 
-  def get_content
+  def md_content
     has_attribute?(:content) ? content.to_s : body.to_s
   end
 
-  def get_format
-    has_attribute?(:format) ? self.format : 'markdown'
+  def md_format
+    has_attribute?(:format) ? format : 'markdown'
   end
 
   def id_prefix
     'm' + (has_attribute?(:message_id) ? message_id.to_s : priv_message_id.to_s)
   end
 
-  def get_mentions
+  def md_mentions
     nil
   end
 
@@ -41,16 +41,15 @@ module ParserHelper
 
       cnt = cnt.gsub(/(\A|[^a-zäöüß0-9_.@-])@(#{username})\b/) do
         classes = []
-        if do_notify
-          classes << highlight_notify_mention(m, app)
-        end
+        classes << highlight_notify_mention(m, app) if do_notify
 
-        retval = $1 + '[@' + $2 + '](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user'
+        retval = Regexp.last_match(1) + '[@' + Regexp.last_match(2) +
+                 '](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user'
 
         unless classes.blank?
           classes.each do |c|
             next if c.blank?
-            retval << classes.join(" ")
+            retval << classes.join(' ')
           end
         end
 
@@ -79,10 +78,10 @@ module ParserHelper
         load Rails.root + 'lib/cforum_markup.rb'
       end
 
-      cnt = get_content
-      cnt = cforum2markdown(cnt) if get_format == 'cforum'
+      cnt = md_content
+      cnt = cforum2markdown(cnt) if md_format == 'cforum'
 
-      mentions = get_mentions
+      mentions = md_mentions
       cnt = highlight_mentions(app, mentions, cnt, opts[:notify_mentions]) unless mentions.blank?
 
       ncnt = ''
@@ -91,11 +90,9 @@ module ParserHelper
       cnt.lines.each do |l|
         current_ql = 0
         scanner = StringScanner.new(l)
-        while scanner.scan(/^> ?/)
-          current_ql += 1
-        end
+        current_ql += 1 while scanner.scan(/^> ?/)
 
-        if current_ql < quote_level and l !~ /^(?:> ?)*\s*$/m
+        if current_ql < quote_level && l !~ /^(?:> ?)*\s*$/m
           ncnt << ('> ' * current_ql) + "\n"
         elsif current_ql > quote_level
           ncnt << ('> ' * quote_level) + "\n"
@@ -104,7 +101,7 @@ module ParserHelper
 
         if l =~ /^(?:> )*~~~\s*(?:\w+)/
           l = l.gsub(/~~~(\s*)(\w+)/) do
-            "~~~" + $1 + $2.downcase
+            '~~~' + Regexp.last_match(1) + Regexp.last_match(2).downcase
           end
         end
 
@@ -132,18 +129,18 @@ module ParserHelper
     # > > text
     # This produces a break in the block quote; to fix this we join
     # consecutive block quotes
-    html.gsub!(/<\/blockquote>\s*<blockquote>/m, '')
+    html.gsub!(%r{</blockquote>\s*<blockquote>}m, '')
     html.html_safe
   end
 
   def to_quote(app, opts = {})
-    opts.symbolize_keys!.reverse_merge!(:quote_signature => app.uconf('quote_signature'))
+    opts.symbolize_keys!.reverse_merge!(quote_signature: app.uconf('quote_signature'))
 
-    c = get_content
+    c = md_content
 
     if opts[:quote_signature] == 'no'
       sig_pos = c.rindex("\n-- \n")
-      c = c[0..(sig_pos-1)] unless sig_pos.nil?
+      c = c[0..(sig_pos - 1)] unless sig_pos.nil?
     end
 
     c = c.gsub(/\n/, "\n> ")
@@ -157,7 +154,7 @@ module ParserHelper
   end
 
   def to_txt
-    get_content
+    md_content
   end
 
   module ClassMethods
@@ -172,7 +169,6 @@ module ParserHelper
   def self.included(base)
     base.extend(ClassMethods)
   end
-
 end
 
 # eof

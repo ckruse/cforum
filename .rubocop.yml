@@ -1,0 +1,4 @@
+MultilineMethodCallIndentation:
+  EnforcedStyle: indented_relative_to_receiver
+Metrics/LineLength:
+  Max: 120
