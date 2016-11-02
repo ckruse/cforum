@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 Cforum::Application.routes.draw do
-  devise_for(:users, path_names: {sign_in: 'login',
-                                  sign_out: 'logout'},
-             skip: :registration,
-             controllers: {confirmations: "users/confirmations"})
+  devise_for(:users, path_names: { sign_in: 'login',
+                                   sign_out: 'logout' },
+                     skip: :registration,
+                     controllers: { confirmations: 'users/confirmations' })
 
   devise_scope :user do
     get '/users/registration/cancel' => 'users/registrations#cancel',
@@ -17,16 +17,16 @@ Cforum::Application.routes.draw do
 
   get '/m:id' => 'forums#message_redirect', id: /\d+/
 
-  get "/search" => "search#show", as: :search
-  post "/search" => "search#show"
+  get '/search' => 'search#show', as: :search
+  post '/search' => 'search#show'
 
   get 'cites/old/:id' => 'cites#redirect'
   get 'cites/voting' => 'cites#vote_index', as: :cites_vote
   post 'cites/:id/vote' => 'cites#vote', as: :cite_vote
   resources 'cites'
 
-  get "/forums" => "forums#redirector", as: :forum_redirector
-  get '/forums_titles' => "forums#title"
+  get '/forums' => 'forums#redirector', as: :forum_redirector
+  get '/forums_titles' => 'forums#title'
 
   # we use a custom url style for mails to achieve grouping
   get '/mails' => 'mails#index', as: :mails

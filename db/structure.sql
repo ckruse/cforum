@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.3
--- Dumped by pg_dump version 9.5.3
+-- Dumped from database version 9.5.4
+-- Dumped by pg_dump version 9.5.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1696,6 +1696,36 @@ ALTER SEQUENCE settings_setting_id_seq OWNED BY settings.setting_id;
 
 
 --
+-- Name: subscriptions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE subscriptions (
+    subscription_id integer NOT NULL,
+    user_id integer,
+    message_id integer
+);
+
+
+--
+-- Name: subscriptions_subscription_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE subscriptions_subscription_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: subscriptions_subscription_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE subscriptions_subscription_id_seq OWNED BY subscriptions.subscription_id;
+
+
+--
 -- Name: tag_synonyms; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2146,6 +2176,13 @@ ALTER TABLE ONLY settings ALTER COLUMN setting_id SET DEFAULT nextval('settings_
 
 
 --
+-- Name: subscription_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY subscriptions ALTER COLUMN subscription_id SET DEFAULT nextval('subscriptions_subscription_id_seq'::regclass);
+
+
+--
 -- Name: tag_synonym_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2537,6 +2574,22 @@ ALTER TABLE ONLY search_sections
 
 ALTER TABLE ONLY settings
     ADD CONSTRAINT settings_pkey PRIMARY KEY (setting_id);
+
+
+--
+-- Name: subscriptions_message_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY subscriptions
+    ADD CONSTRAINT subscriptions_message_id_user_id_key UNIQUE (message_id, user_id);
+
+
+--
+-- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY subscriptions
+    ADD CONSTRAINT subscriptions_pkey PRIMARY KEY (subscription_id);
 
 
 --
@@ -3517,6 +3570,22 @@ ALTER TABLE ONLY settings
 
 
 --
+-- Name: subscriptions_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY subscriptions
+    ADD CONSTRAINT subscriptions_message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: subscriptions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY subscriptions
+    ADD CONSTRAINT subscriptions_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: tag_synonyms_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3779,4 +3848,6 @@ INSERT INTO schema_migrations (version) VALUES ('95');
 INSERT INTO schema_migrations (version) VALUES ('96');
 
 INSERT INTO schema_migrations (version) VALUES ('97');
+
+INSERT INTO schema_migrations (version) VALUES ('98');
 

@@ -18,6 +18,8 @@ class Message < ActiveRecord::Base
 
   has_many :versions, -> { order(message_version_id: :desc) }, class_name: 'MessageVersion', foreign_key: :message_id
 
+  has_many :subscriptions
+
   attr_accessor :messages, :attribs, :parent_level
 
   validates_presence_of :author, message: I18n.t('messages.error_present', min: 2, max: 60)

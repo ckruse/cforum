@@ -32,6 +32,8 @@ class User < ActiveRecord::Base
 
   has_many :messages, foreign_key: :user_id
 
+  has_many :subscriptions
+
   def conf(nam)
     vals = settings.options unless settings.blank?
     vals ||= {}
