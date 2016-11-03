@@ -227,7 +227,7 @@ class CfThreadsController < ApplicationController
 
   def redirect_to_page
     if params[:tid].blank?
-      render status: 404
+      render html: IO.read(Rails.root + 'public/404.html').html_safe, status: 404
       return
     end
 
