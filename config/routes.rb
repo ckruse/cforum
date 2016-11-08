@@ -186,6 +186,11 @@ Cforum::Application.routes.draw do
     post '/:year/:mon/:day/:tid/:mid/boring' => 'messages/interesting#mark_boring',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'boring_message'
 
+    post '/:year/:mon/:day/:tid/:mid/subscribe' => 'messages/subscriptions#subscribe',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'subscribe'
+    post '/:year/:mon/:day/:tid/:mid/unsubscribe' => 'messages/subscriptions#unsubscribe',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'unsubscribe'
+
     #
     # admin actions
     #

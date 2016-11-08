@@ -12,13 +12,11 @@ de:
       own_js_file: eigene JS-Datei
       own_css: eigenes Inline-CSS
       own_js: eigenes Inline-JS
-      delete_read_notifications_on_answer: Gelesene Benachrichtigungen für neue Antworten automatisch löschen
-      delete_read_notifications_on_activity: Gelesene Benachrichtigungen bei Thread-Aktivität automatisch löschen
+      delete_read_notifications_on_abonements: Gelesene Abo-Benachrichtigungen automatisch löschen
       delete_read_notifications_on_new_mail: Gelesene Benachrichtigungen für neue Privat-Nachrichten automatisch löschen
       delete_read_notifications_on_mention: Gelesene Benachrichtigungen für Erwähnungen automatisch löschen
       notify_on_new_mail: Benachrichtigung bei neuer Post
-      notification_on_activity: Benachrichtigung bei Aktivität im Thread
-      notification_on_answer: Benachrichtigung bei Antwort
+      notify_via_email_on_abonement_activity: E-Mail-Benachrichtigung bei Aktivität auf abonierte Nachrichten
       notification_on_flagged: Benachrichtigung bei Moderator-Aufmerksamkeit („Flag“)
       notification_on_open_close_vote: Benachrichtigung bei Sperr-/Entsperr-Abstimmung
       notification_on_move: Benachrichtigung, wenn ein Thread, an dem sie beteiligt sind, verschoben wird

@@ -131,6 +131,18 @@ module MessageHelper
                              title: t('plugins.interesting_messages.mark_message_interesting'))
       end
 
+      if message.attribs[:is_subscribed]
+        html << cf_button_to(unsubscribe_message_path(thread, message),
+                             params: std_args,
+                             class: 'icon-message unsubscribe',
+                             title: t('plugins.subscriptions.unsubscribe_message'))
+      else
+        html << cf_button_to(subscribe_message_path(thread, message),
+                             params: std_args,
+                             class: 'icon-message subscribe',
+                             title: t('plugins.subscriptions.subscribe_message'))
+      end
+
       html << '</span>'
     else
       if !@view_all && ((message.flags['no-answer'] == 'yes') || (message.flags['no-answer-admin'] == 'yes'))

@@ -19,6 +19,7 @@ class CfThreadsController < ApplicationController
   include SpamHelper
   include LinkTagsHelper
   include OpenCloseHelper
+  include SubscriptionsHelper
 
   def index
     index_threads
@@ -279,6 +280,7 @@ class CfThreadsController < ApplicationController
     thread_list_link_tags
     is_read_threadlist(threads)
     open_close_threadlist(threads)
+    mark_threads_subscribed(threads)
   end
 end
 

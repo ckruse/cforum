@@ -15,6 +15,8 @@
   &.unread { @extend .fa-eye-slash; }
   &.mark-interesting { @extend .fa-star-o; }
   &.mark-boring { @extend .fa-star; }
+  &.subscribe { @extend .fa-envelope-o; }
+  &.unsubscribe { @extend .fa-envelope; }
 
   &.original-poster {
     @extend .fa-exclamation;

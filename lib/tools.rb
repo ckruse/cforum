@@ -258,6 +258,14 @@ module CForum
       _message_path_wo_anchor(thread, message) + "/tweet" + query_string(args)
     end
 
+    def subscribe_message_path(thread, message, args = {})
+      _message_path_wo_anchor(thread, message) + '/subscribe' + query_string(args)
+    end
+
+    def unsubscribe_message_path(thread, message, args = {})
+      _message_path_wo_anchor(thread, message) + '/unsubscribe' + query_string(args)
+    end
+
 
     def badges_path(args = {})
       root_path + 'badges' + query_string(args)
@@ -376,6 +384,14 @@ module CForum
 
     def tweet_message_url(thread, message, args = {})
       _message_url_wo_anchor(thread, message) + "/tweet" + query_string(args)
+    end
+
+    def subscribe_message_url(thread, message, args = {})
+      _message_url_wo_anchor(thread, message) + '/subscribe' + query_string(args)
+    end
+
+    def subscribe_message_url(thread, message, args = {})
+      _message_url_wo_anchor(thread, message) + '/unsubscribe' + query_string(args)
     end
 
 
