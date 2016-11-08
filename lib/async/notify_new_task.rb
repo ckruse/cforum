@@ -3,37 +3,21 @@
 require 'strscan'
 
 class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
-  include InvisibleHelper
-
-  def check_notify(usr, thread, message, parent)
-    return if usr.blank?
-
-    Rails.logger.debug "notify new task: checking on #{usr.username}: notify_on_activity=" +
-      uconf('notify_on_activity', usr, thread.forum) +
-      ", notify_on_answer=" + uconf('notify_on_answer', usr, thread.forum)
-
-    return if @sent_mails[usr.email] or @notified[usr.user_id] # do not send duplicate notifications
-    return if usr.user_id == message.user_id # do not notify user about own messages
-    return if not is_invisible(usr, thread, true).blank? # do not notify on invisible threads
-
-    return true if uconf('notify_on_activity', usr, thread.forum) != 'no' # do not notify when not wanted
-
-    return unless parent # do not notify if new thread
-    return unless uconf('notify_on_answer', usr, thread.forum) != 'no' # do not notify if not wanted
-
-    return true if parent.owner.try(:user_id) == usr.user_id # notify if parent is from looked-at user
-
-    return
-  end
-
   def send_notify_message(user, thread, parent, message)
     Rails.logger.debug('notify new task: send mail to ' + user.email)
 
     begin
-      if parent.owner and parent.owner.user_id == user.user_id
-        NotifyNewMailer.new_answer(user, thread, parent, message, message_url(thread, message), message.to_txt).deliver_now
+      if parent.owner && (parent.owner.user_id == user.user_id)
+        NotifyNewMailer
+          .new_answer(user, thread, parent, message,
+                      message_url(thread, message), message.to_txt)
+          .deliver_now
+
       else
-        NotifyNewMailer.new_message(user, thread, parent, message, message_url(thread, message), message.to_txt).deliver_now
+        NotifyNewMailer
+          .new_message(user, thread, parent, message,
+                       message_url(thread, message), message.to_txt)
+          .deliver_now
       end
 
       @sent_mails[user.email] = true
@@ -41,40 +25,41 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     rescue => e
       Rails.logger.error('Error sending mail to ' + user.email.to_s + ': ' + e.message + "\n" + e.backtrace.join("\n"))
     end
-
   end
 
   def perform_thread
   end
 
   def perform_message
-    @thread.messages.each do |m|
-      Rails.logger.debug "notify new task: perform_message: owner: " + m.owner.inspect
+    messages = []
+    parent = @message.parent_level
 
-      if check_notify(m.owner, @thread, @message, @parent)
-        if uconf('notify_on_activity', m.owner, @thread.forum) == 'email' || uconf('notify_on_answer', m.owner, @thread.forum) == 'email'
-          send_notify_message(m.owner, @thread, @parent, @message)
-        end
+    until parent.blank?
+      messages << parent.message_id
+      parent = parent.parent_level
+    end
 
-        notify_user(
-          m.owner,
-          nil,
-          @parent.user_id == m.user_id ?
-                    I18n.t('notifications.new_answer', nick: @message.author,
-                           subject: @message.subject) :
-                    I18n.t('notifications.new_message', nick: @message.author,
-                           subject: @message.subject),
-          message_path(@thread, @message),
-          @message.message_id,
-                    'message:create-' + (@parent.user_id == m.user_id ?
-                                         'answer' :
-                                         'activity'),
-          'icon-new-activity'
-        )
+    subscriptions = Subscription.preload(:user).where(message_id: messages).all
+    subscriptions.each do |subscription|
+      # don't notify if user is already notified
+      next if @notified[subscription.user_id]
+      # don't notify if user is creator of new message
+      next if subscription.user_id == @message.user_id
 
-        @notified[m.owner.user_id] = true
+      Rails.logger.debug 'notify new task: perform_message: subscriber: ' + subscription.user.inspect
+
+      if uconf('notify_on_abonement_activity', subscription.user, @thread.forum) == 'email'
+        send_notify_message(subscription.user, @thread, @parent, @message)
       end
 
+      identifier = @parent.user_id == subscription.user_id ? 'notifications.new_answer' : 'notifications.new_message'
+      notify_user(subscription.user, nil,
+                  I18n.t(identifier, nick: @message.author, subject: @message.subject),
+                  message_path(@thread, @message), @message.message_id,
+                  'message:create-' + (@parent.user_id == subscription.user_id ? 'answer' : 'activity'),
+                  'icon-new-activity')
+
+      @notified[subscription.user_id] = true
     end
   end
 
@@ -91,7 +76,7 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
   end
 
   def may_read?(message, user)
-    message.forum.read?(user) and (not message.deleted or message.forum.moderator?(user))
+    message.forum.read?(user) && (!message.deleted || message.forum.moderator?(user))
   end
 
   def notify_mention(user)
@@ -103,19 +88,17 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
     return if user.user_id == @message.user_id
     return if cfg == 'no'
     return if Notification.where(recipient_id: user.user_id,
-                                   otype: 'message:mention',
-                                   oid: @message.message_id).exists?
+                                 otype: 'message:mention',
+                                 oid: @message.message_id).exists?
     return if @notified[user.user_id]
 
-    if cfg == 'email' and not @sent_mails[user.email]
-      send_mention_message(user)
-    end
+    send_mention_message(user) if (cfg == 'email') && !(@sent_mails[user.email])
 
     Rails.logger.debug "notify mention: #{user.inspect}"
     notify_user(user,
                 nil,
                 I18n.t('notifications.new_mention', nick: @message.author,
-                       subject: @message.subject),
+                                                    subject: @message.subject),
                 message_path(@thread, @message),
                 @message.message_id,
                 'message:mention',
@@ -146,11 +129,11 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
       { messages: 2500, name: 'quill' },
       { messages: 5000, name: 'pen' },
       { messages: 7500, name: 'printing_press' },
-      { messages: 10000, name: 'typewriter' },
-      { messages: 20000, name: 'matrix_printer' },
-      { messages: 30000, name: 'inkjet_printer' },
-      { messages: 40000, name: 'laser_printer' },
-      { messages: 50000, name: '1000_monkeys' }
+      { messages: 10_000, name: 'typewriter' },
+      { messages: 20_000, name: 'matrix_printer' },
+      { messages: 30_000, name: 'inkjet_printer' },
+      { messages: 40_000, name: 'laser_printer' },
+      { messages: 50_000, name: '1000_monkeys' }
     ]
 
     badges.each do |badge|
@@ -162,20 +145,19 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
   end
 
   def perform_badges(message)
-    if not message.user_id.blank?
+    unless message.user_id.blank?
       perform_no_messages_badge(message.owner)
 
-      if not message.parent_id.blank? and message.parent.upvotes >= 1
+      if !message.parent_id.blank? && (message.parent.upvotes >= 1)
         votes = Vote.where(message_id: message.parent_id, user_id: message.user_id).first
         b = message.owner.badges.find { |user_badge| user_badge.slug == 'teacher' }
 
-        if b.blank? and votes.blank? and message.parent.user_id != message.user_id
+        if b.blank? && votes.blank? && (message.parent.user_id != message.user_id)
           give_badge(message.owner, Badge.where(slug: 'teacher').first!)
         end
       end
     end
   end
-
 
   def work_work(args)
     @notified = {}
@@ -183,6 +165,9 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
 
     # we don't care about exceptions, grunt will manage this for us
     @thread     = CfThread.includes(:forum, messages: :owner).find args['thread']
+
+    sort_thread(@thread)
+
     @message    = @thread.find_message! args['message']
     @parent     = @thread.find_message @message.parent_id
 
@@ -194,6 +179,27 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
       perform_thread
     when 'message'
       perform_message
+    end
+  end
+
+  def sort_thread(thread, message = nil, direction = nil)
+    direction = 'ascending' if direction.blank?
+
+    if message.blank?
+      thread.gen_tree(direction)
+      return
+    end
+
+    unless message.messages.blank?
+      if direction == 'ascending'
+        message.messages.sort! { |a,b| a.created_at <=> b.created_at }
+      else
+        message.messages.sort! { |a,b| b.created_at <=> a.created_at }
+      end
+
+      for m in message.messages
+        sort_thread(thread, m, direction)
+      end
     end
   end
 end

@@ -422,12 +422,10 @@ class MessagesController < ApplicationController
     notifications.each do |n|
       had_one = true
 
-      if (n.otype == 'message:create-answer' and
-          uconf('delete_read_notifications_on_answer') == 'yes') or
-        (n.otype == 'message:create-activity' and
-         uconf('delete_read_notifications_on_activity') == 'yes') or
-        (n.otype == 'message:mention' and
-         uconf('delete_read_notifications_on_mention') == 'yes')
+      if (n.otype.in?('message:create-answer', 'message:create-activity') &&
+          uconf('delete_read_notifications_on_abonements') == 'yes') ||
+         (n.otype == 'message:mention' &&
+          uconf('delete_read_notifications_on_mention') == 'yes')
         to_delete << n.notification_id
       else
         to_mark_read << n.notification_id

@@ -54,12 +54,10 @@ module NotifyHelper
       unless n.blank?
         had_one = true
 
-        if ((n.otype == 'message:create-answer') &&
-            (uconf('delete_read_notifications_on_answer') == 'yes')) ||
-           ((n.otype == 'message:create-activity') &&
-            (uconf('delete_read_notifications_on_activity') == 'yes')) ||
-           ((n.otype == 'message:mention') &&
-            (uconf('delete_read_notifications_on_mention') == 'yes'))
+        if (n.otype.in?(['message:create-answer', 'message:create-activity']) &&
+            uconf('delete_read_notifications_on_abonements') == 'yes') ||
+           (n.otype == 'message:mention' &&
+            uconf('delete_read_notifications_on_mention') == 'yes')
           n.destroy
         else
           n.is_read = true

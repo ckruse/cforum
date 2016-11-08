@@ -79,8 +79,7 @@ class ConfigManager
     'highlighted_users' => '',
     'highlight_self' => 'yes',
 
-    'delete_read_notifications_on_answer' => 'yes',
-    'delete_read_notifications_on_activity' => 'yes',
+    'delete_read_notifications_on_abonements' => 'yes',
     'delete_read_notifications_on_mention' => 'yes',
 
     'open_close_default' => 'open',
