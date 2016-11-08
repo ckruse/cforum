@@ -24,7 +24,7 @@ class MessagesController < ApplicationController
   def show
     @thread, @message, @id = get_thread_w_post
 
-    if not current_forum.blank? and @message.forum_id != current_forum.forum_id
+    if !current_forum.blank? && (@message.forum_id != current_forum.forum_id)
       redirect_to message_url(@thread, @message), status: 301
       return
     end
@@ -34,17 +34,16 @@ class MessagesController < ApplicationController
     # parameter overwrites cookie overwrites config; validation
     # overwrites everything
     @read_mode = uconf('standard_view')
-    @read_mode = cookies[:cf_readmode] if not cookies[:cf_readmode].blank? and current_user.blank?
+    @read_mode = cookies[:cf_readmode] if !cookies[:cf_readmode].blank? && current_user.blank?
     @read_mode = params[:rm] unless params[:rm].blank?
     @read_mode = 'thread-view' unless %w(thread-view nested-view).include?(@read_mode)
 
-    if not params[:rm].blank? and current_user.blank?
-      cookies[:cf_readmode] = {value: @read_mode, expires: 1.year.from_now}
+    if !params[:rm].blank? && current_user.blank?
+      cookies[:cf_readmode] = { value: @read_mode, expires: 1.year.from_now }
     end
 
-
     if current_user
-      mids = @thread.messages.map {|m| m.message_id}
+      mids = @thread.messages.map(&:message_id)
       votes = Vote.where(user_id: current_user.user_id, message_id: mids)
       @votes = {}
 
@@ -63,7 +62,7 @@ class MessagesController < ApplicationController
           render 'show-nested'
         end
       end
-      format.json { render json: {thread: @thread, message: @message} }
+      format.json { render json: { thread: @thread, message: @message } }
     end
   end
 
@@ -82,18 +81,18 @@ class MessagesController < ApplicationController
   def new
     @thread, @message, @id = get_thread_w_post
 
-    raise CForum::ForbiddenException.new if not may_answer(@message)
+    raise CForum::ForbiddenException unless may_answer(@message)
 
     @parent  = @message
     @message = Message.new
-    @tags    = @parent.tags.map { |t| t.tag_name }
+    @tags    = @parent.tags.map(&:tag_name)
 
     @max_tags = conf('max_tags_per_message')
 
     # inherit message and subject from previous post
     @message.subject = @parent.subject
     @message.problematic_site = @parent.problematic_site
-    @message.content = @parent.to_quote(self) if params.has_key?(:quote_old_message)
+    @message.content = @parent.to_quote(self) if params.key?(:quote_old_message)
 
     show_new_message_functions(@thread, @parent, @message, @preview)
   end
@@ -101,7 +100,7 @@ class MessagesController < ApplicationController
   def create
     @thread, @message, @id = get_thread_w_post
 
-    raise CForum::ForbiddenException.new if not may_answer(@message)
+    raise CForum::ForbiddenException unless may_answer(@message)
 
     invalid  = false
 
@@ -119,13 +118,13 @@ class MessagesController < ApplicationController
     invalid = true unless validate_tags(@tags)
     if is_spam(@message)
       invalid = true
-      flash.now[:error] = t("global.spam_filter")
+      flash.now[:error] = t('global.spam_filter')
     end
 
     set_user_cookies(@message)
 
     saved = false
-    if not invalid and not @preview
+    if !invalid && !@preview
       Message.transaction do
         raise ActiveRecord::Rollback unless @message.save
         raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
@@ -139,18 +138,18 @@ class MessagesController < ApplicationController
     end
 
     if saved
-      publish('message:create', {type: 'message', thread: @thread,
-                                 message: @message, parent: @parent},
+      publish('message:create', { type: 'message', thread: @thread,
+                                  message: @message, parent: @parent },
               '/forums/' + current_forum.slug)
 
       search_index_message(@thread, @message)
 
       peon(class_name: 'NotifyNewTask',
-           arguments: {type: 'message',
-                       thread: @thread.thread_id,
-                       message: @message.message_id})
+           arguments: { type: 'message',
+                        thread: @thread.thread_id,
+                        message: @message.message_id })
 
-      redirect_to message_url(@thread, @message), :notice => I18n.t('messages.created')
+      redirect_to message_url(@thread, @message), notice: I18n.t('messages.created')
     else
       @message.valid? unless @preview
       @preview = true
@@ -166,7 +165,7 @@ class MessagesController < ApplicationController
 
     return unless check_editable(@thread, @message)
 
-    @tags = @message.tags.map { |t| t.tag_name }
+    @tags = @message.tags.map(&:tag_name)
     @max_tags = conf('max_tags_per_message')
     @edit = true
 
@@ -189,28 +188,28 @@ class MessagesController < ApplicationController
       return
     end
 
-    invalid  = false
+    invalid = false
 
     @message.attributes = edit_message_params
     @message.content    = Message.to_internal(@message.content)
 
     set_mentions(@message)
 
-    del_versions = params[:delete_previous_versions] == '1' and current_user.admin?
+    (del_versions = params[:delete_previous_versions] == '1') && current_user.admin?
 
     if @message.format != 'markdown'
       del_versions = true
       @message.format = 'markdown'
     end
 
-    if (@message.content_changed? or @message.subject_changed? or @message.author_changed?) and not del_versions
+    if (@message.content_changed? || @message.subject_changed? || @message.author_changed?) && !del_versions
       @version = MessageVersion.new
       @version.subject = @message.subject_was
       @version.content = @message.content_was
       @version.message_id = @message.message_id
 
-      if not current_user.blank?
-        @message.editor_id  = current_user.user_id
+      if !current_user.blank?
+        @message.editor_id = current_user.user_id
         @message.edit_author = current_user.username
         @version.user_id = current_user.user_id
         @version.author = current_user.username
@@ -225,7 +224,7 @@ class MessagesController < ApplicationController
     invalid = true unless validate_tags(@tags)
 
     saved = false
-    if not invalid and not @preview
+    if !invalid && !@preview
       Message.transaction do
         if @message.save
           save_references(@message)
@@ -245,10 +244,10 @@ class MessagesController < ApplicationController
           audit(@message, 'del_versions')
           MessageVersion.delete_all(['message_id = ?', @message.message_id])
         else
-          raise ActiveRecord::Rollback if @version and not @version.save
+          raise ActiveRecord::Rollback if @version && !@version.save
         end
 
-        if params[:retag_answers] == '1' and may?(Badge::RETAG)
+        if (params[:retag_answers] == '1') && may?(Badge::RETAG)
           @message.all_answers do |m|
             m.tags.delete_all
 
@@ -265,8 +264,8 @@ class MessagesController < ApplicationController
     end
 
     if saved
-      publish('message:update', {type: 'update', thread: @thread,
-                                 message: @message, parent: @parent},
+      publish('message:update', { type: 'update', thread: @thread,
+                                  message: @message, parent: @parent },
               '/forums/' + current_forum.slug)
 
       search_index_message(@thread, @message)
@@ -314,9 +313,9 @@ class MessagesController < ApplicationController
 
     search_index_message(@thread, @message)
     peon(class_name: 'NotifyNewTask',
-         arguments: {type: 'message',
-                     thread: @thread.thread_id,
-                     message: @message.message_id})
+         arguments: { type: 'message',
+                      thread: @thread.thread_id,
+                      message: @message.message_id })
 
     respond_to do |format|
       format.html { redirect_to cf_return_url(@thread, @message, view_all: true), notice: I18n.t('messages.restored') }
@@ -326,7 +325,7 @@ class MessagesController < ApplicationController
 
   def show_retag
     @thread, @message, @id = get_thread_w_post
-    @tags = @message.tags.map { |t| t.tag_name }
+    @tags = @message.tags.map(&:tag_name)
     @max_tags = conf('max_tags_per_message')
   end
 
@@ -338,7 +337,7 @@ class MessagesController < ApplicationController
     invalid = true unless validate_tags(@tags)
 
     saved = false
-    if not invalid
+    unless invalid
       Message.transaction do
         @message.tags.delete_all
 
@@ -371,10 +370,9 @@ class MessagesController < ApplicationController
         format.json { head :no_content }
       else
         format.html { render :show_retag }
-        format.json { render json: {error: flash[:error]} }
+        format.json { render json: { error: flash[:error] } }
       end
     end
-
   end
 
   def preview
@@ -411,15 +409,15 @@ class MessagesController < ApplicationController
     return if current_user.blank?
 
     had_one = false
-    message_ids = thread.messages.map { |m| m.message_id }
+    message_ids = thread.messages.map(&:message_id)
 
     to_delete = []
     to_mark_read = []
-    notifications = Notification.
-                    where(recipient_id: current_user.user_id,
-                          oid: message_ids).
-                    where("otype IN ('message:create-answer','message:create-activity', 'message:mention')").
-                    all
+    notifications = Notification
+                      .where(recipient_id: current_user.user_id,
+                             oid: message_ids)
+                      .where("otype IN ('message:create-answer','message:create-activity', 'message:mention')")
+                      .all
 
     notifications.each do |n|
       had_one = true
