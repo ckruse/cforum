@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-$CF_VERSION = '4.3'
+$CF_VERSION = '4.4'
 
 require Rails.root + 'lib/tools'
 require Rails.root + 'lib/peon'
