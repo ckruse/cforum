@@ -11,42 +11,46 @@ module Peon
 
         # first: max messages per thread (to avoid monster threads like „Test, bitte ignorieren”)
         CfThread.transaction do
-          threads = CfThread.select('threads.thread_id, COUNT(*) AS cnt, threads.flags').
-                    joins(:messages).
-                    where(archived: false, forum_id: forum.forum_id).
-                    group('threads.thread_id')
+          threads = CfThread.select('threads.thread_id, COUNT(*) AS cnt, threads.flags')
+                      .joins(:messages)
+                      .where(archived: false, forum_id: forum.forum_id)
+                      .group('threads.thread_id')
 
           threads.each do |t|
-            if t.cnt.to_i > max_messages
-              if t.flags['no-archive'] == 'yes'
-                Rails.logger.info 'ArchiveRunnerTask: archiving (deleting!) thread ' + t.thread_id.to_s + ' because of to many messages'
-                audit(t, 'destroy', nil)
-                SearchDocument.delete_all(['reference_id IN (?)', t.messages.map { |m| m.message_id }])
-                t.destroy
-              else
-                Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + t.thread_id.to_s + ' because of to many messages'
+            next unless t.cnt.to_i > max_messages
+            if t.flags['no-archive'] == 'yes'
+              Rails.logger.info 'ArchiveRunnerTask: archiving (deleting!) thread ' + t.thread_id.to_s + ' because of to many messages'
+              audit(t, 'destroy', nil)
+              SearchDocument.delete_all(['reference_id IN (?)', t.messages.map(&:message_id)])
+              t.destroy
+            else
+              Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + t.thread_id.to_s + ' because of to many messages'
 
-                CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + t.thread_id.to_s
-                Message.connection.execute 'UPDATE messages SET ip = NULL where thread_id = ' + t.thread_id.to_s
-                CfThread.connection.execute "DELETE FROM invisible_threads WHERE thread_id = " + t.thread_id.to_s
-                audit(t, 'archive', nil)
-              end
+              CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + t.thread_id.to_s
+              Message.connection.execute 'UPDATE messages SET ip = NULL where thread_id = ' + t.thread_id.to_s
+              CfThread.connection.execute 'DELETE FROM invisible_threads WHERE thread_id = ' + t.thread_id.to_s
+              audit(t, 'archive', nil)
             end
           end
         end
 
-
         # second: max threads per forum
         CfThread.transaction do
           while CfThread.where(forum_id: forum.forum_id, archived: false).count > max_threads
-            rslt = CfThread.connection.execute 'SELECT threads.thread_id, MAX(messages.created_at) AS created_at FROM threads INNER JOIN messages USING(thread_id) WHERE threads.forum_id = ' + forum.forum_id.to_s + ' AND archived = false GROUP BY threads.thread_id ORDER BY MAX(messages.created_at) ASC LIMIT 1'
+            rslt = CfThread.connection.execute 'SELECT threads.thread_id, MAX(messages.created_at) AS created_at' \
+                                               '  FROM threads INNER JOIN messages USING(thread_id)' \
+                                               '  WHERE threads.forum_id = ' + forum.forum_id.to_s + ' AND' \
+                                               '  archived = false' \
+                                               '  GROUP BY threads.thread_id' \
+                                               '  ORDER BY MAX(messages.created_at) ASC LIMIT 1'
             tid = rslt[0]['thread_id']
 
             t = CfThread.find tid
             if t.flags['no-archive'] == 'yes'
-              Rails.logger.info 'ArchiveRunnerTask: archiving (deleting!) thread ' + tid + ' because oldest while to many threads'
+              Rails.logger.info 'ArchiveRunnerTask: archiving (deleting!) thread ' + tid +
+                                ' because oldest while to many threads'
               audit(t, 'destroy', nil)
-              SearchDocument.delete_all(['reference_id IN (?)', t.messages.map { |m| m.message_id }])
+              SearchDocument.delete_all(['reference_id IN (?)', t.messages.map(&:message_id)])
               t.destroy
             else
               Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + tid + ' because oldest while to many threads'
@@ -54,14 +58,13 @@ module Peon
 
               CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + tid
               Message.connection.execute 'UPDATE messages SET ip = NULL where thread_id = ' + tid
-              CfThread.connection.execute "DELETE FROM invisible_threads WHERE thread_id = " + t.thread_id.to_s
+              CfThread.connection.execute 'DELETE FROM invisible_threads WHERE thread_id = ' + t.thread_id.to_s
             end
           end
         end
       end
 
-
-      def work_work(args)
+      def work_work(_args)
         # run for each forum separately
         forums = Forum.all
 
