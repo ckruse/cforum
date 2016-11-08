@@ -44,13 +44,14 @@ module Peon
                                                '  GROUP BY threads.thread_id' \
                                                '  ORDER BY MAX(messages.created_at) ASC LIMIT 1'
             tid = rslt[0]['thread_id']
+            message_ids = t.messages.map(&:message_id)
 
             t = CfThread.find tid
             if t.flags['no-archive'] == 'yes'
               Rails.logger.info 'ArchiveRunnerTask: archiving (deleting!) thread ' + tid +
                                 ' because oldest while to many threads'
               audit(t, 'destroy', nil)
-              SearchDocument.delete_all(['reference_id IN (?)', t.messages.map(&:message_id)])
+              SearchDocument.where('reference_id IN (?)', message_ids).delete_all
               t.destroy
             else
               Rails.logger.info 'ArchiveRunnerTask: archiving thread ' + tid + ' because oldest while to many threads'
@@ -59,6 +60,7 @@ module Peon
               CfThread.connection.execute 'UPDATE threads SET archived = true WHERE thread_id = ' + tid
               Message.connection.execute 'UPDATE messages SET ip = NULL where thread_id = ' + tid
               CfThread.connection.execute 'DELETE FROM invisible_threads WHERE thread_id = ' + t.thread_id.to_s
+              Subscription.where(message_id: message_ids).delete_all
             end
           end
         end
