@@ -170,8 +170,10 @@ module ThreadsHelper
     html << message_header(thread, thread.message, first: true, show_icons: true)
 
     if not thread.message.messages.blank? and thread.attribs['open_state'] != 'closed'
-      html << message_tree(thread, thread.message.messages, show_icons: true,
-                           hide_repeating_subjects: uconf('hide_subjects_unchanged') == 'yes')
+      html << message_tree(thread, thread.message.messages,
+                           show_icons: true,
+                           hide_repeating_subjects: uconf('hide_subjects_unchanged') == 'yes',
+                           parent_subscribed: thread.message.attribs[:is_subscribed])
     end
     html << '</article>'
 

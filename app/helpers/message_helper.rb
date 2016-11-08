@@ -16,7 +16,8 @@ module MessageHelper
              show_icons: false, do_parent: false,
              tree: true, id: true, hide_repeating_subjects: false,
              show_editor: false, id_prefix: nil, active_message: @message,
-             subject: true, tags: true, author_link_to_message: true }.merge(opts)
+             subject: true, tags: true, author_link_to_message: true,
+             parent_subscribed: false }.merge(opts)
 
     classes = ['message']
     classes += message.attribs['classes']
@@ -131,16 +132,18 @@ module MessageHelper
                              title: t('plugins.interesting_messages.mark_message_interesting'))
       end
 
-      if message.attribs[:is_subscribed]
-        html << cf_button_to(unsubscribe_message_path(thread, message),
-                             params: std_args,
-                             class: 'icon-message unsubscribe',
-                             title: t('plugins.subscriptions.unsubscribe_message'))
-      else
-        html << cf_button_to(subscribe_message_path(thread, message),
-                             params: std_args,
-                             class: 'icon-message subscribe',
-                             title: t('plugins.subscriptions.subscribe_message'))
+      unless opts[:parent_subscribed]
+        if message.attribs[:is_subscribed]
+          html << cf_button_to(unsubscribe_message_path(thread, message),
+                               params: std_args,
+                               class: 'icon-message unsubscribe',
+                               title: t('plugins.subscriptions.unsubscribe_message'))
+        else
+          html << cf_button_to(subscribe_message_path(thread, message),
+                               params: std_args,
+                               class: 'icon-message subscribe',
+                               title: t('plugins.subscriptions.subscribe_message'))
+        end
       end
 
       html << '</span>'
@@ -295,7 +298,8 @@ module MessageHelper
     opts = { prev_deleted: false, show_icons: false, id: true,
              hide_repeating_subjects: false,
              active_message: @message, subject: true,
-             tags: true, id_prefix: nil }.merge(opts)
+             tags: true, id_prefix: nil,
+             parent_subscribed: false }.merge(opts)
 
     html = "<ol>\n"
     for message in messages
@@ -304,22 +308,28 @@ module MessageHelper
       html << '<li'
       html << ' class="' << classes.join(' ') << '"' unless classes.blank?
       html << '>'
-      html << message_header(thread, message, first: false,
-                                              prev_deleted: opts[:prev_deleted],
-                                              show_icons: opts[:show_icons],
-                                              id: opts[:id],
-                                              hide_repeating_subjects: opts[:hide_repeating_subjects],
-                                              active_message: opts[:active_message],
-                                              id_prefix: opts[:id_prefix])
+      html << message_header(thread, message,
+                             first: false,
+                             prev_deleted: opts[:prev_deleted],
+                             show_icons: opts[:show_icons],
+                             id: opts[:id],
+                             hide_repeating_subjects: opts[:hide_repeating_subjects],
+                             active_message: opts[:active_message],
+                             id_prefix: opts[:id_prefix],
+                             parent_subscribed: opts[:parent_subscribed])
+
       unless message.messages.blank?
-        html << message_tree(thread, message.messages, first: false,
-                                                       prev_deleted: message.deleted?,
-                                                       show_icons: opts[:show_icons],
-                                                       id: opts[:id],
-                                                       hide_repeating_subjects: opts[:hide_repeating_subjects],
-                                                       active_message: opts[:active_message],
-                                                       id_prefix: opts[:id_prefix])
+        html << message_tree(thread, message.messages,
+                             first: false,
+                             prev_deleted: message.deleted?,
+                             show_icons: opts[:show_icons],
+                             id: opts[:id],
+                             hide_repeating_subjects: opts[:hide_repeating_subjects],
+                             active_message: opts[:active_message],
+                             id_prefix: opts[:id_prefix],
+                             parent_subscribed: opts[:parent_subscribed] || message.attribs[:is_subscribed])
       end
+
       html << '</li>'
     end
 
@@ -359,14 +369,14 @@ module MessageHelper
   end
 
   def set_user_cookies(message)
-    unless current_user
-      cookies[:cforum_user] = { value: request.uuid, expires: 1.year.from_now } if cookies[:cforum_user].blank?
-      message.uuid = cookies[:cforum_user]
+    return if current_user
 
-      cookies[:cforum_author]   = { value: @message.author, expires: 1.year.from_now }
-      cookies[:cforum_email]    = { value: @message.email, expires: 1.year.from_now }
-      cookies[:cforum_homepage] = { value: @message.homepage, expires: 1.year.from_now }
-    end
+    cookies[:cforum_user] = { value: request.uuid, expires: 1.year.from_now } if cookies[:cforum_user].blank?
+    message.uuid = cookies[:cforum_user]
+
+    cookies[:cforum_author]   = { value: @message.author, expires: 1.year.from_now }
+    cookies[:cforum_email]    = { value: @message.email, expires: 1.year.from_now }
+    cookies[:cforum_homepage] = { value: @message.homepage, expires: 1.year.from_now }
   end
 
   def std_conditions(conditions, tid = false)
