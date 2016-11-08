@@ -86,6 +86,14 @@ cforum.messages = {
   },
 
   show: function() {
+    if($("body").hasClass("nested-view") && window.scrollTo) {
+      var anchor = document.location.hash;
+      if(anchor) {
+        var offset = $(anchor).offset();
+        window.scrollTo(offset.left, offset.top);
+      }
+    }
+
     if(uconf('fold_read_nested') == 'yes' && !cforum.viewAll) {
       var nodes = $(".thread-nested:not(.archived) .message.visited:not(.active)").closest('.posting-nested');
       nodes.addClass('folded');
