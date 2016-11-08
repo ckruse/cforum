@@ -424,7 +424,7 @@ class MessagesController < ApplicationController
     notifications.each do |n|
       had_one = true
 
-      if (n.otype.in?('message:create-answer', 'message:create-activity') &&
+      if (n.otype.in?(['message:create-answer', 'message:create-activity']) &&
           uconf('delete_read_notifications_on_abonements') == 'yes') ||
          (n.otype == 'message:mention' &&
           uconf('delete_read_notifications_on_mention') == 'yes')
