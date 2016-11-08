@@ -2,7 +2,7 @@ de:
   notifications:
     notifications: Benachrichtigungen
     new_mail: "neue Nachricht von %{user}: %{subject}"
-    new_thread: "Neuer Thread von %{nick}: %{subject}"
+    new_thread: "neuer Thread von %{nick}: %{subject}"
     new_answer: "%{nick} hat auf Ihren Beitrag geantwortet: %{subject}"
     new_message: "%{nick} hat einen neuen Beitrag geschrieben: %{subject}"
     new_mention: "%{nick} hat Sie in einem Beitrag erwähnt: %{subject}"
