@@ -43,6 +43,14 @@
   </div>
 
   <div class="cf-cgroup">
+    <label><%= t('users.settings.autosubscribe_on_post') %></label>
+    <div class="cntrls">
+      <input type="hidden" name="settings[autosubscribe_on_post]" value="no">
+      <label class="checkbox"><input type="checkbox" value="email" name="settings[autosubscribe_on_post]"<%= disabled %><% if @settings.conf('autosubscribe_on_post') == 'email' %> checked="checked"<% end %>> <%= t("global.yeah") %></label>
+    </div>
+  </div>
+
+  <div class="cf-cgroup">
     <label><%= t('users.settings.notification_on_move') %></label>
     <div class="cntrls">
       <label class="radio"><input type="radio" value="yes" name="settings[notify_on_move]"<%= disabled %><% if @settings.conf('notify_on_move') == 'yes' %> checked="checked"<% end %>> <%= t("global.yeah") %></label>

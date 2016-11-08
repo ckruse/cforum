@@ -72,6 +72,7 @@ class ConfigManager
     'use_javascript_notifications' => 'yes',
     'notify_on_new_mail' => 'no',
     'notify_on_abonement_activity' => 'no',
+    'autosubscribe_on_post' => 'yes',
     'notify_on_flagged' => 'no',
     'notify_on_open_close_vote' => 'no',
     'notify_on_move' => 'no',

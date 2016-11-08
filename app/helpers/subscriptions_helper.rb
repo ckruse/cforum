@@ -47,6 +47,11 @@ module SubscriptionsHelper
     subscribed_messages
   end
 
+  def subscribe_message(message, user = current_user)
+    Subscription.create!(user_id: user.user_id,
+                         message_id: message.message_id)
+  end
+
   def mark_threads_subscribed(threads, user = current_user)
     return if user.blank?
 

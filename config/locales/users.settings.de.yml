@@ -17,6 +17,7 @@ de:
       delete_read_notifications_on_mention: Gelesene Benachrichtigungen für Erwähnungen automatisch löschen
       notify_on_new_mail: Benachrichtigung bei neuer Post
       notify_via_email_on_abonement_activity: E-Mail-Benachrichtigung bei Aktivität auf abonierte Nachrichten
+      autosubscribe_on_post: Themen automatisch abonieren bei Antwort
       notification_on_flagged: Benachrichtigung bei Moderator-Aufmerksamkeit („Flag“)
       notification_on_open_close_vote: Benachrichtigung bei Sperr-/Entsperr-Abstimmung
       notification_on_move: Benachrichtigung, wenn ein Thread, an dem sie beteiligt sind, verschoben wird
