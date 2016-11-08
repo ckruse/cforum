@@ -16,7 +16,9 @@ $(function() {
       '.icon-message.mark-interesting',
       '.icon-message.mark-boring',
       '.icon-thread.mark-invisible',
-      '.icon-thread.mark-visible'
+      '.icon-thread.mark-visible',
+      '.icon-message.subscribe',
+      '.icon-message.unsubscribe'
     ];
 
     var i, handle_elem = false;
