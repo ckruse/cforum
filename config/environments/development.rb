@@ -47,6 +47,7 @@ Cforum::Application.configure do
   config.mail_sender = 'cforum@wwwtech.de'
   config.ws_url = "//localhost:9090/"
   config.internal_faye_url = 'http://localhost:9090/message'
+  config.mid_host = 'forum.selfhtml.org'
 
   # these are fake; replace by real auth data!
   config.twitter = {
