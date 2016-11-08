@@ -54,7 +54,7 @@
     <label><%= t('users.settings.autosubscribe_on_post') %></label>
     <div class="cntrls">
       <input type="hidden" name="settings[autosubscribe_on_post]" value="no">
-      <label class="checkbox"><input type="checkbox" value="email" name="settings[autosubscribe_on_post]"<%= disabled %><% if @settings.conf('autosubscribe_on_post') == 'email' %> checked="checked"<% end %>> <%= t("global.yeah") %></label>
+      <label class="checkbox"><input type="checkbox" value="yes" name="settings[autosubscribe_on_post]"<%= disabled %><% if @settings.conf('autosubscribe_on_post') == 'yes' %> checked="checked"<% end %>> <%= t("global.yeah") %></label>
     </div>
   </div>
 
