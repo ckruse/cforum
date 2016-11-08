@@ -76,6 +76,7 @@ class ConfigManager
     'notify_on_flagged' => 'no',
     'notify_on_open_close_vote' => 'no',
     'notify_on_move' => 'no',
+    'notify_on_new_thread' => 'no',
     'notify_on_mention' => 'yes',
     'highlighted_users' => '',
     'highlight_self' => 'yes',

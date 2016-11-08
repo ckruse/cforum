@@ -28,6 +28,20 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
   end
 
   def perform_thread
+    settings = Setting
+                 .preload(:user)
+                 .where("options->'notify_on_new_thread' = 'yes'")
+                 .all
+
+    settings.each do |setting|
+      # ignore own messages
+      next if setting.user_id == @message.user_id
+
+      notify_user(setting.user, nil,
+                  I18n.t('notifications.new_thread', nick: @message.author, subject: @message.subject),
+                  message_path(@thread, @message), @message.message_id,
+                  'message:create-answer', 'icon-new-activity')
+    end
   end
 
   def perform_message

@@ -22,6 +22,7 @@ de:
       notification_on_open_close_vote: Benachrichtigung bei Sperr-/Entsperr-Abstimmung
       notification_on_move: Benachrichtigung, wenn ein Thread, an dem sie beteiligt sind, verschoben wird
       notify_on_mention: Benachrichtigung, wenn Sie in einem Beitrag erwähnt wurden (@name)
+      notify_on_new_thread: Benachrichtigung bei neuem Thread
       greeting: Begrüßung
       farewell: Verabschiedung
       signature: Signatur

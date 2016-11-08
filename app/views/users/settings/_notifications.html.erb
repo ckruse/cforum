@@ -27,6 +27,14 @@
   </div>
 
   <div class="cf-cgroup">
+    <label><%= t('users.settings.notify_on_new_thread') %></label>
+    <div class="cntrls">
+      <input type="hidden" name="settings[notify_on_new_thread]" value="no">
+      <label class="checkbox"><input type="checkbox" value="yes" name="settings[notify_on_new_thread]"<%= disabled %><% if @settings.conf('notify_on_new_thread') == 'yes' %> checked="checked"<% end %>></label>
+    </div>
+  </div>
+
+  <div class="cf-cgroup">
     <label><%= t('users.settings.notify_via_email_on_abonement_activity') %></label>
     <div class="cntrls">
       <input type="hidden" name="settings[notify_on_abonement_activity]" value="no">
