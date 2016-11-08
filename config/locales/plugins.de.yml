@@ -92,3 +92,4 @@ de:
       error_subscribing: Es ist ein unerwarteter Fehler aufgetreten.
       subscribe_message: Baum abonieren
       unsubscribe_message: Abo kündigen
+      already_subscribed: Dieser Zweig wurde bereits aboniert.

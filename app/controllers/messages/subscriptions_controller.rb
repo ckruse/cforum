@@ -6,6 +6,12 @@ class Messages::SubscriptionsController < ApplicationController
   def subscribe
     @thread, @message, = get_thread_w_post
 
+    if previous_subscription?(@message)
+      redirect_to(cf_return_url(@thread, @message),
+                  notice: t('plugins.subscriptions.already_subscribed'))
+      return
+    end
+
     @subscription = Subscription.new(user_id: current_user.user_id,
                                      message_id: @message.message_id)
 
@@ -43,6 +49,25 @@ class Messages::SubscriptionsController < ApplicationController
       end
       format.json { render json: { status: :success, slug: @thread.slug } }
     end
+  end
+
+  private
+
+  def previous_subscription?(message)
+    message_ids = []
+
+    parent = message.parent_level
+    until parent.blank?
+      message_ids << parent.message_id
+      parent = parent.parent_level
+    end
+
+    return if message_ids.blank?
+
+    Subscription
+      .where(user_id: current_user.user_id,
+             message_id: message_ids)
+      .exists?
   end
 end
 
