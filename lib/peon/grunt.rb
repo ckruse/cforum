@@ -2,6 +2,7 @@
 
 dir = File.dirname(__FILE__)
 require File.join(dir, "..", "config_manager")
+require Rails.root + 'app/helpers/parser_helper.rb'
 
 require 'thread'
 require 'singleton'
