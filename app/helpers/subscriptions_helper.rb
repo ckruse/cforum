@@ -48,6 +48,8 @@ module SubscriptionsHelper
   end
 
   def subscribe_message(message, user = current_user)
+    return if user.blank?
+
     Subscription.create!(user_id: user.user_id,
                          message_id: message.message_id)
   end
