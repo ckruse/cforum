@@ -19,6 +19,7 @@ class MessagesController < ApplicationController
   include SpamHelper
   include LinkTagsHelper
   include NotifyHelper
+  include SubscriptionsHelper
 
   def show
     @thread, @message, @id = get_thread_w_post
@@ -386,6 +387,7 @@ class MessagesController < ApplicationController
     check_threads_for_suspiciousness([thread])
     check_threads_for_highlighting([thread])
     mark_threads_interesting([thread])
+    mark_threads_subscribed([thread])
 
     if type == :thread
       show_thread_link_tags(thread, message)
