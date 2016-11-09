@@ -44,9 +44,9 @@ module Peon
                                                '  GROUP BY threads.thread_id' \
                                                '  ORDER BY MAX(messages.created_at) ASC LIMIT 1'
             tid = rslt[0]['thread_id']
+            t = CfThread.find tid
             message_ids = t.messages.map(&:message_id)
 
-            t = CfThread.find tid
             if t.flags['no-archive'] == 'yes'
               Rails.logger.info 'ArchiveRunnerTask: archiving (deleting!) thread ' + tid +
                                 ' because oldest while to many threads'
