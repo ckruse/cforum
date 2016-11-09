@@ -90,6 +90,23 @@ module SubscriptionsHelper
 
     merge_cached_entry(:interesting, user.user_id, new_cache)
   end
+
+  def parent_subscribed?(message, user = current_user)
+    messages = []
+    parent = message.parent_level
+
+    until parent.blank?
+      messages << parent.message_id
+      parent = parent.parent_level
+    end
+
+    return if messages.blank?
+
+    Subscription
+      .where(user_id: user.user_id,
+             message_id: messages)
+      .exists?
+  end
 end
 
 # eof
