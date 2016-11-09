@@ -206,9 +206,9 @@ class Peon::Tasks::NotifyNewTask < Peon::Tasks::PeonTask
 
     unless message.messages.blank?
       if direction == 'ascending'
-        message.messages.sort! { |a,b| a.created_at <=> b.created_at }
+        message.messages.sort! { |a, b| a.created_at <=> b.created_at }
       else
-        message.messages.sort! { |a,b| b.created_at <=> a.created_at }
+        message.messages.sort! { |a, b| b.created_at <=> a.created_at }
       end
 
       for m in message.messages
