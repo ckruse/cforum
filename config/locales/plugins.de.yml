@@ -87,9 +87,9 @@ de:
       tweeted: Der Tweet wurde erfolgreich erstellt.
 
     subscriptions:
-      subscribed: Die Nachricht wurde erfolgreich aboniert.
-      unsubscribed: Die Nachricht wurde erfolgreich deaboniert.
+      subscribed: Die Nachricht wurde erfolgreich abonniert.
+      unsubscribed: Die Nachricht wurde erfolgreich deabonniert.
       error_subscribing: Es ist ein unerwarteter Fehler aufgetreten.
-      subscribe_message: Baum abonieren
-      unsubscribe_message: Abo kündigen
-      already_subscribed: Dieser Zweig wurde bereits aboniert.
+      subscribe_message: Baum abonnieren
+      unsubscribe_message: Baum deabonnieren
+      already_subscribed: Dieser Zweig wurde bereits abonniert.
