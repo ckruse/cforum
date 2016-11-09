@@ -49,6 +49,8 @@ module SubscriptionsHelper
 
   def subscribe_message(message, user = current_user)
     return if user.blank?
+    return if Subscription.where(user_id: user.user_id,
+                                 message_id: message.message_id).exists?
 
     Subscription.create!(user_id: user.user_id,
                          message_id: message.message_id)
