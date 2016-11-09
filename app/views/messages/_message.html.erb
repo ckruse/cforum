@@ -135,6 +135,18 @@ controls ||= :yes
                                class: 'cf-btn',
                                params: std_args) do %><% t('plugins.interesting_messages.mark_message_interesting') %><% end %>
             <% end %>
+
+            <% if m.attribs[:is_subscribed] %>
+              <%= cf_button_to(unsubscribe_message_path(@thread, m),
+                               params: std_args,
+                               class: 'cf-btn',
+                               title: t('plugins.subscriptions.unsubscribe_message')) do %><% t('plugins.subscriptions.unsubscribe_message') %><% end %>
+            <% else %>
+              <%= cf_button_to(subscribe_message_path(@thread, m),
+                               params: std_args,
+                               class: 'cf-btn',
+                               title: t('plugins.subscriptions.subscribe_message')) do %><% t('plugins.subscriptions.subscribe_message') %><% end %>
+            <% end %>
           <% end %>
         </div>
 
