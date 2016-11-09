@@ -51,6 +51,7 @@ module SubscriptionsHelper
     return if user.blank?
     return if Subscription.where(user_id: user.user_id,
                                  message_id: message.message_id).exists?
+    return if parent_subscribed?(message, user)
 
     Subscription.create!(user_id: user.user_id,
                          message_id: message.message_id)
