@@ -93,6 +93,8 @@ module SubscriptionsHelper
   end
 
   def parent_subscribed?(message, user = current_user)
+    return if current_user.blank?
+
     messages = []
     parent = message.parent_level
 
