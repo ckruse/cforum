@@ -1,5 +1,5 @@
 /* -*- coding: utf-8 -*- */
-/* global cforum */
+/* global cforum, t */
 
 $(function() {
   $('.root').on('click', function(ev) {
@@ -73,13 +73,13 @@ $(function() {
             }).
             fail(function() {
               $this.removeClass("spinning");
-              cforum.alert.error('Etwas ist schief gegangen!');
+              cforum.alert.error(t('something_went_wrong'));
             });
         }
       }).
       fail(function(xhr, textStatus, errorThrown) {
         $this.removeClass("spinning");
-        cforum.alert.error('Etwas ist schief gegangen!');
+        cforum.alert.error(t('something_went_wrong'));
       });
   });
 });
