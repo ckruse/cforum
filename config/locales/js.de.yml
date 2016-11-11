@@ -15,6 +15,7 @@ de:
       problematic_site: problematische Seite
       username_taken: Dieser Benutzername ist bereits vergeben!
       no_at_in_name: Der Benutzername darf kein „@“ enthalten!
+      something_went_wrong: Es ist etwas schief gegangen!
       upload:
         image_area: 'Bilder hierher ziehen oder klicken, um sie hochzuladen. Beachten Sie die <a href="http://selfhtml.org/impressum.html#upload">Nutzungsbedingungen</a>.'
         alternative_text: Alternativ-Text

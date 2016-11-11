@@ -170,11 +170,15 @@ cforum.messages = {
     btn.addClass("loading");
 
     $.post(url + '.json').
-      success(function() {
+      done(function() {
         form.attr("action", url.replace(/subscribe$/, 'unsubscribe'));
 
         btn.text(t('subscriptions.unsubscribe'));
         btn.removeClass("subscribe-message").addClass("unsubscribe-message").removeClass("loading");
+      }).
+      fail(function() {
+        btn.removeClass("loading");
+        cforum.alert.error(t('something_went_wrong'));
       });
   },
 
@@ -187,12 +191,16 @@ cforum.messages = {
     btn.addClass("loading");
 
     $.post(url + '.json').
-      success(function() {
+      done(function() {
         form.attr("action", url.replace(/unsubscribe$/, 'subscribe'));
 
         var btn = form.find("button");
         btn.text(t('subscriptions.subscribe'));
         btn.removeClass("unsubscribe-message").addClass("subscribe-message").removeClass("loading");
+      }).
+      fail(function() {
+        btn.removeClass("loading");
+        cforum.alert.error(t('something_went_wrong'));
       });
   },
 
