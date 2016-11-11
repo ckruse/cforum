@@ -283,6 +283,18 @@ main h2 { margin-left:0; }
   }
 }
 
+.subscribe-message, .unsubscribe-message {
+  &.loading:before {
+    content: "";
+    background: asset-url("ajax-loader.svg") no-repeat center scroll transparent;
+    background-size: contain;
+    display:inline-block;
+    width:1em;
+    height:1em;
+  }
+}
+
+
 .thread-nested {
   display:inline-block;
 

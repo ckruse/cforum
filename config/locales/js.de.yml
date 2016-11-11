@@ -29,6 +29,10 @@ de:
         dictRemoveFile: Datei entfernen
         dictMaxFilesExceeded: Sie können keine weiteren Dateien hochladen.
 
+      subscriptions:
+        subscribe: Baum abonnieren
+        unsubscribe: Baum deabonnieren
+
       buttons:
         tab:
           title: Tabulator (Alt+1)

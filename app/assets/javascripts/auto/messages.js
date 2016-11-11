@@ -150,6 +150,50 @@ cforum.messages = {
         }
       });
     }
+
+    $(".subscribe-message, .unsubscribe-message").closest("form").on("submit", function(ev) {
+      if($(ev.target).find("button").hasClass("subscribe-message")) {
+        cforum.messages.subscribeMessage(ev);
+      }
+      else {
+        cforum.messages.unsubscribeMessage(ev);
+      }
+    });
+  },
+
+  subscribeMessage: function(ev) {
+    ev.preventDefault();
+    var form = $(ev.target);
+    var url = form.attr("action");
+    var btn = form.find("button");
+
+    btn.addClass("loading");
+
+    $.post(url + '.json').
+      success(function() {
+        form.attr("action", url.replace(/subscribe$/, 'unsubscribe'));
+
+        btn.text(t('subscriptions.unsubscribe'));
+        btn.removeClass("subscribe-message").addClass("unsubscribe-message").removeClass("loading");
+      });
+  },
+
+  unsubscribeMessage: function(ev) {
+    ev.preventDefault();
+    var form = $(ev.target);
+    var url = form.attr("action");
+    var btn = form.find("button");
+
+    btn.addClass("loading");
+
+    $.post(url + '.json').
+      success(function() {
+        form.attr("action", url.replace(/unsubscribe$/, 'subscribe'));
+
+        var btn = form.find("button");
+        btn.text(t('subscriptions.subscribe'));
+        btn.removeClass("unsubscribe-message").addClass("subscribe-message").removeClass("loading");
+      });
   },
 
   init: function() {
