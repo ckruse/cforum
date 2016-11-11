@@ -34,6 +34,10 @@ de:
         subscribe: Baum abonnieren
         unsubscribe: Baum deabonnieren
 
+      interesting:
+        mark_message_interesting: als interessant markieren
+        mark_message_boring: Interessant-Markierung entfernen
+
       buttons:
         tab:
           title: Tabulator (Alt+1)

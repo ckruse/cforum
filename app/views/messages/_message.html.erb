@@ -127,12 +127,12 @@ controls ||= :yes
             <% if m.attribs[:is_interesting] %>
               <%= cf_button_to(boring_message_path(@thread, m),
                                title: t('plugins.interesting_messages.mark_message_boring'),
-                               class: 'cf-btn',
+                               class: 'cf-btn mark-boring',
                                params: std_args) do %><% t('plugins.interesting_messages.mark_message_boring') %><% end %>
             <% else %>
               <%= cf_button_to(interesting_message_path(@thread, m),
                                title: t('plugins.interesting_messages.mark_message_interesting'),
-                               class: 'cf-btn',
+                               class: 'cf-btn mark-interesting',
                                params: std_args) do %><% t('plugins.interesting_messages.mark_message_interesting') %><% end %>
             <% end %>
 

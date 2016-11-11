@@ -159,6 +159,15 @@ cforum.messages = {
         cforum.messages.unsubscribeMessage(ev);
       }
     });
+
+    $("button.mark-interesting, button.mark-boring").closest("form").on("submit", function(ev) {
+      if($(ev.target).find("button").hasClass("mark-interesting")) {
+        cforum.messages.markInteresting(ev);
+      }
+      else {
+        cforum.messages.markBoring(ev);
+      }
+    });
   },
 
   subscribeMessage: function(ev) {
@@ -197,6 +206,50 @@ cforum.messages = {
         var btn = form.find("button");
         btn.text(t('subscriptions.subscribe'));
         btn.removeClass("unsubscribe-message").addClass("subscribe-message").removeClass("loading");
+      }).
+      fail(function() {
+        btn.removeClass("loading");
+        cforum.alert.error(t('something_went_wrong'));
+      });
+  },
+
+  markInteresting: function(ev) {
+    ev.preventDefault();
+    var form = $(ev.target);
+    var url = form.attr("action");
+    var btn = form.find("button");
+
+    btn.addClass("loading");
+
+    $.post(url + '.json').
+      done(function() {
+        form.attr("action", url.replace(/interesting$/, 'boring'));
+
+        var btn = form.find("button");
+        btn.text(t('interesting.mark_message_boring'));
+        btn.removeClass("mark-interesting").addClass("mark-boring").removeClass("loading");
+      }).
+      fail(function() {
+        btn.removeClass("loading");
+        cforum.alert.error(t('something_went_wrong'));
+      });
+  },
+
+  markBoring: function(ev) {
+    ev.preventDefault();
+    var form = $(ev.target);
+    var url = form.attr("action");
+    var btn = form.find("button");
+
+    btn.addClass("loading");
+
+    $.post(url + '.json').
+      done(function() {
+        form.attr("action", url.replace(/boring$/, 'interesting'));
+
+        var btn = form.find("button");
+        btn.text(t('interesting.mark_message_interesting'));
+        btn.removeClass("mark-boring").addClass("mark-interesting").removeClass("loading");
       }).
       fail(function() {
         btn.removeClass("loading");
