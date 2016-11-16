@@ -148,7 +148,7 @@ class CfThreadsController < ApplicationController
                           thread: @thread.thread_id,
                           message: @message.message_id })
 
-        subscribe_message(@message) if uconf('autosubscribe_on_post') == 'yes'
+        autosubscribe_message(@thread, nil, @message)
 
         format.html { redirect_to message_url(@thread, @message), notice: I18n.t('threads.created') }
         format.json { render json: @thread, status: :created, location: @thread }

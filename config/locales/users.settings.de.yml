@@ -18,6 +18,9 @@ de:
       notify_on_new_mail: Benachrichtigung bei neuer Post
       notify_via_email_on_abonement_activity: E-Mail-Benachrichtigung bei Aktivität auf abonierte Nachrichten
       autosubscribe_on_post: Themen automatisch abonieren bei Antwort
+      autosubscribe_parent: vorhergehende Nachricht
+      autosubscribe_own: eigene Nachricht
+      autosubscribe_root: Ausgangsnachricht
       notification_on_flagged: Benachrichtigung bei Moderator-Aufmerksamkeit („Flag“)
       notification_on_open_close_vote: Benachrichtigung bei Sperr-/Entsperr-Abstimmung
       notification_on_move: Benachrichtigung, wenn ein Thread, an dem sie beteiligt sind, verschoben wird

@@ -110,6 +110,22 @@ module SubscriptionsHelper
              message_id: messages)
       .exists?
   end
+
+  def autosubscribe_message(thread, parent, message)
+    confval = uconf('autosubscribe_on_post')
+    return if confval == 'no'
+
+    parent = message if parent.blank?
+
+    case confval
+    when 'yes'
+      subscribe_message(parent)
+    when 'own'
+      subscribe_message(message)
+    when 'root'
+      subscribe_message(thread.message)
+    end
+  end
 end
 
 # eof

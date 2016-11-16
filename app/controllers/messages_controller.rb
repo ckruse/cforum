@@ -149,7 +149,7 @@ class MessagesController < ApplicationController
                         thread: @thread.thread_id,
                         message: @message.message_id })
 
-      subscribe_message(@parent) if uconf('autosubscribe_on_post') == 'yes'
+      autosubscribe_message(@thread, @parent, @message)
 
       redirect_to message_url(@thread, @message), notice: I18n.t('messages.created')
     else
