@@ -74,6 +74,20 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
       super(name, opts, body, type, line_no)
     end
   end
+
+  def parse_attribute_list(str, opts)
+    return if str.strip.empty? || str.strip == ':'
+    my_opts = {}
+
+    if str =~ /@([a-zA-Z_-]+)/
+      my_opts['lang'] = Regexp.last_match(1)
+      str = str.gsub(/@([a-zA-Z_-]+)/, '')
+    end
+
+    super(str, opts)
+
+    opts.merge!(my_opts)
+  end
 end
 
 class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
