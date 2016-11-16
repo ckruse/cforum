@@ -17,7 +17,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
   end
 
   # The mapping of element type to conversion method.
-  DISPATCHER = Hash.new {|h,k| h[k] = "convert_#{k}"}
+  DISPATCHER = Hash.new { |h, k| h[k] = "convert_#{k}" }
 
   # Dispatch the conversion of the element +el+ to a +convert_TYPE+ method using the +type+ of
   # the element.
@@ -39,8 +39,8 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
     result
   end
 
-  def convert_blank(el)
-    ""
+  def convert_blank(_el)
+    ''
   end
 
   def convert_text(el)
@@ -55,7 +55,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
     el.value
   end
 
-  def convert_blockquote(el)
+  def convert_blockquote(_el)
     ''
   end
 
@@ -63,14 +63,14 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
     inner(el)
   end
 
-  def convert_hr(el)
+  def convert_hr(_el)
     "------------------------------------------------------------------------\n\n"
   end
 
   def convert_ul(el)
     inner(el)
   end
-  alias :convert_ol :convert_ul
+  alias convert_ol convert_ul
 
   def convert_dl(el)
     inner(el)
@@ -87,34 +87,34 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
 
     output + "\n"
   end
-  alias :convert_dd :convert_li
+  alias convert_dd convert_li
 
   def convert_dt(el)
     inner(el) + ":\n"
   end
 
-  def convert_xml_comment(el)
+  def convert_xml_comment(_el)
     ''
   end
-  alias :convert_xml_pi :convert_xml_comment
+  alias convert_xml_pi convert_xml_comment
 
   def convert_table(el)
     inner(el)
   end
-  alias :convert_thead :convert_table
-  alias :convert_tbody :convert_table
-  alias :convert_tfoot :convert_table
-  alias :convert_tr  :convert_table
+  alias convert_thead convert_table
+  alias convert_tbody convert_table
+  alias convert_tfoot convert_table
+  alias convert_tr convert_table
 
   def convert_td(el)
     inner(el)
   end
 
-  def convert_comment(el)
+  def convert_comment(_el)
     ''
   end
 
-  def convert_br(el)
+  def convert_br(_el)
     "\n"
   end
 
@@ -132,7 +132,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
 
   def convert_img(el)
     ret = el.attr['src']
-    if not el.attr['alt'].empty? and el.attr['alt'] != el.attr['src']
+    if !el.attr['alt'].empty? && (el.attr['alt'] != el.attr['src'])
       ret += ' ' + el.attr['alt']
     end
 
@@ -168,7 +168,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
   def convert_em(el)
     inner(el)
   end
-  alias :convert_strong :convert_em
+  alias convert_strong convert_em
 
   def convert_entity(el)
     '&' + el.value.name + ';'
@@ -181,7 +181,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
   def convert_abbreviation(el)
     title = @root.options[:abbrev_defs][el.value]
     ret = el.value
-    ret += " (" + title + ")" unless title.empty?
+    ret += ' (' + title + ')' unless title.empty?
   end
 
   def convert_root(el)
@@ -193,7 +193,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
     end
     if @toc_code
       toc_tree = generate_toc_tree(@toc, @toc_code[0], @toc_code[1] || {})
-      text = if toc_tree.children.size > 0
+      text = if !toc_tree.children.empty?
                convert(toc_tree, 0)
              else
                ''
@@ -209,8 +209,8 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
     sections.attr['id'] ||= 'markdown-toc'
     stack = []
     toc.each do |level, id, children|
-      li = Element.new(:li, nil, nil, {:level => level})
-      li.children << Element.new(:p, nil, nil, {:transparent => true})
+      li = Element.new(:li, nil, nil, level: level)
+      li.children << Element.new(:p, nil, nil, transparent: true)
       a = Element.new(:a, nil)
       a.attr['href'] = "##{id}"
       a.attr['id'] = "#{sections.attr['id']}-#{id}"
@@ -219,7 +219,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
       li.children << Element.new(type)
 
       success = false
-      while !success
+      until success
         if stack.empty?
           sections.children << li
           stack << li
@@ -230,13 +230,13 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
           success = true
         else
           item = stack.pop
-          item.children.pop unless item.children.last.children.size > 0
+          item.children.pop if item.children.last.children.empty?
         end
       end
     end
-    while !stack.empty?
+    until stack.empty?
       item = stack.pop
-      item.children.pop unless item.children.last.children.size > 0
+      item.children.pop if item.children.last.children.empty?
     end
     sections
   end
@@ -251,15 +251,15 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
 
   # Obfuscate the +text+ by using HTML entities.
   def obfuscate(text)
-    result = ""
+    result = ''
     text.each_byte do |b|
-      result << (b > 128 ? b.chr : "&#%03d;" % b)
+      result << (b > 128 ? b.chr : '&#%03d;' % b)
     end
     result.force_encoding(text.encoding) if result.respond_to?(:force_encoding)
     result
   end
 
-  FOOTNOTE_BACKLINK_FMT = "%s<a href=\"#fnref:%s\" class=\"reversefootnote\">%s</a>"
+  FOOTNOTE_BACKLINK_FMT = '%s<a href="#fnref:%s" class="reversefootnote">%s</a>'.freeze
 
   # Return a HTML ordered list with the footnote content for the used footnotes.
   def footnote_content
@@ -268,7 +268,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
     i = 0
     while i < @footnotes.length
       name, data, _, repeat = *@footnotes[i]
-      li = Kramdown::Element.new(:li, nil, {'id' => "fn:#{name}"})
+      li = Kramdown::Element.new(:li, nil, 'id' => "fn:#{name}")
       li.children = Marshal.load(Marshal.dump(data.children))
 
       if li.children.last.type == :p
@@ -279,9 +279,9 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
         insert_space = false
       end
 
-      para.children << Kramdown::Element.new(:raw, FOOTNOTE_BACKLINK_FMT % [insert_space ? ' ' : '', name, "&#8617;"])
+      para.children << Kramdown::Element.new(:raw, FOOTNOTE_BACKLINK_FMT % [insert_space ? ' ' : '', name, '&#8617;'])
       (1..repeat).each do |index|
-        para.children << Kramdown::Element.new(:raw, FOOTNOTE_BACKLINK_FMT % [" ", "#{name}:#{index}", "&#8617;<sup>#{index+1}</sup>"])
+        para.children << Kramdown::Element.new(:raw, FOOTNOTE_BACKLINK_FMT % [' ', "#{name}:#{index}", "&#8617;<sup>#{index + 1}</sup>"])
       end
 
       ol.children << Kramdown::Element.new(:raw, convert(li))
@@ -290,10 +290,9 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
     (ol.children.empty? ? '' : convert(ol))
   end
 
-  def convert_email_style_sig(el)
+  def convert_email_style_sig(_el)
     ''
   end
-
 end
 
 # eof

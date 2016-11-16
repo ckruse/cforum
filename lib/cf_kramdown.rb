@@ -20,15 +20,15 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
     @app_controller = args.last[:app]
   end
 
-  Kernel::silence_warnings {
+  Kernel.silence_warnings do
     CF_SETEXT_HEADER_START = /^(#{OPT_SPACE}[^ \t].*?)#{HEADER_ID}[ \t]*?\n(-|=)+\n/
-  }
-  define_parser(:cf_setext_header, CF_SETEXT_HEADER_START)  unless @@parsers.has_key?(:cf_setext_header)
-  alias_method :parse_cf_setext_header, :parse_setext_header
+  end
+  define_parser(:cf_setext_header, CF_SETEXT_HEADER_START) unless @@parsers.key?(:cf_setext_header)
+  alias parse_cf_setext_header parse_setext_header
 
-  Kernel::silence_warnings {
+  Kernel.silence_warnings do
     SIGNATURE_START = /^-- \n/
-  }
+  end
   def parse_email_style_sig
     @src.pos += @src.matched_size
     result = @src.scan(/.*/m)
@@ -40,8 +40,7 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
 
     true
   end
-  define_parser(:email_style_sig, SIGNATURE_START) unless @@parsers.has_key?(:email_style_sig)
-
+  define_parser(:email_style_sig, SIGNATURE_START) unless @@parsers.key?(:email_style_sig)
 
   def parse_email_style_sig_span
     @src.pos += @src.matched_size
@@ -51,12 +50,12 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
 
     true
   end
-  define_parser(:email_style_sig_span, SIGNATURE_START) unless @@parsers.has_key?(:email_style_sig_span)
+  define_parser(:email_style_sig_span, SIGNATURE_START) unless @@parsers.key?(:email_style_sig_span)
 
-  define_parser(:span_html, /\0/) unless @@parsers.has_key?(:span_html)
-  define_parser(:block_html, /\0/) unless @@parsers.has_key?(:block_html)
-  define_parser(:smart_quotes, /\0/) unless @@parsers.has_key?(:smart_quotes)
-  define_parser(:typographic_syms, /\0/) unless @@parsers.has_key?(:typographic_syms)
+  define_parser(:span_html, /\0/) unless @@parsers.key?(:span_html)
+  define_parser(:block_html, /\0/) unless @@parsers.key?(:block_html)
+  define_parser(:smart_quotes, /\0/) unless @@parsers.key?(:smart_quotes)
+  define_parser(:typographic_syms, /\0/) unless @@parsers.key?(:typographic_syms)
 
   def parse_html_entity
     start_line_number = @src.current_line_number
@@ -69,7 +68,7 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
 
   def handle_extension(name, opts, body, type, line_no = nil)
     if name == 'nomarkdown'
-      add_text(body) if body.kind_of?(String)
+      add_text(body) if body.is_a?(String)
       true
     else
       super(name, opts, body, type, line_no)
@@ -99,10 +98,10 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
     code = pygmentize(el.value, lang)
 
     attr['class'] = (attr['class'].to_s + " block language-#{lang}").strip
-    "#{' '*indent}<code#{html_attributes(attr)}>#{code}</code>\n"
+    "#{' ' * indent}<code#{html_attributes(attr)}>#{code}</code>\n"
   end
 
-  def convert_codespan(el, indent)
+  def convert_codespan(el, _indent)
     attr = el.attr.dup
     lang = extract_code_language!(attr) || @options[:kramdown_default_lang]
     code = pygmentize(el.value, lang)
@@ -111,8 +110,8 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
   end
 
   def convert_email_style_sig(el, indent)
-    @sig_content = "<span class=\"signature\"><span class=\"sig-dashes\">-- </span>" + inner(el, indent) + "</span>"
-    ""
+    @sig_content = '<span class="signature"><span class="sig-dashes">-- </span>' + inner(el, indent) + '</span>'
+    ''
   end
 
   def convert_a(el, indent)
@@ -120,12 +119,12 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
     href = @entity_decoder.decode(el.attr['href'])
     if href.downcase.gsub(/[\s\0-\32]/u, '').start_with?('javascript:')
       res = inner(el, indent)
-      res1 = escape_html(el.attr["href"])
+      res1 = escape_html(el.attr['href'])
       return "[#{res}](#{res1})"
     end
 
     if @options[:no_follow]
-      if (@options[:root_url].blank? or not el.attr['href'].start_with?(@options[:root_url])) and not is_url_whitelisted?(el.attr['href'])
+      if (@options[:root_url].blank? || !el.attr['href'].start_with?(@options[:root_url])) && !is_url_whitelisted?(el.attr['href'])
         el.attr['rel'] = 'nofollow'
       end
     end
@@ -140,14 +139,14 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
   end
 
   def footnote_content
-    footnote_backlink_fmt = "%s<a href=\"#" + @options[:auto_id_prefix] + "fnref:%s\" class=\"reversefootnote\">%s</a>"
+    footnote_backlink_fmt = '%s<a href="#' + @options[:auto_id_prefix] + 'fnref:%s" class="reversefootnote">%s</a>'
 
     ol = Kramdown::Element.new(:ol)
     ol.attr['start'] = @footnote_start if @footnote_start != 1
     i = 0
     while i < @footnotes.length
       name, data, _, repeat = *@footnotes[i]
-      li = Kramdown::Element.new(:li, nil, {'id' => @options[:auto_id_prefix] + "fn:#{name}"})
+      li = Kramdown::Element.new(:li, nil, 'id' => @options[:auto_id_prefix] + "fn:#{name}")
       li.children = Marshal.load(Marshal.dump(data.children))
 
       if li.children.last.type == :p
@@ -158,16 +157,16 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
         insert_space = false
       end
 
-      para.children << Kramdown::Element.new(:raw, footnote_backlink_fmt % [insert_space ? ' ' : '', name, "&#8617;"])
+      para.children << Kramdown::Element.new(:raw, footnote_backlink_fmt % [insert_space ? ' ' : '', name, '&#8617;'])
       (1..repeat).each do |index|
-        para.children << Kramdown::Element.new(:raw, footnote_backlink_fmt % [" ", "#{name}:#{index}", "&#8617;<sup>#{index+1}</sup>"])
+        para.children << Kramdown::Element.new(:raw, footnote_backlink_fmt % [' ', "#{name}:#{index}", "&#8617;<sup>#{index + 1}</sup>"])
       end
 
       ol.children << Kramdown::Element.new(:raw, convert(li, 4))
       i += 1
     end
 
-    content = (ol.children.empty? ? '' : format_as_indented_block_html('div', {:class => "footnotes"}, convert(ol, 2), 0))
+    content = (ol.children.empty? ? '' : format_as_indented_block_html('div', { class: 'footnotes' }, convert(ol, 2), 0))
     content + @sig_content.to_s
   end
 
