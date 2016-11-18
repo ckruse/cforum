@@ -22,7 +22,7 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
 
   Kernel.silence_warnings do
     CF_SETEXT_HEADER_START = /^(#{OPT_SPACE}[^ \t].*?)#{HEADER_ID}[ \t]*?\n(-|=)+\n/
-    FENCED_CODEBLOCK_MATCH = /^((~){3,})\s*?((\S+?)(?:\?\S*)?)?\s*?(?:,\s*?(good|bad))?\n(.*?)^\1\2*\s*?\n/m
+    FENCED_CODEBLOCK_MATCH = /^((~){3,})\s*?((\S+?)(?:\?\S*)?)?\s*?(?:,\s*?(good|bad)\s*?)?\n(.*?)^\1\2*\s*?\n/m
   end
 
   define_parser(:cf_setext_header, CF_SETEXT_HEADER_START) unless @@parsers.key?(:cf_setext_header)
