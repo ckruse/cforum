@@ -179,11 +179,13 @@ cforum.messages = {
     btn.addClass("loading");
 
     $.post(url + '.json').
-      done(function() {
+      done(function(data) {
         form.attr("action", url.replace(/subscribe$/, 'unsubscribe'));
 
         btn.text(t('subscriptions.unsubscribe'));
         btn.removeClass("subscribe-message").addClass("unsubscribe-message").removeClass("loading");
+
+        cforum.updateThread($(".root article"), data.slug, false);
       }).
       fail(function() {
         btn.removeClass("loading");
@@ -200,12 +202,14 @@ cforum.messages = {
     btn.addClass("loading");
 
     $.post(url + '.json').
-      done(function() {
+      done(function(data) {
         form.attr("action", url.replace(/unsubscribe$/, 'subscribe'));
 
         var btn = form.find("button");
         btn.text(t('subscriptions.subscribe'));
         btn.removeClass("unsubscribe-message").addClass("subscribe-message").removeClass("loading");
+
+        cforum.updateThread($(".root article"), data.slug, false);
       }).
       fail(function() {
         btn.removeClass("loading");
@@ -222,12 +226,14 @@ cforum.messages = {
     btn.addClass("loading");
 
     $.post(url + '.json').
-      done(function() {
+      done(function(data) {
         form.attr("action", url.replace(/interesting$/, 'boring'));
 
         var btn = form.find("button");
         btn.text(t('interesting.mark_message_boring'));
         btn.removeClass("mark-interesting").addClass("mark-boring").removeClass("loading");
+
+        cforum.updateThread($(".root article"), data.slug, false);
       }).
       fail(function() {
         btn.removeClass("loading");
@@ -244,12 +250,14 @@ cforum.messages = {
     btn.addClass("loading");
 
     $.post(url + '.json').
-      done(function() {
+      done(function(data) {
         form.attr("action", url.replace(/boring$/, 'interesting'));
 
         var btn = form.find("button");
         btn.text(t('interesting.mark_message_interesting'));
         btn.removeClass("mark-boring").addClass("mark-interesting").removeClass("loading");
+
+        cforum.updateThread($(".root article"), data.slug, false);
       }).
       fail(function() {
         btn.removeClass("loading");
