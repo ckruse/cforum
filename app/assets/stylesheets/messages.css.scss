@@ -374,6 +374,16 @@ code.block code.block {
   max-height: none;
   background: transparent;
 }
+
+code.block.good {
+  color:#3C763D;
+  background-color:#DFF0D8;
+}
+
+code.block.bad {
+  color:#A94442;
+  background-color:#F2DEDE;
+}
 /* end Code-Blöcke */
 
 .signature {

@@ -22,7 +22,9 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
 
   Kernel.silence_warnings do
     CF_SETEXT_HEADER_START = /^(#{OPT_SPACE}[^ \t].*?)#{HEADER_ID}[ \t]*?\n(-|=)+\n/
+    FENCED_CODEBLOCK_MATCH = /^((~){3,})\s*?((\S+?)(?:\?\S*)?)?\s*?(?:,\s*?(good|bad))?\n(.*?)^\1\2*\s*?\n/m
   end
+
   define_parser(:cf_setext_header, CF_SETEXT_HEADER_START) unless @@parsers.key?(:cf_setext_header)
   alias parse_cf_setext_header parse_setext_header
 
@@ -87,6 +89,31 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
     super(str, opts)
 
     opts.merge!(my_opts)
+  end
+
+  def parse_codeblock_fenced
+    if @src.check(self.class::FENCED_CODEBLOCK_MATCH)
+      start_line_number = @src.current_line_number
+      @src.pos += @src.matched_size
+      el = new_block_el(:codeblock, @src[6], nil, location: start_line_number)
+      lang = @src[3].to_s.strip
+      good_bad = @src[5].to_s.strip
+
+      unless lang.empty?
+        el.options[:lang] = lang
+        el.attr['class'] = "language-#{@src[4]}"
+      end
+
+      unless good_bad.empty?
+        el.attr['class'] = (el.attr['class'].to_s + ' ' + good_bad).strip
+      end
+
+      @tree.children << el
+
+      true
+    else
+      false
+    end
   end
 end
 
