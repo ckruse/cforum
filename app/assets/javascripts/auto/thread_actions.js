@@ -60,21 +60,11 @@ $(function() {
           article.fadeOut('fast', function() { article.remove(); });
         }
         else {
-          var loc = cforum.baseUrl + (cforum.currentForum ? cforum.currentForum.slug : 'all') + '/' + data.slug;
-
-          if($('body').attr('data-controller') == 'messages' && !$this.is('.icon-thread.open') && !$this.is('.icon-thread.close')) {
-            loc += '?fold=false';
-          }
-
-          $.get(loc).
-            done(function(content) {
-              article.replaceWith(content);
-              $this.removeClass("spinning");
-            }).
-            fail(function() {
-              $this.removeClass("spinning");
-              cforum.alert.error(t('something_went_wrong'));
-            });
+          cforum.updateThread(article, data.slug,
+                              !($('body').attr('data-controller') == 'messages' &&
+                                !$this.is('.icon-thread.open') &&
+                                !$this.is('.icon-thread.close')),
+                              function(success) { $this.removeClass("spinning"); });
         }
       }).
       fail(function(xhr, textStatus, errorThrown) {

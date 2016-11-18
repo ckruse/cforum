@@ -155,4 +155,27 @@ cforum.resetFavicon = function() {
   cforum.updateTitle();
 };
 
+cforum.updateThread = function(thread, slug, fold, callback) {
+  var loc = cforum.baseUrl + (cforum.currentForum ? cforum.currentForum.slug : 'all') + '/' + slug;
+
+  if(!fold) {
+    loc += '?fold=false';
+  }
+
+  $.get(loc).
+    done(function(content) {
+      thread.replaceWith(content);
+
+      if(callback) {
+        callback(true);
+      }
+    }).
+    fail(function() {
+      cforum.alert.error(t('something_went_wrong'));
+
+      if(callback) {
+        callback(false);
+      }
+    });
+};
 // eof
