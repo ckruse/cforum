@@ -49,7 +49,7 @@ gem 'libnotify',
     require: RUBY_PLATFORM.include?('linux') && 'libnotify'
 
 gem 'sass-rails', '> 4.0.0'
-gem 'sprockets', '~> 3.6.3'
+gem 'sprockets'
 gem 'coffee-rails'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
