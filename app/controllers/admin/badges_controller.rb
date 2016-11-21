@@ -6,7 +6,7 @@ class Admin::BadgesController < ApplicationController
   before_filter :load_badge
 
   def index
-    @badges = Badge.order('UPPER(name) ASC')
+    @badges = Badge.order(:order)
 
     respond_to do |format|
       format.html
