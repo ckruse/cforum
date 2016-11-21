@@ -19,7 +19,8 @@ class Admin::BadgesController < ApplicationController
 
   def badge_params
     params.require(:badge).permit(:name, :score_needed, :badge_type,
-                                  :badge_medal_type, :slug, :description)
+                                  :badge_medal_type, :slug, :description,
+                                  :order)
   end
 
   def update
