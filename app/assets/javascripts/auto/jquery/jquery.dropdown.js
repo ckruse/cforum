@@ -7,6 +7,7 @@
     var anchor = $this.find('.anchor');
 
     anchor.addClass('visible');
+    anchor.attr("tabindex", 0);
     $this.addClass('js');
     var parent = anchor.parent();
 

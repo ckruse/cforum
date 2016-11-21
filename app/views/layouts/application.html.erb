@@ -172,7 +172,7 @@ end
           <ul>
             <li><%= cf_link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
             <li><%= cf_link_to t('layout.home'), root_url %></li>
-            <li class="dropdown" tabindex="0"><span class="anchor"><%= t('global.forums') %></span>
+            <li class="dropdown"><span class="anchor"><%= t('global.forums') %></span>
               <ul class="menu">
                 <li<% if current_forum.blank? and controller_path == 'cf_threads' %> class="active"<% end %>>
                   <%= link_to t('forums.all_forums'), forum_path %>
