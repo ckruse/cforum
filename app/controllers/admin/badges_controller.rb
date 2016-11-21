@@ -25,8 +25,8 @@ class Admin::BadgesController < ApplicationController
 
   def update
     if @badge.update_attributes(badge_params)
-      redirect_to edit_admin_badge_url(@badge),
-                  notice: I18n.t("admin.badges.updated")
+      redirect_to(edit_admin_badge_url(@badge),
+                  notice: I18n.t('admin.badges.updated'))
     else
       render :edit
     end
@@ -41,7 +41,7 @@ class Admin::BadgesController < ApplicationController
 
     if @badge.save
       redirect_to edit_admin_badge_url(@badge),
-                  notice: I18n.t("admin.badges.created")
+                  notice: I18n.t('admin.badges.created')
     else
       render :new
     end
@@ -49,10 +49,11 @@ class Admin::BadgesController < ApplicationController
 
   def destroy
     @badge.destroy
-    redirect_to admin_badges_url, notice: I18n.t("admin.badges.destroyed")
+    redirect_to admin_badges_url, notice: I18n.t('admin.badges.destroyed')
   end
 
   private
+
   def load_badge
     @badge = Badge.where(slug: params[:id]).first! if params[:id]
   end
