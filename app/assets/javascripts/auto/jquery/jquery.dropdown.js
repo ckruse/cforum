@@ -11,7 +11,7 @@
     $this.addClass('js');
     var parent = anchor.parent();
 
-    anchor.on('click', function(ev) {
+    anchor.on('click keypress', function(ev) {
       ev.preventDefault();
       parent.toggleClass('open');
     });
