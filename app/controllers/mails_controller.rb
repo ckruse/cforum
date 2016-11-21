@@ -9,37 +9,37 @@ class MailsController < ApplicationController
 
   def index_users
     cu    = current_user
-    mails = PrivMessage.
-            select("(CASE recipient_id WHEN #{cu.user_id} THEN sender_name ELSE recipient_name END) AS username, is_read, COUNT(*) AS cnt").
-            where('owner_id = ?', current_user.user_id).
-            group("username, case recipient_id when #{cu.user_id} then sender_id else recipient_id end, is_read")
+    mails = PrivMessage
+              .select("(CASE recipient_id WHEN #{cu.user_id} THEN sender_name ELSE recipient_name END) AS username, is_read, COUNT(*) AS cnt")
+              .where('owner_id = ?', current_user.user_id)
+              .group("username, case recipient_id when #{cu.user_id} then sender_id else recipient_id end, is_read")
 
     @mail_users = {}
     mails.each do |mu|
-      @mail_users[mu.username] ||= {read: 0, unread: 0}
+      @mail_users[mu.username] ||= { read: 0, unread: 0 }
       @mail_users[mu.username][mu.is_read? ? :read : :unread] += mu.cnt
     end
   end
 
   def index
     if params[:user]
-      @user  = params[:user]
+      @user = params[:user]
       @user_object = User.where(username: params[:user]).first
-      @mails = PrivMessage.
-               preload(:sender, :recipient).
-               where("owner_id = ? AND (sender_name = ? OR recipient_name = ?)",
-                     current_user.user_id, @user, @user)
+      @mails = PrivMessage
+                 .preload(:sender, :recipient)
+                 .where('owner_id = ? AND (sender_name = ? OR recipient_name = ?)',
+                        current_user.user_id, @user, @user)
 
     else
-      @mails = PrivMessage.
-               preload(:sender, :recipient).
-               where(owner_id: current_user.user_id)
+      @mails = PrivMessage
+                 .preload(:sender, :recipient)
+                 .where(owner_id: current_user.user_id)
     end
 
     @mails = sort_query(%w(created_at sender recipient subject),
-                        @mails, {sender: "sender_name",
-                                 recipient: "recipient_name"},
-                        {dir: :desc})
+                        @mails, { sender: 'sender_name',
+                                  recipient: 'recipient_name' },
+                        dir: :desc)
 
     @mail_groups = {}
     @mail_groups_keys = []
@@ -52,27 +52,27 @@ class MailsController < ApplicationController
     end
 
     @mail_groups_keys.each do |k|
-      @mail_groups[k] = @mail_groups[k].sort { |a,b|
+      @mail_groups[k] = @mail_groups[k].sort do |a, b|
         if uconf('mail_thread_sort') == 'ascending'
           a.created_at <=> b.created_at
         else
           b.created_at <=> a.created_at
         end
-      }
+      end
     end
   end
 
   def show
-    @mail = PrivMessage.includes(:sender, :recipient).
-      where(owner_id: current_user.user_id, priv_message_id: params[:id]).first!
+    @mail = PrivMessage.includes(:sender, :recipient)
+              .where(owner_id: current_user.user_id, priv_message_id: params[:id]).first!
 
     unless @mail.is_read
       PrivMessage.transaction do
         @mail.update(is_read: true)
 
         if n = Notification.where(recipient_id: current_user.user_id,
-                                    oid: @mail.priv_message_id,
-                                    otype: 'mails:create', is_read: false).first
+                                  oid: @mail.priv_message_id,
+                                  otype: 'mails:create', is_read: false).first
           @new_notifications -= [n]
 
           if uconf('delete_read_notifications_on_new_mail') == 'yes'
@@ -90,12 +90,12 @@ class MailsController < ApplicationController
     @mail = PrivMessage.new(params[:priv_message].blank? ? {} :
                               priv_message_params)
 
-    if not params[:priv_message_id].blank? and
-        @parent = PrivMessage.where(owner_id: current_user.user_id,
-                                      priv_message_id: params[:priv_message_id]).first!
+    if !params[:priv_message_id].blank? &&
+       (@parent = PrivMessage.where(owner_id: current_user.user_id,
+                                    priv_message_id: params[:priv_message_id]).first!)
       @mail.recipient_id = @parent.recipient_id == current_user.user_id ? @parent.sender_id : @parent.recipient_id
       @mail.subject      = @parent.subject =~ /^Re:/i ? @parent.subject : 'Re: ' + @parent.subject
-      @mail.body         = @parent.to_quote(self) if params.has_key?(:quote_old_message)
+      @mail.body         = @parent.to_quote(self) if params.key?(:quote_old_message)
     end
 
     @mail.body = gen_content(@mail.body, @mail.recipient.try(:username))
@@ -113,7 +113,7 @@ class MailsController < ApplicationController
     @preview = !params[:preview].blank?
 
     saved = false
-    if not @mail.recipient_id.blank?
+    if !@mail.recipient_id.blank?
       recipient = User.find(@mail.recipient_id)
 
       @mail.recipient_name = recipient.username
@@ -125,11 +125,9 @@ class MailsController < ApplicationController
       @mail_recipient.owner_id  = recipient.user_id
       @mail_recipient.body      = PrivMessage.to_internal(@mail_recipient.body)
 
-      if not @preview
+      unless @preview
         PrivMessage.transaction do
-          if @mail.save
-            saved = @mail_recipient.save
-          end
+          saved = @mail_recipient.save if @mail.save
 
           if saved
             notify_user(
@@ -146,7 +144,7 @@ class MailsController < ApplicationController
             )
           end
 
-          raise ActiveRecord::Rollback.new unless saved
+          raise ActiveRecord::Rollback unless saved
         end
       end
 
@@ -156,11 +154,13 @@ class MailsController < ApplicationController
 
     respond_to do |format|
       if saved
-        format.html { redirect_to mail_url(recipient.username, @mail),
-          notice: t('mails.sent') }
+        format.html do
+          redirect_to mail_url(recipient.username, @mail),
+                      notice: t('mails.sent')
+        end
         format.json { render json: @mail, status: :created }
 
-        publish('mail:create', {type: 'mail', mail: @mail}, '/users/' + @mail.recipient_id.to_s)
+        publish('mail:create', { type: 'mail', mail: @mail }, '/users/' + @mail.recipient_id.to_s)
       else
         format.html { render :new }
         format.json { render json: @mail.errors, status: :unprocessable_entity }
@@ -170,7 +170,7 @@ class MailsController < ApplicationController
 
   def destroy
     @mail = PrivMessage.where(owner_id: current_user.user_id,
-                                priv_message_id: params[:id]).first!
+                              priv_message_id: params[:id]).first!
     @mail.destroy
 
     respond_to do |format|
@@ -183,10 +183,8 @@ class MailsController < ApplicationController
     unless params[:ids].blank?
       PrivMessage.transaction do
         @mails = PrivMessage.where(owner_id: current_user.user_id,
-                                     priv_message_id: params[:ids])
-        @mails.each do |m|
-          m.destroy
-        end
+                                   priv_message_id: params[:ids])
+        @mails.each(&:destroy)
       end
     end
 
@@ -195,7 +193,7 @@ class MailsController < ApplicationController
 
   def mark_read_unread
     @mail = PrivMessage.where(owner_id: current_user.user_id,
-                                priv_message_id: params[:id]).first!
+                              priv_message_id: params[:id]).first!
 
     @mail.is_read = !@mail.is_read
 
@@ -208,7 +206,6 @@ class MailsController < ApplicationController
         format.json { render json: @mail.errors, status: :unprocessable_entity }
       end
     end
-
   end
 
   private
@@ -216,7 +213,6 @@ class MailsController < ApplicationController
   def priv_message_params
     params.require(:priv_message).permit(:recipient_id, :subject, :body)
   end
-
 end
 
 # eof
