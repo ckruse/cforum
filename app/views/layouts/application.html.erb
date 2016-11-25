@@ -307,7 +307,9 @@ end
                   <li id="optionen-show-read-threads"><%= cf_link_to t('plugins.hide_read_threads.show_read_threads'), forum_path(current_forum, 'srt' => 'yes') %></li>
                 <% end %>
               <% end %>
+            <% end %>
 
+            <% if current_user && ((@threads && !controller_path.in?(%w(interesting_messages_plugin hidden_threads_plugin))) || controller_path.in?(%w(forums users))) %>
               <li id="interesting-links"><%= cf_link_to t('plugins.interesting_messages.interesting_messages'), interesting_messages_path %></li>
               <li id="invisible-links"><%= cf_link_to t('plugins.invisible_threads.invisible_threads'), hidden_threads_path %></li>
             <% end %>
