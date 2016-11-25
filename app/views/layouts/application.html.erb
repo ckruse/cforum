@@ -293,7 +293,7 @@ end
               <li id="link-archiv"><%= cf_link_to t("threads.archive"), cf_archive_path(current_forum) %></li>
             <% end %>
 
-            <% if @threads and current_user and not controller_path == 'interesting_messages_plugin' and not controller_path == 'hidden_threads_plugin' %>
+            <% if @threads && current_user && !controller_path.in?(%w(interesting_messages_plugin hidden_threads_plugin)) %>
               <li id="mark-all-read"><%= cf_link_to(t("plugins.mark_read.mark_all_read"),
                                                     mark_all_read_path(current_forum, std_args),
                                                     method: :post) %></li>
