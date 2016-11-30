@@ -113,6 +113,18 @@ div.aktuelle-mitteilung {
   min-height: 2.4em;
 }
 
+.aktuelle-mitteilung {
+  h3, h4, h5, h6 {
+    margin-top:0;
+    font-weight:bold;
+  }
+
+  h3 {
+    font-size: 1.3em;
+    color:#699CB3;
+  }
+}
+
 nav {
   ul {
     margin-left:0;
