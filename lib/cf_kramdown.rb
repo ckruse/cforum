@@ -136,7 +136,7 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
   def convert_codeblock(el, indent)
     attr = el.attr.dup
     lang = extract_code_language!(attr) || @options[:kramdown_default_lang]
-    code = pygmentize(el.value, lang)
+    code = pygmentize(el.value, lang == 'svg' ? 'xml' : lang)
 
     attr['class'] = (attr['class'].to_s + " block language-#{lang}").strip
     "#{' ' * indent}<code#{html_attributes(attr)}>#{code}</code>\n"
@@ -145,7 +145,7 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
   def convert_codespan(el, _indent)
     attr = el.attr.dup
     lang = extract_code_language!(attr) || @options[:kramdown_default_lang]
-    code = pygmentize(el.value, lang)
+    code = pygmentize(el.value, lang == 'svg' ? 'xml' : lang)
     attr['class'] = (attr['class'].to_s + " language-#{lang}").strip if lang
     "<code#{html_attributes(attr)}>#{code}</code>"
   end
