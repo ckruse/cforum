@@ -38,10 +38,10 @@ content_for(:body_classes, 'mail index' + (@user ?  ' ' +  user_to_class_name(@u
 
   </table>
 
-  <p class="form-actions">
-    <button class="cf-primary-btn" data-cf-confirm="<%= t('global.are_you_sure') %>">Löschen</button>
-  </p>
-
-<%# paginate @mails, params: { sort: sort_column, dir: sort_direction } %>
+  <% unless @mails.blank? %>
+    <p class="form-actions">
+      <button class="cf-primary-btn" data-cf-confirm="<%= t('global.are_you_sure') %>">Löschen</button>
+    </p>
+  <% end %>
 
 <% end %>
