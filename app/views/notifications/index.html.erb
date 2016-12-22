@@ -53,9 +53,11 @@ content_for(:body_classes, 'notifications index')
 
 </table>
 
-<p class="form-actions">
-  <button class="cf-primary-btn" name="delete" value="yes" data-cf-confirm="<%= t('global.are_you_sure') %>"><%= t('global.delete') %></button>
-</p>
+<% unless @notifications.blank? %>
+  <p class="form-actions">
+    <button class="cf-primary-btn" name="delete" value="yes" data-cf-confirm="<%= t('global.are_you_sure') %>"><%= t('global.delete') %></button>
+  </p>
+<% end %>
 
 <% end %>
 
