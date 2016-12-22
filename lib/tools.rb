@@ -15,7 +15,7 @@ module CForum
     end
 
     def encode_entities(txt)
-      map = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;'}
+      map = { '&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;' }
       txt.gsub(/([&<>"])/) do |r|
         map[r]
       end
@@ -30,28 +30,28 @@ module CForum
 
       args.each do |k, v|
         had_key[k.to_s] = true
-        next if v === nil
-        qs << URI.escape(k.to_s) + "=" + URI.escape(v.to_s)
+        next if v.nil?
+        qs << URI.escape(k.to_s) + '=' + URI.escape(v.to_s)
       end
 
-      @@url_attribs.each do |k,v|
+      @@url_attribs.each do |k, v|
         next if had_key[k.to_s] == true
-        qs << URI.escape(k.to_s) + "=" + URI.escape(v.to_s)
+        qs << URI.escape(k.to_s) + '=' + URI.escape(v.to_s)
       end
 
       retval = ''
-      retval = '?' + qs.join("&") unless qs.blank?
+      retval = '?' + qs.join('&') unless qs.blank?
       retval = '.' + format.to_s unless format.blank?
 
-      return retval
+      retval
     end
 
     def cf_return_url(thread = nil, message = nil, args = {})
-      args = {p: params[:p], page: params[:page]}.merge(args)
+      args = { p: params[:p], page: params[:page] }.merge(args)
 
-      return forum_url(current_forum, args) if thread.blank? and message.blank?
+      return forum_url(current_forum, args) if thread.blank? && message.blank?
 
-      f = params[:f].gsub(/[^a-z0-9_-]/, '') if not params[:f].blank?
+      f = params[:f].gsub(/[^a-z0-9_-]/, '') unless params[:f].blank?
       f = current_forum.try(:slug) if f.blank?
       raise ActiveRecord::RecordNotFound if f.blank?
 
@@ -60,7 +60,7 @@ module CForum
         forum_url(f, args)
       when 'cf_threads'
         r = forum_url(f, args)
-        r << "#t" + thread.thread_id.to_s if not thread.blank? and not thread.thread_id.blank?
+        r << '#t' + thread.thread_id.to_s if !thread.blank? && !thread.thread_id.blank?
         r
       when 'messages'
         args.delete(:p)
@@ -101,6 +101,7 @@ module CForum
     def cites_path(args = {})
       root_path + 'cites' + query_string(args)
     end
+
     def cite_path(cite, args = {})
       root_path + 'cites/' + cite.cite_id.to_s + query_string(args)
     end
@@ -126,39 +127,39 @@ module CForum
     end
 
     def move_cf_thread_path(thread, args = {})
-      _cf_thread_path(thread) + "/move" + query_string(args)
+      _cf_thread_path(thread) + '/move' + query_string(args)
     end
 
     def sticky_cf_thread_path(thread, args = {})
-      _cf_thread_path(thread) + "/sticky" + query_string(args)
+      _cf_thread_path(thread) + '/sticky' + query_string(args)
     end
 
     def archive_cf_thread_path(thread, args = {})
-      _cf_thread_path(thread) + "/archive" + query_string(args)
+      _cf_thread_path(thread) + '/archive' + query_string(args)
     end
 
     def no_archive_cf_thread_path(thread, args = {})
-      _cf_thread_path(thread) + "/no_archive" + query_string(args)
+      _cf_thread_path(thread) + '/no_archive' + query_string(args)
     end
 
     def mark_cf_thread_read_path(thread, args = {})
-      _cf_thread_path(thread) + "/mark_read" + query_string(args)
+      _cf_thread_path(thread) + '/mark_read' + query_string(args)
     end
 
     def open_cf_thread_path(thread, args = {})
-      _cf_thread_path(thread) + "/open" + query_string(args)
+      _cf_thread_path(thread) + '/open' + query_string(args)
     end
 
     def close_cf_thread_path(thread, args = {})
-      _cf_thread_path(thread) + "/close" + query_string(args)
+      _cf_thread_path(thread) + '/close' + query_string(args)
     end
 
     def hide_cf_thread_path(thread, args = {})
-      _cf_thread_path(thread) + "/hide" + query_string(args)
+      _cf_thread_path(thread) + '/hide' + query_string(args)
     end
 
     def unhide_cf_thread_path(thread, args = {})
-      _cf_thread_path(thread) + "/unhide" + query_string(args)
+      _cf_thread_path(thread) + '/unhide' + query_string(args)
     end
 
     def redirect_to_page_path(forum, thread, args = {})
@@ -171,7 +172,7 @@ module CForum
     #
 
     def _message_path_wo_anchor(thread, message)
-      _cf_thread_path(thread) + "/" + message.message_id.to_s
+      _cf_thread_path(thread) + '/' + message.message_id.to_s
     end
 
     def message_path_wo_anchor(thread, message, args = {})
@@ -179,83 +180,83 @@ module CForum
     end
 
     def message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + query_string(args) + "#m" + message.message_id.to_s
+      _message_path_wo_anchor(thread, message) + query_string(args) + '#m' + message.message_id.to_s
     end
 
     def edit_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/edit" + query_string(args)
+      _message_path_wo_anchor(thread, message) + '/edit' + query_string(args)
     end
 
     def new_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/new" + query_string(args)
+      _message_path_wo_anchor(thread, message) + '/new' + query_string(args)
     end
 
     def retag_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/retag" + query_string(args)
+      _message_path_wo_anchor(thread, message) + '/retag' + query_string(args)
     end
 
     def restore_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/restore" + query_string(args)
+      _message_path_wo_anchor(thread, message) + '/restore' + query_string(args)
     end
 
     def vote_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/vote" + query_string(args)
+      _message_path_wo_anchor(thread, message) + '/vote' + query_string(args)
     end
 
     def accept_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/accept" + query_string(args)
+      _message_path_wo_anchor(thread, message) + '/accept' + query_string(args)
     end
 
     def forbid_answer_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/forbid_answer" + query_string(args)
+      _message_path_wo_anchor(thread, message) + '/forbid_answer' + query_string(args)
     end
 
     def allow_answer_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/allow_answer" + query_string(args)
+      _message_path_wo_anchor(thread, message) + '/allow_answer' + query_string(args)
     end
 
     def close_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/close" +
+      _message_path_wo_anchor(thread, message) + '/close' +
         query_string(args)
     end
 
     def open_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/open" +
+      _message_path_wo_anchor(thread, message) + '/open' +
         query_string(args)
     end
 
     def unread_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/unread" +
+      _message_path_wo_anchor(thread, message) + '/unread' +
         query_string(args)
     end
 
     def flag_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/flag" +
+      _message_path_wo_anchor(thread, message) + '/flag' +
         query_string(args)
     end
 
     def unflag_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/unflag" +
+      _message_path_wo_anchor(thread, message) + '/unflag' +
         query_string(args)
     end
 
     def interesting_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/interesting" +
+      _message_path_wo_anchor(thread, message) + '/interesting' +
         query_string(args)
     end
 
     def boring_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/boring" +
+      _message_path_wo_anchor(thread, message) + '/boring' +
         query_string(args)
     end
 
     def versions_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/versions" +
+      _message_path_wo_anchor(thread, message) + '/versions' +
         query_string(args)
     end
 
     def tweet_message_path(thread, message, args = {})
-      _message_path_wo_anchor(thread, message) + "/tweet" + query_string(args)
+      _message_path_wo_anchor(thread, message) + '/tweet' + query_string(args)
     end
 
     def subscribe_message_path(thread, message, args = {})
@@ -265,7 +266,6 @@ module CForum
     def unsubscribe_message_path(thread, message, args = {})
       _message_path_wo_anchor(thread, message) + '/unsubscribe' + query_string(args)
     end
-
 
     def badges_path(args = {})
       root_path + 'badges' + query_string(args)
@@ -345,11 +345,10 @@ module CForum
     def cites_url(args = {})
       root_url + 'cites' + query_string(args)
     end
+
     def cite_url(cite, args = {})
       root_url + 'cites/' + cite.cite_id.to_s + query_string(args)
     end
-
-
 
     def _message_url_wo_anchor(thread, message)
       _cf_thread_url(thread) + '/' + message.message_id.to_s
@@ -360,30 +359,30 @@ module CForum
     end
 
     def message_url(thread, message, args = {})
-      _message_url_wo_anchor(thread, message) + query_string(args) + "#m" + message.message_id.to_s
+      _message_url_wo_anchor(thread, message) + query_string(args) + '#m' + message.message_id.to_s
     end
 
     def retag_message_url(thread, message, args = {})
-      _message_url_wo_anchor(thread, message) + "/retag" + query_string(args)
+      _message_url_wo_anchor(thread, message) + '/retag' + query_string(args)
     end
 
     def open_message_url(thread, message, args = {})
-      _message_url_wo_anchor(thread, message) + "/open" +
+      _message_url_wo_anchor(thread, message) + '/open' +
         query_string(args)
     end
 
     def unread_message_url(thread, message, args = {})
-      _message_url_wo_anchor(thread, message) + "/unread" +
+      _message_url_wo_anchor(thread, message) + '/unread' +
         query_string(args)
     end
 
     def flag_message_url(thread, message, args = {})
-      _message_url_wo_anchor(thread, message) + "/flag" +
+      _message_url_wo_anchor(thread, message) + '/flag' +
         query_string(args)
     end
 
     def tweet_message_url(thread, message, args = {})
-      _message_url_wo_anchor(thread, message) + "/tweet" + query_string(args)
+      _message_url_wo_anchor(thread, message) + '/tweet' + query_string(args)
     end
 
     def subscribe_message_url(thread, message, args = {})
@@ -393,7 +392,6 @@ module CForum
     def unsubscribe_message_url(thread, message, args = {})
       _message_url_wo_anchor(thread, message) + '/unsubscribe' + query_string(args)
     end
-
 
     def badges_url
       root_url + 'badges'
