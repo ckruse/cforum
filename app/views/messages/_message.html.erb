@@ -7,7 +7,7 @@ controls ||= :yes
                    tree: false, show_editor: true,
                    author_link_to_message: false) %>
 
-  <% if m.flags["no-answer"] != 'yes' and m.flags['no-answer-admin'] != 'yes' and controls == :yes %>
+  <% if m.flags["no-answer"] != 'yes' && m.flags['no-answer-admin'] != 'yes' && controls == :yes && !m.deleted %>
     <%= render 'votes_accept', m: m %>
   <% end %>
 </div>
@@ -32,7 +32,7 @@ controls ||= :yes
   <% end %>
 
   <div class="posting-footer">
-    <% if m.flags["no-answer"] != 'yes' and m.flags['no-answer-admin'] != 'yes' and controls == :yes %>
+    <% if m.flags["no-answer"] != 'yes' && m.flags['no-answer-admin'] != 'yes' && controls == :yes && !m.deleted %>
       <%= render 'votes_accept', m: m, bottom: true %>
     <% end %>
 
@@ -54,7 +54,7 @@ controls ||= :yes
         </p>
       <% end %>
 
-      <% if controls == :yes %>
+      <% if controls == :yes && !m.deleted %>
         <div class="controls">
           <% if m.open? and @thread.forum.write?(current_user) %>
             <% if may_answer(m) %>
