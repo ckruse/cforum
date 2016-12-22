@@ -7,7 +7,11 @@
    .menu {
       padding:0 0 .5em;
       margin:.45em 0 0;
-    }
+   }
+
+   .anchor:hover, .anchor:focus, .anchor:active {
+     color: #990909;
+   }
 
     li {
       display: block;
