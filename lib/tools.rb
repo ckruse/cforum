@@ -390,7 +390,7 @@ module CForum
       _message_url_wo_anchor(thread, message) + '/subscribe' + query_string(args)
     end
 
-    def subscribe_message_url(thread, message, args = {})
+    def unsubscribe_message_url(thread, message, args = {})
       _message_url_wo_anchor(thread, message) + '/unsubscribe' + query_string(args)
     end
 
