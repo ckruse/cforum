@@ -267,6 +267,10 @@ module CForum
       _message_path_wo_anchor(thread, message) + '/unsubscribe' + query_string(args)
     end
 
+    def split_thread_path(thread, message, args = {})
+      _message_path_wo_anchor(thread, message) + '/split' + query_string(args)
+    end
+
     def badges_path(args = {})
       root_path + 'badges' + query_string(args)
     end
@@ -391,6 +395,10 @@ module CForum
 
     def unsubscribe_message_url(thread, message, args = {})
       _message_url_wo_anchor(thread, message) + '/unsubscribe' + query_string(args)
+    end
+
+    def split_thread_url(thread, message, args = {})
+      _message_url_wo_anchor(thread, message) + '/split' + query_string(args)
     end
 
     def badges_url

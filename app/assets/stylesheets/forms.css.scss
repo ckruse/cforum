@@ -61,6 +61,12 @@
         font-size:16px;
       }
 
+      input[disabled], select[disabled], textarea[disabled] {
+        background-color: #eee;
+        opacity:1;
+      }
+
+
       small {
         font-style: italic;
         padding-left: .5em;

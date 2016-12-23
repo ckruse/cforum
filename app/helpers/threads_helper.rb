@@ -179,4 +179,22 @@ module ThreadsHelper
 
     html.html_safe
   end
+
+  def save_thread(thread)
+    num = 1
+
+    begin
+      CfThread.transaction do
+        thread.save!
+      end
+    rescue ActiveRecord::RecordInvalid
+      if thread.errors.keys == [:slug]
+        thread.slug = CfThread.gen_id(thread, num)
+        num += 1
+        retry
+      end
+
+      raise ActiveRecord::Rollback
+    end
+  end
 end

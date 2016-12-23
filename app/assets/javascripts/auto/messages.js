@@ -526,6 +526,12 @@ cforum.messages = {
       checkLength();
       minput.on('keyup', checkLength);
     }
+  },
+
+  split_thread: {
+    init: function() {
+      cforum.tags.initTags();
+    }
   }
 };
 

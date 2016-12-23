@@ -191,6 +191,11 @@ Cforum::Application.routes.draw do
     post '/:year/:mon/:day/:tid/:mid/unsubscribe' => 'messages/subscriptions#unsubscribe',
          year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'unsubscribe'
 
+    get '/:year/:mon/:day/:tid/:mid/split' => 'messages/split_thread#edit',
+        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'split_thread'
+    post '/:year/:mon/:day/:tid/:mid/split' => 'messages/split_thread#update',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+
     #
     # admin actions
     #

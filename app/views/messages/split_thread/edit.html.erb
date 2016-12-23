@@ -1,0 +1,77 @@
+<%
+content_for :title, t('messages.split_thread')
+content_for :h1, t('messages.split_thread')
+content_for :body_id, 'thread-split'
+content_for :body_classes, 'threads split forum-' + (current_forum.try(:slug) || 'all')
+%>
+
+<%= form_for(@message, url: split_thread_path(@thread, @message),
+             method: :post,  html: {class: 'form-horizontal'}) do |f| %>
+
+  <% if @message.errors.any? || @thread.errors.any? %>
+    <div id="error_explanation" class="cf-error">
+      <h4><%= t('messages.error_message', count: @message.errors.count + @thread.errors.count) %></h4>
+
+      <ul>
+        <% @message.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        <% @thread.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <div class="cf-cgroup">
+      <%= f.label :forum_id %>
+      <div class="cntrls"><%= f.collection_select :forum_id, @forums, :forum_id, :name, required: true %></div>
+    </div>
+
+    <div class="cf-cgroup">
+      <%= f.label :subject %>
+      <div class="cntrls"><%= f.text_field :subject, placeholder: t('layout.placeholders.subject'), maxlength: 250, required: true %></div>
+    </div>
+
+    <div class="cf-cgroup cf-textarea-only">
+      <div class="cntrls">
+        <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt, disabled: true %>
+      </div>
+    </div>
+
+    <div class="cf-cgroup">
+      <label><%= t('messages.tag_suggestions') %></label>
+
+      <div class="cntrls empty">
+        <ul id="tags-suggestions" class="cf-tags-list">
+          <li class="no-data"><%= t('messages.no_tag_suggestions') %></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cf-cgroup">
+      <label><%= t('messages.tags') %></label>
+      <div class="cntrls" id="tags-group">
+        <ul id="tags-list" class="cf-tags-list"></ul>
+        <input type="text" name="tag_list" value="<%= @tags.join(", ") %>" id="tags-input" class="tags-input"><noscript> <em><%= t('messages.comma_separated_list') %></em></noscript>
+      </div>
+    </div>
+
+    <% if may?(Badge::RETAG) %>
+      <div class="cf-cgroup">
+        <label><%= t('messages.retag_answers') %></label>
+        <div class="cntrls">
+          <label class="checkbox"><input type="checkbox" name="retag_answers" value="1"></label>
+        </div>
+      </div>
+    <% end %>
+  </fieldset>
+
+  <p>
+    <%= f.submit t('messages.preview'), :class => 'cf-btn', name: 'preview' %>
+    <%= f.submit t('global.save'), :class => 'cf-primary-btn' %>
+    <%= cf_link_to t('global.cancel'), message_path(@thread, @message), class: 'cf-btn' %>
+  </p>
+<% end %>
+

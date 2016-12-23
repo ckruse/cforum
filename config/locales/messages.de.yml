@@ -101,6 +101,9 @@ de:
     wiki: Wiki
     help_with_formatting: Hilfe bei der Formatierung Ihrer Beiträge
 
+    split_thread: Thread aufteilen
+    thread_split: Der Thread wurde erfolgreich aufgeteilt!
+
     close_vote:
       agreeing: Sehe ich auch so
       take_back: Stimme zurücknehmen

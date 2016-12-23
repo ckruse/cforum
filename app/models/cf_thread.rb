@@ -103,7 +103,7 @@ class CfThread < ActiveRecord::Base
     now = Time.now if now.nil?
 
     s = now.strftime("/%Y/%b/%d/").gsub(/0(\d)\/$/, '\1/').downcase
-    s << num.to_s unless num.blank?
+    s << num.to_s + '-' unless num.blank?
     s << thread.message.subject.to_s.gsub(/[<>]/, '').to_url
 
     s.gsub(/[^a-z0-9_\/-]/, '')

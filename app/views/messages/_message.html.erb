@@ -101,6 +101,10 @@ controls ||= :yes
             <%= cf_link_to t('messages.edit_message'), edit_message_path(@thread, m), class: 'cf-btn', rel: 'nofollow' %>
           <% end %>
 
+          <% if current_user.try(:moderate?, current_forum) %>
+            <%= cf_link_to t('messages.split_thread'), split_thread_path(@thread, m), class: 'cf-btn', rel: 'nofollow' %>
+          <% end %>
+
           <% if may?(Badge::CREATE_CLOSE_REOPEN_VOTE) and
             m.flags['no-answer-admin'] != 'yes' %>
             <%
