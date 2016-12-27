@@ -255,3 +255,19 @@ de:
       authorize_failed: Die Twitter-Authentifizierung ist fehlgeschlagen!
       start_authorization: Twitter-Authentifizierung starten
       logged_in_as: Das Forum ist bei Twitter authentifiziert als <strong>%{name}</strong>.
+
+    redirections:
+      index: Weiterleitungen
+      new_redirection: Neue Weiterleitung
+      no_redirections: Es sind keine Weiterleitungen vorhanden.
+
+      updated: Weiterleitung erfolgreich geändert
+      created: Weiterleitung erfolgreich erstellt
+      destroyed: Weiterleitung erfolgreich gelöscht
+
+      edit_redirection: Weiterleitung bearbeiten
+
+      error_message:
+        other: "%{count} Fehler verhinderten, dass diese Weiterleitung gespeichert werden konnte:"
+        one: "%{count} Fehler verhindert, dass diese Weiterleitung gespeichert werden konnte:"
+

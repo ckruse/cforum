@@ -10,4 +10,5 @@
   <li<% if controller_name == 'images' and action_name != 'new' %> class="active"<% end %>><%= cf_link_to t('images.images'), images_path %></li>
   <li<% if controller_name == 'audit' %> class="active"<% end %>><%= cf_link_to t('admin.audit.audit_log'), admin_audit_path %></li>
   <li<% if controller_name == 'jobs' %> class="active"<% end %>><%= cf_link_to t('admin.jobs.jobs'), admin_jobs_path %></li>
+  <li<% if controller_name == 'redirections' %> class="active"<% end %>><%= cf_link_to t('admin.redirections.index'), admin_jobs_path %></li>
 </ul>

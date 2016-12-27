@@ -66,6 +66,7 @@ Cforum::Application.routes.draw do
     resources :search_sections, except: :show
     resources :badge_groups, except: :show
     resources :events, except: :show
+    resources :redirections, except: :show
 
     get 'settings' => 'settings#edit', as: 'settings'
     post 'settings' => 'settings#update'

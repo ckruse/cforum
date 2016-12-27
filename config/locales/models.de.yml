@@ -49,6 +49,7 @@ de:
       peon_job: Hintergrund-Auftrag
       event: Ereignis
       attendee: Teilnehmer
+      redirection: Weiterleitung
 
     attributes:
       message:
@@ -175,3 +176,10 @@ de:
         planned_arrival: Geplante Ankunft
         planned_leave: Rückfahrt geplant
         seats: Sitzplätze
+
+      redirection:
+        redirection_id: Weiterleitungs-ID
+        path: Pfad
+        destination: Ziel
+        comment: Kommentar
+        http_status: HTTP-Status

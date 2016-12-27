@@ -1,0 +1,46 @@
+<%
+content_for :title, t('admin.redirections.index')
+content_for :h1, t('admin.redirections.index')
+%>
+
+<table class="cf-default-table">
+  <thead>
+    <tr>
+      <th><%= sortable Redirection.human_attribute_name(:redirection_id), :redirection_id, :admin_redirections_path %></th>
+      <th><%= Redirection.human_attribute_name(:http_status) %></th>
+      <th><%= sortable Redirection.human_attribute_name(:path), :path, :admin_redirections_path %></th>
+      <th><%= sortable Redirection.human_attribute_name(:destination), :destination, :admin_redirections_path %></th>
+      <th>Kommentar</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% if @redirections.blank? %>
+      <tr class="no-data"><td colspan="6"><%= t('admin.redirections.no_redirections') %></td></tr>
+    <% end %>
+
+    <% @redirections.each do |redirection| %>
+      <tr>
+        <td><%= redirection.redirection_id %></td>
+        <td><%= redirection.http_status %></td>
+        <td><%= redirection.path %></td>
+        <td><%= redirection.destination %></td>
+        <td><%= redirection.comment %></td>
+        <td>
+          <%= cf_button_to(admin_redirection_path(redirection),
+                           data: {'cf-confirm' => t('global.are_you_sure')},
+                           method: :delete, class: 'icon-delete-redirection',
+                           title: t('admin.users.delete_redirection')) %>
+          <%= cf_link_to('',
+                         edit_admin_redirection_path(redirection),
+                         class: "icon-edit-redirection",
+                         title: t('admin.redirections.edit_redirection')) %>
+        </td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+
+<%= paginate @redirections %>
