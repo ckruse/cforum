@@ -1,17 +1,19 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 4.2.0'
-gem 'pg'
 gem 'rails-i18n'
-gem 'devise-i18n'
 gem 'warden', '!= 1.2.5'
+
+gem 'pg'
 
 gem 'therubyracer'
 
-gem 'devise'
 gem 'bcrypt'
 gem 'kramdown'
 gem 'pygments.rb'
+
+gem 'devise'
+gem 'devise-i18n'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -24,20 +26,20 @@ gem 'content_for_in_controllers'
 gem 'kaminari'
 
 group :development, :test do
-  gem 'listen', '~> 3.0.7'
-  gem 'database_cleaner'
-  gem 'factory_girl_rails'
-  gem 'quiet_assets'
-  gem 'faker'
-  gem 'rspec-rails'
-  gem 'poltergeist'
+  gem 'active_record_query_trace'
   gem 'capybara'
   gem 'capybara-screenshot'
+  gem 'database_cleaner'
   gem 'email_spec'
-  gem 'spring-commands-rspec'
+  gem 'factory_girl_rails'
+  gem 'faker'
   gem 'guard-rspec'
+  gem 'listen', '~> 3.0.7'
+  gem 'poltergeist'
   gem 'puma'
-  gem 'active_record_query_trace'
+  gem 'quiet_assets'
+  gem 'rspec-rails'
+  gem 'spring-commands-rspec'
   gem 'terminal-notifier-guard'
 end
 
