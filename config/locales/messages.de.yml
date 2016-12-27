@@ -103,6 +103,7 @@ de:
 
     split_thread: Thread aufteilen
     thread_split: Der Thread wurde erfolgreich aufgeteilt!
+    thread_split_redirection: Die Weiterleitung wurde aufgrund einer Aufteilung erstellt.
 
     close_vote:
       agreeing: Sehe ich auch so

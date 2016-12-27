@@ -43,6 +43,11 @@ class Messages::SplitThreadController < ApplicationController
         @message.editor_id = current_user.user_id
         @message.edit_author = current_user.username
 
+        Redirection.create!(path: message_path_wo_anchor(@old_thread, @message),
+                            destination: message_path_wo_anchor(@thread, @message),
+                            http_status: 301,
+                            comment: t('messages.thread_split_redirection'))
+
         raise ActiveRecord::Rollback unless @message.save
 
         @message.tags.delete_all
@@ -53,6 +58,11 @@ class Messages::SplitThreadController < ApplicationController
           msg.thread_id = @thread.thread_id
           msg.forum_id = @thread.forum_id
           raise ActiveRecord::Rollback unless msg.save
+
+          Redirection.create!(path: message_path_wo_anchor(@old_thread, msg),
+                              destination: message_path_wo_anchor(@thread, msg),
+                              http_status: 301,
+                              comment: t('messages.thread_split_redirection'))
 
           if params[:retag_answers] == '1'
             raise ActiveRecord::Rollback unless save_tags(@forum, msg, @tags)
