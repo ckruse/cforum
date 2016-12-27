@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   include TitleHelper
 
   before_filter :prepare_exception_notifier, :do_init, :locked?,
-                :set_forums, :notifications,
+                :handle_redirects, :set_forums, :notifications,
                 :check_authorizations, :set_css, :set_motd,
                 :set_own_files, :set_title_infos
   after_filter :store_location
@@ -46,6 +46,11 @@ class ApplicationController < ActionController::Base
 
   def locked?
     render :locked, status: 403, layout: nil if (conf('locked') == 'yes') && !current_user.try(:admin?)
+  end
+
+  def handle_redirects
+    redirection = Redirection.where(path: request.path).first
+    redirect_to redirection.destination, status: redirection.http_status unless redirection.blank?
   end
 
   def set_forums

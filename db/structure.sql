@@ -2,11 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.4
--- Dumped by pg_dump version 9.5.4
+-- Dumped from database version 9.6.1
+-- Dumped by pg_dump version 9.6.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -1547,6 +1548,38 @@ ALTER SEQUENCE read_messages_read_message_id_seq OWNED BY read_messages.read_mes
 
 
 --
+-- Name: redirections; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE redirections (
+    redirection_id bigint NOT NULL,
+    path character varying NOT NULL,
+    destination character varying NOT NULL,
+    http_status integer NOT NULL,
+    comment text
+);
+
+
+--
+-- Name: redirections_redirection_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE redirections_redirection_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: redirections_redirection_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE redirections_redirection_id_seq OWNED BY redirections.redirection_id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1945,287 +1978,294 @@ ALTER SEQUENCE votes_vote_id_seq OWNED BY votes.vote_id;
 
 
 --
--- Name: attendee_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: attendees attendee_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY attendees ALTER COLUMN attendee_id SET DEFAULT nextval('attendees_attendee_id_seq'::regclass);
 
 
 --
--- Name: auditing_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: auditing auditing_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY auditing ALTER COLUMN auditing_id SET DEFAULT nextval('auditing_auditing_id_seq'::regclass);
 
 
 --
--- Name: badge_group_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: badge_groups badge_group_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badge_groups ALTER COLUMN badge_group_id SET DEFAULT nextval('badge_groups_badge_group_id_seq'::regclass);
 
 
 --
--- Name: badge_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: badges badge_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges ALTER COLUMN badge_id SET DEFAULT nextval('badges_badge_id_seq'::regclass);
 
 
 --
--- Name: badges_badge_group_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: badges_badge_groups badges_badge_group_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges_badge_groups ALTER COLUMN badges_badge_group_id SET DEFAULT nextval('badges_badge_groups_badges_badge_group_id_seq'::regclass);
 
 
 --
--- Name: badge_user_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: badges_users badge_user_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges_users ALTER COLUMN badge_user_id SET DEFAULT nextval('badges_users_badge_user_id_seq'::regclass);
 
 
 --
--- Name: cite_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: cites cite_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cites ALTER COLUMN cite_id SET DEFAULT nextval('cites_cite_id_seq'::regclass);
 
 
 --
--- Name: cite_vote_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: cites_votes cite_vote_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cites_votes ALTER COLUMN cite_vote_id SET DEFAULT nextval('cites_votes_cite_vote_id_seq'::regclass);
 
 
 --
--- Name: close_vote_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: close_votes close_vote_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes ALTER COLUMN close_vote_id SET DEFAULT nextval('close_votes_close_vote_id_seq'::regclass);
 
 
 --
--- Name: close_votes_voter_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: close_votes_voters close_votes_voter_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes_voters ALTER COLUMN close_votes_voter_id SET DEFAULT nextval('close_votes_voters_close_votes_voter_id_seq'::regclass);
 
 
 --
--- Name: count_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: counter_table count_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY counter_table ALTER COLUMN count_id SET DEFAULT nextval('counter_table_count_id_seq'::regclass);
 
 
 --
--- Name: event_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: events event_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY events ALTER COLUMN event_id SET DEFAULT nextval('events_event_id_seq'::regclass);
 
 
 --
--- Name: forum_stat_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: forum_stats forum_stat_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forum_stats ALTER COLUMN forum_stat_id SET DEFAULT nextval('forum_stats_forum_stat_id_seq'::regclass);
 
 
 --
--- Name: forum_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: forums forum_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forums ALTER COLUMN forum_id SET DEFAULT nextval('forums_forum_id_seq'::regclass);
 
 
 --
--- Name: forum_group_permission_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: forums_groups_permissions forum_group_permission_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forums_groups_permissions ALTER COLUMN forum_group_permission_id SET DEFAULT nextval('forums_groups_permissions_forum_group_permission_id_seq'::regclass);
 
 
 --
--- Name: group_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: groups group_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups ALTER COLUMN group_id SET DEFAULT nextval('groups_group_id_seq'::regclass);
 
 
 --
--- Name: group_user_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: groups_users group_user_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups_users ALTER COLUMN group_user_id SET DEFAULT nextval('groups_users_group_user_id_seq'::regclass);
 
 
 --
--- Name: interesting_message_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: interesting_messages interesting_message_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY interesting_messages ALTER COLUMN interesting_message_id SET DEFAULT nextval('interesting_messages_interesting_message_id_seq'::regclass);
 
 
 --
--- Name: invisible_thread_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: invisible_threads invisible_thread_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY invisible_threads ALTER COLUMN invisible_thread_id SET DEFAULT nextval('invisible_threads_invisible_thread_id_seq'::regclass);
 
 
 --
--- Name: medium_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: media medium_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY media ALTER COLUMN medium_id SET DEFAULT nextval('media_medium_id_seq'::regclass);
 
 
 --
--- Name: message_reference_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: message_references message_reference_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY message_references ALTER COLUMN message_reference_id SET DEFAULT nextval('message_references_message_reference_id_seq'::regclass);
 
 
 --
--- Name: message_version_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: message_versions message_version_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY message_versions ALTER COLUMN message_version_id SET DEFAULT nextval('message_versions_message_version_id_seq'::regclass);
 
 
 --
--- Name: message_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: messages message_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages ALTER COLUMN message_id SET DEFAULT nextval('messages_message_id_seq'::regclass);
 
 
 --
--- Name: message_tag_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: messages_tags message_tag_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages_tags ALTER COLUMN message_tag_id SET DEFAULT nextval('messages_tags_message_tag_id_seq'::regclass);
 
 
 --
--- Name: notification_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: notifications notification_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY notifications ALTER COLUMN notification_id SET DEFAULT nextval('notifications_notification_id_seq'::regclass);
 
 
 --
--- Name: opened_closed_thread_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: opened_closed_threads opened_closed_thread_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY opened_closed_threads ALTER COLUMN opened_closed_thread_id SET DEFAULT nextval('opened_closed_threads_opened_closed_thread_id_seq'::regclass);
 
 
 --
--- Name: peon_job_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: peon_jobs peon_job_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY peon_jobs ALTER COLUMN peon_job_id SET DEFAULT nextval('peon_jobs_peon_job_id_seq'::regclass);
 
 
 --
--- Name: priv_message_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: priv_messages priv_message_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY priv_messages ALTER COLUMN priv_message_id SET DEFAULT nextval('priv_messages_priv_message_id_seq'::regclass);
 
 
 --
--- Name: read_message_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: read_messages read_message_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY read_messages ALTER COLUMN read_message_id SET DEFAULT nextval('read_messages_read_message_id_seq'::regclass);
 
 
 --
--- Name: score_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: redirections redirection_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY redirections ALTER COLUMN redirection_id SET DEFAULT nextval('redirections_redirection_id_seq'::regclass);
+
+
+--
+-- Name: scores score_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY scores ALTER COLUMN score_id SET DEFAULT nextval('scores_score_id_seq'::regclass);
 
 
 --
--- Name: search_document_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: search_documents search_document_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_documents ALTER COLUMN search_document_id SET DEFAULT nextval('search_documents_search_document_id_seq'::regclass);
 
 
 --
--- Name: search_section_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: search_sections search_section_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_sections ALTER COLUMN search_section_id SET DEFAULT nextval('search_sections_search_section_id_seq'::regclass);
 
 
 --
--- Name: setting_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: settings setting_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY settings ALTER COLUMN setting_id SET DEFAULT nextval('settings_setting_id_seq'::regclass);
 
 
 --
--- Name: subscription_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: subscriptions subscription_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY subscriptions ALTER COLUMN subscription_id SET DEFAULT nextval('subscriptions_subscription_id_seq'::regclass);
 
 
 --
--- Name: tag_synonym_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: tag_synonyms tag_synonym_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tag_synonyms ALTER COLUMN tag_synonym_id SET DEFAULT nextval('tag_synonyms_tag_synonym_id_seq'::regclass);
 
 
 --
--- Name: tag_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: tags tag_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tags ALTER COLUMN tag_id SET DEFAULT nextval('tags_tag_id_seq'::regclass);
 
 
 --
--- Name: thread_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: threads thread_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY threads ALTER COLUMN thread_id SET DEFAULT nextval('threads_thread_id_seq'::regclass);
 
 
 --
--- Name: twitter_authorization_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: twitter_authorizations twitter_authorization_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY twitter_authorizations ALTER COLUMN twitter_authorization_id SET DEFAULT nextval('twitter_authorizations_twitter_authorization_id_seq'::regclass);
 
 
 --
--- Name: user_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users user_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_seq'::regclass);
 
 
 --
--- Name: vote_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: votes vote_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY votes ALTER COLUMN vote_id SET DEFAULT nextval('votes_vote_id_seq'::regclass);
 
 
 --
--- Name: attendees_event_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: attendees attendees_event_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY attendees
@@ -2233,7 +2273,7 @@ ALTER TABLE ONLY attendees
 
 
 --
--- Name: attendees_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: attendees attendees_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY attendees
@@ -2241,7 +2281,7 @@ ALTER TABLE ONLY attendees
 
 
 --
--- Name: auditing_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: auditing auditing_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY auditing
@@ -2249,7 +2289,7 @@ ALTER TABLE ONLY auditing
 
 
 --
--- Name: badge_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: badge_groups badge_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badge_groups
@@ -2257,7 +2297,7 @@ ALTER TABLE ONLY badge_groups
 
 
 --
--- Name: badges_badge_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: badges_badge_groups badges_badge_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges_badge_groups
@@ -2265,7 +2305,7 @@ ALTER TABLE ONLY badges_badge_groups
 
 
 --
--- Name: badges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: badges badges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges
@@ -2273,7 +2313,7 @@ ALTER TABLE ONLY badges
 
 
 --
--- Name: badges_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: badges badges_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges
@@ -2281,7 +2321,7 @@ ALTER TABLE ONLY badges
 
 
 --
--- Name: badges_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: badges_users badges_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges_users
@@ -2289,7 +2329,7 @@ ALTER TABLE ONLY badges_users
 
 
 --
--- Name: cites_old_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: cites cites_old_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cites
@@ -2297,7 +2337,7 @@ ALTER TABLE ONLY cites
 
 
 --
--- Name: cites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: cites cites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cites
@@ -2305,7 +2345,7 @@ ALTER TABLE ONLY cites
 
 
 --
--- Name: cites_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: cites_votes cites_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cites_votes
@@ -2313,7 +2353,7 @@ ALTER TABLE ONLY cites_votes
 
 
 --
--- Name: close_votes_message_id_vote_type_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: close_votes close_votes_message_id_vote_type_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes
@@ -2321,7 +2361,7 @@ ALTER TABLE ONLY close_votes
 
 
 --
--- Name: close_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: close_votes close_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes
@@ -2329,7 +2369,7 @@ ALTER TABLE ONLY close_votes
 
 
 --
--- Name: close_votes_voters_close_vote_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: close_votes_voters close_votes_voters_close_vote_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes_voters
@@ -2337,7 +2377,7 @@ ALTER TABLE ONLY close_votes_voters
 
 
 --
--- Name: close_votes_voters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: close_votes_voters close_votes_voters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes_voters
@@ -2345,7 +2385,7 @@ ALTER TABLE ONLY close_votes_voters
 
 
 --
--- Name: counter_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: counter_table counter_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY counter_table
@@ -2353,7 +2393,7 @@ ALTER TABLE ONLY counter_table
 
 
 --
--- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY events
@@ -2361,7 +2401,7 @@ ALTER TABLE ONLY events
 
 
 --
--- Name: forum_stats_forum_id_moment_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: forum_stats forum_stats_forum_id_moment_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forum_stats
@@ -2369,7 +2409,7 @@ ALTER TABLE ONLY forum_stats
 
 
 --
--- Name: forum_stats_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: forum_stats forum_stats_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forum_stats
@@ -2377,7 +2417,7 @@ ALTER TABLE ONLY forum_stats
 
 
 --
--- Name: forums_groups_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: forums_groups_permissions forums_groups_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forums_groups_permissions
@@ -2385,7 +2425,7 @@ ALTER TABLE ONLY forums_groups_permissions
 
 
 --
--- Name: forums_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: forums forums_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forums
@@ -2393,7 +2433,7 @@ ALTER TABLE ONLY forums
 
 
 --
--- Name: groups_name_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: groups groups_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups
@@ -2401,7 +2441,7 @@ ALTER TABLE ONLY groups
 
 
 --
--- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: groups groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups
@@ -2409,7 +2449,7 @@ ALTER TABLE ONLY groups
 
 
 --
--- Name: groups_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: groups_users groups_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups_users
@@ -2417,7 +2457,7 @@ ALTER TABLE ONLY groups_users
 
 
 --
--- Name: interesting_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: interesting_messages interesting_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY interesting_messages
@@ -2425,7 +2465,7 @@ ALTER TABLE ONLY interesting_messages
 
 
 --
--- Name: invisible_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: invisible_threads invisible_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY invisible_threads
@@ -2433,7 +2473,7 @@ ALTER TABLE ONLY invisible_threads
 
 
 --
--- Name: media_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: media media_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY media
@@ -2441,7 +2481,7 @@ ALTER TABLE ONLY media
 
 
 --
--- Name: message_references_dst_message_id_src_message_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: message_references message_references_dst_message_id_src_message_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY message_references
@@ -2449,7 +2489,7 @@ ALTER TABLE ONLY message_references
 
 
 --
--- Name: message_references_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: message_references message_references_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY message_references
@@ -2457,7 +2497,7 @@ ALTER TABLE ONLY message_references
 
 
 --
--- Name: message_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: message_versions message_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY message_versions
@@ -2465,7 +2505,7 @@ ALTER TABLE ONLY message_versions
 
 
 --
--- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: messages messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -2473,7 +2513,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: messages_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: messages_tags messages_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages_tags
@@ -2481,7 +2521,7 @@ ALTER TABLE ONLY messages_tags
 
 
 --
--- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY notifications
@@ -2489,7 +2529,7 @@ ALTER TABLE ONLY notifications
 
 
 --
--- Name: opened_closed_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: opened_closed_threads opened_closed_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY opened_closed_threads
@@ -2497,7 +2537,7 @@ ALTER TABLE ONLY opened_closed_threads
 
 
 --
--- Name: peon_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: peon_jobs peon_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY peon_jobs
@@ -2505,7 +2545,7 @@ ALTER TABLE ONLY peon_jobs
 
 
 --
--- Name: priv_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: priv_messages priv_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY priv_messages
@@ -2513,7 +2553,7 @@ ALTER TABLE ONLY priv_messages
 
 
 --
--- Name: read_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: read_messages read_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY read_messages
@@ -2521,7 +2561,23 @@ ALTER TABLE ONLY read_messages
 
 
 --
--- Name: scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: redirections redirections_path_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY redirections
+    ADD CONSTRAINT redirections_path_key UNIQUE (path);
+
+
+--
+-- Name: redirections redirections_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY redirections
+    ADD CONSTRAINT redirections_pkey PRIMARY KEY (redirection_id);
+
+
+--
+-- Name: scores scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY scores
@@ -2529,7 +2585,7 @@ ALTER TABLE ONLY scores
 
 
 --
--- Name: search_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: search_documents search_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_documents
@@ -2537,7 +2593,7 @@ ALTER TABLE ONLY search_documents
 
 
 --
--- Name: search_documents_reference_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: search_documents search_documents_reference_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_documents
@@ -2545,7 +2601,7 @@ ALTER TABLE ONLY search_documents
 
 
 --
--- Name: search_documents_url_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: search_documents search_documents_url_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_documents
@@ -2553,7 +2609,7 @@ ALTER TABLE ONLY search_documents
 
 
 --
--- Name: search_sections_name_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: search_sections search_sections_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_sections
@@ -2561,7 +2617,7 @@ ALTER TABLE ONLY search_sections
 
 
 --
--- Name: search_sections_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: search_sections search_sections_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_sections
@@ -2569,7 +2625,7 @@ ALTER TABLE ONLY search_sections
 
 
 --
--- Name: settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: settings settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY settings
@@ -2577,7 +2633,7 @@ ALTER TABLE ONLY settings
 
 
 --
--- Name: subscriptions_message_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: subscriptions subscriptions_message_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY subscriptions
@@ -2585,7 +2641,7 @@ ALTER TABLE ONLY subscriptions
 
 
 --
--- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: subscriptions subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY subscriptions
@@ -2593,7 +2649,7 @@ ALTER TABLE ONLY subscriptions
 
 
 --
--- Name: tag_synonyms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: tag_synonyms tag_synonyms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tag_synonyms
@@ -2601,7 +2657,7 @@ ALTER TABLE ONLY tag_synonyms
 
 
 --
--- Name: tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tags
@@ -2609,7 +2665,7 @@ ALTER TABLE ONLY tags
 
 
 --
--- Name: threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: threads threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY threads
@@ -2617,7 +2673,7 @@ ALTER TABLE ONLY threads
 
 
 --
--- Name: twitter_authorizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: twitter_authorizations twitter_authorizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY twitter_authorizations
@@ -2625,7 +2681,7 @@ ALTER TABLE ONLY twitter_authorizations
 
 
 --
--- Name: twitter_authorizations_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: twitter_authorizations twitter_authorizations_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY twitter_authorizations
@@ -2633,7 +2689,7 @@ ALTER TABLE ONLY twitter_authorizations
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -2641,7 +2697,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: users_websocket_token_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_websocket_token_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -2649,7 +2705,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: votes votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY votes
@@ -3028,133 +3084,133 @@ CREATE UNIQUE INDEX votes_user_id_message_id_idx ON votes USING btree (user_id, 
 
 
 --
--- Name: messages__count_delete_trigger; Type: TRIGGER; Schema: public; Owner: -
+-- Name: messages messages__count_delete_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages__count_delete_trigger AFTER DELETE ON messages FOR EACH ROW EXECUTE PROCEDURE count_messages_delete_trigger();
 
 
 --
--- Name: messages__count_insert_forum_trigger; Type: TRIGGER; Schema: public; Owner: -
+-- Name: forums messages__count_insert_forum_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages__count_insert_forum_trigger AFTER INSERT ON forums FOR EACH ROW EXECUTE PROCEDURE count_messages_insert_forum_trigger();
 
 
 --
--- Name: messages__count_insert_trigger; Type: TRIGGER; Schema: public; Owner: -
+-- Name: messages messages__count_insert_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages__count_insert_trigger AFTER INSERT ON messages FOR EACH ROW EXECUTE PROCEDURE count_messages_insert_trigger();
 
 
 --
--- Name: messages__count_truncate_trigger; Type: TRIGGER; Schema: public; Owner: -
+-- Name: messages messages__count_truncate_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages__count_truncate_trigger AFTER TRUNCATE ON messages FOR EACH STATEMENT EXECUTE PROCEDURE count_messages_truncate_trigger();
 
 
 --
--- Name: messages__count_update_trigger; Type: TRIGGER; Schema: public; Owner: -
+-- Name: messages messages__count_update_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages__count_update_trigger AFTER UPDATE ON messages FOR EACH ROW EXECUTE PROCEDURE count_messages_update_trigger();
 
 
 --
--- Name: messages__thread_set_latest_trigger_insert; Type: TRIGGER; Schema: public; Owner: -
+-- Name: messages messages__thread_set_latest_trigger_insert; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages__thread_set_latest_trigger_insert AFTER INSERT ON messages FOR EACH ROW EXECUTE PROCEDURE messages__thread_set_latest_insert();
 
 
 --
--- Name: messages__thread_set_latest_trigger_update; Type: TRIGGER; Schema: public; Owner: -
+-- Name: messages messages__thread_set_latest_trigger_update; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages__thread_set_latest_trigger_update AFTER DELETE OR UPDATE ON messages FOR EACH ROW EXECUTE PROCEDURE messages__thread_set_latest_update_delete();
 
 
 --
--- Name: messages_tags__count_delete_trigger; Type: TRIGGER; Schema: public; Owner: -
+-- Name: messages_tags messages_tags__count_delete_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages_tags__count_delete_trigger AFTER DELETE ON messages_tags FOR EACH ROW EXECUTE PROCEDURE count_messages_tag_delete_trigger();
 
 
 --
--- Name: messages_tags__count_insert_trigger; Type: TRIGGER; Schema: public; Owner: -
+-- Name: messages_tags messages_tags__count_insert_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER messages_tags__count_insert_trigger AFTER INSERT ON messages_tags FOR EACH ROW EXECUTE PROCEDURE count_messages_tag_insert_trigger();
 
 
 --
--- Name: search_documents__before_insert_trigger; Type: TRIGGER; Schema: public; Owner: -
+-- Name: search_documents search_documents__before_insert_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER search_documents__before_insert_trigger BEFORE INSERT ON search_documents FOR EACH ROW EXECUTE PROCEDURE search_document_before_insert();
 
 
 --
--- Name: search_documents__before_update_trigger; Type: TRIGGER; Schema: public; Owner: -
+-- Name: search_documents search_documents__before_update_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER search_documents__before_update_trigger BEFORE UPDATE ON search_documents FOR EACH ROW EXECUTE PROCEDURE search_document_before_insert();
 
 
 --
--- Name: settings_unique_check_insert; Type: TRIGGER; Schema: public; Owner: -
+-- Name: settings settings_unique_check_insert; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER settings_unique_check_insert BEFORE INSERT ON settings FOR EACH ROW EXECUTE PROCEDURE settings_unique_check__insert();
 
 
 --
--- Name: settings_unique_check_update; Type: TRIGGER; Schema: public; Owner: -
+-- Name: settings settings_unique_check_update; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER settings_unique_check_update BEFORE UPDATE ON settings FOR EACH ROW EXECUTE PROCEDURE settings_unique_check__update();
 
 
 --
--- Name: threads__count_delete_trigger; Type: TRIGGER; Schema: public; Owner: -
+-- Name: threads threads__count_delete_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER threads__count_delete_trigger AFTER DELETE ON threads FOR EACH ROW EXECUTE PROCEDURE count_threads_delete_trigger();
 
 
 --
--- Name: threads__count_insert_forum_trigger; Type: TRIGGER; Schema: public; Owner: -
+-- Name: forums threads__count_insert_forum_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER threads__count_insert_forum_trigger AFTER INSERT ON forums FOR EACH ROW EXECUTE PROCEDURE count_threads_insert_forum_trigger();
 
 
 --
--- Name: threads__count_insert_trigger; Type: TRIGGER; Schema: public; Owner: -
+-- Name: threads threads__count_insert_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER threads__count_insert_trigger AFTER INSERT ON threads FOR EACH ROW EXECUTE PROCEDURE count_threads_insert_trigger();
 
 
 --
--- Name: threads__count_truncate_trigger; Type: TRIGGER; Schema: public; Owner: -
+-- Name: threads threads__count_truncate_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER threads__count_truncate_trigger AFTER TRUNCATE ON threads FOR EACH STATEMENT EXECUTE PROCEDURE count_threads_truncate_trigger();
 
 
 --
--- Name: threads__count_update_trigger; Type: TRIGGER; Schema: public; Owner: -
+-- Name: threads threads__count_update_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER threads__count_update_trigger AFTER UPDATE ON threads FOR EACH ROW EXECUTE PROCEDURE count_threads_update_trigger();
 
 
 --
--- Name: attendees_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: attendees attendees_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY attendees
@@ -3162,7 +3218,7 @@ ALTER TABLE ONLY attendees
 
 
 --
--- Name: attendees_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: attendees attendees_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY attendees
@@ -3170,7 +3226,7 @@ ALTER TABLE ONLY attendees
 
 
 --
--- Name: auditing_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: auditing auditing_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY auditing
@@ -3178,7 +3234,7 @@ ALTER TABLE ONLY auditing
 
 
 --
--- Name: badges_badge_groups_badge_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: badges_badge_groups badges_badge_groups_badge_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges_badge_groups
@@ -3186,7 +3242,7 @@ ALTER TABLE ONLY badges_badge_groups
 
 
 --
--- Name: badges_badge_groups_badge_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: badges_badge_groups badges_badge_groups_badge_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges_badge_groups
@@ -3194,7 +3250,7 @@ ALTER TABLE ONLY badges_badge_groups
 
 
 --
--- Name: badges_users_badge_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: badges_users badges_users_badge_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges_users
@@ -3202,7 +3258,7 @@ ALTER TABLE ONLY badges_users
 
 
 --
--- Name: badges_users_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: badges_users badges_users_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY badges_users
@@ -3210,7 +3266,7 @@ ALTER TABLE ONLY badges_users
 
 
 --
--- Name: cites_creator_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cites cites_creator_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cites
@@ -3218,7 +3274,7 @@ ALTER TABLE ONLY cites
 
 
 --
--- Name: cites_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cites cites_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cites
@@ -3226,7 +3282,7 @@ ALTER TABLE ONLY cites
 
 
 --
--- Name: cites_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cites cites_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cites
@@ -3234,7 +3290,7 @@ ALTER TABLE ONLY cites
 
 
 --
--- Name: cites_votes_cite_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cites_votes cites_votes_cite_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cites_votes
@@ -3242,7 +3298,7 @@ ALTER TABLE ONLY cites_votes
 
 
 --
--- Name: cites_votes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cites_votes cites_votes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cites_votes
@@ -3250,7 +3306,7 @@ ALTER TABLE ONLY cites_votes
 
 
 --
--- Name: close_votes_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: close_votes close_votes_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes
@@ -3258,7 +3314,7 @@ ALTER TABLE ONLY close_votes
 
 
 --
--- Name: close_votes_voters_close_vote_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: close_votes_voters close_votes_voters_close_vote_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY close_votes_voters
@@ -3266,7 +3322,7 @@ ALTER TABLE ONLY close_votes_voters
 
 
 --
--- Name: forum_stats_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: forum_stats forum_stats_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forum_stats
@@ -3274,7 +3330,7 @@ ALTER TABLE ONLY forum_stats
 
 
 --
--- Name: forums_groups_permissions_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: forums_groups_permissions forums_groups_permissions_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forums_groups_permissions
@@ -3282,7 +3338,7 @@ ALTER TABLE ONLY forums_groups_permissions
 
 
 --
--- Name: forums_groups_permissions_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: forums_groups_permissions forums_groups_permissions_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY forums_groups_permissions
@@ -3290,7 +3346,7 @@ ALTER TABLE ONLY forums_groups_permissions
 
 
 --
--- Name: groups_users_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: groups_users groups_users_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups_users
@@ -3298,7 +3354,7 @@ ALTER TABLE ONLY groups_users
 
 
 --
--- Name: groups_users_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: groups_users groups_users_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups_users
@@ -3306,7 +3362,7 @@ ALTER TABLE ONLY groups_users
 
 
 --
--- Name: interesting_messages_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: interesting_messages interesting_messages_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY interesting_messages
@@ -3314,7 +3370,7 @@ ALTER TABLE ONLY interesting_messages
 
 
 --
--- Name: interesting_messages_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: interesting_messages interesting_messages_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY interesting_messages
@@ -3322,7 +3378,7 @@ ALTER TABLE ONLY interesting_messages
 
 
 --
--- Name: invisible_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: invisible_threads invisible_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY invisible_threads
@@ -3330,7 +3386,7 @@ ALTER TABLE ONLY invisible_threads
 
 
 --
--- Name: invisible_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: invisible_threads invisible_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY invisible_threads
@@ -3338,7 +3394,7 @@ ALTER TABLE ONLY invisible_threads
 
 
 --
--- Name: media_owner_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: media media_owner_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY media
@@ -3346,7 +3402,7 @@ ALTER TABLE ONLY media
 
 
 --
--- Name: message_references_dst_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: message_references message_references_dst_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY message_references
@@ -3354,7 +3410,7 @@ ALTER TABLE ONLY message_references
 
 
 --
--- Name: message_references_src_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: message_references message_references_src_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY message_references
@@ -3362,7 +3418,7 @@ ALTER TABLE ONLY message_references
 
 
 --
--- Name: message_versions_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: message_versions message_versions_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY message_versions
@@ -3370,7 +3426,7 @@ ALTER TABLE ONLY message_versions
 
 
 --
--- Name: message_versions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: message_versions message_versions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY message_versions
@@ -3378,7 +3434,7 @@ ALTER TABLE ONLY message_versions
 
 
 --
--- Name: messages_editor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: messages messages_editor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -3386,7 +3442,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: messages_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: messages messages_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -3394,7 +3450,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: messages_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: messages messages_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -3402,7 +3458,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: messages_tags_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: messages_tags messages_tags_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages_tags
@@ -3410,7 +3466,7 @@ ALTER TABLE ONLY messages_tags
 
 
 --
--- Name: messages_tags_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: messages_tags messages_tags_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages_tags
@@ -3418,7 +3474,7 @@ ALTER TABLE ONLY messages_tags
 
 
 --
--- Name: messages_thread_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: messages messages_thread_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -3426,7 +3482,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: messages_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: messages messages_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -3434,7 +3490,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: notifications_recipient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: notifications notifications_recipient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY notifications
@@ -3442,7 +3498,7 @@ ALTER TABLE ONLY notifications
 
 
 --
--- Name: opened_closed_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: opened_closed_threads opened_closed_threads_thread_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY opened_closed_threads
@@ -3450,7 +3506,7 @@ ALTER TABLE ONLY opened_closed_threads
 
 
 --
--- Name: opened_closed_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: opened_closed_threads opened_closed_threads_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY opened_closed_threads
@@ -3458,7 +3514,7 @@ ALTER TABLE ONLY opened_closed_threads
 
 
 --
--- Name: priv_messages_owner_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: priv_messages priv_messages_owner_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY priv_messages
@@ -3466,7 +3522,7 @@ ALTER TABLE ONLY priv_messages
 
 
 --
--- Name: priv_messages_recipient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: priv_messages priv_messages_recipient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY priv_messages
@@ -3474,7 +3530,7 @@ ALTER TABLE ONLY priv_messages
 
 
 --
--- Name: priv_messages_sender_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: priv_messages priv_messages_sender_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY priv_messages
@@ -3482,7 +3538,7 @@ ALTER TABLE ONLY priv_messages
 
 
 --
--- Name: read_messages_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: read_messages read_messages_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY read_messages
@@ -3490,7 +3546,7 @@ ALTER TABLE ONLY read_messages
 
 
 --
--- Name: read_messages_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: read_messages read_messages_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY read_messages
@@ -3498,7 +3554,7 @@ ALTER TABLE ONLY read_messages
 
 
 --
--- Name: scores_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: scores scores_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY scores
@@ -3506,7 +3562,7 @@ ALTER TABLE ONLY scores
 
 
 --
--- Name: scores_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: scores scores_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY scores
@@ -3514,7 +3570,7 @@ ALTER TABLE ONLY scores
 
 
 --
--- Name: scores_vote_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: scores scores_vote_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY scores
@@ -3522,7 +3578,7 @@ ALTER TABLE ONLY scores
 
 
 --
--- Name: search_documents_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: search_documents search_documents_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_documents
@@ -3530,7 +3586,7 @@ ALTER TABLE ONLY search_documents
 
 
 --
--- Name: search_documents_search_section_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: search_documents search_documents_search_section_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_documents
@@ -3538,7 +3594,7 @@ ALTER TABLE ONLY search_documents
 
 
 --
--- Name: search_documents_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: search_documents search_documents_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_documents
@@ -3546,7 +3602,7 @@ ALTER TABLE ONLY search_documents
 
 
 --
--- Name: search_sections_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: search_sections search_sections_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY search_sections
@@ -3554,7 +3610,7 @@ ALTER TABLE ONLY search_sections
 
 
 --
--- Name: settings_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: settings settings_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY settings
@@ -3562,7 +3618,7 @@ ALTER TABLE ONLY settings
 
 
 --
--- Name: settings_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: settings settings_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY settings
@@ -3570,7 +3626,7 @@ ALTER TABLE ONLY settings
 
 
 --
--- Name: subscriptions_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: subscriptions subscriptions_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY subscriptions
@@ -3578,7 +3634,7 @@ ALTER TABLE ONLY subscriptions
 
 
 --
--- Name: subscriptions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: subscriptions subscriptions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY subscriptions
@@ -3586,7 +3642,7 @@ ALTER TABLE ONLY subscriptions
 
 
 --
--- Name: tag_synonyms_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: tag_synonyms tag_synonyms_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tag_synonyms
@@ -3594,7 +3650,7 @@ ALTER TABLE ONLY tag_synonyms
 
 
 --
--- Name: tag_synonyms_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: tag_synonyms tag_synonyms_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tag_synonyms
@@ -3602,7 +3658,7 @@ ALTER TABLE ONLY tag_synonyms
 
 
 --
--- Name: tags_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: tags tags_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tags
@@ -3610,7 +3666,7 @@ ALTER TABLE ONLY tags
 
 
 --
--- Name: threads_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: threads threads_forum_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY threads
@@ -3618,7 +3674,7 @@ ALTER TABLE ONLY threads
 
 
 --
--- Name: threads_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: threads threads_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY threads
@@ -3626,7 +3682,7 @@ ALTER TABLE ONLY threads
 
 
 --
--- Name: twitter_authorizations_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: twitter_authorizations twitter_authorizations_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY twitter_authorizations
@@ -3634,7 +3690,7 @@ ALTER TABLE ONLY twitter_authorizations
 
 
 --
--- Name: votes_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: votes votes_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY votes
@@ -3642,7 +3698,7 @@ ALTER TABLE ONLY votes
 
 
 --
--- Name: votes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: votes votes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY votes
@@ -3850,4 +3906,6 @@ INSERT INTO schema_migrations (version) VALUES ('96');
 INSERT INTO schema_migrations (version) VALUES ('97');
 
 INSERT INTO schema_migrations (version) VALUES ('98');
+
+INSERT INTO schema_migrations (version) VALUES ('99');
 
