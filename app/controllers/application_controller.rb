@@ -45,24 +45,22 @@ class ApplicationController < ActionController::Base
   end
 
   def locked?
-    if conf('locked') == "yes" and not current_user.try(:admin?)
-      render :locked, status: 403, layout: nil
-    end
+    render :locked, status: 403, layout: nil if (conf('locked') == 'yes') && !current_user.try(:admin?)
   end
 
   def set_forums
-    if not current_user
-      @forums = Forum.where("standard_permission = ? OR standard_permission = ?",
+    if !current_user
+      @forums = Forum.where('standard_permission = ? OR standard_permission = ?',
                             ForumGroupPermission::ACCESS_READ,
-                            ForumGroupPermission::ACCESS_WRITE).
-                order('position ASC, UPPER(name) ASC')
+                            ForumGroupPermission::ACCESS_WRITE)
+                  .order('position ASC, UPPER(name) ASC')
 
-    elsif current_user and current_user.admin
+    elsif current_user && current_user.admin
       @forums = Forum.order('position ASC, UPPER(name) ASC')
 
     else
       @forums = Forum.where(
-        "(standard_permission IN (?, ?, ?, ?)) OR forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ?)",
+        '(standard_permission IN (?, ?, ?, ?)) OR forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ?)',
         ForumGroupPermission::ACCESS_READ,
         ForumGroupPermission::ACCESS_WRITE,
         ForumGroupPermission::ACCESS_KNOWN_READ,
@@ -74,40 +72,39 @@ class ApplicationController < ActionController::Base
     forum = current_forum
     user = current_user
 
-    if params.has_key?(:view_all) and params[:view_all] != 'false'
-      @view_all = true if user.try(:admin?) or user.try(:moderate?, forum)
+    if params.key?(:view_all) && (params[:view_all] != 'false')
+      @view_all = true if user.try(:admin?) || user.try(:moderate?, forum)
       set_url_attrib(:view_all, 'yes') if @view_all
     end
   end
 
-
-  def is_prefetch
+  def prefetch?
     %w(x-moz x-purpose purpose).each do |hdr|
       unless request.headers[hdr].blank?
         return true if %w(prefetch preview).include?(request.headers[hdr].downcase)
       end
     end
 
-    return false
+    false
   end
 
   def store_location
     return unless request.get?
-    if (request.path != "/users/login" &&
-        request.path != "/users/sign_up" &&
-        request.path != "/users/password/new" &&
-        request.path != "/users/password/edit" &&
-        request.path != "/users/confirmation" &&
-        request.path != "/users/logout" &&
-        request.path != "/users/registration" &&
-        !request.xhr? && !is_prefetch &&
-        (request.format == "text/html" ||
-         request.content_type == "text/html"))
+    if request.path != '/users/login' &&
+       request.path != '/users/sign_up' &&
+       request.path != '/users/password/new' &&
+       request.path != '/users/password/edit' &&
+       request.path != '/users/confirmation' &&
+       request.path != '/users/logout' &&
+       request.path != '/users/registration' &&
+       !request.xhr? && !prefetch? &&
+       (request.format == 'text/html' ||
+        request.content_type == 'text/html')
       session[:previous_url] = request.fullpath
     end
   end
 
-  def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(_resource)
     session[:previous_url] || root_path
   end
 
@@ -118,9 +115,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
   def prepare_exception_notifier
-    request.env["exception_notifier.exception_data"] = {
-      :current_user => current_user
+    request.env['exception_notifier.exception_data'] = {
+      current_user: current_user
     }
   end
 end

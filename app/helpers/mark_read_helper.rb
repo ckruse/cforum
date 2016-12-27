@@ -120,7 +120,7 @@ module MarkReadHelper
   end
 
   def mark_thread_read(thread)
-    return if current_user.blank? or is_prefetch
+    return if current_user.blank? or prefetch?
 
     are_read(thread.messages)
     cache = get_cached_entry(:mark_read, current_user.user_id) || {}
@@ -143,7 +143,7 @@ module MarkReadHelper
   end
 
   def mark_message_read(thread, message)
-    return if current_user.blank? or is_prefetch
+    return if current_user.blank? or prefetch?
     cache = get_cached_entry(:mark_read, current_user.user_id) || {}
 
     are_read(thread.messages)
