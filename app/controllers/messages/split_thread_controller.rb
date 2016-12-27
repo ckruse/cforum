@@ -75,8 +75,12 @@ class Messages::SplitThreadController < ApplicationController
         audit(@thread, 'create')
 
         @old_thread.reload
-        @old_thread.latest_message = find_youngest_flat(@thread.messages)
-        @old_thread.save!
+        if @old_thread.messages.blank?
+          @old_thread.destroy
+        else
+          @old_thread.latest_message = find_youngest_flat(@thread.messages)
+          @old_thread.save!
+        end
 
         saved = true
       end
