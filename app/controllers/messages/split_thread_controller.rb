@@ -40,6 +40,7 @@ class Messages::SplitThreadController < ApplicationController
 
         @message.thread_id = @thread.thread_id
         @message.parent_id = nil
+        @message.forum_id  = @thread.forum_id
         @message.editor_id = current_user.user_id
         @message.edit_author = current_user.username
 
