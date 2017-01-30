@@ -2,9 +2,9 @@
 
 <p>
   <% if m.close_vote.finished %>
-    Diese Nachricht (und damit auch alle folgenden) wurden geschlossen.
+    <%= t('messages.close_vote.actions.' + vote_action(m.close_vote) + "_message_done") %>
   <% else %>
-    Diese Nachricht (und damit auch alle folgenden) soll geschlossen werden.
+    <%= t('messages.close_vote.actions.' + vote_action(m.close_vote) + "_message") %>
   <% end %>
 
   Der angegebene Grund:
