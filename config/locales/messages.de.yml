@@ -37,7 +37,6 @@ de:
 
     these_messages_reference: "Folgende Nachrichten verweisen auf diesen Beitrag:"
 
-    new_answer: antworten
     new_answer_to: Antwort an %{name} verfassen
     edit_posting: Beitrag bearbeiten
     write_new_answer: neue Antwort verfassen
@@ -59,7 +58,8 @@ de:
     previous_message: "Vorheriger Beitrag zum Thema:"
     preview: Vorschau
 
-    new_answer_wo_quote: antworten ohne Zitat
+    new_answer: antworten mit Zitat
+    new_answer_wo_quote: antworten
     only_op_may_accept: Nur der Original-Autor kann eine Antwort akzeptieren.
     accept_answer: Antwort akzeptieren
     unaccept_answer: Antwort nicht länger akzeptieren
