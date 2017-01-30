@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 class CloseVoteController < ApplicationController
+  include CloseVoteHelper
+
   respond_to :html, :json
 
   authorize_controller { authorize_forum(permission: :write?) }
@@ -222,7 +224,7 @@ class CloseVoteController < ApplicationController
   private
 
   def finish_action_close(msg, vote)
-    action = conf('close_vote_action_' + vote.reason)
+    action = vote_action(vote)
 
     if action == 'close'
       @message.flag_with_subtree('no-answer', 'yes')
@@ -234,7 +236,7 @@ class CloseVoteController < ApplicationController
   end
 
   def finish_action_open(msg, vote)
-    action = conf('close_vote_action_' + vote.reason)
+    action = vote_action(vote)
 
     if action == 'close'
       @message.del_flag_with_subtree('no-answer')
