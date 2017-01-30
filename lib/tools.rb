@@ -40,8 +40,8 @@ module CForum
       end
 
       retval = ''
-      retval = '?' + qs.join('&') unless qs.blank?
       retval = '.' + format.to_s unless format.blank?
+      retval << '?' + qs.join('&') unless qs.blank?
 
       retval
     end
