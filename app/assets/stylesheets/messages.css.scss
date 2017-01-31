@@ -263,6 +263,7 @@ main h2 { margin-left:0; }
   .controls {
     display:flex;
     margin-bottom:1em;
+    flex-wrap:wrap;
   }
   form.button_to { display:inline; }
   .cf-btn { margin-bottom:0.2em; }
