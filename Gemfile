@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.2.0'
+gem 'rails', '~> 5.0.0'
 gem 'rails-i18n'
 gem 'warden', '!= 1.2.5'
 
@@ -37,7 +37,7 @@ group :development, :test do
   gem 'listen', '~> 3.0.7'
   gem 'poltergeist'
   gem 'puma'
-  gem 'quiet_assets'
+  # gem 'quiet_assets'
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
   gem 'terminal-notifier-guard'
