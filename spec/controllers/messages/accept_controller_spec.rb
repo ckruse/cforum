@@ -17,7 +17,7 @@ RSpec.describe Messages::AcceptController, type: :controller do
   it 'should accept when user is OP' do
     sign_in user1
 
-    post :accept, message_params_from_slug(message1)
+    post :accept, params: message_params_from_slug(message1)
 
     user.reload
     message1.reload
@@ -30,7 +30,7 @@ RSpec.describe Messages::AcceptController, type: :controller do
   it "should not accept when user isn't OP" do
     sign_in user
 
-    post :accept, message_params_from_slug(message1)
+    post :accept, params: message_params_from_slug(message1)
 
     user.reload
     message1.reload
@@ -47,8 +47,8 @@ RSpec.describe Messages::AcceptController, type: :controller do
     msg2.thread_id = message1.thread_id
     msg2.save
 
-    post :accept, message_params_from_slug(message1)
-    post :accept, message_params_from_slug(msg2)
+    post :accept, params: message_params_from_slug(message1)
+    post :accept, params: message_params_from_slug(msg2)
 
     user.reload
     message1.reload
@@ -66,7 +66,7 @@ RSpec.describe Messages::AcceptController, type: :controller do
     message1.flags['accepted'] = 'yes'
     message1.save
 
-    post :accept, message_params_from_slug(message1)
+    post :accept, params: message_params_from_slug(message1)
 
     user.reload
     message1.reload
@@ -85,7 +85,7 @@ RSpec.describe Messages::AcceptController, type: :controller do
                   message_id: message1.message_id,
                   value: 15)
 
-    post :accept, message_params_from_slug(message1)
+    post :accept, params: message_params_from_slug(message1)
 
     user.reload
     message1.reload

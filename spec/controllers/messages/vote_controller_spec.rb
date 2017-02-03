@@ -21,7 +21,7 @@ RSpec.describe Messages::VoteController, type: :controller do
 
     it 'should upvote when user is logged in' do
       sign_in user
-      post :vote, message_params_from_slug(message).merge(type: 'up')
+      post :vote, params: message_params_from_slug(message).merge(type: 'up')
 
       user1.reload
 
@@ -38,7 +38,7 @@ RSpec.describe Messages::VoteController, type: :controller do
       user.badge_users.clear
 
       sign_in user
-      post :vote, message_params_from_slug(message).merge(type: 'up')
+      post :vote, params: message_params_from_slug(message).merge(type: 'up')
 
       message.reload
 
@@ -50,7 +50,7 @@ RSpec.describe Messages::VoteController, type: :controller do
 
     it "shouldn't upvote when user is author of bevoted message" do
       sign_in user1
-      post :vote, message_params_from_slug(message).merge(type: 'up')
+      post :vote, params: message_params_from_slug(message).merge(type: 'up')
 
       message.reload
 
@@ -67,7 +67,7 @@ RSpec.describe Messages::VoteController, type: :controller do
       message.update(upvotes: 1)
 
       sign_in user
-      post :vote, message_params_from_slug(message).merge(type: 'up')
+      post :vote, params: message_params_from_slug(message).merge(type: 'up')
 
       user1.reload
       message.reload
@@ -89,7 +89,7 @@ RSpec.describe Messages::VoteController, type: :controller do
       message.update(upvotes: 1)
 
       sign_in user
-      post :vote, message_params_from_slug(message).merge(type: 'down')
+      post :vote, params: message_params_from_slug(message).merge(type: 'down')
 
       user1.reload
       user.reload
@@ -106,7 +106,7 @@ RSpec.describe Messages::VoteController, type: :controller do
 
     it 'should downvote when user is logged in' do
       sign_in user
-      post :vote, message_params_from_slug(message).merge(type: 'down')
+      post :vote, params: message_params_from_slug(message).merge(type: 'down')
 
       user.reload
       user1.reload
@@ -125,7 +125,7 @@ RSpec.describe Messages::VoteController, type: :controller do
       badges.second.destroy
 
       sign_in user
-      post :vote, message_params_from_slug(message).merge(type: 'down')
+      post :vote, params: message_params_from_slug(message).merge(type: 'down')
 
       expect(flash[:error]).not_to be_nil
     end
@@ -134,7 +134,7 @@ RSpec.describe Messages::VoteController, type: :controller do
       score.destroy
 
       sign_in user
-      post :vote, message_params_from_slug(message).merge(type: 'down')
+      post :vote, params: message_params_from_slug(message).merge(type: 'down')
 
       expect(flash[:error]).not_to be_nil
     end
@@ -143,14 +143,14 @@ RSpec.describe Messages::VoteController, type: :controller do
       Score.create!(user_id: user1.user_id, value: -1)
 
       sign_in user
-      post :vote, message_params_from_slug(message).merge(type: 'down')
+      post :vote, params: message_params_from_slug(message).merge(type: 'down')
 
       expect(user1.score).to eq(-1)
     end
 
     it "should score when target user's score isn't below zero" do
       sign_in user
-      post :vote, message_params_from_slug(message).merge(type: 'down')
+      post :vote, params: message_params_from_slug(message).merge(type: 'down')
 
       expect(user1.score).to eq(-1)
     end
@@ -168,7 +168,7 @@ RSpec.describe Messages::VoteController, type: :controller do
       message.update(upvotes: 1)
 
       sign_in user
-      post :vote, message_params_from_slug(message).merge(type: 'down')
+      post :vote, params: message_params_from_slug(message).merge(type: 'down')
 
       user1.reload
       user.reload
@@ -193,7 +193,7 @@ RSpec.describe Messages::VoteController, type: :controller do
       message.update(upvotes: 1)
 
       sign_in user
-      post :vote, message_params_from_slug(message).merge(type: 'down')
+      post :vote, params: message_params_from_slug(message).merge(type: 'down')
 
       user1.reload
       user.reload

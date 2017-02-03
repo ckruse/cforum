@@ -9,7 +9,7 @@ RSpec.describe Messages::NoAnswerController, type: :controller do
 
   describe 'POST #forbid_answer' do
     it 'forbids the answer to a message' do
-      post :forbid_answer, message_params_from_slug(message)
+      post :forbid_answer, params: message_params_from_slug(message)
       message.reload
       expect(message.open?).to be false
     end
@@ -21,7 +21,7 @@ RSpec.describe Messages::NoAnswerController, type: :controller do
       message.flags['no-answer-admin'] = 'yes'
       message.save!
 
-      post :allow_answer, message_params_from_slug(message)
+      post :allow_answer, params: message_params_from_slug(message)
       message.reload
       expect(message.open?).to be true
     end

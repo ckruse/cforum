@@ -14,7 +14,7 @@ RSpec.describe EventsController, type: :controller do
   describe 'GET #show' do
     it 'assigns the requested event as @event' do
       event = create(:event)
-      get :show, id: event.to_param
+      get :show, params: { id: event.to_param }
       expect(assigns(:event)).to eq(event)
     end
   end

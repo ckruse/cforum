@@ -11,7 +11,7 @@ RSpec.describe Messages::InterestingController, type: :controller do
   end
 
   it 'should mark interesting' do
-    post :mark_interesting, message_params_from_slug(message)
+    post :mark_interesting, params: message_params_from_slug(message)
 
     expect(flash[:error]).to be_nil
     expect(InterestingMessage.where(user_id: user.user_id,
@@ -22,7 +22,7 @@ RSpec.describe Messages::InterestingController, type: :controller do
     InterestingMessage.create!(user_id: user.user_id,
                                message_id: message.message_id)
 
-    post :mark_boring, message_params_from_slug(message)
+    post :mark_boring, params: message_params_from_slug(message)
 
     expect(flash[:error]).to be_nil
     expect(InterestingMessage.where(user_id: user.user_id,

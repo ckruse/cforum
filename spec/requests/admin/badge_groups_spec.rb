@@ -17,7 +17,7 @@ RSpec.describe "BadgeGroups", type: :request do
     get new_admin_badge_group_path
     expect(response).to render_template(:new)
 
-    post admin_badge_groups_path, badge_group: {name: 'Foo'}
+    post admin_badge_groups_path, params: { badge_group: { name: 'Foo' } }
     expect(response).to have_http_status(302)
     follow_redirect!
 
@@ -31,7 +31,7 @@ RSpec.describe "BadgeGroups", type: :request do
     get new_admin_badge_group_path
     expect(response).to render_template(:new)
 
-    post admin_badge_groups_path, badge_group: {name: 'Foo'}, badges: [badge1.badge_id, badge2.badge_id]
+    post admin_badge_groups_path, params: { badge_group: {name: 'Foo'}, badges: [badge1.badge_id, badge2.badge_id] }
     expect(response).to have_http_status(302)
     follow_redirect!
 

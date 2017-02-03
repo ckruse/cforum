@@ -7,13 +7,13 @@ RSpec.describe ForumsController, type: :controller do
 
   describe 'Stats' do
     it 'shows stats for a specific forum' do
-      get :stats, curr_forum: forum.slug
+      get :stats, params: { curr_forum: forum.slug }
       expect(response.status).to eq(200)
       expect(response).to render_template('stats')
     end
 
     it 'shows stats for all forums' do
-      get :stats, curr_forum: 'all'
+      get :stats, params: { curr_forum: 'all' }
       expect(response.status).to eq(200)
       expect(response).to render_template('stats')
     end
@@ -59,24 +59,24 @@ RSpec.describe ForumsController, type: :controller do
 
     it 'sets view_all for admins' do
       sign_in admin
-      get :index, view_all: 'yes'
+      get :index, params: { view_all: 'yes' }
       expect(assigns[:view_all]).to eq(true)
     end
 
     it 'sets view_all for global moderators' do
       sign_in moderator
-      get :index, view_all: 'yes'
+      get :index, params: { view_all: 'yes' }
       expect(assigns[:view_all]).to eq(true)
     end
 
     it "doesn't set view_all for anonymouse users" do
-      get :index, view_all: 'yes'
+      get :index, params: { view_all: 'yes' }
       expect(assigns[:view_all]).to be_nil
     end
 
     it "doesn't set view_all for normal users" do
       sign_in user
-      get :index, view_all: 'yes'
+      get :index, params: { view_all: 'yes' }
       expect(assigns[:view_all]).to be_nil
     end
 
@@ -85,7 +85,7 @@ RSpec.describe ForumsController, type: :controller do
       perm.group.users << user
       sign_in user
 
-      get :index, view_all: 'yes'
+      get :index, params: { view_all: 'yes' }
       expect(assigns[:view_all]).to be_nil
     end
 
@@ -94,7 +94,7 @@ RSpec.describe ForumsController, type: :controller do
       perm.group.users << user
       sign_in user
 
-      get :stats, view_all: 'yes', curr_forum: perm.forum.slug
+      get :stats, params: { view_all: 'yes', curr_forum: perm.forum.slug }
       expect(assigns[:view_all]).to be true
     end
   end

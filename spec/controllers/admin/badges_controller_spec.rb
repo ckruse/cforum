@@ -23,14 +23,14 @@ RSpec.describe Admin::BadgesController, type: :controller do
   describe 'GET #index' do
     it 'assigns all badges as @badge_groups' do
       badge = create(:badge)
-      get :index, {}
+      get :index
       expect(assigns(:badges)).to eq([badge])
     end
   end
 
   describe 'GET #new' do
     it 'assigns a new badge as @badge' do
-      get :new, {}
+      get :new
       expect(assigns(:badge)).to be_a_new(Badge)
     end
   end
@@ -38,7 +38,7 @@ RSpec.describe Admin::BadgesController, type: :controller do
   describe 'GET #edit' do
     it 'assigns the requested badge as @badge' do
       badge = create(:badge)
-      get :edit, id: badge.to_param
+      get :edit, params: { id: badge.to_param }
       expect(assigns(:badge)).to eq(badge)
     end
   end
@@ -47,30 +47,30 @@ RSpec.describe Admin::BadgesController, type: :controller do
     context 'with valid params' do
       it 'creates a new Badge' do
         expect do
-          post :create, badge: valid_attributes
+          post :create, params: { badge: valid_attributes }
         end.to change(Badge, :count).by(1)
       end
 
       it 'assigns a newly created badge as @badge' do
-        post :create, badge: valid_attributes
+        post :create, params: { badge: valid_attributes }
         expect(assigns(:badge)).to be_a(Badge)
         expect(assigns(:badge)).to be_persisted
       end
 
       it 'redirects to the badge' do
-        post :create, badge: valid_attributes
+        post :create, params: { badge: valid_attributes }
         expect(response).to redirect_to(edit_admin_badge_url(assigns(:badge)))
       end
     end
 
     context 'with invalid params' do
       it 'assigns a newly created but unsaved badge_group as @badge_group' do
-        post :create, badge: invalid_attributes
+        post :create, params: { badge: invalid_attributes }
         expect(assigns(:badge)).to be_a_new(Badge)
       end
 
       it "re-renders the 'new' template" do
-        post :create, badge: invalid_attributes
+        post :create, params: { badge: invalid_attributes }
         expect(response).to render_template('new')
       end
     end
@@ -84,7 +84,7 @@ RSpec.describe Admin::BadgesController, type: :controller do
 
       it 'updates the requested badge_group' do
         badge = Badge.create! valid_attributes
-        put :update, id: badge.to_param, badge: new_attributes
+        put :update, params: { id: badge.to_param, badge: new_attributes }
         badge.reload
         expect(badge.name).to eq 'Foo 1'
         expect(badge.slug).to eq 'foo-1'
@@ -92,13 +92,13 @@ RSpec.describe Admin::BadgesController, type: :controller do
 
       it 'assigns the requested badge as @badge' do
         badge = Badge.create! valid_attributes
-        put :update, id: badge.to_param, badge: valid_attributes
+        put :update, params: { id: badge.to_param, badge: valid_attributes }
         expect(assigns(:badge)).to eq(badge)
       end
 
       it 'redirects to the badge' do
         badge = Badge.create! valid_attributes
-        put :update, id: badge.to_param, badge: valid_attributes
+        put :update, params: { id: badge.to_param, badge: valid_attributes }
         expect(response).to redirect_to(edit_admin_badge_url(badge))
       end
     end
@@ -106,13 +106,13 @@ RSpec.describe Admin::BadgesController, type: :controller do
     context 'with invalid params' do
       it 'assigns the badge as @badge' do
         badge = Badge.create! valid_attributes
-        put :update, id: badge.to_param, badge: invalid_attributes
+        put :update, params: { id: badge.to_param, badge: invalid_attributes }
         expect(assigns(:badge)).to eq(badge)
       end
 
       it "re-renders the 'edit' template" do
         badge = Badge.create! valid_attributes
-        put :update, id: badge.to_param, badge: invalid_attributes
+        put :update, params: { id: badge.to_param, badge: invalid_attributes }
         expect(response).to render_template('edit')
       end
     end
@@ -122,13 +122,13 @@ RSpec.describe Admin::BadgesController, type: :controller do
     it 'destroys the requested badge' do
       badge = create(:badge)
       expect do
-        delete :destroy, id: badge.to_param
+        delete :destroy, params: { id: badge.to_param }
       end.to change(Badge, :count).by(-1)
     end
 
     it 'redirects to the badge_groups list' do
       badge = create(:badge)
-      delete :destroy, id: badge.to_param
+      delete :destroy, params: { id: badge.to_param }
       expect(response).to redirect_to(admin_badges_url)
     end
   end

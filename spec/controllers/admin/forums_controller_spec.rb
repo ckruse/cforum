@@ -12,14 +12,14 @@ RSpec.describe Admin::ForumsController, type: :controller do
   describe 'GET #index' do
     it 'assigns all forums as @forums' do
       forum = create(:forum)
-      get :index, {}
+      get :index
       expect(assigns(:forums)).to eq([forum])
     end
   end
 
   describe 'GET #new' do
     it 'assigns a new forum as @forum' do
-      get :new, {}
+      get :new
       expect(assigns(:forum)).to be_a_new(Forum)
     end
   end
@@ -27,7 +27,7 @@ RSpec.describe Admin::ForumsController, type: :controller do
   describe 'GET #edit' do
     it 'assigns the requested forum as @forum' do
       forum = create(:forum)
-      get :edit, id: forum.forum_id
+      get :edit, params: { id: forum.forum_id }
       expect(assigns(:forum)).to eq(forum)
     end
   end
@@ -36,18 +36,18 @@ RSpec.describe Admin::ForumsController, type: :controller do
     context 'with valid params' do
       it 'creates a new forum' do
         expect do
-          post :create, forum: attributes_for(:forum)
+          post :create, params: { forum: attributes_for(:forum) }
         end.to change(Forum, :count).by(1)
       end
 
       it 'assigns a newly created forum as @forum' do
-        post :create, forum: attributes_for(:forum)
+        post :create, params: { forum: attributes_for(:forum) }
         expect(assigns(:forum)).to be_a(Forum)
         expect(assigns(:forum)).to be_persisted
       end
 
       it 'redirects to the forum' do
-        post :create, forum: attributes_for(:forum)
+        post :create, params: { forum: attributes_for(:forum) }
         expect(response).to redirect_to(edit_admin_forum_url(assigns(:forum).forum_id))
       end
     end
@@ -58,12 +58,12 @@ RSpec.describe Admin::ForumsController, type: :controller do
       end
 
       it 'assigns a newly created but unsaved forum as @forum' do
-        post :create, forum: invalid_attributes
+        post :create, params: { forum: invalid_attributes }
         expect(assigns(:forum)).to be_a_new(Forum)
       end
 
       it "re-renders the 'new' template" do
-        post :create, forum: invalid_attributes
+        post :create, params: { forum: invalid_attributes }
         expect(response).to render_template('new')
       end
     end
@@ -77,20 +77,20 @@ RSpec.describe Admin::ForumsController, type: :controller do
 
       it 'updates the requested forum' do
         forum = create(:forum)
-        put :update, id: forum.forum_id, forum: new_attributes
+        put :update, params: { id: forum.forum_id, forum: new_attributes }
         forum.reload
         expect(forum.name).to eq 'Foo 1'
       end
 
       it 'assigns the requested forum as @forum' do
         forum = create(:forum)
-        put :update, id: forum.forum_id, forum: new_attributes
+        put :update, params: { id: forum.forum_id, forum: new_attributes }
         expect(assigns(:forum)).to eq(forum)
       end
 
       it 'redirects to the forum' do
         forum = create(:forum)
-        put :update, id: forum.forum_id, forum: new_attributes
+        put :update, params: { id: forum.forum_id, forum: new_attributes }
         expect(response).to redirect_to(edit_admin_forum_url(forum.forum_id))
       end
     end
@@ -102,13 +102,13 @@ RSpec.describe Admin::ForumsController, type: :controller do
 
       it 'assigns the forum as @forum' do
         forum = create(:forum)
-        put :update, id: forum.forum_id, forum: invalid_attributes
+        put :update, params: { id: forum.forum_id, forum: invalid_attributes }
         expect(assigns(:forum)).to eq(forum)
       end
 
       it "re-renders the 'edit' template" do
         forum = create(:forum)
-        put :update, id: forum.forum_id, forum: invalid_attributes
+        put :update, params: { id: forum.forum_id, forum: invalid_attributes }
         expect(response).to render_template('edit')
       end
     end
@@ -118,13 +118,13 @@ RSpec.describe Admin::ForumsController, type: :controller do
     it 'destroys the requested forum' do
       forum = create(:forum)
       expect do
-        delete :destroy, id: forum.forum_id
+        delete :destroy, params: { id: forum.forum_id }
       end.to change(Forum, :count).by(-1)
     end
 
     it 'redirects to the forums list' do
       forum = create(:forum)
-      delete :destroy, id: forum.forum_id
+      delete :destroy, params: { id: forum.forum_id }
       expect(response).to redirect_to(admin_forums_url)
     end
   end

@@ -22,14 +22,14 @@ RSpec.describe MessagesController, type: :controller do
     render_views
 
     it 'shows a message' do
-      get :show, message_params_from_slug(message)
+      get :show, params: message_params_from_slug(message)
     end
 
     it 'shows no versions link if there are no versions but an edit_author is set' do
       message.edit_author = admin.username
       message.save!
 
-      get :show, message_params_from_slug(message)
+      get :show, params: message_params_from_slug(message)
 
       expect(response.body).not_to have_css('.versions')
     end
@@ -39,7 +39,7 @@ RSpec.describe MessagesController, type: :controller do
       message.versions.create!(subject: message.subject, content: message.content, author: message.author)
       message.save!
 
-      get :show, message_params_from_slug(message)
+      get :show, params: message_params_from_slug(message)
 
       expect(response.body).to have_css('.versions')
     end
@@ -48,26 +48,26 @@ RSpec.describe MessagesController, type: :controller do
       forum1 = create(:write_forum)
       message.forum = forum1
 
-      get :show, message_params_from_slug(message).merge(curr_forum: forum1.slug)
+      get :show, params: message_params_from_slug(message).merge(curr_forum: forum1.slug)
 
       expect(response).to redirect_to message_url(message.thread, message)
     end
 
     it 'sets readmode cookie when overwriting via query string' do
-      get :show, message_params_from_slug(message).merge(rm: 'thread-view')
+      get :show, params: message_params_from_slug(message).merge(rm: 'thread-view')
       expect(response.cookies['cf_readmode']).to eq 'thread-view'
     end
 
     it "doesn't set readmode cookie when overwriting via query string and signed in" do
       sign_in admin
-      get :show, message_params_from_slug(message).merge(rm: 'thread-view')
+      get :show, params: message_params_from_slug(message).merge(rm: 'thread-view')
       expect(response.cookies['cf_readmode']).to be_nil
     end
   end
 
   describe 'GET #new' do
     it 'shows a new message form' do
-      get :new, message_params_from_slug(message)
+      get :new, params: message_params_from_slug(message)
 
       expect(assigns(:message)).to be_a_new(Message)
     end
@@ -76,14 +76,15 @@ RSpec.describe MessagesController, type: :controller do
   describe 'POST #create' do
     it 'creates a new message' do
       expect do
-        post :create, message_params_from_slug(message).merge(tags: [tag.tag_name],
-                                                              message: attributes_for(:message, forum: message.thread.forum))
+        post :create, params: message_params_from_slug(message).merge(tags: [tag.tag_name],
+                                                                      message: attributes_for(:message,
+                                                                                              forum: message.thread.forum))
       end.to change(Message, :count).by(1)
       expect(response).to redirect_to message_url(message.thread, assigns(:message))
     end
 
     it 'fails to create a new message because of invalid tags' do
-      post :create, message_params_from_slug(message).merge(message: attributes_for(:message, forum: message.thread.forum))
+      post :create, params: message_params_from_slug(message).merge(message: attributes_for(:message, forum: message.thread.forum))
 
       expect(response).to render_template 'new'
     end
@@ -92,7 +93,7 @@ RSpec.describe MessagesController, type: :controller do
       attrs = attributes_for(:message, forum: message.thread.forum)
       attrs.delete(:author)
 
-      post :create, message_params_from_slug(message).merge(tags: [tag.tag_name], message: attrs)
+      post :create, params: message_params_from_slug(message).merge(tags: [tag.tag_name], message: attrs)
 
       expect(response).to render_template 'new'
     end
@@ -104,7 +105,7 @@ RSpec.describe MessagesController, type: :controller do
 
       attrs = attributes_for(:message, forum: message.thread.forum)
       attrs[:subject] = 'some spammy text'
-      post :create, message_params_from_slug(message).merge(tags: [tag.tag_name], message: attrs)
+      post :create, params: message_params_from_slug(message).merge(tags: [tag.tag_name], message: attrs)
 
       expect(response).to render_template 'new'
     end
@@ -116,7 +117,7 @@ RSpec.describe MessagesController, type: :controller do
 
       attrs = attributes_for(:message, forum: message.thread.forum)
       attrs[:content] = 'some spammy text'
-      post :create, message_params_from_slug(message).merge(tags: [tag.tag_name], message: attrs)
+      post :create, params: message_params_from_slug(message).merge(tags: [tag.tag_name], message: attrs)
 
       expect(response).to render_template 'new'
     end
@@ -127,7 +128,7 @@ RSpec.describe MessagesController, type: :controller do
       sign_in admin
 
       expect do
-        post :retag, message_params_from_slug(message).merge(tags: [tag.tag_name])
+        post :retag, params: message_params_from_slug(message).merge(tags: [tag.tag_name])
       end.to change(message.tags, :count).by(1)
     end
 
@@ -135,7 +136,7 @@ RSpec.describe MessagesController, type: :controller do
       sign_in admin
 
       expect do
-        post :retag, message_params_from_slug(message).merge(tags: ['old republic'])
+        post :retag, params: message_params_from_slug(message).merge(tags: ['old republic'])
       end.to change(message.tags, :count).by(1)
     end
   end
@@ -143,25 +144,25 @@ RSpec.describe MessagesController, type: :controller do
   describe 'GET #edit' do
     it 'shows the edit form as admin' do
       sign_in admin
-      get :edit, message_params_from_slug(message)
+      get :edit, params: message_params_from_slug(message)
       expect(response).to render_template 'edit'
     end
 
     it 'shows the edit form as owner' do
       sign_in message.owner
-      get :edit, message_params_from_slug(message)
+      get :edit, params: message_params_from_slug(message)
       expect(response).to render_template 'edit'
     end
 
     it 'redirects when trying to edit as anonymous' do
-      get :edit, message_params_from_slug(message)
+      get :edit, params: message_params_from_slug(message)
       expect(response).to redirect_to message_url(message.thread, message)
     end
 
     it 'redirects when trying to edit as wrong user' do
       user1 = create(:user)
       sign_in user1
-      get :edit, message_params_from_slug(message)
+      get :edit, params: message_params_from_slug(message)
       expect(response).to redirect_to message_url(message.thread, message)
     end
   end
@@ -173,8 +174,8 @@ RSpec.describe MessagesController, type: :controller do
 
       sign_in admin
 
-      post :update, message_params_from_slug(message).merge(message: message.attributes,
-                                                            tags: ['rebellion'])
+      post :update, params: message_params_from_slug(message).merge(message: message.attributes,
+                                                                    tags: ['rebellion'])
 
       expect(response).to redirect_to message_url(message.thread, assigns(:message))
       message.reload
@@ -188,22 +189,22 @@ RSpec.describe MessagesController, type: :controller do
       sign_in admin
 
       expect do
-        post :update, message_params_from_slug(message).merge(message: message.attributes,
-                                                              tags: ['rebellion'])
+        post :update, params: message_params_from_slug(message).merge(message: message.attributes,
+                                                                      tags: ['rebellion'])
       end.to change(message.versions, :count).by(0)
     end
 
     it 'renders new when anon' do
-      post :update, message_params_from_slug(message).merge(message: message.attributes,
-                                                            tags: ['rebellion'])
+      post :update, params: message_params_from_slug(message).merge(message: message.attributes,
+                                                                    tags: ['rebellion'])
       expect(response).to render_template 'new'
     end
 
     it 'renders new when wrong user' do
       user1 = create(:user)
       sign_in user1
-      post :update, message_params_from_slug(message).merge(message: message.attributes,
-                                                            tags: ['rebellion'])
+      post :update, params: message_params_from_slug(message).merge(message: message.attributes,
+                                                                    tags: ['rebellion'])
       expect(response).to render_template 'new'
     end
 
@@ -213,8 +214,8 @@ RSpec.describe MessagesController, type: :controller do
       message.author = 'Jar Jar Binks'
 
       expect do
-        post :update, message_params_from_slug(message).merge(message: message.attributes,
-                                                              tags: ['rebellion'])
+        post :update, params: message_params_from_slug(message).merge(message: message.attributes,
+                                                                      tags: ['rebellion'])
       end.to change(SearchDocument, :count).by(1)
     end
   end

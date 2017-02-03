@@ -9,7 +9,7 @@ RSpec.describe Messages::FlagController do
 
   describe 'GET #flag' do
     it 'assigns the message as @message' do
-      get :flag, message_params_from_slug(message)
+      get :flag, params: message_params_from_slug(message)
       expect(assigns(:message)).to eq(message)
     end
 
@@ -18,7 +18,7 @@ RSpec.describe Messages::FlagController do
       message.flags['flagged'] = 'off-topic'
       message.save!
 
-      get :flag, message_params_from_slug(message)
+      get :flag, params: message_params_from_slug(message)
 
       expect(response).to redirect_to(message_url(message.thread, message))
       expect(flash[:notice]).to be_present
@@ -28,28 +28,28 @@ RSpec.describe Messages::FlagController do
   describe 'POST #flagging' do
     context 'success' do
       it 'flags a message' do
-        post :flagging, message_params_from_slug(message).merge(reason: 'off-topic')
+        post :flagging, params: message_params_from_slug(message).merge(reason: 'off-topic')
         message.reload
         expect(message.flags['flagged']).to eq 'off-topic'
       end
 
       it 'flags a message with a duplicate URL' do
-        post :flagging, message_params_from_slug(message).merge(reason: 'duplicate',
-                                                                duplicate_slug: message_url(message.thread, message))
+        post :flagging, params: message_params_from_slug(message).merge(reason: 'duplicate',
+                                                                        duplicate_slug: message_url(message.thread, message))
         message.reload
         expect(message.flags['flagged']).to eq 'duplicate'
         expect(message.flags['flagged_dup_url']).to eq message_url(message.thread, message)
       end
       it 'flags a message with custom reason' do
-        post :flagging, message_params_from_slug(message).merge(reason: 'custom',
-                                                                custom_reason: 'foo bar foo bar')
+        post :flagging, params: message_params_from_slug(message).merge(reason: 'custom',
+                                                                        custom_reason: 'foo bar foo bar')
         message.reload
         expect(message.flags['flagged']).to eq 'custom'
         expect(message.flags['custom_reason']).to eq 'foo bar foo bar'
       end
 
       it 'redirects to message' do
-        post :flagging, message_params_from_slug(message).merge(reason: 'off-topic')
+        post :flagging, params: message_params_from_slug(message).merge(reason: 'off-topic')
         expect(response).to redirect_to(message_url(message.thread, message))
       end
     end
@@ -60,14 +60,14 @@ RSpec.describe Messages::FlagController do
         message.flags['flagged'] = 'off-topic'
         message.save
 
-        post :flagging, message_params_from_slug(message).merge(reason: 'not-constructive')
+        post :flagging, params: message_params_from_slug(message).merge(reason: 'not-constructive')
 
         expect(response).to redirect_to(message_url(message.thread, message))
         expect(flash[:notice]).to be_present
       end
 
       it "doesn't flag with a missing custom reason" do
-        post :flagging, message_params_from_slug(message).merge(reason: 'custom')
+        post :flagging, params: message_params_from_slug(message).merge(reason: 'custom')
         message.reload
         expect(message.flags['flagged']).to be nil
         expect(message.flags['custom_reason']).to be nil
@@ -75,7 +75,7 @@ RSpec.describe Messages::FlagController do
       end
 
       it "doesn't flag with a missing duplicate URL" do
-        post :flagging, message_params_from_slug(message).merge(reason: 'duplicate')
+        post :flagging, params: message_params_from_slug(message).merge(reason: 'duplicate')
         message.reload
         expect(message.flags['flagged']).to be nil
         expect(message.flags['flagged_dup_url']).to be nil
@@ -83,7 +83,7 @@ RSpec.describe Messages::FlagController do
       end
 
       it "doesn't accept bullshit as reason" do
-        post :flagging, message_params_from_slug(message).merge(reason: 'foobar')
+        post :flagging, params: message_params_from_slug(message).merge(reason: 'foobar')
         message.reload
         expect(message.flags['flagged']).to be nil
         expect(flash[:error]).to be_present
@@ -101,25 +101,25 @@ RSpec.describe Messages::FlagController do
     end
 
     it 'removes flagged' do
-      post :unflag, message_params_from_slug(message)
+      post :unflag, params: message_params_from_slug(message)
       message.reload
       expect(message.flags['flagged']).to be nil
     end
 
     it 'removes custom reason' do
-      post :unflag, message_params_from_slug(message)
+      post :unflag, params: message_params_from_slug(message)
       message.reload
       expect(message.flags['custom_reason']).to be nil
     end
 
     it 'removen dup url' do
-      post :unflag, message_params_from_slug(message)
+      post :unflag, params: message_params_from_slug(message)
       message.reload
       expect(message.flags['flagged_dup_url']).to be nil
     end
 
     it 'redirects to message' do
-      post :unflag, message_params_from_slug(message)
+      post :unflag, params: message_params_from_slug(message)
       message.reload
       expect(response).to redirect_to(message_url(message.thread, message))
     end

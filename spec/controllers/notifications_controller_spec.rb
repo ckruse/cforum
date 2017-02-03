@@ -14,17 +14,17 @@ RSpec.describe NotificationsController, type: :controller do
 
   describe 'GET #show' do
     it 'assigns the requested notification as @notification' do
-      get :show, id: notification.to_param
+      get :show, params: { id: notification.to_param }
       expect(assigns(:notification)).to eq(notification)
     end
 
     it 'redirects to the object' do
-      get :show, id: notification.to_param
+      get :show, params: { id: notification.to_param }
       expect(response).to redirect_to(notification.path)
     end
 
     it 'marks the notification as read' do
-      get :show, id: notification.to_param
+      get :show, params: { id: notification.to_param }
       notification.reload
       expect(notification.is_read).to be true
     end
@@ -32,12 +32,12 @@ RSpec.describe NotificationsController, type: :controller do
 
   describe 'POST #update' do
     it 'redirects to the notifications index' do
-      post :update, id: notification.to_param
+      post :update, params: { id: notification.to_param }
       expect(response).to redirect_to(notifications_path)
     end
 
     it 'marks the notification as unread' do
-      post :update, id: notification.to_param
+      post :update, params: { id: notification.to_param }
       notification.reload
       expect(notification.is_read).to be false
     end
@@ -45,13 +45,13 @@ RSpec.describe NotificationsController, type: :controller do
 
   describe 'DELETE #destroy' do
     it 'redirects to the notifications index' do
-      delete :destroy, id: notification.to_param
+      delete :destroy, params: { id: notification.to_param }
       expect(response).to redirect_to(notifications_path)
     end
 
     it 'destroys the notification' do
       expect do
-        delete :destroy, id: notification.to_param
+        delete :destroy, params: { id: notification.to_param }
       end.to change(Notification, :count).by(-1)
     end
   end
@@ -61,17 +61,17 @@ RSpec.describe NotificationsController, type: :controller do
       notification1 = create(:notification, recipient: notification.recipient)
 
       expect do
-        delete :batch_destroy, ids: [notification.to_param, notification1.to_param]
+        delete :batch_destroy, params: { ids: [notification.to_param, notification1.to_param] }
       end.to change(Notification, :count).by(-2)
     end
 
     it 'redirects to the notifications index' do
-      delete :batch_destroy, ids: [notification.to_param]
+      delete :batch_destroy, params: { ids: [notification.to_param] }
       expect(response).to redirect_to(notifications_path)
     end
 
     it "doesn't fail with empty IDs" do
-      delete :batch_destroy, ids: []
+      delete :batch_destroy, params: { ids: [] }
       expect(response).to redirect_to(notifications_path)
     end
   end

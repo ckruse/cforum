@@ -18,9 +18,9 @@ RSpec.describe CfThreadsController, type: :controller do
   describe 'POST #create' do
     it 'creates a new thread' do
       expect do
-        post :create, curr_forum: forum.slug,
-                      tags: [tag.tag_name],
-                      cf_thread: { message: attributes_for(:message, forum: nil) }
+        post :create, params: { curr_forum: forum.slug,
+                                tags: [tag.tag_name],
+                                cf_thread: { message: attributes_for(:message, forum: nil) } }
       end.to change(CfThread, :count).by(1)
     end
 
@@ -28,25 +28,25 @@ RSpec.describe CfThreadsController, type: :controller do
       attrs = attributes_for(:message, forum: nil)
       attrs.delete(:subject)
 
-      post :create, curr_forum: forum.slug,
-                    tags: [tag.tag_name],
-                    cf_thread: { message: attrs }
+      post :create, params: { curr_forum: forum.slug,
+                              tags: [tag.tag_name],
+                              cf_thread: { message: attrs } }
 
       expect(response).to render_template('new')
     end
 
     it 'fails to create a new thread due to missing tags' do
-      post :create, curr_forum: forum.slug,
-                    cf_thread: { message: attributes_for(:message, forum: nil) }
+      post :create, params: { curr_forum: forum.slug,
+                              cf_thread: { message: attributes_for(:message, forum: nil) } }
       expect(response).to render_template('new')
     end
 
     it 'creates a new thread when using /all/new' do
       expect do
-        post :create, curr_forum: 'all',
-                      tags: [tag.tag_name],
-                      cf_thread: { message: attributes_for(:message, forum: nil),
-                                   forum_id: forum.forum_id }
+        post :create, params: { curr_forum: 'all',
+                                tags: [tag.tag_name],
+                                cf_thread: { message: attributes_for(:message, forum: nil),
+                                             forum_id: forum.forum_id } }
       end.to change(CfThread, :count).by(1)
     end
 
@@ -57,10 +57,10 @@ RSpec.describe CfThreadsController, type: :controller do
 
       attrs = attributes_for(:message, forum: nil)
       attrs[:subject] = 'some spammy text'
-      post :create, curr_forum: 'all',
-                    tags: [tag.tag_name],
-                    cf_thread: { message: attrs,
-                                 forum_id: forum.forum_id }
+      post :create, params: { curr_forum: 'all',
+                              tags: [tag.tag_name],
+                              cf_thread: { message: attrs,
+                                           forum_id: forum.forum_id } }
 
       expect(response).to render_template 'new'
     end
@@ -73,10 +73,10 @@ RSpec.describe CfThreadsController, type: :controller do
       attrs = attributes_for(:message, forum: nil)
       attrs[:content] = 'some spammy text'
 
-      post :create, curr_forum: 'all',
-                    tags: [tag.tag_name],
-                    cf_thread: { message: attrs,
-                                 forum_id: forum.forum_id }
+      post :create, params: { curr_forum: 'all',
+                              tags: [tag.tag_name],
+                              cf_thread: { message: attrs,
+                                           forum_id: forum.forum_id } }
 
       expect(response).to render_template 'new'
     end

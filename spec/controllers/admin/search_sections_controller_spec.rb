@@ -12,14 +12,14 @@ RSpec.describe Admin::SearchSectionsController, type: :controller do
   describe 'GET #index' do
     it 'assigns all search_sections as @search_sections' do
       search_section = create(:search_section)
-      get :index, {}
+      get :index
       expect(assigns(:search_sections)).to eq([search_section])
     end
   end
 
   describe 'GET #new' do
     it 'assigns a new search_section as @search_section' do
-      get :new, {}
+      get :new
       expect(assigns(:search_section)).to be_a_new(SearchSection)
     end
   end
@@ -27,7 +27,7 @@ RSpec.describe Admin::SearchSectionsController, type: :controller do
   describe 'GET #edit' do
     it 'assigns the requested search section as @search_section' do
       section = create(:search_section)
-      get :edit, id: section.search_section_id
+      get :edit, params: { id: section.search_section_id }
       expect(assigns(:search_section)).to eq(section)
     end
   end
@@ -36,18 +36,18 @@ RSpec.describe Admin::SearchSectionsController, type: :controller do
     context 'with valid params' do
       it 'creates a new search section' do
         expect do
-          post :create, search_section: attributes_for(:search_section)
+          post :create, params: { search_section: attributes_for(:search_section) }
         end.to change(SearchSection, :count).by(1)
       end
 
       it 'assigns a newly created search section as @search_section' do
-        post :create, search_section: attributes_for(:search_section)
+        post :create, params: { search_section: attributes_for(:search_section) }
         expect(assigns(:search_section)).to be_a(SearchSection)
         expect(assigns(:search_section)).to be_persisted
       end
 
       it 'redirects to the search section' do
-        post :create, search_section: attributes_for(:search_section)
+        post :create, params: { search_section: attributes_for(:search_section) }
         expect(response).to redirect_to(edit_admin_search_section_url(assigns(:search_section).search_section_id))
       end
     end
@@ -58,12 +58,12 @@ RSpec.describe Admin::SearchSectionsController, type: :controller do
       end
 
       it 'assigns a newly created but unsaved search section as @search_section' do
-        post :create, search_section: invalid_attributes
+        post :create, params: { search_section: invalid_attributes }
         expect(assigns(:search_section)).to be_a_new(SearchSection)
       end
 
       it "re-renders the 'new' template" do
-        post :create, search_section: invalid_attributes
+        post :create, params: { search_section: invalid_attributes }
         expect(response).to render_template('new')
       end
     end
@@ -77,20 +77,20 @@ RSpec.describe Admin::SearchSectionsController, type: :controller do
 
       it 'updates the requested search section' do
         search_section = create(:search_section)
-        put :update, id: search_section.search_section_id, search_section: new_attributes
+        put :update, params: { id: search_section.search_section_id, search_section: new_attributes }
         search_section.reload
         expect(search_section.name).to eq 'Foo 1'
       end
 
       it 'assigns the requested search_section as @search_section' do
         search_section = create(:search_section)
-        put :update, id: search_section.search_section_id, search_section: new_attributes
+        put :update, params: { id: search_section.search_section_id, search_section: new_attributes }
         expect(assigns(:search_section)).to eq(search_section)
       end
 
       it 'redirects to the search_section' do
         search_section = create(:search_section)
-        put :update, id: search_section.search_section_id, search_section: new_attributes
+        put :update, params: { id: search_section.search_section_id, search_section: new_attributes }
         expect(response).to redirect_to(edit_admin_search_section_url(search_section.search_section_id))
       end
     end
@@ -102,13 +102,13 @@ RSpec.describe Admin::SearchSectionsController, type: :controller do
 
       it 'assigns the search_section as @search_section' do
         search_section = create(:search_section)
-        put :update, id: search_section.search_section_id, search_section: invalid_attributes
+        put :update, params: { id: search_section.search_section_id, search_section: invalid_attributes }
         expect(assigns(:search_section)).to eq(search_section)
       end
 
       it "re-renders the 'edit' template" do
         search_section = create(:search_section)
-        put :update, id: search_section.search_section_id, search_section: invalid_attributes
+        put :update, params: { id: search_section.search_section_id, search_section: invalid_attributes }
         expect(response).to render_template('edit')
       end
     end
@@ -118,13 +118,13 @@ RSpec.describe Admin::SearchSectionsController, type: :controller do
     it 'destroys the requested search_section' do
       search_section = create(:search_section)
       expect do
-        delete :destroy, id: search_section.search_section_id
+        delete :destroy, params: { id: search_section.search_section_id }
       end.to change(SearchSection, :count).by(-1)
     end
 
     it 'redirects to the search sections list' do
       search_section = create(:search_section)
-      delete :destroy, id: search_section.search_section_id
+      delete :destroy, params: { id: search_section.search_section_id }
       expect(response).to redirect_to(admin_search_sections_url)
     end
   end

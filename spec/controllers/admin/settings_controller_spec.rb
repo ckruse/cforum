@@ -30,25 +30,25 @@ RSpec.describe Admin::SettingsController, type: :controller do
 
       it 'creates a new setting' do
         expect do
-          put :update, settings: new_attributes
+          put :update, params: { settings: new_attributes }
         end.to change(Setting, :count).by(1)
       end
 
       it 'updates the requested settings' do
         setting = create(:setting)
-        put :update, settings: new_attributes
+        put :update, params: { settings: new_attributes }
         setting.reload
         expect(setting.options).to eq('b' => 'c')
       end
 
       it 'assigns the requested settings as @settings' do
         settings = create(:setting)
-        put :update, settings: new_attributes
+        put :update, params: { settings: new_attributes }
         expect(assigns(:settings)).to eq(settings)
       end
 
       it 'redirects to edit' do
-        put :update, settings: new_attributes
+        put :update, params: { settings: new_attributes }
         expect(response).to redirect_to(admin_settings_url)
       end
     end

@@ -16,13 +16,13 @@ RSpec.describe TagsController, type: :controller do
 
   describe 'GET #index' do
     it 'assigns all tags as @tags' do
-      get :index, curr_forum: tag.forum.slug
+      get :index, params: { curr_forum: tag.forum.slug }
       expect(assigns(:tags)).to eq([tag])
     end
 
     it 'searches tags with s param' do
       tags = [create(:tag, forum: forum), create(:tag, forum: forum), create(:tag, forum: forum)]
-      get :index, curr_forum: forum.slug, s: tags.first.tag_name
+      get :index, params: { curr_forum: forum.slug, s: tags.first.tag_name }
       expect(assigns(:tags)).to eq([tags.first])
     end
   end
@@ -30,9 +30,9 @@ RSpec.describe TagsController, type: :controller do
   describe 'POST #suggestions' do
     it 'generates a suggestion list by tags param' do
       tag1 = create(:tag, forum: forum)
-      post :suggestions, curr_forum: forum.slug,
-                         tags: tag.tag_name.gsub(/ .*/, '') + ',' + tag1.tag_name.gsub(/ .*/, ''),
-                         format: :json
+      post :suggestions, params: { curr_forum: forum.slug,
+                                   tags: tag.tag_name.gsub(/ .*/, '') + ',' + tag1.tag_name.gsub(/ .*/, ''),
+                                   format: :json }
 
       expect(assigns(:tags).to_a).to eq([tag1, tag])
     end
@@ -40,25 +40,25 @@ RSpec.describe TagsController, type: :controller do
 
   describe 'GET #autocomplete' do
     it 'renders a list of tags' do
-      get :autocomplete, curr_forum: tag.forum.slug
+      get :autocomplete, params: { curr_forum: tag.forum.slug }
       expect(assigns[:tags_list]).not_to be_empty
       expect(assigns[:tags_list]).to eq([tag.tag_name])
     end
 
     it 'renders a list of tags filtered by s param' do
-      get :autocomplete, curr_forum: tag.forum.slug, s: tag.tag_name.gsub(/ .*/, '')
+      get :autocomplete, params: { curr_forum: tag.forum.slug, s: tag.tag_name.gsub(/ .*/, '') }
       expect(assigns[:tags_list]).not_to be_empty
       expect(assigns[:tags_list]).to eq([tag.tag_name])
     end
 
     it 'renders an empty list of tags when none found' do
-      get :autocomplete, curr_forum: tag.forum.slug, s: 'Quetzalcoatl'
+      get :autocomplete, params: { curr_forum: tag.forum.slug, s: 'Quetzalcoatl' }
       expect(assigns[:tags_list]).to be_empty
     end
 
     it 'includes synonyms in tags list' do
       tag.synonyms.create!(forum_id: forum.forum_id, synonym: 'foobar')
-      get :autocomplete, curr_forum: tag.forum.slug, s: 'foobar'
+      get :autocomplete, params: { curr_forum: tag.forum.slug, s: 'foobar' }
       expect(assigns[:tags_list]).not_to be_empty
       expect(assigns[:tags_list]).to eq(['foobar'])
     end
@@ -66,7 +66,7 @@ RSpec.describe TagsController, type: :controller do
 
   describe 'GET #show' do
     it 'assigns the tag as @tag' do
-      get :show, curr_forum: tag.forum.slug, id: tag.to_param
+      get :show, params: { curr_forum: tag.forum.slug, id: tag.to_param }
       expect(assigns(:tag)).to eq tag
     end
 
@@ -74,7 +74,7 @@ RSpec.describe TagsController, type: :controller do
       message = create(:message, forum: tag.forum)
       message.tags << tag
 
-      get :show, curr_forum: tag.forum.slug, id: tag.to_param
+      get :show, params: { curr_forum: tag.forum.slug, id: tag.to_param }
       expect(assigns(:messages)).to eq [message]
     end
   end
@@ -84,7 +84,7 @@ RSpec.describe TagsController, type: :controller do
 
     it 'assigns a new tag as @tag' do
       sign_in user
-      get :new, curr_forum: forum.slug
+      get :new, params: { curr_forum: forum.slug }
       expect(assigns(:tag)).to be_a_new(Tag)
     end
   end
@@ -96,30 +96,30 @@ RSpec.describe TagsController, type: :controller do
     context 'with valid params' do
       it 'creates a new Tag' do
         expect do
-          post :create, curr_forum: forum.slug, tag: valid_attributes
+          post :create, params: { curr_forum: forum.slug, tag: valid_attributes }
         end.to change(Tag, :count).by(1)
       end
 
       it 'assigns a newly created tag as @tag' do
-        post :create, curr_forum: forum.slug, tag: valid_attributes
+        post :create, params: { curr_forum: forum.slug, tag: valid_attributes }
         expect(assigns(:tag)).to be_a(Tag)
         expect(assigns(:tag)).to be_persisted
       end
 
       it 'redirects to the tags index' do
-        post :create, curr_forum: forum.slug, tag: valid_attributes
+        post :create, params: { curr_forum: forum.slug, tag: valid_attributes }
         expect(response).to redirect_to(tags_url(forum))
       end
     end
 
     context 'with invalid params' do
       it 'assigns a newly created but unsaved tag as @tag' do
-        post :create, curr_forum: forum.slug, tag: invalid_attributes
+        post :create, params: { curr_forum: forum.slug, tag: invalid_attributes }
         expect(assigns(:tag)).to be_a_new(Tag)
       end
 
       it "re-renders the 'new' template" do
-        post :create, curr_forum: forum.slug, tag: invalid_attributes
+        post :create, params: { curr_forum: forum.slug, tag: invalid_attributes }
         expect(response).to render_template('new')
       end
     end
@@ -130,7 +130,7 @@ RSpec.describe TagsController, type: :controller do
 
     it 'assigns the requested tag as @tag' do
       sign_in user
-      get :edit, curr_forum: forum.slug, id: tag.to_param
+      get :edit, params: { curr_forum: forum.slug, id: tag.to_param }
       expect(assigns(:tag)).to eq(tag)
     end
   end
@@ -141,30 +141,30 @@ RSpec.describe TagsController, type: :controller do
 
     context 'with valid params' do
       it 'updates the requested tag' do
-        put :update, curr_forum: forum.slug, id: tag.to_param, tag: valid_attributes
+        put :update, params: { curr_forum: forum.slug, id: tag.to_param, tag: valid_attributes }
         tag.reload
         expect(tag.tag_name).to eq 'Foo 1'
       end
 
       it 'assigns the requested tag as @tag' do
-        put :update, curr_forum: forum.slug, id: tag.to_param, tag: { tag_name: tag.tag_name }
+        put :update, params: { curr_forum: forum.slug, id: tag.to_param, tag: { tag_name: tag.tag_name } }
         expect(assigns(:tag)).to eq(tag)
       end
 
       it 'redirects to the tag' do
-        put :update, curr_forum: forum.slug, id: tag.to_param, tag: valid_attributes
+        put :update, params: { curr_forum: forum.slug, id: tag.to_param, tag: valid_attributes }
         expect(response).to redirect_to(tags_url(forum))
       end
     end
 
     context 'with invalid params' do
       it 'assigns the tag as @tag' do
-        put :update, curr_forum: forum.slug, id: tag.to_param, tag: invalid_attributes
+        put :update, params: { curr_forum: forum.slug, id: tag.to_param, tag: invalid_attributes }
         expect(assigns(:tag)).to eq(tag)
       end
 
       it "re-renders the 'edit' template" do
-        put :update, curr_forum: forum.slug, id: tag.to_param, tag: invalid_attributes
+        put :update, params: { curr_forum: forum.slug, id: tag.to_param, tag: invalid_attributes }
         expect(response).to render_template('edit')
       end
     end
@@ -178,12 +178,12 @@ RSpec.describe TagsController, type: :controller do
       tag # 💩 ensure creation, fuck you laziness
 
       expect do
-        delete :destroy, curr_forum: forum.slug, id: tag.to_param
+        delete :destroy, params: { curr_forum: forum.slug, id: tag.to_param }
       end.to change(Tag, :count).by(-1)
     end
 
     it 'redirects to the tags url' do
-      delete :destroy, curr_forum: forum.slug, id: tag.to_param
+      delete :destroy, params: { curr_forum: forum.slug, id: tag.to_param }
       expect(response).to redirect_to(tags_url(forum))
     end
 
@@ -192,7 +192,7 @@ RSpec.describe TagsController, type: :controller do
       message.tags << tag
 
       expect do
-        delete :destroy, curr_forum: forum.slug, id: tag.to_param
+        delete :destroy, params: { curr_forum: forum.slug, id: tag.to_param }
       end.to change(Tag, :count).by(0)
 
       expect(response).to redirect_to(tag_url(forum, tag))
@@ -204,13 +204,13 @@ RSpec.describe TagsController, type: :controller do
     before(:each) { sign_in user }
 
     it 'assigns the tag as @tag' do
-      get :merge, curr_forum: forum.slug, id: tag.to_param
+      get :merge, params: { curr_forum: forum.slug, id: tag.to_param }
       expect(assigns(:tag)).to eq(tag)
     end
 
     it 'assigns a list of tags as @tags' do
       tags = [create(:tag, forum: forum), create(:tag, forum: forum), create(:tag, forum: forum)]
-      get :merge, curr_forum: forum.slug, id: tag.to_param
+      get :merge, params: { curr_forum: forum.slug, id: tag.to_param }
       expect(assigns(:tags)).to eq(tags)
     end
   end
@@ -224,9 +224,9 @@ RSpec.describe TagsController, type: :controller do
       message = create(:message, forum: tag.forum)
       message.tags << tag
 
-      post :do_merge, curr_forum: forum.slug,
-                      id: tag.to_param,
-                      merge_tag: tags.first.tag_id
+      post :do_merge, params: { curr_forum: forum.slug,
+                                id: tag.to_param,
+                                merge_tag: tags.first.tag_id }
 
       message.tags.reload
       expect(message.tags).to include(tags.first)
@@ -237,9 +237,9 @@ RSpec.describe TagsController, type: :controller do
       tag # 💩 ensure creation, fuck you laziness
 
       expect do
-        post :do_merge,  curr_forum: forum.slug,
-                         id: tag.to_param,
-                         merge_tag: tags.first.tag_id
+        post :do_merge, params: { curr_forum: forum.slug,
+                                  id: tag.to_param,
+                                  merge_tag: tags.first.tag_id }
       end.to change(TagSynonym, :count).by(1)
     end
 
@@ -248,18 +248,18 @@ RSpec.describe TagsController, type: :controller do
       tag # 💩 ensure creation, fuck you laziness
 
       expect do
-        post :do_merge,  curr_forum: forum.slug,
-                         id: tag.to_param,
-                         merge_tag: tags.first.tag_id
+        post :do_merge, params: { curr_forum: forum.slug,
+                                  id: tag.to_param,
+                                  merge_tag: tags.first.tag_id }
       end.to change(Tag, :count).by(-1)
     end
 
     it 'moves the existing tag synonyms to the other tag' do
       synonym = tag.synonyms.create!(forum_id: forum.forum_id, synonym: 'foobar')
 
-      post :do_merge, curr_forum: forum.slug,
-                      id: tag.to_param,
-                      merge_tag: tags.first.tag_id
+      post :do_merge, params: { curr_forum: forum.slug,
+                                id: tag.to_param,
+                                merge_tag: tags.first.tag_id }
 
       synonym.reload
       expect(synonym.tag_id).to eq(tags.first.tag_id)
