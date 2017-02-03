@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 FactoryGirl.define do
-  sequence(:random_cite) do |n|
+  sequence(:random_cite) do |_n|
     Faker::Lorem.paragraphs.join("\n\n")
   end
 
@@ -12,6 +12,5 @@ FactoryGirl.define do
     cite_date { DateTime.now }
   end
 end
-
 
 # eof

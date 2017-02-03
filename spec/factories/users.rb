@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :user do
     username
     email
-    password "some password"
+    password 'some password'
 
     admin false
     active true
@@ -19,6 +19,5 @@ FactoryGirl.define do
     badges { [create(:badge, badge_type: Badge::MODERATOR_TOOLS)] }
   end
 end
-
 
 # eof

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe Messages::AcceptController, type: :controller do
   let(:user) { create(:user) }
@@ -14,7 +14,7 @@ RSpec.describe Messages::AcceptController, type: :controller do
     message1.save
   end
 
-  it "should accept when user is OP" do
+  it 'should accept when user is OP' do
     sign_in user1
 
     post :accept, message_params_from_slug(message1)
@@ -40,7 +40,7 @@ RSpec.describe Messages::AcceptController, type: :controller do
     expect(user.score).to eq 0
   end
 
-  it "should accept more than one answer" do
+  it 'should accept more than one answer' do
     sign_in user1
     msg2 = create(:message, owner: user)
     msg2.parent_id = message1.message_id
@@ -60,7 +60,7 @@ RSpec.describe Messages::AcceptController, type: :controller do
     expect(user.score).not_to eq 0
   end
 
-  it "should unaccept" do
+  it 'should unaccept' do
     sign_in user1
 
     message1.flags['accepted'] = 'yes'
@@ -75,15 +75,15 @@ RSpec.describe Messages::AcceptController, type: :controller do
     expect(message1.flags['accepted']).to be_nil
   end
 
-  it "should remove score when unaccepting" do
+  it 'should remove score when unaccepting' do
     sign_in user1
 
     message1.flags['accepted'] = 'yes'
     message1.save
 
     Score.create!(user_id: message1.user_id,
-                    message_id: message1.message_id,
-                    value: 15)
+                  message_id: message1.message_id,
+                  value: 15)
 
     post :accept, message_params_from_slug(message1)
 

@@ -7,12 +7,11 @@ FactoryGirl.define do
 
   factory :notification do
     subject { generate(:notification_subject) }
-    path "/foo/bar"
+    path '/foo/bar'
     association :recipient, factory: :user
     oid 0
     otype 'none'
   end
 end
-
 
 # eof

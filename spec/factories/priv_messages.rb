@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :priv_message do
-    subject "Use the force!"
+    subject 'Use the force!'
     body { generate(:random_string) }
 
     association :sender, factory: :user
@@ -13,6 +13,5 @@ FactoryGirl.define do
     recipient_name { recipient.username }
   end
 end
-
 
 # eof

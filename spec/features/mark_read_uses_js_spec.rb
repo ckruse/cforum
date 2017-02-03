@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-require "rails_helper"
+require 'rails_helper'
 
-describe "marking as read uses JS" do
+describe 'marking as read uses JS' do
   let(:message) { create(:message) }
   let(:user) { create(:user) }
 
-  before(:each) { login_as(user , scope: :user) }
+  before(:each) { login_as(user, scope: :user) }
 
   include CForum::Tools
 
@@ -17,7 +17,6 @@ describe "marking as read uses JS" do
     wait_for_ajax
     expect(page.body).to have_css('#m' + message.message_id.to_s + '.visited')
   end
-
 end
 
 # eof

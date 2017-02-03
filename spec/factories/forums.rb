@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :forum do
     name { generate(:forum_name) }
     short_name { name }
-    slug { name.downcase.gsub(/ /, '-') }
+    slug { name.downcase.tr(' ', '-') }
     description { generate(:forum_name) }
     standard_permission 'private'
   end
@@ -28,8 +28,6 @@ FactoryGirl.define do
   factory :moderate_forum, parent: :forum do
     standard_permission ForumGroupPermission::ACCESS_MODERATE
   end
-
 end
-
 
 # eof

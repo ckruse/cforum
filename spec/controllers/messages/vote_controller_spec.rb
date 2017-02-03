@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe Messages::VoteController, type: :controller do
-  context "authorized user" do
+  context 'authorized user' do
     let(:user) { create(:user) }
     let(:user1) { create(:user) }
-    let(:score) { Score.create!(user_id: user.user_id, value: 10)}
+    let(:score) { Score.create!(user_id: user.user_id, value: 10) }
     let(:message) { create(:message, owner: user1) }
     let(:badges) do
       [create(:badge, badge_type: Badge::UPVOTE),
@@ -19,7 +19,7 @@ RSpec.describe Messages::VoteController, type: :controller do
       user.badge_users.create!(badge_id: badges.second.badge_id)
     end
 
-    it "should upvote when user is logged in" do
+    it 'should upvote when user is logged in' do
       sign_in user
       post :vote, message_params_from_slug(message).merge(type: 'up')
 
@@ -60,10 +60,10 @@ RSpec.describe Messages::VoteController, type: :controller do
       expect(user1.score).to eq 0
     end
 
-    it "should take back vote when user has already voted" do
+    it 'should take back vote when user has already voted' do
       Vote.create!(user_id: user.user_id,
-                     message_id: message.message_id,
-                     vtype: Vote::UPVOTE)
+                   message_id: message.message_id,
+                   vtype: Vote::UPVOTE)
       message.update(upvotes: 1)
 
       sign_in user
@@ -79,13 +79,13 @@ RSpec.describe Messages::VoteController, type: :controller do
       expect(user1.score).to eq 0
     end
 
-    it "should change vote when user has already voted" do
+    it 'should change vote when user has already voted' do
       v = Vote.create!(user_id: user.user_id,
-                         message_id: message.message_id,
-                         vtype: Vote::UPVOTE)
+                       message_id: message.message_id,
+                       vtype: Vote::UPVOTE)
       Score.create!(user_id: user1.user_id,
-                      vote_id: v.vote_id,
-                      value: 10)
+                    vote_id: v.vote_id,
+                    value: 10)
       message.update(upvotes: 1)
 
       sign_in user
@@ -104,7 +104,7 @@ RSpec.describe Messages::VoteController, type: :controller do
       expect(user.score).to eq(9)
     end
 
-    it "should downvote when user is logged in" do
+    it 'should downvote when user is logged in' do
       sign_in user
       post :vote, message_params_from_slug(message).merge(type: 'down')
 
@@ -157,13 +157,13 @@ RSpec.describe Messages::VoteController, type: :controller do
 
     it "shouldn't score when updating a vote and target score falls below -1" do
       v = Vote.create!(user_id: user.user_id,
-                         message_id: message.message_id,
-                         vtype: Vote::UPVOTE)
+                       message_id: message.message_id,
+                       vtype: Vote::UPVOTE)
       Score.create!(user_id: user1.user_id,
-                      vote_id: v.vote_id,
-                      value: 10)
+                    vote_id: v.vote_id,
+                    value: 10)
       Score.create!(user_id: user1.user_id,
-                      value: -1)
+                    value: -1)
 
       message.update(upvotes: 1)
 
@@ -184,11 +184,11 @@ RSpec.describe Messages::VoteController, type: :controller do
 
     it "should score when updating a vote and target score doesn't fall below -1" do
       v = Vote.create!(user_id: user.user_id,
-                         message_id: message.message_id,
-                         vtype: Vote::UPVOTE)
+                       message_id: message.message_id,
+                       vtype: Vote::UPVOTE)
       Score.create!(user_id: user1.user_id,
-                      vote_id: v.vote_id,
-                      value: 10)
+                    vote_id: v.vote_id,
+                    value: 10)
 
       message.update(upvotes: 1)
 

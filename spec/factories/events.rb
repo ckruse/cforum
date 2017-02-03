@@ -1,6 +1,6 @@
 
 FactoryGirl.define do
-  sequence(:random_event_desc) do |n|
+  sequence(:random_event_desc) do |_n|
     Faker::Lorem.paragraphs.join("\n\n")
   end
 

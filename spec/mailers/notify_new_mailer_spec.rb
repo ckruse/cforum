@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe NotifyNewMailer, type: :mailer do
   include CForum::Tools
@@ -9,9 +9,11 @@ RSpec.describe NotifyNewMailer, type: :mailer do
     let(:user) { create(:user) }
     let(:parent) { create(:message) }
     let(:message) { create(:message, parent: parent, thread: parent.thread) }
-    let(:mail) { NotifyNewMailer.new_message(user, message.thread, parent,
-                                             message, message_path(message.thread, message),
-                                             'foo bar').deliver_now }
+    let(:mail) do
+      NotifyNewMailer.new_message(user, message.thread, parent,
+                                  message, message_path(message.thread, message),
+                                  'foo bar').deliver_now
+    end
 
     it 'renders the subject as RE: message subject' do
       expect(mail.subject).to eq('RE: ' + message.subject)
@@ -25,15 +27,15 @@ RSpec.describe NotifyNewMailer, type: :mailer do
       expect(mail.from).to eq([Rails.application.config.mail_sender])
     end
 
-    it "sets the Message-Id" do
+    it 'sets the Message-Id' do
       expect(mail).to have_header('Message-Id',
-                                  '<t' + message.thread_id.to_s + "m" +
-                                  message.message_id.to_s + "@" + Rails.application.config.mid_host + ">")
+                                  '<t' + message.thread_id.to_s + 'm' +
+                                  message.message_id.to_s + '@' + Rails.application.config.mid_host + '>')
     end
-    it "sets the In-Reply-To" do
+    it 'sets the In-Reply-To' do
       expect(mail).to have_header('In-Reply-To',
                                   '<t' + parent.thread_id.to_s + 'm' +
-                                  parent.message_id.to_s + "@" + Rails.application.config.mid_host + ">")
+                                  parent.message_id.to_s + '@' + Rails.application.config.mid_host + '>')
     end
 
     it 'links to the message' do
@@ -45,9 +47,11 @@ RSpec.describe NotifyNewMailer, type: :mailer do
     let(:user) { create(:user) }
     let(:parent) { create(:message) }
     let(:message) { create(:message, parent: parent, thread: parent.thread) }
-    let(:mail) { NotifyNewMailer.new_answer(user, message.thread, parent,
-                                            message, message_path(message.thread, message),
-                                            'foo bar').deliver_now }
+    let(:mail) do
+      NotifyNewMailer.new_answer(user, message.thread, parent,
+                                 message, message_path(message.thread, message),
+                                 'foo bar').deliver_now
+    end
 
     it 'renders the subject as RE: message subject' do
       expect(mail.subject).to eq('RE: ' + message.subject)
@@ -61,15 +65,15 @@ RSpec.describe NotifyNewMailer, type: :mailer do
       expect(mail.from).to eq([Rails.application.config.mail_sender])
     end
 
-    it "sets the Message-Id" do
+    it 'sets the Message-Id' do
       expect(mail).to have_header('Message-Id',
-                                  '<t' + message.thread_id.to_s + "m" +
-                                  message.message_id.to_s + "@" + Rails.application.config.mid_host + ">")
+                                  '<t' + message.thread_id.to_s + 'm' +
+                                  message.message_id.to_s + '@' + Rails.application.config.mid_host + '>')
     end
-    it "sets the In-Reply-To" do
+    it 'sets the In-Reply-To' do
       expect(mail).to have_header('In-Reply-To',
                                   '<t' + parent.thread_id.to_s + 'm' +
-                                  parent.message_id.to_s + "@" + Rails.application.config.mid_host + ">")
+                                  parent.message_id.to_s + '@' + Rails.application.config.mid_host + '>')
     end
 
     it 'links to the message' do
@@ -80,9 +84,11 @@ RSpec.describe NotifyNewMailer, type: :mailer do
   describe 'new mention' do
     let(:user) { create(:user) }
     let(:message) { create(:message) }
-    let(:mail) { NotifyNewMailer.new_mention(user, message.thread, message,
-                                             message_path(message.thread, message),
-                                             'foo bar').deliver_now }
+    let(:mail) do
+      NotifyNewMailer.new_mention(user, message.thread, message,
+                                  message_path(message.thread, message),
+                                  'foo bar').deliver_now
+    end
 
     it 'renders the subject as RE: message subject' do
       expect(mail.subject).to eq('RE: ' + message.subject)
@@ -96,10 +102,10 @@ RSpec.describe NotifyNewMailer, type: :mailer do
       expect(mail.from).to eq([Rails.application.config.mail_sender])
     end
 
-    it "sets the Message-Id" do
+    it 'sets the Message-Id' do
       expect(mail).to have_header('Message-Id',
-                                  '<t' + message.thread_id.to_s + "m" +
-                                  message.message_id.to_s + "@" + Rails.application.config.mid_host + ">")
+                                  '<t' + message.thread_id.to_s + 'm' +
+                                  message.message_id.to_s + '@' + Rails.application.config.mid_host + '>')
     end
 
     it 'links to the message' do
@@ -124,9 +130,9 @@ RSpec.describe NotifyNewMailer, type: :mailer do
       expect(mail.from).to eq([Rails.application.config.mail_sender])
     end
 
-    it "sets the Message-Id" do
+    it 'sets the Message-Id' do
       expect(mail).to have_header('Message-Id',
-                                  '<cite' + cite.cite_id.to_s + "@" + Rails.application.config.mid_host + ">")
+                                  '<cite' + cite.cite_id.to_s + '@' + Rails.application.config.mid_host + '>')
     end
 
     it 'links to the cite' do

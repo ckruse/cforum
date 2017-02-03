@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
-require "rails_helper"
+require 'rails_helper'
 
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe "marking as interesting uses JS" do
+describe 'marking as interesting uses JS' do
   let(:message) { create(:message) }
   let(:user) { create(:user) }
 
-  before(:each) { login_as(user , scope: :user) }
+  before(:each) { login_as(user, scope: :user) }
 
   include CForum::Tools
 
@@ -20,15 +20,14 @@ describe "marking as interesting uses JS" do
     wait_for_ajax
     expect(page.body).to have_css('#m' + message.message_id.to_s + ' .mark-boring')
     expect(InterestingMessage.where(user_id: user.user_id,
-                                      message_id: message.message_id).first).not_to be_nil
+                                    message_id: message.message_id).first).not_to be_nil
 
     page.find('#m' + message.message_id.to_s + ' .mark-boring').click
     wait_for_ajax
     expect(page.body).to have_css('#m' + message.message_id.to_s + ' .mark-interesting')
     expect(InterestingMessage.where(user_id: user.user_id,
-                                      message_id: message.message_id).first).to be_nil
+                                    message_id: message.message_id).first).to be_nil
   end
-
 end
 
 # eof

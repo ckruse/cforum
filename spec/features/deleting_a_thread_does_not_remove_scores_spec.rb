@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 
-require "rails_helper"
+require 'rails_helper'
 
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe "deleting a thread" do
+describe 'deleting a thread' do
   let(:message) { create(:message) }
   let(:user) { create(:user) }
   let(:vote) do
     Vote.create!(user_id: user.user_id,
-                   message_id: message.message_id,
-                   vtype: Vote::UPVOTE)
+                 message_id: message.message_id,
+                 vtype: Vote::UPVOTE)
   end
 
   before(:each) { login_as(user, scope: :user) }
@@ -20,8 +20,8 @@ describe "deleting a thread" do
 
   it "doesn't remove score when gotten via vote" do
     Score.create!(user_id: user.user_id,
-                    vote_id: vote.vote_id,
-                    value: 10)
+                  vote_id: vote.vote_id,
+                  value: 10)
 
     message.thread.destroy
     expect(user.score).to eq(10)
@@ -29,13 +29,12 @@ describe "deleting a thread" do
 
   it "doesn't remove score when gotten via message" do
     Score.create!(user_id: user.user_id,
-                    message_id: message.message_id,
-                    value: 15)
+                  message_id: message.message_id,
+                  value: 15)
 
     message.thread.destroy
     expect(user.score).to eq(15)
   end
-
 end
 
 # eof

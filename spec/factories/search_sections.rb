@@ -9,5 +9,4 @@ FactoryGirl.define do
   end
 end
 
-
 # eof

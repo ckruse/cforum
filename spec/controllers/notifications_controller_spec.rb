@@ -5,67 +5,67 @@ RSpec.describe NotificationsController, type: :controller do
 
   before(:each) { sign_in notification.recipient }
 
-  describe "GET #index" do
-    it "assigns all notifications as @notifications" do
+  describe 'GET #index' do
+    it 'assigns all notifications as @notifications' do
       get :index
       expect(assigns(:notifications)).to eq([notification])
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested notification as @notification" do
+  describe 'GET #show' do
+    it 'assigns the requested notification as @notification' do
       get :show, id: notification.to_param
       expect(assigns(:notification)).to eq(notification)
     end
 
-    it "redirects to the object" do
+    it 'redirects to the object' do
       get :show, id: notification.to_param
       expect(response).to redirect_to(notification.path)
     end
 
-    it "marks the notification as read" do
+    it 'marks the notification as read' do
       get :show, id: notification.to_param
       notification.reload
       expect(notification.is_read).to be true
     end
   end
 
-  describe "POST #update" do
-    it "redirects to the notifications index" do
+  describe 'POST #update' do
+    it 'redirects to the notifications index' do
       post :update, id: notification.to_param
       expect(response).to redirect_to(notifications_path)
     end
 
-    it "marks the notification as unread" do
+    it 'marks the notification as unread' do
       post :update, id: notification.to_param
       notification.reload
       expect(notification.is_read).to be false
     end
   end
 
-  describe "DELETE #destroy" do
-    it "redirects to the notifications index" do
+  describe 'DELETE #destroy' do
+    it 'redirects to the notifications index' do
       delete :destroy, id: notification.to_param
       expect(response).to redirect_to(notifications_path)
     end
 
-    it "destroys the notification" do
-      expect {
+    it 'destroys the notification' do
+      expect do
         delete :destroy, id: notification.to_param
-      }.to change(Notification, :count).by(-1)
+      end.to change(Notification, :count).by(-1)
     end
   end
 
-  describe "DELETE #batch_destroy" do
-    it "deletes more than one notification" do
+  describe 'DELETE #batch_destroy' do
+    it 'deletes more than one notification' do
       notification1 = create(:notification, recipient: notification.recipient)
 
-      expect {
+      expect do
         delete :batch_destroy, ids: [notification.to_param, notification1.to_param]
-      }.to change(Notification, :count).by(-2)
+      end.to change(Notification, :count).by(-2)
     end
 
-    it "redirects to the notifications index" do
+    it 'redirects to the notifications index' do
       delete :batch_destroy, ids: [notification.to_param]
       expect(response).to redirect_to(notifications_path)
     end
@@ -75,5 +75,4 @@ RSpec.describe NotificationsController, type: :controller do
       expect(response).to redirect_to(notifications_path)
     end
   end
-
 end

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 def thread_params_from_slug(thread)
-  hsh = {curr_forum: thread.forum.slug}
+  hsh = { curr_forum: thread.forum.slug }
 
   if thread.slug =~ /^\/(\d+)\/(\w+)\/(\d+)\/([^\/]+)/
-    hsh[:year] = $1
-    hsh[:mon] = $2
-    hsh[:day] = $3
-    hsh[:tid] = $4
+    hsh[:year] = Regexp.last_match(1)
+    hsh[:mon] = Regexp.last_match(2)
+    hsh[:day] = Regexp.last_match(3)
+    hsh[:tid] = Regexp.last_match(4)
   end
 
   hsh

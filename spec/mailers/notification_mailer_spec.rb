@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe NotificationMailer, type: :mailer do
   include CForum::Tools
@@ -8,8 +8,10 @@ RSpec.describe NotificationMailer, type: :mailer do
   describe 'new notification' do
     let(:user) { create(:user) }
     let(:notification) { create(:notification) }
-    let(:mail) { NotificationMailer.new_notification({user: user, subject: notification.subject,
-                                                      body: "Foo bar"}) }
+    let(:mail) do
+      NotificationMailer.new_notification(user: user, subject: notification.subject,
+                                          body: 'Foo bar')
+    end
 
     it 'renders the subject as defined' do
       expect(mail.subject).to eq(notification.subject)
@@ -24,7 +26,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match("Foo bar")
+      expect(mail.body.encoded).to match('Foo bar')
     end
   end
 end

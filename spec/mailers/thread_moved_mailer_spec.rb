@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe ThreadMovedMailer, type: :mailer do
   include CForum::Tools
@@ -9,9 +9,11 @@ RSpec.describe ThreadMovedMailer, type: :mailer do
     let(:user) { create(:user) }
     let(:old_forum) { create(:forum) }
     let(:message) { create(:message) }
-    let(:mail) { ThreadMovedMailer.thread_moved(user, message.thread,
-                                                old_forum, message.forum,
-                                                message_path(message.thread, message)).deliver_now }
+    let(:mail) do
+      ThreadMovedMailer.thread_moved(user, message.thread,
+                                     old_forum, message.forum,
+                                     message_path(message.thread, message)).deliver_now
+    end
 
     it 'renders the subject as notifications.thread_moved' do
       expect(mail.subject).to eq(I18n.t('notifications.thread_moved',
@@ -32,8 +34,6 @@ RSpec.describe ThreadMovedMailer, type: :mailer do
       expect(mail.body.encoded).to match(message_path(message.thread, message))
     end
   end
-
-
 end
 
 # eof

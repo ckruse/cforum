@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-require "rails_helper"
+require 'rails_helper'
 
-describe "opening/closing threads uses JS" do
+describe 'opening/closing threads uses JS' do
   let(:message) { create(:message) }
   let(:user) { create(:user) }
 
-  before(:each) { login_as(user , scope: :user) }
+  before(:each) { login_as(user, scope: :user) }
 
   include CForum::Tools
 
@@ -21,7 +21,6 @@ describe "opening/closing threads uses JS" do
     wait_for_ajax
     expect(page.body).to have_css('#t' + message.thread_id.to_s + ' .icon-thread.open')
   end
-
 end
 
 # eof

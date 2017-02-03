@@ -6,9 +6,8 @@ FactoryGirl.define do
     name { generate(:badge_name) }
     slug { name.parameterize }
     badge_type { Badge::UPVOTE }
-    badge_medal_type { "bronze" }
+    badge_medal_type { 'bronze' }
   end
 end
-
 
 # eof
