@@ -45,8 +45,11 @@ GEM
     autoprefixer-rails (6.7.2)
       execjs
     bcrypt (3.1.11)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
     buftok (0.2.0)
     builder (3.2.3)
+    byebug (9.0.6)
     capybara (2.12.0)
       addressable
       mime-types (>= 1.16)
@@ -73,6 +76,7 @@ GEM
     content_for_in_controllers (0.0.2)
     daemons (1.2.4)
     database_cleaner (1.5.3)
+    debug_inspector (0.0.2)
     devise (4.2.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -127,7 +131,7 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     htmlentities (4.3.4)
-    http (2.1.0)
+    http (2.2.0)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
       http-form_data (~> 1.0.1)
@@ -183,9 +187,6 @@ GEM
     multi_json (1.12.1)
     multipart-post (2.0.0)
     naught (1.1.0)
-    negative_captcha (0.5)
-      actionpack
-      activesupport
     nenv (0.3.0)
     nio4r (1.2.1)
     nokogiri (1.7.0.1)
@@ -229,6 +230,10 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 5.0.1)
       sprockets-rails (>= 2.0.0)
+    rails-controller-testing (1.0.1)
+      actionpack (~> 5.x)
+      actionview (~> 5.x)
+      activesupport (~> 5.x)
     rails-dom-testing (2.0.2)
       activesupport (>= 4.2.0, < 6.0)
       nokogiri (~> 1.6)
@@ -333,6 +338,11 @@ GEM
       addressable
     warden (1.2.7)
       rack (>= 1.0)
+    web-console (2.3.0)
+      activemodel (>= 4.0)
+      binding_of_caller (>= 0.7.2)
+      railties (>= 4.0)
+      sprockets-rails (>= 2.0, < 4.0)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
@@ -346,6 +356,7 @@ DEPENDENCIES
   active_record_query_trace
   autoprefixer-rails
   bcrypt
+  byebug
   capybara
   capybara-screenshot
   coffee-rails
@@ -369,7 +380,6 @@ DEPENDENCIES
   kramdown
   libnotify
   listen (~> 3.0.7)
-  negative_captcha
   oauth
   paperclip
   pg
@@ -377,6 +387,7 @@ DEPENDENCIES
   puma
   pygments.rb
   rails (~> 5.0.0)
+  rails-controller-testing
   rails-i18n
   rspec-rails
   sass-rails (> 4.0.0)
@@ -393,6 +404,7 @@ DEPENDENCIES
   unicorn
   validate_url
   warden (!= 1.2.5)
+  web-console (~> 2.0)
 
 BUNDLED WITH
    1.14.3

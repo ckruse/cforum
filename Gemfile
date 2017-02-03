@@ -37,22 +37,26 @@ group :development, :test do
   gem 'listen', '~> 3.0.7'
   gem 'poltergeist'
   gem 'puma'
-  # gem 'quiet_assets'
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
   gem 'terminal-notifier-guard'
+
+  gem 'byebug'
 end
 
+gem 'rails-controller-testing', require: false, group: :test
 gem 'simplecov', require: false, group: :test
+
 gem 'spring', group: :development
+gem 'web-console', '~> 2.0', group: :development
 
 gem 'libnotify',
     group: :development,
     require: RUBY_PLATFORM.include?('linux') && 'libnotify'
 
+gem 'coffee-rails'
 gem 'sass-rails', '> 4.0.0'
 gem 'sprockets'
-gem 'coffee-rails'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
@@ -73,8 +77,6 @@ gem 'diffy'
 gem 'exception_notification'
 
 gem 'htmlentities'
-
-gem 'negative_captcha'
 
 gem 'unicorn', group: :production
 
