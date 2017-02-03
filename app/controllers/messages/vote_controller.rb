@@ -132,7 +132,7 @@ class Messages::VoteController < ApplicationController
           Vote.connection.execute "UPDATE messages SET downvotes = downvotes - 1 WHERE message_id = " + @message.message_id.to_s
         end
 
-        Score.delete_all(['vote_id = ?', @vote.vote_id])
+        Score.where('vote_id = ?', @vote.vote_id).delete_all
         @vote.destroy
       end
 
@@ -171,7 +171,7 @@ class Messages::VoteController < ApplicationController
       Vote.connection.execute "UPDATE messages SET upvotes = upvotes - 1, downvotes = downvotes + 1 WHERE message_id = " + @message.message_id.to_s
 
       unless @message.user_id.blank?
-        Score.delete_all(['user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id])
+        Score.where('user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id).delete_all
 
         if @message.owner.score + @vote_down_value >= -1
           Score.create!(

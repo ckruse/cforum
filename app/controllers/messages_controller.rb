@@ -244,7 +244,7 @@ class MessagesController < ApplicationController
 
         if del_versions
           audit(@message, 'del_versions')
-          MessageVersion.delete_all(['message_id = ?', @message.message_id])
+          MessageVersion.where(message_id: @message.message_id).delete_all
         else
           raise ActiveRecord::Rollback if @version && !@version.save
         end
