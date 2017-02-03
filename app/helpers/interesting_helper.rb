@@ -63,7 +63,7 @@ module InterestingHelper
              execute("SELECT message_id FROM interesting_messages WHERE message_id IN (" +
                      message.join(", ") + ") AND user_id = " + user_id.to_s)
     result.each do |row|
-      m = row['thread_id'].to_i
+      m = row['thread_id']
       intesting_messages << m
       new_cache[m] = true
     end
@@ -91,13 +91,13 @@ module InterestingHelper
     if not ids.blank?
       result = Message.connection.execute("SELECT message_id FROM interesting_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + user.user_id.to_s)
       result.each do |row|
-        new_cache[row['message_id'].to_i] = true
+        new_cache[row['message_id']] = true
 
-        if messages_map[row['message_id'].to_i]
-          messages_map[row['message_id'].to_i].first.attribs['classes'] << 'interesting'
-          messages_map[row['message_id'].to_i].first.attribs[:is_interesting] = true
-          messages_map[row['message_id'].to_i].second.attribs['classes'] << 'has-interesting'
-          messages_map[row['message_id'].to_i].second.attribs[:has_interesting] = true
+        if messages_map[row['message_id']]
+          messages_map[row['message_id']].first.attribs['classes'] << 'interesting'
+          messages_map[row['message_id']].first.attribs[:is_interesting] = true
+          messages_map[row['message_id']].second.attribs['classes'] << 'has-interesting'
+          messages_map[row['message_id']].second.attribs[:has_interesting] = true
         end
       end
     end
@@ -115,7 +115,7 @@ module InterestingHelper
 
     messages.each do |m|
       ids << m.message_id
-      msgs[m.message_id.to_s] = m
+      msgs[m.message_id] = m
       new_cache[m.message_id] = false
 
       if not cache.has_key?(m.message_id)
@@ -130,7 +130,7 @@ module InterestingHelper
     unless had_all
       result = Message.connection.execute("SELECT message_id FROM interesting_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + user.user_id.to_s)
       result.each do |row|
-        new_cache[row['message_id'].to_i] = true
+        new_cache[row['message_id']] = true
         msgs[row['message_id']].attribs['classes'] << 'interesting' if msgs[row['message_id']]
         msgs[row['message_id']].attribs[:is_interesting] = true
         had_one = true
