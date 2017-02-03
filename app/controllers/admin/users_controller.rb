@@ -3,7 +3,7 @@
 class Admin::UsersController < ApplicationController
   authorize_controller { authorize_admin }
 
-  before_filter :load_resource
+  before_action :load_resource
 
   def load_resource
     @user = User.find(params[:id]) if params[:id]

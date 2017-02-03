@@ -5,7 +5,7 @@ class SynonymsController < ApplicationController
   authorize_action([:new, :create]) { may?(Badge::CREATE_TAG_SYNONYM) }
   authorize_action([:edit, :update, :destroy]) { authorize_admin }
 
-  before_filter :load_resource
+  before_action :load_resource
 
   respond_to :html, :json
 

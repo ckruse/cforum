@@ -23,11 +23,11 @@ class ApplicationController < ActionController::Base
   include OwnFilesHelper
   include TitleHelper
 
-  before_filter :prepare_exception_notifier, :do_init, :locked?,
+  before_action :prepare_exception_notifier, :do_init, :locked?,
                 :handle_redirects, :set_forums, :notifications,
                 :check_authorizations, :set_css, :set_motd,
                 :set_own_files, :set_title_infos
-  after_filter :store_location
+  after_action :store_location
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 

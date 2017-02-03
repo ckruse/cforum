@@ -3,7 +3,7 @@
 class Admin::ForumsController < ApplicationController
   authorize_controller { authorize_admin }
 
-  before_filter :load_forum
+  before_action :load_forum
 
   SHOW_FORUMLIST = "show_forumlist"
 

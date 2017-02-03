@@ -3,7 +3,7 @@
 class Admin::SearchSectionsController < ApplicationController
   authorize_controller { authorize_admin }
 
-  before_filter :load_search_section
+  before_action :load_search_section
 
   def index
     @search_sections = SearchSection.order(:position, :name)

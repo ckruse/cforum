@@ -3,7 +3,7 @@
 class Admin::RedirectionsController < ApplicationController
   authorize_controller { authorize_admin }
 
-  before_filter :load_ressource
+  before_action :load_ressource
 
   def index
     @redirections = sort_query(%w(redirection_id path destination),

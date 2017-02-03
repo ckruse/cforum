@@ -3,7 +3,7 @@
 class MailsController < ApplicationController
   include UserDataHelper
 
-  before_filter :index_users
+  before_action :index_users
 
   authorize_controller { authorize_user }
 

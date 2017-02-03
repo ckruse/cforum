@@ -3,7 +3,7 @@
 require 'strscan'
 
 class SearchController < ApplicationController
-  before_filter :set_start_stop
+  before_action :set_start_stop
 
   include SearchHelper
 

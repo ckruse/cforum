@@ -2,7 +2,7 @@
 
 class Messages::TwitterController < ApplicationController
   authorize_controller { authorize_forum(permission: :moderator?) }
-  before_filter :load_ressource
+  before_action :load_ressource
 
   include TwitterHelper
 

@@ -3,7 +3,7 @@
 class Admin::BadgesController < ApplicationController
   authorize_controller { authorize_admin }
 
-  before_filter :load_badge
+  before_action :load_badge
 
   def index
     @badges = Badge.order(:order)
