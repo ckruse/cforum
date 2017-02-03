@@ -380,7 +380,7 @@ class MessagesController < ApplicationController
   def preview
     m = Message.new(content: params[:content])
     set_mentions(m)
-    render text: m.to_html(self)
+    render html: m.to_html(self)
   end
 
   def show_message_funtions(thread, message, type = :thread)
