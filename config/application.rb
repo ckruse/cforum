@@ -6,6 +6,9 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+require File.expand_path('../../lib/config_manager.rb', __FILE__)
+require File.expand_path('../../lib/exceptions.rb', __FILE__)
+
 module Cforum
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
