@@ -8,27 +8,33 @@ module TagsHelper
     # first check if all tags are present
     unless tags.empty?
       #tag_objs = Tag.where('forum_id = ? AND LOWER(tag_name) IN (?)', forum.forum_id, tags).all
-      tag_objs = Tag.preload(:synonyms).where("forum_id = ? AND (LOWER(tag_name) IN (?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) IN (?)))", forum.forum_id, tags, tags).order('num_messages DESC')
+      tag_objs = Tag
+                   .preload(:synonyms)
+                   .where("forum_id = ? AND (LOWER(tag_name) IN (?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) IN (?)))",
+                          forum.forum_id, tags, tags)
+                   .order('num_messages DESC')
+                   .to_a
+
       tags.each do |t|
         tag_obj = tag_objs.find do |to|
           if to.tag_name.downcase == t
             true
           else
-            to.synonyms.find {|syn| syn.synonym == t}
+            to.synonyms.find { |syn| syn.synonym == t }
           end
         end
 
-        if tag_obj.blank?
-          # create a savepoint (rails implements savepoints as nested transactions)
-          tag_obj = Tag.create(forum_id: forum.forum_id, tag_name: t)
+        next unless tag_obj.blank?
 
-          if tag_obj.tag_id.blank?
-            flash[:error] = t('messages.tags_invalid')
-            raise ActiveRecord::Rollback.new
-          end
+        # create a savepoint (rails implements savepoints as nested transactions)
+        tag_obj = Tag.create(forum_id: forum.forum_id, tag_name: t)
 
-          tag_objs << tag_obj
+        if tag_obj.tag_id.blank?
+          flash[:error] = t('messages.tags_invalid')
+          raise ActiveRecord::Rollback
         end
+
+        tag_objs << tag_obj
       end
 
       # then create the message/tag connections
