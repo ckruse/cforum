@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class GroupUser < ActiveRecord::Base
+class GroupUser < ApplicationRecord
   self.primary_key = 'group_user_id'
   self.table_name  = 'groups_users'
 

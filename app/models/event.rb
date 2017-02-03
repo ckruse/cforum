@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class Event < ActiveRecord::Base
+class Event < ApplicationRecord
   include ParserHelper
 
   self.primary_key = 'event_id'

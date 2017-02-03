@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class Vote < ActiveRecord::Base
+class Vote < ApplicationRecord
   UPVOTE   = 'upvote'
   DOWNVOTE = 'downvote'
 

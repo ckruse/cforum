@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class Attendee < ActiveRecord::Base
+class Attendee < ApplicationRecord
   self.primary_key = 'attendee_id'
 
   validates_presence_of :name, :planned_arrival

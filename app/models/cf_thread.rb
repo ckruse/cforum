@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class CfThread < ActiveRecord::Base
+class CfThread < ApplicationRecord
   self.primary_key = 'thread_id'
   self.table_name  = 'threads'
 
@@ -110,10 +110,10 @@ class CfThread < ActiveRecord::Base
   end
 
   def self.make_id(year, mon = nil, day = nil, tid = nil)
-    if year.is_a?(Hash)
-      '/' + year[:year].to_s + '/' + year[:mon].to_s + '/' + year[:day].to_s + '/' + year[:tid].to_s
-    else
+    if year && mon && day && tid
       '/' + year.to_s + '/' + mon.to_s + '/' + day.to_s + '/' + tid.to_s
+    else
+      '/' + year[:year].to_s + '/' + year[:mon].to_s + '/' + year[:day].to_s + '/' + year[:tid].to_s
     end
   end
 

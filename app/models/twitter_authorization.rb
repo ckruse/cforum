@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class TwitterAuthorization < ActiveRecord::Base
+class TwitterAuthorization < ApplicationRecord
   self.primary_key = 'twitter_authorization_id'
   self.table_name = 'twitter_authorizations'
 

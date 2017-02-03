@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class ForumGroupPermission < ActiveRecord::Base
+class ForumGroupPermission < ApplicationRecord
   ACCESS_MODERATE = 'moderate'
   ACCESS_WRITE    = 'write'
   ACCESS_READ     = 'read'

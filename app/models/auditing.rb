@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class Auditing < ActiveRecord::Base
+class Auditing < ApplicationRecord
   self.primary_key = 'auditing_id'
   self.table_name  = 'auditing'
 

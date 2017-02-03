@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class SearchDocument < ActiveRecord::Base
+class SearchDocument < ApplicationRecord
   self.primary_key = 'search_document_id'
   self.table_name  = 'search_documents'
 

@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class MessageVersion < ActiveRecord::Base
+class MessageVersion < ApplicationRecord
   self.primary_key = 'message_version_id'
   self.table_name  = 'message_versions'
 

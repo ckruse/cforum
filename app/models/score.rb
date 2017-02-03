@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class Score < ActiveRecord::Base
+class Score < ApplicationRecord
   self.primary_key = 'score_id'
   self.table_name  = 'scores'
 

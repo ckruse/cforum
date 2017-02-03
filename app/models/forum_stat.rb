@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class ForumStat < ActiveRecord::Base
+class ForumStat < ApplicationRecord
   self.primary_key = 'forum_stat_id'
   self.table_name  = 'forum_stats'
 

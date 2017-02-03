@@ -1,6 +1,6 @@
  # -*- encoding: utf-8 -*-
 
-class Forum < ActiveRecord::Base
+class Forum < ApplicationRecord
   self.primary_key = 'forum_id'
   self.table_name  = 'forums'
 

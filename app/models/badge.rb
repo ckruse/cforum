@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class Badge < ActiveRecord::Base
+class Badge < ApplicationRecord
   include ParserHelper
 
   # this is the list of known rights/permissions

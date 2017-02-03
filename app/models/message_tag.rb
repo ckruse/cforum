@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class MessageTag < ActiveRecord::Base
+class MessageTag < ApplicationRecord
   self.primary_key = 'message_tag_id'
   self.table_name  = 'messages_tags'
 

@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class Tag < ActiveRecord::Base
+class Tag < ApplicationRecord
   self.primary_key = 'tag_id'
   self.table_name  = 'tags'
 

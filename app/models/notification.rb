@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class Notification < ActiveRecord::Base
+class Notification < ApplicationRecord
   include ParserHelper
 
   self.primary_key = 'notification_id'

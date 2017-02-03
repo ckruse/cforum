@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class TagSynonym < ActiveRecord::Base
+class TagSynonym < ApplicationRecord
   self.primary_key = 'tag_synonym_id'
   self.table_name  = 'tag_synonyms'
 

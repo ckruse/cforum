@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class PrivMessage < ActiveRecord::Base
+class PrivMessage < ApplicationRecord
   include ParserHelper
 
   self.primary_key = 'priv_message_id'

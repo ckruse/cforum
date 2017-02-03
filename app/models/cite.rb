@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class Cite < ActiveRecord::Base
+class Cite < ApplicationRecord
   include ScoresHelper
   include ParserHelper
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class Medium < ActiveRecord::Base
+class Medium < ApplicationRecord
   self.primary_key = 'medium_id'
   self.table_name  = 'media'
 

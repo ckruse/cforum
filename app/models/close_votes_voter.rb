@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class CloseVotesVoter < ActiveRecord::Base
+class CloseVotesVoter < ApplicationRecord
   self.primary_key = 'close_votes_voter_id'
   self.table_name  = 'close_votes_voters'
 

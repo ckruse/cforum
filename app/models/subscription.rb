@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class Subscription < ActiveRecord::Base
+class Subscription < ApplicationRecord
   self.primary_key = 'subscription_id'
   self.table_name = 'subscriptions'
 

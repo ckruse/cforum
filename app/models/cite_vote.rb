@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class CiteVote < ActiveRecord::Base
+class CiteVote < ApplicationRecord
   UPVOTE   = 1
   DOWNVOTE = 0
 

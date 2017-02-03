@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-class Setting < ActiveRecord::Base
+class Setting < ApplicationRecord
   self.primary_key = 'setting_id'
   self.table_name  = 'settings'
 

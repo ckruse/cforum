@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class BadgeGroup < ActiveRecord::Base
+class BadgeGroup < ApplicationRecord
   self.primary_key = 'badge_group_id'
   self.table_name  = 'badge_groups'
 
