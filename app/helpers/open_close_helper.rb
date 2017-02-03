@@ -16,7 +16,7 @@ module OpenCloseHelper
 
     threads.each do |t|
       ids << t.thread_id
-      thread_map[t.thread_id.to_s] = t
+      thread_map[t.thread_id] = t
       t.attribs['open_state'] = default_state
 
       if close_when_read

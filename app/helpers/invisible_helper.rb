@@ -75,7 +75,7 @@ module InvisibleHelper
 
     result = CfThread.connection.execute("SELECT thread_id FROM invisible_threads WHERE thread_id IN (" + thread.join(", ") + ") AND user_id = " + user_id.to_s)
     result.each do |row|
-      t = row['thread_id'].to_i
+      t = row['thread_id']
       invisible_threads << t
       new_cache[t] = true
     end

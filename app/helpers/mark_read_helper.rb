@@ -5,7 +5,7 @@ module MarkReadHelper
     return if user.blank? || message.blank?
 
     message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
-    message = message.map {|m| m.is_a?(Message) ? m.message_id : m.to_i}
+    message = message.map { |m| m.is_a?(Message) ? m.message_id : m.to_i }
 
     return if message.blank?
 
@@ -34,7 +34,7 @@ module MarkReadHelper
 
     result = Message.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + message.join(", ") + ") AND user_id = " + user_id.to_s)
     result.each do |row|
-      m = row['message_id'].to_i
+      m = row['message_id']
       read_messages << m
       new_cache[m] = true
     end
@@ -50,7 +50,7 @@ module MarkReadHelper
 
     messages.each do |m|
       ids << m.message_id
-      msgs[m.message_id.to_s] = m
+      msgs[m.message_id] = m
     end
 
     unless ids.blank?
@@ -97,7 +97,7 @@ module MarkReadHelper
       t.sorted_messages.each do |m|
         ids << m.message_id
         new_cache[m.message_id] = false
-        msgs[m.message_id.to_s] = [m, t]
+        msgs[m.message_id] = [m, t]
         num_msgs += 1
       end
 
@@ -107,7 +107,7 @@ module MarkReadHelper
     if not ids.blank?
       result = Message.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
       result.each do |row|
-        new_cache[row['message_id'].to_i] = true
+        new_cache[row['message_id']] = true
 
         if msgs[row['message_id']]
           msgs[row['message_id']][0].attribs['classes'] << 'visited'
@@ -175,7 +175,7 @@ module MarkReadHelper
       result = Message.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
 
       result.each do |row|
-        a = messages.find { |m| m.message_id == row['message_id'].to_i }
+        a = messages.find { |m| m.message_id == row['message_id'] }
         a.attribs['classes'] << 'visited' if a
       end
     end
