@@ -283,14 +283,21 @@ cforum.messages = {
 
   new: function() {
     if(cforum.messages.quotedMessage) {
-      $(".form-actions").append("<button class=\"cf-btn quote-message\">" + t('add_quote') + "</button>");
-      $('.form-actions .quote-message').on('click', cforum.messages.quoteMessage);
+      $(".btn-group.groupCustom").append("<button class=\"btn-default btn-sm btn quote-message\">" + t('add_quote') + "</button>");
+      $('.btn-group.groupCustom .quote-message').on('click', cforum.messages.quoteMessage);
     }
   },
 
   quoteMessage: function(ev) {
     ev.preventDefault();
-    $("#message_input").val($("#message_input").val() + cforum.messages.quotedMessage);
+
+    var $msg = $("#message_input");
+    var selection = $msg.getSelection();
+
+    $msg.replaceSelection(cforum.messages.quotedMessage);
+    $msg.setSelection(selection.start, selection.start);
+    $msg.change();
+
     $(".form-actions .quote-message").fadeOut('fast', function() { $(this).remove(); });
   },
 
