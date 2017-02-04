@@ -10,12 +10,12 @@ class ForumsController < ApplicationController
     @activities = {}
     @overview_threads = []
     @forums.each do |f|
-      threads = f.threads.
-                preload(:forum, messages: :owner).
-                order(latest_message: :desc).
-                where(deleted: false).
-                limit(3).
-                all
+      threads = f.threads
+                  .preload(:forum, messages: :owner)
+                  .order(latest_message: :desc)
+                  .where(deleted: false)
+                  .limit(3)
+                  .all
 
       threads = leave_out_invisible(threads).to_a
 
@@ -29,17 +29,17 @@ class ForumsController < ApplicationController
       @overview_threads += threads
     end
 
-    @open_threads = CfThread.
-                    preload(:forum, messages: :owner).
-                    where(thread_id: CfThread.
-                           joins(:messages).
-                           where(archived: false, deleted: false, messages: {deleted: false}).
-                           where(forum_id: @forums).
-                           where("(messages.flags->'no-answer-admin' = 'no' OR (messages.flags->'no-answer-admin') IS NULL) AND (messages.flags->'no-answer' = 'no' OR (messages.flags->'no-answer') IS NULL)").
-                           group("threads.thread_id").
-                           having('COUNT(*) <= 1')).
-                    order(latest_message: :desc).
-                    limit(5)
+    @open_threads = CfThread
+                      .preload(:forum, messages: :owner)
+                      .where(thread_id: CfThread
+                               .joins(:messages)
+                               .where(archived: false, deleted: false, messages: { deleted: false })
+                               .where(forum_id: @forums)
+                               .where("(messages.flags->'no-answer-admin' = 'no' OR (messages.flags->'no-answer-admin') IS NULL) AND (messages.flags->'no-answer' = 'no' OR (messages.flags->'no-answer') IS NULL)")
+                               .group('threads.thread_id')
+                               .having('COUNT(*) <= 1'))
+                      .order(latest_message: :desc)
+                      .limit(5)
 
     @open_threads = leave_out_invisible(@open_threads)
 
@@ -60,11 +60,11 @@ class ForumsController < ApplicationController
   end
 
   def gather_portal_infos
-    cnt = Message.select('thread_id, count(*) AS cnt').
-          joins("LEFT JOIN read_messages ON read_messages.message_id = messages.message_id AND read_messages.user_id = " + current_user.user_id.to_s).
-          where('forum_id IN (?) AND read_messages.message_id IS NULL AND messages.created_at > ? AND deleted = false',
-                @forums.map { |f| f.forum_id }, current_user.last_sign_in_at).
-          group(:thread_id).all
+    cnt = Message.select('thread_id, count(*) AS cnt')
+            .joins('LEFT JOIN read_messages ON read_messages.message_id = messages.message_id AND read_messages.user_id = ' + current_user.user_id.to_s)
+            .where('forum_id IN (?) AND read_messages.message_id IS NULL AND messages.created_at > ? AND deleted = false',
+                   @forums.map(&:forum_id), current_user.last_sign_in_at)
+            .group(:thread_id).all
 
     @new_messages = 0
 
@@ -75,17 +75,17 @@ class ForumsController < ApplicationController
     @new_threads = cnt.length
 
     @mails = PrivMessage.where(owner_id: current_user.user_id,
-                               is_read: false).
-             order(created_at: :desc).
-             limit(5).
-             all
+                               is_read: false)
+               .order(created_at: :desc)
+               .limit(5)
+               .all
     @mails_cnt = PrivMessage.where(owner_id: current_user.user_id,
-                                   is_read: false).
-                 count
+                                   is_read: false)
+                   .count
 
     @notifications = Notification.where(recipient_id: current_user.user_id,
-                                        is_read: false).
-                     order(created_at: :desc).all
+                                        is_read: false)
+                       .order(created_at: :desc).all
   end
 
   def redirect_archive
@@ -140,7 +140,7 @@ class ForumsController < ApplicationController
     if thread.length == 1
       thread = thread.first
 
-      if params[:m] and message = thread.find_by_mid(params[:m].to_i)
+      if params[:m] && (message = thread.find_by_mid(params[:m].to_i))
         redirect_to message_url(thread, message), status: 301
       else
         redirect_to cf_thread_url(thread), status: 301
@@ -160,50 +160,48 @@ class ForumsController < ApplicationController
   def redirector
     forum = nil
 
-    if not params[:f].blank?
-      forum = Forum.where(slug: params[:f]).first
-    end
+    forum = Forum.where(slug: params[:f]).first unless params[:f].blank?
 
     # TODO: add message
-    raise ActiveRecord::RecordNotFound if forum.nil? and params[:f] != 'all'
+    raise ActiveRecord::RecordNotFound if forum.nil? && (params[:f] != 'all')
 
     redirect_to forum_url(forum || params[:f])
   end
 
   def title
-    render json: {title: @title_infos}
+    render json: { title: @title_infos }
   end
 
   def stats
-    @stats = ForumStat.
-             select("DATE_TRUNC('month', moment) AS moment, SUM(threads) AS threads, SUM(messages) AS messages").
-             group("DATE_TRUNC('month', moment)").
-             order("DATE_TRUNC('month', moment)").
-             where("DATE_TRUNC('month', moment) < DATE_TRUNC('month', NOW())")
+    @stats = ForumStat
+               .select("DATE_TRUNC('month', moment) AS moment, SUM(threads) AS threads, SUM(messages) AS messages")
+               .group("DATE_TRUNC('month', moment)")
+               .order("DATE_TRUNC('month', moment)")
+               .where("DATE_TRUNC('month', moment) < DATE_TRUNC('month', NOW())")
 
-    if current_forum.blank?
-      @stats = @stats.where("forum_id IN (" + Forum.visible_sql(current_user) + ")")
-    else
-      @stats = @stats.where(forum_id: current_forum.forum_id)
-    end
+    @stats = if current_forum.blank?
+               @stats.where('forum_id IN (' + Forum.visible_sql(current_user) + ')')
+             else
+               @stats.where(forum_id: current_forum.forum_id)
+             end
 
     @stats = @stats.to_a
 
-    @num_messages = (@stats.map { |s| s.messages }).sum()
-    @num_threads = (@stats.map { |s| s.threads }).sum
+    @num_messages = @stats.map(&:messages).sum
+    @num_threads = @stats.map(&:threads).sum
 
-    start, stop = Time.now.utc.beginning_of_month - 13.months, Time.now.utc.beginning_of_month - 1
-    @users_twelve_months = Message.
-                           select("DATE_TRUNC('month', created_at) AS moment, COUNT(DISTINCT author) cnt").
-                           where("created_at BETWEEN ? AND ?", start, stop).
-                           group("DATE_TRUNC('month', created_at)")
+    start = Time.now.utc.beginning_of_month - 13.months
+    stop = Time.now.utc.beginning_of_month - 1
+    @users_twelve_months = Message
+                             .select("DATE_TRUNC('month', created_at) AS moment, COUNT(DISTINCT author) cnt")
+                             .where('created_at BETWEEN ? AND ?', start, stop)
+                             .group("DATE_TRUNC('month', created_at)")
 
     if current_forum
       @users_twelve_months = @users_twelve_months.where(forum_id: current_forum.forum_id)
     else
-      @users_twelve_months = @users_twelve_months.where("forum_id IN (" + Forum.visible_sql(current_user) + ")")
+      @users_twelve_months = @users_twelve_months.where('forum_id IN (' + Forum.visible_sql(current_user) + ')')
     end
-
 
     @status = {
       today: forum_state(Time.now.beginning_of_day, Time.now.end_of_day, current_forum),
@@ -221,7 +219,6 @@ class ForumsController < ApplicationController
 
   private
 
-
   def forum_state(start, stop, forum = nil)
     retval = {
       threads: 0,
@@ -230,35 +227,34 @@ class ForumsController < ApplicationController
       tags: [],
       users: []
     }
-    num_threads_messages = Message.
-                           select('COUNT(*) AS msgs, COUNT(DISTINCT thread_id) AS threads, COUNT(DISTINCT author) AS num_users').
-                           where('created_at BETWEEN ? AND ? AND deleted = false', start, stop)
+    num_threads_messages = Message
+                             .select('COUNT(*) AS msgs, COUNT(DISTINCT thread_id) AS threads, COUNT(DISTINCT author) AS num_users')
+                             .where('created_at BETWEEN ? AND ? AND deleted = false', start, stop)
 
-    tags = Message.
-           select('tag_id, COUNT(*) AS cnt').
-           joins(:message_tags).
-           where('created_at BETWEEN ? AND ? AND deleted = false', start, stop).
-           group('tag_id').
-           order('COUNT(*) DESC').
-           limit(5)
+    tags = Message
+             .select('tag_id, COUNT(*) AS cnt')
+             .joins(:message_tags)
+             .where('created_at BETWEEN ? AND ? AND deleted = false', start, stop)
+             .group('tag_id')
+             .order('COUNT(*) DESC')
+             .limit(5)
 
-    users = Message.
-            preload(:owner).
-            select('user_id, COUNT(*) AS cnt').
-            where('created_at BETWEEN ? AND ? AND deleted = false AND user_id IS NOT NULL', start, stop).
-            group('user_id').
-            order('COUNT(*) DESC').
-            limit(5)
-
+    users = Message
+              .preload(:owner)
+              .select('user_id, COUNT(*) AS cnt')
+              .where('created_at BETWEEN ? AND ? AND deleted = false AND user_id IS NOT NULL', start, stop)
+              .group('user_id')
+              .order('COUNT(*) DESC')
+              .limit(5)
 
     if forum
       num_threads_messages = num_threads_messages.where(forum_id: forum.forum_id)
       tags = tags.where(forum_id: forum.forum_id)
       users = users.where(forum_id: forum.forum_id)
     else
-      num_threads_messages = num_threads_messages.where("forum_id IN (" + Forum.visible_sql(current_user) + ")")
-      tags = tags.where("forum_id IN (" + Forum.visible_sql(current_user) + ")")
-      users = users.where("forum_id IN (" + Forum.visible_sql(current_user) + ")")
+      num_threads_messages = num_threads_messages.where('forum_id IN (' + Forum.visible_sql(current_user) + ')')
+      tags = tags.where('forum_id IN (' + Forum.visible_sql(current_user) + ')')
+      users = users.where('forum_id IN (' + Forum.visible_sql(current_user) + ')')
     end
 
     num_threads_messages = num_threads_messages.all.to_a[0]
@@ -280,7 +276,7 @@ class ForumsController < ApplicationController
 
     retval[:users] = users.all
 
-    return retval
+    retval
   end
 end
 
