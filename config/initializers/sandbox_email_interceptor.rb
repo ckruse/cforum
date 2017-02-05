@@ -6,7 +6,7 @@ class SandboxEmailInterceptor
   end
 end
 
-if Rails.env.test? || Rails.env.development?
+if Rails.env.development?
   ActionMailer::Base.register_interceptor(SandboxEmailInterceptor)
 end
 
