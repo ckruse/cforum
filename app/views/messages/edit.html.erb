@@ -29,7 +29,7 @@ content_for :body_classes, 'messages edit forum-' + (current_forum.try(:slug) ||
     </div>
   <% end %>
 
-  <%= render "form", f: f, with_name: true %>
+  <%= render "form", f: f, with_name: true, tags: @tags, message: @message %>
 
   <% if may?(Badge::RETAG) %>
     <div class="cf-cgroup">
