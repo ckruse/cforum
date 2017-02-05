@@ -13,7 +13,8 @@ RSpec.describe 'problematic site is in preview' do
 
   it 'renders to code class=block' do
     visit message_path(message.thread, message)
-    expect(page.find('.posting-content')).to have_css('code.block')
+    expect(page.find('.thread-message:not(.preview) .posting-content'))
+      .to have_css('code.block')
   end
 end
 

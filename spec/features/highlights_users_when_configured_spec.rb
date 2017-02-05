@@ -25,7 +25,8 @@ RSpec.describe 'highlights users when configured' do
   it 'highlights self in message' do
     visit(message_path(message.thread, message))
     expect(page.find('.root')).to have_css('.highlighted-user.' + user_to_class_name(message.author))
-    expect(page.find('.posting-content')).to have_css('.highlighted-user.' + user_to_class_name(message.author))
+    expect(page.find('.thread-message:not(.preview) .posting-content'))
+      .to have_css('.highlighted-user.' + user_to_class_name(message.author))
   end
   it 'highlights self in thread tree' do
     visit(forum_path(message.forum))
