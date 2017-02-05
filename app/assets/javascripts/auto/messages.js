@@ -184,7 +184,7 @@ cforum.messages = {
         $(ev.target).addClass("spinning");
 
         var msg = $(ev.target).closest('.thread-message');
-        $frm.remove();
+        $frm.detach();
         $frm.insertAfter(msg);
 
         var node = msg.find("> .posting-header > .message > h3 a");
