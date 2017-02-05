@@ -58,8 +58,7 @@ de:
     previous_message: "Vorheriger Beitrag zum Thema:"
     preview: Vorschau
 
-    new_answer: antworten mit Zitat
-    new_answer_wo_quote: antworten
+    new_answer: antworten
     only_op_may_accept: Nur der Original-Autor kann eine Antwort akzeptieren.
     accept_answer: Antwort akzeptieren
     unaccept_answer: Antwort nicht länger akzeptieren

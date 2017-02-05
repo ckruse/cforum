@@ -91,7 +91,7 @@ class MessagesController < ApplicationController
     @max_tags = conf('max_tags_per_message')
 
     # inherit message and subject from previous post
-    @message = new_message(@parent, params.key?(:quote_old_message))
+    @message = new_message(@parent, uconf('quote_by_default') == 'yes')
 
     show_new_message_functions(@thread, @parent, @message, @preview)
   end

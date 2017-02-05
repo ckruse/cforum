@@ -200,7 +200,7 @@ cforum.messages = {
         q_url = q_url.replace(/#m\d+$/, '');
         q_url += "/quote";
 
-        $.get(q_url + '?quote=' + ($(ev.target).hasClass("with-quote") ? 'yes' : 'no'))
+        $.get(q_url + '?quote=' + uconf("quote_by_default"))
           .done(function(data) {
             $("#message_input").val(data);
 
@@ -226,7 +226,7 @@ cforum.messages = {
         $(".btn-group.groupCustom").append("<button class=\"btn-default btn-sm btn quote-message\">" + t('add_quote') + "</button>");
         $('.btn-group.groupCustom .quote-message').on('click', cforum.messages.quoteMessage);
 
-        if($(ev.target).hasClass("with-quote")) {
+        if(uconf("quote_by_default") == 'yes') {
           cforum.messages.quoteMessage(ev);
         }
 

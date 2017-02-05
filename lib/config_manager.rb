@@ -81,6 +81,7 @@ class ConfigManager
     'highlighted_users' => '',
     'highlight_self' => 'yes',
     'inline_answer' => 'yes',
+    'quote_by_default' => 'no',
 
     'delete_read_notifications_on_abonements' => 'yes',
     'delete_read_notifications_on_mention' => 'yes',
