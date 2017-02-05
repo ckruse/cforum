@@ -38,7 +38,7 @@ class MessagesController < ApplicationController
     @read_mode = params[:rm] unless params[:rm].blank?
     @read_mode = 'thread-view' unless %w(thread-view nested-view).include?(@read_mode)
 
-    @new_message = new_message(@message, false)
+    @new_message = new_message(@message, uconf('quote_by_default') == 'yes' && @read_mode != 'nested-view')
     @max_tags = conf('max_tags_per_message')
     show_new_message_functions(@thread, @message, @new_message, false)
 

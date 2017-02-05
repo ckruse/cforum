@@ -19,7 +19,7 @@ content_for(:h1) do
 </article>
 
 <% if uconf("inline_answer") != 'no' %>
-  <%= form_for @new_message, url: message_path_wo_anchor(@thread, @message), html: {class: 'form-horizontal inline-answer hidden'} do |f| %>
+  <%= form_for @new_message, url: message_path_wo_anchor(@thread, @message), html: {class: 'form-horizontal answer-form inline-answer hidden'} do |f| %>
 
     <%= render "form", f: f, tags: @message.tags.map(&:tag_name), message: @new_message %>
 

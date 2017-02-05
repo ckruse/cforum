@@ -175,6 +175,11 @@ cforum.messages = {
   },
 
   inlineReply: function(nested) {
+    if(uconf('quote_by_default') != 'yes') {
+      $(".btn-group.groupCustom").append("<button class=\"btn-default btn-sm btn quote-message\">" + t('add_quote') + "</button>");
+      $('.btn-group.groupCustom .quote-message').on('click', cforum.messages.quoteMessage);
+    }
+
     $(".btn-answer").on('click', function(ev) {
       ev.preventDefault();
 
@@ -223,13 +228,6 @@ cforum.messages = {
           });
       }
       else {
-        $(".btn-group.groupCustom").append("<button class=\"btn-default btn-sm btn quote-message\">" + t('add_quote') + "</button>");
-        $('.btn-group.groupCustom .quote-message').on('click', cforum.messages.quoteMessage);
-
-        if(uconf("quote_by_default") == 'yes') {
-          cforum.messages.quoteMessage(ev);
-        }
-
         $frm
           .removeClass("hidden")
           .fadeIn('fast');
@@ -361,7 +359,7 @@ cforum.messages = {
   },
 
   new: function() {
-    if(cforum.messages.quotedMessage) {
+    if(uconf("quote_by_default") != 'yes') {
       $(".btn-group.groupCustom").append("<button class=\"btn-default btn-sm btn quote-message\">" + t('add_quote') + "</button>");
       $('.btn-group.groupCustom .quote-message').on('click', cforum.messages.quoteMessage);
     }
@@ -371,13 +369,20 @@ cforum.messages = {
     ev.preventDefault();
 
     var $msg = $("#message_input");
-    var selection = $msg.getSelection();
 
-    $msg.replaceSelection(cforum.messages.quotedMessage);
-    $msg.setSelection(selection.start, selection.start);
-    $msg.change();
+    var url = $(".answer-form").attr("action");
+    url = url.replace(/#m\d+$/, '');
+    url += "/quote";
 
-    $(".form-actions .quote-message").fadeOut('fast', function() { $(this).remove(); });
+    $.get(url + '?quote=yes')
+      .done(function(data) {
+        $msg.val(data);
+        $msg.change();
+      })
+      .fail(function() {
+        $(ev.target).removeClass("spinning");
+        cforum.alert.error(t('something_went_wrong'));
+      });
   },
 
   initCursor: function() {
