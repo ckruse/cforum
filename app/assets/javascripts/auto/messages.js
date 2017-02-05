@@ -203,6 +203,7 @@ cforum.messages = {
 
         var q_url = node.attr("href");
         q_url = q_url.replace(/#m\d+$/, '');
+        q_url = q_url.replace(/\?.*/, '');
         q_url += "/quote";
 
         $.get(q_url + '?quote=' + uconf("quote_by_default"))
@@ -372,6 +373,7 @@ cforum.messages = {
 
     var url = $(".answer-form").attr("action");
     url = url.replace(/#m\d+$/, '');
+    url = url.replace(/\?.*/, '');
     url += "/quote";
 
     $.get(url + '?quote=yes')
