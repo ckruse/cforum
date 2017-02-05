@@ -18,6 +18,30 @@ content_for(:h1) do
   <%= render 'message', m: @message, first: true, do_parent: true %>
 </article>
 
+<%= form_for @new_message, url: message_path_wo_anchor(@thread, @message), html: {class: 'form-horizontal inline-answer hidden'} do |f| %>
+
+  <%= render "form", f: f, tags: @message.tags.map(&:tag_name), message: @new_message %>
+
+  <ul id="charta">
+    <li>Formuliere <%= cf_link_to "https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Charta_des_SELFHTML-Forums" do %><strong>höflich und wertschätzend</strong><% end %>.</li>
+    <li><strong>Vermeide</strong> <%= cf_link_to "Vollzitate", "https://de.wikipedia.org/wiki/Fullquote" %>.</li>
+    <li>Dein Beitrag wird <strong>dauerhaft</strong> <%= cf_link_to "archiviert", "//forum.selfhtml.org/self/archive" %>.</li>
+  </ul>
+
+  <p class="form-actions">
+    <%= f.submit t('messages.preview'), class: 'cf-btn', name: 'preview' %>
+    <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
+    <%= cf_link_to t('global.cancel'), message_path(@thread, @message), class: 'cf-btn btn-cancel' %>
+  </p>
+
+  <% content_for :additional_js do %>
+    <script>
+     cforum.messages.quotedMessage = <%== @message.to_quote(self).to_json %>;
+    </script>
+  <% end %>
+
+<% end %>
+
 <div class="root">
   <article class="thread posting<% if @thread.archived %> archived<% end %><% if @thread.sticky %> sticky<% end %><% unless @thread.attribs['classes'].blank? %> <%= @thread.attribs['classes'].join(' ') %><% end %>">
     <%= message_header(@thread, @thread.message, first: true, show_icons: true) %>

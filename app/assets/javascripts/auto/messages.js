@@ -168,6 +168,83 @@ cforum.messages = {
         cforum.messages.markBoring(ev);
       }
     });
+
+    cforum.messages.inlineReply($("body").hasClass("nested-view"));
+  },
+
+  inlineReply: function(nested) {
+    $(".btn-answer").on('click', function(ev) {
+      ev.preventDefault();
+
+      var $frm = $(".form-horizontal.inline-answer");
+
+      if(nested) {
+        $(ev.target).addClass("spinning");
+
+        var msg = $(ev.target).closest('.thread-message');
+        $frm.remove();
+        $frm.insertAfter(msg);
+
+        var node = msg.find("> .posting-header > .message > h3 a");
+        if(node.length == 0) {
+          node = msg.find("> .posting-header > .message > h2 a");
+        }
+
+        $frm.attr("action", node.attr('href'));
+        $frm.find("#message_subject").val(node.text());
+        $frm.find("#message_problematic_site").val(msg.find(".problematic-site a").attr('href'));
+
+        var q_url = node.attr("href");
+        q_url = q_url.replace(/#m\d+$/, '');
+        q_url += "/quote";
+
+        $.get(q_url + '?quote=' + ($(ev.target).hasClass("with-quote") ? 'yes' : 'no'))
+          .done(function(data) {
+            $("#message_input").val(data);
+
+            $frm
+              .removeClass("hidden")
+              .fadeIn('fast');
+
+            if(window.scrollTo) {
+              var offset = $frm.offset();
+              window.scrollTo(offset.left, offset.top);
+            }
+
+            cforum.messages.showPreview("message_input", "message_problematic_site");
+
+            $(ev.target).removeClass("spinning");
+          })
+          .fail(function() {
+            $(ev.target).removeClass("spinning");
+            cforum.alert.error(t('something_went_wrong'));
+          });
+      }
+      else {
+        $(".btn-group.groupCustom").append("<button class=\"btn-default btn-sm btn quote-message\">" + t('add_quote') + "</button>");
+        $('.btn-group.groupCustom .quote-message').on('click', cforum.messages.quoteMessage);
+
+        if($(ev.target).hasClass("with-quote")) {
+          cforum.messages.quoteMessage(ev);
+        }
+
+        $frm
+          .removeClass("hidden")
+          .fadeIn('fast');
+
+        if(window.scrollTo) {
+          var offset = $frm.offset();
+          window.scrollTo(offset.left, offset.top);
+        }
+
+        cforum.messages.showPreview("message_input", "message_problematic_site");
+      }
+    });
+
+    $(".btn-cancel").on('click', function(ev) {
+      ev.preventDefault();
+      $(".form-horizontal.inline-answer").fadeOut('fast');
+    });
   },
 
   subscribeMessage: function(ev) {
@@ -400,7 +477,10 @@ cforum.messages = {
       }
     });
 
-    cforum.messages.showPreview(name, problematicUrlName);
+    if(frm.is(":visible")) {
+      cforum.messages.showPreview(name, problematicUrlName);
+    }
+
     $("input[name=preview]").remove();
 
     var f = function() {

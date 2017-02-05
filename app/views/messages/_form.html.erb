@@ -73,12 +73,12 @@ with_name ||= false
     <label><%= t('messages.tags') %></label>
     <div class="cntrls" id="tags-group">
       <ul id="tags-list" class="cf-tags-list"></ul>
-      <input type="text" name="tag_list" value="<%= @tags.join(", ") %>" id="tags-input" class="tags-input"><noscript> <em><%= t('messages.comma_separated_list') %></em></noscript>
+      <input type="text" name="tag_list" value="<%= tags.join(", ") %>" id="tags-input" class="tags-input"><noscript> <em><%= t('messages.comma_separated_list') %></em></noscript>
     </div>
   </div>
 </fieldset>
 
-<% if @edit and (current_user.try(:admin?) and @message.format == 'markdown') %>
+<% if @edit and (current_user.try(:admin?) and message.format == 'markdown') %>
   <div class="cf-cgroup">
     <label><%= t("messages.delete_previous_versions") %></label>
     <div class="cntrls">

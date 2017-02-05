@@ -26,7 +26,7 @@ content_for :body_classes, 'messages new forum-' + (current_forum.try(:slug) || 
     </div>
   <% end %>
 
-  <%= render "form", f: f %>
+  <%= render "form", f: f, tags: @tags, message: @message %>
 
   <% if @parent and not params.has_key?(:quote_old_message) %>
     <% content_for :additional_js do %>

@@ -38,6 +38,10 @@ class MessagesController < ApplicationController
     @read_mode = params[:rm] unless params[:rm].blank?
     @read_mode = 'thread-view' unless %w(thread-view nested-view).include?(@read_mode)
 
+    @new_message = new_message(@message, false)
+    @max_tags = conf('max_tags_per_message')
+    show_new_message_functions(@thread, @message, @new_message, false)
+
     if !params[:rm].blank? && current_user.blank?
       cookies[:cf_readmode] = { value: @read_mode, expires: 1.year.from_now }
     end
@@ -90,11 +94,20 @@ class MessagesController < ApplicationController
     @max_tags = conf('max_tags_per_message')
 
     # inherit message and subject from previous post
-    @message.subject = @parent.subject
-    @message.problematic_site = @parent.problematic_site
-    @message.content = @parent.to_quote(self) if params.key?(:quote_old_message)
+    @message = new_message(@parent, params.key?(:quote_old_message))
 
     show_new_message_functions(@thread, @parent, @message, @preview)
+  end
+
+  def show_quote
+    @thread, @parent, @id = get_thread_w_post
+
+    raise CForum::ForbiddenException unless may_answer(@parent)
+
+    @message = new_message(@parent, params[:quote] == 'yes')
+    show_new_message_functions(@thread, @parent, @message, @preview)
+
+    render plain: @message.content
   end
 
   def create
@@ -438,6 +451,15 @@ class MessagesController < ApplicationController
     Notification.where(notification_id: to_mark_read).update_all(is_read: true) unless to_mark_read.blank?
 
     notifications if had_one
+  end
+
+  def new_message(parent, quote = false)
+    message = Message.new
+    message.subject = parent.subject
+    message.problematic_site = parent.problematic_site
+    message.content = parent.to_quote(self) if quote
+
+    message
   end
 end
 

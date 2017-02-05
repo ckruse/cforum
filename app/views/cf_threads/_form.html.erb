@@ -20,7 +20,7 @@
   <% end %>
 
   <%= f.fields_for :message, f.object.message do |builder| %>
-    <%= render "messages/form", f: builder %>
+    <%= render "messages/form", f: builder, tags: @tags, message: @message %>
   <% end %>
 
   <ul id="charta">

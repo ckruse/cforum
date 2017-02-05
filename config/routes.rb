@@ -237,6 +237,8 @@ Rails.application.routes.draw do
     #
     get '/:year/:mon/:day/:tid/:mid/new' => 'messages#new', year: /\d{4}/,
         mon: /\w{3}/, day: /\d{1,2}/, as: 'new_message'
+    get '/:year/:mon/:day/:tid/:mid/quote' => 'messages#show_quote', year: /\d{4}/,
+        mon: /\w{3}/, day: /\d{1,2}/
     post '/:year/:mon/:day/:tid/:mid' => 'messages#create', year: /\d{4}/,
          mon: /\w{3}/, day: /\d{1,2}/
   end

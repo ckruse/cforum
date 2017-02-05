@@ -363,6 +363,12 @@ input[type="search"] { -webkit-appearance: textfield; }
   }
 }
 
+.cf-btn.spinning {
+  padding-left:2.5em;
+  background: asset-url("ajax-loader.svg") no-repeat left scroll;
+  background-size: contain;
+}
+
 
 @media only screen and (min-width: 35em) {
   .form-horizontal {
