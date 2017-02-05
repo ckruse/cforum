@@ -62,6 +62,7 @@ de:
       use_javascript_notifications: Mit JavaScript über neue Beiträge informieren
       load_messages_via_js: neue Nachrichten via JavaScript nachladen
       hide_read_threads: vollständig gelesene Threads ausblenden
+      inline_answer: Auf der gleichen Seite antworten
 
       jabber_id: XMPP/Jabber-ID
       twitter_handle: Twitter-Handle

@@ -83,14 +83,11 @@ class MessagesController < ApplicationController
   end
 
   def new
-    @thread, @message, @id = get_thread_w_post
+    @thread, @parent, @id = get_thread_w_post
 
-    raise CForum::ForbiddenException unless may_answer(@message)
+    raise CForum::ForbiddenException unless may_answer(@parent)
 
-    @parent  = @message
-    @message = Message.new
-    @tags    = @parent.tags.map(&:tag_name)
-
+    @tags = @parent.tags.map(&:tag_name)
     @max_tags = conf('max_tags_per_message')
 
     # inherit message and subject from previous post

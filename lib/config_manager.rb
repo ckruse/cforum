@@ -80,6 +80,7 @@ class ConfigManager
     'notify_on_mention' => 'yes',
     'highlighted_users' => '',
     'highlight_self' => 'yes',
+    'inline_answer' => 'yes',
 
     'delete_read_notifications_on_abonements' => 'yes',
     'delete_read_notifications_on_mention' => 'yes',

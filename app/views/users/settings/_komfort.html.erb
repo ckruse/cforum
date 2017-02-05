@@ -31,6 +31,14 @@
   </div>
 
   <div class="cf-cgroup">
+    <label for="settings_inline_answer"><%= t('users.settings.inline_answer') %></label>
+    <div class="cntrls">
+      <%= hidden_field_tag 'settings[inline_answer]', 'no', id: '' %>
+      <label class="checkbox"><%= check_box_tag 'settings[inline_answer]', 'yes', @settings.conf('inline_answer') == 'yes' %></label>
+    </div>
+  </div>
+
+  <div class="cf-cgroup">
     <label for="settings_show_unread_notifications_in_title"><%= t('users.settings.show_unread_notifications_in_title') %></label>
     <div class="cntrls">
       <%= hidden_field_tag 'settings[show_unread_notifications_in_title]', 'no', id: '' %>

@@ -169,7 +169,9 @@ cforum.messages = {
       }
     });
 
-    cforum.messages.inlineReply($("body").hasClass("nested-view"));
+    if(uconf('inline_answer') != 'no') {
+      cforum.messages.inlineReply($("body").hasClass("nested-view"));
+    }
   },
 
   inlineReply: function(nested) {
