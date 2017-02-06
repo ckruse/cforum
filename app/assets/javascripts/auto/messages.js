@@ -215,10 +215,11 @@ cforum.messages = {
               .fadeIn('fast');
 
             if(window.scrollTo) {
-              var offset = $frm.offset();
+              var offset = $("#message_input").closest("fieldset").offset();
               window.scrollTo(offset.left, offset.top);
             }
 
+            cforum.messages.initCursor();
             cforum.messages.showPreview("message_input", "message_problematic_site");
 
             $(ev.target).removeClass("spinning");
@@ -234,10 +235,11 @@ cforum.messages = {
           .fadeIn('fast');
 
         if(window.scrollTo) {
-          var offset = $frm.offset();
+          var offset = $("#message_input").closest("fieldset").offset();
           window.scrollTo(offset.left, offset.top);
         }
 
+        cforum.messages.initCursor();
         cforum.messages.showPreview("message_input", "message_problematic_site");
       }
     });
