@@ -18,7 +18,7 @@
 //= require markdown/bootstrap-markdown.js
 //= require markdown/bootstrap-markdown.de.js
 //= require init.js
-//= require ./auto/mentions.js
+//= require mentions.js
 //= require_tree ./auto/
 
 /* global cforum */
