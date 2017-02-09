@@ -184,20 +184,20 @@ cforum.messages = {
       ev.preventDefault();
 
       var $frm = $(".form-horizontal.inline-answer");
+      var msg = $(ev.target).closest('.thread-message');
+      var node = msg.find("> .posting-header > .message > h3 a");
+      if(node.length == 0) {
+        node = msg.find("> .posting-header > .message > h2 a");
+      }
+
+      $frm.attr("action", node.attr('href').replace(/#m\d+$/, ''));
 
       if(nested) {
         $(ev.target).addClass("spinning");
 
-        var msg = $(ev.target).closest('.thread-message');
         $frm.detach();
         $frm.insertAfter(msg);
 
-        var node = msg.find("> .posting-header > .message > h3 a");
-        if(node.length == 0) {
-          node = msg.find("> .posting-header > .message > h2 a");
-        }
-
-        $frm.attr("action", node.attr('href'));
         $frm.find("#message_subject").val(node.text());
         $frm.find("#message_problematic_site").val(msg.find(".problematic-site a").attr('href'));
 
