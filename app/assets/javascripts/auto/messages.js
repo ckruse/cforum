@@ -16,19 +16,7 @@ cforum.messages = {
                          name: 'groupCustom',
                          data: [
                            cforum.markdown_buttons.noMarkdown,
-                           cforum.markdown_buttons.tab,
-                           cforum.markdown_buttons.hellip,
-                           cforum.markdown_buttons.mdash,
-                           cforum.markdown_buttons.almostEqualTo,
-                           cforum.markdown_buttons.unequal,
-                           cforum.markdown_buttons.times,
-                           cforum.markdown_buttons.arrowRight,
-                           cforum.markdown_buttons.arrowUp,
-                           cforum.markdown_buttons.blackUpPointingTriangle,
-                           cforum.markdown_buttons.rightwardsDoubleArrow,
-                           cforum.markdown_buttons.trademark,
-                           cforum.markdown_buttons.doublePunctuationMarks,
-                           cforum.markdown_buttons.singlePunctuationMarks
+                           cforum.markdown_buttons.tab
                          ]
                        }
                      ]});
