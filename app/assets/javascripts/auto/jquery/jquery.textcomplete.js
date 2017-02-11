@@ -592,7 +592,6 @@ if (typeof jQuery === 'undefined') {
 
     _bindEvents: function () {
       this.$el.on('mousedown.' + this.id, '.textcomplete-item', $.proxy(this._onClick, this));
-      this.$el.on('touchstart.' + this.id, '.textcomplete-item', $.proxy(this._onClick, this));
       this.$el.on('mouseover.' + this.id, '.textcomplete-item', $.proxy(this._onMouseover, this));
       this.$inputEl.on('keydown.' + this.id, $.proxy(this._onKeydown, this));
     },
@@ -611,7 +610,7 @@ if (typeof jQuery === 'undefined') {
       // the dropdown has been shown or not.
       setTimeout(function () {
         self.deactivate();
-        if (e.type === 'touchstart') {
+        if (e.type === 'mousedown') {
           self.$inputEl.focus();
         }
       }, 0);
