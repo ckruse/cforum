@@ -111,7 +111,7 @@ cforum.mentions = function(elem) {
 
     {
       id: 'smileys',
-      match: /\B(:-?\)|;-?\)|:-?D|:-?P|:-?\(|:-?O|:-?\||:-?\/|¯\_\(ツ\)_/¯)$/i,
+      match: /\B(:-?\)|;-?\)|:-?D|:-?P|:-?\(|:-?O|:-?\||:-?\/|m\()$/i,
       index: 1,
       search: function (term, callback) {
         var found = [];
