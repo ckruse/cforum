@@ -111,7 +111,7 @@ cforum.mentions = function(elem) {
 
     {
       id: 'smileys',
-      match: /\B(:-?\)|;-?\)|:-?D|:-?P|:-?\(|:-?O|:-?\||:-?\/)$/i,
+      match: /\B(:-?\)|;-?\)|:-?D|:-?P|:-?\(|:-?O|:-?\||:-?\/|¯\_\(ツ\)_/¯)$/i,
       index: 1,
       search: function (term, callback) {
         var found = [];
@@ -151,6 +151,8 @@ cforum.mentions = function(elem) {
         case ':/':
           found = ['😕', '😏'];
           break;
+        case 'm(':
+          found = ['🤦'];
         }
 
         callback(found);

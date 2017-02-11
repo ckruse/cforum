@@ -1280,6 +1280,8 @@ cforum.emojis = {
   "flag-yt": "🇾🇹",
   "flag-za": "🇿🇦",
   "flag-zm": "🇿🇲",
-  "flag-zw": "🇿🇼"
+  "flag-zw": "🇿🇼",
+  "facepalm": "🤦",
+  "shrug": "🤷"
 };
 
