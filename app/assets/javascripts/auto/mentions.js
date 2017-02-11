@@ -106,6 +106,56 @@ cforum.mentions = function(elem) {
 
         return text;
       }
+    },
+
+
+    {
+      id: 'smileys',
+      match: /\B(:-?\)|;-?\)|:-?D|:-?P|:-?\(|:-?O|:-?\||:-?\/)$/i,
+      index: 1,
+      search: function (term, callback) {
+        var found = [];
+
+        term = term.toUpperCase();
+
+        switch(term) {
+        case ':-)':
+        case ':)':
+          found = ['😀'];
+          break;
+        case ';-)':
+        case ';)':
+          found = ['😉'];
+          break;
+        case ':-D':
+        case ':D':
+          found = ['😂'];
+          break;
+        case ':-P':
+        case ':P':
+          found = ['😝', '😛', '😜'];
+          break;
+        case ':-(':
+        case ':(':
+          found = ['😟'];
+          break;
+        case ':-O':
+        case ':O':
+          found = ['😱', '😨'];
+          break;
+        case ':-|':
+        case ':|':
+          found = ['😐', '😑'];
+          break;
+        case ':-/':
+        case ':/':
+          found = ['😕', '😏'];
+          break;
+        }
+
+        callback(found);
+      },
+      replace: function(text) { return text; }
     }
   ], { maxCount: 750 })
     .on("textComplete:render", function(ev, menu) {
