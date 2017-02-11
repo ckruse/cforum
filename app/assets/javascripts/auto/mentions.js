@@ -20,21 +20,31 @@ cforum.mentions = function(elem) {
 
     {
       id: 'emoji',
+      type: 'row',
+      rowLength: 3,
       match: /\B:([\-+\w]*)$/,
       search: function(term, callback) {
         callback($.map(Object.keys(cforum.emojis), function(emoji) {
-          return emoji.indexOf(term) === 0 ? emoji : null;
+          return emoji.indexOf(term) !== false ? emoji : null;
         }));
       },
       template: function(value) {
-        return cforum.emojis[value] + " " + value;
+        return cforum.emojis[value];
       },
       replace: function (value) {
         return cforum.emojis[value];
       },
       index: 1
     }
-  ]);
+  ], { maxCount: 750 })
+    .on("textComplete:render", function(ev, menu) {
+      if(menu.attr("data-strategy") == "emoji") {
+        menu.css("display", "flex");
+      }
+      else {
+        menu.css("display", "block");
+      }
+    });
 };
 
 /* eof */

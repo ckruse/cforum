@@ -387,7 +387,9 @@ if (typeof jQuery === 'undefined') {
     KEY_ENTER: 3,
     KEY_PAGEUP: 4,
     KEY_PAGEDOWN: 5,
-    KEY_ESCAPE: 6
+    KEY_ESCAPE: 6,
+    KEY_LEFT: 7,
+    KEY_RIGHT: 8
   };
 
   // Dropdown view
@@ -486,6 +488,8 @@ if (typeof jQuery === 'undefined') {
           this._activateIndexedItem();
         }
         this._setScroll();
+
+        this.completer.fire('textComplete:render', this.$el);
       } else if (this.noResultsMessage) {
         this._renderNoResultsMessage(unzippedData);
       } else if (this.shown) {
@@ -527,7 +531,7 @@ if (typeof jQuery === 'undefined') {
         this.clear();
         this.$el.show();
         if (this.className) { this.$el.addClass(this.className); }
-        this.completer.fire('textComplete:show');
+        this.completer.fire('textComplete:show', this.$el);
         this.shown = true;
       }
       return this;
@@ -543,6 +547,12 @@ if (typeof jQuery === 'undefined') {
       return this;
     },
 
+    isLeft: function(e) {
+      return e.keyCode == 37;
+    },
+    isRight: function(e) {
+      return e.keyCode == 39;
+    },
     isUp: function (e) {
       return e.keyCode === 38 || (e.ctrlKey && e.keyCode === 80);  // UP, Ctrl-P
     },
@@ -640,6 +650,18 @@ if (typeof jQuery === 'undefined') {
           e.preventDefault();
           this._down();
           break;
+        case commands.KEY_LEFT:
+          if(this.data[0].strategy.type == 'row') {
+            e.preventDefault();
+            this._left();
+          }
+          break;
+        case commands.KEY_RIGHT:
+          if(this.data[0].strategy.type == 'row') {
+            e.preventDefault();
+            this._right();
+          }
+          break;
         case commands.KEY_ENTER:
           e.preventDefault();
           this._enter(e);
@@ -664,6 +686,10 @@ if (typeof jQuery === 'undefined') {
         return commands.KEY_UP;
       } else if (this.isDown(e)) {
         return commands.KEY_DOWN;
+      } else if (this.isRight(e)) {
+        return commands.KEY_RIGHT;
+      } else if (this.isLeft(e)) {
+        return commands.KEY_LEFT;
       } else if (this.isEnter(e)) {
         return commands.KEY_ENTER;
       } else if (this.isPageup(e)) {
@@ -676,6 +702,42 @@ if (typeof jQuery === 'undefined') {
     },
 
     _up: function () {
+      if(this.data[0].strategy.type == "row") {
+        this._index -= this.data[0].strategy.rowLength;
+        if(this._index <= 0) {
+          this.index = this.data.length - 1;
+        }
+      } else {
+        if (this._index === 0) {
+          this._index = this.data.length - 1;
+        } else {
+          this._index -= 1;
+        }
+      }
+
+      this._activateIndexedItem();
+      this._setScroll();
+    },
+
+    _down: function () {
+      if(this.data[0].strategy.type == 'row') {
+        this._index += this.data[0].strategy.rowLength;
+        if(this._index >= this.data.length) {
+          this._index = 0;
+        }
+      } else {
+        if (this._index === this.data.length - 1) {
+          this._index = 0;
+        } else {
+          this._index += 1;
+        }
+      }
+
+      this._activateIndexedItem();
+      this._setScroll();
+    },
+
+    _left: function() {
       if (this._index === 0) {
         this._index = this.data.length - 1;
       } else {
@@ -684,8 +746,7 @@ if (typeof jQuery === 'undefined') {
       this._activateIndexedItem();
       this._setScroll();
     },
-
-    _down: function () {
+    _right: function() {
       if (this._index === this.data.length - 1) {
         this._index = 0;
       } else {
@@ -1039,6 +1100,8 @@ if (typeof jQuery === 'undefined') {
         case 34: // PAGEDOWN
         case 40: // DOWN
         case 38: // UP
+        case 37: // LEFT
+        case 39: // RIGHT
         case 27: // ESC
           return true;
       }

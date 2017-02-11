@@ -17,7 +17,7 @@
   border: 1px solid rgba(0,0,0,.15);
   border-radius: 4px;
   box-shadow: 0 6px 12px rgba(0,0,0,.175);
-
+  height:8em;
   overflow:scroll;
 }
 
@@ -38,6 +38,17 @@
   line-height: 1.42857143;
   color: #333;
   white-space: nowrap;
+}
+
+.dropdown-menu[data-strategy="emoji"] {
+  display:flex;
+  flex-wrap:wrap;
+  width:10.5em;
+
+  & > li > a {
+    width:1em;
+    flex:0 0 auto;
+  }
 }
 
 /* eof */
