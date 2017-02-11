@@ -19,6 +19,66 @@ cforum.mentions = function(elem) {
     },
 
     {
+      id: 'typography',
+      match: /(=>|<=|<=>|,,|...|\*|->|<-|-{1,3}|\^|\[tm\]?|=\/=?|=)/,
+      search: function (term, callback) {
+        var found = [];
+
+        switch(term) {
+        case ',,':
+          found = ['„“', '‚‘'];
+          break;
+        case '...':
+          found = ['…'];
+          break;
+        case '---':
+          found = ['—'];
+          break;
+        case '--':
+          found = ['–', '—'];
+          break;
+        case '-':
+          found = ['−', '–', '—'];
+          break;
+        case '*':
+          found = ['×'];
+          break;
+        case '->':
+          found = ['→', '←', '↑', '↓'];
+          break;
+        case '<-':
+          found = ['←', '→', '↑', '↓'];
+          break;
+        case '^':
+          found = ['↑', '▲', '←', '→', '↓'];
+          break;
+        case '=>':
+          found = ['⇒', '⇐', '⇔'];
+          break;
+        case '<=':
+          found = ['⇐', '⇒', '⇔'];
+          break;
+        case '<=>':
+          found = ['⇔', '⇐', '⇒'];
+          break;
+        case '[tm':
+        case '[tm]':
+          found = ['™'];
+          break;
+        case '=':
+        case '=/':
+        case '=/=':
+          found = ['≠','≈'];
+          break;
+        }
+
+        callback(found);
+      },
+      index: 1,
+      replace: function(text) { return text; }
+    },
+
+    {
       id: 'emoji',
       type: 'row',
       rowLength: 5,
