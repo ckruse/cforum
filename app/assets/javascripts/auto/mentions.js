@@ -39,8 +39,8 @@ cforum.mentions = function(elem) {
 
     {
       id: 'typography',
-      match: /(\s+)(=>|<=|<=>|"|...|\*|->|<-|-{1,3}|\^|\[tm\]?|=\/=?|=)$/,
-      index: 2,
+      match: /(=>|<=|<=>|"|\.\.\.|\*|->|<-|-{1,3}|\^|\[tm\]?|=\/=?|=)$/,
+      index: 1,
       search: function (term, callback) {
         var found = [];
 
@@ -94,7 +94,7 @@ cforum.mentions = function(elem) {
 
         callback(found);
       },
-      replace: function(text) { return '$1' + text; }
+      replace: function(text) { return text; }
     }
   ], { maxCount: 750 })
     .on("textComplete:render", function(ev, menu) {
