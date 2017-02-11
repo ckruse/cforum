@@ -46,7 +46,7 @@ if (typeof jQuery === 'undefined') {
       }
       if (typeof strategies === 'string') {
         if (!completer) return;
-        args.shift()
+        args.shift();
         completer[strategies].apply(completer, args);
         if (strategies === 'destroy') {
           $this.removeData('textComplete');
