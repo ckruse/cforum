@@ -39,13 +39,13 @@ cforum.mentions = function(elem) {
 
     {
       id: 'typography',
-      match: /(\s+)(=>|<=|<=>|,,|...|\*|->|<-|-{1,3}|\^|\[tm\]?|=\/=?|=)$/,
+      match: /(\s+)(=>|<=|<=>|"|...|\*|->|<-|-{1,3}|\^|\[tm\]?|=\/=?|=)$/,
       index: 2,
       search: function (term, callback) {
         var found = [];
 
         switch(term) {
-        case ',,':
+        case '"':
           found = ['„“', '‚‘'];
           break;
         case '...':
