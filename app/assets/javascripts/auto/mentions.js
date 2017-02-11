@@ -19,8 +19,28 @@ cforum.mentions = function(elem) {
     },
 
     {
+      id: 'emoji',
+      type: 'row',
+      rowLength: 5,
+      match: /\B:([\-+\w]*)$/,
+      index: 1,
+      search: function(term, callback) {
+        callback($.map(Object.keys(cforum.emojis), function(emoji) {
+          return emoji.indexOf(term) !== -1 ? emoji : null;
+        }));
+      },
+      template: function(value) {
+        return cforum.emojis[value];
+      },
+      replace: function (value) {
+        return cforum.emojis[value];
+      }
+    },
+
+    {
       id: 'typography',
-      match: /(=>|<=|<=>|,,|...|\*|->|<-|-{1,3}|\^|\[tm\]?|=\/=?|=)/,
+      match: /\s+(=>|<=|<=>|,,|...|\*|->|<-|-{1,3}|\^|\[tm\]?|=\/=?|=)$/,
+      index: 1,
       search: function (term, callback) {
         var found = [];
 
@@ -74,27 +94,7 @@ cforum.mentions = function(elem) {
 
         callback(found);
       },
-      index: 1,
       replace: function(text) { return text; }
-    },
-
-    {
-      id: 'emoji',
-      type: 'row',
-      rowLength: 5,
-      match: /\B:([\-+\w]*)$/,
-      search: function(term, callback) {
-        callback($.map(Object.keys(cforum.emojis), function(emoji) {
-          return emoji.indexOf(term) !== false ? emoji : null;
-        }));
-      },
-      template: function(value) {
-        return cforum.emojis[value];
-      },
-      replace: function (value) {
-        return cforum.emojis[value];
-      },
-      index: 1
     }
   ], { maxCount: 750 })
     .on("textComplete:render", function(ev, menu) {
