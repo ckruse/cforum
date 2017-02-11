@@ -46,7 +46,7 @@ cforum.mentions = function(elem) {
 
         switch(term) {
         case '"':
-          found = ['„“', '‚‘'];
+          found = ['""', '„“', '‚‘'];
           break;
         case '...':
           found = ['…'];
@@ -94,7 +94,18 @@ cforum.mentions = function(elem) {
 
         callback(found);
       },
-      replace: function(text) { return text; }
+      replace: function(text) {
+        switch(text) {
+          case '""':
+            return ['"', '"'];
+          case '„“':
+            return ['„', '“'];
+          case '‚‘':
+            return ['‚', '‘'];
+        }
+
+        return text;
+      }
     }
   ], { maxCount: 750 })
     .on("textComplete:render", function(ev, menu) {
