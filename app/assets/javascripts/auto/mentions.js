@@ -21,7 +21,7 @@ cforum.mentions = function(elem) {
     {
       id: 'emoji',
       type: 'row',
-      rowLength: 3,
+      rowLength: 5,
       match: /\B:([\-+\w]*)$/,
       search: function(term, callback) {
         callback($.map(Object.keys(cforum.emojis), function(emoji) {
