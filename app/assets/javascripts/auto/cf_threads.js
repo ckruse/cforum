@@ -38,7 +38,7 @@ cforum.cf_threads = {
     cforum.messages.initUpload();
     cforum.messages.initPreview("message_input", "cf_thread_message_problematic_site");
     cforum.messages.initMaxLengthWarnings();
-    $("#message_input").mentions();
+    cforum.mentions("#message_input");
   },
 
   index: function() {
