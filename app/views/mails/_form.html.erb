@@ -17,7 +17,7 @@
     <div class="cf-cgroup">
       <%= t.label :subject %>
       <div class="cntrls">
-        <%= t.text_field :subject %>
+        <%= t.text_field :subject, required: true %>
       </div>
     </div>
   </fieldset>
@@ -25,7 +25,7 @@
   <fieldset>
     <div class="cf-cgroup cf-textarea-only">
       <div class="cntrls">
-        <%= t.text_area :body, maxlength: 12288, value: t.object.to_txt, class: 'big' %>
+        <%= t.text_area :body, maxlength: 12288, value: t.object.to_txt, class: 'big', required: true %>
       </div>
     </div>
 
