@@ -31,7 +31,6 @@ cforum.mails = {
 
       $this.toggleClass('open');
       $this.parents('tbody').toggleClass('open');
-      
     });
   },
 
