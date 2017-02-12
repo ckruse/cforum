@@ -19,6 +19,62 @@ cforum.mentions = function(elem) {
     },
 
     {
+      id: 'smileys',
+      match: /(:-?\)|;-?\)|:-?D|:-?P|:-?\(|:-?O|:-?\||:-?\/|:-?x|m\()$/i,
+      index: 1,
+      search: function (term, callback) {
+        var found = [];
+        console.log(term)
+
+        term = term.toUpperCase();
+
+        switch(term) {
+        case ':-)':
+        case ':)':
+          found = ['😀'];
+          break;
+        case ';-)':
+        case ';)':
+          found = ['😉'];
+          break;
+        case ':-D':
+        case ':D':
+          found = ['😂'];
+          break;
+        case ':-P':
+        case ':P':
+          found = ['😝', '😛', '😜'];
+          break;
+        case ':-(':
+        case ':(':
+          found = ['😟'];
+          break;
+        case ':-O':
+        case ':O':
+          found = ['😱', '😨'];
+          break;
+        case ':-|':
+        case ':|':
+          found = ['😐', '😑'];
+          break;
+        case ':-/':
+        case ':/':
+          found = ['😕', '😏'];
+          break;
+        case 'M(':
+          found = ['🤦'];
+          break;
+        case ':-X':
+        case ':X':
+          found = ['😘', '😗', '😙', '😚'];
+        }
+
+        callback(found);
+      },
+      replace: function(text) { return text; }
+    },
+
+    {
       id: 'emoji',
       type: 'row',
       rowLength: 5,
@@ -106,58 +162,6 @@ cforum.mentions = function(elem) {
 
         return text;
       }
-    },
-
-
-    {
-      id: 'smileys',
-      match: /\B(:-?\)|;-?\)|:-?D|:-?P|:-?\(|:-?O|:-?\||:-?\/|m\()$/i,
-      index: 1,
-      search: function (term, callback) {
-        var found = [];
-
-        term = term.toUpperCase();
-
-        switch(term) {
-        case ':-)':
-        case ':)':
-          found = ['😀'];
-          break;
-        case ';-)':
-        case ';)':
-          found = ['😉'];
-          break;
-        case ':-D':
-        case ':D':
-          found = ['😂'];
-          break;
-        case ':-P':
-        case ':P':
-          found = ['😝', '😛', '😜'];
-          break;
-        case ':-(':
-        case ':(':
-          found = ['😟'];
-          break;
-        case ':-O':
-        case ':O':
-          found = ['😱', '😨'];
-          break;
-        case ':-|':
-        case ':|':
-          found = ['😐', '😑'];
-          break;
-        case ':-/':
-        case ':/':
-          found = ['😕', '😏'];
-          break;
-        case 'm(':
-          found = ['🤦'];
-        }
-
-        callback(found);
-      },
-      replace: function(text) { return text; }
     }
   ], { maxCount: 750 })
     .on("textComplete:render", function(ev, menu) {
