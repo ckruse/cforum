@@ -24,7 +24,6 @@ cforum.mentions = function(elem) {
       index: 1,
       search: function (term, callback) {
         var found = [];
-        console.log(term)
 
         term = term.toUpperCase();
 
