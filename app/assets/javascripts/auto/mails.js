@@ -37,6 +37,7 @@ cforum.mails = {
   init: function() {
     cforum.messages.initMarkdown("priv_message_body");
     cforum.messages.initPreview("priv_message_body");
+    cforum.replacements("#priv_message_body");
   },
 
   notifyNew: function(data) {
