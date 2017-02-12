@@ -22,16 +22,13 @@ class Message < ApplicationRecord
 
   attr_accessor :messages, :attribs, :parent_level
 
-  validates_presence_of :author, message: I18n.t('messages.error_present', min: 2, max: 60)
-  validates_length_of :author, in: 2..60, allow_blank: true, message: I18n.t('messages.error_present', min: 2, max: 60)
+  validates_length_of :author, in: 2..60, allow_blank: false, message: I18n.t('messages.error_present', min: 2, max: 60)
 
-  validates_presence_of :subject, message: I18n.t('messages.error_present', min: 4, max: 250)
-  validates_length_of :subject, in: 4..250, allow_blank: true, message: I18n.t('messages.error_present',
-                                                                               min: 4, max: 250)
+  validates_length_of :subject, in: 4..250, allow_blank: false,
+                                message: I18n.t('messages.error_present', min: 4, max: 250)
 
-  validates_presence_of :content, message: I18n.t('messages.error_present', min: 10, max: 12_288)
-  validates_length_of :content, in: 10..12_288, allow_blank: true, message: I18n.t('messages.error_present',
-                                                                                   min: 10, max: 12_288)
+  validates_length_of :content, in: 10..12_288, allow_blank: false, message: I18n.t('messages.error_present',
+                                                                                    min: 10, max: 12_288)
 
   validates :email, length: { in: 6..60 }, email: true, allow_blank: true
   validates :homepage, length: { in: 2..250 }, allow_blank: true, url: { allow_blank: true,

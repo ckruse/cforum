@@ -10,8 +10,8 @@ class PrivMessage < ApplicationRecord
   belongs_to :recipient, class_name: 'User', foreign_key: :recipient_id
   belongs_to :owner, class_name: 'User', foreign_key: :owner_id
 
-  validates :subject, presence: true, length: {in: 2..250}
-  validates :body, presence: true, length: {in: 5..12288}
+  validates_length_of :subject, allow_blank: false, in: 2..250
+  validates_length_of :body, allow_blank: false, in: 5..12_288
 
   validates :sender_id, presence: true, on: :create
   validates :recipient_id, presence: true, on: :create
