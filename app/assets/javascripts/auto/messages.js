@@ -346,7 +346,7 @@ cforum.messages = {
     cforum.messages.initUpload();
     cforum.messages.initPreview("message_input", "message_problematic_site");
     cforum.messages.initMaxLengthWarnings();
-    cforum.mentions("#message_input");
+    cforum.replacements("#message_input", true);
   },
 
   new: function() {
