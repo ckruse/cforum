@@ -40,6 +40,7 @@ module ApplicationHelper
   def is_global_conf(name)
     return false if @forum.blank?
     @global_settings ||= Setting.where('user_id IS NULL and forum_id IS NULL').first
+    return false if @global_settings.blank?
     @global_settings.options.has_key?(name)
   end
 
