@@ -1304,8 +1304,8 @@
                 return;
               }
 
-              e.replaceSelection('\n~~~' + (lang || "") + '\n' + chunk + '\n~~~\n');
-              cursor = selected.start + 5 + lang.length;
+              e.replaceSelection('~~~' + (lang || '') + '\n' + chunk + '\n~~~');
+              cursor = selected.start + 4 + lang.length;
             }
             else {
               e.replaceSelection('`' + chunk + '`');
