@@ -4,7 +4,7 @@ module MarkReadHelper
   def is_read(user, message)
     return if user.blank? || message.blank?
 
-    message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
+    message = [message] if !message.is_a?(Array) && !message.is_a?(ActiveRecord::Relation)
     message = message.map { |m| m.is_a?(Message) ? m.message_id : m.to_i }
 
     return if message.blank?
@@ -19,7 +19,7 @@ module MarkReadHelper
       retval = []
 
       message.each do |m|
-        if not cache.has_key?(m)
+        if !cache.key?(m)
           has_all = false
         else
           retval << m if cache[m]
@@ -32,7 +32,8 @@ module MarkReadHelper
 
     read_messages = []
 
-    result = Message.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + message.join(", ") + ") AND user_id = " + user_id.to_s)
+    result = Message.connection.execute('SELECT message_id FROM read_messages WHERE message_id IN (' +
+                                        message.join(', ') + ') AND user_id = ' + user_id.to_s)
     result.each do |row|
       m = row['message_id']
       read_messages << m
@@ -53,26 +54,27 @@ module MarkReadHelper
       msgs[m.message_id] = m
     end
 
-    unless ids.blank?
-      result = Message.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
-      result.each do |row|
-        msgs[row['message_id']].attribs['classes'] << 'visited' if msgs[row['message_id']]
-      end
+    return if ids.blank?
+
+    result = Message.connection.execute('SELECT message_id FROM read_messages WHERE message_id IN (' +
+                                        ids.join(', ') + ') AND user_id = ' + current_user.user_id.to_s)
+    result.each do |row|
+      msgs[row['message_id']].attribs['classes'] << 'visited' if msgs[row['message_id']]
     end
   end
 
   def mark_read(user, message)
     return if user.blank?
-    message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
+    message = [message] if !message.is_a?(Array) && !message.is_a?(ActiveRecord::Relation)
 
-    sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + user.user_id.to_s + ", "
+    sql = 'INSERT INTO read_messages (user_id, message_id) VALUES (' + user.user_id.to_s + ', '
     cache = get_cached_entry(:mark_read, user_id) || {}
 
     message.each do |m|
       next if cache[m.message_id]
 
       begin
-        Message.connection.execute(sql + m.message_id.to_s + ")")
+        Message.connection.execute(sql + m.message_id.to_s + ')')
         cache[m.message_id] = true
       rescue ActiveRecord::RecordNotUnique
       end
@@ -101,11 +103,12 @@ module MarkReadHelper
         num_msgs += 1
       end
 
-      t.attribs[:msgs] = {all: num_msgs, unread: num_msgs}
+      t.attribs[:msgs] = { all: num_msgs, unread: num_msgs }
     end
 
-    if not ids.blank?
-      result = Message.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+    unless ids.blank?
+      result = Message.connection.execute('SELECT message_id FROM read_messages WHERE message_id IN (' +
+                                          ids.join(', ') + ') AND user_id = ' + current_user.user_id.to_s)
       result.each do |row|
         new_cache[row['message_id']] = true
 
@@ -120,64 +123,66 @@ module MarkReadHelper
   end
 
   def mark_thread_read(thread)
-    return if current_user.blank? or prefetch?
+    return if current_user.blank? || prefetch?
 
     are_read(thread.messages)
     cache = get_cached_entry(:mark_read, current_user.user_id) || {}
 
-    sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", "
+    sql = 'INSERT INTO read_messages (user_id, message_id) VALUES (' + current_user.user_id.to_s + ', '
     thread.sorted_messages.each do |m|
       next if cache[m.message_id]
 
       begin
-        Message.connection.execute(sql + m.message_id.to_s + ")")
+        Message.connection.execute(sql + m.message_id.to_s + ')')
         cache[m.message_id] = true
       rescue ActiveRecord::RecordNotUnique
       end
     end
 
-    publish('thread:read', {type: 'thread', thread: thread},
+    publish('thread:read', { type: 'thread', thread: thread },
             '/users/' + current_user.user_id.to_s)
 
     set_cached_entry(:mark_read, current_user.user_id, cache)
   end
 
   def mark_message_read(thread, message)
-    return if current_user.blank? or prefetch?
+    return if current_user.blank? || prefetch?
     cache = get_cached_entry(:mark_read, current_user.user_id) || {}
 
     are_read(thread.messages)
 
-    if not cache[message.message_id]
+    unless cache[message.message_id]
       begin
-        Message.connection.execute("INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ", " + message.message_id.to_s + ")")
+        Message.connection.execute('INSERT INTO read_messages (user_id, message_id) VALUES (' +
+                                   current_user.user_id.to_s + ', ' + message.message_id.to_s + ')')
         cache[message.message_id] = true
       rescue ActiveRecord::RecordNotUnique
       end
     end
 
-    publish('message:read', {type: 'message', thread: thread, message: message},
+    publish('message:read', { type: 'message', thread: thread, message: message },
             '/users/' + current_user.user_id.to_s)
 
     set_cached_entry(:mark_read, current_user.user_id, cache)
   end
 
   def forum_list_read(threads, activities)
-    return if current_user.blank? or activities.values.blank?
+    return if current_user.blank? || activities.values.blank?
 
     messages = []
     threads.each do |thread|
       messages += thread.messages.select { |m| m.deleted == false }
     end
 
-    ids = messages.map { |a| a.message_id }
-    unless ids.blank?
-      result = Message.connection.execute("SELECT message_id FROM read_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + current_user.user_id.to_s)
+    ids = messages.map(&:message_id)
+    return if ids.blank?
 
-      result.each do |row|
-        a = messages.find { |m| m.message_id == row['message_id'] }
-        a.attribs['classes'] << 'visited' if a
-      end
+    result = Message.connection.execute('SELECT message_id FROM read_messages WHERE message_id IN (' +
+                                        ids.join(', ') + ') AND user_id = ' + current_user.user_id.to_s)
+
+    result.each do |row|
+      a = messages.find { |m| m.message_id == row['message_id'] }
+      a.attribs['classes'] << 'visited' if a
     end
   end
 end
