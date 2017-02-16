@@ -8,6 +8,7 @@ de:
     define_recipient_please: Bitte geben Sie einen Empfänger an.
     post: Post
     new_mail: neue Mail
+    mail_to_author: Autor kontaktieren
     new_mails_num:
       one: "%{count} ungelesene Nachricht"
       other: "%{count} ungelesene Nachrichten"
