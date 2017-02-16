@@ -64,6 +64,7 @@ de:
       hide_read_threads: vollständig gelesene Threads ausblenden
       inline_answer: Auf der gleichen Seite antworten
       quote_by_default: Nachricht per Default zitieren
+      quote_by_default_buttons: Auswahl über Buttons
 
       jabber_id: XMPP/Jabber-ID
       twitter_handle: Twitter-Handle

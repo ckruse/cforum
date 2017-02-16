@@ -41,8 +41,9 @@
   <div class="cf-cgroup">
     <label for="settings_quote_by_default"><%= t('users.settings.quote_by_default') %></label>
     <div class="cntrls">
-      <%= hidden_field_tag 'settings[quote_by_default]', 'no', id: '' %>
-      <label class="checkbox"><%= check_box_tag 'settings[quote_by_default]', 'yes', @settings.conf('quote_by_default') == 'yes' %></label>
+      <label class="radio"><input type="radio" value="yes" name="settings[quote_by_default]" <% if @settings.conf('quote_by_default') == 'yes' %> checked="checked"<% end %>> <%= t("global.yeah") %></label>
+      <label class="radio"><input type="radio" value="no" name="settings[quote_by_default]" <% if @settings.conf('quote_by_default') == 'no' || @settings.conf('quote_by_default').blank? %> checked="checked"<% end %>> <%= t("global.nope") %></label>
+      <label class="radio"><input type="radio" value="button" name="settings[quote_by_default]" <% if @settings.conf('quote_by_default') == 'button' %> checked="checked"<% end %>> <%= t("users.settings.quote_by_default_buttons") %></label>
     </div>
   </div>
 

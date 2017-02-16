@@ -90,8 +90,14 @@ class MessagesController < ApplicationController
     @tags = @parent.tags.map(&:tag_name)
     @max_tags = conf('max_tags_per_message')
 
+    with_quote = if params[:with_quote].blank?
+                   uconf('quote_by_default') == 'yes'
+                 else
+                   params[:with_quote] == 'yes'
+                 end
+
     # inherit message and subject from previous post
-    @message = new_message(@parent, uconf('quote_by_default') == 'yes')
+    @message = new_message(@parent, with_quote)
 
     show_new_message_functions(@thread, @parent, @message, @preview)
   end

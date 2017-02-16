@@ -58,7 +58,13 @@ controls ||= :yes
         <div class="controls">
           <% if m.open? and @thread.forum.write?(current_user) %>
             <% if may_answer(m) %>
-              <%= cf_link_to t("messages.new_answer"), new_message_path(@thread, m), class: 'cf-btn btn-answer', rel: 'nofollow' %>
+              <%= cf_link_to(t("messages.new_answer"), new_message_path(@thread, m),
+                             class: 'cf-btn btn-answer', rel: 'nofollow') %>
+
+              <% if uconf('quote_by_default') == 'button' %>
+                <%= cf_link_to(t("messages.new_answer_with_quote"), new_message_path(@thread, m, with_quote: 'yes'),
+                               class: 'cf-btn btn-answer-with-quote', rel: 'nofollow') %>
+              <% end %>
             <% end %>
 
             <% if current_user and m.user_id and current_user.user_id != m.user_id %>
