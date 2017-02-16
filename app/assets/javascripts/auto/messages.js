@@ -171,9 +171,11 @@ cforum.messages = {
     $(".btn-answer").on('click', function(ev) {
       ev.preventDefault();
 
+      var $trg = $(ev.target);
       var $frm = $(".form-horizontal.inline-answer");
       var msg = $(ev.target).closest('.thread-message');
       var node = msg.find("> .posting-header > .message > h3 a");
+      var q_url;
       if(node.length == 0) {
         node = msg.find("> .posting-header > .message > h2 a");
       }
@@ -181,7 +183,7 @@ cforum.messages = {
       $frm.attr("action", node.attr('href').replace(/#m\d+$/, ''));
 
       if(nested) {
-        $(ev.target).addClass("spinning");
+        $trg.addClass("spinning");
 
         $frm.detach();
         $frm.insertAfter(msg);
@@ -189,36 +191,63 @@ cforum.messages = {
         $frm.find("#message_subject").val(node.text());
         $frm.find("#message_problematic_site").val(msg.find(".problematic-site a").attr('href'));
 
-        var q_url = node.attr("href");
+        q_url = node.attr("href");
         q_url = q_url.replace(/#m\d+$/, '');
         q_url = q_url.replace(/\?.*/, '');
         q_url += "/quote";
 
-        $.get(q_url + '?quote=' + uconf("quote_by_default"))
-          .done(function(data) {
-            $("#message_input").val(data);
+        if($trg.hasClass("with-quote")) {
+          q_url += "?quote=yes";
+        }
+        else {
+          q_url += '?quote=' + uconf("quote_by_default");
+        }
 
-            $frm
-              .removeClass("hidden")
-              .fadeIn('fast');
-
-            if(window.scrollTo) {
-              var offset = $("#message_input").closest("fieldset").offset();
-              window.scrollTo(offset.left, offset.top);
-            }
-
-            cforum.messages.initCursor();
-            cforum.messages.showPreview("message_input", "message_problematic_site");
-
-            $(ev.target).removeClass("spinning");
-          })
-          .fail(function() {
-            $(ev.target).removeClass("spinning");
-            cforum.alert.error(t('something_went_wrong'));
-          });
+        cforum.messages.getQuote(q_url, $frm, $trg);
       }
       else {
-        $frm
+        if(uconf('quote_by_default') == 'button') {
+          q_url = $frm.attr("action");
+          q_url = q_url.replace(/\?.*/, '');
+          q_url += "/quote";
+
+          if($trg.hasClass("with-quote")) {
+            q_url += "?quote=yes";
+          }
+          else {
+            q_url += '?quote=' + uconf("quote_by_default");
+          }
+
+          cforum.messages.getQuote(q_url, $frm, $trg);
+        }
+        else {
+          $frm
+            .removeClass("hidden")
+            .fadeIn('fast');
+
+          if(window.scrollTo) {
+            var offset = $("#message_input").closest("fieldset").offset();
+            window.scrollTo(offset.left, offset.top);
+          }
+
+          cforum.messages.initCursor();
+          cforum.messages.showPreview("message_input", "message_problematic_site");
+        }
+      }
+    });
+
+    $(".btn-cancel").on('click', function(ev) {
+      ev.preventDefault();
+      $(".form-horizontal.inline-answer").fadeOut('fast');
+    });
+  },
+
+  getQuote: function(url, frm, bttn) {
+    $.get(url)
+      .done(function(data) {
+        $("#message_input").val(data);
+
+        frm
           .removeClass("hidden")
           .fadeIn('fast');
 
@@ -229,13 +258,13 @@ cforum.messages = {
 
         cforum.messages.initCursor();
         cforum.messages.showPreview("message_input", "message_problematic_site");
-      }
-    });
 
-    $(".btn-cancel").on('click', function(ev) {
-      ev.preventDefault();
-      $(".form-horizontal.inline-answer").fadeOut('fast');
-    });
+        bttn.removeClass("spinning");
+      })
+      .fail(function() {
+        bttn.removeClass("spinning");
+        cforum.alert.error(t('something_went_wrong'));
+      });
   },
 
   subscribeMessage: function(ev) {

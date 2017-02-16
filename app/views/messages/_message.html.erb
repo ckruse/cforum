@@ -63,7 +63,7 @@ controls ||= :yes
 
               <% if uconf('quote_by_default') == 'button' %>
                 <%= cf_link_to(t("messages.new_answer_with_quote"), new_message_path(@thread, m, with_quote: 'yes'),
-                               class: 'cf-btn btn-answer-with-quote', rel: 'nofollow') %>
+                               class: 'cf-btn btn-answer with-quote', rel: 'nofollow') %>
               <% end %>
             <% end %>
 
