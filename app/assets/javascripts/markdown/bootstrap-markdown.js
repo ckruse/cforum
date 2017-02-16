@@ -1297,15 +1297,28 @@
               e.replaceSelection(chunk);
               cursor = selected.start - 1;
             }
-            else if(content.indexOf('\n') > -1) {
+            else if(chunk.indexOf('\n') > -1) {
               var lang = window.prompt(t('code_lang'));
 
               if((lang && lang.length > 20) || lang === null) {
                 return;
               }
 
-              e.replaceSelection('~~~' + (lang || '') + '\n' + chunk + '\n~~~');
-              cursor = selected.start + 4 + lang.length;
+              var start = '', end = (content.substr(selected.end, 1) === '\n') ? '' : '\n',
+                  offset = 4,
+                  before = content.substr(selected.start - 2, 2);
+
+              if(before.charAt(1) !== '\n') {
+                start = '\n\n';
+                offset += 2;
+              }
+              else if(before.charAt(0) !== '\n') {
+                start = '\n';
+                offset += 1;
+              }
+
+              e.replaceSelection(start + '~~~' + (lang || "") + '\n' + chunk + '\n~~~' + end);
+              cursor = selected.start + offset + lang.length;
             }
             else {
               e.replaceSelection('`' + chunk + '`');
