@@ -1170,18 +1170,19 @@
           callback: function(e) {
             // Prepend/Give - surround the selection
             var chunk, cursor, selected = e.getSelection(),
-                content = e.getContent(), prefix = "";
+                content = e.getContent(), prefix = '',
+                isExtension = e.__previousLineIsList(content, selected, /-/);
 
             // transform selection and set the cursor into chunked text
             if(selected.length === 0) {
               // Give extra word
               chunk = e.__localize('list text here');
 
-              if(!e.__previousLineIsList(content, selected, /-/)) {
-                prefix += "\n";
+              if(!isExtension) {
+                prefix += '\n';
               }
               if(!e.__beginningOfLine(content, selected)) {
-                prefix += "\n";
+                prefix += '\n';
               }
 
               e.replaceSelection(prefix + '- ' + chunk);
@@ -1189,7 +1190,9 @@
               cursor = selected.start + 2 + prefix.length;
             }
             else {
-              prefix = e.getLeadingNewlines(content, selected);
+              if(!isExtension) {
+                prefix = e.getLeadingNewlines(content, selected);
+              }
 
               if(selected.text.indexOf('\n') < 0) {
                 chunk = selected.text;
