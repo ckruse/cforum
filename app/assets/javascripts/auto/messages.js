@@ -522,7 +522,12 @@ cforum.messages = {
       }, 500);
     };
 
-    $("#" + name + ", #" + problematicUrlName).on('input', f);
+    var str = "#" + name;
+    if(problematicUrlName) {
+      str += ", #" + problematicUrlName;
+    }
+
+    $(str).on('input', f);
   },
   showPreview: function(name, problematicUrlName) {
     var val = $("#" + name).val();
