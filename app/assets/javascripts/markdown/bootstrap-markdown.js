@@ -1203,8 +1203,8 @@
                 list = selected.text.split('\n');
                 chunk = list[0];
 
-                $.each(list, function(k, v) {
-                  list[k] = '- ' + v;
+                list = list.map(function(string) {
+                  return '- ' + string;
                 });
 
                 var start = e.getLeadingNewlines(content, selected);
@@ -1265,8 +1265,8 @@
                 list = selected.text.split('\n');
                 chunk = list[0];
 
-                $.each(list, function(k, v) {
-                  list[k] =  (k + 1) + '. ' + v;
+                list = list.map(function(string, index) {
+                  return (index + 1) + '. ' + string;
                 });
 
                 var start = e.getLeadingNewlines(content, selected);
