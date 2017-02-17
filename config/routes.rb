@@ -92,6 +92,7 @@ Rails.application.routes.draw do
   # old archive url
   get '/archiv' => 'forums#redirect_archive'
   get '/archiv/:year' => 'forums#redirect_archive_year', year: /\d{4}/
+  get '/archiv/:year/:tid' => 'forums#redirect_archive_thread', year: /\d{4}_\d/, tid: /t\d+/
   get '/archiv/:year/:mon' => 'forums#redirect_archive_mon', year: /\d{4}/, mon: /\d{1,2}/
   get '/archiv/:year/:mon/:tid' => 'forums#redirect_archive_thread', year: /\d{4}/, mon: /\d{1,2}/, tid: /t\d+/
 

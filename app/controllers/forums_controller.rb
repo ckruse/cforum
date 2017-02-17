@@ -104,6 +104,7 @@ class ForumsController < ApplicationController
   def redirect_archive_thread
     thread = CfThread.where(tid: params[:tid][1..-1].to_i).all
     t = nil
+    year = params[:year].gsub(/_\d/, '').to_i
 
     if thread.length == 1
       t = thread.first
@@ -113,7 +114,7 @@ class ForumsController < ApplicationController
       thread.each do |thr|
         sort_thread(thr)
 
-        if thr.created_at.year == params[:year].to_i
+        if thr.created_at.year == year
           t = thr
           break
         end
@@ -126,11 +127,9 @@ class ForumsController < ApplicationController
       end
     end
 
-    if t.nil?
-      raise ActiveRecord::RecordNotFound
-    else
-      redirect_to message_url(t, t.message), status: 301
-    end
+    raise ActiveRecord::RecordNotFound if t.nil?
+
+    redirect_to message_url(t, t.message), status: 301
   end
 
   def redirect_thread
