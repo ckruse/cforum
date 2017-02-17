@@ -680,6 +680,21 @@
     },
 
 
+    getLeadingNewlines: function(content, selected) {
+      var newlines = '',
+          str = content.substr(selected.start - 2, 2);
+ 
+      if(str.charAt(1) !== '\n') {
+        newlines = '\n\n';
+      }
+      else if(str.charAt(0) !== '\n') {
+        newlines = '\n';
+      }
+
+      return newlines;
+    },
+
+
     getNextTab: function() {
       // Shift the nextTab
       if(this.$nextTab.length === 0) {
@@ -1188,14 +1203,15 @@
                 list = selected.text.split('\n');
                 chunk = list[0];
 
-                $.each(list, function(k, v) {
-                  list[k] = '- ' + v;
+                list = list.map(function(string) {
+                  return '- ' + string;
                 });
 
-                e.replaceSelection('\n\n' + list.join('\n'));
+                var start = e.getLeadingNewlines(content, selected);
+                e.replaceSelection(start + list.join('\n'));
 
                 // Set the cursor
-                cursor = selected.start + 4;
+                cursor = selected.start + 2 + start.length;
               }
             }
 
@@ -1249,14 +1265,15 @@
                 list = selected.text.split('\n');
                 chunk = list[0];
 
-                $.each(list, function(k, v) {
-                  list[k] = '1. ' + v;
+                list = list.map(function(string, index) {
+                  return (index + 1) + '. ' + string;
                 });
 
-                e.replaceSelection('\n\n' + list.join('\n'));
+                var start = e.getLeadingNewlines(content, selected);
+                e.replaceSelection(start + list.join('\n'));
 
                 // Set the cursor
-                cursor = selected.start + 5;
+                cursor = selected.start + 3 + start.length;
               }
             }
 
@@ -1304,21 +1321,11 @@
                 return;
               }
 
-              var start = '', end = (content.substr(selected.end, 1) === '\n') ? '' : '\n',
-                  offset = 4,
-                  before = content.substr(selected.start - 2, 2);
-
-              if(before.charAt(1) !== '\n') {
-                start = '\n\n';
-                offset += 2;
-              }
-              else if(before.charAt(0) !== '\n') {
-                start = '\n';
-                offset += 1;
-              }
+              var start = e.getLeadingNewlines(content, selected),
+                  end = (content.substr(selected.end, 1) === '\n') ? '' : '\n';
 
               e.replaceSelection(start + '~~~' + (lang || "") + '\n' + chunk + '\n~~~' + end);
-              cursor = selected.start + offset + lang.length;
+              cursor = selected.start + start.length + 4 + lang.length;
             }
             else {
               e.replaceSelection('`' + chunk + '`');
