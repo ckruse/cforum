@@ -70,12 +70,12 @@ module MarkReadHelper
     sql = 'INSERT INTO read_messages (user_id, message_id) VALUES (' + user.user_id.to_s + ', '
     cache = get_cached_entry(:mark_read, user_id) || {}
 
-    Message.transaction do
+    Message.transaction(requires_new: true) do
       message.each do |m|
         next if cache[m.message_id]
 
         begin
-          Message.transaction do
+          Message.transaction(requires_new: true) do
             Message.connection.execute(sql + m.message_id.to_s + ')')
           end
           cache[m.message_id] = true
@@ -134,12 +134,12 @@ module MarkReadHelper
 
     sql = 'INSERT INTO read_messages (user_id, message_id) VALUES (' + current_user.user_id.to_s + ', '
 
-    Message.transaction do
+    Message.transaction(requires_new: true) do
       thread.sorted_messages.each do |m|
         next if cache[m.message_id]
 
         begin
-          Message.transaction do
+          Message.transaction(requires_new: true) do
             Message.connection.execute(sql + m.message_id.to_s + ')')
           end
           cache[m.message_id] = true
@@ -162,7 +162,7 @@ module MarkReadHelper
 
     unless cache[message.message_id]
       begin
-        Message.transaction do
+        Message.transaction(requires_new: true) do
           Message.connection.execute('INSERT INTO read_messages (user_id, message_id) VALUES (' +
                                      current_user.user_id.to_s + ', ' + message.message_id.to_s + ')')
         end
