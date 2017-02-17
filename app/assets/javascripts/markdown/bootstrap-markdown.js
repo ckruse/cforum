@@ -1198,9 +1198,7 @@
                 cursor = selected.start + 2;
               }
               else {
-                var list = [];
-
-                list = selected.text.split('\n');
+                var list = selected.text.split('\n');
                 chunk = list[0];
 
                 list = list.map(function(string) {
@@ -1260,9 +1258,7 @@
                 cursor = selected.start + 3;
               }
               else {
-                var list = [];
-
-                list = selected.text.split('\n');
+                var list = selected.text.split('\n');
                 chunk = list[0];
 
                 list = list.map(function(string, index) {
