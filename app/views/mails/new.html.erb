@@ -10,13 +10,13 @@ content_for(:body_classes, 'mail new')
   <%= render 'mail', mail: @mail %>
 <% end %>
 
-<%= form_for @mail, url: mails_path, html: {class: 'form-horizontal'} do |t| %>
+<%= form_for @mail, url: mails_path, html: {class: 'form-horizontal'} do |f| %>
 
-  <%= render 'form', t: t %>
+  <%= render 'form', f: f %>
 
   <p class="form-actions">
-    <%= t.submit t("mails.preview"), class: 'cf-btn', name: 'preview' %>
-    <%= t.submit t("mails.send"), class: 'cf-primary-btn' %>
+    <%= f.submit t("mails.preview"), class: 'cf-btn', name: 'preview' %>
+    <%= f.submit t("mails.send"), class: 'cf-primary-btn' %>
     <%= cf_link_to t("global.cancel"), mails_path, class: 'cf-btn' %>
   </p>
 <% end %>
