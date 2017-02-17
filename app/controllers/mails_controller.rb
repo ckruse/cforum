@@ -10,9 +10,12 @@ class MailsController < ApplicationController
   def index_users
     cu    = current_user
     mails = PrivMessage
-              .select("(CASE recipient_id WHEN #{cu.user_id} THEN sender_name ELSE recipient_name END) AS username, is_read, COUNT(*) AS cnt")
+              .select('(CASE recipient_id' \
+                      " WHEN #{cu.user_id} THEN sender_name " \
+                      ' ELSE recipient_name END) AS username, ' \
+                      'is_read, COUNT(*) AS cnt')
               .where('owner_id = ?', current_user.user_id)
-              .group("username, case recipient_id when #{cu.user_id} then sender_id else recipient_id end, is_read")
+              .group("username, CASE recipient_id WHEN #{cu.user_id} THEN sender_id ELSE recipient_id end, is_read")
 
     @mail_users = {}
     mails.each do |mu|
@@ -64,35 +67,42 @@ class MailsController < ApplicationController
 
   def show
     @mail = PrivMessage.includes(:sender, :recipient)
-              .where(owner_id: current_user.user_id, priv_message_id: params[:id]).first!
+              .where(owner_id: current_user.user_id, priv_message_id: params[:id])
+              .first!
 
-    unless @mail.is_read
-      PrivMessage.transaction do
-        @mail.update(is_read: true)
+    return if @mail.is_read
 
-        if n = Notification.where(recipient_id: current_user.user_id,
-                                  oid: @mail.priv_message_id,
-                                  otype: 'mails:create', is_read: false).first
-          @new_notifications -= [n]
+    PrivMessage.transaction do
+      @mail.update(is_read: true)
 
-          if uconf('delete_read_notifications_on_new_mail') == 'yes'
-            n.destroy
-          else
-            n.is_read = true
-            n.save!
-          end
+      n = Notification.where(recipient_id: current_user.user_id,
+                             oid: @mail.priv_message_id,
+                             otype: 'mails:create', is_read: false).first
+
+      unless n.blank?
+        @new_notifications -= [n]
+
+        if uconf('delete_read_notifications_on_new_mail') == 'yes'
+          n.destroy
+        else
+          n.is_read = true
+          n.save!
         end
       end
     end
   end
 
   def new
-    @mail = PrivMessage.new(params[:priv_message].blank? ? {} :
-                              priv_message_params)
+    @mail = PrivMessage.new(params[:priv_message].blank? ? {} : priv_message_params)
 
-    if !params[:priv_message_id].blank? &&
-       (@parent = PrivMessage.where(owner_id: current_user.user_id,
-                                    priv_message_id: params[:priv_message_id]).first!)
+    unless params[:priv_message_id].blank?
+      @parent = PrivMessage
+                  .where(owner_id: current_user.user_id,
+                         priv_message_id: params[:priv_message_id])
+                  .first!
+    end
+
+    unless @parent.blank?
       @mail.recipient_id = @parent.recipient_id == current_user.user_id ? @parent.sender_id : @parent.recipient_id
       @mail.subject      = @parent.subject =~ /^Re:/i ? @parent.subject : 'Re: ' + @parent.subject
       @mail.body         = @parent.to_quote(self) if params.key?(:quote_old_message)
