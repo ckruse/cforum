@@ -1507,7 +1507,7 @@ CREATE TABLE priv_messages (
     updated_at timestamp without time zone NOT NULL,
     sender_name character varying NOT NULL,
     recipient_name character varying NOT NULL,
-    thread_id bigint
+    thread_id bigint NOT NULL
 );
 
 
@@ -1540,6 +1540,13 @@ CREATE SEQUENCE priv_messages_thread_id_seq
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
+
+
+--
+-- Name: priv_messages_thread_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE priv_messages_thread_id_seq OWNED BY priv_messages.thread_id;
 
 
 --
@@ -2196,6 +2203,13 @@ ALTER TABLE ONLY peon_jobs ALTER COLUMN peon_job_id SET DEFAULT nextval('peon_jo
 --
 
 ALTER TABLE ONLY priv_messages ALTER COLUMN priv_message_id SET DEFAULT nextval('priv_messages_priv_message_id_seq'::regclass);
+
+
+--
+-- Name: priv_messages thread_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY priv_messages ALTER COLUMN thread_id SET DEFAULT nextval('priv_messages_thread_id_seq'::regclass);
 
 
 --
@@ -3748,6 +3762,7 @@ INSERT INTO schema_migrations (version) VALUES
 ('1'),
 ('10'),
 ('100'),
+('101'),
 ('11'),
 ('12'),
 ('13'),
