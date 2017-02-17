@@ -5,7 +5,7 @@ require 'strscan'
 module CforumMarkup
   def cforum2markdown(document_content)
     document_content = document_content.gsub(/&#160;/, ' ')
-    document_content.gsub!(/\[\/?latex\]/, '$$')
+    document_content.gsub!(%r{\[/?latex\]}, '$$')
     doc = StringScanner.new(document_content)
     ncnt = ''
     coder = HTMLEntities.new
@@ -15,8 +15,8 @@ module CforumMarkup
     consecutive_newlines = 0
     code_stack = []
 
-    while !doc.eos?
-      if doc.scan(/<br ?\/>-- <br ?\/>/)
+    until doc.eos?
+      if doc.scan(%r{<br ?/>-- <br ?/>})
         ncnt << "\n-- \n"
         in_quote = 0
         consecutive_newlines = 1
@@ -26,35 +26,35 @@ module CforumMarkup
         ncnt << doc.matched
         consecutive_newlines = 0
 
-      elsif doc.scan(/(<br ?\/>|^)([\s ]*)#/)
+      elsif doc.scan(%r{(<br ?/>|^)([\s ]*)#})
         matched = doc.matched
 
-        if matched =~ /^<br ?\/>/
+        if matched =~ %r{^<br ?/>}
           ncnt << "\n"
           in_quote = 0
           consecutive_newlines += 1
-          matched = matched.gsub(/^<br ?\/>/, '')
+          matched = matched.gsub(%r{^<br ?/>}, '')
         end
 
-        ncnt << matched.gsub(/#\Z/, '') + (code_open > 0 ? "#" : '\\#')
+        ncnt << matched.gsub(/#\Z/, '') + (code_open > 0 ? '#' : '\\#')
 
-      elsif doc.scan(/(?:<br ?\/>)+/)
+      elsif doc.scan(%r{(?:<br ?/>)+})
         in_quote = 0
         consecutive_newlines += 1
-        size = doc.matched.scan(/<br ?\/>/).size
+        size = doc.matched.scan(%r{<br ?/>}).size
 
-        if size > 1
-          ncnt << "\n" * size
-        else
-          ncnt << "  \n"
-        end
+        ncnt << if size > 1
+                  "\n" * size
+                else
+                  "  \n"
+                end
 
       elsif doc.scan(/\u007F/)
         ncnt << '> '
         in_quote += 1
 
       elsif doc.scan(/(-{2,})|\*|_/)
-        ncnt << '\\' if code_open <= 0 and not in_math
+        ncnt << '\\' if (code_open <= 0) && !in_math
         ncnt << doc.matched
         consecutive_newlines = 0
 
@@ -62,11 +62,11 @@ module CforumMarkup
         consecutive_newlines = 0
 
         data = doc.matched
-        alt = ""
-        src = ""
+        alt = ''
+        src = ''
 
-        src = $1 if data =~ /src="([^"]+)"/
-        alt = $1 if data =~ /alt="([^"]+)"/
+        src = Regexp.last_match(1) if data =~ /src="([^"]+)"/
+        alt = Regexp.last_match(1) if data =~ /alt="([^"]+)"/
 
         alt = '' if alt.blank?
 
@@ -81,13 +81,13 @@ module CforumMarkup
 
         doc.skip(/\s/)
 
-        while no_end and not doc.eos?
+        while no_end && !doc.eos?
           content << doc.matched if doc.scan(/[^\]\\]/)
 
           if doc.scan(/\\\]/)
             content << '\]'
           elsif doc.scan(/\\/)
-            content << "\\"
+            content << '\\'
           elsif doc.scan(/\]/)
             no_end = false
           end
@@ -102,7 +102,7 @@ module CforumMarkup
         end
 
         # unterminated directive
-        if doc.eos? and no_end
+        if doc.eos? && no_end
           ncnt << "[#{directive}#{colon}"
           doc.pos = save
           consecutive_newlines = 0
@@ -130,9 +130,8 @@ module CforumMarkup
         when 'code'
           if code_open <= 0
             val = if consecutive_newlines < 2
-                    "\n" + ("> " * in_quote) + "\n" + ("> " * in_quote) + "~~~"
+                    "\n" + ('> ' * in_quote) + "\n" + ('> ' * in_quote) + '~~~'
                   else
-                    #raise "ho" + consecutive_newlines.inspect + "\n" + ncnt.inspect if ncnt =~ /&quot;valider&quot;\?\n\n~~~/
                     '~~~'
                   end
 
@@ -142,7 +141,7 @@ module CforumMarkup
             end
 
             val << "\n"
-            val << ("> " * in_quote) unless doc.scan(/\s*<br ?\/>/)
+            val << ('> ' * in_quote) unless doc.scan(%r{\s*<br ?/>})
 
             code_stack << [ncnt, val, lang]
             ncnt = ''
@@ -158,16 +157,16 @@ module CforumMarkup
 
         consecutive_newlines = 0
 
-      elsif doc.scan(/\[\/code\]/)
+      elsif doc.scan(%r{\[/code\]})
         if code_open > 0
           if code_open <= 1 # only close code when this [/code] is the last one
             top = code_stack.pop
 
-            if not top.blank? # broken markup
+            unless top.blank? # broken markup
               if ncnt =~ /\n/
-                ncnt = top[0] + top[1] + ncnt + "\n" + ("> " * in_quote) + "~~~"
+                ncnt = top[0] + top[1] + ncnt + "\n" + ('> ' * in_quote) + '~~~'
               else
-                ncnt = top[0] + "`" + ncnt + "`"
+                ncnt = top[0] + '`' + ncnt + '`'
                 ncnt << '{:.language-' + top[2] + '}' unless top[2].blank?
               end
             end
@@ -179,11 +178,11 @@ module CforumMarkup
         end
 
       elsif doc.scan(/\|/)
-        ncnt << '\\' if code_open == 0
+        ncnt << '\\' if code_open.zero?
         ncnt << '|'
 
-      else
-        ncnt << doc.matched if doc.scan(/./m)
+      elsif doc.scan(/./m)
+        ncnt << doc.matched
       end
     end
 
@@ -195,21 +194,19 @@ module CforumMarkup
     end
 
     cnt = ''
-    ncnt.lines.each_with_index do |l,i|
-      if l =~ /^(?:(> )*)~~~/ and i > 0
-        q = $1
-        if ncnt.lines[i - 1] !~ /^(> )*$/
-          cnt << "#{q}\n"
-        end
+    ncnt.lines.each_with_index do |l, i|
+      if l =~ /^(?:(> )*)~~~/ && i > 0
+        q = Regexp.last_match(1)
+        cnt << "#{q}\n" if ncnt.lines[i - 1] !~ /^(> )*$/
       end
 
       cnt << l
     end
 
-    cnt.gsub!(/^[[:blank:]]+~~~/, "~~~")
+    cnt.gsub!(/^[[:blank:]]+~~~/, '~~~')
     cnt.gsub!(/~~~\n(.*)\n~~~/, '`\1`')
     cnt.gsub!(/~~~[[:blank:]]*(\w+)\n(.*)\n~~~/, '`\2`{: .language-\1}')
-    #cnt.gsub!(/(?<!\n\n)~~~(.*?)~~~/m, "\n\n~~~\\1~~~")
+    # cnt.gsub!(/(?<!\n\n)~~~(.*?)~~~/m, "\n\n~~~\\1~~~")
 
     coder.decode(cnt)
   end
@@ -219,14 +216,14 @@ module CforumMarkup
     href, title = href.split('@title=', 2) if href =~ /@title=/
     t, m = href.split(/(?:&amp)?;/)
 
-    return '[pref:' + orig + ']' if t.blank? or m.blank?
+    return '[pref:' + orig + ']' if t.blank? || m.blank?
 
-    '[' + (title.blank? ? ('?' + t + '&' + m) : title) + '](/?' + t + "&" + m + ')'
+    '[' + (title.blank? ? ('?' + t + '&' + m) : title) + '](/?' + t + '&' + m + ')'
   end
 
   def cforum_gen_image(href)
     href, title = href.split('@alt=', 2)
-    '![' + (title.blank? ? "" : title) + "](#{href})"
+    '![' + (title.blank? ? '' : title) + "](#{href})"
   end
 
   def cforum_gen_link(directive, content)
