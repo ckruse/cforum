@@ -106,6 +106,7 @@ class MailsController < ApplicationController
       @mail.recipient_id = @parent.recipient_id == current_user.user_id ? @parent.sender_id : @parent.recipient_id
       @mail.subject      = @parent.subject =~ /^Re:/i ? @parent.subject : 'Re: ' + @parent.subject
       @mail.body         = @parent.to_quote(self) if params.key?(:quote_old_message)
+      @mail.thread_id    = @parent.thread_id
     end
 
     @mail.body = gen_content(@mail.body, @mail.recipient.try(:username))
@@ -137,7 +138,10 @@ class MailsController < ApplicationController
 
       unless @preview
         PrivMessage.transaction do
-          saved = @mail_recipient.save if @mail.save
+          if @mail.save
+            @mail_recipient.thread_id = @mail.thread_id
+            saved = @mail_recipient.save
+          end
 
           if saved
             notify_user(
@@ -221,7 +225,7 @@ class MailsController < ApplicationController
   private
 
   def priv_message_params
-    params.require(:priv_message).permit(:recipient_id, :subject, :body)
+    params.require(:priv_message).permit(:recipient_id, :subject, :body, :thread_id)
   end
 end
 
