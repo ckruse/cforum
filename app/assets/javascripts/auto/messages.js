@@ -522,7 +522,7 @@ cforum.messages = {
       }, 500);
     };
 
-    $("#" + name + ", #" + problematicUrlName).on('keyup change', f);
+    $("#" + name + ", #" + problematicUrlName).on('input', f);
   },
   showPreview: function(name, problematicUrlName) {
     var val = $("#" + name).val();
