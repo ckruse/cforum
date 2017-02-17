@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class AddParentIdToPrivMessages < ActiveRecord::Migration
+class AddThreadIdToPrivMessages < ActiveRecord::Migration
   def up
     execute <<-SQL
 ALTER TABLE priv_messages
