@@ -6,8 +6,6 @@ gem 'warden', '!= 1.2.5'
 
 gem 'pg'
 
-gem 'therubyracer'
-
 gem 'bcrypt'
 gem 'kramdown'
 gem 'pygments.rb'
@@ -15,9 +13,12 @@ gem 'pygments.rb'
 gem 'devise'
 gem 'devise-i18n'
 
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
 gem 'autoprefixer-rails'
+gem 'coffee-rails'
+gem 'sass-rails', '> 4.0.0'
+gem 'sprockets'
+gem 'therubyracer'
+gem 'uglifier', '>= 1.0.3'
 
 gem 'daemons'
 
@@ -40,13 +41,12 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
   gem 'terminal-notifier-guard'
-
-  gem 'byebug'
 end
 
 gem 'rails-controller-testing', require: false, group: :test
 gem 'simplecov', require: false, group: :test
 
+gem 'byebug', group: :development
 gem 'spring', group: :development
 gem 'web-console', '~> 2.0', group: :development
 
@@ -54,16 +54,10 @@ gem 'libnotify',
     group: :development,
     require: RUBY_PLATFORM.include?('linux') && 'libnotify'
 
-gem 'coffee-rails'
-gem 'sass-rails', '> 4.0.0'
-gem 'sprockets'
-
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
-
-gem 'uglifier', '>= 1.0.3'
-
 gem 'font-awesome-sass'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'socket.io-rails'
 
 gem 'email_validator'
 gem 'validate_url'
@@ -79,8 +73,6 @@ gem 'exception_notification'
 gem 'htmlentities'
 
 gem 'unicorn', group: :production
-
-gem 'socket.io-rails'
 
 gem 'oauth'
 gem 'twitter'
