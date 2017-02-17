@@ -124,6 +124,11 @@ RSpec.describe CforumMarkup do
       content = '[code lang=html]&lt;?php [code lang=php]if (!empty($row[12])):[/code] ?&gt;<br />  &lt;div id=&quot;&lt;?php [code lang=php]echo $row[8];[/code] ?&gt;d1_nebenzeilen&quot;&gt;&lt;br&gt;&lt;?php [code lang=php]echo $row[12];[/code] ?&gt;&lt;/div&gt;<br />&lt;?php [code lang=php]endif;[/code] ?&gt;[/code]<br /><br />Was soll das [code lang=html]&lt;br&gt;[/code]'
       expect(cforum2markdown(content)).to eql("\n\n~~~ html\n<?php if (!empty($row[12])): ?>  \n  <div id=\"<?php echo $row[8]; ?>d1_nebenzeilen\"><br><?php echo $row[12]; ?></div>  \n<?php endif; ?>\n\n~~~\n\nWas soll das `<br>`{:.language-html}")
     end
+
+    it 'generates newlines when they are missing at the end of a code block' do
+      content = '[code]foo<br />bar<br />baz<br />[/code]bam'
+      expect(cforum2markdown(content)).to eql("\n\n~~~\nfoo  \nbar  \nbaz  \n\n~~~\n\nbam")
+    end
   end
 
   describe 'special foo' do

@@ -165,6 +165,8 @@ module CforumMarkup
             unless top.blank? # broken markup
               if ncnt =~ /\n/
                 ncnt = top[0] + top[1] + ncnt + "\n" + ('> ' * in_quote) + '~~~'
+                doc.scan(%r{<br ?/><br ?/>}) # eat up following newlines
+                ncnt << "\n\n"
               else
                 ncnt = top[0] + '`' + ncnt + '`'
                 ncnt << '{:.language-' + top[2] + '}' unless top[2].blank?
