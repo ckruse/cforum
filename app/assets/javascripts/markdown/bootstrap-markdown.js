@@ -1189,13 +1189,15 @@
               cursor = selected.start + 2 + prefix.length;
             }
             else {
+              prefix = e.getLeadingNewlines(content, selected);
+
               if(selected.text.indexOf('\n') < 0) {
                 chunk = selected.text;
 
-                e.replaceSelection('- ' + chunk);
+                e.replaceSelection(prefix + '- ' + chunk);
 
                 // Set the cursor
-                cursor = selected.start + 2;
+                cursor = selected.start + 2 + prefix.length;
               }
               else {
                 var list = selected.text.split('\n');
@@ -1205,11 +1207,10 @@
                   return '- ' + string;
                 });
 
-                var start = e.getLeadingNewlines(content, selected);
-                e.replaceSelection(start + list.join('\n'));
+                e.replaceSelection(prefix + list.join('\n'));
 
                 // Set the cursor
-                cursor = selected.start + 2 + start.length;
+                cursor = selected.start + 2 + prefix.length;
               }
             }
 
@@ -1249,13 +1250,15 @@
               cursor = selected.start + 3 + prefix.length;
             }
             else {
+              prefix = e.getLeadingNewlines(content, selected);
+
               if(selected.text.indexOf('\n') < 0) {
                 chunk = selected.text;
 
-                e.replaceSelection('1. ' + chunk);
+                e.replaceSelection(prefix + '1. ' + chunk);
 
                 // Set the cursor
-                cursor = selected.start + 3;
+                cursor = selected.start + 3 + prefix.length;
               }
               else {
                 var list = selected.text.split('\n');
@@ -1265,11 +1268,10 @@
                   return (index + 1) + '. ' + string;
                 });
 
-                var start = e.getLeadingNewlines(content, selected);
-                e.replaceSelection(start + list.join('\n'));
+                e.replaceSelection(prefix + list.join('\n'));
 
                 // Set the cursor
-                cursor = selected.start + 3 + start.length;
+                cursor = selected.start + 3 + prefix.length;
               }
             }
 
