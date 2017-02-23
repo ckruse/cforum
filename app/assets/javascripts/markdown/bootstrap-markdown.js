@@ -63,6 +63,7 @@
 
     constructor: Markdown,
 
+
     __alterButtons: function(name, alter) {
       var handler = this.$handler,
           isAll = (name == 'all'),
@@ -146,6 +147,7 @@
       return container;
     },
 
+
     __setListener: function() {
       // Set size and resizable Properties
       var hasRows = typeof this.$textarea.attr('rows') !== 'undefined',
@@ -169,7 +171,6 @@
       // Re-attach markdown data
       this.$textarea.data('markdown', this);
     },
-
 
 
     __handle: function(e) {
@@ -203,7 +204,7 @@
       var messages = $.fn.markdown.messages,
           language = this.$options.language;
       if(
-        typeof messages !== 'undefined' &&
+          typeof messages !== 'undefined' &&
           typeof messages[language] !== 'undefined' &&
           typeof messages[language][string] !== 'undefined'
       ) {
@@ -217,10 +218,11 @@
       return typeof src == 'object' ? src[this.$options.iconlibrary] : src;
     },
 
-    __beginningOfLine: function(content, sel) {
-      var c = content.substr(sel.start - 1, 1);
-      return (c == "\n");
+
+    __isBeginningOfLine: function(content, selection) {
+      return (selection.start === 0) || (content.substr(selection.start - 1, 1) === '\n');
     },
+
 
     __previousLineIsList: function(content, sel, rx) {
       var i, c;
@@ -1181,7 +1183,7 @@
               if(!isExtension) {
                 prefix += '\n';
               }
-              if(!e.__beginningOfLine(content, selected)) {
+              if(!e.__isBeginningOfLine(content, selected)) {
                 prefix += '\n';
               }
 
@@ -1242,10 +1244,10 @@
               chunk = e.__localize('list text here');
 
               if(!e.__previousLineIsList(content, selected, /\d/)) {
-                prefix += "\n";
+                prefix += '\n';
               }
-              if(!e.__beginningOfLine(content, selected)) {
-                prefix += "\n";
+              if(!e.__isBeginningOfLine(content, selected)) {
+                prefix += '\n';
               }
 
               e.replaceSelection(prefix + '1. ' + chunk);
