@@ -120,6 +120,8 @@ end
 class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
   include LinksHelper
 
+  @@language_replacements = { 'svg' => 'xml', 'html5' => 'html' }
+
   def initialize(*args)
     super(*args)
     @indent = 0
@@ -134,21 +136,18 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
   end
 
   def convert_codeblock(el, indent)
-    language_replacements = { 'svg' => 'xml', 'html5' => 'html' }
     attr = el.attr.dup
     lang = extract_code_language!(attr) || @options[:kramdown_default_lang]
-    code = pygmentize(el.value, language_replacements[lang] || lang)
+    code = pygmentize(el.value, @@language_replacements[lang] || lang)
 
     attr['class'] = (attr['class'].to_s + " block language-#{lang}").strip
     "#{' ' * indent}<code#{html_attributes(attr)}>#{code}</code>\n"
   end
 
   def convert_codespan(el, _indent)
-    language_replacements = { 'svg' => 'xml', 'html5' => 'html' }
-
     attr = el.attr.dup
     lang = extract_code_language!(attr) || @options[:kramdown_default_lang]
-    code = pygmentize(el.value, language_replacements[lang] || lang)
+    code = pygmentize(el.value, @@language_replacements[lang] || lang)
 
     attr['class'] = (attr['class'].to_s + " language-#{lang}").strip if lang
     "<code#{html_attributes(attr)}>#{code}</code>"
