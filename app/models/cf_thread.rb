@@ -72,10 +72,17 @@ class CfThread < ApplicationRecord
     end
 
     @sorted_messages.first.attribs[:level] = 0
+    prev = nil
 
     for msg in @sorted_messages
       self.accepted << msg if msg.flags["accepted"] == 'yes'
       @message = msg if msg.parent_id.blank?
+
+      if prev
+        msg.prev = prev
+        prev.next = msg
+      end
+      prev = msg
 
       map[msg.message_id] = msg
       msg.messages = [] unless msg.messages

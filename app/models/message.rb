@@ -20,7 +20,7 @@ class Message < ApplicationRecord
 
   has_many :subscriptions
 
-  attr_accessor :messages, :attribs, :parent_level
+  attr_accessor :messages, :attribs, :parent_level, :prev, :next
 
   validates_length_of :author, in: 2..60, allow_blank: false, message: I18n.t('messages.error_present', min: 2, max: 60)
 
