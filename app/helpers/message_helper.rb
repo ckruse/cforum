@@ -11,6 +11,14 @@ module MessageHelper
     local_args.merge(args)
   end
 
+  def day_changed_key(message)
+    if message.prev.blank? || message.day_changed?(message.prev)
+      ''
+    else
+      '_sameday'
+    end
+  end
+
   def message_header(thread, message, opts = {})
     opts = { first: false, prev_deleted: false,
              show_icons: false, do_parent: false,
@@ -244,10 +252,14 @@ module MessageHelper
 
     html << '</span> '
 
+    dformat = if opts[:tree]
+                date_format('date_format_index' + day_changed_key(message))
+              else
+                date_format('date_format_post')
+              end
+
     text = '<time datetime="' << message.created_at.strftime('%FT%T%:z') << '">' <<
-           encode_entities(l(message.created_at, format: opts[:tree] ?
-                                                   date_format('date_format_index') :
-                                                   date_format('date_format_post'))) <<
+           encode_entities(l(message.created_at, format: dformat)) <<
            '</time>'
 
     html << if thread.thread_id && message.message_id

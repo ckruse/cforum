@@ -43,7 +43,9 @@ class ConfigManager
     'vote_up_value_user' => 10,
 
     'date_format_index' => '%d.%m.%Y %H:%M',
+    'date_format_index_sameday' => '%H:%M',
     'date_format_post' => '%d.%m.%Y %H:%M',
+
     'date_format_search' => '%d.%m.%Y',
     'date_format_default' => '%d.%m.%Y %H:%M',
     'date_format_date' => '%d.%m.%Y',

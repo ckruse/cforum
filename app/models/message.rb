@@ -143,6 +143,19 @@ class Message < ApplicationRecord
     false
   end
 
+  def day_changed?(msg = nil)
+    return true if parent_id.blank?
+
+    if msg.blank?
+      self.parent_level ||= Message.find parent_id
+      msg = parent_level
+    end
+
+    msg.created_at.day != created_at.day ||
+      msg.created_at.month != created_at.month ||
+      msg.created_at.year != created_at.year
+  end
+
   def open?
     # admin decisions overrule normal decisions
     unless flags['no-answer-admin'].blank?
