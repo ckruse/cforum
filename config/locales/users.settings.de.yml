@@ -53,6 +53,7 @@ de:
       css_styles: alternatives CSS (pro Zeile eine URL)
       motd: Nachricht des Tages
       hide_subjects_when_unchanged: Gleiche Betreffe ausblenden
+      hide_tags_when_unchanged: Gleiche Tags ausblenden
       sort_threads: Thread-Sortierung
       sort_messages: Nachrichten-Sortierung
       highlight_self: Eigene Postings hervorheben

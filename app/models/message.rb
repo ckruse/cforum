@@ -132,6 +132,17 @@ class Message < ApplicationRecord
     parent_level.subject != subject
   end
 
+  def tags_changed?
+    return true if parent_id.blank?
+    self.parent_level ||= Message.find parent_id
+
+    parent_level.tags.each do |tag|
+      return true unless tags.include?(tag)
+    end
+
+    false
+  end
+
   def open?
     # admin decisions overrule normal decisions
     unless flags['no-answer-admin'].blank?

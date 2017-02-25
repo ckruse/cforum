@@ -28,6 +28,7 @@ class ConfigManager
     'edit_until_has_answer' => 'yes',
     'max_editable_age' => 10,
     'hide_subjects_unchanged' => 'yes',
+    'hide_repeating_tags' => 'yes',
     'css_styles' => nil,
 
     'max_threads' => 150,

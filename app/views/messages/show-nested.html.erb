@@ -20,6 +20,7 @@ content_for(:h1) do
     <% if not @thread.message.messages.blank? %>
       <%= message_tree(@thread, @thread.message.messages, show_icons: true, id_prefix: 'tree-',
                        hide_repeating_subjects: uconf('hide_subjects_unchanged') == 'yes',
+                       hide_repeating_tags: uconf('hide_repeating_tags') == 'yes',
                        parent_subscribed: @thread.message.attribs[:is_subscribed]) %>
     <% end %>
   </article>

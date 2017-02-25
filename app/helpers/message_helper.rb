@@ -267,7 +267,7 @@ module MessageHelper
       html << ')</span>'
     end
 
-    if !message.tags.blank? && opts[:tags]
+    if !message.tags.blank? && opts[:tags] && (!opts[:hide_repeating_tags] || message.tags_changed?)
       html << '
 
     <ul class="cf-tags-list">'
@@ -296,7 +296,7 @@ module MessageHelper
 
   def message_tree(thread, messages, opts = {})
     opts = { prev_deleted: false, show_icons: false, id: true,
-             hide_repeating_subjects: false,
+             hide_repeating_subjects: false, hide_repeating_tags: false,
              active_message: @message, subject: true,
              tags: true, id_prefix: nil,
              parent_subscribed: false }.merge(opts)
@@ -314,6 +314,7 @@ module MessageHelper
                              show_icons: opts[:show_icons],
                              id: opts[:id],
                              hide_repeating_subjects: opts[:hide_repeating_subjects],
+                             hide_repeating_tags: opts[:hide_repeating_tags],
                              active_message: opts[:active_message],
                              id_prefix: opts[:id_prefix],
                              parent_subscribed: opts[:parent_subscribed])
@@ -325,6 +326,7 @@ module MessageHelper
                              show_icons: opts[:show_icons],
                              id: opts[:id],
                              hide_repeating_subjects: opts[:hide_repeating_subjects],
+                             hide_repeating_tags: opts[:hide_repeating_tags],
                              active_message: opts[:active_message],
                              id_prefix: opts[:id_prefix],
                              parent_subscribed: opts[:parent_subscribed] || message.attribs[:is_subscribed])
