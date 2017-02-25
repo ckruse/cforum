@@ -527,7 +527,7 @@ cforum.messages = {
       str += ", #" + problematicUrlName;
     }
 
-    $(str).on('input', f);
+    $(str).on('input change', f);
   },
   showPreview: function(name, problematicUrlName) {
     var val = $("#" + name).val();
