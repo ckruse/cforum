@@ -136,6 +136,10 @@ class Message < ApplicationRecord
     return true if parent_id.blank?
     self.parent_level ||= Message.find parent_id
 
+    tags.each do |tag|
+      return true unless parent_level.tags.include?(tag)
+    end
+
     parent_level.tags.each do |tag|
       return true unless tags.include?(tag)
     end
