@@ -1292,8 +1292,7 @@
           },
           callback: function(e) {
             // Give/remove ** surround the selection
-            var chunk, cursor, selected = e.getSelection(),
-                content = e.getContent();
+            var lang, chunk, cursor, prefix, selected = e.getSelection(), content = e.getContent();
 
             if(selected.length === 0) {
               // Give extra word
@@ -1314,22 +1313,32 @@
               e.replaceSelection(chunk);
               cursor = selected.start - 1;
             }
-            else if(chunk.indexOf('\n') > -1) {
-              var lang = window.prompt(t('code_lang'));
+            else if(!selected.length && content.substr(selected.start - 2, 2) === '\n\n') {
+              lang = window.prompt(t('code_lang'));
 
               if((lang && lang.length > 20) || lang === null) {
                 return;
               }
 
-              var start = e.getLeadingNewlines(content, selected),
-                  end = (content.substr(selected.end, 1) === '\n') ? '' : '\n';
-
-              e.replaceSelection(start + '~~~' + (lang || "") + '\n' + chunk + '\n~~~' + end);
-              cursor = selected.start + start.length + 4 + lang.length;
+              e.replaceSelection('~~~' + (lang || '') + '\n' + chunk + '\n~~~\n');
+              cursor = selected.start + 4 + lang.length;
             }
             else {
-              e.replaceSelection('`' + chunk + '`');
-              cursor = selected.start + 1;
+              if(chunk.indexOf('\n') > -1) {
+                lang = window.prompt(t('code_lang'));
+
+                if((lang && lang.length > 20) || lang === null) {
+                  return;
+                }
+
+                prefix = e.getLeadingNewlines(content, selected);
+                e.replaceSelection(prefix + '~~~' + (lang || "") + '\n' + chunk + '\n~~~\n');
+                cursor = selected.start + prefix.length + 4 + lang.length;
+              }
+              else {
+                e.replaceSelection('`' + chunk + '`');
+                cursor = selected.start + 1;
+              }
             }
 
             // Set the cursor
