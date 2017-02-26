@@ -162,6 +162,16 @@ cforum.messages = {
     }
   },
 
+  setTags: function(msg) {
+    $("#tags-list").html("");
+
+    msg.find("> .posting-header .cf-tag").each(function() {
+      var val = $(this).text();
+      cforum.tags.appendTag(val);
+      cforum.tags.events.trigger('tags:add-tag', val);
+    });
+  },
+
   inlineReply: function(nested) {
     if(uconf('quote_by_default') != 'yes') {
       $(".btn-group.groupCustom").append("<button class=\"btn-default btn-sm btn quote-message\">" + t('add_quote') + "</button>");
@@ -184,6 +194,8 @@ cforum.messages = {
 
       if(nested) {
         $trg.addClass("spinning");
+
+        cforum.messages.setTags(msg);
 
         $frm.detach();
         $frm.insertAfter(msg);
