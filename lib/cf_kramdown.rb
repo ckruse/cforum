@@ -168,7 +168,7 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
     end
 
     if @options[:no_follow]
-      if (@options[:root_url].blank? || !el.attr['href'].start_with?(@options[:root_url])) && !is_url_whitelisted?(el.attr['href'])
+      if (@options[:root_url].blank? || !el.attr['href'].start_with?(@options[:root_url])) && !url_whitelisted?(el.attr['href'])
         el.attr['rel'] = 'nofollow'
       end
     end
