@@ -3,13 +3,13 @@
 module InterestingHelper
   def mark_interesting(user, message)
     return if user.blank?
-    message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
+    message = [message] if !message.is_a?(Array) && !message.is_a?(ActiveRecord::Relation)
 
-    sql = "INSERT INTO intesting_messages (user_id, message_id) VALUES (" + user.user_id.to_s + ", "
+    sql = 'INSERT INTO intesting_messages (user_id, message_id) VALUES (' + user.user_id.to_s + ', '
 
     message.each do |m|
       begin
-        Message.connection.execute(sql + m.message_id.to_s + ")")
+        Message.connection.execute(sql + m.message_id.to_s + ')')
       rescue ActiveRecord::RecordNotUnique
       end
     end
@@ -19,21 +19,21 @@ module InterestingHelper
 
   def mark_boring(user, message)
     return if user.blank?
-    message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
+    message = [message] if !message.is_a?(Array) && !message.is_a?(ActiveRecord::Relation)
     message = message.map { |m| m.is_a?(Message) ? m.message_id : m.to_i }
 
-    sql = "DELETE FROM intesting_messages WHERE user_id =  " + current_user.user_id.to_s +
-      " AND message_id IN (" + message.join(',') + ")"
+    sql = 'DELETE FROM intesting_messages WHERE user_id =  ' + current_user.user_id.to_s +
+          ' AND message_id IN (' + message.join(',') + ')'
 
     Message.connection.execute(sql)
 
     true
   end
 
-  def is_interesting(user, message)
+  def interesting?(user, message)
     return if user.blank?
 
-    message = [message] if not message.is_a?(Array) and not message.is_a?(ActiveRecord::Relation)
+    message = [message] if !message.is_a?(Array) && !message.is_a?(ActiveRecord::Relation)
     message = message.map { |m| m.is_a?(Message) ? m.message_id : m.to_i }
 
     user_id = user.is_a?(User) ? user.user_id : user
@@ -46,10 +46,10 @@ module InterestingHelper
       retval = []
 
       message.each do |m|
-        if not cache.has_key?(m)
+        if !cache.key?(m)
           has_all = false
-        else
-          retval << m if cache[m]
+        elsif cache[m]
+          retval << m
         end
         new_cache[m] = false
       end
@@ -59,9 +59,9 @@ module InterestingHelper
 
     intesting_messages = []
 
-    result = Message.connection.
-             execute("SELECT message_id FROM interesting_messages WHERE message_id IN (" +
-                     message.join(", ") + ") AND user_id = " + user_id.to_s)
+    result = Message.connection
+               .execute('SELECT message_id FROM interesting_messages WHERE message_id IN (' +
+                     message.join(', ') + ') AND user_id = ' + user_id.to_s)
     result.each do |row|
       m = row['thread_id']
       intesting_messages << m
@@ -88,17 +88,17 @@ module InterestingHelper
       end
     end
 
-    if not ids.blank?
-      result = Message.connection.execute("SELECT message_id FROM interesting_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + user.user_id.to_s)
+    unless ids.blank?
+      result = Message.connection.execute('SELECT message_id FROM interesting_messages WHERE message_id IN (' +
+                                          ids.join(', ') + ') AND user_id = ' + user.user_id.to_s)
       result.each do |row|
         new_cache[row['message_id']] = true
 
-        if messages_map[row['message_id']]
-          messages_map[row['message_id']].first.attribs['classes'] << 'interesting'
-          messages_map[row['message_id']].first.attribs[:is_interesting] = true
-          messages_map[row['message_id']].second.attribs['classes'] << 'has-interesting'
-          messages_map[row['message_id']].second.attribs[:has_interesting] = true
-        end
+        next unless messages_map[row['message_id']]
+        messages_map[row['message_id']].first.attribs['classes'] << 'interesting'
+        messages_map[row['message_id']].first.attribs[:is_interesting] = true
+        messages_map[row['message_id']].second.attribs['classes'] << 'has-interesting'
+        messages_map[row['message_id']].second.attribs[:has_interesting] = true
       end
     end
 
@@ -118,7 +118,7 @@ module InterestingHelper
       msgs[m.message_id] = m
       new_cache[m.message_id] = false
 
-      if not cache.has_key?(m.message_id)
+      if !cache.key?(m.message_id)
         had_all = false
       elsif cache[m.message_id]
         m.attribs['classes'] << 'interesting'
@@ -128,7 +128,8 @@ module InterestingHelper
     end
 
     unless had_all
-      result = Message.connection.execute("SELECT message_id FROM interesting_messages WHERE message_id IN (" + ids.join(", ") + ") AND user_id = " + user.user_id.to_s)
+      result = Message.connection.execute('SELECT message_id FROM interesting_messages WHERE message_id IN (' +
+                                          ids.join(', ') + ') AND user_id = ' + user.user_id.to_s)
       result.each do |row|
         new_cache[row['message_id']] = true
         msgs[row['message_id']].attribs['classes'] << 'interesting' if msgs[row['message_id']]
@@ -139,7 +140,7 @@ module InterestingHelper
       set_cached_entry(:interesting, user.user_id, new_cache)
     end
 
-    return had_one
+    had_one
   end
 end
 
