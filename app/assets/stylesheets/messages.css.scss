@@ -490,6 +490,14 @@ textarea.length-error, .message-character-count.length-error, .twitter-message-c
   }
 }
 
+
+.thread-message.interesting, .thread-message.interesting .posting-content {
+  border-color: #8db243;
+}
+.thread-message.interesting {
+  background: #ebf5d7;
+}
+
 @media only screen and (min-width: 35em) {
   #unfold-all {
     right:2em;
