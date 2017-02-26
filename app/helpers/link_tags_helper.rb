@@ -61,9 +61,6 @@ module LinkTagsHelper
   end
 
   def show_message_link_tags(thread, message)
-    msgs = []
-    to_shallow([thread.message], msgs)
-
     html = top_link
     html << "\n" + first_link(thread)
     html << "\n" + last_link(thread)
