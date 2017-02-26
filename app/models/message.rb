@@ -148,7 +148,7 @@ class Message < ApplicationRecord
   end
 
   def day_changed?(msg = nil)
-    return true if parent_id.blank?
+    return true if parent_id.blank? && msg.blank?
 
     if msg.blank?
       self.parent_level ||= Message.find parent_id
