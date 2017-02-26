@@ -9,7 +9,8 @@ module LinkTagsHelper
   end
 
   def top_link
-    '<link rel="top" href="' + forum_path(current_forum) + '" title="' + encode_entities(current_forum ? current_forum.name : 'All Forums') + '">'
+    '<link rel="index" href="' + forum_path(current_forum) + '" title="' +
+      encode_entities(current_forum ? current_forum.name : I18n.t('forums.all_forums')) + '">'
   end
 
   def first_link(thread, msgs)
