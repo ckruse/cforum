@@ -12,6 +12,8 @@ module MessageHelper
   end
 
   def day_changed_key(message)
+    return '' if uconf('hide_repeating_date') == 'no'
+
     if message.prev.blank? || message.day_changed?(message.prev)
       ''
     else

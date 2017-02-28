@@ -29,6 +29,7 @@ class ConfigManager
     'max_editable_age' => 10,
     'hide_subjects_unchanged' => 'yes',
     'hide_repeating_tags' => 'yes',
+    'hide_repeating_date' => 'yes',
     'css_styles' => nil,
 
     'max_threads' => 150,
