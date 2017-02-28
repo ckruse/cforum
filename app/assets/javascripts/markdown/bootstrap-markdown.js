@@ -63,6 +63,7 @@
 
     constructor: Markdown,
 
+
     __alterButtons: function(name, alter) {
       var handler = this.$handler,
           isAll = (name == 'all'),
@@ -146,6 +147,7 @@
       return container;
     },
 
+
     __setListener: function() {
       // Set size and resizable Properties
       var hasRows = typeof this.$textarea.attr('rows') !== 'undefined',
@@ -169,7 +171,6 @@
       // Re-attach markdown data
       this.$textarea.data('markdown', this);
     },
-
 
 
     __handle: function(e) {
@@ -203,7 +204,7 @@
       var messages = $.fn.markdown.messages,
           language = this.$options.language;
       if(
-        typeof messages !== 'undefined' &&
+          typeof messages !== 'undefined' &&
           typeof messages[language] !== 'undefined' &&
           typeof messages[language][string] !== 'undefined'
       ) {
@@ -217,10 +218,11 @@
       return typeof src == 'object' ? src[this.$options.iconlibrary] : src;
     },
 
-    __beginningOfLine: function(content, sel) {
-      var c = content.substr(sel.start - 1, 1);
-      return (c == "\n");
+
+    __isBeginningOfLine: function(content, selection) {
+      return (selection.start === 0) || (content.substr(selection.start - 1, 1) === '\n');
     },
+
 
     __previousLineIsList: function(content, sel, rx) {
       var i, c;
@@ -1170,18 +1172,19 @@
           callback: function(e) {
             // Prepend/Give - surround the selection
             var chunk, cursor, selected = e.getSelection(),
-                content = e.getContent(), prefix = "";
+                content = e.getContent(), prefix = '',
+                isExtension = e.__previousLineIsList(content, selected, /-/);
 
             // transform selection and set the cursor into chunked text
             if(selected.length === 0) {
               // Give extra word
               chunk = e.__localize('list text here');
 
-              if(!e.__previousLineIsList(content, selected, /-/)) {
-                prefix += "\n";
+              if(!isExtension) {
+                prefix += '\n';
               }
-              if(!e.__beginningOfLine(content, selected)) {
-                prefix += "\n";
+              if(!e.__isBeginningOfLine(content, selected)) {
+                prefix += '\n';
               }
 
               e.replaceSelection(prefix + '- ' + chunk);
@@ -1189,29 +1192,30 @@
               cursor = selected.start + 2 + prefix.length;
             }
             else {
+              if(!isExtension) {
+                prefix = e.getLeadingNewlines(content, selected);
+              }
+
               if(selected.text.indexOf('\n') < 0) {
                 chunk = selected.text;
 
-                e.replaceSelection('- ' + chunk);
+                e.replaceSelection(prefix + '- ' + chunk);
 
                 // Set the cursor
-                cursor = selected.start + 2;
+                cursor = selected.start + 2 + prefix.length;
               }
               else {
-                var list = [];
-
-                list = selected.text.split('\n');
+                var list = selected.text.split('\n');
                 chunk = list[0];
 
                 list = list.map(function(string) {
                   return '- ' + string;
                 });
 
-                var start = e.getLeadingNewlines(content, selected);
-                e.replaceSelection(start + list.join('\n'));
+                e.replaceSelection(prefix + list.join('\n'));
 
                 // Set the cursor
-                cursor = selected.start + 2 + start.length;
+                cursor = selected.start + 2 + prefix.length;
               }
             }
 
@@ -1240,10 +1244,10 @@
               chunk = e.__localize('list text here');
 
               if(!e.__previousLineIsList(content, selected, /\d/)) {
-                prefix += "\n";
+                prefix += '\n';
               }
-              if(!e.__beginningOfLine(content, selected)) {
-                prefix += "\n";
+              if(!e.__isBeginningOfLine(content, selected)) {
+                prefix += '\n';
               }
 
               e.replaceSelection(prefix + '1. ' + chunk);
@@ -1251,29 +1255,28 @@
               cursor = selected.start + 3 + prefix.length;
             }
             else {
+              prefix = e.getLeadingNewlines(content, selected);
+
               if(selected.text.indexOf('\n') < 0) {
                 chunk = selected.text;
 
-                e.replaceSelection('1. ' + chunk);
+                e.replaceSelection(prefix + '1. ' + chunk);
 
                 // Set the cursor
-                cursor = selected.start + 3;
+                cursor = selected.start + 3 + prefix.length;
               }
               else {
-                var list = [];
-
-                list = selected.text.split('\n');
+                var list = selected.text.split('\n');
                 chunk = list[0];
 
                 list = list.map(function(string, index) {
                   return (index + 1) + '. ' + string;
                 });
 
-                var start = e.getLeadingNewlines(content, selected);
-                e.replaceSelection(start + list.join('\n'));
+                e.replaceSelection(prefix + list.join('\n'));
 
                 // Set the cursor
-                cursor = selected.start + 3 + start.length;
+                cursor = selected.start + 3 + prefix.length;
               }
             }
 
