@@ -63,6 +63,7 @@
 
     constructor: Markdown,
 
+
     __alterButtons: function(name, alter) {
       var handler = this.$handler,
           isAll = (name == 'all'),
@@ -146,6 +147,7 @@
       return container;
     },
 
+
     __setListener: function() {
       // Set size and resizable Properties
       var hasRows = typeof this.$textarea.attr('rows') !== 'undefined',
@@ -169,7 +171,6 @@
       // Re-attach markdown data
       this.$textarea.data('markdown', this);
     },
-
 
 
     __handle: function(e) {
@@ -217,10 +218,12 @@
       return typeof src == 'object' ? src[this.$options.iconlibrary] : src;
     },
 
+
     __isBeginningOfLine: function(content, selection) {
       var start = selection.start;
       return (start === 0) || (content.substr(start - 1, 1) === '\n');
     },
+
 
     __previousLineIsList: function(content, sel, rx) {
       var i, c;
