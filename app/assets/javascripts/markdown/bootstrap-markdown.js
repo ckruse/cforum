@@ -217,9 +217,9 @@
       return typeof src == 'object' ? src[this.$options.iconlibrary] : src;
     },
 
-    __beginningOfLine: function(content, sel) {
-      var c = content.substr(sel.start - 1, 1);
-      return (c == "\n");
+    __isBeginningOfLine: function(content, selection) {
+      var start = selection.start;
+      return (start === 0) || (content.substr(start - 1, 1) === '\n');
     },
 
     __previousLineIsList: function(content, sel, rx) {
@@ -1180,7 +1180,7 @@
               if(!e.__previousLineIsList(content, selected, /-/)) {
                 prefix += "\n";
               }
-              if(!e.__beginningOfLine(content, selected)) {
+              if(!e.__isBeginningOfLine(content, selected)) {
                 prefix += "\n";
               }
 
@@ -1242,7 +1242,7 @@
               if(!e.__previousLineIsList(content, selected, /\d/)) {
                 prefix += "\n";
               }
-              if(!e.__beginningOfLine(content, selected)) {
+              if(!e.__isBeginningOfLine(content, selected)) {
                 prefix += "\n";
               }
 
