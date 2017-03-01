@@ -204,7 +204,7 @@
       var messages = $.fn.markdown.messages,
           language = this.$options.language;
       if(
-        typeof messages !== 'undefined' &&
+          typeof messages !== 'undefined' &&
           typeof messages[language] !== 'undefined' &&
           typeof messages[language][string] !== 'undefined'
       ) {
