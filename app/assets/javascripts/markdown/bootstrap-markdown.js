@@ -26,6 +26,7 @@
 
   var Markdown = function(element, options) {
 
+    element = $(element);
     options = (options != null) ? options : {};
 
     var list = [
@@ -44,13 +45,13 @@
     ];
 
     $.each(list, function(_, opt) {
-      if(typeof $(element).data(opt) !== 'undefined') {
-        options[opt] = $(element).data(opt);
+      if(typeof element.data(opt) !== 'undefined') {
+        options[opt] = element.data(opt);
       }
     });
 
     this.$ns = 'bootstrap-markdown';
-    this.$element = $(element);
+    this.$element = element;
 
     this.$editable = {
       el: null,
@@ -62,7 +63,7 @@
 
     this.$options = $.extend(
       true, {},
-      $.fn.markdown.defaults, options, this.$element.data('options')
+      $.fn.markdown.defaults, options, element.data('options')
     );
 
     this.$oldContent = null;
