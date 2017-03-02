@@ -19,7 +19,7 @@
 
 (function($) {
 
-  "use strict";
+  'use strict';
 
   /* MARKDOWN CLASS DEFINITION
    * ========================== */
@@ -44,9 +44,9 @@
       'width'
     ];
 
-    $.each(list, function(_, opt) {
-      if(typeof element.data(opt) !== 'undefined') {
-        options[opt] = element.data(opt);
+    list.forEach(function(name) {
+      if(typeof element.data(name) !== 'undefined') {
+        options[name] = element.data(name);
       }
     });
 
