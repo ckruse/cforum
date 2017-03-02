@@ -17,7 +17,7 @@
  * limitations under the License.
  * ========================================================== */
 
-! function($) {
+(function($) {
 
   "use strict"; // jshint ;_;
 
@@ -1517,6 +1517,6 @@
       });
     });
 
-}(window.jQuery);
+}(window.jQuery));
 
 /* eof */
