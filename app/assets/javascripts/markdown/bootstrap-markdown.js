@@ -19,14 +19,13 @@
 
 (function($) {
 
-  "use strict"; // jshint ;_;
+  "use strict";
 
   /* MARKDOWN CLASS DEFINITION
    * ========================== */
 
   var Markdown = function(element, options) {
-    // @TODO : remove this BC on next major release
-    // @see : https://github.com/toopay/bootstrap-markdown/issues/109
+
     var opts = ['autofocus', 'savable', 'hideable', 'width', 'height', 'resize', 'iconlibrary', 'language', 'footer', 'fullscreen', 'hiddenButtons', 'disabledButtons'];
     $.each(opts, function(_, opt) {
       if(typeof $(element).data(opt) !== 'undefined') {
@@ -34,9 +33,7 @@
         options[opt] = $(element).data(opt);
       }
     });
-    // End BC
 
-    // Class Properties
     this.$ns = 'bootstrap-markdown';
     this.$element = $(element);
     this.$editable = {
