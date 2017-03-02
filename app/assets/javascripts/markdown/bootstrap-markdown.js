@@ -1493,17 +1493,13 @@
     return this;
   };
 
+
   /* MARKDOWN GLOBAL FUNCTION & DATA-API
    * ==================================== */
-  var initMarkdown = function(el) {
-    var $this = el;
 
-    if($this.data('markdown')) {
-      $this.data('markdown').showEditor();
-      return;
-    }
-
-    $this.markdown();
+  var initMarkdown = function($element) {
+    var markdown = $element.data('markdown');
+    markdown ? markdown.showEditor() : $element.markdown();
   };
 
   var blurNonFocused = function(e) {
