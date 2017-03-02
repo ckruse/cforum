@@ -34,7 +34,7 @@
 
     $.each(opts, function(_, opt) {
       if(typeof $(element).data(opt) !== 'undefined') {
-        options = typeof options == 'object' ? options : {};
+        options = options != null ? options : {};
         options[opt] = $(element).data(opt);
       }
     });
