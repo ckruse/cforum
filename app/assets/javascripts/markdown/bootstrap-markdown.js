@@ -26,6 +26,8 @@
 
   var Markdown = function(element, options) {
 
+    options = (options != null) ? options : {};
+
     var opts = [
       'autofocus', 'savable', 'hideable', 'width', 'height', 'resize',
       'iconlibrary', 'language', 'footer', 'fullscreen',
@@ -34,7 +36,6 @@
 
     $.each(opts, function(_, opt) {
       if(typeof $(element).data(opt) !== 'undefined') {
-        options = options != null ? options : {};
         options[opt] = $(element).data(opt);
       }
     });
