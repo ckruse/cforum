@@ -28,13 +28,22 @@
 
     options = (options != null) ? options : {};
 
-    var opts = [
-      'autofocus', 'savable', 'hideable', 'width', 'height', 'resize',
-      'iconlibrary', 'language', 'footer', 'fullscreen',
-      'hiddenButtons', 'disabledButtons'
+    var list = [
+      'autofocus',
+      'disabledButtons',
+      'footer',
+      'fullscreen',
+      'height',
+      'hiddenButtons',
+      'hideable',
+      'iconlibrary',
+      'language',
+      'resize',
+      'savable',
+      'width'
     ];
 
-    $.each(opts, function(_, opt) {
+    $.each(list, function(_, opt) {
       if(typeof $(element).data(opt) !== 'undefined') {
         options[opt] = $(element).data(opt);
       }
