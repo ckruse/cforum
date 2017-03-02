@@ -26,7 +26,12 @@
 
   var Markdown = function(element, options) {
 
-    var opts = ['autofocus', 'savable', 'hideable', 'width', 'height', 'resize', 'iconlibrary', 'language', 'footer', 'fullscreen', 'hiddenButtons', 'disabledButtons'];
+    var opts = [
+      'autofocus', 'savable', 'hideable', 'width', 'height', 'resize',
+      'iconlibrary', 'language', 'footer', 'fullscreen',
+      'hiddenButtons', 'disabledButtons'
+    ];
+
     $.each(opts, function(_, opt) {
       if(typeof $(element).data(opt) !== 'undefined') {
         options = typeof options == 'object' ? options : {};
@@ -36,6 +41,7 @@
 
     this.$ns = 'bootstrap-markdown';
     this.$element = $(element);
+
     this.$editable = {
       el: null,
       type: null,
@@ -43,7 +49,12 @@
       attrValues: [],
       content: null
     };
-    this.$options = $.extend(true, {}, $.fn.markdown.defaults, options, this.$element.data('options'));
+
+    this.$options = $.extend(
+      true, {},
+      $.fn.markdown.defaults, options, this.$element.data('options')
+    );
+
     this.$oldContent = null;
     this.$isPreview = false;
     this.$isFullscreen = false;
