@@ -17,28 +17,42 @@
  * limitations under the License.
  * ========================================================== */
 
-! function($) {
+(function($) {
 
-  "use strict"; // jshint ;_;
+  'use strict';
 
   /* MARKDOWN CLASS DEFINITION
    * ========================== */
 
   var Markdown = function(element, options) {
-    // @TODO : remove this BC on next major release
-    // @see : https://github.com/toopay/bootstrap-markdown/issues/109
-    var opts = ['autofocus', 'savable', 'hideable', 'width', 'height', 'resize', 'iconlibrary', 'language', 'footer', 'fullscreen', 'hiddenButtons', 'disabledButtons'];
-    $.each(opts, function(_, opt) {
-      if(typeof $(element).data(opt) !== 'undefined') {
-        options = typeof options == 'object' ? options : {};
-        options[opt] = $(element).data(opt);
+
+    element = $(element);
+    options = (options != null) ? options : {};
+
+    var list = [
+      'autofocus',
+      'disabledButtons',
+      'footer',
+      'fullscreen',
+      'height',
+      'hiddenButtons',
+      'hideable',
+      'iconlibrary',
+      'language',
+      'resize',
+      'savable',
+      'width'
+    ];
+
+    list.forEach(function(name) {
+      if(typeof element.data(name) !== 'undefined') {
+        options[name] = element.data(name);
       }
     });
-    // End BC
 
-    // Class Properties
     this.$ns = 'bootstrap-markdown';
-    this.$element = $(element);
+    this.$element = element;
+
     this.$editable = {
       el: null,
       type: null,
@@ -46,7 +60,12 @@
       attrValues: [],
       content: null
     };
-    this.$options = $.extend(true, {}, $.fn.markdown.defaults, options, this.$element.data('options'));
+
+    this.$options = $.extend(
+      true, {},
+      $.fn.markdown.defaults, options, element.data('options')
+    );
+
     this.$oldContent = null;
     this.$isPreview = false;
     this.$isFullscreen = false;
@@ -1474,17 +1493,13 @@
     return this;
   };
 
+
   /* MARKDOWN GLOBAL FUNCTION & DATA-API
    * ==================================== */
-  var initMarkdown = function(el) {
-    var $this = el;
 
-    if($this.data('markdown')) {
-      $this.data('markdown').showEditor();
-      return;
-    }
-
-    $this.markdown();
+  var initMarkdown = function($element) {
+    var markdown = $element.data('markdown');
+    markdown ? markdown.showEditor() : $element.markdown();
   };
 
   var blurNonFocused = function(e) {
@@ -1517,6 +1532,6 @@
       });
     });
 
-}(window.jQuery);
+}(window.jQuery));
 
 /* eof */
