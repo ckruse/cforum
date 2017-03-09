@@ -11,7 +11,11 @@ module Peon
 
       def check_for_yearling_badges(user)
         yearling = Badge.where(slug: 'yearling').first!
-        last_yearling = user.badge_users.where(badge_id: yearling.badge_id).order(created_at: :desc).first
+        last_yearling = BadgeUser
+                          .where(user_id: user.user_id,
+                                 badge_id: yearling.badge_id)
+                          .order(created_at: :desc)
+                          .first
 
         difference = if last_yearling.blank?
                        DateTime.now - user.created_at.to_datetime
@@ -21,6 +25,7 @@ module Peon
 
         years = (difference / 365).floor
         years = 0 if years < 0
+
         years.times do
           give_badge(user, yearling)
         end
