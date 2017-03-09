@@ -28,11 +28,11 @@ module Peon
 
       def check_for_owner_vote_badges(user, message)
         badges = [
-          {votes: 1, name: 'donee'},
-          {votes: 5, name: 'nice_answer'},
-          {votes: 10, name: 'good_answer'},
-          {votes: 15, name: 'great_answer'},
-          {votes: 20, name: 'superb_answer'}
+          { votes: 1, name: 'donee' },
+          { votes: 5, name: 'nice_answer' },
+          { votes: 10, name: 'good_answer' },
+          { votes: 15, name: 'great_answer' },
+          { votes: 20, name: 'superb_answer' }
         ]
 
         votes = message.score
@@ -44,7 +44,7 @@ module Peon
           end
         end
 
-        if message.upvotes >= 5 and message.downvotes >= 5
+        if (message.upvotes >= 5) && (message.downvotes >= 5)
           b = user.badges.find { |user_badge| user_badge.slug == 'controverse' }
           give_badge(user, Badge.where(slug: 'controverse').first!) if b.blank?
         end
@@ -61,7 +61,7 @@ module Peon
           give_badge(vote.user, Badge.where(slug: 'critic').first!) if b.blank?
         end
 
-        badges = [100, 250, 500, 1000, 2500, 5000, 10000]
+        badges = [100, 250, 500, 1000, 2500, 5000, 10_000]
         voter_badge = Badge.where(slug: 'voter').first!
         all_user_votes = Vote.where(user_id: vote.user_id).count
         all_user_badges = BadgeUser.where(user_id: vote.user_id, badge_id: voter_badge.badge_id).count
@@ -78,7 +78,7 @@ module Peon
         end
       end
 
-      def run_periodical(args)
+      def run_periodical(_args)
         User.order(:user_id).all.each do |u|
           check_for_yearling_badges(u)
         end
@@ -103,7 +103,7 @@ module Peon
         case args['type']
         when 'removed-vote', 'changed-vote', 'unaccepted'
         when 'voted', 'accepted'
-          if not @message.user_id.blank?
+          unless @message.user_id.blank?
             check_for_owner_vote_badges(@message.owner, @message) if args['type'] == 'voted'
 
             score = @message.owner.score
@@ -113,17 +113,16 @@ module Peon
             badges.each do |b|
               found = user_badges.find { |obj| obj.badge_id == b.badge_id }
 
-              unless found
-                @message.owner.badge_users.create(badge_id: b.badge_id, created_at: DateTime.now, updated_at: DateTime.now)
-                @message.owner.reload
-                audit(@message.owner, 'badge-gained', nil)
-                notify_user(
-                  @message.owner, '', I18n.t('badges.badge_won',
-                                             name: b.name,
-                                             mtype: I18n.t("badges.badge_medal_types." + b.badge_medal_type)),
-                  badge_path(b), b.badge_id, 'badge'
-                )
-              end
+              next if found
+              @message.owner.badge_users.create(badge_id: b.badge_id, created_at: DateTime.now, updated_at: DateTime.now)
+              @message.owner.reload
+              audit(@message.owner, 'badge-gained', nil)
+              notify_user(
+                @message.owner, '', I18n.t('badges.badge_won',
+                                           name: b.name,
+                                           mtype: I18n.t('badges.badge_medal_types.' + b.badge_medal_type)),
+                badge_path(b), b.badge_id, 'badge'
+              )
             end
 
           end
