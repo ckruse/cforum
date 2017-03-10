@@ -121,7 +121,7 @@ module ParserHelper
   def to_html(app, opts = {})
     to_doc(app, opts)
 
-    html = @doc.to_cf_html
+    html = span_emojis(@doc.to_cf_html)
 
     # some users do things like this
     # > > > text
@@ -131,6 +131,19 @@ module ParserHelper
     # consecutive block quotes
     html.gsub!(%r{</blockquote>\s*<blockquote>}m, '')
     html.html_safe
+  end
+
+  def span_emojis(html)
+    if @_emojis.blank?
+      @_emojis = JSON.parse(File.read(Rails.root + 'config/emojis.json'))
+      @_reversed_emojis = @_emojis.invert
+      rx_values = @_emojis.values.map { |emoji| Regexp.quote emoji }
+      @_emojis_regex = /#{rx_values.join('|')}/
+    end
+
+    html.gsub(@_emojis_regex) do |emoji|
+      %Q{<span role="img" aria-label="#{@_reversed_emojis[emoji].tr('_', ' ')}" class="emoji">#{emoji}</span>}
+    end
   end
 
   def to_quote(app, opts = {})
