@@ -18,6 +18,9 @@ module MentionsHelper
         in_cite = false
         last_char = "\n"
 
+      elsif doc.scan(/\\@/)
+        last_char = '\\'
+
       elsif doc.scan(/@([^@\n]+)/)
         next if not last_char.blank? and last_char =~ /[a-zäöüß0-9_.@-]/
         nick = doc[1].strip[0..60]

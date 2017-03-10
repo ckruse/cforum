@@ -39,7 +39,7 @@ module ParserHelper
       already_replaced[m[0]] = true
       username = Regexp.escape(m[0])
 
-      cnt = cnt.gsub(/(\A|[^a-zäöüß0-9_.@-])@(#{username})\b/) do
+      cnt = cnt.gsub(/(\A|[^a-zäöüß0-9_.@\\-])@(#{username})\b/) do
         classes = []
         classes << highlight_notify_mention(m, app) if do_notify
 
@@ -83,6 +83,8 @@ module ParserHelper
 
       mentions = md_mentions
       cnt = highlight_mentions(app, mentions, cnt, opts[:notify_mentions]) unless mentions.blank?
+
+      cnt.gsub!(/\\@/, '@')
 
       ncnt = ''
       quote_level = 0
