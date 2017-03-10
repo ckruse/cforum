@@ -1,7 +1,4 @@
-/* -*- coding: utf-8 -*- */
-/* global cforum */
-
-cforum.emojis = {
+{
   "100": "💯",
   "1234": "🔢",
   "interrobang": "⁉️",
@@ -1283,5 +1280,4 @@ cforum.emojis = {
   "flag-zw": "🇿🇼",
   "facepalm": "🤦",
   "shrug": "🤷"
-};
-
+}
