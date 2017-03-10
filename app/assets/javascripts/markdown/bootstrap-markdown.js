@@ -702,7 +702,7 @@
     },
 
 
-    getLeadingNewlines: function(content, selected) {
+    __getLeadingNewlines: function(content, selected) {
       var newlines = '',
           str = content.substr(selected.start - 2, 2);
  
@@ -1229,7 +1229,7 @@
                   return '- ' + string;
                 });
 
-                var start = e.getLeadingNewlines(content, selected);
+                var start = e.__getLeadingNewlines(content, selected);
                 e.replaceSelection(start + list.join('\n'));
 
                 // Set the cursor
@@ -1291,7 +1291,7 @@
                   return (index + 1) + '. ' + string;
                 });
 
-                var start = e.getLeadingNewlines(content, selected);
+                var start = e.__getLeadingNewlines(content, selected);
                 e.replaceSelection(start + list.join('\n'));
 
                 // Set the cursor
@@ -1353,7 +1353,7 @@
                   return;
                 }
 
-                prefix = e.getLeadingNewlines(content, selected);
+                prefix = e.__getLeadingNewlines(content, selected);
                 e.replaceSelection(prefix + '~~~' + (lang || "") + '\n' + chunk + '\n~~~\n');
                 cursor = selected.start + prefix.length + 4 + lang.length;
               }
