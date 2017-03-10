@@ -1351,7 +1351,8 @@
             };
 
             // Define actions
-            var removeMarkup = function(characters) {
+            var removeMarkup = function(type) {
+              var characters = { block: 4, inline: 1 }[type];
               var cursor = selection.start - characters;
               e.setSelection(cursor, selection.end + characters);
               e.replaceSelection(text);
@@ -1364,27 +1365,23 @@
               e.setSelection(cursor, cursor + text.length);
             };
 
-            var removeInlineCode = removeMarkup.bind(null, 1);
-
             var createCodeBlock = function() {
               var lang = window.prompt(t('code_lang'));
               if(languageIsValid(lang)) {
                 var prefix = e.__getLeadingNewlines(content, selection);
-                e.replaceSelection(prefix + '~~~' + (lang || "") + '\n' + text + '\n~~~\n');
-                var cursor = selection.start + prefix.length + 4 + lang.length;
+                e.replaceSelection(prefix + '~~~' + lang + '\n' + text + '\n~~~\n');
+                var cursor = selection.start + 4 + prefix.length + lang.length;
                 e.setSelection(cursor, cursor + text.length);
               }
             };
 
-            var removeCodeBlock = removeMarkup.bind(null, 4);
-
             // Do something
             switch(true) {
               case selectionIsCodeBlock():
-                removeCodeBlock();
+                removeMarkup('block');
                 break;
               case selectionIsInlineCode():
-                removeInlineCode();
+                removeMarkup('inline');
                 break;
               case selectionContainsNewlines():
                 createCodeBlock();
