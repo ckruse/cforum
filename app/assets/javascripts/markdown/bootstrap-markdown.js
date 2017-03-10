@@ -702,7 +702,7 @@
     },
 
 
-    getLeadingNewlines: function(content, selected) {
+    __getLeadingNewlines: function(content, selected) {
       var newlines = '',
           str = content.substr(selected.start - 2, 2);
  
@@ -1229,7 +1229,7 @@
                   return '- ' + string;
                 });
 
-                var start = e.getLeadingNewlines(content, selected);
+                var start = e.__getLeadingNewlines(content, selected);
                 e.replaceSelection(start + list.join('\n'));
 
                 // Set the cursor
@@ -1291,7 +1291,7 @@
                   return (index + 1) + '. ' + string;
                 });
 
-                var start = e.getLeadingNewlines(content, selected);
+                var start = e.__getLeadingNewlines(content, selected);
                 e.replaceSelection(start + list.join('\n'));
 
                 // Set the cursor
@@ -1313,58 +1313,85 @@
             'fa-3': 'icon-code'
           },
           callback: function(e) {
-            // Give/remove ** surround the selection
-            var lang, chunk, cursor, prefix, selected = e.getSelection(), content = e.getContent();
+            // Get content and selection
+            var content = e.getContent(), selection = e.getSelection();
 
-            if(selected.length === 0) {
-              // Give extra word
-              chunk = e.__localize('code text here');
-            }
-            else {
-              chunk = selected.text;
-            }
+            // Get selected text
+            var text = (selection.length === 0) ? e.__localize('code text here') : selection.text;
 
-            // transform selection and set the cursor into chunked text
-            if(content.substr(selected.start - 4, 4) === '~~~\n' && content.substr(selected.end, 4) === '\n~~~') {
-              e.setSelection(selected.start - 4, selected.end + 4);
-              e.replaceSelection(chunk);
-              cursor = selected.start - 4;
-            }
-            else if(content.substr(selected.start - 1, 1) === '`' && content.substr(selected.end, 1) === '`') {
-              e.setSelection(selected.start - 1, selected.end + 1);
-              e.replaceSelection(chunk);
-              cursor = selected.start - 1;
-            }
-            else if(!selected.length && content.substr(selected.start - 2, 2) === '\n\n') {
-              lang = window.prompt(t('code_lang'));
+            // Define conditions
+            var selectionIsCodeBlock = function() {
+              return (
+                (content.substr(selection.start - 4, 4) === '~~~\n') &&
+                (content.substr(selection.end, 4) === '\n~~~')
+              );
+            };
 
-              if((lang && lang.length > 20) || lang === null) {
-                return;
+            var selectionIsInlineCode = function() {
+              return (
+                (content.charAt(selection.start - 1) === '`') &&
+                (content.charAt(selection.end) === '`')
+              );
+            };
+
+            var selectionContainsNewlines = function() {
+              return (text.indexOf('\n') > -1);
+            };
+
+            var selectionIsPrecededByNewlines = function() {
+              return (content.substr(selection.start - 2, 2) === '\n\n');
+            };
+
+            var selectionIsWholeLine = function() {
+              return (selection.end === content.length) || (content.charAt(selection.end) === '\n');
+            };
+
+            var languageIsValid = function(lang) {
+              return (lang != null) && (lang.length < 20);
+            };
+
+            // Define actions
+            var removeMarkup = function(type) {
+              var characters = { block: 4, inline: 1 }[type];
+              var cursor = selection.start - characters;
+              e.setSelection(cursor, selection.end + characters);
+              e.replaceSelection(text);
+              e.setSelection(cursor, cursor + text.length);
+            };
+
+            var createInlineCode = function() {
+              var cursor = selection.start + 1;
+              e.replaceSelection('`' + text + '`');
+              e.setSelection(cursor, cursor + text.length);
+            };
+
+            var createCodeBlock = function() {
+              var lang = window.prompt(t('code_lang'));
+              if(languageIsValid(lang)) {
+                var prefix = e.__getLeadingNewlines(content, selection);
+                e.replaceSelection(prefix + '~~~' + lang + '\n' + text + '\n~~~\n');
+                var cursor = selection.start + 4 + prefix.length + lang.length;
+                e.setSelection(cursor, cursor + text.length);
               }
+            };
 
-              e.replaceSelection('~~~' + (lang || '') + '\n' + chunk + '\n~~~\n');
-              cursor = selected.start + 4 + lang.length;
+            // Do something
+            switch(true) {
+              case selectionIsCodeBlock():
+                removeMarkup('block');
+                break;
+              case selectionIsInlineCode():
+                removeMarkup('inline');
+                break;
+              case selectionContainsNewlines():
+                createCodeBlock();
+                break;
+              case selectionIsPrecededByNewlines() && selectionIsWholeLine():
+                createCodeBlock();
+                break;
+              default:
+                createInlineCode();
             }
-            else {
-              if(chunk.indexOf('\n') > -1) {
-                lang = window.prompt(t('code_lang'));
-
-                if((lang && lang.length > 20) || lang === null) {
-                  return;
-                }
-
-                prefix = e.getLeadingNewlines(content, selected);
-                e.replaceSelection(prefix + '~~~' + (lang || "") + '\n' + chunk + '\n~~~\n');
-                cursor = selected.start + prefix.length + 4 + lang.length;
-              }
-              else {
-                e.replaceSelection('`' + chunk + '`');
-                cursor = selected.start + 1;
-              }
-            }
-
-            // Set the cursor
-            e.setSelection(cursor, cursor + chunk.length);
           }
         }, {
           name: 'cmdQuote',
