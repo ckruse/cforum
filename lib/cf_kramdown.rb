@@ -115,6 +115,26 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
       false
     end
   end
+
+  def update_attr_with_ial(attr, ial)
+    if ial[:refs]
+      ial[:refs].each do |ref|
+        ref = @alds[ref]
+        update_attr_with_ial(attr, ref) if ref
+      end
+    end
+
+    ial.each do |k, v|
+      next if k =~ /^on.*/ || k == 'style'
+
+      if k == IAL_CLASS_ATTR
+        attr[k] = (attr[k] || '') << " #{v}"
+        attr[k].lstrip!
+      elsif k.is_a?(String)
+        attr[k] = v
+      end
+    end
+  end
 end
 
 class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
