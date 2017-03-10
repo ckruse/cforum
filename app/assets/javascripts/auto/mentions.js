@@ -7,7 +7,7 @@ cforum.replacements = function(elem, with_mentions) {
   if(with_mentions) {
     strategies.push({
       id: 'mentions',
-      match: /\B@([^\n]{2,})$/,
+      match: /\B@([^\n@]{2,})$/,
       search: function (term, callback) {
         $.get(cforum.baseUrl + 'users.json?nick=' + encodeURIComponent(term)).
           done(function(data) {
