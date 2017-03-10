@@ -27,6 +27,11 @@ content_for :h1, t("messages.close_vote.close_message",
     <%= f.label :reason %>
     <div class="cntrls">
       <label class="radio">
+        <%= f.radio_button :reason, "spam" %>
+        <%= t('messages.close_vote.spam') %>
+      </label>
+
+      <label class="radio">
         <%= f.radio_button :reason, "off-topic" %>
         <%= t('messages.close_vote.off-topic') %>
       </label>

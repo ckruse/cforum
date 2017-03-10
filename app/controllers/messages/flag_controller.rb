@@ -29,7 +29,7 @@ class Messages::FlagController < ApplicationController
       return
     end
 
-    unless %w(off-topic not-constructive duplicate custom).include?(params[:reason])
+    unless %w(off-topic not-constructive duplicate custom spam).include?(params[:reason])
       flash.now[:error] = t('plugins.flag_plugin.reason_invalid')
       render :flag
       return

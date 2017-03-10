@@ -11,6 +11,11 @@ content_for :h1, t('plugins.flag_plugin.only_flag_message')
 
     <div class="cntrls">
       <label class="radio">
+        <%= radio_button_tag :reason, "spam", params[:reason] == 'spam' %>
+        <%= t('messages.close_vote.spam') %>
+      </label>
+
+      <label class="radio">
         <%= radio_button_tag :reason, "off-topic", params[:reason] == 'off-topic' %>
         <%= t('messages.close_vote.off-topic') %>
       </label>
