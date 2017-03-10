@@ -11,7 +11,7 @@ class Messages::FlagController < ApplicationController
   def flag
     @thread, @message, @id = get_thread_w_post
 
-    if not @message.flags['flagged'].blank?
+    unless @message.flags['flagged'].blank?
       redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.already_flagged')
       return
     end
@@ -24,13 +24,13 @@ class Messages::FlagController < ApplicationController
   def flagging
     @thread, @message, @id = get_thread_w_post
 
-    if not @message.flags['flagged'].blank?
+    unless @message.flags['flagged'].blank?
       redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.already_flagged')
       return
     end
 
-    if not %w(off-topic not-constructive duplicate custom).include?(params[:reason])
-      flash.now[:error] = t("plugins.flag_plugin.reason_invalid")
+    unless %w(off-topic not-constructive duplicate custom).include?(params[:reason])
+      flash.now[:error] = t('plugins.flag_plugin.reason_invalid')
       render :flag
       return
     end
@@ -38,8 +38,8 @@ class Messages::FlagController < ApplicationController
     @message.flags_will_change!
 
     if params[:reason] == 'duplicate'
-      if params[:duplicate_slug].blank? or not params[:duplicate_slug] =~ /^https?:\/\//
-        flash.now[:error] = t("plugins.flag_plugin.dup_url_needed")
+      if params[:duplicate_slug].blank? || !(params[:duplicate_slug] =~ /^https?:\/\//)
+        flash.now[:error] = t('plugins.flag_plugin.dup_url_needed')
         render :flag
         return
       end
@@ -48,7 +48,7 @@ class Messages::FlagController < ApplicationController
 
     elsif params[:reason] == 'custom'
       if params[:custom_reason].blank?
-        flash.now[:error] = t("plugins.flag_plugin.custom_reason_needed")
+        flash.now[:error] = t('plugins.flag_plugin.custom_reason_needed')
         render :flag
         return
       end
@@ -64,7 +64,8 @@ class Messages::FlagController < ApplicationController
     peon(class_name: 'NotifyFlaggedTask',
          arguments: {
            type: 'message',
-           message_id: @message.message_id})
+           message_id: @message.message_id
+         })
 
     redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.flagged')
   end
@@ -82,7 +83,6 @@ class Messages::FlagController < ApplicationController
 
     redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.unflagged')
   end
-
 end
 
 # eof

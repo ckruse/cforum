@@ -7,30 +7,34 @@ class CloseVoteController < ApplicationController
 
   authorize_controller { authorize_forum(permission: :write?) }
 
-  authorize_action([:new, :create]) { not current_user.blank? and
-    (current_forum.moderator?(current_user) or
-     may?(Badge::CREATE_CLOSE_REOPEN_VOTE)) }
+  authorize_action([:new, :create]) do
+    !current_user.blank? &&
+      (current_forum.moderator?(current_user) ||
+       may?(Badge::CREATE_CLOSE_REOPEN_VOTE))
+  end
 
-  authorize_action(:vote) { not current_user.blank? and
-    (current_forum.moderator?(current_user) or
-     may?(Badge::VISIT_CLOSE_REOPEN)) }
+  authorize_action(:vote) do
+    !current_user.blank? &&
+      (current_forum.moderator?(current_user) ||
+       may?(Badge::VISIT_CLOSE_REOPEN))
+  end
 
   def new
     @thread, @message, @id = get_thread_w_post
 
-    if not @message.close_vote.blank?
+    unless @message.close_vote.blank?
       redirect_to message_url(@thread, @message),
-        notice: t('messages.close_vote.close_vote_already_exists')
+                  notice: t('messages.close_vote.close_vote_already_exists')
       return
     end
 
-    if not @message.flags['no-answer-admin'].blank?
+    unless @message.flags['no-answer-admin'].blank?
       redirect_to message_url(@thread, @message),
-        notice: t('messages.close_vote.moderator_decision')
+                  notice: t('messages.close_vote.moderator_decision')
       return
     end
 
-    @close_vote =  CloseVote.new
+    @close_vote = CloseVote.new
     @close_vote.message_id = @message.message_id
 
     respond_with @close_vote
@@ -39,19 +43,19 @@ class CloseVoteController < ApplicationController
   def new_open
     @thread, @message, @id = get_thread_w_post
 
-    if not @message.open_vote.blank?
+    unless @message.open_vote.blank?
       redirect_to message_url(@thread, @message),
-        notice: t('messages.close_vote.open_vote_already_exists')
+                  notice: t('messages.close_vote.open_vote_already_exists')
       return
     end
 
-    if not @message.flags['no-answer-admin'].blank?
+    unless @message.flags['no-answer-admin'].blank?
       redirect_to message_url(@thread, @message),
-        notice: t('messages.close_vote.moderator_decision')
+                  notice: t('messages.close_vote.moderator_decision')
       return
     end
 
-    @open_vote =  CloseVote.new
+    @open_vote = CloseVote.new
     @open_vote.message_id = @message.message_id
     @open_vote.vote_type = true
 
@@ -61,15 +65,15 @@ class CloseVoteController < ApplicationController
   def create_open
     @thread, @message, @id = get_thread_w_post
 
-    if not @message.flags['no-answer-admin'].blank?
+    unless @message.flags['no-answer-admin'].blank?
       redirect_to message_url(@thread, @message),
-        notice: t('messages.close_vote.moderator_decision')
+                  notice: t('messages.close_vote.moderator_decision')
       return
     end
 
-    if not @message.open_vote.blank?
+    unless @message.open_vote.blank?
       redirect_to message_url(@thread, @message),
-        notice: t('messages.close_vote.open_vote_already_exists')
+                  notice: t('messages.close_vote.open_vote_already_exists')
       return
     end
 
@@ -79,15 +83,15 @@ class CloseVoteController < ApplicationController
   def create
     @thread, @message, @id = get_thread_w_post
 
-    if not @message.flags['no-answer-admin'].blank?
+    unless @message.flags['no-answer-admin'].blank?
       redirect_to message_url(@thread, @message),
-        notice: t('messages.close_vote.moderator_decision')
+                  notice: t('messages.close_vote.moderator_decision')
       return
     end
 
-    if not @message.close_vote.blank?
+    unless @message.close_vote.blank?
       redirect_to message_url(@thread, @message),
-        notice: t('messages.close_vote.close_vote_already_exists')
+                  notice: t('messages.close_vote.close_vote_already_exists')
       return
     end
 
@@ -99,8 +103,8 @@ class CloseVoteController < ApplicationController
     @close_vote.message_id = @message.message_id
     @close_vote.vote_type = vtype
 
-    if not @close_vote.duplicate_slug.blank? and
-        @close_vote.duplicate_slug =~ /^https?/
+    if !@close_vote.duplicate_slug.blank? &&
+       @close_vote.duplicate_slug =~ /^https?/
       begin
         uri = URI.parse(@close_vote.duplicate_slug)
         # we have to remove the forum slug as well, thus the gsub
@@ -123,17 +127,21 @@ class CloseVoteController < ApplicationController
 
     respond_to do |format|
       if saved
-        format.html { redirect_to message_url(@thread, @message),
-          notice: t('messages.close_vote.created') }
+        format.html do
+          redirect_to message_url(@thread, @message),
+                      notice: t('messages.close_vote.created')
+        end
         format.json { render json: @close_vote }
 
         peon(class_name: 'NotifyOpenCloseVoteTask',
-             arguments: {type: 'created', message_id: @message.message_id,
-                         vote_type: vtype})
+             arguments: { type: 'created', message_id: @message.message_id,
+                          vote_type: vtype })
       else
         format.html { render vtype ? :new_open : :new }
-        format.json { render json: @close_vote.errors,
-          status: :unprocessable_entity }
+        format.json do
+          render json: @close_vote.errors,
+                 status: :unprocessable_entity
+        end
       end
     end
   end
@@ -141,9 +149,9 @@ class CloseVoteController < ApplicationController
   def vote
     @thread, @message, @id = get_thread_w_post
 
-    if not @message.flags['no-answer-admin'].blank?
+    unless @message.flags['no-answer-admin'].blank?
       redirect_to message_url(@thread, @message),
-        notice: t('messages.close_vote.moderator_decision')
+                  notice: t('messages.close_vote.moderator_decision')
       return
     end
 
@@ -153,9 +161,9 @@ class CloseVoteController < ApplicationController
   def vote_open
     @thread, @message, @id = get_thread_w_post
 
-    if not @message.flags['no-answer-admin'].blank?
+    unless @message.flags['no-answer-admin'].blank?
       redirect_to message_url(@thread, @message),
-        notice: t('messages.close_vote.moderator_decision')
+                  notice: t('messages.close_vote.moderator_decision')
       return
     end
 
@@ -167,33 +175,33 @@ class CloseVoteController < ApplicationController
 
     if vote.blank?
       redirect_to message_url(@thread, @message),
-        notice: t('messages.close_vote.no_vote')
+                  notice: t('messages.close_vote.no_vote')
       return
     end
 
     if vote.finished
       redirect_to message_url(@thread, @message),
-        notice: t('messages.close_vote.vote_already_closed')
+                  notice: t('messages.close_vote.vote_already_closed')
       return
     end
 
     if vote.has_voted?(current_user)
       CloseVotesVoter.where(user_id: current_user.user_id,
-                              close_vote_id: vote.close_vote_id).
-        first.destroy
+                            close_vote_id: vote.close_vote_id)
+        .first.destroy
       deleted = true
       vote.reload
     else
-      if not vote.voters.create(user_id: current_user.user_id)
+      unless vote.voters.create(user_id: current_user.user_id)
         redirect_to message_url(@thread, @message), notice: t('global.something_went_wrong')
         return
       end
     end
 
-    if vote.voters.length >= conf("close_vote_votes").to_i
+    if vote.voters.length >= conf('close_vote_votes').to_i
       Message.transaction do
         vote.update_attributes(finished: true)
-        audit(vote, "finished")
+        audit(vote, 'finished')
 
         if vote.vote_type == false
           finish_action_close(@message, vote)
@@ -203,11 +211,11 @@ class CloseVoteController < ApplicationController
       end
 
       peon(class_name: 'NotifyOpenCloseVoteTask',
-           arguments: {type: 'finished', message_id: @message.message_id, vote_type: vote.vote_type})
+           arguments: { type: 'finished', message_id: @message.message_id, vote_type: vote.vote_type })
     end
 
     respond_to do |format|
-      format.html {
+      format.html do
         url = if @message.deleted
                 forum_url(current_forum.slug)
               else
@@ -216,14 +224,14 @@ class CloseVoteController < ApplicationController
 
         redirect_to url,
                     notice: t(deleted ? 'messages.close_vote.vote_deleted' : 'messages.close_vote.voted')
-      }
+      end
       format.json { render json: vote }
     end
   end
 
   private
 
-  def finish_action_close(msg, vote)
+  def finish_action_close(_msg, vote)
     action = vote_action(vote)
 
     if action == 'close'
@@ -235,7 +243,7 @@ class CloseVoteController < ApplicationController
     end
   end
 
-  def finish_action_open(msg, vote)
+  def finish_action_open(_msg, vote)
     action = vote_action(vote)
 
     if action == 'close'
@@ -248,8 +256,8 @@ class CloseVoteController < ApplicationController
   end
 
   def close_vote_params
-    params.require(:close_vote).
-      permit(:reason, :duplicate_slug, :custom_reason)
+    params.require(:close_vote)
+      .permit(:reason, :duplicate_slug, :custom_reason)
   end
 end
 
