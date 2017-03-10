@@ -14,6 +14,7 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
 
     @block_parsers.unshift :email_style_sig
     @span_parsers.unshift :email_style_sig_span
+    @span_parsers.unshift :inline_strikethrough
 
     idx = @block_parsers.index(:setext_header)
     @block_parsers[idx] = :cf_setext_header
@@ -53,6 +54,15 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
     true
   end
   define_parser(:email_style_sig_span, SIGNATURE_START) unless @@parsers.key?(:email_style_sig_span)
+
+  INLINE_STRIKE_THROUGH_START = /~~~(.*?)~~~/m
+  def parse_inline_strikethrough
+    start_line_number = @src.current_line_number
+    @src.pos += @src.matched_size
+    @tree.children << Element.new(:strike_through, @src[1].strip,
+                                  nil, category: :span, location: start_line_number)
+  end
+  define_parser(:inline_strikethrough, INLINE_STRIKE_THROUGH_START, '~') unless @@parsers.key?(:inline_strikethrough)
 
   define_parser(:span_html, /\0/) unless @@parsers.key?(:span_html)
   define_parser(:block_html, /\0/) unless @@parsers.key?(:block_html)
@@ -176,6 +186,13 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
   def convert_email_style_sig(el, indent)
     @sig_content = '<span class="signature"><span class="sig-dashes">-- </span>' + inner(el, indent) + '</span>'
     ''
+  end
+
+  def convert_strike_through(el, _indent)
+    attr = el.attr.dup
+    attr['class'] = attr['class'].to_s + ' strike-through'
+
+    format_as_span_html('del', attr, el.value)
   end
 
   def convert_a(el, indent)
