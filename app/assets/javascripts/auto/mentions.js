@@ -4,23 +4,6 @@
 cforum.replacements = function(elem, with_mentions) {
   var strategies = [];
 
-  if(with_mentions) {
-    strategies.push({
-      id: 'mentions',
-      match: /\B@([^\n@]{2,})$/,
-      search: function (term, callback) {
-        $.get(cforum.baseUrl + 'users.json?nick=' + encodeURIComponent(term)).
-          done(function(data) {
-            callback($.map(data, function(element) { return element.username; }));
-          });
-      },
-      index: 1,
-      replace: function (mention) {
-        return '@' + mention + ' ';
-      }
-    });
-  }
-
   strategies.push({
     id: 'smileys',
     match: /(:-?\)|;-?\)|:-?D|:-?P|:-?\(|:-?O|:-?\||:-?\/|:-?x|m\()$/i,
@@ -165,6 +148,23 @@ cforum.replacements = function(elem, with_mentions) {
       return text;
     }
   });
+
+  if(with_mentions) {
+    strategies.push({
+      id: 'mentions',
+      match: /\B@([^\n@]{2,})$/,
+      search: function (term, callback) {
+        $.get(cforum.baseUrl + 'users.json?nick=' + encodeURIComponent(term)).
+          done(function(data) {
+            callback($.map(data, function(element) { return element.username; }));
+          });
+      },
+      index: 1,
+      replace: function (mention) {
+        return '@' + mention + ' ';
+      }
+    });
+  }
 
   $(elem).textcomplete(strategies, { maxCount: 750 })
     .on("textComplete:render", function(ev, menu) {
