@@ -76,7 +76,7 @@ cforum.replacements = function(elem, with_mentions) {
     replace: function(text) { return text; }
   });
 
-  strategies.push(    {
+  strategies.push({
     id: 'emoji',
     type: 'row',
     rowLength: 5,
