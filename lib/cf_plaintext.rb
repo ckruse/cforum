@@ -293,6 +293,10 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
   def convert_email_style_sig(_el)
     ''
   end
+
+  def convert_strike_through(el)
+    inner(el)
+  end
 end
 
 # eof
