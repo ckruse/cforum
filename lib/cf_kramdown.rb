@@ -19,6 +19,7 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
     idx = @block_parsers.index(:setext_header)
     @block_parsers[idx] = :cf_setext_header
     @app_controller = args.last[:app]
+    @with_styles = args.last[:with_styles]
   end
 
   Kernel.silence_warnings do
@@ -135,7 +136,8 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
     end
 
     ial.each do |k, v|
-      next if k =~ /^on.*/ || k == 'style'
+      next if k =~ /^on.*/
+      next if k == 'style' && !@with_styles
 
       if k == IAL_CLASS_ATTR
         attr[k] = (attr[k] || '') << " #{v}"

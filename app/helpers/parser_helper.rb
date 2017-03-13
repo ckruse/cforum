@@ -69,7 +69,8 @@ module ParserHelper
       root_url: opts[:root_url] || app.root_url,
       math_engine_opts: { preview: true },
       notify_mentions: true,
-      syntax_highlighter: 'rouge'
+      syntax_highlighter: 'rouge',
+      with_styles: (created_at || Time.zone.now) < Time.zone.parse('2017-03-10 15:00')
     )
 
     if @doc.blank?
