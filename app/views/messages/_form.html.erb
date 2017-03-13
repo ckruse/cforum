@@ -78,11 +78,3 @@ with_name ||= false
   </div>
 </fieldset>
 
-<% if @edit and (current_user.try(:admin?) and message.format == 'markdown') %>
-  <div class="cf-cgroup">
-    <label><%= t("messages.delete_previous_versions") %></label>
-    <div class="cntrls">
-      <label class="checkbox"><%= check_box_tag 'delete_previous_versions', '1', params[:delete_previous_versions] == '1' %></label>
-    </div>
-  </div>
-<% end %>

@@ -60,9 +60,9 @@ content_for :body_classes, 'threads split forum-' + (current_forum.try(:slug) ||
 
     <% if may?(Badge::RETAG) %>
       <div class="cf-cgroup">
-        <label><%= t('messages.retag_answers') %></label>
+        <label for="retag_answers"><%= t('messages.retag_answers') %></label>
         <div class="cntrls">
-          <label class="checkbox"><input type="checkbox" name="retag_answers" value="1"></label>
+          <label class="checkbox"><%= check_box_tag 'retag_answers', '1' %></label>
         </div>
       </div>
     <% end %>

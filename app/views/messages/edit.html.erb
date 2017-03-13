@@ -31,11 +31,20 @@ content_for :body_classes, 'messages edit forum-' + (current_forum.try(:slug) ||
 
   <%= render "form", f: f, with_name: true, tags: @tags, message: @message %>
 
+  <% if @edit and (current_user.try(:admin?) and @message.format == 'markdown') %>
+    <div class="cf-cgroup">
+      <label for="delete_previous_versions"><%= t("messages.delete_previous_versions") %></label>
+      <div class="cntrls">
+        <label class="checkbox"><%= check_box_tag 'delete_previous_versions', '1', params[:delete_previous_versions] == '1' %></label>
+      </div>
+    </div>
+  <% end %>
+
   <% if may?(Badge::RETAG) %>
     <div class="cf-cgroup">
-      <label><%= t('messages.retag_answers') %></label>
+      <label for="retag_answers"><%= t('messages.retag_answers') %></label>
       <div class="cntrls">
-        <label class="checkbox"><input type="checkbox" name="retag_answers" value="1"></label>
+        <label class="checkbox"><%= check_box_tag 'retag_answers', '1' %></label>
       </div>
     </div>
   <% end %>
