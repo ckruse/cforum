@@ -197,6 +197,10 @@ class Message < ApplicationRecord
 
     nil
   end
+
+  def get_created_at
+    created_at || Time.zone.now
+  end
 end
 
 # eof

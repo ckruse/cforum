@@ -30,6 +30,10 @@ module ParserHelper
     nil
   end
 
+  def get_created_at
+    Time.zone.now
+  end
+
   def highlight_mentions(app, mentions, cnt, do_notify)
     root_path = Rails.application.config.action_controller.relative_url_root || '/'
     already_replaced = {}
@@ -70,7 +74,7 @@ module ParserHelper
       math_engine_opts: { preview: true },
       notify_mentions: true,
       syntax_highlighter: 'rouge',
-      with_styles: (created_at || Time.zone.now) < Time.zone.parse('2017-03-10 15:00')
+      with_styles: get_created_at() < Time.zone.parse('2017-03-10 15:00')
     )
 
     if @doc.blank?
