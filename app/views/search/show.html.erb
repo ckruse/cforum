@@ -100,25 +100,25 @@ content_for :robots, 'noindex,nofollow'
 
         <ol>
           <% unless result.attributes['headline_author'].blank? %>
-            <li><%= result.headline_author.html_safe %></li>
+            <li class="headline-author"><%= result.headline_author.html_safe %></li>
           <% end %>
 
           <% unless result.attributes['headline_title'].blank? %>
-            <li><%= result.headline_title.html_safe %></li>
+            <li class="headline-title"><%= result.headline_title.html_safe %></li>
           <% end %>
 
           <% unless result.attributes['headline_doc'].blank? %>
-            <li><%= result.headline_doc.html_safe %></li>
+            <li class="headline-doc"><%= result.headline_doc.html_safe %></li>
             <% had_desc = true %>
           <% end %>
 
           <% unless result.attributes['headline_content'].blank? %>
-            <li><%= result.headline_content.html_safe %></li>
+            <li class="headline-content"><%= result.headline_content.html_safe %></li>
             <% had_desc = true %>
           <% end %>
 
           <% unless had_desc %>
-            <li><%= result.content.truncate_words(30) %></li>
+            <li class="content-truncated"><%= result.content.truncate_words(30) %></li>
           <% end %>
         </ol>
       </article>
