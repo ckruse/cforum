@@ -16,6 +16,10 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
     @stack = []
   end
 
+  def plain(text)
+    text.to_s.gsub(/[ <>&]/, ' ')
+  end
+
   # The mapping of element type to conversion method.
   DISPATCHER = Hash.new { |h, k| h[k] = "convert_#{k}" }
 
@@ -44,7 +48,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
   end
 
   def convert_text(el)
-    el.value
+    plain(el.value)
   end
 
   def convert_p(el)
@@ -52,7 +56,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
   end
 
   def convert_codeblock(el)
-    el.value
+    plain(el.value)
   end
 
   def convert_blockquote(_el)
@@ -140,7 +144,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
   end
 
   def convert_codespan(el)
-    el.value
+    plain(el.value)
   end
 
   def convert_footnote(el)
@@ -150,7 +154,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
     else
       number = @footnote_counter
       @footnote_counter += 1
-      @footnotes << [el.options[:name], el.value, number, 0]
+      @footnotes << [el.options[:name], plain(el.value), number, 0]
       @footnotes_by_name[el.options[:name]] = @footnotes.last
     end
 
@@ -159,7 +163,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
 
   def convert_raw(el)
     if !el.options[:type] || el.options[:type].empty? || el.options[:type].include?('html')
-      el.value + (el.options[:category] == :block ? "\n" : '')
+      plain(el.value) + (el.options[:category] == :block ? "\n" : '')
     else
       ''
     end
@@ -171,17 +175,19 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
   alias convert_strong convert_em
 
   def convert_entity(el)
-    '&' + el.value.name + ';'
+    el.value.name
   end
 
   def convert_math(el)
-    el.value
+    plain(el.value)
   end
 
   def convert_abbreviation(el)
     title = @root.options[:abbrev_defs][el.value]
-    ret = el.value
+    ret = plain(el.value)
     ret += ' (' + title + ')' unless title.empty?
+
+    ret
   end
 
   def convert_root(el)
