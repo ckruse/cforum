@@ -11,7 +11,6 @@ module SearchHelper
 
     base_relevance = conf('search_forum_relevance')
 
-
     opts = {
       reference_id: message.message_id,
       forum_id: message.forum_id,
@@ -84,7 +83,7 @@ module SearchHelper
   end
 
   def to_ts_query(terms)
-    (terms.map { |t|
+    (terms.map do |t|
        negated = false
        wildcard = false
        term = t.gsub(/\\/, '\\\\\\')
@@ -109,7 +108,7 @@ module SearchHelper
 
          v
        end
-     }).delete_if(&:blank?).join(" & ")
+     end).delete_if(&:blank?).join(' & ')
   end
 
   def ts_headline(content, query, name, dict = Cforum::Application.config.search_dict)
@@ -132,7 +131,7 @@ module SearchHelper
 
     current = :all
 
-    while !doc.eos?
+    until doc.eos?
       doc.skip(/\s+/)
 
       if doc.scan(/author:/)
@@ -149,13 +148,13 @@ module SearchHelper
 
       elsif doc.scan(/"/)
         term = ''
-        while !doc.eos?
+        until doc.eos?
           if doc.scan(/\\/)
-            if doc.scan(/"/)
-              term << '"'
-            else
-              term << '\\'
-            end
+            term << if doc.scan(/"/)
+                      '"'
+                    else
+                      '\\'
+                    end
 
           elsif doc.scan(/"/)
             break
@@ -187,61 +186,60 @@ module SearchHelper
       q = to_ts_query(query[:all])
       quoted_q = SearchDocument.connection.quote(q)
 
-      search_results = search_results.
-                       where("ts_document @@ to_tsquery('" +
+      search_results = search_results
+                         .where("ts_document @@ to_tsquery('" +
                              Cforum::Application.config.search_dict +
                              "', ?)", q)
       select << "ts_rank_cd(ts_document, to_tsquery('" +
-        Cforum::Application.config.search_dict +
-        "', " + quoted_q + "), 32)"
+                Cforum::Application.config.search_dict +
+                "', " + quoted_q + '), 32)'
 
-      select_title << ts_headline("author || ' ' || title || ' ' || content", quoted_q,  "headline_doc")
+      select_title << ts_headline("author || ' ' || title || ' ' || content", quoted_q, 'headline_doc')
     end
 
     unless query[:title].blank?
       q = to_ts_query(query[:title])
       quoted_q = SearchDocument.connection.quote(q)
 
-      search_results = search_results.
-                       where("ts_title @@ to_tsquery('" +
+      search_results = search_results
+                         .where("ts_title @@ to_tsquery('" +
                              Cforum::Application.config.search_dict +
                              "', ?)", q)
 
-      select << "ts_rank_cd(ts_title, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + "), 32)"
-      select_title << ts_headline("title", quoted_q, "headline_title")
+      select << "ts_rank_cd(ts_title, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + '), 32)'
+      select_title << ts_headline('title', quoted_q, 'headline_title')
     end
 
     unless query[:content].blank?
       q = to_ts_query(query[:content])
       quoted_q = SearchDocument.connection.quote(q)
 
-      search_results = search_results.
-                       where("ts_content @@ to_tsquery('" +
+      search_results = search_results
+                         .where("ts_content @@ to_tsquery('" +
                              Cforum::Application.config.search_dict +
                              "', ?)", q)
 
-      select << "ts_rank_cd(ts_content, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + "), 32)"
-      select_title << ts_headline("content", quoted_q, "headline_content")
+      select << "ts_rank_cd(ts_content, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + '), 32)'
+      select_title << ts_headline('content', quoted_q, 'headline_content')
     end
 
     unless query[:author].blank?
       q = to_ts_query(query[:author])
       quoted_q = SearchDocument.connection.quote(q)
 
-      search_results = search_results.
-                       where("ts_author @@ to_tsquery('simple', ?)", q)
+      search_results = search_results
+                         .where("ts_author @@ to_tsquery('simple', ?)", q)
 
-      select << "ts_rank_cd(ts_author, to_tsquery('simple', " + quoted_q + "), 32)"
+      select << "ts_rank_cd(ts_author, to_tsquery('simple', " + quoted_q + '), 32)'
       select_title << ts_headline('author', quoted_q, 'headline_author', 'simple')
     end
 
     unless query[:tags].empty?
-      search_results = search_results.where("tags @> ARRAY[?]::text[]", query[:tags].map { |t| t.downcase })
+      search_results = search_results.where('tags @> ARRAY[?]::text[]', query[:tags].map(&:downcase))
     end
 
-    return search_results, select.join(' + ') + " AS rank", select_title
+    [search_results, select.join(' + ') + ' AS rank', select_title]
   end
-
 end
 
 # eof

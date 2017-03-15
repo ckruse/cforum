@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 dir = File.dirname(__FILE__)
-require File.join(dir, "..", "config", "boot")
-require File.join(dir, "..", "config", "environment")
+require File.join(dir, '..', 'config', 'boot')
+require File.join(dir, '..', 'config', 'environment')
 require File.join(dir, '..', 'lib', 'tools.rb')
 
 include CForum::Tools
@@ -18,7 +18,7 @@ def root_path
 end
 
 def root_url
-  (ActionMailer::Base.default_url_options[:protocol] || 'http') + "://" + ActionMailer::Base.default_url_options[:host] + root_path
+  (ActionMailer::Base.default_url_options[:protocol] || 'http') + '://' + ActionMailer::Base.default_url_options[:host] + root_path
 end
 
 def conf(name)
@@ -34,20 +34,17 @@ sections = {}
 no_messages = 1000
 current_block = 0
 start_date = nil
-start_date = Time.zone.parse(ARGV[0]) if ARGV.length > 0
+start_date = Time.zone.parse(ARGV[0]) unless ARGV.empty?
 
 begin
-  msgs = Message.
-         includes(:thread, :forum, :tags).
-         order(:message_id).
-         limit(no_messages).
-         offset(no_messages * current_block).
-         where(deleted: false)
+  msgs = Message
+           .includes(:thread, :forum, :tags)
+           .order(:message_id)
+           .limit(no_messages)
+           .offset(no_messages * current_block)
+           .where(deleted: false)
 
-  if start_date
-    msgs = msgs.where('created_at >= ?', start_date)
-  end
-
+  msgs = msgs.where('created_at >= ?', start_date) if start_date
 
   current_block += 1
   i = 0
@@ -57,15 +54,15 @@ begin
       base_relevance = conf('search_forum_relevance')
 
       doc = SearchDocument.where(reference_id: m.message_id).first
-      if doc.blank?
-        doc = SearchDocument.new(reference_id: m.message_id)
-      end
+      doc = SearchDocument.new(reference_id: m.message_id) if doc.blank?
 
       if sections[m.forum_id].blank?
         sections[m.forum_id] = SearchSection.where(forum_id: m.forum_id).first
-        sections[m.forum_id] = SearchSection.create!(name: m.forum.name,
-                                                     position: -1,
-                                                     forum_id: m.forum_id) if sections[m.forum_id].blank?
+        if sections[m.forum_id].blank?
+          sections[m.forum_id] = SearchSection.create!(name: m.forum.name,
+                                                       position: -1,
+                                                       forum_id: m.forum_id)
+        end
       end
 
       doc.author = m.author
@@ -86,7 +83,6 @@ begin
       puts m.created_at.strftime('%Y-%m-%d') + ' - ' + m.message_id.to_s if i == no_messages - 1
     end
   end
-end while not msgs.blank?
-
+end while !msgs.blank?
 
 # eof
