@@ -154,7 +154,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
     else
       number = @footnote_counter
       @footnote_counter += 1
-      @footnotes << [el.options[:name], plain(el.value), number, 0]
+      @footnotes << [el.options[:name], el.value, number, 0]
       @footnotes_by_name[el.options[:name]] = @footnotes.last
     end
 
