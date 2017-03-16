@@ -4,41 +4,40 @@ class UsersController < ApplicationController
   include HighlightHelper
 
   authorize_action([:edit, :update, :confirm_destroy, :destroy]) do
-    not current_user.blank? and (current_user.admin? or current_user.user_id.to_s == params[:id])
+    !current_user.blank? && (current_user.admin? || (current_user.user_id.to_s == params[:id]))
   end
 
   authorize_action(:show_votes) do
-    not current_user.blank? and current_user.user_id.to_s == params[:id]
+    !current_user.blank? && (current_user.user_id.to_s == params[:id])
   end
 
   def index
     @limit = conf('pagination_users').to_i
 
-    if not params[:s].blank?
+    if !params[:s].blank?
       @users = User.where('LOWER(username) LIKE LOWER(?)', '%' + params[:s].strip + '%')
       @search_term = params[:s]
-    elsif not params[:nick].blank?
+    elsif !params[:nick].blank?
       @users = User.where('LOWER(username) LIKE LOWER(?)', params[:nick].strip + '%')
       params[:sort] = 'num_msgs'
       params[:dir] = 'desc'
-    elsif not params[:exact].blank?
+    elsif !params[:exact].blank?
       @users = User.where('LOWER(username) = LOWER(?)', params[:exact].strip)
     else
       @users = User
     end
 
     num_msgs = "(SELECT COUNT(*) FROM messages WHERE user_id = users.user_id AND created_at >= NOW() - INTERVAL '30 days')"
-    score_sum = "COALESCE((SELECT SUM(value) FROM scores WHERE user_id = users.user_id), 0)"
+    score_sum = 'COALESCE((SELECT SUM(value) FROM scores WHERE user_id = users.user_id), 0)'
 
-    @users = @users.
-             select("*, #{score_sum} AS score_sum, #{num_msgs} AS num_msgs")
+    @users = @users
+               .select("*, #{score_sum} AS score_sum, #{num_msgs} AS num_msgs")
     @users = sort_query(%w(username created_at updated_at score active admin num_msgs),
-                        @users, {score: score_sum,
-                                 admin: 'COALESCE(admin, false)',
-                                 num_msgs: num_msgs}).
-             order('username ASC').
-             page(params[:page]).per(@limit)
-
+                        @users, score: score_sum,
+                                admin: 'COALESCE(admin, false)',
+                                num_msgs: num_msgs)
+               .order('username ASC')
+               .page(params[:page]).per(@limit)
 
     respond_to do |format|
       format.html
@@ -52,54 +51,57 @@ class UsersController < ApplicationController
     @settings.options ||= {}
     @user_score = Score.where(user_id: @user.user_id).sum('value')
 
-    @messages_by_months = Message.
-                          select("DATE_TRUNC('month', created_at) created_at, COUNt(*) cnt").
-                          where(user_id: @user.user_id,
-                                deleted: false).
-                          order("DATE_TRUNC('month', created_at)").
-                          group("DATE_TRUNC('month', created_at)").
-                          all
+    @messages_by_months = Message
+                            .select("DATE_TRUNC('month', created_at) created_at, COUNt(*) cnt")
+                            .where(user_id: @user.user_id,
+                                   deleted: false)
+                            .order("DATE_TRUNC('month', created_at)")
+                            .group("DATE_TRUNC('month', created_at)")
+                            .all
 
-    @messages_count = Message.where(user_id: @user.user_id, deleted: false).count()
+    @messages_count = Message.where(user_id: @user.user_id, deleted: false).count
 
     sql = Forum.visible_sql(current_user)
 
-    @last_messages = Message.
-      preload(:owner, :tags, votes: :voters, thread: :forum).
-      where("user_id = ? AND deleted = false AND forum_id IN (#{sql})", @user.user_id).
-      order('created_at DESC').
-      limit(5)
+    @last_messages = Message
+                       .preload(:owner, :tags, votes: :voters, thread: :forum)
+                       .where("user_id = ? AND deleted = false AND forum_id IN (#{sql})", @user.user_id)
+                       .order('created_at DESC')
+                       .limit(5)
 
-    @tags_cnts = MessageTag.
-      preload(tag: :forum).
-      joins("INNER JOIN messages USING(message_id)").
-      select("tag_id, COUNT(*) AS cnt").
-      where("deleted = false AND user_id = ? AND forum_id IN (#{sql})", @user.user_id).
-      group("tag_id").
-      order("cnt DESC").
-      limit(10)
+    @tags_cnts = MessageTag
+                   .preload(tag: :forum)
+                   .joins('INNER JOIN messages USING(message_id)')
+                   .select('tag_id, COUNT(*) AS cnt')
+                   .where("deleted = false AND user_id = ? AND forum_id IN (#{sql})", @user.user_id)
+                   .group('tag_id')
+                   .order('cnt DESC')
+                   .limit(10)
 
-    @point_msgs = Message.
-      preload(:owner, :tags, votes: :voters, thread: :forum).
-      where("deleted = false AND upvotes > 0 AND user_id = ? AND forum_id IN (#{sql})", @user.user_id).
-      order('upvotes DESC').
-      limit(10)
+    @point_msgs = Message
+                    .preload(:owner, :tags, votes: :voters, thread: :forum)
+                    .where("deleted = false AND upvotes > 0 AND user_id = ? AND forum_id IN (#{sql})", @user.user_id)
+                    .order('upvotes DESC')
+                    .limit(10)
 
-    scored_msgs = Score.
-      preload(message: [:owner, :tags, {thread: :forum, votes: :voters}], vote: {message: [:owner, :tags, {thread: :forum, votes: :voters}]}).
-      joins("LEFT JOIN messages m1 USING(message_id)
+    scored_msgs = Score
+                    .preload(message: [:owner, :tags,
+                                       { thread: :forum, votes: :voters }],
+                             vote: { message: [:owner, :tags,
+                                               { thread: :forum, votes: :voters }] })
+                    .joins("LEFT JOIN messages m1 USING(message_id)
              LEFT JOIN votes USING(vote_id)
-             LEFT JOIN messages m2 ON votes.message_id = m2.message_id").
-      where(user_id: @user.user_id).
-      where("m1.message_id IS NULL OR m1.forum_id IN (#{sql})").
-      where("m2.message_id IS NULL OR m2.forum_id IN (#{sql})").
-      where("m1.message_id IS NULL OR m1.deleted = false").
-      where("m2.message_id IS NULL OR m2.deleted = false").
-      limit(10).
-      order('created_at DESC')
+             LEFT JOIN messages m2 ON votes.message_id = m2.message_id")
+                    .where(user_id: @user.user_id)
+                    .where("m1.message_id IS NULL OR m1.forum_id IN (#{sql})")
+                    .where("m2.message_id IS NULL OR m2.forum_id IN (#{sql})")
+                    .where('m1.message_id IS NULL OR m1.deleted = false')
+                    .where('m2.message_id IS NULL OR m2.deleted = false')
+                    .limit(10)
+                    .order('created_at DESC')
 
     if current_user.try(:user_id) != @user.user_id
-      scored_msgs = scored_msgs.where("m2.user_id = ?", @user.user_id)
+      scored_msgs = scored_msgs.where('m2.user_id = ?', @user.user_id)
     end
 
     @score_msgs = {}
@@ -118,11 +120,12 @@ class UsersController < ApplicationController
       @score_msgs[id] << score
     end
 
-    @score_msgs = @score_msgs.values.sort { |a,b|
+    @score_msgs = @score_msgs.values.sort do |a, b|
       b.last.created_at <=> a.last.created_at
-    }
+    end
 
-    if (@user.confirmed_at.blank? or not @user.unconfirmed_email.blank?) and (not current_user.blank? and current_user.username == @user.username)
+    if (@user.confirmed_at.blank? || !@user.unconfirmed_email.blank?) &&
+       (!current_user.blank? && (current_user.username == @user.username))
       flash[:error] = I18n.t('users.confirm_first')
     end
 
@@ -134,14 +137,15 @@ class UsersController < ApplicationController
     @settings = @user.settings || Setting.new
     @settings.options ||= {}
 
-    if (@user.confirmed_at.blank? or not @user.unconfirmed_email.blank?) and (not current_user.admin? or current_user.username == @user.username)
-      redirect_to user_url(@user), flash: {error: I18n.t('users.confirm_first')}
+    if (@user.confirmed_at.blank? || !@user.unconfirmed_email.blank?) &&
+       (!current_user.admin? || (current_user.username == @user.username))
+      redirect_to user_url(@user), flash: { error: I18n.t('users.confirm_first') }
       return
     end
 
     highlight_showing_settings(@user)
 
-    @messages_count = Message.where(user_id: @user.user_id).count()
+    @messages_count = Message.where(user_id: @user.user_id).count
   end
 
   def user_params
@@ -151,7 +155,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @messages_count = Message.where(user_id: @user.user_id).count()
+    @messages_count = Message.where(user_id: @user.user_id).count
 
     @settings = Setting.where(user_id: @user.user_id).first
     @settings = Setting.new if @settings.blank?
@@ -207,42 +211,39 @@ class UsersController < ApplicationController
 
     sql = Forum.visible_sql(current_user)
 
-    @scored_msgs = Score.
-                   preload(message: [:owner, :tags,
-                                     {thread: :forum, votes: :voters}],
-                           vote: {message: [:owner, :tags,
-                                            {thread: :forum, votes: :voters}]}).
-      joins("LEFT JOIN messages m1 USING(message_id)
+    @scored_msgs = Score
+                     .preload(message: [:owner, :tags,
+                                        { thread: :forum, votes: :voters }],
+                              vote: { message: [:owner, :tags,
+                                                { thread: :forum, votes: :voters }] })
+                     .joins("LEFT JOIN messages m1 USING(message_id)
              LEFT JOIN votes USING(vote_id)
-             LEFT JOIN messages m2 ON votes.message_id = m2.message_id").
-      where(user_id: @user.user_id).
-      where("m1.message_id IS NULL OR m1.forum_id IN (#{sql})").
-      where("m2.message_id IS NULL OR m2.forum_id IN (#{sql})").
-      where("m1.message_id IS NULL OR m1.deleted = false").
-      where("m2.message_id IS NULL OR m2.deleted = false").
-      order('created_at DESC').
-      page(params[:page]).
-      per(conf('pagination'))
+             LEFT JOIN messages m2 ON votes.message_id = m2.message_id")
+                     .where(user_id: @user.user_id)
+                     .where("m1.message_id IS NULL OR m1.forum_id IN (#{sql})")
+                     .where("m2.message_id IS NULL OR m2.forum_id IN (#{sql})")
+                     .where('m1.message_id IS NULL OR m1.deleted = false')
+                     .where('m2.message_id IS NULL OR m2.deleted = false')
+                     .order('created_at DESC')
+                     .page(params[:page])
+                     .per(conf('pagination'))
 
-    if current_user.try(:user_id) != @user.user_id
-      @scored_msgs = @scored_msgs.where("m2.user_id = ?", @user.user_id)
-    end
-
+    @scored_msgs = @scored_msgs.where('m2.user_id = ?', @user.user_id) if current_user.try(:user_id) != @user.user_id
   end
 
   def show_votes
     @user = User.find(params[:id])
     sql = Forum.visible_sql(current_user)
 
-    @votes = Vote.
-             joins(:message).
-             preload(:score, message: [:owner, :tags,
-                                       {thread: :forum, votes: :voters}]).
-             where(user_id: @user.user_id).
-             where("forum_id IN (#{sql}) AND deleted = false").
-             order("created_at DESC").
-             page(params[:page]).
-             per(conf('pagination'))
+    @votes = Vote
+               .joins(:message)
+               .preload(:score, message: [:owner, :tags,
+                                          { thread: :forum, votes: :voters }])
+               .where(user_id: @user.user_id)
+               .where("forum_id IN (#{sql}) AND deleted = false")
+               .order('created_at DESC')
+               .page(params[:page])
+               .per(conf('pagination'))
   end
 
   def show_messages
@@ -250,12 +251,12 @@ class UsersController < ApplicationController
 
     sql = Forum.visible_sql(current_user)
 
-    @messages = Message.
-                preload(:owner, :tags, votes: :voters, thread: :forum).
-                where("user_id = ? AND deleted = false AND forum_id IN (#{sql})", @user.user_id).
-                order('created_at DESC').
-                page(params[:page]).
-                per(conf('pagination'))
+    @messages = Message
+                  .preload(:owner, :tags, votes: :voters, thread: :forum)
+                  .where("user_id = ? AND deleted = false AND forum_id IN (#{sql})", @user.user_id)
+                  .order('created_at DESC')
+                  .page(params[:page])
+                  .per(conf('pagination'))
   end
 
   private
@@ -264,14 +265,14 @@ class UsersController < ApplicationController
     return if settings.blank?
 
     b = user.badges.find { |badge| badge.slug == 'autobiographer' }
-    return if not b.blank?
+    return unless b.blank?
 
-    if not settings.options['description'].blank? and
-      not settings.options['url'].blank? and
-      (not settings.options['email'].blank? or
-       not settings.options['jabber_id'].blank? or
-       not settings.options['twitter_handle'].blank? or
-       not settings.options['flattr'].blank?)
+    if !settings.options['description'].blank? &&
+       !settings.options['url'].blank? &&
+       (!settings.options['email'].blank? ||
+        !settings.options['jabber_id'].blank? ||
+        !settings.options['twitter_handle'].blank? ||
+        !settings.options['flattr'].blank?)
       badge = Badge.where(slug: 'autobiographer').first!
 
       user.badge_users.create!(badge_id: badge.badge_id,
@@ -283,14 +284,13 @@ class UsersController < ApplicationController
                   hook: '',
                   subject: I18n.t('badges.badge_won',
                                   name: badge.name,
-                                  mtype: I18n.t("badges.badge_medal_types." + badge.badge_medal_type)),
+                                  mtype: I18n.t('badges.badge_medal_types.' + badge.badge_medal_type)),
                   path: badge_path(badge),
                   oid: badge.badge_id,
                   otype: 'badge')
 
     end
   end
-
 end
 
 # eof
