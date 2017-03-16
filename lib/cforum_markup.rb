@@ -58,6 +58,10 @@ module CforumMarkup
         ncnt << doc.matched
         consecutive_newlines = 0
 
+      elsif doc.scan(/~/)
+        ncnt << '\\~'
+        consecutive_newlines = 0
+
       elsif doc.scan(/<img[^>]+>/)
         consecutive_newlines = 0
 
