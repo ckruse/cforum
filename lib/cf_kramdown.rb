@@ -192,11 +192,11 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
     ''
   end
 
-  def convert_strike_through(el, _indent)
+  def convert_strike_through(el, indent)
     attr = el.attr.dup
     attr['class'] = attr['class'].to_s + ' strike-through'
 
-    format_as_span_html('del', attr, el.value)
+    "#{' ' * indent}<del#{html_attributes(attr)}>" + escape_html(el.value) + '</del>'
   end
 
   def convert_a(el, indent)
