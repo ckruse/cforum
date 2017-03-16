@@ -57,13 +57,28 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
   define_parser(:email_style_sig_span, SIGNATURE_START) unless @@parsers.key?(:email_style_sig_span)
 
   Kernel.silence_warnings do
-    INLINE_STRIKE_THROUGH_START = /~~(.*?)~~/m
+    INLINE_STRIKE_THROUGH_START = /~~(?!~)/m
   end
   def parse_inline_strikethrough
     start_line_number = @src.current_line_number
-    @src.pos += @src.matched_size
-    @tree.children << Element.new(:strike_through, @src[1].strip,
-                                  nil, category: :span, location: start_line_number)
+    @src.scan(/~~/)
+    saved_pos = @src.save_pos
+
+    if @src.pre_match =~ /~\Z/
+      add_text('~~')
+      return
+    end
+
+    text = @src.scan_until(/~~/)
+    if text
+      text.sub!(/~~\Z/, '')
+      text.strip!
+      @tree.children << Element.new(:strike_through, text, nil,
+                                    category: :span, location: start_line_number)
+    else
+      @src.revert_pos(saved_pos)
+      add_text('~~')
+    end
   end
   define_parser(:inline_strikethrough, INLINE_STRIKE_THROUGH_START, '~') unless @@parsers.key?(:inline_strikethrough)
 
