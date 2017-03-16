@@ -8,6 +8,7 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
   @@parsers.delete :setext_header
   @@parsers.delete :typographic_syms
   @@parsers.delete :smart_quotes
+  @@parsers.delete :escaped_chars
 
   def initialize(*args)
     super(*args)
@@ -23,10 +24,12 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
   end
 
   Kernel.silence_warnings do
+    ESCAPED_CHARS = /\\([\\.*_+`<>()\[\]{}#!:|"'\$=~-])/
     CF_SETEXT_HEADER_START = /^(#{OPT_SPACE}[^ \t].*?)#{HEADER_ID}[ \t]*?\n(-|=)+\n/
     FENCED_CODEBLOCK_MATCH = /^((~){3,})\s*?((\S+?)(?:\?\S*)?)?\s*?(?:,\s*?(good|bad)\s*?)?\n(.*?)^\1\2*\s*?\n/m
   end
 
+  define_parser(:escaped_chars, ESCAPED_CHARS, '\\\\') unless @@parsers.key?(:escaped_chars)
   define_parser(:cf_setext_header, CF_SETEXT_HEADER_START) unless @@parsers.key?(:cf_setext_header)
   alias parse_cf_setext_header parse_setext_header
 
