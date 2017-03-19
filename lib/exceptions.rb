@@ -1,21 +1,20 @@
 module CForum
-  class Exception < ::Exception
-    def initialize(status = 500, msg = "")
+  class Exception < RuntimeError
+    def initialize(status = 500, msg = '')
       @status = status
       super(msg)
     end
   end
 
-  class NotFoundException < Exception
-    def initialize(status = 404, msg = "Ressource could not be found")
+  class NotFoundException < CForum::Exception
+    def initialize(status = 404, msg = 'Ressource could not be found')
       super(status, msg)
     end
   end
 
-  class ForbiddenException < Exception
-    def initialize(status = 403, msg = "Forbidden")
+  class ForbiddenException < CForum::Exception
+    def initialize(status = 403, msg = 'Forbidden')
       super(status, msg)
     end
   end
-
 end

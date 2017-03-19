@@ -4,7 +4,7 @@ module ApplicationHelper
   include CForum::Tools
 
   def current_forum
-    if not params[:curr_forum].blank? and not params[:curr_forum] == 'all'
+    if !params[:curr_forum].blank? && (params[:curr_forum] != 'all')
       @_current_forum = Forum.find_by_slug(params[:curr_forum]) if !@_current_forum || @_current_forum.slug != params[:curr_forum]
       raise ActiveRecord::RecordNotFound unless @_current_forum
       return @_current_forum
@@ -41,7 +41,7 @@ module ApplicationHelper
     return false if @forum.blank?
     @global_settings ||= Setting.where('user_id IS NULL and forum_id IS NULL').first
     return false if @global_settings.blank?
-    @global_settings.options.has_key?(name)
+    @global_settings.options.key?(name)
   end
 
   def user_to_class_name(user)
@@ -56,15 +56,13 @@ module ApplicationHelper
   def cf_button_to(url, args = {}, &block)
     str = '<form class="button_to" method="' <<
           (args[:method] == 'get' ? 'get' : 'post') << '" action="' <<
-          url << '">' << "<button"
+          url << '">' << '<button'
 
     str << ' title="' + encode_entities(args[:title]) + '"' unless args[:title].blank?
     str << ' class="' + encode_entities(args[:class]) + '"' unless args[:class].blank?
-    str << ' data-cf-confirm="' + encode_entities(args[:data]['cf-confirm']) + '"' if not args[:data].blank? and not args[:data]['cf-confirm'].blank?
+    str << ' data-cf-confirm="' + encode_entities(args[:data]['cf-confirm']) + '"' if !args[:data].blank? && !args[:data]['cf-confirm'].blank?
     str << ' type="submit">'
-    unless block.blank?
-      str << capture { block.call }
-    end
+    str << capture { yield } unless block.blank?
     str << '</button><input type="hidden" name="authenticity_token" value="' <<
       form_authenticity_token << '">'
 
@@ -75,21 +73,21 @@ module ApplicationHelper
     end
 
     m = args[:method].to_s
-    if not m.blank? and m != 'get' and m != 'post'
+    if !m.blank? && (m != 'get') && (m != 'post')
       str << '<input type="hidden" name="_method" value="' << encode_entities(m) << '">'
     end
 
     str << '</form>'
-    return str.html_safe
+    str.html_safe
   end
 
   def embedded_svg(filename, options = {})
     assets = Rails.application.assets
-    file = assets.find_asset(filename).to_s.force_encoding("UTF-8")
+    file = assets.find_asset(filename).to_s.force_encoding('UTF-8')
 
     doc = Nokogiri::HTML::DocumentFragment.parse file
-    svg = doc.at_css "svg"
-    svg["class"] = options[:class] if options[:class].present?
+    svg = doc.at_css 'svg'
+    svg['class'] = options[:class] if options[:class].present?
 
     raw doc
   end
@@ -98,9 +96,9 @@ module ApplicationHelper
     diff_in_minutes = ((Time.now - date) / 60.0).round
     return I18n.translate('relative_time.minutes', count: diff_in_minutes) if diff_in_minutes < 60
     return I18n.translate('relative_time.hours', count: (diff_in_minutes / 60.0).round) if diff_in_minutes < 1440
-    return I18n.translate('relative_time.days', count: (diff_in_minutes / 1440.0).round) if diff_in_minutes < 43200
-    return I18n.translate('relative_time.months', count: (diff_in_minutes / 43200.0).round) if diff_in_minutes < 518400
-    return I18n.translate('relative_time.years', count: (diff_in_minutes / 518400.0).round)
+    return I18n.translate('relative_time.days', count: (diff_in_minutes / 1440.0).round) if diff_in_minutes < 43_200
+    return I18n.translate('relative_time.months', count: (diff_in_minutes / 43_200.0).round) if diff_in_minutes < 518_400
+    I18n.translate('relative_time.years', count: (diff_in_minutes / 518_400.0).round)
   end
 
   def uconf(name)
@@ -121,9 +119,8 @@ end
 require 'pp'
 class Object
   def pp_inspect
-    PP.pp(self, "")
+    PP.pp(self, '')
   end
 end
-
 
 # eof

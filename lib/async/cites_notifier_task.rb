@@ -4,9 +4,9 @@ class Peon::Tasks::CitesNotifier < Peon::Tasks::PeonTask
   def send_create_notifications(args)
     cite = Cite.find(args['cite_id'])
 
-    users = Setting.
-            preload(:user).
-            where("user_id IS NOT NULL AND ((options->'notify_on_cite') != 'no' OR (options->'notify_on_cite') IS NULL)")
+    users = Setting
+              .preload(:user)
+              .where("user_id IS NOT NULL AND ((options->'notify_on_cite') != 'no' OR (options->'notify_on_cite') IS NULL)")
 
     users = users.where('user_id != ?', cite.creator_user_id) unless cite.creator_user_id.blank?
 
@@ -32,11 +32,11 @@ class Peon::Tasks::CitesNotifier < Peon::Tasks::PeonTask
     val = Notification.where(oid: args['cite_id'], otype: 'cite:create', is_read: false).delete_all
     Rails.logger.debug('DELETE: ' + val.inspect)
 
-    Notification.
-      preload(:recipient).
-      where(oid: args['cite_id'], otype: 'cite:create').
-      all.each do |notification|
-      Rails.logger.debug("another nocification: " + notification.notification_id.to_s)
+    Notification
+      .preload(:recipient)
+      .where(oid: args['cite_id'], otype: 'cite:create')
+      .all.each do |notification|
+      Rails.logger.debug('another nocification: ' + notification.notification_id.to_s)
       notify_user(notification.recipient, nil, I18n.t('cites.cite_got_deleted'),
                   cites_url, args['cite_id'], 'cite:destroy',
                   'icon-new-activity')

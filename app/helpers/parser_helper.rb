@@ -74,7 +74,7 @@ module ParserHelper
       math_engine_opts: { preview: true },
       notify_mentions: true,
       syntax_highlighter: 'rouge',
-      with_styles: get_created_at() < Time.zone.parse('2017-03-10 15:00')
+      with_styles: get_created_at < Time.zone.parse('2017-03-10 15:00')
     )
 
     if @doc.blank?
@@ -149,7 +149,7 @@ module ParserHelper
     end
 
     html.gsub(@_emojis_regex) do |emoji|
-      %Q{<span role="img" aria-label="#{@_reversed_emojis[emoji].tr('_', ' ')}" class="emoji">#{emoji}</span>}
+      %(<span role="img" aria-label="#{@_reversed_emojis[emoji].tr('_', ' ')}" class="emoji">#{emoji}</span>)
     end
   end
 

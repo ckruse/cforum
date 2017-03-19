@@ -7,13 +7,12 @@ class Admin::EventsController < ApplicationController
   # GET /events
   def index
     @events = sort_query(%w(name location start_date end_date visible created_at updated_at),
-                         Event.all).
-              page(params[:page])
+                         Event.all)
+                .page(params[:page])
   end
 
   # GET /events/1
-  def show
-  end
+  def show; end
 
   # GET /events/new
   def new
@@ -21,8 +20,7 @@ class Admin::EventsController < ApplicationController
   end
 
   # GET /events/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /events
   def create
@@ -51,18 +49,19 @@ class Admin::EventsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_event
-      @event = Event.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def event_params
-      params.
-        require(:event).
-        permit(:name, :description, :location, :maps_link,
-               :start_date, :end_date, :visible)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_event
+    @event = Event.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def event_params
+    params
+      .require(:event)
+      .permit(:name, :description, :location, :maps_link,
+              :start_date, :end_date, :visible)
+  end
 end
 
 # eof

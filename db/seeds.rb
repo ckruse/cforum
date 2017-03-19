@@ -23,14 +23,14 @@
 # s.id = 'use_archive'
 # s.save
 
-unless User.where(username: "admin").exists?
-  usr = User.new(username: 'admin', email: 'foo@example.org', password: "admin", admin: true)
+unless User.where(username: 'admin').exists?
+  usr = User.new(username: 'admin', email: 'foo@example.org', password: 'admin', admin: true)
   usr.skip_confirmation!
   usr.save!(validate: false)
 end
 
-unless Forum.where(slug: "forum-1").exists?
-  Forum.create!(name: "Forum 1", slug: "forum-1", short_name: "Forum 1", standard_permission: "write")
+unless Forum.where(slug: 'forum-1').exists?
+  Forum.create!(name: 'Forum 1', slug: 'forum-1', short_name: 'Forum 1', standard_permission: 'write')
 end
 
 # eof

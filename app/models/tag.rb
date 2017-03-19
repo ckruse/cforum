@@ -11,7 +11,7 @@ class Tag < ApplicationRecord
   has_many :synonyms, class_name: 'TagSynonym', foreign_key: :tag_id
 
   validates_presence_of :forum_id
-  validates :tag_name, length: {in: 2..50}, presence: true, uniqueness: { scope: :forum_id }
+  validates :tag_name, length: { in: 2..50 }, presence: true, uniqueness: { scope: :forum_id }
 
   def to_param
     slug

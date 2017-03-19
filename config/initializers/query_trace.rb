@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 if Rails.env.development?
-  #ActiveRecordQueryTrace.enabled = true
+  # ActiveRecordQueryTrace.enabled = true
 end
 
 # eof
-

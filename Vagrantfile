@@ -1,14 +1,14 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.configure("2") do |config|
+Vagrant.configure('2') do |config|
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/xenial32"
+  config.vm.box = 'ubuntu/xenial32'
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network "forwarded_port", guest: 80, host: 8080
-  config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.network 'forwarded_port', guest: 3000, host: 3000
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -35,7 +35,7 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-  config.vm.synced_folder ".", "/vagrant"
+  config.vm.synced_folder '.', '/vagrant'
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -52,8 +52,8 @@ Vagrant.configure("2") do |config|
   # View the documentation for the provider you are using for more
   # information on available options.
 
-  config.vm.provider "virtualbox" do |vb|
-    vb.memory = "2048"
+  config.vm.provider 'virtualbox' do |vb|
+    vb.memory = '2048'
   end
 
   # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
@@ -84,52 +84,52 @@ EOF
   SHELL
 
   config.vm.provision :chef_solo do |chef|
-    chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
+    chef.cookbooks_path = ['cookbooks', 'site-cookbooks']
 
-    chef.add_recipe "apt"
-    chef.add_recipe "build-essential"
-    chef.add_recipe "nodejs"
-    chef.add_recipe "ruby_build"
-    chef.add_recipe "ruby_rbenv::system"
-    chef.add_recipe "vim"
-    chef.add_recipe "postgresql::server"
-    chef.add_recipe "postgresql::client"
-    chef.add_recipe "postgresql::contrib"
+    chef.add_recipe 'apt'
+    chef.add_recipe 'build-essential'
+    chef.add_recipe 'nodejs'
+    chef.add_recipe 'ruby_build'
+    chef.add_recipe 'ruby_rbenv::system'
+    chef.add_recipe 'vim'
+    chef.add_recipe 'postgresql::server'
+    chef.add_recipe 'postgresql::client'
+    chef.add_recipe 'postgresql::contrib'
 
     # Install Ruby 2.2.1 and Bundler
     # Set an empty root password for MySQL to make things simple
     chef.json = {
       rbenv: {
-        rubies: ["2.3.1"],
-        global: "2.3.1",
+        rubies: ['2.3.1'],
+        global: '2.3.1',
         gems: {
-          "2.3.1" => [
-            { name: "bundler" }
+          '2.3.1' => [
+            { name: 'bundler' }
           ]
         }
       },
       postgresql: {
         enable_pgdg_apt: true,
         version: '9.5',
-        dir: "/etc/postgresql/9.5/main",
+        dir: '/etc/postgresql/9.5/main',
         config: {
-          data_directory: "/var/lib/postgresql/9.5/main",
-          hba_file: "/etc/postgresql/9.5/main/pg_hba.conf",
-          ident_file: "/etc/postgresql/9.5/main/pg_ident.conf",
-          external_pid_file: "/var/run/postgresql/9.5-main.pid",
-          ssl_key_file: "/etc/ssl/private/ssl-cert-snakeoil.key",
-          ssl_cert_file: "/etc/ssl/certs/ssl-cert-snakeoil.pem",
+          data_directory: '/var/lib/postgresql/9.5/main',
+          hba_file: '/etc/postgresql/9.5/main/pg_hba.conf',
+          ident_file: '/etc/postgresql/9.5/main/pg_ident.conf',
+          external_pid_file: '/var/run/postgresql/9.5-main.pid',
+          ssl_key_file: '/etc/ssl/private/ssl-cert-snakeoil.key',
+          ssl_cert_file: '/etc/ssl/certs/ssl-cert-snakeoil.pem'
         },
-        client: { packages: ["postgresql-client-9.5"] },
-        server: { packages: ["postgresql-9.5", "postgresql-server-dev-9.5"] },
-        contrib: { packages: ["postgresql-contrib-9.5"] },
+        client: { packages: ['postgresql-client-9.5'] },
+        server: { packages: ['postgresql-9.5', 'postgresql-server-dev-9.5'] },
+        contrib: { packages: ['postgresql-contrib-9.5'] },
         password: { postgres: '' },
         pg_hba: [
-          {type: 'local', db: 'all', user: 'all', addr: nil, method: 'trust'},
-          {type: 'host', db: 'all', user: 'all', addr: '127.0.0.1/32', method: 'trust'},
-          {type: 'host', db: 'all', user: 'all', addr: '::1/128', method: 'trust'}
+          { type: 'local', db: 'all', user: 'all', addr: nil, method: 'trust' },
+          { type: 'host', db: 'all', user: 'all', addr: '127.0.0.1/32', method: 'trust' },
+          { type: 'host', db: 'all', user: 'all', addr: '::1/128', method: 'trust' }
         ],
-        service_actions: ["enable", "start"]
+        service_actions: %w(enable start)
       }
     }
   end

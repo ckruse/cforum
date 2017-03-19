@@ -9,7 +9,7 @@ class Group < ApplicationRecord
 
   has_many :forums_groups_permissions, class_name: 'ForumGroupPermission', foreign_key: :group_id, dependent: :destroy
 
-  validates :name, presence: true, length: {in: 2..255}, uniqueness: true
+  validates :name, presence: true, length: { in: 2..255 }, uniqueness: true
 end
 
 # eof

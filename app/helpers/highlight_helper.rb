@@ -4,7 +4,7 @@ module HighlightHelper
   def parsed_highlighted_users
     highlighted_users = uconf('highlighted_users')
     highlighted_users ||= ''
-    highlight_self = uconf('highlight_self') == 'yes' and not current_user.blank?
+    (highlight_self = uconf('highlight_self') == 'yes') && !current_user.blank?
 
     user_map = {}
 
@@ -15,14 +15,14 @@ module HighlightHelper
     end
 
     cu_nam = ''
-    cu_nam = current_user.username.strip.downcase if not current_user.blank?
+    cu_nam = current_user.username.strip.downcase unless current_user.blank?
 
-    return user_map, highlight_self, cu_nam
+    [user_map, highlight_self, cu_nam]
   end
 
   def check_threads_for_highlighting(threads)
     highlighted_users, highlight_self, cu_nam = parsed_highlighted_users
-    return if highlighted_users.blank? and not highlight_self
+    return if highlighted_users.blank? && !highlight_self
 
     threads.each do |t|
       t.sorted_messages.each do |m|
@@ -33,7 +33,7 @@ module HighlightHelper
           m.attribs['classes'] << user_to_class_name(m.author)
         end
 
-        if highlight_self and n == cu_nam
+        if highlight_self && (n == cu_nam)
           m.attribs['classes'] << 'highlighted-self'
           m.attribs['classes'] << user_to_class_name(m.author)
         end
@@ -43,7 +43,7 @@ module HighlightHelper
 
   def check_messages_for_highlight(messages)
     highlighted_users, highlight_self, cu_nam = parsed_highlighted_users
-    return if highlighted_users.blank? and not highlight_self
+    return if highlighted_users.blank? && !highlight_self
 
     messages.each do |m|
       n = m.author.strip.downcase
@@ -53,7 +53,7 @@ module HighlightHelper
         m.attribs['classes'] << user_to_class_name(m.author)
       end
 
-      if highlight_self and n == cu_nam
+      if highlight_self && (n == cu_nam)
         m.attribs['classes'] << 'highlighted-self'
         m.attribs['classes'] << user_to_class_name(m.author)
       end
@@ -65,9 +65,9 @@ module HighlightHelper
   end
 
   def highlight_saving_settings(settings)
-    unless settings.options["highlighted_users"].blank?
-      users = User.where(user_id: JSON.parse(settings.options["highlighted_users"]))
-      settings.options["highlighted_users"] = (users.map {|u| u.username}).join(",")
+    unless settings.options['highlighted_users'].blank?
+      users = User.where(user_id: JSON.parse(settings.options['highlighted_users']))
+      settings.options['highlighted_users'] = users.map(&:username).join(',')
     end
   end
 
@@ -80,7 +80,7 @@ module HighlightHelper
     highlighted_users ||= ''
     highlight_self = app.uconf('highlight_self') == 'yes'
 
-    return if highlighted_users.blank? and not highlight_self
+    return if highlighted_users.blank? && !highlight_self
 
     user_map = {}
     highlighted_users.split(',').each do |s|
@@ -92,17 +92,16 @@ module HighlightHelper
 
     if user_map[n]
       classes << '.highlighted-user'
-      classes << "." + app.user_to_class_name(mention.first)
+      classes << '.' + app.user_to_class_name(mention.first)
     end
 
-    if highlight_self and n == cu_nam
+    if highlight_self && (n == cu_nam)
       classes << '.highlighted-self'
-      classes << "." + app.user_to_class_name(mention.first)
+      classes << '.' + app.user_to_class_name(mention.first)
     end
 
     classes
   end
-
 end
 
 # eof

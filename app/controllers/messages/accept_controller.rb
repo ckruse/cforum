@@ -8,8 +8,8 @@ class Messages::AcceptController < ApplicationController
   def accept
     @thread, @message, @id = get_thread_w_post
 
-    check_for_na and return
-    check_for_access or return
+    check_for_na && return
+    check_for_access || return
 
     Message.transaction do
       @message.flags_will_change!
@@ -29,8 +29,8 @@ class Messages::AcceptController < ApplicationController
     rescore_message(@message)
 
     peon(class_name: 'BadgeDistributor',
-         arguments: {type: @message.flags['accepted'] == 'yes' ? 'accepted' : 'unaccepted',
-                     message_id: @message.message_id})
+         arguments: { type: @message.flags['accepted'] == 'yes' ? 'accepted' : 'unaccepted',
+                      message_id: @message.message_id })
 
     respond_to do |format|
       format.html do
@@ -44,7 +44,7 @@ class Messages::AcceptController < ApplicationController
   end
 
   def check_for_na
-    if @message.flags["no-answer"] == 'yes' or @message.flags['no-answer-admin'] == 'yes'
+    if (@message.flags['no-answer'] == 'yes') || (@message.flags['no-answer-admin'] == 'yes')
       respond_to do |format|
         format.html do
           flash[:error] = t('messages.accepted_message_is_no_answer')
@@ -57,7 +57,7 @@ class Messages::AcceptController < ApplicationController
       return true
     end
 
-    return false
+    false
   end
 
   def check_for_access
@@ -67,13 +67,13 @@ class Messages::AcceptController < ApplicationController
       return
     end
 
-    if not may_answer(@message)
+    unless may_answer(@message)
       flash[:error] = t('messages.only_op_may_accept')
       redirect_to message_url(@thread, @message)
       return
     end
 
-    return true
+    true
   end
 
   def give_score
@@ -92,7 +92,7 @@ class Messages::AcceptController < ApplicationController
 
       else
         scores = Score.where(user_id: @message.user_id, message_id: @message.message_id)
-        if not scores.blank?
+        unless scores.blank?
           scores.each do |score|
             audit(score, 'accepted-no-unscore')
             score.destroy

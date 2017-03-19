@@ -156,11 +156,13 @@ class CfThreadsController < ApplicationController
     @thread.gen_tree
     @forums = Forum.order(name: :asc)
 
-    @forums = Forum.where('forum_id IN ' \
-                          '  (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) ' \
-                          '   WHERE user_id = ? AND permission = ?)',
-                          current_user.user_id,
-                          ForumGroupPermission::ACCESS_MODERATE) unless current_user.admin
+    unless current_user.admin
+      @forums = Forum.where('forum_id IN ' \
+                            '  (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) ' \
+                            '   WHERE user_id = ? AND permission = ?)',
+                            current_user.user_id,
+                            ForumGroupPermission::ACCESS_MODERATE)
+    end
   end
 
   def move

@@ -5,8 +5,8 @@ require 'libxml'
 require 'htmlentities'
 require 'pg'
 
-require File.join(File.dirname(__FILE__), "..", "config", "boot")
-require File.join(File.dirname(__FILE__), "..", "config", "environment")
+require File.join(File.dirname(__FILE__), '..', 'config', 'boot')
+require File.join(File.dirname(__FILE__), '..', 'config', 'environment')
 
 ActiveRecord::Base.record_timestamps = false
 Rails.logger = Logger.new('/dev/null')
@@ -37,17 +37,17 @@ end
 def handle_messages(old_msg, x_msg, thread)
   mid = x_msg['id'].gsub(/^m/, '')
 
-  msg = Message.
-        where(mid: mid,
-              thread_id: thread.thread_id).
-        first
+  msg = Message
+          .where(mid: mid,
+                 thread_id: thread.thread_id)
+          .first
 
   if msg.blank?
-    $stderr.puts "NEW MESSAGE!"
+    $stderr.puts 'NEW MESSAGE!'
     exit
 
     the_date = Time.at(x_msg.find_first('./Header/Date')['longSec'].force_encoding('utf-8').to_i)
-    the_date = DateTime.parse("1970-01-01 00:00:00").to_time if the_date.blank?
+    the_date = DateTime.parse('1970-01-01 00:00:00').to_time if the_date.blank?
 
     msg = Message.new(
       mid: mid,
@@ -80,15 +80,15 @@ def handle_messages(old_msg, x_msg, thread)
 
     msg.save(validate: false)
 
-    category = x_msg.find_first("./Header/Category").content.force_encoding('utf-8')
+    category = x_msg.find_first('./Header/Category').content.force_encoding('utf-8')
 
-    if not category.blank?
+    unless category.blank?
       category = category.downcase.strip
 
       t = Tag.find_by_forum_id_and_tag_name thread.forum_id, category
 
       begin
-        t = Tag.create!(:tag_name => category, forum_id: thread.forum_id) if t.blank?
+        t = Tag.create!(tag_name: category, forum_id: thread.forum_id) if t.blank?
       rescue ActiveRecord::RecordNotUnique
         t = Tag.find_by_forum_id_and_tag_name! thread.forum_id, category
       end
@@ -100,11 +100,11 @@ def handle_messages(old_msg, x_msg, thread)
     end
 
     x_msg.find('./Header/Flags/Flag').each do |f|
-      if f['name'] == 'UserName' then
+      if f['name'] == 'UserName'
         uname = f.content.force_encoding('utf-8')
 
         usr = User.find_by_username(uname)
-        if !usr then
+        unless usr
           email = nil
           $old_db.exec("SELECT email FROM auth WHERE username = '" + uname + "'") do |result|
             result.each do |row|
@@ -150,17 +150,17 @@ end
 def handle_doc(doc, opts = {})
   x_thread = doc.find_first('/Forum/Thread')
   the_date = Time.at(x_thread.find_first('./Message/Header/Date')['longSec'].force_encoding('utf-8').to_i)
-  the_date = DateTime.parse("1970-01-01 00:00:00").to_time if the_date.blank?
+  the_date = DateTime.parse('1970-01-01 00:00:00').to_time if the_date.blank?
 
-  thread = CfThread.
-           where(tid: x_thread['id'].force_encoding('utf-8')[1..-1]).
-           where("EXTRACT('year' FROM created_at) = ?", the_date.utc.year).
-           first
+  thread = CfThread
+             .where(tid: x_thread['id'].force_encoding('utf-8')[1..-1])
+             .where("EXTRACT('year' FROM created_at) = ?", the_date.utc.year)
+             .first
 
   if thread.blank?
-    $stderr.puts "NEW THREAD!"
+    $stderr.puts 'NEW THREAD!'
     exit
-    forum_name = x_thread.find_first("./Message/Header/Category").content.force_encoding('utf-8')
+    forum_name = x_thread.find_first('./Message/Header/Category').content.force_encoding('utf-8')
 
     subject = x_thread.find_first('./Message/Header/Subject').content.force_encoding('utf-8')
 
@@ -177,7 +177,7 @@ def handle_doc(doc, opts = {})
     )
 
     i = 0
-    while not CfThread.find_by_slug(thread.slug).blank?
+    until CfThread.find_by_slug(thread.slug).blank?
       i += 1
       thread.slug = thread_id(the_date, subject, i)
     end
@@ -197,32 +197,32 @@ def handle_doc(doc, opts = {})
 end
 
 def thread_id(dt, subject, num = 0)
-  base_id = dt.strftime("/%Y/") + dt.strftime("%b").downcase + '/' + dt.strftime("%d").to_i.to_s + '/'
+  base_id = dt.strftime('/%Y/') + dt.strftime('%b').downcase + '/' + dt.strftime('%d').to_i.to_s + '/'
   subj = subject.parameterize
 
-  if num > 0 then
-    id = base_id + num.to_s + "-" + subj
-  else
-    id = base_id + subj
-  end
+  id = if num > 0
+         base_id + num.to_s + '-' + subj
+       else
+         base_id + subj
+       end
 
   id
 end
 
 def find_in_dir(dir)
   puts "Handling #{dir}"
-  entries = Dir.entries(dir).sort { |a,b|
-    if a =~ /^\d+$/ and b =~ /^\d+$/
+  entries = Dir.entries(dir).sort do |a, b|
+    if a =~ /^\d+$/ && b =~ /^\d+$/
       a.to_i <=> b.to_i
     else
       a <=> b
     end
-  }
+  end
 
   entries.each do |ent|
     next if ent[0] == '.' # ignore ., .. and dot files
 
-    if File.directory?(dir + '/' + ent) then
+    if File.directory?(dir + '/' + ent)
       find_in_dir(dir + '/' + ent)
       next
     end
@@ -244,10 +244,9 @@ def find_in_dir(dir)
 
     rescue SystemStackError
       $stderr.puts "thread #{dir + '/' + ent} could not be saved!\n"
-      $stderr.puts $!.message
-      $stderr.puts $!.backtrace.join("\n")
+      $stderr.puts $ERROR_INFO.message
+      $stderr.puts $ERROR_INFO.backtrace.join("\n")
     end
-
   end
 end
 

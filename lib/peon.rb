@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
 dir = File.dirname(__FILE__)
-require File.join(dir, "..", "config", "boot")
-require File.join(dir, "..", "config", "environment")
+require File.join(dir, '..', 'config', 'boot')
+require File.join(dir, '..', 'config', 'environment')
 require File.join(dir, 'tools.rb')
 
 module Peon
   module Tasks
-
     class PeonTask
       include CForum::Tools
       include PublishHelper
@@ -30,7 +29,7 @@ module Peon
           audit(user, 'badge-gained', nil)
           notify_user(user, '', I18n.t('badges.badge_won',
                                        name: badge.name,
-                                       mtype: I18n.t("badges.badge_medal_types." + badge.badge_medal_type)),
+                                       mtype: I18n.t('badges.badge_medal_types.' + badge.badge_medal_type)),
                       badge_path(badge), badge.badge_id, 'badge')
         end
       end
@@ -48,7 +47,7 @@ module Peon
       end
 
       def notify_user(user, hook, subject, path, oid, otype, icon = nil, description = nil)
-        return if not hook.blank? and @config_manager.get(hook, user) != 'yes'
+        return if !hook.blank? && (@config_manager.get(hook, user) != 'yes')
 
         n = Notification.create!(
           recipient_id: user.user_id,
@@ -63,22 +62,19 @@ module Peon
         )
 
         publish('notification:create',
-                {type: 'notification', notification: n},
+                { type: 'notification', notification: n },
                 '/users/' + user.user_id.to_s)
       end
 
-      def work_work(args)
-      end
+      def work_work(args); end
     end
-
   end
-
 end
 
 class Object
   def peon(args = {})
-    args = {max_tries: 1, work_done: false,
-            arguments: [], queue_name: 'peon'}.merge(args)
+    args = { max_tries: 1, work_done: false,
+             arguments: [], queue_name: 'peon' }.merge(args)
 
     args[:arguments] = args[:arguments].to_json
 

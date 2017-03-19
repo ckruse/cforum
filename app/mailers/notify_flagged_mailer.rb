@@ -12,10 +12,10 @@ class NotifyFlaggedMailer < ActionMailer::Base
       subject: I18n.t(
         'plugins.flag_plugin.message_has_been_flagged',
         subject: @message.subject,
-        author: @message.author),
+        author: @message.author
+      )
     )
   end
-
 end
 
 # eof

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 class CitesController < ApplicationController
-  authorize_action([:edit, :update, :destroy]) { may?(Badge::MODERATOR_TOOLS) or authorize_admin }
+  authorize_action([:edit, :update, :destroy]) { may?(Badge::MODERATOR_TOOLS) || authorize_admin }
   authorize_action(:vote_index) { authorize_user }
 
   include SearchHelper
@@ -10,12 +10,12 @@ class CitesController < ApplicationController
 
   def index(archived = true)
     @limit = conf('pagination').to_i
-    @cites = Cite.
-             preload(:user, :creator_user, message: :forum).
-             where(archived: archived).
-             order('cite_id DESC').
-             page(params[:page]).
-             per(@limit)
+    @cites = Cite
+               .preload(:user, :creator_user, message: :forum)
+               .where(archived: archived)
+               .order('cite_id DESC')
+               .page(params[:page])
+               .per(@limit)
   end
 
   def vote_index
@@ -24,7 +24,7 @@ class CitesController < ApplicationController
   end
 
   def vote
-    if current_user.blank? or @cite.archived?
+    if current_user.blank? || @cite.archived?
       respond_to do |format|
         format.html do
           flash[:error] = t('messages.insufficient_rights_to_upvote')
@@ -38,22 +38,21 @@ class CitesController < ApplicationController
     vtype = params[:type] == 'up' ? CiteVote::UPVOTE : CiteVote::DOWNVOTE
 
     @vote = CiteVote.where(user_id: current_user.user_id,
-                             cite_id: @cite.cite_id).first
+                           cite_id: @cite.cite_id).first
 
     if @vote.blank?
       @vote = CiteVote.new(cite_id: @cite.cite_id,
-                             user_id: current_user.user_id,
-                             vote_type: vtype)
+                           user_id: current_user.user_id,
+                           vote_type: vtype)
 
       if @vote.save
         if uconf('delete_read_notifications_on_cite') == 'yes'
-          Notification.
-            where(recipient_id: current_user.user_id,
-                  oid: @cite.cite_id,
-                  otype: 'cite:create').
-            delete_all
+          Notification
+            .where(recipient_id: current_user.user_id,
+                   oid: @cite.cite_id,
+                   otype: 'cite:create')
+            .delete_all
         end
-
 
         respond_to do |format|
           format.html { redirect_to cites_vote_url, notice: t('messages.successfully_voted') }
@@ -113,25 +112,25 @@ class CitesController < ApplicationController
   end
 
   def show
-    if not current_user.blank? and uconf('delete_read_notifications_on_cite') == 'yes'
-      Notification.
-        where(recipient_id: current_user.user_id,
-              oid: @cite.cite_id,
-              otype: 'cite:create').
-        delete_all
+    if !current_user.blank? && (uconf('delete_read_notifications_on_cite') == 'yes')
+      Notification
+        .where(recipient_id: current_user.user_id,
+               oid: @cite.cite_id,
+               otype: 'cite:create')
+        .delete_all
     end
 
     if @cite.archived?
-      @next_cite = Cite.
-                   where('cite_id < ?', @cite.cite_id).
-                   order('cite_id DESC').
-                   where(archived: true).
-                   first
-      @prev_cite = Cite.
-                   where('cite_id > ?', @cite.cite_id).
-                   where(archived: true).
-                   order('cite_id ASC').
-                   first
+      @next_cite = Cite
+                     .where('cite_id < ?', @cite.cite_id)
+                     .order('cite_id DESC')
+                     .where(archived: true)
+                     .first
+      @prev_cite = Cite
+                     .where('cite_id > ?', @cite.cite_id)
+                     .where(archived: true)
+                     .order('cite_id ASC')
+                     .first
     end
   end
 
@@ -141,17 +140,16 @@ class CitesController < ApplicationController
   end
 
   # GET /cites/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /cites
   def create
     @cite = Cite.new(cite_params)
     @cite.creator_user_id = current_user.user_id unless current_user.blank?
 
-    if not @cite.url.blank? and @cite.url[0..(root_url.length-1)] == root_url and @cite.url =~ /\/\w+(\/\d{4,}\/[a-z]{3}\/\d{1,2}\/[^\/]+)\/(\d+)/
-      slug = $1
-      mid = $2
+    if !@cite.url.blank? && (@cite.url[0..(root_url.length - 1)] == root_url) && @cite.url =~ /\/\w+(\/\d{4,}\/[a-z]{3}\/\d{1,2}\/[^\/]+)\/(\d+)/
+      slug = Regexp.last_match(1)
+      mid = Regexp.last_match(2)
 
       @thread = CfThread.preload(:forum).where(slug: slug).first
 
@@ -169,18 +167,18 @@ class CitesController < ApplicationController
       @cite.cite_date = DateTime.now
     end
 
-    @cite.author = @message.author if @cite.author.blank? and not @message.blank?
-    @cite.creator = current_user.username if @cite.creator.blank? and not current_user.blank?
+    @cite.author = @message.author if @cite.author.blank? && !@message.blank?
+    @cite.creator = current_user.username if @cite.creator.blank? && !current_user.blank?
 
     if @cite.save
       if current_user
         @vote = CiteVote.create(cite_id: @cite.cite_id,
-                                  user_id: current_user.user_id,
-                                  vote_type: CiteVote::UPVOTE)
+                                user_id: current_user.user_id,
+                                vote_type: CiteVote::UPVOTE)
       end
 
       peon(class_name: 'CitesNotifier',
-           arguments: {type: 'create', cite_id: @cite.cite_id})
+           arguments: { type: 'create', cite_id: @cite.cite_id })
 
       audit(@cite, 'create')
       redirect_to cite_url(@cite), notice: t('cites.created')
@@ -208,7 +206,7 @@ class CitesController < ApplicationController
 
     audit(@cite, 'destroy')
     peon(class_name: 'CitesNotifier',
-         arguments: {type: 'destroy', cite_id: @cite.cite_id})
+         arguments: { type: 'destroy', cite_id: @cite.cite_id })
 
     redirect_to cites_url, notice: t('cites.destroyed')
   end

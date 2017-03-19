@@ -11,7 +11,9 @@ class NotifyOpenCloseVoteMailer < ActionMailer::Base
       subject: I18n.t(
         'messages.close_vote.notification_created_open',
         subject: @message.subject,
-        author: @message.author))
+        author: @message.author
+      )
+    )
   end
 
   def notification_created_close(user, message)
@@ -24,7 +26,9 @@ class NotifyOpenCloseVoteMailer < ActionMailer::Base
       subject: I18n.t(
         'messages.close_vote.notification_created_close',
         subject: @message.subject,
-        author: @message.author))
+        author: @message.author
+      )
+    )
   end
 
   def notification_finished_open(user, message)
@@ -37,7 +41,9 @@ class NotifyOpenCloseVoteMailer < ActionMailer::Base
       subject: I18n.t(
         'messages.close_vote.notification_finished_open',
         subject: @message.subject,
-        author: @message.author))
+        author: @message.author
+      )
+    )
   end
 
   def notification_finished_close(user, message)
@@ -50,7 +56,9 @@ class NotifyOpenCloseVoteMailer < ActionMailer::Base
       subject: I18n.t(
         'messages.close_vote.notification_finished_close',
         subject: @message.subject,
-        author: @message.author))
+        author: @message.author
+      )
+    )
   end
 end
 

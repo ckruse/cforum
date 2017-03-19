@@ -15,7 +15,7 @@ class AttendeesController < ApplicationController
 
   authorize_action([:destroy, :edit, :update]) do
     set_attendee
-    if @attendee.user_id == current_user.try(:user_id) and not current_user.blank?
+    if (@attendee.user_id == current_user.try(:user_id)) && !current_user.blank?
       true
     else
       authorize_admin
@@ -45,8 +45,7 @@ class AttendeesController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @attendee.attributes = attendee_params
@@ -60,7 +59,6 @@ class AttendeesController < ApplicationController
     else
       render :edit
     end
-
   end
 
   # DELETE /attendees/1
@@ -71,6 +69,7 @@ class AttendeesController < ApplicationController
   end
 
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_attendee
     @attendee ||= Attendee.find(params[:id])
@@ -87,7 +86,7 @@ class AttendeesController < ApplicationController
 
   def notify_admins_about_attendee
     admins = User.where(admin: true).all
-    
+
     admins.each do |admin|
       notify_user(
         user: admin,
@@ -100,7 +99,7 @@ class AttendeesController < ApplicationController
   end
 
   def unnotify_admins
-    Notification.where(oid: @attendee.attendee_id, otype: "attendee:create", is_read: false).delete_all
+    Notification.where(oid: @attendee.attendee_id, otype: 'attendee:create', is_read: false).delete_all
   end
 end
 

@@ -3,10 +3,10 @@
 module ExceptionHelpers
   def render_500(e = nil)
     if e
-      logger.fatal "URL: " + request.method + " " + request.url +
-        "\nError: " + e.message + "\nStacktrace: " + e.backtrace.join("\n") +
-        "\nUser: " + current_user.inspect + "\nSession: " + session.inspect +
-        "\nParams: " + params.inspect
+      logger.fatal 'URL: ' + request.method + ' ' + request.url +
+                   "\nError: " + e.message + "\nStacktrace: " + e.backtrace.join("\n") +
+                   "\nUser: " + current_user.inspect + "\nSession: " + session.inspect +
+                   "\nParams: " + params.inspect
     end
 
     respond_to do |format|
@@ -17,10 +17,10 @@ module ExceptionHelpers
 
   def render_404(e = nil)
     if e
-      logger.warn "URL: " + request.method + " " + request.url +
-        "\nError: " + e.message + "\nStacktrace: " + e.backtrace.join("\n") +
-        "\nUser: " + current_user.inspect + "\nSession: " + session.inspect +
-        "\nParams: " + params.inspect
+      logger.warn 'URL: ' + request.method + ' ' + request.url +
+                  "\nError: " + e.message + "\nStacktrace: " + e.backtrace.join("\n") +
+                  "\nUser: " + current_user.inspect + "\nSession: " + session.inspect +
+                  "\nParams: " + params.inspect
     end
 
     respond_to do |format|
@@ -31,10 +31,10 @@ module ExceptionHelpers
 
   def render_403(e = nil)
     if e
-      logger.warn "URL: " + request.method + " " + request.url +
-        "\nError: " + e.message + "\nStacktrace: " + e.backtrace.join("\n") +
-        "\nUser: " + current_user.inspect + "\nSession: " + session.inspect +
-        "\nParams: " + params.inspect
+      logger.warn 'URL: ' + request.method + ' ' + request.url +
+                  "\nError: " + e.message + "\nStacktrace: " + e.backtrace.join("\n") +
+                  "\nUser: " + current_user.inspect + "\nSession: " + session.inspect +
+                  "\nParams: " + params.inspect
     end
 
     respond_to do |format|

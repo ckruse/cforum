@@ -21,8 +21,7 @@ UPDATE threads SET latest_message = COALESCE((SELECT MAX(created_at) FROM messag
     SQL
   end
 
-  def down
-  end
+  def down; end
 end
 
 # eof

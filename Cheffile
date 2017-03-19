@@ -1,6 +1,6 @@
 # -*- coding: utf-8; mode: ruby -*-
 
-site "https://supermarket.getchef.com/api/v1"
+site 'https://supermarket.getchef.com/api/v1'
 
 cookbook 'apt'
 cookbook 'build-essential'

@@ -14,16 +14,16 @@ class Messages::MarkReadController < ApplicationController
 
     @thread, @id = get_thread
 
-    sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ', '
+    sql = 'INSERT INTO read_messages (user_id, message_id) VALUES (' + current_user.user_id.to_s + ', '
 
     @thread.messages.each do |m|
       begin
-        Message.connection.execute(sql + m.message_id.to_s + ")")
+        Message.connection.execute(sql + m.message_id.to_s + ')')
       rescue ActiveRecord::RecordNotUnique
       end
     end
 
-    publish('thread:read', {type: 'thread', thread: @thread},
+    publish('thread:read', { type: 'thread', thread: @thread },
             '/users/' + current_user.user_id.to_s)
 
     respond_to do |format|
@@ -32,19 +32,19 @@ class Messages::MarkReadController < ApplicationController
                     notice: t('plugins.mark_read.thread_marked_read')
       end
 
-      format.json { render json: {status: :success, slug: @thread.slug } }
+      format.json { render json: { status: :success, slug: @thread.slug } }
     end
   end
 
   def mark_all_read
     index_threads
 
-    sql = "INSERT INTO read_messages (user_id, message_id) VALUES (" + current_user.user_id.to_s + ', '
+    sql = 'INSERT INTO read_messages (user_id, message_id) VALUES (' + current_user.user_id.to_s + ', '
 
     @threads.each do |t|
       t.messages.each do |m|
         begin
-          Message.connection.execute(sql + m.message_id.to_s + ")")
+          Message.connection.execute(sql + m.message_id.to_s + ')')
         rescue ActiveRecord::RecordNotUnique
         end
       end
@@ -54,6 +54,5 @@ class Messages::MarkReadController < ApplicationController
                 notice: t('plugins.mark_read.marked_all_read')
   end
 end
-
 
 # eof

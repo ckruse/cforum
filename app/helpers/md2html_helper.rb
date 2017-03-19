@@ -23,7 +23,7 @@ module Md2htmlHelper
   end
 
   def md2html(content, app)
-    return Content2HTML.new(content).to_html(app)
+    Content2HTML.new(content).to_html(app)
   end
 end
 

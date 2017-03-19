@@ -9,7 +9,7 @@ module RightsHelper
     badge = user.badges.find { |b| b.badge_type == badge_type }
 
     return true unless badge.blank?
-    return false
+    false
   end
 
   def authorize_controller(&proc)
@@ -33,27 +33,27 @@ module RightsHelper
   def check_authorizations
     action = action_name.to_sym
 
-    if defined?(@@authorize_controller_hooks) and
-        @@authorize_controller_hooks[controller_path]
+    if defined?(@@authorize_controller_hooks) &&
+       @@authorize_controller_hooks[controller_path]
       @@authorize_controller_hooks[controller_path].each do |block|
-        raise CForum::ForbiddenException.new unless self.instance_eval(&block)
+        raise CForum::ForbiddenException unless instance_eval(&block)
       end
     end
 
-    if defined?(@@authorize_action_hooks) and
-        @@authorize_action_hooks[controller_path] and
-        @@authorize_action_hooks[controller_path][action]
+    if defined?(@@authorize_action_hooks) &&
+       @@authorize_action_hooks[controller_path] &&
+       @@authorize_action_hooks[controller_path][action]
       @@authorize_action_hooks[controller_path][action].each do |block|
-        raise CForum::ForbiddenException.new unless self.instance_eval(&block)
+        raise CForum::ForbiddenException unless instance_eval(&block)
       end
     end
 
-    return
+    nil
   end
 
   def check_editable(thread, message, redirect = true)
     # editing is always possible when user is an admin
-    return true if current_user and current_user.admin?
+    return true if current_user && current_user.admin?
 
     # editing isn't possible when disabled
     if conf('editing_enabled') != 'yes'
@@ -81,12 +81,12 @@ module RightsHelper
 
     edit_it = false
 
-    if not message.open? or not may_answer(message)
-      raise CForum::ForbiddenException.new if redirect
+    if !message.open? || !may_answer(message)
+      raise CForum::ForbiddenException if redirect
       return
     end
 
-    if conf('edit_until_has_answer') == 'yes' and not message.messages.empty?
+    if (conf('edit_until_has_answer') == 'yes') && !message.messages.empty?
       if redirect
         flash[:error] = t('messages.editing_not_allowed_with_answer')
         redirect_to message_url(thread, message)
@@ -97,9 +97,9 @@ module RightsHelper
 
     check_age = false
 
-    if not current_user and
-        not cookies[:cforum_user].blank? and
-        message.uuid == cookies[:cforum_user]
+    if !current_user &&
+       !cookies[:cforum_user].blank? &&
+       (message.uuid == cookies[:cforum_user])
       edit_it = true
       check_age = true
 
@@ -110,14 +110,14 @@ module RightsHelper
       if is_owner
         edit_it = true
         check_age = true
-      elsif may?(Badge::EDIT_QUESTION) and is_thread_msg
+      elsif may?(Badge::EDIT_QUESTION) && is_thread_msg
         edit_it = true
       elsif may?(Badge::EDIT_ANSWER)
         edit_it = true
       end
     end
 
-    if check_age and message.created_at <= @max_editable_age.minutes.ago
+    if check_age && (message.created_at <= @max_editable_age.minutes.ago)
       if redirect
         flash[:error] = t('messages.message_too_old_to_edit',
                           minutes: @max_editable_age)
@@ -136,16 +136,16 @@ module RightsHelper
       return
     end
 
-    return true
+    true
   end
 
   def authorize_admin
-    return true if current_user and current_user.admin?
-    return false
+    return true if current_user && current_user.admin?
+    false
   end
 
   def authorize_user
-    return !current_user.blank?
+    !current_user.blank?
   end
 
   def authorize_forum(forum: nil, user: nil, permission: nil)
@@ -154,13 +154,13 @@ module RightsHelper
 
     return true if forum.blank?
     return forum.send(permission, current_user) if permission
-    return false
+    false
   end
 
   def may_answer(m)
     return false if m.thread.archived?
     return false if m.flags['no-answer'] == 'yes'
-    return m.open?
+    m.open?
   end
 
   def may_vote(m, right, u = current_user)
@@ -171,11 +171,11 @@ module RightsHelper
       return t('messages.not_enough_score') unless may?(right, u)
     end
 
-    return false
+    false
   end
 
   def may_read?(message, user = current_user)
-    message.forum.read?(user) and (not message.deleted or message.forum.moderator?(user))
+    message.forum.read?(user) && (!message.deleted || message.forum.moderator?(user))
   end
 end
 

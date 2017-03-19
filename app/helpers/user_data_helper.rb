@@ -2,7 +2,7 @@
 
 module UserDataHelper
   def gen_content(content, name, std_replacement = '')
-    content  ||= ""
+    content ||= ''
 
     if current_user
       greeting  = uconf('greeting')
@@ -42,7 +42,6 @@ module UserDataHelper
       msg.homepage  ||= cookies[:cforum_homepage]
     end
   end
-
 end
 
 # eof

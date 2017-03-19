@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 dir = File.dirname(__FILE__)
-require File.join(dir, "..", "config", "boot")
-require File.join(dir, "..", "config", "environment")
+require File.join(dir, '..', 'config', 'boot')
+require File.join(dir, '..', 'config', 'environment')
 require File.join(dir, '..', 'lib', 'tools.rb')
 
 include CForum::Tools
@@ -19,7 +19,7 @@ def root_path
 end
 
 def root_url
-  (ActionMailer::Base.default_url_options[:protocol] || 'http') + "://" + ActionMailer::Base.default_url_options[:host] + root_path
+  (ActionMailer::Base.default_url_options[:protocol] || 'http') + '://' + ActionMailer::Base.default_url_options[:host] + root_path
 end
 
 def conf(name)
@@ -31,23 +31,20 @@ section = SearchSection.find_by_name(I18n.t('cites.cites'))
 no_messages = 1000
 current_block = 0
 start_date = nil
-start_date = Time.zone.parse(ARGV[0]) if ARGV.length > 0
+start_date = Time.zone.parse(ARGV[0]) unless ARGV.empty?
 
 section = SearchSection.create!(name: I18n.t('cites.cites'), position: -1) if section.blank?
 base_relevance = conf('search_cites_relevance')
 
 begin
-  cites = Cite.
-         includes(:user, :creator_user).
-         order(:cite_id).
-         limit(no_messages).
-         offset(no_messages * current_block).
-         where(archived: true)
+  cites = Cite
+            .includes(:user, :creator_user)
+            .order(:cite_id)
+            .limit(no_messages)
+            .offset(no_messages * current_block)
+            .where(archived: true)
 
-  if start_date
-    cites = cites.where('created_at >= ?', start_date)
-  end
-
+  cites = cites.where('created_at >= ?', start_date) if start_date
 
   current_block += 1
   i = 0
@@ -75,7 +72,6 @@ begin
       puts cite.created_at.strftime('%Y-%m-%d') + ' - ' + cite.message_id.to_s if i == no_messages - 1
     end
   end
-end while not cites.blank?
-
+end while !cites.blank?
 
 # eof

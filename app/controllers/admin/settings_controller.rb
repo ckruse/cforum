@@ -26,10 +26,10 @@ class Admin::SettingsController < ApplicationController
 
     respond_to do |format|
       if @settings.save
-        format.html { redirect_to admin_settings_url, notice: t("admin.settings.updated") }
+        format.html { redirect_to admin_settings_url, notice: t('admin.settings.updated') }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @settings.errors, status: :unprocessable_entity }
       end
     end

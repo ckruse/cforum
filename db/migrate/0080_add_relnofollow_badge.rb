@@ -14,12 +14,12 @@ class AddRelnofollowBadge < ActiveRecord::Migration
       b.users << u
 
       Notification.create!(recipient_id: u.user_id,
-                             subject: I18n.t('badges.badge_won',
-                                             name: b.name,
-                                             mtype: I18n.t("badges.badge_medal_types." + b.badge_medal_type)),
-                             path: '/badges/' + b.slug,
-                             oid: b.badge_id,
-                             otype: 'badge')
+                           subject: I18n.t('badges.badge_won',
+                                           name: b.name,
+                                           mtype: I18n.t('badges.badge_medal_types.' + b.badge_medal_type)),
+                           path: '/badges/' + b.slug,
+                           oid: b.badge_id,
+                           otype: 'badge')
     end
   end
 

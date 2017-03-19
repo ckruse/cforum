@@ -7,10 +7,10 @@ class Admin::GroupsController < ApplicationController
     @limit = conf('pagination').to_i
     @limit = 50 if @limit <= 0
 
-    @groups = Group.select("*, (SELECT COUNT(*) FROM groups_users WHERE group_id = groups.group_id) AS members_cnt")
+    @groups = Group.select('*, (SELECT COUNT(*) FROM groups_users WHERE group_id = groups.group_id) AS members_cnt')
     @groups = sort_query(%w(name members_cnt created_at updated_at),
-                         @groups, members_cnt: "(SELECT COUNT(*) FROM groups_users WHERE group_id = groups.group_id)").
-              page(params[:page]).per(@limit)
+                         @groups, members_cnt: '(SELECT COUNT(*) FROM groups_users WHERE group_id = groups.group_id)')
+                .page(params[:page]).per(@limit)
   end
 
   def edit
@@ -33,7 +33,7 @@ class Admin::GroupsController < ApplicationController
 
     saved = false
     Group.transaction do
-      raise ActiveRecord::Rollback.new unless @group.update_attributes(group_params)
+      raise ActiveRecord::Rollback unless @group.update_attributes(group_params)
 
       @group.group_users.clear
       @users.each do |u|
@@ -41,9 +41,9 @@ class Admin::GroupsController < ApplicationController
       end
 
       @group.forums_groups_permissions.clear
-      if not params[:forums].blank? and not params[:permissions].blank?
+      if !params[:forums].blank? && !params[:permissions].blank?
         params[:forums].each_with_index do |forum, i|
-          next if forum.blank? or params[:permissions][i].blank?
+          next if forum.blank? || params[:permissions][i].blank?
 
           @group.forums_groups_permissions.create!(forum_id: forum,
                                                    permission: params[:permissions][i])
@@ -54,7 +54,7 @@ class Admin::GroupsController < ApplicationController
     end
 
     if saved
-      redirect_to edit_admin_group_url(@group), notice: I18n.t("admin.groups.updated")
+      redirect_to edit_admin_group_url(@group), notice: I18n.t('admin.groups.updated')
     else
       render :edit
     end
@@ -76,18 +76,17 @@ class Admin::GroupsController < ApplicationController
 
     saved = false
     Group.transaction do
-      raise ActiveRecord::Rollback.new unless @group.save
+      raise ActiveRecord::Rollback unless @group.save
 
       @users.each do |u|
         @group.group_users.create!(user_id: u.user_id)
       end
 
-      if not params[:forums].blank? and not params[:permissions].blank?
+      if !params[:forums].blank? && !params[:permissions].blank?
         params[:forums].each_with_index do |forum, i|
-          next if forum.blank? or params[:permissions][i].blank?
+          next if forum.blank? || params[:permissions][i].blank?
           @group.forums_groups_permissions.create!(forum_id: forum,
                                                    permission: params[:permissions][i])
-
         end
       end
 
@@ -95,7 +94,7 @@ class Admin::GroupsController < ApplicationController
     end
 
     if saved
-      redirect_to edit_admin_group_url(@group), notice: I18n.t("admin.groups.created")
+      redirect_to edit_admin_group_url(@group), notice: I18n.t('admin.groups.created')
     else
       render :new
     end
@@ -105,9 +104,8 @@ class Admin::GroupsController < ApplicationController
     @group = Group.find params[:id]
     @group.destroy
 
-    redirect_to admin_groups_url, notice: I18n.t("admin.groups.deleted")
+    redirect_to admin_groups_url, notice: I18n.t('admin.groups.deleted')
   end
-
 end
 
 # eof

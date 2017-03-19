@@ -7,9 +7,9 @@ class CfThread < ApplicationRecord
   attr_accessor :sorted_messages
 
   belongs_to :forum
-  has_many :messages, ->{ order(:created_at) }, foreign_key: :thread_id, dependent: :destroy
+  has_many :messages, -> { order(:created_at) }, foreign_key: :thread_id, dependent: :destroy
 
-  validates :slug, uniqueness: true, allow_blank: false, format: {with: /\A[a-z0-9_\/-]+\z/}
+  validates :slug, uniqueness: true, allow_blank: false, format: { with: /\A[a-z0-9_\/-]+\z/ }
   validates_presence_of :forum_id, :latest_message
 
   def find_message(mid)
@@ -36,15 +36,13 @@ class CfThread < ApplicationRecord
 
   def find_by_mid!(mid)
     m = find_by_mid(mid)
-    raise ActiveRecord::RecordNotFound.new if m.blank?
+    raise ActiveRecord::RecordNotFound if m.blank?
     m
   end
 
   attr_accessor :attribs, :accepted
 
-  def message=(msg)
-    @message = msg
-  end
+  attr_writer :message
 
   def message
     @message = sorted_messages[0] if @message.blank?
@@ -55,15 +53,15 @@ class CfThread < ApplicationRecord
     self.accepted = []
     map = {}
 
-    @sorted_messages = messages.sort do |a,b|
+    @sorted_messages = messages.sort do |a, b|
       ret = a.parent_id.to_i <=> b.parent_id.to_i
 
       if ret == 0
-        if direction == 'ascending'
-          ret = a.created_at <=> b.created_at
-        else
-          ret = b.created_at <=> a.created_at
-        end
+        ret = if direction == 'ascending'
+                a.created_at <=> b.created_at
+              else
+                b.created_at <=> a.created_at
+              end
 
         ret = a.message_id <=> b.message_id if ret == 0
       end
@@ -75,7 +73,7 @@ class CfThread < ApplicationRecord
     prev = nil
 
     for msg in @sorted_messages
-      self.accepted << msg if msg.flags["accepted"] == 'yes'
+      accepted << msg if msg.flags['accepted'] == 'yes'
       @message = msg if msg.parent_id.blank?
 
       if prev
@@ -109,7 +107,7 @@ class CfThread < ApplicationRecord
     now = thread.message.created_at
     now = Time.now if now.nil?
 
-    s = now.strftime("/%Y/%b/%d/").gsub(/0(\d)\/$/, '\1/').downcase
+    s = now.strftime('/%Y/%b/%d/').gsub(/0(\d)\/$/, '\1/').downcase
     s << num.to_s + '-' unless num.blank?
     s << thread.message.subject.to_s.gsub(/[<>]/, '').to_url
 
@@ -133,16 +131,16 @@ class CfThread < ApplicationRecord
   # end
 
   after_initialize do
-    self.attribs ||= {'classes' => []}
-    self.flags ||= {} if attributes.has_key? 'flags'
+    self.attribs ||= { 'classes' => [] }
+    self.flags ||= {} if attributes.key? 'flags'
   end
 
   def acceptance_forbidden?(usr, uuid)
     forbidden = false
 
     # current user is not the owner of the message
-    if not usr.blank?
-      forbidden = true if message.user_id != usr.user_id and not usr.admin?
+    if !usr.blank?
+      forbidden = true if (message.user_id != usr.user_id) && !usr.admin?
     elsif message.uuid.blank? # has message not been posted anonymously?
       forbidden = true
     else

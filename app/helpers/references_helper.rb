@@ -3,37 +3,37 @@
 module ReferencesHelper
   def mid_from_uri(uri)
     uri = uri.gsub(/#.*$/, '')
-    return $1.to_i if uri =~ /\/m?(\d+)$/
-    return
+    return Regexp.last_match(1).to_i if uri =~ /\/m?(\d+)$/
+    nil
   end
 
   def find_links(content)
     doc = Nokogiri::HTML(content)
 
-    doc.css("span.signature").remove
-    doc.css("blockquote").remove
+    doc.css('span.signature').remove
+    doc.css('blockquote').remove
 
-    links = doc.xpath("//a")
-    links = links.select { |l| not l['href'].blank? }
+    links = doc.xpath('//a')
+    links = links.select { |l| !l['href'].blank? }
     links.map { |l| l['href'] }
   end
 
   def is_reference_uri(uri, hosts)
     parsed_uri = URI.parse(uri)
-    hosts.include?(parsed_uri.host) and (parsed_uri.path =~ /^\/[\w-]+\/\d{4}\/\w{3}\/\d+\/[\w-]+\/\d+$/ or parsed_uri.path =~ /^\/m\d+$/)
+    hosts.include?(parsed_uri.host) && (parsed_uri.path =~ /^\/[\w-]+\/\d{4}\/\w{3}\/\d+\/[\w-]+\/\d+$/ || parsed_uri.path =~ /^\/m\d+$/)
   end
 
   def find_references(content, hosts)
     hosts = [hosts] unless hosts.is_a?(Array)
     links = find_links(content)
 
-    links.select { |l|
+    links.select do |l|
       begin
         is_reference_uri(l, hosts)
       rescue
         false
       end
-    }
+    end
   end
 
   def save_references(message)

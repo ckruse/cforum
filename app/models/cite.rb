@@ -14,11 +14,11 @@ class Cite < ApplicationRecord
   has_many :votes, class_name: 'CiteVote', foreign_key: :cite_id
 
   validates :author, length: { in: 2..60 }, allow_blank: true
-  validates :cite, length: { in: 10..12288 }, presence: true
+  validates :cite, length: { in: 10..12_288 }, presence: true
   validates_uniqueness_of :message_id, message: I18n.t('cites.already_exists'), if: :message_id
 
   def no_votes
-    return votes.length
+    votes.length
   end
 
   def score
@@ -32,7 +32,7 @@ class Cite < ApplicationRecord
   end
 
   def md_content
-    self.cite
+    cite
   end
 
   def id_prefix

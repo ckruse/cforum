@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 class Vote < ApplicationRecord
-  UPVOTE   = 'upvote'
-  DOWNVOTE = 'downvote'
+  UPVOTE   = 'upvote'.freeze
+  DOWNVOTE = 'downvote'.freeze
 
   self.primary_key = 'vote_id'
   self.table_name  = 'votes'

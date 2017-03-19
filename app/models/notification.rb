@@ -8,8 +8,8 @@ class Notification < ApplicationRecord
 
   belongs_to :recipient, class_name: 'User', foreign_key: :recipient_id
 
-  validates :subject, presence: true, length: {in: 2..250}
-  validates :path, presence: true, length: {in: 5..250}
+  validates :subject, presence: true, length: { in: 2..250 }
+  validates :path, presence: true, length: { in: 5..250 }
 
   validates :recipient_id, presence: true
   validates :oid, presence: true

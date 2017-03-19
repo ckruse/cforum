@@ -4,9 +4,9 @@ class ImagesController < ApplicationController
   authorize_action([:index, :destroy]) { authorize_admin }
 
   def index
-    @media = sort_query(%w(created_at orig_name), Medium).
-             page(params[:page]).
-             per(conf('pagination').to_i)
+    @media = sort_query(%w(created_at orig_name), Medium)
+               .page(params[:page])
+               .per(conf('pagination').to_i)
   end
 
   def show
@@ -33,7 +33,7 @@ class ImagesController < ApplicationController
     end
 
     unless fname.blank?
-      fd = File.open(path + fname, "w:binary")
+      fd = File.open(path + fname, 'w:binary')
       fd.write(params[:file].read)
       fd.close
       @medium.filename = fname
@@ -42,13 +42,15 @@ class ImagesController < ApplicationController
     end
 
     respond_to do |format|
-      if not fname.blank? and @medium.save
+      if !fname.blank? && @medium.save
         audit(@medium, 'create')
-        format.json { render json: {status: 'ok', path: @medium.filename} }
+        format.json { render json: { status: 'ok', path: @medium.filename } }
       else
         File.unlink(path + fname) unless fname.blank?
-        format.json { render(json: {status: 'error', error: error ? [error] : @medium.errors},
-                             status: :unprocessable_entity) }
+        format.json do
+          render(json: { status: 'error', error: error ? [error] : @medium.errors },
+                 status: :unprocessable_entity)
+        end
       end
     end
   end

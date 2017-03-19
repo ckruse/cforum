@@ -130,30 +130,30 @@ module MessageHelper
         html << '<span class="icon-message no-answer user" title="' + t('messages.is_no_answer') + '"> </span>'
       end
 
-      if message.attribs[:is_interesting]
-        html << cf_button_to(boring_message_path(thread, message),
+      html << if message.attribs[:is_interesting]
+                cf_button_to(boring_message_path(thread, message),
                              params: std_args,
                              class: 'icon-message mark-boring',
                              title: t('plugins.interesting_messages.mark_message_boring'))
-      else
-        html << cf_button_to(interesting_message_path(thread, message),
+              else
+                cf_button_to(interesting_message_path(thread, message),
                              params: std_args,
                              class: 'icon-message mark-interesting',
                              title: t('plugins.interesting_messages.mark_message_interesting'))
-      end
+              end
 
       unless opts[:parent_subscribed]
-        if message.attribs[:is_subscribed]
-          html << cf_button_to(unsubscribe_message_path(thread, message),
+        html << if message.attribs[:is_subscribed]
+                  cf_button_to(unsubscribe_message_path(thread, message),
                                params: std_args,
                                class: 'icon-message unsubscribe',
                                title: t('plugins.subscriptions.unsubscribe_message'))
-        else
-          html << cf_button_to(subscribe_message_path(thread, message),
+                else
+                  cf_button_to(subscribe_message_path(thread, message),
                                params: std_args,
                                class: 'icon-message subscribe',
                                title: t('plugins.subscriptions.subscribe_message'))
-        end
+                end
       end
 
       html << '</span>'

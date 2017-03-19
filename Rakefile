@@ -24,7 +24,6 @@ end
 
 Cforum::Application.load_tasks
 
-
 namespace :test do
   Rake::TestTask.new :plugins do |t|
     t.libs << 'test'

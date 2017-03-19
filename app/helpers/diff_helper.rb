@@ -5,7 +5,7 @@ module DiffHelper
     options = {}
     lines = uconf('diff_context_lines')
 
-    options[:diff] = "-U " + lines.to_i.to_s unless lines.nil?
+    options[:diff] = '-U ' + lines.to_i.to_s unless lines.nil?
 
     Diffy::Diff.new(current,
                     prev,

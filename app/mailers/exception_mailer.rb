@@ -7,7 +7,7 @@ class ExceptionMailer < ActionMailer::Base
     mail(
       from: Rails.application.config.mail_sender,
       to: Rails.application.config.exception_mail_receiver,
-      subject: "Exception in Grunt"
+      subject: 'Exception in Grunt'
     )
   end
 end

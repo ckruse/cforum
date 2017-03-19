@@ -10,8 +10,8 @@ module MailsHelper
   end
 
   def has_unread?(mails_group)
-    m = mails_group.find { |mail| not mail.is_read }
-    not m.blank?
+    m = mails_group.find { |mail| !mail.is_read }
+    !m.blank?
   end
 end
 

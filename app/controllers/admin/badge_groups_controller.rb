@@ -15,15 +15,14 @@ class Admin::BadgeGroupsController < ApplicationController
   end
 
   # GET /badge_groups/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /badge_groups
   def create
     @badge_group = BadgeGroup.new(badge_group_params)
 
     unless params[:badges].blank?
-      badge_ids = @badges.map { |b| b.badge_id }
+      badge_ids = @badges.map(&:badge_id)
       params[:badges].each do |badge|
         @badge_group.badge_badge_groups.build(badge_id: badge.to_i) if badge.to_i.in?(badge_ids)
       end
@@ -45,7 +44,7 @@ class Admin::BadgeGroupsController < ApplicationController
         @badge_group.badge_badge_groups.clear
 
         unless params[:badges].blank?
-          badge_ids = @badges.map { |b| b.badge_id }
+          badge_ids = @badges.map(&:badge_id)
           params[:badges].each do |badge|
             @badge_group.badge_badge_groups.create!(badge_id: badge.to_i) if badge.to_i.in?(badge_ids)
           end
@@ -69,17 +68,18 @@ class Admin::BadgeGroupsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_badge_group
-      @badge_group = BadgeGroup.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def badge_group_params
-      params.require(:badge_group).permit(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_badge_group
+    @badge_group = BadgeGroup.find(params[:id])
+  end
 
-    def load_badges
-      @badges = Badge.order(:order).all
-    end
+  # Only allow a trusted parameter "white list" through.
+  def badge_group_params
+    params.require(:badge_group).permit(:name)
+  end
+
+  def load_badges
+    @badges = Badge.order(:order).all
+  end
 end

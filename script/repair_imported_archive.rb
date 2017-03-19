@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-require File.join(File.dirname(__FILE__), "..", "config", "boot")
-require File.join(File.dirname(__FILE__), "..", "config", "environment")
+require File.join(File.dirname(__FILE__), '..', 'config', 'boot')
+require File.join(File.dirname(__FILE__), '..', 'config', 'environment')
 
 require 'strscan'
 
@@ -18,7 +18,7 @@ def repair_content(content)
   ncnt = ''
   doc = StringScanner.new(content)
 
-  while !doc.eos?
+  until doc.eos?
     if doc.scan(/\[\]\(\?t=t=(\d+)&m=m=(\d+)\)/)
       ncnt << "[?t=#{doc[1]}&m=#{doc[2]}](/?t=#{doc[1]}&m=#{doc[2]})"
 
@@ -39,13 +39,13 @@ def repair_content(content)
 
       doc.skip(/\s/)
 
-      while no_end and not doc.eos?
+      while no_end && !doc.eos?
         content << doc.matched if doc.scan(/[^\]\\]/)
 
         if doc.scan(/\\\]/)
           content << '\]'
         elsif doc.scan(/\\/)
-          content << "\\"
+          content << '\\'
         elsif doc.scan(/\]/)
           no_end = false
         end
@@ -59,7 +59,7 @@ def repair_content(content)
       end
 
       # unterminated directive
-      if doc.eos? and no_end
+      if doc.eos? && no_end
         ncnt << "[#{directive}:"
         doc.pos = save
         next
@@ -104,10 +104,10 @@ def repair_content(content)
 end
 
 begin
-  msgs = Message.
-         order(:message_id).
-         limit(no_messages).
-         offset(no_messages * current_block)
+  msgs = Message
+           .order(:message_id)
+           .limit(no_messages)
+           .offset(no_messages * current_block)
 
   current_block += 1
 
@@ -117,7 +117,6 @@ begin
     m.content = repair_content(m.content)
     m.save
   end
-end while not msgs.blank?
-
+end while !msgs.blank?
 
 # eof

@@ -29,7 +29,7 @@ class Messages::TwitterController < ApplicationController
     end
 
     if has_error
-      render :new, notice: t("plugins.twitter.tweeted")
+      render :new, notice: t('plugins.twitter.tweeted')
     else
       redirect_to message_url(@thread, @message)
     end

@@ -5,16 +5,15 @@ class Admin::JobsController < ApplicationController
 
   def index
     @jobs = sort_query(%w(peon_job_id max_tries tries work_done class_name),
-                       PeonJob).
-            page(params[:page])
+                       PeonJob)
+              .page(params[:page])
 
-    @stat_jobs = PeonJob.
-                 select("DATE_TRUNC('day', timestamp2local(created_at, '" + Time.zone.name + "')) \"day\", COUNT(*) cnt").
-                 where(created_at: (Time.zone.now - 30.days)..Time.zone.now).
-                 group("DATE_TRUNC('day', timestamp2local(created_at, '" + Time.zone.name + "'))").
-                 all
+    @stat_jobs = PeonJob
+                   .select("DATE_TRUNC('day', timestamp2local(created_at, '" + Time.zone.name + "')) \"day\", COUNT(*) cnt")
+                   .where(created_at: (Time.zone.now - 30.days)..Time.zone.now)
+                   .group("DATE_TRUNC('day', timestamp2local(created_at, '" + Time.zone.name + "'))")
+                   .all
   end
-
 end
 
 # eof

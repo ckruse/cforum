@@ -22,16 +22,16 @@ class Medium < ApplicationRecord
     exists = false
     fname = nil
 
-    while i < 15 and not exists
+    while i < 15 && !exists
       fname = SecureRandom.uuid
 
-      if not orig_name.blank? and orig_name =~ /\.([a-zA-Z0-9]+)$/
-        fname << '.' + $1.downcase
+      if !orig_name.blank? && orig_name =~ /\.([a-zA-Z0-9]+)$/
+        fname << '.' + Regexp.last_match(1).downcase
       end
 
       begin
         i += 1
-        fd = File.open(path + fname, File::WRONLY|File::EXCL|File::CREAT)
+        fd = File.open(path + fname, File::WRONLY | File::EXCL | File::CREAT)
         fd.close
         return path, fname
       rescue
@@ -39,15 +39,15 @@ class Medium < ApplicationRecord
 
     end
 
-    return nil
+    nil
   end
 
-  after_destroy do |record|
+  after_destroy do |_record|
     path = self.class.path
     fname = path + filename
 
     begin
-      File.unlink(fname) if File.exists?(fname)
+      File.unlink(fname) if File.exist?(fname)
     rescue
     end
   end

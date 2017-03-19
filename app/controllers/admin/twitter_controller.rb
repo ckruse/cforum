@@ -36,7 +36,7 @@ class Admin::TwitterController < ApplicationController
   def consumer
     @consumer ||= OAuth::Consumer.new(Rails.application.config.twitter[:consumer_key],
                                       Rails.application.config.twitter[:consumer_secret],
-                                      site: "https://api.twitter.com",
+                                      site: 'https://api.twitter.com',
                                       scheme: :header)
   end
 end

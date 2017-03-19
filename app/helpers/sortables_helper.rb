@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 module SortablesHelper
-  def sort_query(valid_fields, query_object, replacements = {}, defaults = {dir: :asc})
-    valid_fields = valid_fields.map { |elem| elem.to_sym }
+  def sort_query(valid_fields, query_object, replacements = {}, defaults = { dir: :asc })
+    valid_fields = valid_fields.map(&:to_sym)
     controller_nam = controller_path.gsub(/\//, '-')
 
-    cookie_key_scol = ("cforum_" + controller_nam + "-sort_column").to_sym
-    cookie_key_sord = ("cforum_" + controller_nam + "-sort_direction").to_sym
+    cookie_key_scol = ('cforum_' + controller_nam + '-sort_column').to_sym
+    cookie_key_sord = ('cforum_' + controller_nam + '-sort_direction').to_sym
     have_to_set_cookie = false
 
     if params[:sort].blank?
@@ -29,17 +29,17 @@ module SortablesHelper
     @_sort_column = @_sort_column.to_sym
 
     if have_to_set_cookie
-      cookies[cookie_key_scol] = {value: @_sort_column, expires: 1.year.from_now}
-      cookies[cookie_key_sord] = {value: @_sort_direction, expires: 1.year.from_now}
+      cookies[cookie_key_scol] = { value: @_sort_column, expires: 1.year.from_now }
+      cookies[cookie_key_sord] = { value: @_sort_direction, expires: 1.year.from_now }
     end
 
-    order_name = if replacements and replacements[@_sort_column]
+    order_name = if replacements && replacements[@_sort_column]
                    replacements[@_sort_column]
                  else
-                   "\"" + @_sort_column.to_s + "\""
+                   '"' + @_sort_column.to_s + '"'
                  end
 
-    return query_object.order("(#{order_name}) #{@_sort_direction}")
+    query_object.order("(#{order_name}) #{@_sort_direction}")
   end
 
   def sortable(colname, col, method)
@@ -47,17 +47,17 @@ module SortablesHelper
       link_asc = method.call(col, 'asc')
       link_desc = method.call(col, 'desc')
     else
-      link_asc = self.send(method, sort: col, dir: 'asc')
-      link_desc = self.send(method, sort: col, dir: 'desc')
+      link_asc = send(method, sort: col, dir: 'asc')
+      link_desc = send(method, sort: col, dir: 'desc')
     end
 
-    if sort_column == col and sort_direction == :desc
-      html = cf_link_to colname, link_asc, class: 'sortable sort-descending'
-    elsif sort_column == col and sort_direction == :asc
-      html = cf_link_to colname, link_desc, class: 'sortable sort-ascending'
-    else
-      html = cf_link_to colname, link_asc, class: 'sortable'
-    end
+    html = if (sort_column == col) && (sort_direction == :desc)
+             cf_link_to colname, link_asc, class: 'sortable sort-descending'
+           elsif (sort_column == col) && (sort_direction == :asc)
+             cf_link_to colname, link_desc, class: 'sortable sort-ascending'
+           else
+             cf_link_to colname, link_asc, class: 'sortable'
+           end
 
     html.html_safe
   end
@@ -69,7 +69,6 @@ module SortablesHelper
   def sort_direction
     @_sort_direction
   end
-
 end
 
 # eof

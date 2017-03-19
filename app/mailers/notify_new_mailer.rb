@@ -9,12 +9,12 @@ class NotifyNewMailer < ActionMailer::Base
     @url     = url
     @txt     = txt_content
 
-    headers['Message-Id'] = '<t' + @message.thread_id.to_s + "m" +
-                            @message.message_id.to_s + "@" +
-                            Rails.application.config.mid_host + ">"
+    headers['Message-Id'] = '<t' + @message.thread_id.to_s + 'm' +
+                            @message.message_id.to_s + '@' +
+                            Rails.application.config.mid_host + '>'
     headers['In-Reply-To'] = '<t' + @parent.thread_id.to_s + 'm' +
-                             @parent.message_id.to_s + "@" +
-                             Rails.application.config.mid_host + ">"
+                             @parent.message_id.to_s + '@' +
+                             Rails.application.config.mid_host + '>'
 
     mail(
       from: Rails.application.config.mail_sender,
@@ -31,12 +31,12 @@ class NotifyNewMailer < ActionMailer::Base
     @url     = url
     @txt     = txt_content
 
-    headers['Message-Id'] = '<t' + @message.thread_id.to_s + "m" +
-                            @message.message_id.to_s + "@" +
-                            Rails.application.config.mid_host + ">"
+    headers['Message-Id'] = '<t' + @message.thread_id.to_s + 'm' +
+                            @message.message_id.to_s + '@' +
+                            Rails.application.config.mid_host + '>'
     headers['In-Reply-To'] = '<t' + @parent.thread_id.to_s + 'm' +
-                             @parent.message_id.to_s + "@" +
-                             Rails.application.config.mid_host + ">"
+                             @parent.message_id.to_s + '@' +
+                             Rails.application.config.mid_host + '>'
 
     mail(
       from: Rails.application.config.mail_sender,
@@ -52,9 +52,9 @@ class NotifyNewMailer < ActionMailer::Base
     @url     = url
     @txt     = txt_content
 
-    headers['Message-Id'] = '<t' + @message.thread_id.to_s + "m" +
-                            @message.message_id.to_s + "@" +
-                            Rails.application.config.mid_host + ">"
+    headers['Message-Id'] = '<t' + @message.thread_id.to_s + 'm' +
+                            @message.message_id.to_s + '@' +
+                            Rails.application.config.mid_host + '>'
 
     mail(
       from: Rails.application.config.mail_sender,
@@ -68,7 +68,7 @@ class NotifyNewMailer < ActionMailer::Base
     @cite  = cite
     @url   = url
 
-    headers['Message-Id'] = '<cite' + @cite.cite_id.to_s + "@" + Rails.application.config.mid_host + ">"
+    headers['Message-Id'] = '<cite' + @cite.cite_id.to_s + '@' + Rails.application.config.mid_host + '>'
 
     mail(
       from: Rails.application.config.mail_sender,

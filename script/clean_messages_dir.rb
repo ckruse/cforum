@@ -3,7 +3,7 @@
 
 require 'libxml'
 
-directory = "/home/ckruse/dev/archiv/archiv/"
+directory = '/home/ckruse/dev/archiv/archiv/'
 directory = ARGV[0] if ARGV.length >= 1
 
 parser = LibXML::XML::Parser.string(IO.read(directory + '/forum.xml'))
@@ -21,8 +21,7 @@ doc = nil
 
 Dir.open(directory).each do |ent|
   next unless ent =~ /^(t\d+)\.xml$/
-  File.unlink(directory + '/' + ent) unless ids[$1]
+  File.unlink(directory + '/' + ent) unless ids[Regexp.last_match(1)]
 end
-
 
 # eof

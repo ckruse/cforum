@@ -6,9 +6,9 @@ module ThreadsHelper
       session.delete :srt
     end
 
-    return threads if current_user.blank? or @view_all or uconf('hide_read_threads') != 'yes' or session[:srt] or controller_path == 'cf_archive'
+    return threads if current_user.blank? || @view_all || (uconf('hide_read_threads') != 'yes') || session[:srt] || (controller_path == 'cf_archive')
 
-    threads.where("EXISTS(SELECT a.message_id FROM messages a LEFT JOIN read_messages b ON a.message_id = b.message_id AND b.user_id = ? WHERE thread_id = threads.thread_id AND read_message_id IS NULL AND a.deleted = false) OR EXISTS(SELECT a.message_id FROM messages AS a INNER JOIN interesting_messages USING(message_id) WHERE thread_id = threads.thread_id AND interesting_messages.user_id = ? AND deleted = false)",
+    threads.where('EXISTS(SELECT a.message_id FROM messages a LEFT JOIN read_messages b ON a.message_id = b.message_id AND b.user_id = ? WHERE thread_id = threads.thread_id AND read_message_id IS NULL AND a.deleted = false) OR EXISTS(SELECT a.message_id FROM messages AS a INNER JOIN interesting_messages USING(message_id) WHERE thread_id = threads.thread_id AND interesting_messages.user_id = ? AND deleted = false)',
                   current_user.user_id, current_user.user_id)
   end
 
@@ -19,44 +19,44 @@ module ThreadsHelper
 
     unless @view_all
       conditions[:deleted] = false
-      conditions[:messages] = {deleted: false}
+      conditions[:messages] = { deleted: false }
     end
 
     conditions.merge!(thread_conditions)
 
     @sticky_threads = nil
-    @threads = CfThread.
-               preload(:forum, messages: [:owner, :tags, votes: :voters]).
-               includes(messages: :owner).
-               where(conditions)
+    @threads = CfThread
+                 .preload(:forum, messages: [:owner, :tags, votes: :voters])
+                 .includes(messages: :owner)
+                 .where(conditions)
 
     if with_sticky
       @threads = @threads.where(sticky: false)
-      @sticky_threads = CfThread.
-                        preload(:forum, messages: [:owner, :tags, votes: :voters]).
-                        includes(messages: :owner).
-                        where(conditions).
-                        where(sticky: true)
+      @sticky_threads = CfThread
+                          .preload(:forum, messages: [:owner, :tags, votes: :voters])
+                          .includes(messages: :owner)
+                          .where(conditions)
+                          .where(sticky: true)
     end
 
     if forum
       @threads = @threads.where(forum_id: forum.forum_id)
       @sticky_threads = @sticky_threads.where(forum_id: forum.forum_id) if with_sticky
     else
-      if not user or not user.admin?
+      if !user || !user.admin?
         crits = []
-        crits << "threads.forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = " + user.user_id.to_s + ")" if user
+        crits << 'threads.forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ' + user.user_id.to_s + ')' if user
         crits << "threads.forum_id IN (SELECT forum_id FROM forums WHERE standard_permission IN ('" +
-          ForumGroupPermission::ACCESS_READ + "','" +
-          ForumGroupPermission::ACCESS_WRITE +
-          (user ? ("', '" +
-                   ForumGroupPermission::ACCESS_KNOWN_WRITE + "','" +
-                   ForumGroupPermission::ACCESS_KNOWN_READ) : ""
-          ) +
-          "'))"
+                 ForumGroupPermission::ACCESS_READ + "','" +
+                 ForumGroupPermission::ACCESS_WRITE +
+                 (user ? ("', '" +
+                          ForumGroupPermission::ACCESS_KNOWN_WRITE + "','" +
+                          ForumGroupPermission::ACCESS_KNOWN_READ) : ''
+                 ) +
+                 "'))"
 
-        @threads = @threads.where(crits.join(" OR "))
-        @sticky_threads = @sticky_threads.where(crits.join(" OR ")) if with_sticky
+        @threads = @threads.where(crits.join(' OR '))
+        @sticky_threads = @sticky_threads.where(crits.join(' OR ')) if with_sticky
       end
     end
 
@@ -76,38 +76,37 @@ module ThreadsHelper
     forum  = current_forum
 
     @order = uconf('sort_threads')
-    @order = cookies[:cf_order] if not cookies[:cf_order].blank? and current_user.blank?
+    @order = cookies[:cf_order] if !cookies[:cf_order].blank? && current_user.blank?
     @order = params[:order] unless params[:order].blank?
     @order = 'ascending' unless %w(ascending descending newest-first).include?(@order)
 
-    if not params[:order].blank? and current_user.blank?
-      cookies[:cf_order] = {value: @order, expires: 1.year.from_now}
+    if !params[:order].blank? && current_user.blank?
+      cookies[:cf_order] = { value: @order, expires: 1.year.from_now }
     end
 
-    case @order
-    when 'ascending'
-      order = 'threads.created_at ASC'
-    when 'newest-first'
-      order = 'threads.latest_message DESC'
-    else
-      order = 'threads.created_at DESC'
-    end
+    order = case @order
+            when 'ascending'
+              'threads.created_at ASC'
+            when 'newest-first'
+              'threads.latest_message DESC'
+            else
+              'threads.created_at DESC'
+            end
 
     @sticky_threads, @threads = get_threads(forum, order, current_user, with_sticky)
 
     if params[:only_wo_answer]
-      open_threads = CfThread.
-                     joins(:messages).
-                     where(archived: false, deleted: false, messages: {deleted: false}).
-                     where('threads.forum_id IN (' + Forum.visible_sql(current_user) + ')').
-                     where("(messages.flags->'no-answer-admin' = 'no' OR (messages.flags->'no-answer-admin') IS NULL) AND (messages.flags->'no-answer' = 'no' OR (messages.flags->'no-answer') IS NULL)").
-                     group("threads.thread_id").
-                     having('COUNT(*) <= 1')
+      open_threads = CfThread
+                       .joins(:messages)
+                       .where(archived: false, deleted: false, messages: { deleted: false })
+                       .where('threads.forum_id IN (' + Forum.visible_sql(current_user) + ')')
+                       .where("(messages.flags->'no-answer-admin' = 'no' OR (messages.flags->'no-answer-admin') IS NULL) AND (messages.flags->'no-answer' = 'no' OR (messages.flags->'no-answer') IS NULL)")
+                       .group('threads.thread_id')
+                       .having('COUNT(*) <= 1')
 
       @threads = @threads.where(thread_id: open_threads)
       @sticky_threads = @sticky_threads.where(thread_id: open_threads)
     end
-
 
     if uconf('page_messages') == 'yes'
       if page.nil?
@@ -169,7 +168,7 @@ module ThreadsHelper
 
     html << message_header(thread, thread.message, first: true, show_icons: true)
 
-    if not thread.message.messages.blank? and thread.attribs['open_state'] != 'closed'
+    if !thread.message.messages.blank? && (thread.attribs['open_state'] != 'closed')
       html << message_tree(thread, thread.message.messages,
                            show_icons: true,
                            hide_repeating_subjects: uconf('hide_subjects_unchanged') == 'yes',

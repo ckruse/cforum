@@ -10,11 +10,11 @@ module InvisibleHelper
     thread = thread.map { |t| t.is_a?(CfThread) ? t.thread_id : t.to_i }
     user_id = user.is_a?(User) ? user.user_id : user
 
-    sql = "INSERT INTO invisible_threads (user_id, thread_id) VALUES (" + user_id.to_s + ", "
+    sql = 'INSERT INTO invisible_threads (user_id, thread_id) VALUES (' + user_id.to_s + ', '
 
     thread.each do |t|
       begin
-        Message.connection.execute(sql + t.to_s + ")")
+        Message.connection.execute(sql + t.to_s + ')')
       rescue ActiveRecord::RecordNotUnique
       end
     end
@@ -29,8 +29,8 @@ module InvisibleHelper
     thread = thread.map { |t| t.is_a?(CfThread) ? t.thread_id : t.to_i }
     user_id = user.is_a?(User) ? user.user_id : user
 
-    sql = "DELETE FROM invisible_threads WHERE user_id = " +
-          user_id.to_s + " AND thread_id = "
+    sql = 'DELETE FROM invisible_threads WHERE user_id = ' +
+          user_id.to_s + ' AND thread_id = '
 
     CfThread.transaction do
       thread.each do |t|
@@ -42,8 +42,8 @@ module InvisibleHelper
   def is_invisible(user, thread, invalidate_cache = false)
     return if user.blank?
 
-    thread = [thread] if not thread.is_a?(Array) and not thread.is_a?(ActiveRecord::Relation)
-    thread = thread.map {|t| t.is_a?(CfThread) ? t.thread_id : t.to_i}
+    thread = [thread] if !thread.is_a?(Array) && !thread.is_a?(ActiveRecord::Relation)
+    thread = thread.map { |t| t.is_a?(CfThread) ? t.thread_id : t.to_i }
 
     user_id = user.is_a?(User) ? user.user_id : user
 
@@ -56,7 +56,7 @@ module InvisibleHelper
       retval = []
 
       thread.each do |t|
-        if not cache.has_key?(t)
+        if !cache.key?(t)
           has_all = false
         elsif cache[t]
           retval << t
@@ -73,7 +73,7 @@ module InvisibleHelper
 
     invisible_threads = []
 
-    result = CfThread.connection.execute("SELECT thread_id FROM invisible_threads WHERE thread_id IN (" + thread.join(", ") + ") AND user_id = " + user_id.to_s)
+    result = CfThread.connection.execute('SELECT thread_id FROM invisible_threads WHERE thread_id IN (' + thread.join(', ') + ') AND user_id = ' + user_id.to_s)
     result.each do |row|
       t = row['thread_id']
       invisible_threads << t
@@ -86,9 +86,9 @@ module InvisibleHelper
   end
 
   def leave_out_invisible(threads)
-    return threads if current_user.blank? or @view_all
+    return threads if current_user.blank? || @view_all
     @invisible_modified = true
-    threads.where("NOT EXISTS(SELECT thread_id FROM invisible_threads WHERE user_id = ? AND invisible_threads.thread_id = threads.thread_id)", current_user.user_id)
+    threads.where('NOT EXISTS(SELECT thread_id FROM invisible_threads WHERE user_id = ? AND invisible_threads.thread_id = threads.thread_id)', current_user.user_id)
   end
 
   def leave_out_invisible_for_threadlist(threads)

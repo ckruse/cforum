@@ -13,7 +13,7 @@ class Score < ApplicationRecord
   # TODO: validate one of :vote_id, :message_id
 
   def get_message
-    return if vote_id.blank? and message_id.blank?
+    return if vote_id.blank? && message_id.blank?
     return message if vote_id.blank?
     vote.message
   end

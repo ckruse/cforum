@@ -3,7 +3,7 @@
 module Peon
   module Tasks
     class RefreshStatsTask < PeonTask
-      def work_work(args)
+      def work_work(_args)
         Forum.select('gen_forum_stats(forum_id::integer)').all.to_a
       end
     end
@@ -12,7 +12,5 @@ module Peon
     Peon::Grunt.instance.periodical(RefreshStatsTask.new, 7200)
   end
 end
-
-
 
 # eof

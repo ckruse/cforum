@@ -11,7 +11,7 @@ class CfThreads::OpenCloseController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to cf_return_url(@thread) }
-      format.json { render json: {status: :success, slug: @thread.slug } }
+      format.json { render json: { status: :success, slug: @thread.slug } }
     end
   end
 
@@ -21,7 +21,7 @@ class CfThreads::OpenCloseController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to cf_return_url(@thread) }
-      format.json { render json: {status: :success, slug: @thread.slug } }
+      format.json { render json: { status: :success, slug: @thread.slug } }
     end
   end
 
@@ -50,35 +50,31 @@ class CfThreads::OpenCloseController < ApplicationController
 
     CfThread.transaction do
       rslt = CfThread.connection.execute(
-        "SELECT thread_id, state FROM opened_closed_threads WHERE thread_id = " +
+        'SELECT thread_id, state FROM opened_closed_threads WHERE thread_id = ' +
         tid +
-        " AND user_id = " +
+        ' AND user_id = ' +
         current_user.user_id.to_s +
-        " FOR UPDATE"
+        ' FOR UPDATE'
       )
 
       if rslt.ntuples == 0
         if uconf('open_close_default') != state || uconf('open_close_close_when_read') == 'yes'
-          CfThread.connection.execute("INSERT INTO opened_closed_threads (user_id, thread_id, state) VALUES (" +
+          CfThread.connection.execute('INSERT INTO opened_closed_threads (user_id, thread_id, state) VALUES (' +
             current_user.user_id.to_s +
-            ", " +
+            ', ' +
             tid +
-            ", '" + state + "')"
-          )
+            ", '" + state + "')")
         end
       elsif rslt.first['state'] != state
         CfThread.connection.execute(
-          "DELETE FROM opened_closed_threads WHERE user_id = " +
+          'DELETE FROM opened_closed_threads WHERE user_id = ' +
           current_user.user_id.to_s +
-          " AND thread_id = " +
+          ' AND thread_id = ' +
           tid
         )
       end
-
     end # CfThreads.transaction
-
   end # def check_existance_and_delete_or_set
 end
-
 
 # eof

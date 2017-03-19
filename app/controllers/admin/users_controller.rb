@@ -21,8 +21,8 @@ class Admin::UsersController < ApplicationController
     end
 
     @users = sort_query(%w(username email admin active created_at updated_at),
-                        @users, {admin: 'COALESCE(admin, false)'}).
-             page(params[:page]).per(@limit)
+                        @users, admin: 'COALESCE(admin, false)')
+               .page(params[:page]).per(@limit)
 
     respond_to do |format|
       format.html
@@ -30,8 +30,7 @@ class Admin::UsersController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def user_params
     params.require(:user).permit(:username, :email, :password, :active, :admin)

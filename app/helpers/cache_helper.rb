@@ -26,11 +26,11 @@ module CacheHelper
   def merge_cached_entry(realm, key, value)
     @cache ||= {}
     @cache[realm] ||= {}
-    if @cache[realm][key].blank?
-      @cache[realm][key] = value
-    else
-      @cache[realm][key] = @cache[realm][key].merge(value)
-    end
+    @cache[realm][key] = if @cache[realm][key].blank?
+                           value
+                         else
+                           @cache[realm][key].merge(value)
+                         end
   end
 end
 

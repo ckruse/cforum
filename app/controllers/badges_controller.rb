@@ -6,8 +6,7 @@ class BadgesController < ApplicationController
     @badges = sort_query(%w(order badge_medal_type score_needed name no_users),
                          Badge.preload(:users),
                          no_users: 'SELECT COUNT(DISTINCT user_id) FROM badges_users WHERE badges_users.badge_id = badges.badge_id')
-              .page(params[:page]).per(@limit)
-
+                .page(params[:page]).per(@limit)
 
     respond_to do |format|
       format.html

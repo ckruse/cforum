@@ -8,7 +8,7 @@ class TagSynonym < ApplicationRecord
   belongs_to :forum
 
   validates_presence_of :tag_id, :forum_id
-  validates :synonym, length: {:in => 2..50}, presence: true
+  validates :synonym, length: { in: 2..50 }, presence: true
   validates_uniqueness_of :synonym, scope: :forum_id
 
   def audit_json

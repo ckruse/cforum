@@ -26,12 +26,12 @@ module Peon
         doc.save!
       end
 
-      def work_work(args)
+      def work_work(_args)
         min_age = conf('cites_min_age_to_archive', nil).to_i
-        cites = Cite.
-                preload(:votes).
-                where('archived = false AND NOW() >= created_at + INTERVAL ?', min_age.to_s + ' weeks').
-                all
+        cites = Cite
+                  .preload(:votes)
+                  .where('archived = false AND NOW() >= created_at + INTERVAL ?', min_age.to_s + ' weeks')
+                  .all
 
         Rails.logger.info "Running cite archiver for #{cites.length} cites"
 

@@ -21,25 +21,25 @@ class Admin::AuditController < ApplicationController
                                    params[:stop_date][:day].to_s + ' 23:59:59')
     end
 
-    @audits = Auditing.
-              preload(:user).
-              joins('LEFT JOIN users USING(user_id)').
-              where('auditing.created_at >= ?', @start_date).
-              where('auditing.created_at <= ?', @stop_date).
-              order(created_at: :desc).
-              page(params[:page]).
-              per(conf('pagination').to_i)
+    @audits = Auditing
+                .preload(:user)
+                .joins('LEFT JOIN users USING(user_id)')
+                .where('auditing.created_at >= ?', @start_date)
+                .where('auditing.created_at <= ?', @stop_date)
+                .order(created_at: :desc)
+                .page(params[:page])
+                .per(conf('pagination').to_i)
 
     unless params[:objects].blank?
-      @objects = params[:objects].map { |o| o.strip }
+      @objects = params[:objects].map(&:strip)
       @audits = @audits.where(relation: @objects)
     end
 
     unless params[:events].blank?
-      @events = (params[:events].map { |e| e.strip }).select { |e|
-        rel, _ = e.split('_', 2)
+      @events = params[:events].map(&:strip).select do |e|
+        rel, = e.split('_', 2)
         @objects.include?(rel)
-      }
+      end
 
       sql = []
       sql_params = []
@@ -55,9 +55,7 @@ class Admin::AuditController < ApplicationController
     unless params[:term].blank?
       @audits = @audits.where('UPPER(username) LIKE UPPER(?)', params[:term].strip + '%')
     end
-
   end
-
 end
 
 # eof

@@ -11,7 +11,7 @@ module ScoresHelper
     elsif s < 0
       '−' + s.abs.to_s
     else
-      "+" + s.to_s
+      '+' + s.to_s
     end
   end
 end

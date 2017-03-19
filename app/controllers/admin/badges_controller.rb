@@ -14,8 +14,7 @@ class Admin::BadgesController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def badge_params
     params.require(:badge).permit(:name, :score_needed, :badge_type,

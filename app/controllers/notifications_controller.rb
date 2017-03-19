@@ -7,10 +7,10 @@ class NotificationsController < ApplicationController
     @limit = uconf('pagination').to_i
     @limit = 50 if @limit <= 0
 
-    @notifications = Notification.where(recipient_id: current_user.user_id).
-                     page(params[:page]).per(@limit)
+    @notifications = Notification.where(recipient_id: current_user.user_id)
+                       .page(params[:page]).per(@limit)
     @notifications = sort_query(%w(created_at is_read subject),
-                                @notifications, {}, {dir: :desc})
+                                @notifications, {}, dir: :desc)
 
     respond_to do |format|
       format.html
@@ -20,7 +20,7 @@ class NotificationsController < ApplicationController
 
   def show
     @notification = Notification.where(recipient_id: current_user.user_id,
-                                         notification_id: params[:id]).first!
+                                       notification_id: params[:id]).first!
 
     @notification.is_read = true
     @notification.save
@@ -30,17 +30,21 @@ class NotificationsController < ApplicationController
 
   def update
     @notification = Notification.where(recipient_id: current_user.user_id,
-                                         notification_id: params[:id]).first!
+                                       notification_id: params[:id]).first!
 
     respond_to do |format|
       if @notification.update_attributes(is_read: false)
-        format.html { redirect_to notifications_path,
-          notice: t('notifications.marked_unread') }
+        format.html do
+          redirect_to notifications_path,
+                      notice: t('notifications.marked_unread')
+        end
         format.json { render json: @notification }
 
       else
-        format.html { redirect_to notifications_path,
-          notice: t('global.something_went_wrong') }
+        format.html do
+          redirect_to notifications_path,
+                      notice: t('global.something_went_wrong')
+        end
         format.json { render json: n.errors, status: :unprocessable_entity }
       end
     end
@@ -50,9 +54,7 @@ class NotificationsController < ApplicationController
     unless params[:ids].blank?
       Notification.transaction do
         @notifications = Notification.where(recipient_id: current_user.user_id, notification_id: params[:ids])
-        @notifications.each do |n|
-          n.destroy
-        end
+        @notifications.each(&:destroy)
       end
     end
 

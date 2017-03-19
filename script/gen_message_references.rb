@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 dir = File.dirname(__FILE__)
-require File.join(dir, "..", "config", "boot")
-require File.join(dir, "..", "config", "environment")
+require File.join(dir, '..', 'config', 'boot')
+require File.join(dir, '..', 'config', 'environment')
 require File.join(dir, '..', 'lib', 'tools.rb')
 
 include CForum::Tools
@@ -19,7 +19,7 @@ def root_path
 end
 
 def root_url
-  (ActionMailer::Base.default_url_options[:protocol] || 'http') + "://" + ActionMailer::Base.default_url_options[:host] + root_path
+  (ActionMailer::Base.default_url_options[:protocol] || 'http') + '://' + ActionMailer::Base.default_url_options[:host] + root_path
 end
 
 def conf(name)
@@ -32,29 +32,25 @@ end
 
 def from_uri(uri)
   uri = uri.gsub(/#.*$/, '')
-  return $1.to_i if uri =~ /\/(\d+)$/
-  return
+  return Regexp.last_match(1).to_i if uri =~ /\/(\d+)$/
+  nil
 end
-
 
 $config_manager = ConfigManager.new
 no_messages = 1000
 current_block = 0
 start_date = nil
-start_date = Time.zone.parse(ARGV[0]) if ARGV.length > 0
+start_date = Time.zone.parse(ARGV[0]) unless ARGV.empty?
 
 begin
-  msgs = Message.
-         includes(:thread, :forum, :tags).
-         order(:message_id).
-         limit(no_messages).
-         offset(no_messages * current_block).
-         where(deleted: false)
+  msgs = Message
+           .includes(:thread, :forum, :tags)
+           .order(:message_id)
+           .limit(no_messages)
+           .offset(no_messages * current_block)
+           .where(deleted: false)
 
-  if start_date
-    msgs = msgs.where('created_at >= ?', start_date)
-  end
-
+  msgs = msgs.where('created_at >= ?', start_date) if start_date
 
   current_block += 1
 
@@ -80,7 +76,6 @@ begin
       end
     end
   end
-end while not msgs.blank?
-
+end while !msgs.blank?
 
 # eof

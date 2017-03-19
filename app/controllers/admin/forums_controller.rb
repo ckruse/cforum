@@ -5,7 +5,7 @@ class Admin::ForumsController < ApplicationController
 
   before_action :load_forum
 
-  SHOW_FORUMLIST = "show_forumlist"
+  SHOW_FORUMLIST = 'show_forumlist'.freeze
 
   def index
     @forums = Forum.order('position ASC, UPPER(name) ASC')
@@ -14,11 +14,11 @@ class Admin::ForumsController < ApplicationController
 
     @counts = {}
     results.each do |r|
-      @counts[r['group_crit'].to_i] ||= {threads: 0, messages: 0}
+      @counts[r['group_crit'].to_i] ||= { threads: 0, messages: 0 }
       @counts[r['group_crit'].to_i][r['table_name'].to_sym] = r['diff']
     end
 
-    msgs = Message.includes(:owner, :thread => :forum).where("
+    msgs = Message.includes(:owner, thread: :forum).where("
       messages.message_id IN (
         SELECT (
           SELECT
@@ -57,7 +57,7 @@ class Admin::ForumsController < ApplicationController
     @settings.forum_id = @forum.forum_id
 
     unless params[:settings].blank?
-      params[:settings].each do |k,v|
+      params[:settings].each do |k, v|
         if v == '_DEFAULT_'
           @settings.options.delete(k)
         else
@@ -70,12 +70,12 @@ class Admin::ForumsController < ApplicationController
 
     Forum.transaction do
       if @forum.update_attributes(forum_params)
-        raise ActiveRecord::Rollback.new unless saved = @settings.save
+        raise ActiveRecord::Rollback unless saved = @settings.save
       end
     end
 
     if saved
-      redirect_to edit_admin_forum_url(@forum.forum_id), notice: I18n.t("admin.forums.updated")
+      redirect_to edit_admin_forum_url(@forum.forum_id), notice: I18n.t('admin.forums.updated')
     else
       render :edit
     end
@@ -93,7 +93,7 @@ class Admin::ForumsController < ApplicationController
     @settings.forum_id = @forum.forum_id
 
     unless params[:settings].blank?
-      params[:settings].each do |k,v|
+      params[:settings].each do |k, v|
         if v == '_DEFAULT_'
           @settings.options.delete(k)
         else
@@ -105,12 +105,12 @@ class Admin::ForumsController < ApplicationController
     saved = false
     Forum.transaction do
       if @forum.save
-        raise ActiveRecord::Rollback.new unless saved = @settings.save
+        raise ActiveRecord::Rollback unless saved = @settings.save
       end
     end
 
     if saved
-      redirect_to edit_admin_forum_url(@forum.forum_id), notice: I18n.t("admin.forums.created")
+      redirect_to edit_admin_forum_url(@forum.forum_id), notice: I18n.t('admin.forums.created')
     else
       render :new
     end
@@ -118,12 +118,12 @@ class Admin::ForumsController < ApplicationController
 
   def destroy
     Forum.transaction do
-      Forum.connection.execute "DELETE FROM messages WHERE forum_id = " + @forum.forum_id.to_s
-      Forum.connection.execute "DELETE FROM threads WHERE forum_id = " + @forum.forum_id.to_s
+      Forum.connection.execute 'DELETE FROM messages WHERE forum_id = ' + @forum.forum_id.to_s
+      Forum.connection.execute 'DELETE FROM threads WHERE forum_id = ' + @forum.forum_id.to_s
       @forum.destroy
     end
 
-    redirect_to admin_forums_url, notice: I18n.t("admin.forums.destroyed")
+    redirect_to admin_forums_url, notice: I18n.t('admin.forums.destroyed')
   end
 
   def merge
@@ -154,6 +154,7 @@ class Admin::ForumsController < ApplicationController
   end
 
   private
+
   def load_forum
     @forum = Forum.unscoped.find params[:id] if params[:id]
   end

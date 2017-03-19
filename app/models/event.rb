@@ -7,7 +7,7 @@ class Event < ApplicationRecord
 
   validates_presence_of :name, :description, :start_date, :end_date
 
-  has_many :attendees, ->{ order(:name) }
+  has_many :attendees, -> { order(:name) }
 
   def md_content
     description.to_s

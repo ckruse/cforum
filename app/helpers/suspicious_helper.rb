@@ -6,7 +6,7 @@ module SuspiciousHelper
 
     threads.each do |t|
       t.sorted_messages.each do |m|
-        m.attribs["classes"] << 'suspicious' if name_suspicious?(m.author)
+        m.attribs['classes'] << 'suspicious' if name_suspicious?(m.author)
       end
     end
   end
@@ -24,7 +24,7 @@ module SuspiciousHelper
       return true if cp > 255
     end
 
-    return false
+    false
   end
 end
 

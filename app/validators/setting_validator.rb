@@ -19,13 +19,13 @@ class SettingValidator < ActiveModel::EachValidator
     end
 
     invalid_options.each do |o|
-      record.errors[attribute] << I18n.t("options.errors." + o)
+      record.errors[attribute] << I18n.t('options.errors.' + o)
     end
 
-    #(options[:message] || invalid_options.join(", ") + " are invalid") unless invalid_options.blank?
+    # (options[:message] || invalid_options.join(", ") + " are invalid") unless invalid_options.blank?
   end
 end
 
-SettingValidator.validators['pagination'] = lambda { |nam, val| val.blank? or val =~ /^\d+$/ }
+SettingValidator.validators['pagination'] = ->(_nam, val) { val.blank? || val =~ /^\d+$/ }
 
 # eof

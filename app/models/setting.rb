@@ -10,7 +10,7 @@ class Setting < ApplicationRecord
   validates :options, setting: true
 
   after_initialize do
-    self.options ||= {} if attributes.has_key? 'options'
+    self.options ||= {} if attributes.key? 'options'
   end
 
   def conf(nam)
@@ -19,7 +19,6 @@ class Setting < ApplicationRecord
 
     vals[nam.to_s] || ConfigManager::DEFAULTS[nam]
   end
-
 end
 
 # eof

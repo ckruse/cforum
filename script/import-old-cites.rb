@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-require File.join(File.dirname(__FILE__), "..", "config", "boot")
-require File.join(File.dirname(__FILE__), "..", "config", "environment")
+require File.join(File.dirname(__FILE__), '..', 'config', 'boot')
+require File.join(File.dirname(__FILE__), '..', 'config', 'environment')
 
 ActiveRecord::Base.record_timestamps = false
 
@@ -13,7 +13,7 @@ end
 include CForum::Tools
 
 File.open(ARGV[0], 'r:utf-8') do |fd|
-  xml_doc  = Nokogiri::XML(fd)
+  xml_doc = Nokogiri::XML(fd)
   cites = xml_doc.xpath('/zitatesammlung/zitat')
   cites.each do |cite|
     c = Cite.new
@@ -28,17 +28,17 @@ File.open(ARGV[0], 'r:utf-8') do |fd|
 
     thread = message = nil
 
-    if not c.url.blank? and c.url =~ /forum.de.selfhtml.org\/(?:my\/)?\?t=(\d+)&m=(\d+)/
-      tid = $1
-      mid = $2
+    if !c.url.blank? && c.url =~ /forum.de.selfhtml.org\/(?:my\/)?\?t=(\d+)&m=(\d+)/
+      tid = Regexp.last_match(1)
+      mid = Regexp.last_match(2)
 
     elsif c.url =~ /forum.de.selfhtml.org\/archiv\/\d+\/\d+\/t(\d+)\/#m(\d+)/
-      tid = $1
-      mid = $2
+      tid = Regexp.last_match(1)
+      mid = Regexp.last_match(2)
 
     elsif c.url =~ /forum.selfhtml.org\/\w+(\/\d{4,}\/[a-z]{3}\/\d{1,2}\/[^\/]+)\/(\d+)/
-      slug = $1
-      mid = $2
+      slug = Regexp.last_match(1)
+      mid = Regexp.last_match(2)
 
       thread = CfThread.preload(:forum).where(slug: slug).first
 
@@ -47,7 +47,7 @@ File.open(ARGV[0], 'r:utf-8') do |fd|
       end
     end
 
-    if not tid.blank? and not mid.blank?
+    if !tid.blank? && !mid.blank?
       thread = CfThread.preload(:forum).where(tid: tid.to_i).first
 
       unless thread.blank?
