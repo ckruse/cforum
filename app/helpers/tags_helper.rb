@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
 module TagsHelper
-
   def save_tags(forum, message, tags)
     tag_objs = []
 
     # first check if all tags are present
     unless tags.empty?
-      #tag_objs = Tag.where('forum_id = ? AND LOWER(tag_name) IN (?)', forum.forum_id, tags).all
+      # tag_objs = Tag.where('forum_id = ? AND LOWER(tag_name) IN (?)', forum.forum_id, tags).all
       tag_objs = Tag
                    .preload(:synonyms)
-                   .where("forum_id = ? AND (LOWER(tag_name) IN (?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) IN (?)))",
+                   .where('forum_id = ? AND (LOWER(tag_name) IN (?) OR tag_id IN ( ' \
+                          '  SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) IN (?)))',
                           forum.forum_id, tags, tags)
                    .order('num_messages DESC')
                    .to_a
@@ -49,31 +49,31 @@ module TagsHelper
   def parse_tags
     tags = []
 
-    if not params[:tags].blank?
-      tags = (params[:tags].map {|s| s.strip.downcase}).uniq
+    if !params[:tags].blank?
+      tags = (params[:tags].map { |s| s.strip.downcase }).uniq
     # non-js variant for conservative people
-    elsif not params[:tag_list].blank?
-      tags = (params[:tag_list].split(',').map {|s| s.strip.downcase}).uniq
+    elsif !params[:tag_list].blank?
+      tags = (params[:tag_list].split(',').map { |s| s.strip.downcase }).uniq
     end
 
     tags
   end
 
-  def invalid_tags(forum, tags, user = current_user)
+  def invalid_tags(forum, tags, _user = current_user)
     may_create = may?(Badge::CREATE_TAGS)
     invalid = []
 
     tags.each do |t|
       tag = Tag.exists?(['tags.forum_id = ? AND (LOWER(tag_name) = ? OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) = ? AND forum_id = ?))',
-                           forum.forum_id, t, t,
-                           forum.forum_id])
-      invalid << t if tag.blank? and not may_create
+                         forum.forum_id, t, t,
+                         forum.forum_id])
+      invalid << t if tag.blank? && !may_create
     end
 
-    return invalid
+    invalid
   end
 
-  def validate_tags(tags, forum = current_forum)
+  def validate_tags(_tags, forum = current_forum)
     @max_tags = conf('max_tags_per_message').to_i
     if @tags.length > @max_tags
       flash.now[:error] = I18n.t('messages.too_many_tags', max_tags: @max_tags)
@@ -87,12 +87,12 @@ module TagsHelper
     end
 
     iv_tags = invalid_tags(forum, @tags)
-    if not iv_tags.blank?
-      flash.now[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(", "))
+    unless iv_tags.blank?
+      flash.now[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(', '))
       return false
     end
 
-    return true
+    true
   end
 end
 
