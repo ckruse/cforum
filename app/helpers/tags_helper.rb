@@ -50,7 +50,10 @@ module TagsHelper
     tags = []
 
     if !params[:tags].blank?
-      tags = (params[:tags].map { |s| s.strip.downcase }).uniq
+      tags = params[:tags]
+      tags = tags.values unless tags.is_a?(Array)
+      tags = (tags.map { |s| s.strip.downcase }).uniq
+
     # non-js variant for conservative people
     elsif !params[:tag_list].blank?
       tags = (params[:tag_list].split(',').map { |s| s.strip.downcase }).uniq
