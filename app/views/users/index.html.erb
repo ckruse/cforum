@@ -12,7 +12,7 @@ content_for :h1, t('users.users')
     <tr>
       <th><%= sortable User.human_attribute_name(:username), :username, :users_path %></th>
       <th><%= sortable t('global.score'), :score, :users_path %></th>
-      <th><%= sortable t('users.num_msgs'), :num_msgs, :users_path %></th>
+      <th><%= sortable t('users.num_msgs'), :activity, :users_path %></th>
       <th><%= sortable User.human_attribute_name(:created_at), :created_at, :users_path %></th>
     </tr>
   </thead>
@@ -22,7 +22,7 @@ content_for :h1, t('users.users')
     <tr>
       <td><%= cf_link_to u.username, user_path(u) %></td>
       <td><%= u.score %></td>
-      <td><%= u.num_msgs %> <%= t('global.messages') %></td>
+      <td><%= u.activity %> <%= t('global.messages') %></td>
       <td><%= l(u.created_at, format: date_format) %></td>
     </tr>
     <% end %>

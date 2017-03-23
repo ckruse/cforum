@@ -19,7 +19,7 @@ class UsersController < ApplicationController
       @search_term = params[:s]
     elsif !params[:nick].blank?
       @users = User.where('LOWER(username) LIKE LOWER(?)', params[:nick].strip + '%')
-      params[:sort] = 'num_msgs'
+      params[:sort] = 'activity'
       params[:dir] = 'desc'
     elsif !params[:exact].blank?
       @users = User.where('LOWER(username) = LOWER(?)', params[:exact].strip)
@@ -27,13 +27,8 @@ class UsersController < ApplicationController
       @users = User
     end
 
-    num_msgs = "(SELECT COUNT(*) FROM messages WHERE user_id = users.user_id AND created_at >= NOW() - INTERVAL '30 days')"
-
-    @users = @users
-               .select("*, #{num_msgs} AS num_msgs")
-    @users = sort_query(%w(username created_at updated_at score active admin num_msgs),
-                        @users, admin: 'COALESCE(admin, false)',
-                                num_msgs: num_msgs)
+    @users = sort_query(%w(username created_at updated_at score active admin activity),
+                        @users, admin: 'COALESCE(admin, false)')
                .order('username ASC')
                .page(params[:page]).per(@limit)
 

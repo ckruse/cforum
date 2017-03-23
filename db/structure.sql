@@ -56,6 +56,52 @@ CREATE TYPE badge_medal_type_t AS ENUM (
 
 
 --
+-- Name: cache_user_activity_delete_trigger(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION cache_user_activity_delete_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  IF OLD.user_id IS NULL THEN
+    RETURN OLD;
+  END IF;
+
+  UPDATE users
+    SET activity = COALESCE((SELECT COUNT(*)
+                             FROM messages
+                             WHERE messages.user_id = OLD.user_id AND created_at >= NOW() - INTERVAL '30 days' AND deleted = false), 0)
+    WHERE user_id = OLD.user_id;
+
+  RETURN OLD;
+END;
+$$;
+
+
+--
+-- Name: cache_user_activity_insert_update_trigger(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION cache_user_activity_insert_update_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  IF NEW.user_id IS NULL THEN
+    RETURN NEW;
+  END IF;
+
+  UPDATE users
+    SET activity = COALESCE((SELECT COUNT(*)
+                             FROM messages
+                             WHERE messages.user_id = NEW.user_id AND created_at >= NOW() - INTERVAL '30 days' AND deleted = false), 0)
+    WHERE user_id = NEW.user_id;
+
+  RETURN NEW;
+END;
+$$;
+
+
+--
 -- Name: cache_user_score_delete_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2013,7 +2059,8 @@ CREATE TABLE users (
     avatar_file_size integer,
     avatar_updated_at timestamp without time zone,
     websocket_token character varying(250),
-    score integer DEFAULT 0 NOT NULL
+    score integer DEFAULT 0 NOT NULL,
+    activity integer DEFAULT 0 NOT NULL
 );
 
 
@@ -3189,6 +3236,20 @@ CREATE UNIQUE INDEX votes_user_id_message_id_idx ON votes USING btree (user_id, 
 
 
 --
+-- Name: messages messages__cache_activity_delete_trg; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER messages__cache_activity_delete_trg AFTER DELETE ON messages FOR EACH ROW EXECUTE PROCEDURE cache_user_activity_delete_trigger();
+
+
+--
+-- Name: messages messages__cache_activity_insert_update_trg; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER messages__cache_activity_insert_update_trg AFTER INSERT OR UPDATE ON messages FOR EACH ROW EXECUTE PROCEDURE cache_user_activity_insert_update_trigger();
+
+
+--
 -- Name: messages messages__count_delete_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -3843,6 +3904,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('100'),
 ('101'),
 ('102'),
+('103'),
 ('11'),
 ('12'),
 ('13'),
