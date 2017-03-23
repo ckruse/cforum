@@ -23,7 +23,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
         </tr>
         <tr>
           <th><%= t('users.score') %>:</th>
-          <td class="<% if @user_score < 0 %>score-down<% else %>score-up<% end %>"><%= number_with_delimiter(@user_score) %></td>
+          <td class="<% if @user.score < 0 %>score-down<% else %>score-up<% end %>"><%= number_with_delimiter(@user.score) %></td>
         </tr>
         <tr>
           <th><%= t('users.num_messages') %>:</th>

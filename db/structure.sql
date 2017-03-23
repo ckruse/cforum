@@ -56,6 +56,63 @@ CREATE TYPE badge_medal_type_t AS ENUM (
 
 
 --
+-- Name: cache_user_score_delete_trigger(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION cache_user_score_delete_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE users
+    SET score = COALESCE((SELECT SUM(value) FROM scores WHERE scores.user_id = OLD.user_id), 0)
+    WHERE user_id = OLD.user_id;
+
+  RETURN NEW;
+END;
+$$;
+
+
+--
+-- Name: cache_user_score_insert_trigger(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION cache_user_score_insert_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE users
+    SET score = COALESCE((SELECT SUM(value) FROM scores WHERE scores.user_id = NEW.user_id), 0)
+    WHERE user_id = NEW.user_id;
+
+  RETURN NEW;
+END;
+$$;
+
+
+--
+-- Name: cache_user_score_update_trigger(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION cache_user_score_update_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE users
+    SET score = COALESCE((SELECT SUM(value) FROM scores WHERE scores.user_id = NEW.user_id), 0)
+    WHERE user_id = NEW.user_id;
+
+  IF NEW.user_id != OLD.user_id THEN
+    UPDATE users
+      SET score = COALESCE((SELECT SUM(value) FROM scores WHERE scores.user_id = OLD.user_id), 0)
+      WHERE user_id = OLD.user_id;
+  END IF;
+
+  RETURN NEW;
+END;
+$$;
+
+
+--
 -- Name: count_messages_delete_trigger(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1955,7 +2012,8 @@ CREATE TABLE users (
     avatar_content_type character varying(255),
     avatar_file_size integer,
     avatar_updated_at timestamp without time zone,
-    websocket_token character varying(250)
+    websocket_token character varying(250),
+    score integer DEFAULT 0 NOT NULL
 );
 
 
@@ -3194,6 +3252,27 @@ CREATE TRIGGER messages_tags__count_insert_trigger AFTER INSERT ON messages_tags
 
 
 --
+-- Name: scores scores__cache_scores_delete_trg; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER scores__cache_scores_delete_trg AFTER DELETE ON scores FOR EACH ROW EXECUTE PROCEDURE cache_user_score_delete_trigger();
+
+
+--
+-- Name: scores scores__cache_scores_insert_trg; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER scores__cache_scores_insert_trg AFTER INSERT ON scores FOR EACH ROW EXECUTE PROCEDURE cache_user_score_insert_trigger();
+
+
+--
+-- Name: scores scores__cache_scores_update_trg; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER scores__cache_scores_update_trg AFTER UPDATE ON scores FOR EACH ROW EXECUTE PROCEDURE cache_user_score_update_trigger();
+
+
+--
 -- Name: search_documents search_documents__before_insert_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -3758,11 +3837,12 @@ ALTER TABLE ONLY votes
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES
+INSERT INTO "schema_migrations" (version) VALUES
 ('1'),
 ('10'),
 ('100'),
 ('101'),
+('102'),
 ('11'),
 ('12'),
 ('13'),

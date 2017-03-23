@@ -135,12 +135,6 @@ class User < ApplicationRecord
     false
   end
 
-  def score
-    @score = Score.where(user_id: user_id).sum('value') unless @score
-
-    @score
-  end
-
   def thumb
     avatar(:thumb)
   end

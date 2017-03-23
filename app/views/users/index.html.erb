@@ -21,7 +21,7 @@ content_for :h1, t('users.users')
     <% @users.each do |u| %>
     <tr>
       <td><%= cf_link_to u.username, user_path(u) %></td>
-      <td><%= u.score_sum %></td>
+      <td><%= u.score %></td>
       <td><%= u.num_msgs %> <%= t('global.messages') %></td>
       <td><%= l(u.created_at, format: date_format) %></td>
     </tr>

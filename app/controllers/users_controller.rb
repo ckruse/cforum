@@ -28,13 +28,11 @@ class UsersController < ApplicationController
     end
 
     num_msgs = "(SELECT COUNT(*) FROM messages WHERE user_id = users.user_id AND created_at >= NOW() - INTERVAL '30 days')"
-    score_sum = 'COALESCE((SELECT SUM(value) FROM scores WHERE user_id = users.user_id), 0)'
 
     @users = @users
-               .select("*, #{score_sum} AS score_sum, #{num_msgs} AS num_msgs")
+               .select("*, #{num_msgs} AS num_msgs")
     @users = sort_query(%w(username created_at updated_at score active admin num_msgs),
-                        @users, score: score_sum,
-                                admin: 'COALESCE(admin, false)',
+                        @users, admin: 'COALESCE(admin, false)',
                                 num_msgs: num_msgs)
                .order('username ASC')
                .page(params[:page]).per(@limit)
@@ -49,7 +47,6 @@ class UsersController < ApplicationController
     @user = User.preload(badge_users: :badge).find(params[:id])
     @settings = @user.settings || Setting.new
     @settings.options ||= {}
-    @user_score = Score.where(user_id: @user.user_id).sum('value')
 
     @messages_by_months = Message
                             .select("DATE_TRUNC('month', created_at) created_at, COUNt(*) cnt")
