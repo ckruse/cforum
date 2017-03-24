@@ -108,12 +108,14 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
   <p><%= t('users.no_messages_so_far') %></p>
 <% end %>
 
-<% @last_messages.each do |m|
-  m.thread.message = m %>
-  <article class="thread threadlist">
-    <%= message_header(m.thread, m, show_votes: true, id: false) %>
-  </article>
-<% end %>
+<div class="root">
+  <% @last_messages.each do |m| %>
+    <% m.thread.message = m %>
+    <article class="thread threadlist">
+      <%= message_header(m.thread, m, show_votes: true, id: false) %>
+    </article>
+  <% end %>
+</div>
 
 <p><%= cf_link_to t('users.all_messages'), user_messages_path(@user) %></p>
 
@@ -123,12 +125,15 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
 <% if @point_msgs.blank? %>
   <p><%= t('users.no_scored_messages_so_far') %></p>
 <% end %>
-<% @point_msgs.each do |m|
-  m.thread.message = m %>
-  <article class="thread threadlist">
-    <%= message_header(m.thread, m, show_votes: true, id: false) %>
-  </article>
-<% end %>
+
+<div class="root">
+  <% @point_msgs.each do |m| %>
+    <% m.thread.message = m %>
+    <article class="thread threadlist">
+      <%= message_header(m.thread, m, show_votes: true, id: false) %>
+    </article>
+  <% end %>
+</div>
 
 
 <h2><%= if not current_user.blank? and @user.user_id == current_user.user_id then t('users.own_votings') else t('users.votings') end%></h2>
@@ -152,7 +157,9 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
               m = s.first.get_message
               m.thread.message = m
               %>
-              <article class="threadlist thread"><%= message_header(m.thread, m, show_votes: true, id: false)  %></article>
+              <div class="root">
+                <article class="threadlist thread"><%= message_header(m.thread, m, show_votes: true, id: false)  %></article>
+              </div>
             <% else %>
               <em>Nachricht wurde gelöscht</em>
             <% end %>

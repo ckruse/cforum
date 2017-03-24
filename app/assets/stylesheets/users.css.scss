@@ -148,6 +148,11 @@
   height:.8em;
 }
 
+.users.show {
+  .root {
+    display:block;
+  }
+}
 
 @media only screen and (min-width : 35em) {
   .user-infos {
