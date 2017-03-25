@@ -57,6 +57,7 @@ class ConfigManager
 
     'subject_black_list' => '',
     'content_black_list' => '',
+    'nick_black_list' => '',
 
     # search settings
     'search_forum_relevance' => 1,

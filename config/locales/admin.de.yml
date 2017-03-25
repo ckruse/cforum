@@ -71,6 +71,7 @@ de:
         accept_self_value: Accept-Punkte bei eigenem Beitrag
         subject_black_list: Betreff-Blacklist
         content_black_list: Beitrags-Blacklist
+        nick_black_list: Namens-Blacklist
         
 
     users:
