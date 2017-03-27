@@ -450,6 +450,15 @@ module MessageHelper
 
     [thread, message, id]
   end
+
+  def message_classes(msg, active)
+    classes = []
+    classes << 'active' if active
+    classes << 'interesting' if msg.attribs[:is_interesting]
+    classes << 'negative-score' if msg.score < 0
+
+    classes.join(' ')
+  end
 end
 
 # eof
