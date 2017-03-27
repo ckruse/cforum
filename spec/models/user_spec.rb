@@ -247,6 +247,7 @@ RSpec.describe User, type: :model do
     it 'returns the sum of scores for a user' do
       user = create(:user)
       Score.create!(user_id: user.user_id, value: 10)
+      user.reload
       expect(user.score).to eq 10
     end
 

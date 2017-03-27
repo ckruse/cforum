@@ -16,11 +16,11 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:users)).to eq([users.first])
     end
 
-    it 'searches users by nick and sorts by num_msgs desc' do
+    it 'searches users by nick and sorts by activity desc' do
       users = [create(:user), create(:user), create(:user)]
       get :index, params: { nick: users.first.username }
       expect(assigns(:users)).to eq([users.first])
-      expect(assigns(:_sort_column)).to eq(:num_msgs)
+      expect(assigns(:_sort_column)).to eq(:activity)
       expect(assigns(:_sort_direction)).to eq(:desc)
     end
 
@@ -37,11 +37,6 @@ RSpec.describe UsersController, type: :controller do
     it 'shows assigns the user as @user' do
       get :show, params: { id: user.to_param }
       expect(assigns(:user)).to eq(user)
-    end
-
-    it 'asigns the score as @score' do
-      get :show, params: { id: user.to_param }
-      expect(assigns(:user_score)).to eq(0)
     end
 
     it 'assigns messages by month as @messages_by_months' do

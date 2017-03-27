@@ -145,6 +145,7 @@ RSpec.describe Messages::VoteController, type: :controller do
       sign_in user
       post :vote, params: message_params_from_slug(message).merge(type: 'down')
 
+      user1.reload
       expect(user1.score).to eq(-1)
     end
 
@@ -152,6 +153,7 @@ RSpec.describe Messages::VoteController, type: :controller do
       sign_in user
       post :vote, params: message_params_from_slug(message).merge(type: 'down')
 
+      user1.reload
       expect(user1.score).to eq(-1)
     end
 

@@ -24,6 +24,7 @@ describe 'deleting a thread' do
                   value: 10)
 
     message.thread.destroy
+    user.reload
     expect(user.score).to eq(10)
   end
 
@@ -33,6 +34,7 @@ describe 'deleting a thread' do
                   value: 15)
 
     message.thread.destroy
+    user.reload
     expect(user.score).to eq(15)
   end
 end
