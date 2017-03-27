@@ -503,6 +503,14 @@ textarea.length-error, .message-character-count.length-error, .twitter-message-c
   background: #ebf5d7;
 }
 
+.thread-message.negative-score .posting-content {
+  opacity: .5;
+  transition: opacity, .5s, ease;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 @media only screen and (min-width: 35em) {
   #unfold-all {
     right:2em;
