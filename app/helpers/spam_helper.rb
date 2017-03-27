@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 module SpamHelper
-  def is_spam(msg)
+  def spam?(msg)
     subject_black_list = conf('subject_black_list').to_s.split(/\015\012|\015|\012/)
     content_black_list = conf('content_black_list').to_s.split(/\015\012|\015|\012/)
     nick_black_list = conf('nick_black_list').to_s.split(/\015\012|\015|\012/)

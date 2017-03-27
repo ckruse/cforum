@@ -98,7 +98,7 @@ class CfThreadsController < ApplicationController
     @preview = true if params[:preview]
 
     invalid = true unless validate_tags(@tags, @forum)
-    if is_spam(@message)
+    if spam?(@message)
       invalid = true
       flash.now[:error] = t('global.spam_filter')
     end
