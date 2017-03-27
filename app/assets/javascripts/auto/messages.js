@@ -160,6 +160,8 @@ cforum.messages = {
     if(uconf('inline_answer') != 'no') {
       cforum.messages.inlineReply($("body").hasClass("nested-view"));
     }
+
+    cforum.messages.hideBadScored();
   },
 
   setTags: function(msg) {
@@ -664,6 +666,22 @@ cforum.messages = {
     init: function() {
       cforum.tags.initTags();
     }
+  },
+
+  hideBadScored: function() {
+    $(".thread-nested .negative-bad-score").each(function() {
+      var $this = $(this);
+      var author = $this.find(".author").html();
+      $this.css('display', 'none');
+      $this.before("<div class=\"hidden-posting\">" + author + " <span class=\"score-to-low-note\">" + t('score_to_low') + "</div>");
+    });
+
+    $(".hidden-posting .author-email, .hidden-posting .author-homepage").remove();
+    $(".hidden-posting .score-to-low-note").on('click', function() {
+      var $this = $(this).closest(".hidden-posting");
+      $this.next().fadeIn('fast');
+      $this.fadeOut('fast', function() { $this.remove(); });
+    });
   }
 };
 

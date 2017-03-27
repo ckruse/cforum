@@ -16,6 +16,7 @@ de:
       username_taken: Dieser Benutzername ist bereits vergeben!
       no_at_in_name: Der Benutzername darf kein „@“ enthalten!
       something_went_wrong: Es ist etwas schief gegangen!
+      score_to_low: "Die Bewertung des Beitrags liegt unterhalb des Grenzwertes. <span class=\"show-posting\">Einblenden</span>"
       upload:
         image_area: 'Bilder hierher ziehen oder klicken, um sie hochzuladen. Bitte beachten Sie die <a href="http://selfhtml.org/impressum.html#upload">Nutzungsbedingungen</a>.'
         alternative_text: Alternativ-Text
