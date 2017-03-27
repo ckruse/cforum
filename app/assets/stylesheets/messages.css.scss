@@ -504,6 +504,15 @@ textarea.length-error, .message-character-count.length-error, .twitter-message-c
 }
 
 .thread-message.negative-score .posting-content {
+  opacity: .7;
+  transition: opacity, .5s, ease;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.thread-message.negativer-score .posting-content,
+.thread-message.negative-bad-score .posting-content {
   opacity: .5;
   transition: opacity, .5s, ease;
   &:hover {

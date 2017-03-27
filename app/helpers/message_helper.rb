@@ -451,11 +451,41 @@ module MessageHelper
     [thread, message, id]
   end
 
+  def positive_score_class(score)
+    case score
+    when 0..3
+      'positive-score'
+    when 4
+      'positiver-score'
+    else
+      'best-score'
+    end
+  end
+
+  def negative_score_class(score)
+    case score
+    when 0..3
+      'negative-score'
+    when 4
+      'negativer-score'
+    else
+      'negative-bad-score'
+    end
+  end
+
+  def score_class(score)
+    if score >= 0
+      positive_score_class(score)
+    else
+      negative_score_class(score.abs)
+    end
+  end
+
   def message_classes(msg, active)
     classes = []
     classes << 'active' if active
     classes << 'interesting' if msg.attribs[:is_interesting]
-    classes << 'negative-score' if msg.score < 0
+    classes << score_class(msg.score)
 
     classes.join(' ')
   end
