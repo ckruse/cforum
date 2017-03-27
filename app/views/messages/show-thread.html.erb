@@ -14,7 +14,7 @@ content_for(:h1) do
 
 <h2><%= t("layout.read_message") %></h2>
 
-<article class="thread-message<% if @thread.archived %> archived<% end %><% if @message.attribs[:is_interesting] %> interesting<% end %>">
+<article class="thread-message<% if @thread.archived %> archived<% end %><% if @message.attribs[:is_interesting] %> interesting<% end %><% if @message.score < 0 %> negative-score<% end %>">
   <%= render 'message', m: @message, first: true, do_parent: true %>
 </article>
 
