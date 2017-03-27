@@ -127,9 +127,13 @@ class Messages::VoteController < ApplicationController
     if !@vote.blank? && (@vote.vtype == vtype)
       Vote.transaction do
         if @vote.vtype == Vote::UPVOTE
-          Vote.connection.execute 'UPDATE messages SET upvotes = upvotes - 1 WHERE message_id = ' + @message.message_id.to_s
+          Message
+            .where(message_id: @message.message_id)
+            .update_all('upvotes = upvotes - 1')
         else
-          Vote.connection.execute 'UPDATE messages SET downvotes = downvotes - 1 WHERE message_id = ' + @message.message_id.to_s
+          Message
+            .where(message_id: @message.message_id)
+            .update_all('downvotes = downvotes - 1')
         end
 
         Score.where('vote_id = ?', @vote.vote_id).delete_all
@@ -156,77 +160,96 @@ class Messages::VoteController < ApplicationController
     @vote.update_attributes(vtype: vtype)
 
     if @vote.vtype == Vote::UPVOTE
-      Vote.connection.execute 'UPDATE messages SET downvotes = downvotes - 1, upvotes = upvotes + 1 WHERE message_id = ' + @message.message_id.to_s
-
-      Score.delete_all(['user_id = ? AND vote_id = ?', current_user.user_id, @vote.vote_id])
-      unless @message.user_id.blank?
-        Score.where('user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id).update_all(['value = ?', @vote_up_value])
-      end
-
-      peon(class_name: 'BadgeDistributor',
-           arguments: { type: 'changed-vote',
-                        vote_id: @vote.vote_id,
-                        message_id: @message.message_id })
+      update_existing_upvote
     else
-      Vote.connection.execute 'UPDATE messages SET upvotes = upvotes - 1, downvotes = downvotes + 1 WHERE message_id = ' + @message.message_id.to_s
-
-      unless @message.user_id.blank?
-        Score.where('user_id = ? AND vote_id = ?', @message.user_id, @vote.vote_id).delete_all
-
-        if @message.owner.score + @vote_down_value >= -1
-          Score.create!(
-            user_id: @message.user_id,
-            vote_id: @vote.vote_id,
-            value: vtype == Vote::UPVOTE ? @vote_up_value : @vote_down_value
-          )
-        else
-          Score.create!(
-            user_id: @message.user_id,
-            vote_id: @vote.vote_id,
-            value: -1 - @message.owner.score
-          )
-        end
-      end
-
-      Score.create!(user_id: current_user.user_id, vote_id: @vote.vote_id, value: @vote_down_value)
+      update_existing_downvote
     end
   end
 
+  def update_existing_upvote
+    Message
+      .where(message_id: @message.message_id)
+      .update_all('downvotes = downvotes - 1, upvotes = upvotes + 1')
+
+    Score
+      .where(user_id: current_user.user_id,
+             vote_id: @vote.vote_id)
+      .delete_all
+
+    unless @message.user_id.blank?
+      Score
+        .where('user_id = ? AND vote_id = ?',
+               @message.user_id, @vote.vote_id)
+        .update_all(['value = ?', @vote_up_value])
+    end
+
+    peon(class_name: 'BadgeDistributor',
+         arguments: { type: 'changed-vote',
+                      vote_id: @vote.vote_id,
+                      message_id: @message.message_id })
+  end
+
+  def update_existing_downvote
+    Message
+      .where(message_id: @message.message_id)
+      .update_all('downvotes = downvotes + 1, upvotes = upvotes - 1')
+
+    unless @message.user_id.blank?
+      Score
+        .where('user_id = ? AND vote_id = ?',
+               @message.user_id, @vote.vote_id)
+        .delete_all
+
+      # reload to refresh the score
+      @message.owner.reload
+
+      if @message.owner.score + @vote_down_value >= -1
+        Score.create!(user_id: @message.user_id,
+                      vote_id: @vote.vote_id,
+                      value: @vote_down_value)
+      else
+        Score.create!(user_id: @message.user_id,
+                      vote_id: @vote.vote_id,
+                      value: -1 - @message.owner.score)
+      end
+    end
+
+    Score.create!(user_id: current_user.user_id,
+                  vote_id: @vote.vote_id,
+                  value: @vote_down_value)
+  end
+
   def create_new_vote(vtype)
-    @vote = Vote.create!(
-      user_id: current_user.user_id,
-      message_id: @message.message_id,
-      vtype: vtype
-    )
+    @vote = Vote.create!(user_id: current_user.user_id,
+                         message_id: @message.message_id,
+                         vtype: vtype)
 
     unless @message.user_id.blank?
       if ((vtype == Vote::DOWNVOTE) && (@message.owner.score + @vote_down_value >= -1)) || (vtype == Vote::UPVOTE)
-        Score.create!(
-          user_id: @message.user_id,
-          vote_id: @vote.vote_id,
-          value: vtype == Vote::UPVOTE ? @vote_up_value : @vote_down_value
-        )
+        Score.create!(user_id: @message.user_id,
+                      vote_id: @vote.vote_id,
+                      value: vtype == Vote::UPVOTE ? @vote_up_value : @vote_down_value)
       elsif (vtype == Vote::DOWNVOTE) && @message.owner.score + @vote_down_value < -1
-        Score.create!(
-          user_id: @message.user_id,
-          vote_id: @vote.vote_id,
-          value: -1 - @message.owner.score
-        )
+        Score.create!(user_id: @message.user_id,
+                      vote_id: @vote.vote_id,
+                      value: -1 - @message.owner.score)
       end
     end
 
     if vtype == Vote::DOWNVOTE
-      Score.create!(
-        user_id: current_user.user_id,
-        vote_id: @vote.vote_id,
-        value: @vote_down_value
-      )
+      Score.create!(user_id: current_user.user_id,
+                    vote_id: @vote.vote_id,
+                    value: @vote_down_value)
     end
 
     if @vote.vtype == Vote::UPVOTE
-      Vote.connection.execute 'UPDATE messages SET upvotes = upvotes + 1 WHERE message_id = ' + @message.message_id.to_s
+      Message
+        .where(message_id: @message.message_id)
+        .update_all('upvotes = upvotes + 1')
     else
-      Vote.connection.execute 'UPDATE messages SET downvotes = downvotes + 1 WHERE message_id = ' + @message.message_id.to_s
+      Message
+        .where(message_id: @message.message_id)
+        .update_all('downvotes = downvotes + 1')
     end
 
     peon(class_name: 'BadgeDistributor',
