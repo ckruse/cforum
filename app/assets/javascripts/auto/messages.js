@@ -74,6 +74,8 @@ cforum.messages = {
   },
 
   show: function() {
+    cforum.messages.hideBadScored();
+
     if($("body").hasClass("nested-view") && window.scrollTo) {
       var anchor = document.location.hash;
       if(anchor) {
@@ -160,8 +162,6 @@ cforum.messages = {
     if(uconf('inline_answer') != 'no') {
       cforum.messages.inlineReply($("body").hasClass("nested-view"));
     }
-
-    cforum.messages.hideBadScored();
   },
 
   setTags: function(msg) {
@@ -672,14 +672,24 @@ cforum.messages = {
     $(".thread-nested .negative-bad-score").each(function() {
       var $this = $(this);
       var author = $this.find(".author").html();
+      var header = $this.find("header");
+      var id = header.attr("id");
       $this.css('display', 'none');
-      $this.before("<div class=\"hidden-posting\">" + author + " <span class=\"score-to-low-note\">" + t('score_to_low') + "</div>");
+      header.removeAttr("id")
+      $this.before("<div id=\"" + id + "\" class=\"hidden-posting\">" + author + " <span class=\"score-to-low-note\">" + t('score_to_low') + "</div>");
     });
 
     $(".hidden-posting .author-email, .hidden-posting .author-homepage").remove();
     $(".hidden-posting .score-to-low-note").on('click', function() {
       var $this = $(this).closest(".hidden-posting");
-      $this.next().fadeIn('fast');
+      var msg = $this.next();
+      var id = $this.attr("id");
+
+      $this.removeAttr("id");
+      msg.find("header").attr("id", id);
+      msg.removeClass("folded");
+      msg.fadeIn('fast');
+
       $this.fadeOut('fast', function() { $this.remove(); });
     });
   }
