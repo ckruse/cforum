@@ -69,7 +69,8 @@ $(function() {
     ev.stopPropagation();
 
     var $this = $(ev.target);
-    var action = $this.attr("href");
+    var form = $this.closest("form");
+    var action = form.attr("action");
     var message = $this.closest(".thread-message");
 
     $this.addClass("spinning");

@@ -2,19 +2,20 @@
 bottom ||= false
 %><div class="voting<% if bottom %> bottom<% end %>">
   <% if @thread.forum.write?(current_user) %>
-    <%= form_tag vote_message_path(@thread, m), method: :post, class: 'form-inline' do %>
-      <% if not @thread.message.message_id == m.message_id %>
+
+    <% if @thread.message.message_id != m.message_id %>
+      <%= form_tag accept_message_path(@thread, m), method: :post, class: 'form-inline' do %>
         <% if not @thread.acceptance_forbidden?(current_user, cookies[:cforum_user]) %>
-          <%= cf_link_to("✓", accept_message_path(@thread, m),
-                         method: 'post', class: (m.flags['accepted'] == 'yes' ? 'accepted-answer' : 'unaccepted-answer') + ' cf-btn accept',
-                         title: m.flags['accepted'] == 'yes' ? t('messages.unaccept_answer') : t('messages.accept_answer')) %>
-        <% else %>
-          <% if m.flags['accepted'] == 'yes' %>
-            <span class="accepted-answer cf-btn accept" title="<% t('messages.accepted_answer') %>"><% t('messages.accepted_answer') %></span>
-          <% end %>
+          <button
+            class="<%= (m.flags['accepted'] == 'yes' ? 'accepted-answer' : 'unaccepted-answer') %> cf-btn accept"
+            title="<%= m.flags['accepted'] == 'yes' ? t('messages.unaccept_answer') : t('messages.accept_answer') %>">✓</button>
+        <% elsif m.flags['accepted'] == 'yes' %>
+          <span class="accepted-answer cf-btn accept" title="<% t('messages.accepted_answer') %>"><% t('messages.accepted_answer') %></span>
         <% end %>
       <% end %>
-
+	  <% end %>
+	  
+    <%= form_tag vote_message_path(@thread, m), method: :post, class: 'form-inline' do %>
       <button name="type"
               value="down"
               title="<%= downvote_message(m, @votes) %>"
