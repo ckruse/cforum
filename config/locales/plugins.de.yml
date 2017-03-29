@@ -77,8 +77,7 @@ de:
       flag_message: Beitrag melden
       unflag_message: Markierung entfernen
       message_is_flagged: "Dieser Beitrag wurde gemeldet. Angegebener Grund: %{reason}"
-      duplicate_message: Doppelpost
-
+      duplicate_message: Duplikat eines anderen Beitrages
     twitter:
       tweet_message: twittern
       tweet: "Beitrag twittern: %{subject} von %{author}"

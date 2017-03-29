@@ -129,7 +129,7 @@ de:
       off-topic: Dieser Beitrag ist außerhalb des durch dieses Forum abgedeckten Themengebiets.
       spam: Dieser Beitrag ist Spam.
       not-constructive: Dieser Beitrag ist unkonstruktiv oder provokativ und trägt zu einer Verschlechterung der allgemeinen Stimmung im Forum bei.
-      duplicate: Dieser Beitrag ist ein Duplikat eines anderen Beitrags.
+      duplicate: #Duplikat <a>eines anderen Beitrages</a>
       illegal: Dieser Beitrag ist strafrechtlich problematisch.
       custom: sonstiger Grund
       vote_already_closed: Die Abstimmung ist bereits abgeschlossen.
