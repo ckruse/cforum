@@ -489,6 +489,14 @@ module MessageHelper
 
     classes.join(' ')
   end
+
+  def flag_reason(msg)
+    if msg.flags['flagged'] == 'custom'
+      msg.flags['custom_reason']
+    else
+      I18n.t('messages.close_vote.' + msg.flags['flagged'])
+    end
+  end
 end
 
 # eof
