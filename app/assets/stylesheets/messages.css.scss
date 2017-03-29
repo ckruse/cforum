@@ -519,6 +519,12 @@ textarea.length-error, .message-character-count.length-error, .twitter-message-c
   }
 }
 
+
+.thread-message.positive-score .posting-content {
+  border-width: 3px;
+}
+
+
 .hidden-posting {
   font-size:.8rem;
   .score-to-low-note { cursor:pointer; }
