@@ -463,8 +463,6 @@ module MessageHelper
   end
 
   def negative_score_class(score)
-    return '' if score == 0
-
     case score
     when 0..3
       'negative-score'
@@ -476,6 +474,8 @@ module MessageHelper
   end
 
   def score_class(score)
+    return '' if score.zero?
+
     if score >= 0
       positive_score_class(score)
     else
