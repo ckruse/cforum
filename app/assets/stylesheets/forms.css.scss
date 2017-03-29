@@ -370,6 +370,10 @@ input[type="search"] { -webkit-appearance: textfield; }
 }
 
 
+.form-inline {
+  display:inline;
+}
+
 @media only screen and (min-width: 35em) {
   .form-horizontal {
     .cf-cgroup {
