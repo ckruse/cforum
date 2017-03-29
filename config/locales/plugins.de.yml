@@ -76,8 +76,8 @@ de:
       unflagged: Die Markierung des Beitrages wurde entfernt.
       flag_message: Beitrag melden
       unflag_message: Markierung entfernen
-      message_is_flagged: "Dieser Beitrag wurde gemeldet. Angegebener Grund: %{reason}"
-      duplicate_message: Doppelpost
+      message_is_flagged: "Dieser Beitrag wurde gemeldet. Angegebener Grund:"
+      duplicate_message: Duplikat eines anderen Beitrages
 
     twitter:
       tweet_message: twittern
