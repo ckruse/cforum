@@ -503,7 +503,7 @@ textarea.length-error, .message-character-count.length-error, .twitter-message-c
 }
 
 .thread-message.negative-score .posting-content {
-  opacity: .7;
+  opacity: .6;
   transition: opacity, .5s, ease;
   &:hover {
     opacity: 1;
@@ -512,7 +512,7 @@ textarea.length-error, .message-character-count.length-error, .twitter-message-c
 
 .thread-message.negativer-score .posting-content,
 .thread-message.negative-bad-score .posting-content {
-  opacity: .5;
+  opacity: .4;
   transition: opacity, .5s, ease;
   &:hover {
     opacity: 1;
