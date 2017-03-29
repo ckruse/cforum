@@ -18,14 +18,12 @@ controls ||= :yes
   </div>
 
   <% if not m.flags['flagged'].blank? and not current_user.blank? and current_user.moderate?(current_forum) %>
-    <div class="flagged-message">
-      <p>
-        <%= t('plugins.flag_plugin.message_is_flagged', reason: flag_reason(m)) %>
-        <% if m.flags['flagged'] == 'duplicate' %>
-          <%= cf_link_to t('plugins.flag_plugin.duplicate_message'), m.flags['flagged_dup_url'] %>
-        <% end %>
-      </p>
-    </div>
+    <p class="flagged-message">
+      <%= t('plugins.flag_plugin.message_is_flagged', reason: flag_reason(m)) %>
+      <% if m.flags['flagged'] == 'duplicate' %>
+        <%= cf_link_to t('plugins.flag_plugin.duplicate_message'), m.flags['flagged_dup_url'] %>
+      <% end %>
+    </p>
   <% end %>
 
   <div class="posting-footer">
