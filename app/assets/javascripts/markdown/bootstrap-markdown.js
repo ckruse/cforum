@@ -983,7 +983,6 @@
           name: 'cmdBold',
           hotkey: 'Ctrl+B',
           title: 'Bold',
-          btnText: 'Bold',
           icon: {
             glyph: 'glyphicon glyphicon-bold',
             fa: 'fa fa-bold',
@@ -1019,7 +1018,6 @@
         }, {
           name: 'cmdItalic',
           title: 'Italic',
-          btnText: 'Italic',
           hotkey: 'Ctrl+I',
           icon: {
             glyph: 'glyphicon glyphicon-italic',
@@ -1056,7 +1054,6 @@
         }, {
           name: 'cmdHeading',
           title: 'Heading',
-          btnText: "Heading",
           hotkey: 'Ctrl+H',
           icon: {
             glyph: 'glyphicon glyphicon-header',
@@ -1102,7 +1099,6 @@
         data: [{
           name: 'cmdUrl',
           title: 'URL/Link',
-          btnText: 'URL/Link',
           hotkey: 'Ctrl+L',
           icon: {
             glyph: 'glyphicon glyphicon-link',
@@ -1139,7 +1135,6 @@
         }, {
           name: 'cmdImage',
           title: 'Image',
-          btnText: 'Image',
           hotkey: 'Ctrl+G',
           icon: {
             glyph: 'glyphicon glyphicon-picture',
@@ -1183,7 +1178,6 @@
           name: 'cmdList',
           hotkey: 'Ctrl+U',
           title: 'Unordered List',
-          btnText: 'Unordered List',
           icon: {
             glyph: 'glyphicon glyphicon-list',
             fa: 'fa fa-list',
@@ -1244,7 +1238,6 @@
           name: 'cmdListO',
           hotkey: 'Ctrl+O',
           title: 'Ordered List',
-          btnText: 'Ordered List',
           icon: {
             glyph: 'glyphicon glyphicon-th-list',
             fa: 'fa fa-list-ol',
@@ -1306,7 +1299,6 @@
           name: 'cmdCode',
           hotkey: 'Ctrl+K',
           title: 'Code',
-          btnText: 'Code',
           icon: {
             glyph: 'glyphicon glyphicon-asterisk',
             fa: 'fa fa-code',
@@ -1397,7 +1389,6 @@
           name: 'cmdQuote',
           hotkey: 'Ctrl+Q',
           title: 'Quote',
-          btnText: 'Quote',
           icon: {
             glyph: 'glyphicon glyphicon-comment',
             fa: 'fa fa-quote-left',
@@ -1455,7 +1446,6 @@
           toggle: true,
           hotkey: 'Ctrl+P',
           title: 'Preview',
-          btnText: 'Preview',
           btnClass: 'btn btn-primary btn-sm',
           icon: {
             glyph: 'glyphicon glyphicon-search',

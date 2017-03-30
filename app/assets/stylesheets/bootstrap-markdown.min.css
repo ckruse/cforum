@@ -13,8 +13,23 @@
 
 .md-editor>.md-header {
   margin: 0;
-  margin-bottom:1em;
+  background: transparent;
+  padding-left: .8em;
 }
+
+.btn-toolbar button, .btn-toolbar a {
+  background-color: #f5f5f5;
+  padding: 3px 6px;
+}
+
+.btn-toolbar button > .fa-question,
+.btn-toolbar button.forum-usage {
+  color: #c32e04;
+  background-color: #feebe6;
+}
+
+
+
 
 .md-editor>.md-preview {
   background: #fff;
