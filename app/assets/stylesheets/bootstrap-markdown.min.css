@@ -55,6 +55,7 @@
 .md-editor .md-controls {
   float: right;
   padding: 3px;
+  display: none; /* Element kann komplett weg */
 }
 
 .md-editor .md-controls .md-control {
@@ -67,7 +68,7 @@
   color: #333;
 }
 
-.md-fullscreen-mode #forum-usage, .md-fullscreen-mode .image-upload {
+.md-fullscreen-mode .image-upload {
   display:none;
 }
 

@@ -429,18 +429,6 @@ blockquote.show-quotes .unfold {
   }
 }
 
-.md-header #forum-usage {
-  margin: 3px -4px 0;
-  border-top: 5px solid white;
-  padding: .8em;
-  text-align: center;
-
-  a:last-child {
-    color: #3481CD;
-    &:hover, &:active, &:focus { color: #990909; }
-  }
-}
-
 #unfold-all {
   position:fixed;
   cursor:pointer;
