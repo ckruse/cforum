@@ -429,18 +429,6 @@ blockquote.show-quotes .unfold {
   }
 }
 
-.md-header #forum-usage {
-  margin: 3px -4px 0;
-  border-top: 5px solid white;
-  padding: .8em;
-  text-align: center;
-
-  a:last-child {
-    color: #3481CD;
-    &:hover, &:active, &:focus { color: #990909; }
-  }
-}
-
 #unfold-all {
   position:fixed;
   cursor:pointer;
@@ -483,14 +471,14 @@ textarea.length-error, .message-character-count.length-error, .twitter-message-c
   padding:0;
   text-align:right;
   width:calc(99% + 2px); // 2px border
-  margin:auto;
-  margin-bottom:0.2em;
+  margin:-36px auto 8px;
 
   .message-character-count {
+    font-size: 14px;
+    line-height: 1.42857;
     background:#f5f5f5;
-    padding: 0.25em;
-    border-radius: 4px 4px 0 0;
-    border: 1px solid #D5D5D5;
+    padding: 3px 6px;
+    border-radius: 4px;
   }
 }
 

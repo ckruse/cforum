@@ -40,10 +40,6 @@ with_name ||= false
 </fieldset>
 
 <fieldset>
-  <p id="forum-usage"><%== t("messages.forum_usage",
-                             markdown_link: cf_link_to(t("messages.markdown"), 'http://markdown.de/syntax/index.html'),
-                             wiki_link: cf_link_to(t("messages.wiki"), 'https://wiki.selfhtml.org/'),
-                             help_link: cf_link_to(t("messages.help_with_formatting"), 'https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bedienung')) %></p>
   <div class="cf-cgroup cf-textarea-only">
     <div class="cntrls">
       <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt, required: true %>
