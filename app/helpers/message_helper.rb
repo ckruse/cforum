@@ -483,10 +483,11 @@ module MessageHelper
     end
   end
 
-  def message_classes(msg, active)
+  def message_classes(msg, thread, active)
     classes = []
     classes << 'active' if active
     classes << 'interesting' if msg.attribs[:is_interesting]
+    classes << 'accepted' if thread.accepted.include?(msg)
     classes << score_class(msg.score)
 
     classes.join(' ')
