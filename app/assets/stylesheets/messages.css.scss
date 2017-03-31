@@ -538,7 +538,7 @@ textarea.length-error, .message-character-count.length-error, .twitter-message-c
   }
 }
 
-.thread-message.best-score{
+.thread-message.best-score {
   .posting-content { position: relative; }
   .posting-content::after {
     content: "★";
@@ -547,6 +547,13 @@ textarea.length-error, .message-character-count.length-error, .twitter-message-c
     font-size: 2.5em;
     top: -.35em;
     left: 0;
+  }
+}
+
+.thread-message.accepted {
+  .posting-content, .problematic-site {
+    border-color:#8db243;
+    border-width:3px;
   }
 }
 
