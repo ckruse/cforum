@@ -45,7 +45,7 @@
         box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(102, 175, 233, 0.6);
       }
 
-      input, select, textarea {
+      input, select, textarea{
         width:100%;
         max-width:400px;
         display: block;
@@ -61,11 +61,22 @@
         font-size:16px;
       }
 
+      textarea.length-warning {
+        color: #8a6d3b;
+        background-color: #fcf8e3;
+        border-color: #faebcc;
+      }
+
+      textarea.length-error {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;
+      }
+
       input[disabled], select[disabled], textarea[disabled] {
         background-color: #eee;
         opacity:1;
       }
-
 
       small {
         font-style: italic;
@@ -301,7 +312,7 @@ legend {
       textarea.big.md-input {
         width:99%;
         margin:auto;
-        margin-bottom:1em;
+        margin-bottom:.5em;
 
         padding-left:0;
         padding-right:0;
@@ -409,7 +420,7 @@ input[type="search"] { -webkit-appearance: textfield; }
 
         textarea.big.md-input {
           width:95.5%;
-          margin:0 auto 1em auto;
+          margin:0 auto .5em auto;
 
           padding-left:.5em;
           padding-right:.5em;
