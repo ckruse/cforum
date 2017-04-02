@@ -66,6 +66,7 @@ class Messages::SplitThreadController < ApplicationController
                               comment: t('messages.thread_split_redirection'))
 
           if params[:retag_answers] == '1'
+            msg.tags.delete_all
             raise ActiveRecord::Rollback unless save_tags(@forum, msg, @tags)
             audit(msg, 'retag')
           end
