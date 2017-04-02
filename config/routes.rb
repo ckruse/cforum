@@ -35,6 +35,8 @@ Rails.application.routes.draw do
   get '/users/:id/scores' => 'users#show_scores', as: :user_scores
   get '/users/:id/votes' => 'users#show_votes', as: :user_votes
   get '/users/:id/messages' => 'users#show_messages', as: :user_messages
+  get '/users/:id/password' => 'users#edit_password', as: :user_edit_password
+  post '/users/:id/password' => 'users#update_password'
   resources :users, except: [:new, :create]
 
   resources :notifications, except: [:edit, :new, :create]

@@ -12,6 +12,9 @@ content_for(:body_classes, 'users edit ' + user_to_class_name(@user))
 
   <p class="form-actions">
     <%= f.submit t('global.save'), class: 'cf-primary-btn' %>
+    <% if @user.user_id == current_user.user_id %>
+      <%= cf_link_to t('users.change_password'), user_edit_password_path(@user), class: 'cf-btn' %>
+    <% end %>
     <%= cf_link_to t('global.back'), users_path, class: 'cf-btn' %>
   </p>
 

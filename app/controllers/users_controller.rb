@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     !current_user.blank? && (current_user.admin? || (current_user.user_id.to_s == params[:id]))
   end
 
-  authorize_action(:show_votes) do
+  authorize_action([:show_votes, :edit_password, :update_password]) do
     !current_user.blank? && (current_user.user_id.to_s == params[:id])
   end
 
@@ -140,11 +140,6 @@ class UsersController < ApplicationController
     @messages_count = Message.where(user_id: @user.user_id).count
   end
 
-  def user_params
-    params.require(:user).permit(:username, :email, :password,
-                                 :password_confirmation, :avatar)
-  end
-
   def update
     @user = User.find(params[:id])
     @messages_count = Message.where(user_id: @user.user_id).count
@@ -171,8 +166,6 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if saved
-        bypass_sign_in @user
-
         format.html { redirect_to edit_user_path(@user), notice: I18n.t('users.updated') }
         format.json { head :no_content }
       else
@@ -251,7 +244,35 @@ class UsersController < ApplicationController
                   .per(conf('pagination'))
   end
 
+  def edit_password
+    @user = User.find(params[:id])
+  end
+
+  def update_password
+    @user = User.find(params[:id])
+
+    respond_to do |format|
+      if @user.update_attributes(user_password_params)
+        bypass_sign_in @user
+
+        format.html { redirect_to user_path(@user), notice: I18n.t('users.password_changed') }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit_password' }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
+
+  def user_params
+    params.require(:user).permit(:username, :email, :avatar)
+  end
+
+  def user_password_params
+    params.require(:user).permit(:password, :password_confirmation)
+  end
 
   def check_for_autobiographer(user, settings)
     return if settings.blank?

@@ -1,6 +1,8 @@
 de:
   users:
     user: "Benutzer %{name}"
+    change_password: "Passwort ändern"
+    password_changed: Das Passwort wurde erfolgreich geändert.
     selfforum_user: "SELFHTML-Forumsbenutzer: %{name}"
     users: Benutzer
     new_user: neuer Benutzer
