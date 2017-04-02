@@ -22,8 +22,7 @@
   padding: 3px 6px;
 }
 
-.btn-toolbar button > .fa-question,
-.btn-toolbar button.forum-usage {
+.btn-toolbar a.forum-usage {
   color: #c32e04;
   background-color: #feebe6;
 }

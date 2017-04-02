@@ -22,10 +22,7 @@ cforum.messages = {
                        }
                      ]});
 
-      var usg = $('#forum-usage');
-      if(usg.length > 0) {
-        elem.prev().append(usg);
-      }
+      $(".btn-group.groupFont").before("<div class=\"btn-group groupHelp\"><a class=\"btn-default btn-sm btn forum-usage\" title=\"" + t("help") + "\"><span class=\"icon-help\">?</span> " + t("help") + "</button></div>");
     }
   },
 
