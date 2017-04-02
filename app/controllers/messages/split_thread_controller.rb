@@ -101,9 +101,9 @@ class Messages::SplitThreadController < ApplicationController
     end
   end
 
-  def find_youngest(msg)
-    youngest = msg
-    msg.all_answers do
+  def find_youngest(root_msg)
+    youngest = root_msg
+    root_msg.all_answers do |msg|
       youngest = msg if youngest.created_at < msg.created_at
     end
 
