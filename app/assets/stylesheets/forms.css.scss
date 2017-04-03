@@ -1,5 +1,11 @@
 /* -*- coding: utf-8 -*- */
 
+::-moz-focus-inner {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
 .form-horizontal {
   .cf-cgroup:after { clear:both; }
   .cf-cgroup:before, .cf-cgroup:after {
