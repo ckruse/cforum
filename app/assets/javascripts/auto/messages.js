@@ -22,7 +22,7 @@ cforum.messages = {
                        }
                      ]});
 
-      $(".btn-group.groupFont").before("<div class=\"btn-group groupHelp\"><a href=\"https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Formatierung_der_Beitr%C3%A4ge\" class=\"btn-default btn-sm btn forum-usage\" title=\"" + t("help") + "\"><span class=\"icon-help fa fa-question\"></span></a></div>");
+      $(".btn-group.groupFont").before("<div class=\"btn-group groupHelp\"><a href=\"https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Formatierung_der_Beitr%C3%A4ge\" class=\"btn-default btn-sm btn forum-usage\" title=\"" + t("help") + "\"><span class=\"icon-help\"></span></a></div>");
     }
   },
 
