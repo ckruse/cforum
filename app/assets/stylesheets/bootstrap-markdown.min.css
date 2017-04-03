@@ -14,13 +14,12 @@
 .md-editor>.md-header {
   margin: 0;
   background: transparent;
-  padding-left: .8em;
 }
 
-.btn-default.btn-sm.btn::-moz-focus-inner {
-  padding: 0;
-  margin: 0;
-  border: 0;
+@media only screen and (min-width: 35em) {
+  .md-editor>.md-header {
+    padding-left: .8em;
+  }
 }
 
 .btn-toolbar button, .btn-toolbar a {
@@ -28,13 +27,11 @@
   padding: 3px 6px;
 }
 
-.btn-toolbar a.forum-usage {
+.btn-toolbar a.forum-usage, .btn-toolbar a.forum-usage:hover {
   color: #c32e04;
   background-color: #feebe6;
+  padding: 3px 0;
 }
-
-
-
 
 .md-editor>.md-preview {
   background: #fff;
