@@ -22,7 +22,7 @@ cforum.messages = {
                        }
                      ]});
 
-      $(".btn-group.groupFont").before("<div class=\"btn-group groupHelp\"><a class=\"btn-default btn-sm btn forum-usage\" title=\"" + t("help") + "\"><span class=\"icon-help\">?</span> " + t("help") + "</button></div>");
+      $(".btn-group.groupFont").before("<div class=\"btn-group groupHelp\"><a class=\"btn-default btn-sm btn forum-usage\" title=\"" + t("help") + "\"><span class=\"icon-help fa fa-question\"></span></a></div>");
     }
   },
 
