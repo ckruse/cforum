@@ -59,7 +59,7 @@ class Messages::FlagController < ApplicationController
     @message.flags[:flagged] = params[:reason]
     @message.save!
 
-    audit(@message, 'flagged-' + params[:reason])
+    audit(@message, 'flagged-' + params[:reason], nil)
 
     peon(class_name: 'NotifyFlaggedTask',
          arguments: {
