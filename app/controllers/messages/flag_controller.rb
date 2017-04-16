@@ -57,7 +57,7 @@ class Messages::FlagController < ApplicationController
     end
 
     @message.flags[:flagged] = params[:reason]
-    @message.save
+    @message.save!
 
     audit(@message, 'flagged-' + params[:reason])
 
