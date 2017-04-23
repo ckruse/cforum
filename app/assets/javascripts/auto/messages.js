@@ -79,9 +79,18 @@ cforum.messages = {
 
       if(nodes.length > 0) {
         $('body').append('<div id="unfold-all">Alle ausklappen</div>');
+
         $("#unfold-all").on('click', function() {
           $('.posting-nested.folded').removeClass('folded');
           $(this).remove();
+
+          if(window.scrollTo) {
+            var anchor = document.location.hash;
+            if(anchor) {
+              var offset = $(anchor).offset();
+              window.scrollTo(offset.left, offset.top);
+            }
+          }
         });
 
 
