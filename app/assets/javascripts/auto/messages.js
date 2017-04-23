@@ -74,17 +74,8 @@ cforum.messages = {
   show: function() {
     cforum.messages.hideBadScored();
 
-    if($("body").hasClass("nested-view") && window.scrollTo) {
-      var anchor = document.location.hash;
-      if(anchor) {
-        var offset = $(anchor).offset();
-        window.scrollTo(offset.left, offset.top);
-      }
-    }
-
     if(uconf('fold_read_nested') == 'yes' && !cforum.viewAll) {
-      var nodes = $(".thread-nested:not(.archived) .message.visited:not(.active)").closest('.posting-nested');
-      nodes.addClass('folded');
+      var nodes = $('.posting-nested.folded');
 
       if(nodes.length > 0) {
         $('body').append('<div id="unfold-all">Alle ausklappen</div>');
@@ -92,24 +83,25 @@ cforum.messages = {
           $('.posting-nested.folded').removeClass('folded');
           $(this).remove();
         });
-      }
 
-      $(".thread-nested").on('click', function(ev) {
-        var trg = $(ev.target);
 
-        if(!trg.is(".posting-nested")) {
-          trg = trg.closest('.posting-nested');
-        }
+        $(".thread-nested").on('click', function(ev) {
+          var trg = $(ev.target);
 
-        if(trg.hasClass('folded')) {
-          ev.preventDefault();
-          trg.removeClass('folded');
-
-          if($(".posting-nested.folded").length <= 0) {
-            $("#unfold-all").remove();
+          if(!trg.is(".posting-nested")) {
+            trg = trg.closest('.posting-nested');
           }
-        }
-      });
+
+          if(trg.hasClass('folded')) {
+            ev.preventDefault();
+            trg.removeClass('folded');
+
+            if($(".posting-nested.folded").length <= 0) {
+              $("#unfold-all").remove();
+            }
+          }
+        });
+      }
     }
 
     if($('body').hasClass('nested-view') && history.pushState) {

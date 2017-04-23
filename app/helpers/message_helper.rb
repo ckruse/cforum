@@ -483,11 +483,16 @@ module MessageHelper
     end
   end
 
-  def message_classes(msg, thread, active)
+  def message_classes(msg, thread, active, rm = :thread)
     classes = []
     classes << 'active' if active
     classes << 'interesting' if msg.attribs[:is_interesting]
     classes << 'accepted' if thread.accepted.include?(msg)
+
+    if uconf('fold_read_nested') == 'yes' && rm == :nested && !active && !thread.archived && is_read(current_user, msg)
+      classes << 'folded'
+    end
+
     classes << score_class(msg.score)
 
     classes.join(' ')
