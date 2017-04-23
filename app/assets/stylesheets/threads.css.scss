@@ -44,7 +44,7 @@ a.thread-forum-plate {
   &:hover,
   &:focus,
   &:active {
-    color: #990909; 
+    color: #990909;
   }
 }
 
@@ -57,7 +57,7 @@ a.thread-forum-plate {
   padding: .35em 1em 0 .5em;
   border: 1px solid #d5d5d5;
 
-  & > ol { 
+  & > ol {
     border-radius: 0 0 .5em .5em;
     margin: 0 -1em 0 -.5em;
     padding: .25em 1.5em .5em 1em;
@@ -83,7 +83,7 @@ a.thread-forum-plate {
   }
 
   .message-icons button {
-    margin-left: 0.5em; 
+    margin-left: 0.5em;
   }
 
   .interesting .message-icons form button.mark-boring {
@@ -93,7 +93,7 @@ a.thread-forum-plate {
   ol {
     list-style-type: none;
     overflow: visible;
-        
+
     li {
       padding: 0;
       margin: 0;
@@ -154,8 +154,8 @@ a.thread-forum-plate {
       margin-left: 2px;
       margin-right: 2px;
     }
-    .votes { 
-	     margin-left: .5em; 
+    .votes {
+	     margin-left: .5em;
     }
     &.deleted {
       h2, h3, .details {
@@ -302,8 +302,8 @@ a.thread-forum-plate {
   .visited button {
     color: #999;
   }
-  button:hover, 
-  button:focus, 
+  button:hover,
+  button:focus,
   button:active {
     color: #990909;
   }
@@ -318,8 +318,8 @@ a.thread-forum-plate {
 #tree-functions {
   list-style-type: none;
   margin: 0 0 2em 2em;
-  padding-left: 1em; 
-  border-left: 5px solid #8DB243; 
+  padding-left: 1em;
+  border-left: 5px solid #8DB243;
   position: relative;
   z-index: 10;
 
