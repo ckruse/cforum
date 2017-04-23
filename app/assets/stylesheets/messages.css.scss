@@ -363,35 +363,6 @@ hr {
   height:1px;
 }
 
-
-/* Code-Blöcke */
-code.block {
-  display: block;
-  white-space: pre;
-  white-space: pre-wrap;
-  margin-top: .5em;
-  padding: .3em .4em .3em .5em;
-  line-height:1.2em;
-}
-code.block code.block {
-  border: 0 none;
-  margin: 0;
-  padding: 0;
-  max-height: none;
-  background: transparent;
-}
-
-code.good {
-  color:#3C763D;
-  background-color:#DFF0D8;
-}
-
-code.bad {
-  color:#A94442;
-  background-color:#F2DEDE;
-}
-/* end Code-Blöcke */
-
 .signature {
   .sig-dashes { display:block; }
   color: #808080;
