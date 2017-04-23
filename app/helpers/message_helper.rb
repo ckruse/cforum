@@ -489,7 +489,8 @@ module MessageHelper
     classes << 'interesting' if msg.attribs[:is_interesting]
     classes << 'accepted' if thread.accepted.include?(msg)
 
-    if uconf('fold_read_nested') == 'yes' && rm == :nested && !active && !thread.archived && is_read(current_user, msg)
+    if uconf('fold_read_nested') == 'yes' && rm == :nested && !active &&
+       !thread.archived && msg.attribs['classes'].include?('visited')
       classes << 'folded'
     end
 
