@@ -1,6 +1,0 @@
-de:
-  options:
-    errors:
-      pagination: Die Option „Anzahl der Einträge pro Seite” muss aus Ziffern bestehen.
-      quote_char: Das Zitat-Zeichen ist fehlerhaft.
-      quote_old_message: Die Option „alte Nachricht zitieren” muss entweder bejaht oder verneint werden.

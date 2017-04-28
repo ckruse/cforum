@@ -1,4 +1,0 @@
-en:
-  js:
-    messages:
-      messages_threads: "There are {{messages}} new messages and {{threads}} new threads."

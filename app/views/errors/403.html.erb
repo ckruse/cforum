@@ -1,7 +1,0 @@
-<h1><%= t('errors.not_allowed_error') %></h1>
-
-<p><%= t('errors.not_allowed_error_message') %></p>
-
-<% unless current_user %>
-<p><%= t('errors.not_allowed_maybe_you_want_to') %> <%= cf_link_to t('errors.login'), new_user_session_path %>?</p>
-<% end %>

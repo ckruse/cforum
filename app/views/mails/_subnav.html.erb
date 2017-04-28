@@ -1,8 +1,0 @@
-<ul class="mails-nav">
-  <li class="create-new<% if action_name == 'new' %> active<% end %>"><%= cf_link_to t('mails.new_mail'), @user_object ? new_mail_path(priv_message: {recipient_id: @user_object.user_id}) : new_mail_path %></li>
-  <% @mail_users.keys.sort.each do |uname| %>
-    <% vals = @mail_users[uname] %>
-    <li><%= cf_link_to user_mails_path(uname) do %><%= uname %> <span class="status-read"><%= vals[:read] || 0 %></span> <% if vals[:unread] > 0 %><span class="status-unread"><%= vals[:unread] || 0 %></span><% end %><% end %></li>
-  <% end %>
-</ul>
-

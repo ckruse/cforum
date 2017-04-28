@@ -1,9 +1,0 @@
-<h2><%= cf_link_to t("forums.threads_wo_answer"), forum_path('all', 'only_wo_answer' => 'yes') %></h2>
-
-<ul>
-  <% @open_threads.each do |thread| %>
-    <li class="thread"><%= render 'thread_infos', thread: thread %></li>
-  <% end %>
-</ul>
-
-<p><%= cf_link_to t('layout.show_all'), forum_path('all', 'only_wo_answer' => 'yes', 'srt' => 'yes') %></p>

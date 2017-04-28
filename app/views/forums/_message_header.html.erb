@@ -1,9 +1,0 @@
-<span class="author">
-  <% if message.user_id %>
-    <span class="registered-user"><%= cf_link_to(image_tag(message.owner.avatar(:thumb), class: 'avatar'), user_path(message.owner), title: t('messages.user_link', user: message.owner.username), class: 'user-link') %> <%= cf_link_to message.author, message_path(thread, message), class: message.attribs['classes'].join(' ') %>: </span>
-  <% else %>
-    <%= cf_link_to message.author, message_path(thread, message), class: message.attribs['classes'].join(' ') %>:
-  <% end %>
-</span>
-
-<%= cf_link_to message.subject, message_path(thread, message), class: 'thread-info' + ' ' + (message.attribs['classes'].join(' ')) %>
