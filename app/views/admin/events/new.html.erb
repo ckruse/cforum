@@ -1,8 +1,0 @@
-<%
-content_for :title, t('admin.events.new_event')
-content_for :h1, t('admin.events.new_event')
-%>
-
-<%= form_for @event, url: admin_events_path, html: {class: 'form-horizontal'} do |f| %>
-  <%= render 'form', f: f %>
-<% end %>

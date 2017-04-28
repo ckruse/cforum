@@ -1,0 +1,21 @@
+{
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "wordpress/wordpress",
+                "version": "4.7.4",
+                "url": "https://wordpress.org/download/",
+                "source": {
+                    "type": "svn",
+                    "url": "https://core.svn.wordpress.org/",
+                    "reference": "tags/4.7.4"
+                }
+            }
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "wordpress/wordpress": "*"
+    }
+}

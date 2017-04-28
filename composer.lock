@@ -1,0 +1,30 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "b7417a769a896ed68330b7f6c689b0ea",
+    "packages": [
+        {
+            "name": "wordpress/wordpress",
+            "version": "4.7.4",
+            "source": {
+                "type": "svn",
+                "url": "https://core.svn.wordpress.org/",
+                "reference": "tags/4.7.4"
+            },
+            "type": "library"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.4"
+    },
+    "platform-dev": []
+}

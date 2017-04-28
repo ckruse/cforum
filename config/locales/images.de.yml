@@ -1,8 +1,0 @@
-de:
-  images:
-    images: Bilder
-    delete: löschen
-    deleted_successfully: Das Bild wurde erfolgreich gelöscht.
-
-    image_too_big: Das Bild ist zu gross (maximal 2MB).
-    wrong_content_type: Die hochgeladene Datei scheint kein Bild zu sein!
