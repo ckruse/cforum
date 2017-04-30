@@ -20,6 +20,7 @@ class CfThreadsController < ApplicationController
   include LinkTagsHelper
   include OpenCloseHelper
   include SubscriptionsHelper
+  include NewMessageHelper
 
   def index
     index_threads
@@ -124,19 +125,7 @@ class CfThreadsController < ApplicationController
 
     respond_to do |format|
       if !@preview && saved
-        publish('thread:create', { type: 'thread', thread: @thread,
-                                   message: @message },
-                '/forums/' + @forum.slug)
-
-        search_index_message(@thread, @message)
-
-        peon(class_name: 'NotifyNewTask',
-             arguments: { type: 'thread',
-                          thread: @thread.thread_id,
-                          message: @message.message_id })
-
-        autosubscribe_message(@thread, nil, @message)
-
+        new_message_saved(@thread, @message, nil, @forum, 'thread')
         format.html { redirect_to message_url(@thread, @message), notice: I18n.t('threads.created') }
         format.json { render json: @thread, status: :created, location: @thread }
       else

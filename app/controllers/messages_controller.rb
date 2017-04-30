@@ -20,6 +20,7 @@ class MessagesController < ApplicationController
   include LinkTagsHelper
   include NotifyHelper
   include SubscriptionsHelper
+  include NewMessageHelper
 
   def show
     @thread, @message, @id = get_thread_w_post
@@ -154,19 +155,7 @@ class MessagesController < ApplicationController
     end
 
     if saved
-      publish('message:create', { type: 'message', thread: @thread,
-                                  message: @message, parent: @parent },
-              '/forums/' + current_forum.slug)
-
-      search_index_message(@thread, @message)
-
-      peon(class_name: 'NotifyNewTask',
-           arguments: { type: 'message',
-                        thread: @thread.thread_id,
-                        message: @message.message_id })
-
-      autosubscribe_message(@thread, @parent, @message)
-
+      new_message_saved(@thread, @message, @parent, current_forum)
       redirect_to message_url(@thread, @message), notice: I18n.t('messages.created')
     else
       @message.valid? unless @preview
