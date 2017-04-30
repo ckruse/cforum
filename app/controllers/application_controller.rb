@@ -3,7 +3,6 @@
 $CF_VERSION = '4.4'
 
 require Rails.root + 'lib/tools'
-require Rails.root + 'lib/peon'
 
 class ApplicationController < ActionController::Base
   include ApplicationHelper

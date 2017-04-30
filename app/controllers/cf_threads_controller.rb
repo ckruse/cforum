@@ -190,10 +190,7 @@ class CfThreadsController < ApplicationController
 
     respond_to do |format|
       if saved
-        peon(class_name: 'ThreadMovedTask',
-             arguments: { thread: @thread.thread_id,
-                          old_forum: @forum.forum_id,
-                          new_forum: @move_to.forum_id })
+        NotifyThreadMovedJob.perform_later(@thread.thread_id, @forum.forum_id, @move_to.forum_id)
 
         format.html { redirect_to message_url(@thread, @thread.message), notice: t('threads.moved') }
       else

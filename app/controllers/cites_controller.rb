@@ -177,9 +177,7 @@ class CitesController < ApplicationController
                                 vote_type: CiteVote::UPVOTE)
       end
 
-      peon(class_name: 'CitesNotifier',
-           arguments: { type: 'create', cite_id: @cite.cite_id })
-
+      NotifyCiteJob.perform_later(@cite.cite_id, 'create')
       audit(@cite, 'create')
       redirect_to cite_url(@cite), notice: t('cites.created')
     else
@@ -205,8 +203,7 @@ class CitesController < ApplicationController
     @cite.destroy
 
     audit(@cite, 'destroy')
-    peon(class_name: 'CitesNotifier',
-         arguments: { type: 'destroy', cite_id: @cite.cite_id })
+    NotifyCiteJob.perform_later(@cite.cite_id, 'destroy')
 
     redirect_to cites_url, notice: t('cites.destroyed')
   end

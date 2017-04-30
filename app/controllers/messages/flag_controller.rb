@@ -61,11 +61,7 @@ class Messages::FlagController < ApplicationController
 
     audit(@message, 'flagged-' + params[:reason], nil)
 
-    peon(class_name: 'NotifyFlaggedTask',
-         arguments: {
-           type: 'message',
-           message_id: @message.message_id
-         })
+    NotifyFlaggedJob.perform_later(@message.message_id)
 
     redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.flagged')
   end

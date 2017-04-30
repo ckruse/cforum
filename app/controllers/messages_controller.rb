@@ -330,10 +330,7 @@ class MessagesController < ApplicationController
     end
 
     search_index_message(@thread, @message)
-    peon(class_name: 'NotifyNewTask',
-         arguments: { type: 'message',
-                      thread: @thread.thread_id,
-                      message: @message.message_id })
+    NotifyNewMessageJob.perform_later(@thread.thread_id, @message.message_id, 'message')
 
     respond_to do |format|
       format.html { redirect_to cf_return_url(@thread, @message, view_all: true), notice: I18n.t('messages.restored') }

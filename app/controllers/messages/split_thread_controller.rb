@@ -89,11 +89,7 @@ class Messages::SplitThreadController < ApplicationController
     end
 
     if saved
-      peon(class_name: 'NotifyNewTask',
-           arguments: { type: 'thread',
-                        thread: @thread.thread_id,
-                        message: @message.message_id })
-
+      NotifyNewMessageJob.perform_later(@thread.thread_id, @message.message_id, 'thread')
       autosubscribe_message(@thread, nil, @message)
 
       redirect_to message_url(@thread, @message), notice: I18n.t('messages.thread_split')

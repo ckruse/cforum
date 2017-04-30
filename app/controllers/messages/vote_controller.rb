@@ -183,10 +183,7 @@ class Messages::VoteController < ApplicationController
         .update_all(['value = ?', @vote_up_value])
     end
 
-    peon(class_name: 'BadgeDistributor',
-         arguments: { type: 'changed-vote',
-                      vote_id: @vote.vote_id,
-                      message_id: @message.message_id })
+    VoteBadgeDistributorJob.perform_later(@vote.vote_id, @message.message_id, 'changed-voted')
   end
 
   def update_existing_downvote
@@ -252,10 +249,7 @@ class Messages::VoteController < ApplicationController
         .update_all('downvotes = downvotes + 1')
     end
 
-    peon(class_name: 'BadgeDistributor',
-         arguments: { type: 'voted',
-                      message_id: @message.message_id,
-                      vote_id: @vote.vote_id })
+    VoteBadgeDistributorJob.perform_later(@vote.vote_id, @message.message_id, 'voted')
   end
 end
 

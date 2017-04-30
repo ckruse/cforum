@@ -1557,44 +1557,6 @@ ALTER SEQUENCE opened_closed_threads_opened_closed_thread_id_seq OWNED BY opened
 
 
 --
--- Name: peon_jobs; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE peon_jobs (
-    peon_job_id bigint NOT NULL,
-    queue_name character varying(255) NOT NULL,
-    max_tries integer DEFAULT 0 NOT NULL,
-    tries integer DEFAULT 0 NOT NULL,
-    work_done boolean DEFAULT false NOT NULL,
-    class_name character varying(250) NOT NULL,
-    arguments character varying NOT NULL,
-    errstr character varying,
-    stacktrace character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: peon_jobs_peon_job_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE peon_jobs_peon_job_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: peon_jobs_peon_job_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE peon_jobs_peon_job_id_seq OWNED BY peon_jobs.peon_job_id;
-
-
---
 -- Name: priv_messages; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2297,13 +2259,6 @@ ALTER TABLE ONLY opened_closed_threads ALTER COLUMN opened_closed_thread_id SET 
 
 
 --
--- Name: peon_jobs peon_job_id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY peon_jobs ALTER COLUMN peon_job_id SET DEFAULT nextval('peon_jobs_peon_job_id_seq'::regclass);
-
-
---
 -- Name: priv_messages priv_message_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2689,14 +2644,6 @@ ALTER TABLE ONLY opened_closed_threads
 
 
 --
--- Name: peon_jobs peon_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY peon_jobs
-    ADD CONSTRAINT peon_jobs_pkey PRIMARY KEY (peon_job_id);
-
-
---
 -- Name: priv_messages priv_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2974,13 +2921,6 @@ CREATE INDEX notifications_recipient_id_oid_idx ON notifications USING btree (re
 --
 
 CREATE UNIQUE INDEX opened_closed_threads_thread_id_user_id_idx ON opened_closed_threads USING btree (thread_id, user_id);
-
-
---
--- Name: peon_jobs_work_done_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX peon_jobs_work_done_idx ON peon_jobs USING btree (work_done);
 
 
 --
@@ -3905,6 +3845,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('101'),
 ('102'),
 ('103'),
+('104'),
 ('11'),
 ('12'),
 ('13'),

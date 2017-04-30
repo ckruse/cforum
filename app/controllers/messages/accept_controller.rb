@@ -28,9 +28,8 @@ class Messages::AcceptController < ApplicationController
 
     rescore_message(@message)
 
-    peon(class_name: 'BadgeDistributor',
-         arguments: { type: @message.flags['accepted'] == 'yes' ? 'accepted' : 'unaccepted',
-                      message_id: @message.message_id })
+    type = @message.flags['accepted'] == 'yes' ? 'accepted' : 'unaccepted'
+    VoteBadgeDistributorJob.perform_later(nil, @message.message_id, type)
 
     respond_to do |format|
       format.html do

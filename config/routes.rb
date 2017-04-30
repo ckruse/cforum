@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   devise_for(:users, path_names: { sign_in: 'login',
                                    sign_out: 'logout' },
@@ -51,6 +53,8 @@ Rails.application.routes.draw do
   end
 
   namespace 'admin' do
+    mount Sidekiq::Web, at: '/sidekiq'
+
     resources :users, except: :show
     resources :groups, controller: :groups, except: :show
     resources :forums, controller: :forums, except: :show

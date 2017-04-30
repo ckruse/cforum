@@ -5,30 +5,16 @@ dir = File.dirname(__FILE__)
 require File.join(dir, '..', 'config', 'boot')
 require File.join(dir, '..', 'config', 'environment')
 require File.join(dir, '..', 'lib', 'tools.rb')
+require File.join(dir, '..', 'lib', 'script_helpers.rb')
 
 include CForum::Tools
 include ReferencesHelper
+include ScriptHelpers
 
 Rails.logger = Logger.new(Rails.root + 'log/message_references.log')
 ActiveRecord::Base.logger = Rails.logger
 
 public
-
-def root_path
-  Rails.application.config.action_controller.relative_url_root || '/'
-end
-
-def root_url
-  (ActionMailer::Base.default_url_options[:protocol] || 'http') + '://' + ActionMailer::Base.default_url_options[:host] + root_path
-end
-
-def conf(name)
-  $config_manager.get(name, nil, nil)
-end
-
-def uconf(name)
-  conf(name)
-end
 
 def from_uri(uri)
   uri = uri.gsub(/#.*$/, '')

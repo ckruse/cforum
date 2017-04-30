@@ -133,9 +133,7 @@ class CloseVoteController < ApplicationController
         end
         format.json { render json: @close_vote }
 
-        peon(class_name: 'NotifyOpenCloseVoteTask',
-             arguments: { type: 'created', message_id: @message.message_id,
-                          vote_type: vtype })
+        NotifyOpenCloseVoteJob.perform_later(@message.message_id, 'created', vtype)
       else
         format.html { render vtype ? :new_open : :new }
         format.json do
@@ -210,8 +208,7 @@ class CloseVoteController < ApplicationController
         end
       end
 
-      peon(class_name: 'NotifyOpenCloseVoteTask',
-           arguments: { type: 'finished', message_id: @message.message_id, vote_type: vote.vote_type })
+      NotifyOpenCloseVoteJob.perform_later(@message.message_id, 'finished', vote.vote_type)
     end
 
     respond_to do |format|

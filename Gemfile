@@ -20,7 +20,8 @@ gem 'sprockets'
 gem 'therubyracer'
 gem 'uglifier', '>= 1.0.3'
 
-gem 'daemons'
+gem 'sidekiq'
+gem 'whenever', require: false
 
 gem 'content_for_in_controllers'
 
