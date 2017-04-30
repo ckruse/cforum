@@ -14,6 +14,7 @@ class ConfigManager
     'sort_threads' => 'descending',
     'sort_messages' => 'ascending',
     'standard_view' => 'thread-view',
+    'fold_read_nested' => 'no',
     'max_tags_per_message' => 3,
     'min_tags_per_message' => 1,
     'close_vote_votes' => 5,
