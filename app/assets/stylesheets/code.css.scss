@@ -1,6 +1,5 @@
 code, kbd {
   font-family: Consolas, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Andale Mono', 'Droid Sans Mono', 'Lucida Console', monospace;
-  border:none;
   background-color:rgba(0,0,0,0.04);
   border:1px solid rgba(0,0,0,0.05);
   color: #0000C0;
@@ -16,17 +15,22 @@ code.block {
   margin-top: .5em;
   padding: .3em .4em .3em .5em;
   line-height:1.2em;
-
   border-left:.3em solid #8a9da8;
   border-radius:0 .4em .4em 0;
   background-color:white;
 }
-code.block code.block {
-  border: 0 none;
-  margin: 0;
-  padding: 0;
-  max-height: none;
-  background: transparent;
+
+blockquote {
+  code.block {
+    border-left: 1px solid rgba(0,0,0,.05);
+    background-color: rgba(0,0,0,.02);
+  }
+  code.good {
+    background-color:#DFF0D8;
+  }
+  code.bad {
+    background-color:#F2DEDE;
+  }
 }
 
 code.good {
