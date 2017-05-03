@@ -3,7 +3,7 @@
 # It's helpful, but not entirely necessary to understand cron before proceeding.
 # http://en.wikipedia.org/wiki/Cron
 
-set :output, Rails.root + "log/cron_log.log"
+set :output, 'log/cron_log.log'
 
 every 2.hours do
   script 'archive-runner.rb'
