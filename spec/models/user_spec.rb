@@ -259,13 +259,11 @@ RSpec.describe User, type: :model do
 
   it 'does not include private attributes when rendering to json' do
     user = build(:user)
-    user.websocket_token = '1234'
     user.authentication_token = '1234'
 
     json = user.as_json
 
     expect(json =~ /"email":/).to be_nil
-    expect(json =~ /"websocket_token":/).to be_nil
     expect(json =~ /"authentication_token":/).to be_nil
   end
 

@@ -55,10 +55,6 @@ class User < ApplicationRecord
     end
   end
 
-  def after_database_authentication
-    update_attributes(websocket_token: SecureRandom.uuid) if websocket_token.blank?
-  end
-
   def has_badge?(type)
     badges.each do |b|
       return true if b.badge_type == type
@@ -142,7 +138,7 @@ class User < ApplicationRecord
   def serializable_hash(options = {})
     options ||= {}
     options[:except] ||= []
-    options[:except] += [:encrypted_password, :websocket_token, :authentication_token, :email]
+    options[:except] += [:encrypted_password, :authentication_token, :email]
     super(options)
   end
 

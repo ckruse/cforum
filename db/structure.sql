@@ -2020,7 +2020,6 @@ CREATE TABLE users (
     avatar_content_type character varying(255),
     avatar_file_size integer,
     avatar_updated_at timestamp without time zone,
-    websocket_token character varying(250),
     score integer DEFAULT 0 NOT NULL,
     activity integer DEFAULT 0 NOT NULL
 );
@@ -2793,14 +2792,6 @@ ALTER TABLE ONLY twitter_authorizations
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
-
-
---
--- Name: users users_websocket_token_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY users
-    ADD CONSTRAINT users_websocket_token_key UNIQUE (websocket_token);
 
 
 --
@@ -3846,6 +3837,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('102'),
 ('103'),
 ('104'),
+('105'),
 ('11'),
 ('12'),
 ('13'),
