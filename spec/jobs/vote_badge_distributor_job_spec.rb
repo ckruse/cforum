@@ -114,6 +114,14 @@ RSpec.describe VoteBadgeDistributorJob, type: :job do
     user.reload
     expect(user.badges).to include(Badge.find_by_slug!('superb_answer'))
   end
+
+  it "doesn't fail if vote doesn't exist" do
+    expect { VoteBadgeDistributorJob.perform_now(123, nil, 'voted') }.to_not raise_error
+  end
+
+  it "doesn't fail if message doesn't exist" do
+    expect { VoteBadgeDistributorJob.perform_now(nil, 123, 'voted') }.to_not raise_error
+  end
 end
 
 # eof

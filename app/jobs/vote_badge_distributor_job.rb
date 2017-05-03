@@ -59,8 +59,15 @@ class VoteBadgeDistributorJob < ApplicationJob
     message = nil
     vote = nil
 
-    message = Message.find(message_id) if message_id
-    vote = Vote.find(vote_id) if vote_id
+    if message_id
+      message = Message.where(message_id: message_id).first
+      return if message.blank?
+    end
+
+    if vote_id
+      vote = Vote.where(vote_id: vote_id).first
+      return if vote.blank?
+    end
 
     check_for_voter_badges(vote) if %w(changed-vote voted).include?(type)
 
