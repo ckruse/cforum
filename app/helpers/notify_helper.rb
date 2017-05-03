@@ -22,7 +22,7 @@ module NotifyHelper
             { type: 'notification', notification: n },
             '/users/' + opts[:user].user_id.to_s)
 
-    NotificationMailer.new_notification(opts).deliver_now if cfg == 'email'
+    NotificationMailer.new_notification(opts).deliver_later if cfg == 'email'
   end
 
   def notifications

@@ -25,11 +25,7 @@ class NotifyCiteJob < ApplicationJob
 
   def send_mail(cite, user)
     Rails.logger.debug('notify new cite: send mention mail to ' + user.email)
-    begin
-      NotifyNewMailer.new_cite(user, cite, cite_url(cite)).deliver_now
-    rescue => e
-      Rails.logger.error('Error sending mail to ' + user.email.to_s + ': ' + e.message + "\n" + e.backtrace.join("\n"))
-    end
+    NotifyNewMailer.new_cite(user, cite, cite_url(cite)).deliver_later
   end
 
   def send_destroy_notifications(cite_id)
