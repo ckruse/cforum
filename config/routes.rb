@@ -53,7 +53,9 @@ Rails.application.routes.draw do
   end
 
   namespace 'admin' do
-    mount Sidekiq::Web, at: '/sidekiq'
+    authenticate :user, lambda { |u| u.admin? } do
+      mount Sidekiq::Web => '/sidekiq'
+    end
 
     resources :users, except: :show
     resources :groups, controller: :groups, except: :show
