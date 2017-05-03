@@ -58,7 +58,6 @@ gem 'libnotify',
 gem 'font-awesome-sass'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'socket.io-rails'
 
 gem 'email_validator'
 gem 'validate_url'

@@ -2,9 +2,7 @@
 
 module NewMessageHelper
   def new_message_saved(thread, message, parent, forum = current_forum, type = 'message')
-    publish(type + ':create', { type: 'message', thread: thread,
-                                message: message, parent: parent },
-            '/forums/' + forum.slug)
+    BroadcastMessageJob.perform_later(message.message_id, type, 'create')
 
     search_index_message(thread, message)
     autosubscribe_message(thread, parent, message)

@@ -271,9 +271,7 @@ class MessagesController < ApplicationController
     end
 
     if saved
-      publish('message:update', { type: 'update', thread: @thread,
-                                  message: @message, parent: @parent },
-              '/forums/' + current_forum.slug)
+      BroadcastMessageJob.perform_later(@message.message_id, 'message', 'update')
 
       search_index_message(@thread, @message)
 

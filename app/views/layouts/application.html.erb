@@ -50,6 +50,7 @@ end
 
     <%= stylesheet_link_tag "application", :media => "all", title: "SELFHTML Forum Stylesheet" %>
     <%= csrf_meta_tags %>
+    <%= action_cable_meta_tag %>
 
     <link rel="alternate" title="Atom Feed" type="application/atom+xml" href="<%= forum_url(current_forum, format: :atom) %>">
     <link rel="alternate" title="RSS Feed" type="application/rss+xml" href="<%= forum_url(current_forum, format: :rss) %>">

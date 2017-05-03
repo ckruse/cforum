@@ -14,7 +14,6 @@
 //= require confirmations.js
 //= require jquery_ujs
 //= require jquery-ui/widgets/autocomplete
-//= require socket.io
 //= require markdown/bootstrap-markdown.js
 //= require markdown/bootstrap-markdown.de.js
 //= require init.js

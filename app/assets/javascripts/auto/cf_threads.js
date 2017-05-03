@@ -42,10 +42,10 @@ cforum.cf_threads = {
   },
 
   index: function() {
-    cforum.client.on('thread:create', cforum.cf_threads.newThreadArriving);
-    cforum.client.on('message:create', cforum.cf_threads.newMessageArriving);
-    cforum.client.on('thread:read', cforum.cf_threads.updateThread);
-    cforum.client.on('message:read', cforum.cf_threads.updateThread);
+    cforum.events.on('thread:create', cforum.cf_threads.newThreadArriving);
+    cforum.events.on('message:create', cforum.cf_threads.newMessageArriving);
+    cforum.events.on('thread:read', cforum.cf_threads.updateThread);
+    cforum.events.on('message:read', cforum.cf_threads.updateThread);
 
     if(!cforum.currentUser) {
       cforum.cf_threads.initOpenClose();
@@ -120,7 +120,7 @@ cforum.cf_threads = {
       });
   },
 
-  newThreadArriving: function(message) {
+  newThreadArriving: function(event, message) {
     cforum.cf_threads.numThreads += 1;
     cforum.cf_threads.numMessages += 1;
 
@@ -141,7 +141,7 @@ cforum.cf_threads = {
     cforum.updateFavicon();
   },
 
-  updateThread: function(message) {
+  updateThread: function(event, message) {
     var thread = $("#t" + message.thread.thread_id);
 
     if(message.message) {
@@ -172,7 +172,7 @@ cforum.cf_threads = {
     }, 500);
   },
 
-  newMessageArriving: function(message) {
+  newMessageArriving: function(event, message) {
     cforum.cf_threads.numMessages += 1;
 
     if(cforum.currentUser && message.message.user_id == cforum.currentUser.user_id) {

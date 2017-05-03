@@ -25,6 +25,10 @@ class NotificationsController < ApplicationController
     @notification.is_read = true
     @notification.save
 
+    BroadcastUserJob.perform_later({ type: 'notification:update',
+                                     unread: unread_notifications },
+                                   current_user.user_id)
+
     redirect_to @notification.path
   end
 
@@ -34,6 +38,10 @@ class NotificationsController < ApplicationController
 
     respond_to do |format|
       if @notification.update_attributes(is_read: false)
+        BroadcastUserJob.perform_later({ type: 'notification:update',
+                                         unread: unread_notifications },
+                                       current_user.user_id)
+
         format.html do
           redirect_to notifications_path,
                       notice: t('notifications.marked_unread')
@@ -58,6 +66,10 @@ class NotificationsController < ApplicationController
       end
     end
 
+    BroadcastUserJob.perform_later({ type: 'notification:update',
+                                     unread: unread_notifications },
+                                   current_user.user_id)
+
     redirect_to notifications_url, notice: t('notifications.destroyed')
   end
 
@@ -65,10 +77,20 @@ class NotificationsController < ApplicationController
     @notification = Notification.where(recipient_id: current_user.user_id, notification_id: params[:id]).first!
     @notification.destroy
 
+    BroadcastUserJob.perform_later({ type: 'notification:update',
+                                     unread: unread_notifications },
+                                   current_user.user_id)
+
     respond_to do |format|
       format.html { redirect_to notifications_url, notice: t('notifications.destroyed') }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def unread_notifications
+    Notification.where(recipient_id: current_user.user_id, is_read: false).count
   end
 end
 

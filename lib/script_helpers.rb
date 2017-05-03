@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 module ScriptHelpers
-  include PublishHelper
   include AuditHelper
 
   def root_path
@@ -49,9 +48,9 @@ module ScriptHelpers
       updated_at: DateTime.now
     )
 
-    publish('notification:create',
-            { type: 'notification', notification: n },
-            '/users/' + user.user_id.to_s)
+    unread = Notification.where(recipient_id: user.user_id, is_read: false).count
+    BroadcastUserJob.perform_later({ type: 'notification:create', notification: n, unread: unread },
+                                   user.user_id)
   end
 end
 

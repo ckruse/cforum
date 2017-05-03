@@ -18,10 +18,9 @@ module NotifyHelper
       otype: opts[:otype]
     )
 
-    publish('notification:create',
-            { type: 'notification', notification: n },
-            '/users/' + opts[:user].user_id.to_s)
-
+    unread = Notification.where(recipient_id: opts[:user].user_id, is_read: false).count
+    BroadcastUserJob.perform_later({ type: 'notification:create', notification: n, unread: unread },
+                                   opts[:user].user_id)
     NotificationMailer.new_notification(opts).deliver_later if cfg == 'email'
   end
 

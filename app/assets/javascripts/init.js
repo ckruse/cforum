@@ -1,8 +1,13 @@
+//= require action_cable
+//= require_self
+//= require_tree ./channels
 /* -*- coding: utf-8 -*- */
-/* global cforum:true, uconf, io */
+/* global cforum:true, uconf, ActionCable */
 
 cforum = {
   events: $({}),
+  subscriptions: {},
+
   utils: {
     exec: function(controller, action) {
       var ns = cforum;
@@ -47,39 +52,27 @@ cforum = {
       var isSupported = (("WebSocket" in window && window.WebSocket !== undefined) ||
                          ("MozWebSocket" in window));
 
+      cforum.client = {
+        on: function() {},
+        subscribe: function() {}
+      };
+
       if(uconf('use_javascript_notifications') != 'no' && isSupported) {
-        cforum.client = io(cforum.wsUrl, {"transports" : ["websocket"]});
-
-        cforum.client.on('connect', function() {
-          if(cforum.currentUser) {
-            cforum.client.emit("login", {user: cforum.currentUser.user_id, wstoken: cforum.websocketToken});
-            $("#username").addClass('connected');
-          }
-
-          // join forum channels
-          if(cforum.currentForum) {
-            cforum.client.emit('join', {forum: cforum.currentForum.slug});
-          }
-          else if(cforum.userForums) {
-            for(var i = 0; i < cforum.userForums.length; ++i) {
-              cforum.client.emit('join', {forum: cforum.userForums[i].slug});
-            }
-          }
-        });
-
-        cforum.client.on("disconnect", function() { $("#username").removeClass('connected'); });
-      }
-      else {
-        cforum.client = {
-          on: function() {},
-          subscribe: function() {}
-        };
+        cforum.cable = ActionCable.createConsumer();
+        cforum.events.trigger('cable:create');
       }
 
       var mql = window.matchMedia("only screen and (min-width: 35em)");
       if(!mql.matches && !document.location.hash) {
         window.scrollTo(0, $("main").offset().top);
       }
+    },
+
+    connected: function() {
+      $("#username").addClass('connected');
+    },
+    disconnected: function() {
+      $("#username").removeClass('connected');
     }
   }
 };

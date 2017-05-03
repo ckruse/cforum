@@ -40,15 +40,13 @@ cforum.mails = {
     cforum.replacements("#priv_message_body");
   },
 
-  notifyNew: function(data) {
+  notifyNew: function(event, data) {
     var mails = $("#mails");
     var txt = mails.text();
     mails.addClass('new');
 
     if(txt) {
-      txt = parseInt(txt, 10);
-      txt += 1;
-      mails.text(txt);
+      mails.text(data.unread);
 
       var title = mails.attr('title');
       title = title.replace(/\d+/, txt);
@@ -68,7 +66,7 @@ cforum.mails = {
 
 $(function() {
   if(cforum.currentUser) {
-    cforum.client.on('mail:create', cforum.mails.notifyNew);
+    cforum.events.on('mail:create', cforum.mails.notifyNew);
   }
 });
 

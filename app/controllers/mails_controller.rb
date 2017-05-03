@@ -143,21 +143,6 @@ class MailsController < ApplicationController
             saved = @mail_recipient.save
           end
 
-          if saved
-            notify_user(
-              user: recipient,
-              hook: 'notify_on_new_mail',
-              subject: t('notifications.new_mail',
-                         user: current_user.username,
-                         subject: @mail.subject),
-              path: mail_path(current_user.username, @mail_recipient),
-              oid: @mail_recipient.priv_message_id,
-              otype: 'mails:create',
-              icon: 'icon-new-mail',
-              body: @mail.to_txt
-            )
-          end
-
           raise ActiveRecord::Rollback unless saved
         end
       end
@@ -174,7 +159,9 @@ class MailsController < ApplicationController
         end
         format.json { render json: @mail, status: :created }
 
-        publish('mail:create', { type: 'mail', mail: @mail }, '/users/' + @mail.recipient_id.to_s)
+        unread = PrivMessage.where(owner_id: @mail.recipient_id, is_read: false).count
+        BroadcastUserJob.perform_later({ type: 'mail:create', mail: @mail, unread: unread },
+                                       @mail.recipient_id)
       else
         format.html { render :new }
         format.json { render json: @mail.errors, status: :unprocessable_entity }

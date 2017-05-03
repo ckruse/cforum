@@ -23,8 +23,8 @@ class Messages::MarkReadController < ApplicationController
       end
     end
 
-    publish('thread:read', { type: 'thread', thread: @thread },
-            '/users/' + current_user.user_id.to_s)
+    BroadcastUserJob.perform_later({ type: 'thread:read', thread: @thread },
+                                   current_user.user_id)
 
     respond_to do |format|
       format.html do

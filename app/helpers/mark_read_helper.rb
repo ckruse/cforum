@@ -148,8 +148,8 @@ module MarkReadHelper
       end
     end
 
-    publish('thread:read', { type: 'thread', thread: thread },
-            '/users/' + current_user.user_id.to_s)
+    BroadcastUserJob.perform_later({ type: 'thread:read', thread: @thread },
+                                   current_user.user_id)
 
     set_cached_entry(:mark_read, current_user.user_id, cache)
   end
@@ -172,8 +172,8 @@ module MarkReadHelper
       end
     end
 
-    publish('message:read', { type: 'message', thread: thread, message: message },
-            '/users/' + current_user.user_id.to_s)
+    BroadcastUserJob.perform_later({ type: 'message:read', thread: @thread, message: message },
+                                   current_user.user_id)
 
     set_cached_entry(:mark_read, current_user.user_id, cache)
   end

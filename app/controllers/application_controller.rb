@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
   include RightsHelper
   include NotifyHelper
   include ExceptionHelpers
-  include PublishHelper
   include MessageHelper
   include SortablesHelper
   include SortingHelper

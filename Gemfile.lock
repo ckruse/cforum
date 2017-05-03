@@ -302,8 +302,6 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
     slop (3.6.0)
-    socket.io-rails (1.7.3)
-      railties (>= 3.1)
     spring (2.0.1)
       activesupport (>= 4.2)
     spring-commands-rspec (1.0.4)
@@ -404,7 +402,6 @@ DEPENDENCIES
   sass-rails (> 4.0.0)
   sidekiq
   simplecov
-  socket.io-rails
   spring
   spring-commands-rspec
   sprockets
