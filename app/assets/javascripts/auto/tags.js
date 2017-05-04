@@ -248,13 +248,53 @@ cforum.tags = {
     el.on('keyup', cforum.tags.handleTagsKeyUp);
     el.on('focusout', cforum.tags.addTag);
     $("#tags-list").on('click', cforum.tags.removeTag);
-
     $("#message_input").on('input', cforum.tags.handleSuggestionsKeyUp);
-
     $("#tags-suggestions").on('click', cforum.tags.addTagSuggestion);
 
+    if(cforum.tags.allTags.length == 0) {
+      cforum.tags.getTags(cforum.tags.setupAutocomplete);
+    }
+    else {
+      cforum.tags.setupAutocomplete();
+    }
+
+    cforum.tags.events.on('tags:add-tag', cforum.tags.checkForInvalidTag);
+    cforum.tags.events.on('tags:remove', cforum.tags.hideInvalidWarnings);
+  },
+
+  autocompleteFilter: function(term) {
+    var tags = cforum.tags.allTags;
+    var found = [];
+    var i;
+
+    if(term == "") {
+      for(i = 0; i < 5; ++i) {
+        found.push(tags[i].tag);
+      }
+      return found;
+    }
+
+
+    var rx = RegExp('^' + term);
+
+    term = term.toLowerCase();
+
+    for(i = 0; i < tags.length && found.length <= 5; ++i) {
+      if(tags[i].tag.match(rx)) {
+        found.push(tags[i].tag);
+      }
+    }
+
+    return found;
+  },
+
+  setupAutocomplete: function() {
+    var el = $("#replaced_tag_input");
+
     el.autocomplete({
-      source: cforum.baseUrl + '/' + cforum.currentForum.slug + '/tags/autocomplete.json',
+      source: function(request, response) {
+        response(cforum.tags.autocompleteFilter(request.term));
+      },
       minLength: 0,
       select: function(event, ui) {
         $("#replaced_tag_input").val(ui.item.label);
@@ -275,8 +315,6 @@ cforum.tags = {
       el.autocomplete("search", "");
     });
 
-    cforum.tags.events.on('tags:add-tag', cforum.tags.checkForInvalidTag);
-    cforum.tags.events.on('tags:remove', cforum.tags.hideInvalidWarnings);
   },
 
   handleTagsKeyUp: function(ev) {
