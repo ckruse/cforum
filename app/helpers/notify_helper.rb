@@ -78,7 +78,17 @@ module NotifyHelper
       end
     end
 
+    if had_one
+      BroadcastUserJob.perform_later({ type: 'notification:update',
+                                       unread: unread_notifications },
+                                     current_user.user_id)
+    end
+
     had_one
+  end
+
+  def unread_notifications(user = current_user)
+    Notification.where(recipient_id: user.user_id, is_read: false).count
   end
 end
 

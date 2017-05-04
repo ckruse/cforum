@@ -1,6 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 class NotificationsController < ApplicationController
+  include NotifyHelper
+
   authorize_controller { authorize_user }
 
   def index
@@ -85,12 +87,6 @@ class NotificationsController < ApplicationController
       format.html { redirect_to notifications_url, notice: t('notifications.destroyed') }
       format.json { head :no_content }
     end
-  end
-
-  private
-
-  def unread_notifications
-    Notification.where(recipient_id: current_user.user_id, is_read: false).count
   end
 end
 

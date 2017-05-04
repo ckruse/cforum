@@ -437,7 +437,12 @@ class MessagesController < ApplicationController
     Notification.where(notification_id: to_delete).delete_all unless to_delete.blank?
     Notification.where(notification_id: to_mark_read).update_all(is_read: true) unless to_mark_read.blank?
 
-    notifications if had_one
+    return unless had_one
+    BroadcastUserJob.perform_later({ type: 'notification:update',
+                                     unread: unread_notifications },
+                                   current_user.user_id)
+
+    notifications
   end
 
   def new_message(parent, quote = false)
