@@ -140,6 +140,8 @@ class Messages::VoteController < ApplicationController
         @vote.destroy
       end
 
+      VoteBadgeDistributorJob.perform_later(@vote.vote_id, @message.message_id, 'removed-voted')
+
       rescore_message(@message)
 
       respond_to do |format|
@@ -164,6 +166,8 @@ class Messages::VoteController < ApplicationController
     else
       update_existing_downvote
     end
+
+    VoteBadgeDistributorJob.perform_later(@vote.vote_id, @message.message_id, 'changed-voted')
   end
 
   def update_existing_upvote
@@ -182,8 +186,6 @@ class Messages::VoteController < ApplicationController
                @message.user_id, @vote.vote_id)
         .update_all(['value = ?', @vote_up_value])
     end
-
-    VoteBadgeDistributorJob.perform_later(@vote.vote_id, @message.message_id, 'changed-voted')
   end
 
   def update_existing_downvote
