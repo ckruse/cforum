@@ -262,7 +262,7 @@ cforum.tags = {
     cforum.tags.events.on('tags:remove', cforum.tags.hideInvalidWarnings);
   },
 
-  autocompleteFilter: function(term) {
+  autocompleteFilter: function(term, exact) {
     var tags = cforum.tags.allTags;
     var found = [];
     var i;
@@ -275,7 +275,13 @@ cforum.tags = {
     }
 
 
-    var rx = RegExp('^' + term);
+    var rx;
+    if(exact) {
+      rx = RegExp('^' + term + '$');
+    }
+    else {
+      rx = RegExp('^' + term);
+    }
 
     term = term.toLowerCase();
 
@@ -324,71 +330,67 @@ cforum.tags = {
   },
 
   checkForInvalidTag: function(event, tag) {
-    $.get(cforum.baseUrl + '/' + cforum.currentForum.slug + '/tags.json',
-          'tags=' + encodeURIComponent(tag),
-          function(data) {
-            // if we don't get back json this might be an error
-            var show = true;
+    var data = cforum.tags.autocompleteFilter(tag, true);
+    var show = true;
 
-            if(typeof data == 'object') {
-              if(data.length === 0) {
-                var el = $("#replaced_tag_input").closest(".cntrls").find(".errors");
+    if(typeof data == 'object') {
+      if(data.length === 0) {
+        var el = $("#replaced_tag_input").closest(".cntrls").find(".errors");
 
-                if(el.length === 0) {
-                  $("#replaced_tag_input").
-                    closest(".cntrls").append("<div class=\"errors\"></div>");
-                  el = $("#replaced_tag_input").closest(".cntrls").find(".errors");
-                }
+        if(el.length === 0) {
+          $("#replaced_tag_input").
+            closest(".cntrls").append("<div class=\"errors\"></div>");
+          el = $("#replaced_tag_input").closest(".cntrls").find(".errors");
+        }
 
-                var text = '';
-                var clss = '';
-                if(cforum.tags.mayCreateTag(cforum.currentUser)) {
-                  text = t('tags.tag_will_be_created');
-                  clss = 'cf-warning';
-                }
-                else {
-                  var last = $("#tags-list").find('.cf-tag:last');
+        var text = '';
+        var clss = '';
+        if(cforum.tags.mayCreateTag(cforum.currentUser)) {
+          text = t('tags.tag_will_be_created');
+          clss = 'cf-warning';
+        }
+        else {
+          var last = $("#tags-list").find('.cf-tag:last');
 
-                  text = t('tags.tag_doesnt_exist');
-                  clss = 'cf-error';
-                  show = false;
+          text = t('tags.tag_doesnt_exist');
+          clss = 'cf-error';
+          show = false;
 
-                  if(!last.is(":visible")) {
-                    last.remove();
-                  }
-                }
+          if(!last.is(":visible")) {
+            last.remove();
+          }
+        }
 
-                var divs = el.find("div");
-                if(divs.length > 0) {
-                  divs.fadeOut("fast", function() {
-                    el.html("<div class=\"cf-alert " + clss + "\" style=\"display:none\">" + text + "</div>");
-                    el.find("div").fadeIn("fast");
-                  });
-                }
-                else {
-                  el.html("<div class=\"cf-alert " + clss + "\" style=\"display:none\">" + text + "</div>");
-                  el.find("div").fadeIn("fast");
-                }
-
-                window.setTimeout(cforum.tags.hideInvalidWarnings, 3000);
-              }
-              else {
-                cforum.tags.hideInvalidWarnings();
-              }
-            }
-
-            if(show) {
-              var $this = $("#replaced_tag_input");
-              var v = $this.val();
-              $this.val(v.replace(/.*,?/, ''));
-
-              $("#tags-list").find('.cf-tag:last').fadeIn('fast');
-
-              if($("#tags-list").find('.cf-tag').length >= cforum.tags.maxTags) {
-                $("#replaced_tag_input").fadeOut('fast');
-              }
-            }
+        var divs = el.find("div");
+        if(divs.length > 0) {
+          divs.fadeOut("fast", function() {
+            el.html("<div class=\"cf-alert " + clss + "\" style=\"display:none\">" + text + "</div>");
+            el.find("div").fadeIn("fast");
           });
+        }
+        else {
+          el.html("<div class=\"cf-alert " + clss + "\" style=\"display:none\">" + text + "</div>");
+          el.find("div").fadeIn("fast");
+        }
+
+        window.setTimeout(cforum.tags.hideInvalidWarnings, 3000);
+      }
+      else {
+        cforum.tags.hideInvalidWarnings();
+      }
+    }
+
+    if(show) {
+      var $this = $("#replaced_tag_input");
+      var v = $this.val();
+      $this.val(v.replace(/.*,?/, ''));
+
+      $("#tags-list").find('.cf-tag:last').fadeIn('fast');
+
+      if($("#tags-list").find('.cf-tag').length >= cforum.tags.maxTags) {
+        $("#replaced_tag_input").fadeOut('fast');
+      }
+    }
   },
 
   hideInvalidWarnings: function(ev, tag) {
