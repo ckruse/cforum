@@ -49,7 +49,7 @@ class TagsController < ApplicationController
               .where('forum_id = ? AND suggest = true', current_forum.forum_id)
               .order('num_messages DESC')
     @synonyms = TagSynonym
-                  .joins(:tags)
+                  .joins(:tag)
                   .where('tag_synonyms.forum_id = ? AND tags.suggest = true', current_forum.forum_id)
                   .order('synonym ASC')
 
