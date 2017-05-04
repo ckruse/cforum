@@ -15,25 +15,6 @@ class TagsController < ApplicationController
                 .where('forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))',
                        current_forum.forum_id, clean_tag, clean_tag)
                 .order('tag_name ASC')
-
-    elsif !params[:tags].blank? # tags param is set when we should suggest tags
-      @tags = Tag.preload(:synonyms).where('forum_id = ? AND suggest = true', current_forum.forum_id)
-      sql_parts = []
-      sql_sub_parts = []
-      sql_params = []
-
-      params[:tags].split(',').each do |tnam|
-        tnam = tnam.downcase
-        sql_parts << 'LOWER(tag_name) LIKE ?'
-        sql_sub_parts << 'LOWER(synonym) LIKE ?'
-        sql_params << tnam + '%'
-      end
-
-      sql_params += sql_params
-      @tags = @tags.where('(' + sql_parts.join(' OR ') + ') ' \
-                          ' OR (tag_id IN (SELECT tag_id FROM tag_synonyms WHERE ' + sql_sub_parts.join(' OR ') + '))',
-                          *sql_params)
-                .order('num_messages DESC, tag_id ASC')
     else
       @tags = Tag.preload(:synonyms).order('tag_name ASC').where(forum_id: current_forum.forum_id)
     end
@@ -56,7 +37,25 @@ class TagsController < ApplicationController
 
   # just a post wrapper
   def suggestions
-    index
+    expires_in 1.hours, public: true
+    last_msg = Message
+                 .where(forum_id: current_forum.forum_id)
+                 .order(updated_at: :desc)
+                 .first
+
+    return if last_msg && stale?(last_modified: last_msg.updated_at, public: true)
+
+    @tags = Tag
+              .where('forum_id = ?', current_forum.forum_id)
+              .order('num_messages DESC')
+    @synonyms = TagSynonym
+                  .where('forum_id = ?', current_forum.forum_id)
+                  .order('synonym ASC')
+
+    retval = (@tags.map { |t| { tag: t.tag_name, num_msgs: t.num_messages } }) +
+             (@synonyms.map { |s| { tag: s.synonym, num_msgs: 0 } })
+
+    render json: retval
   end
 
   def autocomplete

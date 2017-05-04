@@ -107,7 +107,7 @@ Rails.application.routes.draw do
   scope ':curr_forum' do
     get 'stats' => 'forums#stats'
     get 'tags/autocomplete' => 'tags#autocomplete'
-    post 'tags/suggestions' => 'tags#suggestions'
+    get 'tags/suggestions' => 'tags#suggestions'
     get 'tags/:id/merge' => 'tags#merge', as: :merge_tag
     post 'tags/:id/merge' => 'tags#do_merge'
     resources :tags do
