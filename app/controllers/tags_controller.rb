@@ -46,10 +46,11 @@ class TagsController < ApplicationController
     return if last_msg && !stale?(last_modified: last_msg.updated_at, public: true)
 
     @tags = Tag
-              .where('forum_id = ?', current_forum.forum_id)
+              .where('forum_id = ? AND suggest = true', current_forum.forum_id)
               .order('num_messages DESC')
     @synonyms = TagSynonym
-                  .where('forum_id = ?', current_forum.forum_id)
+                  .joins(:tags)
+                  .where('tag_synonyms.forum_id = ? AND tags.suggest = true', current_forum.forum_id)
                   .order('synonym ASC')
 
     retval = (@tags.map { |t| { tag: t.tag_name, num_msgs: t.num_messages } }) +
