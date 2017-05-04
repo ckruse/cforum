@@ -82,7 +82,7 @@ cforum.tags = {
     return false;
   },
 
-  suggestTags: function() {
+  suggestTags: function(recursing) {
     var node = $("#message_input");
     var mcnt;
 
@@ -101,8 +101,11 @@ cforum.tags = {
 
     var suggestions = cforum.tags.suggestions(mcnt);
 
-    if(!cforum.tags.allTags.length) {
-      cforum.tags.getTags(function() { cforum.tags.suggestTags(); });
+    if(!cforum.tags.allTags) {
+      if(!recursing) {
+        cforum.tags.getTags(function() { cforum.tags.suggestTags(true); });
+      }
+
       return;
     }
 
