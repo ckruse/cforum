@@ -43,7 +43,7 @@ class TagsController < ApplicationController
                  .order(updated_at: :desc)
                  .first
 
-    return if last_msg && stale?(last_modified: last_msg.updated_at, public: true)
+    return if last_msg && !stale?(last_modified: last_msg.updated_at, public: true)
 
     @tags = Tag
               .where('forum_id = ?', current_forum.forum_id)
