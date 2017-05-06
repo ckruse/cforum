@@ -317,6 +317,12 @@ end
 
             <% if controller_path == 'forums' %>
               <li id="events-link"><%= cf_link_to t('events.events'), events_path %></li>
+
+              <% if current_user %>
+                <li id="interesting-links"><%= cf_link_to t('plugins.interesting_messages.interesting_messages'), interesting_messages_path %></li>
+                <li id="invisible-links"><%= cf_link_to t('plugins.invisible_threads.invisible_threads'), hidden_threads_path %></li>
+              <% end %>
+              
             <% end %>
           </ul>
         </nav>
