@@ -14,9 +14,12 @@ class ImagesController < ApplicationController
 
     expires_in 1.month, public: true
 
-    if stale?(@medium, public: true)
-      send_file Rails.root + 'public/uploads' + @medium.filename, type: @medium.content_type, filename: @medium.orig_name, disposition: :inline
-    end
+    return unless stale?(@medium, public: true)
+
+    send_file(Rails.root + 'public/uploads' + @medium.filename,
+              type: @medium.content_type,
+              filename: @medium.orig_name,
+              disposition: :inline)
   end
 
   def create
@@ -24,7 +27,7 @@ class ImagesController < ApplicationController
     @medium = Medium.new
     @medium.owner_id = current_user.user_id unless current_user.blank?
 
-    if params[:file].content_type !~ /^image\//
+    if params[:file].content_type !~ %r{^image/}
       error = t('images.wrong_content_type')
     elsif params[:file].size > conf('max_image_filesize').to_f * 1024 * 1024
       error = t('images.image_too_big')
@@ -36,8 +39,9 @@ class ImagesController < ApplicationController
       fd = File.open(path + fname, 'w:binary')
       fd.write(params[:file].read)
       fd.close
+
       @medium.filename = fname
-      @medium.orig_name = params[:file].original_filename.gsub(/.*[\\\/]/, '')
+      @medium.orig_name = params[:file].original_filename.gsub(%r{.*[\\/]}, '')
       @medium.content_type = params[:file].content_type
     end
 
