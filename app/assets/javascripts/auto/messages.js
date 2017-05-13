@@ -455,7 +455,7 @@ cforum.messages = {
           this.on("success", function(file, rsp) {
             var $msg = $("#message_input");
             var selection = $msg.getSelection();
-            var md = '![' + t('upload.alternative_text') + '](' + cforum.basePath + 'images/' + rsp.path + ')';
+            var md = '[![' + t('upload.alternative_text') + '](' + cforum.basePath + 'images/' + rsp.path + '?size=medium)](' + cforum.basePath + 'images/' + rsp.path + ')';
 
             var imgup = $('.image-upload');
             imgup.removeClass('loading');
