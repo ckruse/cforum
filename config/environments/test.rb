@@ -46,4 +46,6 @@ Rails.application.configure do
   config.ws_url = '//localhost:9090/'
   config.internal_faye_url = 'http://localhost:9090/message'
   config.mid_host = 'example.org'
+
+  config.path_env = ['/usr/local/bin']
 end
