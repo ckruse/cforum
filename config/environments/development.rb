@@ -71,6 +71,8 @@ Rails.application.configure do
   config.internal_faye_url = 'http://localhost:9090/message'
   config.mid_host = 'forum.selfhtml.org'
 
+  config.path_env = ['/usr/local/bin']
+
   # these are fake; replace by real auth data!
   config.twitter = {
     consumer_key: 'hdTBZKmdNuaIjf8ksZqdyTUzb',
