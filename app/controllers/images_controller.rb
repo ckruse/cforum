@@ -48,6 +48,7 @@ class ImagesController < ApplicationController
     respond_to do |format|
       if !fname.blank? && @medium.save
         audit(@medium, 'create')
+        ResizeImageJob.perform_later(@medium.medium_id)
         format.json { render json: { status: 'ok', path: @medium.filename } }
       else
         File.unlink(path + fname) unless fname.blank?

@@ -20,6 +20,7 @@ gem 'sprockets'
 gem 'therubyracer'
 gem 'uglifier', '>= 1.0.3'
 
+gem 'cocaine'
 gem 'sidekiq'
 gem 'whenever', require: false
 

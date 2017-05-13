@@ -16,6 +16,22 @@ class Medium < ApplicationRecord
     Rails.root + 'public/uploads'
   end
 
+  def self.medium_path
+    path + 'medium'
+  end
+
+  def self.thumb_path
+    path + 'thumb'
+  end
+
+  def full_path(style = :orig)
+    case style
+    when :orig then self.class.path + filename
+    when :thumb then self.class.thumb_path + filename
+    when :medium then self.class.medium_path + filename
+    end
+  end
+
   def self.gen_filename(orig_name = nil)
     path = self.path
     i = 0
@@ -43,12 +59,13 @@ class Medium < ApplicationRecord
   end
 
   after_destroy do |_record|
-    path = self.class.path
-    fname = path + filename
+    %i(orig medium thumb).each do |style|
+      fname = full_path(style)
 
-    begin
-      File.unlink(fname) if File.exist?(fname)
-    rescue
+      begin
+        File.unlink(fname) if File.exist?(fname)
+      rescue
+      end
     end
   end
 end
