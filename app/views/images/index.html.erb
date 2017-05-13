@@ -16,7 +16,7 @@ content_for :h1, t('images.images')
   <tbody>
     <% @media.each do |m| %>
       <tr>
-        <td class="thumb"><%= image_tag image_path(m) %></td>
+        <td class="thumb"><%= image_tag image_path(m, size: :thumb) %></td>
         <td><%= m.orig_name %></td>
         <td><%= l(m.created_at, format: date_format) %></td>
         <td>
