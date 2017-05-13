@@ -11,12 +11,19 @@ class ImagesController < ApplicationController
 
   def show
     @medium = Medium.where(filename: params[:id].to_s + '.' + params[:format].to_s).first!
+    @size = case params[:size]
+            when 'thumb' then :thumb
+            when 'medium' then :medium
+            else :orig
+            end
+
+    @size = :orig unless File.exist?(@medium.full_path(@size))
 
     expires_in 1.month, public: true
 
     return unless stale?(@medium, public: true)
 
-    send_file(Rails.root + 'public/uploads' + @medium.filename,
+    send_file(@medium.full_path(@size).to_s,
               type: @medium.content_type,
               filename: @medium.orig_name,
               disposition: :inline)
