@@ -466,7 +466,7 @@ cforum.messages = {
 
             window.setTimeout(function() {
               $msg.focus();
-              $msg.setSelection(selection.start + 2, selection.start + 17);
+              $msg.setSelection(selection.start + 3, selection.start + 18);
             }, 0);
           });
 
