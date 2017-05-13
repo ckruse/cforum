@@ -75,8 +75,6 @@ Rails.application.routes.draw do
     get '/audit' => 'audit#index'
     get '/audit/:id' => 'audit#show'
 
-    get '/jobs' => 'jobs#index'
-
     get '/twitter' => 'twitter#edit', as: :twitter
     post '/twitter' => 'twitter#authorize'
     get '/twitter/callback' => 'twitter#callback', as: :twitter_callback
