@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 require 'sidekiq/web'
+require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
   devise_for(:users, path_names: { sign_in: 'login',

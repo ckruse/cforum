@@ -22,7 +22,7 @@ gem 'uglifier', '>= 1.0.3'
 
 gem 'cocaine'
 gem 'sidekiq'
-gem 'whenever', require: false
+gem 'sidekiq-cron'
 
 gem 'content_for_in_controllers'
 
