@@ -94,5 +94,4 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.mail_sender = 'cforum@wwwtech.de'
-  config.faye_url = 'http://forumtest.selfhtml.org:9090/faye'
 end

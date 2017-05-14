@@ -1,6 +1,5 @@
 /* -*- coding: utf-8 mode: js -*- */
 
-cforum.wsUrl = <%= Rails.application.config.ws_url.to_json %>;
 cforum.faviconUrl = <%= asset_url('favicon-new.ico').to_json %>;
 
 cforum.settingDefaults = <%= ConfigManager::DEFAULTS.to_json.html_safe %>;

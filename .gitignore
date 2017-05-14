@@ -19,7 +19,6 @@ coverage
 *.pid
 *.swp
 /node_modules/*
-/config/faye.secret
 *.dump
 
 TAGS

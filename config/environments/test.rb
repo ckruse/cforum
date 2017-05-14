@@ -43,8 +43,6 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'cforum.local' }
   config.action_mailer.perform_deliveries = false
   config.mail_sender = 'cforum@wwwtech.de'
-  config.ws_url = '//localhost:9090/'
-  config.internal_faye_url = 'http://localhost:9090/message'
   config.mid_host = 'example.org'
 
   config.path_env = ['/usr/local/bin']
