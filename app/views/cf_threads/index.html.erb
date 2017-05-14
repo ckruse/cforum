@@ -5,6 +5,10 @@ content_for :body_id, 'threads-index'
 content_for :body_classes, 'threads forum-' + (current_forum.try(:slug) || 'all')
 %>
 
+<% if uconf('page_messages') == 'yes' %>
+  <%= render 'pages' %>
+<% end %>
+
 <% if @threads.blank? %>
   <p class="no-data"><%= t('threads.no_threads') %></p>
 <% else %>
