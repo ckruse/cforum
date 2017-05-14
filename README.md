@@ -1,7 +1,5 @@
 # Classic Forum
 
-[![Build Status](https://travis-ci.org/ckruse/cforum.svg?branch=master)](https://travis-ci.org/ckruse/cforum)
-
 The Classic Forum is a modern and flexible threaded forum software
 written in Ruby on Rails. It uses PostgreSQL as its backend.
 
