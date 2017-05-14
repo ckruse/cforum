@@ -108,10 +108,13 @@ class MessagesController < ApplicationController
 
     raise CForum::ForbiddenException unless may_answer(@parent)
 
-    @message = new_message(@parent, params[:quote] == 'yes')
-    show_new_message_functions(@thread, @parent, @message, @preview)
-
-    render plain: @message.content
+    if params[:only_quote]
+      render plain: @parent.to_quote(self)
+    else
+      @message = new_message(@parent, params[:quote] == 'yes')
+      show_new_message_functions(@thread, @parent, @message, @preview)
+      render plain: @message.content
+    end
   end
 
   def create

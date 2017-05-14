@@ -408,10 +408,14 @@ cforum.messages = {
     url = url.replace(/\?.*/, '');
     url += "/quote";
 
-    $.get(url + '?quote=yes')
+    $.get(url + '?only_quote=yes')
       .done(function(data) {
-        $msg.val(data);
+        var selection = $msg.getSelection();
+        $msg.replaceSelection(data);
         $msg.change();
+
+        $msg.focus();
+        $msg.setSelection(selection.start, selection.start);
       })
       .fail(function() {
         $(ev.target).removeClass("spinning");
