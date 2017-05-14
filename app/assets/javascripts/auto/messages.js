@@ -272,6 +272,10 @@ cforum.messages = {
         cforum.messages.initCursor();
         cforum.messages.showPreview("message_input", "message_problematic_site");
 
+        if(bttn.hasClass('with-quote')) {
+          $('.btn-group.groupCustom .quote-message').remove();
+        }
+
         bttn.removeClass("spinning");
       })
       .fail(function() {
@@ -416,6 +420,8 @@ cforum.messages = {
 
         $msg.focus();
         $msg.setSelection(selection.start, selection.start);
+
+        $('.btn-group.groupCustom .quote-message').remove();
       })
       .fail(function() {
         $(ev.target).removeClass("spinning");
