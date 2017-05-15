@@ -38,6 +38,7 @@ group :development, :test do
   gem 'faker'
   gem 'guard-rspec'
   gem 'listen', '~> 3.0.7'
+  gem 'phantomjs', require: 'phantomjs/poltergeist'
   gem 'poltergeist'
   gem 'puma'
   gem 'rspec-rails'
