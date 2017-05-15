@@ -11,9 +11,9 @@ losing performance.
 
 ## Requirements
 
-- PostgreSQL 9.3 or newer
+- PostgreSQL 9.6 or newer
 - Ruby 2 or newer
-- Rails 4.2
+- Rails 5.0
 
 ## Installations
 
