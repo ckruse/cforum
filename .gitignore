@@ -25,6 +25,8 @@ TAGS
 
 /public/system/
 /public/uploads/*
+!/public/uploads/medium/
+/public/uploads/medium/*
 !/public/uploads/thumb/
 /public/uploads/thumb/*
 /.vagrant/
