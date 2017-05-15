@@ -8,4 +8,5 @@ services:
 addons:
   postgresql: "9.3"
 before_script:
+  - bundle exec sidekiq -q default -q mailers -q cron -d
   - psql -c 'create database cforum_test;' -U postgres
