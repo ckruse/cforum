@@ -6,7 +6,7 @@ services:
   - postgresql
   - redis-server
 addons:
-  postgresql: "9.6"
+  postgresql: "9.5"
 before_script:
   - bundle exec sidekiq -q default -q mailers -q cron -d -L /tmp/sidekiq.log
   - psql -c 'create database cforum_test;' -U postgres
