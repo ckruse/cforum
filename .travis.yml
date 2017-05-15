@@ -4,6 +4,7 @@ rvm:
 bundler_args: --without production
 services:
   - postgresql
+  - redis-server
 addons:
   postgresql: "9.3"
 before_script:
