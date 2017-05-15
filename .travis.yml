@@ -1,3 +1,5 @@
+dist: trusty
+sudo: required
 language: ruby
 rvm:
   - 2.2.6
@@ -6,7 +8,7 @@ services:
   - postgresql
   - redis-server
 addons:
-  postgresql: "9.5"
+  postgresql: "9.6"
 before_script:
   - bundle exec sidekiq -q default -q mailers -q cron -d -L /tmp/sidekiq.log
   - psql -c 'create database cforum_test;' -U postgres
