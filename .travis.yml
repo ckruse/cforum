@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - 2.2.6
+bundler_args: --without production
+services:
+  - postgresql
+  - redis-server
+addons:
+  postgresql: "9.3"
+before_script:
+  - bundle exec sidekiq -q default -q mailers -q cron -d -L /tmp/sidekiq.log
+  - psql -c 'create database cforum_test;' -U postgres

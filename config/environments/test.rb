@@ -27,6 +27,7 @@ Rails.application.configure do
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
+  config.action_cable.disable_request_forgery_protection = true
   config.action_mailer.perform_caching = false
 
   # Tell Action Mailer not to deliver emails to the real world.
