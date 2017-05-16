@@ -1,14 +1,4 @@
-<% if @event.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= t('admin.events.error_message', count: @event.errors.count) %></h2>
-
-    <ul>
-      <% @event.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+<%= render 'application/errors', object: @event, scope: 'admin.events' %>
 
 <div class="cf-cgroup">
   <%= f.label :name %>

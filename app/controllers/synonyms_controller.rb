@@ -37,7 +37,7 @@ class SynonymsController < ApplicationController
 
     if @synonym.save
       audit(@synonym, 'create')
-      redirect_to tag_url(current_forum.slug, @tag), notice: t('tags.synonym_created')
+      redirect_to tag_url(current_forum.slug, @tag), notice: t('tags.synonyms.created')
     else
       render :new
     end
@@ -50,7 +50,7 @@ class SynonymsController < ApplicationController
   def update
     if @synonym.update_attributes(tag_synonym_params)
       audit(@synonym, 'update')
-      redirect_to tag_url(current_forum.slug, @tag), notice: t('tags.synonym_updated')
+      redirect_to tag_url(current_forum.slug, @tag), notice: t('tags.synonyms.updated')
     else
       render :edit
     end
@@ -59,7 +59,7 @@ class SynonymsController < ApplicationController
   def destroy
     @synonym.destroy
     audit(@synonym, 'destroy')
-    redirect_to tag_url(current_forum.slug, @tag), notice: t('tags.synonym_destroyed')
+    redirect_to tag_url(current_forum.slug, @tag), notice: t('tags.synonyms.destroyed')
   end
 end
 

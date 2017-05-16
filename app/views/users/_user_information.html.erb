@@ -1,14 +1,4 @@
-  <% if @user.errors.any? %>
-    <div id="error_explanation" class="cf-error">
-      <h4><%= t('users.error_message', count: @user.errors.count) %></h4>
-
-      <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'application/errors', object: @user, scope: 'users' %>
 
   <fieldset class="cf-tab-pane active" id="user-data">
     <legend><%= t('users.user_information') %></legend>

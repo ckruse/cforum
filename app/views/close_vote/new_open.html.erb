@@ -7,17 +7,7 @@ content_for :h1, t("messages.close_vote.open_message",
                    author: @message.author)
 %>
 
-<% if @open_vote.errors.any? %>
-  <div id="error_explanation" class="cf-error">
-    <h4><%= t('messages.close_vote.error_message', count: @open_vote.errors.count) %></h4>
-
-      <ul>
-      <% @open_vote.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-<% end %>
+<%= render 'application/errors', object: @open_vote, scope: 'messages.close_vote' %>
 
 <%= form_for(@open_vote, url: open_message_path(@thread, @message),
              html: {:class => 'form-horizontal'}, method: :put) do |f| %>

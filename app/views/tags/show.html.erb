@@ -5,10 +5,10 @@ content_for(:body_id, "tags-" + @tag.slug)
 content_for(:body_classes, 'tags show forum-' + (current_forum.try(:slug) || 'all') + ' tag-' + @tag.slug)
 %>
 
-<h2><%= t('tags.synonyms') %>:</h2>
+<h2><%= t('tags.synonyms.synonyms') %>:</h2>
 
 <% if @tag.synonyms.blank? %>
-  <p><%= t('tags.no_synonyms') %></p>
+  <p><%= t('tags.synonyms.no_synonyms') %></p>
 <% else %>
   <ul class="cf-tags-list">
     <% @tag.synonyms.each do |syn| %>
