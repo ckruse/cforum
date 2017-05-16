@@ -1,14 +1,4 @@
-<% if @redirection.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= t('admin.badges.error_message', count: @redirection.errors.count) %></h2>
-
-    <ul>
-      <% @redirection.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+<%= render 'errors', object: @redirection, scope: 'admin.redirections' %>
 
 <div class="cf-cgroup">
   <%= f.label :path %>

@@ -5,7 +5,7 @@
     <% end %>
 
     <% if may?(Badge::CREATE_TAG_SYNONYM) and @tag and @tag.tag_id %>
-      <li<% if action_name == 'new_synonym' %> class="active"<% end %>><%= cf_link_to t('tags.new_tag_synonym'), new_tag_synonym_path(current_forum.slug, @tag) %></li>
+      <li<% if action_name == 'new_synonym' %> class="active"<% end %>><%= cf_link_to t('tags.synonyms.new_tag_synonym'), new_tag_synonym_path(current_forum.slug, @tag) %></li>
     <% end %>
 
     <% if current_user and current_user.admin and @tag and @tag.tag_id %>

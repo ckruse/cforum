@@ -1,15 +1,4 @@
-<% if @badge_group.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= t('admin.badge_groups.error_message',
-              count: @badge_group.errors.count) %></h2>
-
-    <ul>
-      <% @badge_group.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+<%= render 'errors', object: @badge_group, scope: 'admin.badge_groups' %>
 
 <div class="cf-cgroup">
   <%= f.label :name %>

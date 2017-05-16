@@ -1,14 +1,4 @@
-  <% if @search_section.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= t('admin.search_sections.error_message', count: @search_section.errors.count) %></h2>
-
-      <ul>
-        <% @search_section.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= render 'errors', object: @search_section, scope: 'admin.search_sections' %>
 
 <div class="cf-cgroup">
   <%= f.label :name %>

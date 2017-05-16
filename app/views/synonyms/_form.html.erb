@@ -1,14 +1,4 @@
-  <% if @synonym.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= t('tags.error_message_synonym') %></h2>
-
-      <ul>
-        <% @synonym.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= render 'errors', object: @synonym, scope: 'tags.synonyms' %>
 
 <div class="cf-cgroup">
   <%= f.label :synonym %>

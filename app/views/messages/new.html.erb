@@ -13,19 +13,9 @@ content_for :body_classes, 'messages new forum-' + (current_forum.try(:slug) || 
   <% end %>
 </article>
 
+<%= render 'errors', object: @message, scope: 'messages' %>
+
 <%= form_for @message, url: message_path_wo_anchor(@thread, @parent), html: {class: 'form-horizontal answer-form'} do |f| %>
-  <% if @message.errors.any? %>
-    <div id="error_explanation" class="cf-error">
-      <h4><%= t('messages.error_message', count: @message.errors.count) %></h4>
-
-      <ul>
-        <% @message.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
   <%= render "form", f: f, tags: @tags, message: @message %>
 
   <%= render 'post_notes' %>
