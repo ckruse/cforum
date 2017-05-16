@@ -15,7 +15,7 @@ content_for :body_classes, 'messages edit forum-' + (current_forum.try(:slug) ||
   </article>
 <% end %>
 
-<%= render 'errors', object: @message, scope: 'messages' %>
+<%= render 'application/errors', object: @message, scope: 'messages' %>
 
 <%= form_for(@message, url: edit_message_path(@thread, @message),
              html: {class: 'form-horizontal'}) do |f| %>

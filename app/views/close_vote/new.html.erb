@@ -8,7 +8,7 @@ content_for :h1, t("messages.close_vote.close_message",
                    author: @message.author)
 %>
 
-<%= render 'errors', object: @close_vote, scope: 'messages.close_vote' %>
+<%= render 'application/errors', object: @close_vote, scope: 'messages.close_vote' %>
 
 <%= form_for(@close_vote, url: close_message_path(@thread, @message),
              html: {:class => 'form-horizontal'}, method: :put) do |f| %>

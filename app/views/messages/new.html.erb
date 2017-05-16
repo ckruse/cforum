@@ -13,7 +13,7 @@ content_for :body_classes, 'messages new forum-' + (current_forum.try(:slug) || 
   <% end %>
 </article>
 
-<%= render 'errors', object: @message, scope: 'messages' %>
+<%= render 'application/errors', object: @message, scope: 'messages' %>
 
 <%= form_for @message, url: message_path_wo_anchor(@thread, @parent), html: {class: 'form-horizontal answer-form'} do |f| %>
   <%= render "form", f: f, tags: @tags, message: @message %>

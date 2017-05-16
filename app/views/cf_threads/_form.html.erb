@@ -1,4 +1,4 @@
-<%= render 'errors', object: @thread.message, scope: 'messages' %>
+<%= render 'application/errors', object: @thread.message, scope: 'messages' %>
 
 <%= form_for @thread, url: cf_threads_path(current_forum), html: {class: 'form-horizontal'} do |f| %>
   <% if current_forum.blank? %>
