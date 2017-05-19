@@ -14,15 +14,18 @@ class ResizeImageJob < ApplicationJob
 
     Cocaine::CommandLine.path = Rails.application.config.path_env
 
-    cmd = Cocaine::CommandLine.new('mogrify', '-path :out -thumbnail :size :in')
+    cmd = Cocaine::CommandLine.new('mogrify', '-auto-orient -strip -path :out -thumbnail :size :in')
     cmd.run(in: medium.full_path,
             size: '100x100>',
             out: Medium.thumb_path)
 
-    cmd = Cocaine::CommandLine.new('convert', ':in -scale :size :out')
+    cmd = Cocaine::CommandLine.new('mogrify', '-auto-orient -strip -path :out -scale :size :in')
+
     cmd.run(in: medium.full_path,
             size: '800x600>',
-            out: medium.full_path(:medium))
+            out: Medium.medium_path)
+  rescue Cocaine::ExitStatusError => e
+    Rails.logger.error e.message
   end
 end
 
