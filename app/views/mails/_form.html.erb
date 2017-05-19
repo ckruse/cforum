@@ -1,14 +1,4 @@
-  <% if @mail.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= t('mails.error_message', count: @mail.errors.count) %></h2>
-
-      <ul>
-      <% @mail.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'application/errors', object: @mail, scope: 'mails' %>
 
   <%= f.hidden_field :thread_id %>
 

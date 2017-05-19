@@ -1,14 +1,4 @@
-<% if @attendee.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= t('events.attendees.error_message', count: @attendee.errors.count) %></h2>
-
-    <ul>
-      <% @attendee.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+<%= render 'application/errors', object: @attendee, scope: 'events.attendees' %>
 
 <% if current_user.blank? %>
   <div class="cf-cgroup">

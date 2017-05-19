@@ -15,20 +15,10 @@ content_for :body_classes, 'messages edit forum-' + (current_forum.try(:slug) ||
   </article>
 <% end %>
 
+<%= render 'application/errors', object: @message, scope: 'messages' %>
+
 <%= form_for(@message, url: edit_message_path(@thread, @message),
              html: {class: 'form-horizontal'}) do |f| %>
-  <% if @message.errors.any? %>
-    <div id="error_explanation" class="cf-error">
-      <h4><%= t('messages.error_message', count: @message.errors.count) %></h4>
-
-      <ul>
-        <% @message.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
   <%= render "form", f: f, with_name: true, tags: @tags, message: @message %>
 
   <% if @edit and (current_user.try(:admin?) and @message.format == 'markdown') %>

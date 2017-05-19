@@ -49,6 +49,7 @@ main h2 { margin-left:0; }
     border-radius: 0px 0.5em 0.5em;
     font-size: 0.9em;
     line-height: 1.4em;
+    image-orientation: from-image;
 
     & > :first-child {
       margin-top: 0;
@@ -79,6 +80,8 @@ main h2 { margin-left:0; }
     }
 
     img { max-width:100%; }
+
+    img[style*="rotate"] { image-orientation: initial; }
 
     ul, ol {
       margin-top: 1em;
