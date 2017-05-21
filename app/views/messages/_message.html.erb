@@ -17,7 +17,7 @@ controls ||= :yes
     <%= m.to_html(@app_controller) %>
   </div>
 
-  <% if not m.flags['flagged'].blank? and not current_user.blank? and current_user.moderate?(current_forum) %>
+  <% if !m.open_moderation_queue_entry.blank? && !current_user.blank? && current_user.moderate?(current_forum) %>
     <p class="flagged-message">
       <%= t('plugins.flag_plugin.message_is_flagged') %> <%= flag_reason(m) %>
     </p>
@@ -72,17 +72,9 @@ controls ||= :yes
               <%= cf_link_to t('messages.retag'), retag_message_path(@thread, m), class: 'cf-btn', rel: 'nofollow' %>
             <% end %>
 
-            <% if m.flags['flagged'].blank? %>
-              <%= cf_link_to(t('plugins.flag_plugin.flag_message'), flag_message_path(@thread, m),
-                             class: 'cf-btn',
-                             title: t('plugins.flag_plugin.flag_message'), rel: 'nofollow') %>
-            <% elsif current_user and current_user.moderate?(current_forum) %>
-              <%= cf_link_to('', unflag_message_path(@thread, m),
-                             method: :delete,
-                             class: 'cf-btn icon-flag-message active',
-                             title: t('plugins.flag_plugin.unflag_message'), rel: 'nofollow') %>
-            <% end %>
-
+            <%= cf_link_to(t('plugins.flag_plugin.flag_message'), flag_message_path(@thread, m),
+                           class: 'cf-btn',
+                           title: t('plugins.flag_plugin.flag_message'), rel: 'nofollow') %>
           <% else %>
             <% if current_user and m.user_id %>
               <%= cf_link_to(t("mails.new_mail"),

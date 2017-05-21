@@ -10,11 +10,7 @@ class Messages::FlagController < ApplicationController
 
   def flag
     @thread, @message, @id = get_thread_w_post
-
-    unless @message.flags['flagged'].blank?
-      redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.already_flagged')
-      return
-    end
+    @moderation_queue_entry = ModerationQueueEntry.new(message_id: @message.message_id)
 
     respond_to do |format|
       format.html
@@ -24,60 +20,63 @@ class Messages::FlagController < ApplicationController
   def flagging
     @thread, @message, @id = get_thread_w_post
 
-    unless @message.flags['flagged'].blank?
-      redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.already_flagged')
+    unless @message.open_moderation_queue_entry.blank?
+      @message.open_moderation_queue_entry.reported += 1
+      @message.open_moderation_queue_entry.save!
+      redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.flagged')
       return
     end
 
-    unless %w(off-topic not-constructive duplicate custom spam).include?(params[:reason])
-      flash.now[:error] = t('plugins.flag_plugin.reason_invalid')
+    @moderation_queue_entry = ModerationQueueEntry.new(moderation_queue_params)
+    @moderation_queue_entry.message_id = @message.message_id
+    @moderation_queue_entry.reported = 1
+
+    has_error = false
+
+    if @moderation_queue_entry == 'duplicate' && (@moderation_queue_entry.duplicate_url.blank? ||
+                                                  (@moderation_queue_entry.duplicate_url !~ %r{^https?://}))
+      flash.now[:error] = t('plugins.flag_plugin.dup_url_needed')
+      has_error = true
+    end
+
+    if !has_error && @moderation_queue_entry.save
+      audit(@message, 'flagged-' + @moderation_queue_entry.reason, nil)
+      notify_admins_and_moderators
+      redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.flagged')
+
+    else
       render :flag
-      return
     end
-
-    @message.flags_will_change!
-
-    if params[:reason] == 'duplicate'
-      if params[:duplicate_slug].blank? || !(params[:duplicate_slug] =~ /^https?:\/\//)
-        flash.now[:error] = t('plugins.flag_plugin.dup_url_needed')
-        render :flag
-        return
-      end
-
-      @message.flags[:flagged_dup_url] = params[:duplicate_slug]
-
-    elsif params[:reason] == 'custom'
-      if params[:custom_reason].blank?
-        flash.now[:error] = t('plugins.flag_plugin.custom_reason_needed')
-        render :flag
-        return
-      end
-
-      @message.flags[:custom_reason] = params[:custom_reason]
-    end
-
-    @message.flags[:flagged] = params[:reason]
-    @message.save!
-
-    audit(@message, 'flagged-' + params[:reason], nil)
-
-    NotifyFlaggedJob.perform_later(@message.message_id)
-
-    redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.flagged')
   end
 
-  def unflag
-    @thread, @message, @id = get_thread_w_post
+  private
 
-    @message.flags.delete('flagged')
-    @message.flags.delete('custom_reason')
-    @message.flags.delete('flagged_dup_url')
-    @message.flags_will_change!
-    @message.save!
+  def moderation_queue_params
+    params.require(:moderation_queue_entry).permit(:reason, :duplicate_url, :custom_reason)
+  end
 
-    audit(@message, 'unflagged')
+  def admins_and_moderators(forum_id)
+    User.where('admin = true OR user_id IN ( ' \
+               '  SELECT user_id FROM forums_groups_permissions ' \
+               '    INNER JOIN groups_users USING(group_id) ' \
+               '    WHERE forum_id = ? AND permission = ?' \
+               ') OR user_id IN (' \
+               '  SELECT user_id FROM badges_users ' \
+               '    INNER JOIN badges USING(badge_id) ' \
+               '    WHERE badge_type = ?)',
+               forum_id, ForumGroupPermission::ACCESS_MODERATE,
+               Badge::MODERATOR_TOOLS)
+  end
 
-    redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.unflagged')
+  def notify_admins_and_moderators
+    unread = ModerationQueueEntry.where(cleared: false).count
+    users = admins_and_moderators(@message.forum_id)
+
+    users.each do |user|
+      BroadcastUserJob.perform_later({ type: 'moderation_queue:create',
+                                       entry: @moderation_queue_entry, unread: unread },
+                                     user.user_id)
+    end
   end
 end
 

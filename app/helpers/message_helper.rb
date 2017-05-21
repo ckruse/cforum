@@ -501,13 +501,13 @@ module MessageHelper
   end
 
   def flag_reason(msg)
-    case msg.flags['flagged']
+    case msg.open_moderation_queue_entry.reason
     when 'custom'
-      msg.flags['custom_reason']
+      msg.open_moderation_queue_entry.custom_reason
     when 'duplicate'
-      cf_link_to I18n.t('plugins.flag_plugin.duplicate_message'), msg.flags['flagged_dup_url']
+      cf_link_to I18n.t('plugins.flag_plugin.duplicate_message'), msg.open_moderation_queue_entry.duplicate_url
     else
-      I18n.t('messages.close_vote.' + msg.flags['flagged'])
+      I18n.t('messages.close_vote.' + msg.open_moderation_queue_entry.reason)
     end
   end
 end

@@ -1,0 +1,6 @@
+de:
+  moderation_queue:
+    moderation_queue: Moderation
+    error_message:
+      other: "%{count} Fehler verhinderten, dass dieser Beitrag gemeldet werden konnte:"
+      one: "%{count} Fehler verhindert, dass dieser Beitrag gemeldet werden konnte:"

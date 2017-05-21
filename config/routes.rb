@@ -227,10 +227,8 @@ Rails.application.routes.draw do
 
     get '/:year/:mon/:day/:tid/:mid/flag' => 'messages/flag#flag',
         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'flag_message'
-    put '/:year/:mon/:day/:tid/:mid/flag' => 'messages/flag#flagging',
-        year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
-    delete '/:year/:mon/:day/:tid/:mid/unflag' => 'messages/flag#unflag',
-           year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
+    post '/:year/:mon/:day/:tid/:mid/flag' => 'messages/flag#flagging',
+         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/
 
     get '/:year/:mon/:day/:tid/:mid/versions' => 'messages#versions',
         year: /\d{4}/, mon: /\w{3}/, day: /\d{1,2}/, as: 'message_versions'

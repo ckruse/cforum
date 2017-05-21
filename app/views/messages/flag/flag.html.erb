@@ -1,55 +1,57 @@
 <%
 content_for :title, t('plugins.flag_plugin.flag_message', subject: @message.subject, author: @message.author)
-content_for :h1, t('plugins.flag_plugin.only_flag_message')
+  content_for :h1, t('plugins.flag_plugin.only_flag_message')
 %>
 <h2><%= t('plugins.flag_plugin.flag_message', subject: @message.subject, author: @message.author) %></h2>
 
-<%= form_tag flag_message_path(@thread, @message), method: :put, class: 'form-horizontal' do %>
+<%= render 'application/errors', object: @moderation_queue_entry, scope: 'moderation_queue' %>
+
+<%= form_for @moderation_queue_entry, url: flag_message_path(@thread, @message), html: { class: 'form-horizontal' } do |f| %>
+
+  <p><%= t('plugins.flag_plugin.flagging_message_because_of') %></p>
 
   <div class="cf-cgroup">
-    <label><%= t('plugins.flag_plugin.flag_reason') %></label>
-
     <div class="cntrls">
       <label class="radio">
-        <%= radio_button_tag :reason, "spam", params[:reason] == 'spam' %>
+        <%= f.radio_button :reason, "spam" %>
         <%= t('messages.close_vote.spam') %>
       </label>
 
       <label class="radio">
-        <%= radio_button_tag :reason, "off-topic", params[:reason] == 'off-topic' %>
+        <%= f.radio_button :reason, "off-topic" %>
         <%= t('messages.close_vote.off-topic') %>
       </label>
 
       <label class="radio">
-        <%= radio_button_tag :reason, "not-constructive", params[:reason] == 'not-constructive' %>
+        <%= f.radio_button :reason, "not-constructive" %>
         <%= t('messages.close_vote.not-constructive') %>
       </label>
 
       <label class="radio">
-        <%= radio_button_tag :reason, "duplicate", params[:reason] == 'duplicate' %>
+        <%= f.radio_button :reason, "duplicate" %>
         <%= t('messages.close_vote.duplicate') %>
       </label>
 
       <label class="radio">
-        <%= radio_button_tag :reason, "custom", params[:reason] == 'custom' %>
+        <%= f.radio_button :reason, "custom" %>
         <%= t('messages.close_vote.custom') %>
       </label>
     </div>
   </div>
 
-  <div class="cf-cgroup" data-depends-on="reason=duplicate">
-    <label><%= CloseVote.human_attribute_name :duplicate_slug %></label>
+  <div class="cf-cgroup" data-depends-on="moderation_queue_entry[reason]=duplicate">
+    <%= f.label :duplicate_url %>
 
     <div class="cntrls">
-      <%= url_field_tag :duplicate_slug, params[:duplicate_slug],  placeholder: t('layout.placeholders.duplicate') %>
+      <%= f.url_field :duplicate_url, placeholder: t('layout.placeholders.duplicate') %>
     </div>
   </div>
 
-  <div class="cf-cgroup" data-depends-on="reason=custom">
-    <label><%= CloseVote.human_attribute_name :custom_reason %></label>
+  <div class="cf-cgroup" data-depends-on="moderation_queue_entry[reason]=custom">
+    <%= f.label :custom_reason %>
 
     <div class="cntrls">
-      <%= text_field_tag :custom_reason, params[:custom_reason] %>
+      <%= f.text_field :custom_reason %>
     </div>
   </div>
 

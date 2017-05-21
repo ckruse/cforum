@@ -64,6 +64,7 @@ de:
       css_chosen: alternatives CSS ausgewählt
 
     flag_plugin:
+      flagging_message_because_of: "Ich möchte diesen Beitrag aus folgendem Grund melden:"
       flag_reason: Melde-Grund
       flagged: Der Beitrag wurde gemeldet und ein Moderator wird den Beitrag überprüfen.
       flag_message: Beitrag „%{subject}“ von %{author} melden
