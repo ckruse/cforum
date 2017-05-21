@@ -24,18 +24,6 @@ module NotifyHelper
     NotificationMailer.new_notification(opts).deliver_later if cfg == 'email'
   end
 
-  def notifications
-    if current_user
-      @new_notifications = Notification.where(recipient_id: current_user.user_id, is_read: false)
-      @new_mails = PrivMessage.where(owner: current_user.user_id, is_read: false)
-
-      @undeceided_cites = Cite
-                            .where(archived: false)
-                            .where('NOT EXISTS (SELECT cite_id FROM cites_votes WHERE cite_id = cites.cite_id AND user_id = ?)',
-                                   current_user.user_id).count
-    end
-  end
-
   def unnotify_user(oid, types = nil)
     Notification.delete_all(['oid = ? AND otype IN (?)', oid, types])
   end

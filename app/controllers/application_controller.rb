@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   include AuditHelper
   include RightsHelper
   include NotifyHelper
+  include TransientInfosHelper
   include ExceptionHelpers
   include MessageHelper
   include SortablesHelper
@@ -22,7 +23,7 @@ class ApplicationController < ActionController::Base
   include TitleHelper
 
   before_action :prepare_exception_notifier, :do_init, :locked?,
-                :handle_redirects, :set_forums, :notifications,
+                :handle_redirects, :set_forums, :transient_infos,
                 :check_authorizations, :set_css, :set_motd,
                 :set_own_files, :set_title_infos
   after_action :store_location
