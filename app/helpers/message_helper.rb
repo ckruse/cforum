@@ -424,8 +424,9 @@ module MessageHelper
                .preload(:forum,
                         messages: [:editor, :tags, :thread, :versions, :cite,
                                    { votes: :voters,
-                                     owner: [:settings, :badges],
-                                     message_references: { src_message: [{ thread: :forum }, :owner, :tags, :votes] } }])
+                                     owner: %i(settings badges),
+                                     message_references: { src_message: [{ thread: :forum },
+                                                                         :owner, :tags, :votes] } }])
                .includes(messages: :owner)
                .where(std_conditions(id, tid))
                .references(messages: :owner)

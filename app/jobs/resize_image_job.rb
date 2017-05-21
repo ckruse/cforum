@@ -20,7 +20,6 @@ class ResizeImageJob < ApplicationJob
             out: Medium.thumb_path)
 
     cmd = Cocaine::CommandLine.new('mogrify', '-auto-orient -strip -path :out -scale :size :in')
-
     cmd.run(in: medium.full_path,
             size: '800x600>',
             out: Medium.medium_path)
