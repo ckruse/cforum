@@ -88,8 +88,9 @@ class User < ApplicationRecord
     return true if admin?
     return true if has_badge?(Badge::MODERATOR_TOOLS)
 
-    ForumGroupPermission.exists?(['group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) ' \
-                                  'AND permission = ?', user_id, ForumGroupPermission::ACCESS_MODERATE])
+    @is_moderator ||=
+      ForumGroupPermission.exists?(['group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) ' \
+                                    'AND permission = ?', user_id, ForumGroupPermission::ACCESS_MODERATE])
   end
 
   def write?(forum)
