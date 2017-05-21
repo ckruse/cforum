@@ -10,10 +10,14 @@ module TransientInfosHelper
     @undeceided_cites = Cite
                           .where(archived: false)
                           .where('NOT EXISTS (' \
-                                 '  SELECT cite_id FROM cites_votes WHERE cite_id = cites.cite_id AND user_id = ' \
+                                 '  SELECT cite_id FROM cites_votes WHERE cite_id = cites.cite_id AND user_id = ?' \
                                  ')',
                                  current_user.user_id)
                           .count
+
+    return unless current_user.moderator?
+
+    @moderation_queue_entries = ModerationQueueEntry.where(cleared: false).count
   end
 end
 

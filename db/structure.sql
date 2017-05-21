@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.2
--- Dumped by pg_dump version 9.6.2
+-- Dumped from database version 9.6.3
+-- Dumped by pg_dump version 9.6.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1488,6 +1488,45 @@ ALTER SEQUENCE messages_tags_message_tag_id_seq OWNED BY messages_tags.message_t
 
 
 --
+-- Name: moderation_queue; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE moderation_queue (
+    moderation_queue_entry_id bigint NOT NULL,
+    message_id bigint NOT NULL,
+    cleared boolean DEFAULT false NOT NULL,
+    reported integer NOT NULL,
+    reason character varying NOT NULL,
+    duplicate_url character varying,
+    custom_reason character varying,
+    resolution text,
+    closer_name character varying,
+    closer_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: moderation_queue_moderation_queue_entry_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE moderation_queue_moderation_queue_entry_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: moderation_queue_moderation_queue_entry_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE moderation_queue_moderation_queue_entry_id_seq OWNED BY moderation_queue.moderation_queue_entry_id;
+
+
+--
 -- Name: notifications; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2244,6 +2283,13 @@ ALTER TABLE ONLY messages_tags ALTER COLUMN message_tag_id SET DEFAULT nextval('
 
 
 --
+-- Name: moderation_queue moderation_queue_entry_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY moderation_queue ALTER COLUMN moderation_queue_entry_id SET DEFAULT nextval('moderation_queue_moderation_queue_entry_id_seq'::regclass);
+
+
+--
 -- Name: notifications notification_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2627,6 +2673,14 @@ ALTER TABLE ONLY messages_tags
 
 
 --
+-- Name: moderation_queue moderation_queue_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY moderation_queue
+    ADD CONSTRAINT moderation_queue_pkey PRIMARY KEY (moderation_queue_entry_id);
+
+
+--
 -- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2898,6 +2952,13 @@ CREATE INDEX messages_updated_at_idx ON messages USING btree (updated_at);
 --
 
 CREATE INDEX messages_user_id_idx ON messages USING btree (user_id);
+
+
+--
+-- Name: moderation_queue_message_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX moderation_queue_message_id_idx ON moderation_queue USING btree (message_id) WHERE (cleared = true);
 
 
 --
@@ -3608,6 +3669,22 @@ ALTER TABLE ONLY messages
 
 
 --
+-- Name: moderation_queue moderation_queue_closer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY moderation_queue
+    ADD CONSTRAINT moderation_queue_closer_id_fkey FOREIGN KEY (closer_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: moderation_queue moderation_queue_message_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY moderation_queue
+    ADD CONSTRAINT moderation_queue_message_id_fkey FOREIGN KEY (message_id) REFERENCES messages(message_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: notifications notifications_recipient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3838,6 +3915,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('103'),
 ('104'),
 ('105'),
+('106'),
 ('11'),
 ('12'),
 ('13'),

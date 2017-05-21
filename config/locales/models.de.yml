@@ -50,6 +50,7 @@ de:
       event: Ereignis
       attendee: Teilnehmer
       redirection: Weiterleitung
+      moderation_queue_entry: Moderationsqueue-Eintrag
 
     attributes:
       message:
@@ -183,3 +184,12 @@ de:
         destination: Ziel
         comment: Kommentar
         http_status: HTTP-Status
+
+      moderation_queue_entry:
+        reason: Meldegrund
+        message_id: Beitrag
+        resolution: Lösung
+        duplicate_url: Duplikats-URL
+        custom_reason: sonstiger Grund
+        closer_id: Moderator
+

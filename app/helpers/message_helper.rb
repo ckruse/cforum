@@ -422,7 +422,7 @@ module MessageHelper
 
     thread = CfThread
                .preload(:forum,
-                        messages: [:editor, :tags, :thread, :versions, :cite,
+                        messages: [:editor, :tags, :thread, :versions, :cite, :open_moderation_queue_entry,
                                    { votes: :voters,
                                      owner: %i(settings badges),
                                      message_references: { src_message: [{ thread: :forum },

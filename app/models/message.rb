@@ -44,6 +44,9 @@ class Message < ApplicationRecord
   has_many :message_references, -> { order(created_at: :desc) },
            class_name: 'MessageReference', foreign_key: :dst_message_id
 
+  has_many :moderation_queue_entries
+  has_one :open_moderation_queue_entry, -> { where(cleared: false) }, class_name: 'ModerationQueueEntry'
+
   has_one :cite, foreign_key: :message_id
 
   validates_presence_of :forum_id, :thread_id
