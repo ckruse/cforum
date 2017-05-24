@@ -13,7 +13,7 @@ controls ||= :yes
 </div>
 
   <% unless m.problematic_site.blank? %><p class="problematic-site"><%= cf_link_to Message.human_attribute_name(:problematic_site), m.problematic_site, rel: 'nofollow' %></p><% end %>
-  <div class="posting-content<% if m.deleted? %> deleted<% end %>">
+  <div class="posting-content<% if m.deleted? %> deleted<% end %> e-content">
     <%= m.to_html(@app_controller) %>
   </div>
 
@@ -40,7 +40,7 @@ controls ||= :yes
           <%= t('layout.flattr_author') %>
           <%= cf_link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(m.flags['flattr_id']) +
           "&url=" + CGI.escape(message_url(@thread, m, rm: 'thread-view')) +
-          "&title=" + CGI.escape(m.subject), class: 'flattr-link' do %>
+          "&title=" + CGI.escape(m.subject), class: 'flattr-link u-url' do %>
             <img src="//button.flattr.com/flattr-badge-large.png" alt="Flattr this!" title="Flattr this!" class="flattr-button">
           <% end %>
         </p>

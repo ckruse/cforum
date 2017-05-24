@@ -14,7 +14,7 @@ content_for(:h1) do
 
 <h2><%= t("layout.read_message") %></h2>
 
-<article class="thread-message <%= message_classes(@message, @thread, false) %>">
+<article class="thread-message <%= message_classes(@message, @thread, false) %> h-entry">
   <%= render 'message', m: @message, first: true, do_parent: true %>
 </article>
 

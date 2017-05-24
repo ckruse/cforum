@@ -74,23 +74,23 @@ content_for :robots, 'noindex,nofollow'
   <div class="root search-results">
     <% @search_results_w_title.each do |result| %>
       <% had_desc = false %>
-      <article class="thread">
+      <article class="thread h-cite">
         <header>
           <span class="thread-forum-plate"><%= result.search_section.name %></span>
-          <h3><%= cf_link_to result.title, result.url %></h3>
+          <h3><%= cf_link_to result.title, result.url, class: 'p-name u-uid u-url' %></h3>
           <div class="details">
-            <span class="author">
+            <span class="author p-author h-card">
               <% if result.user_id %>
-                <%= cf_link_to(image_tag(result.user.avatar(:thumb), class: 'avatar'), user_path(result.user), class: 'user-link') %>
+                <%= cf_link_to(image_tag(result.user.avatar(:thumb), class: "avatar#{' u-photo' if result.user.avatar.present?}"), user_path(result.user), class: 'user-link u-uid u-url') %>
               <% end %>
-              <%= cf_link_to result.author, result.url %></span>,
+              <%= cf_link_to result.author, result.url, class: 'p-name' %></span>,
             <%= cf_link_to result.url do %>
-              <time datetime="<%= result.document_created.strftime("%FT%T%:z") %>"><%= l(result.document_created, format: date_format("date_format_search")) %></time>
+              <%= time_tag result.document_created, l(result.document_created, format: date_format('date_format_search')), class: 'dt-published' %>
             <% end %>
             <% unless result.tags.blank? %>
               <ul class="cf-tags-list">
                 <% result.tags.each do |tag_name| %>
-                  <li class="cf-tag"><span><%= tag_name %></span></li>
+                  <li class="cf-tag p-category"><span><%= tag_name %></span></li>
                 <% end %>
               </ul>
             <% end %>
@@ -118,7 +118,7 @@ content_for :robots, 'noindex,nofollow'
           <% end %>
 
           <% unless had_desc %>
-            <li class="content-truncated"><%= result.content.truncate_words(30) %></li>
+            <li class="content-truncated p-content"><%= result.content.truncate_words(30) %></li>
           <% end %>
         </ol>
       </article>
