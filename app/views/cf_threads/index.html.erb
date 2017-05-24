@@ -22,6 +22,3 @@ content_for :body_classes, 'threads forum-' + (current_forum.try(:slug) || 'all'
 <% if uconf('page_messages') == 'yes' %>
   <%= render 'pages' %>
 <% end %>
-
-<img src="//www.browser-statistik.de/browser.png?style=0"
-     width="1" height="1" style="border: 0px;" alt="">
