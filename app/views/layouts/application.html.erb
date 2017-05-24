@@ -91,11 +91,7 @@ end
         <div id="content">
           <%= yield %>
 
-          <%=
-            unless controller_path.split('/').first == 'admin' || request.headers['HTTP_DNT'] == '1'
-              image_tag 'https://www.browser-statistik.de/browser.png?style=0', alt: '', size: 1, style: 'border: 0px;'
-            end
-          %>
+          <%= track_request %>
         </div>
       </main>
 
