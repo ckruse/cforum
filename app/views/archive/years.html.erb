@@ -10,6 +10,3 @@ content_for :body_classes, 'archive years forum-' + (current_forum.try(:slug) ||
     <li><%= cf_link_to year, cf_archive_year_path(current_forum, year) %></li>
   <% end %>
 </ul>
-
-<img src="//www.browser-statistik.de/browser.png?style=0"
-     width="1" height="1" style="border: 0px;" alt="">
