@@ -16,7 +16,11 @@ FactoryGirl.define do
   end
 
   factory :user_moderator, parent: :user do
-    badges { [create(:badge, badge_type: Badge::MODERATOR_TOOLS)] }
+    badges do
+      b = Badge.where(badge_type: Badge::MODERATOR_TOOLS).first
+      b = create(:badge, badge_type: Badge::MODERATOR_TOOLS) if b.blank?
+      [b]
+    end
   end
 end
 
