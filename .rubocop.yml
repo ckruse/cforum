@@ -4,3 +4,11 @@ Metrics/LineLength:
   Max: 120
 Style/AsciiComments:
   Enabled: no
+
+Metrics/ModuleLength:
+  Exclude:
+    - "**/*_spec.rb"
+
+Metrics/BlockLength:
+  Exclude:
+    - "**/*_spec.rb"
