@@ -9,7 +9,7 @@ class ModerationQueueController < ApplicationController
     @limit = conf('pagination').to_i
     @moderation_queue_entries = ModerationQueueEntry
                                   .preload(message: :thread)
-                                  .order(created_at: :desc)
+                                  .order(:cleared, created_at: :desc)
                                   .page(params[:page])
                                   .per(@limit)
 
