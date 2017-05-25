@@ -17,7 +17,7 @@ module TransientInfosHelper
 
     return unless current_user.moderator?
 
-    @moderation_queue_entries = ModerationQueueEntry.where(cleared: false).count
+    @open_moderation_queue_entries_count = ModerationQueueEntry.where(cleared: false).count
   end
 end
 

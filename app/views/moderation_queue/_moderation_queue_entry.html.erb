@@ -1,0 +1,22 @@
+<article class="thread-message moderation-queue-entry<% if entry.cleared %> cleared<% end %>">
+  <div class="posting-header">
+    <%= message_header(entry.message.thread, entry.message, first: true,
+                       tree: false, show_editor: true, author_link_to_message: false) %>
+  </div>
+
+  <p class="flagged-message">
+    <%= t('plugins.flag_plugin.message_is_flagged') %> <%= flag_reason_entry(entry) %>
+  </p>
+
+  <% if entry.cleared %>
+    <p><%= t('moderation_queue.case_has_been_cleared', action: entry.l_resolution_action) %></p>
+
+    <%= entry.to_html(@app_controller) %>
+  <% end %>
+
+  <% if with_buttons %>
+    <div class="posting-footer">
+      <%= cf_link_to t('moderation_queue.resolute'), edit_moderation_queue_path(entry), class: 'cf-btn' %>
+    </div>
+  <% end %>
+</article>

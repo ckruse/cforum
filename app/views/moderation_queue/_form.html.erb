@@ -1,0 +1,17 @@
+
+<div class="cf-cgroup">
+  <%= f.label :resolution_action %>
+  <div class="cntrls">
+    <%= f.select(:resolution_action,
+                 options_for_select([[t('moderation_queue.actions.none'), 'none'],
+                                     [t('moderation_queue.actions.close'), 'close'],
+                                     [t('moderation_queue.actions.delete'), 'delete'],
+                                     [t('moderation_queue.actions.no-archive'), 'no-archive']],
+                                    @moderation_queue_entry.resolution_action)) %>
+  </div>
+</div>
+
+<div class="cf-cgroup">
+  <%= f.label :resolution %>
+  <div class="cntrls"><%= f.text_area :resolution %></div>
+</div>

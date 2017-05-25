@@ -1,0 +1,19 @@
+<%
+content_for :title, t('moderation_queue.clear_case', no: @moderation_queue_entry.moderation_queue_entry_id)
+  content_for :h1, t('moderation_queue.clear_case', no: @moderation_queue_entry.moderation_queue_entry_id)
+    content_for :body_id, 'moderation_queue-edit'
+      content_for :body_classes, 'moderation_queue edit'
+%>
+
+<%= form_for(@moderation_queue_entry, url: moderation_queue_path(@moderation_queue_entry),
+             html: {class: 'form-horizontal'}) do |f| %>
+
+  <%= render 'moderation_queue_entry', entry: @moderation_queue_entry, with_buttons: false %>
+
+  <%= render 'form', f: f %>
+
+  <p class="form-actions">
+    <%= f.submit t('global.save'), class: "cf-primary-btn" %>
+    <%= cf_link_to t('global.cancel'), moderation_queue_index_path, class: 'cf-btn' %>
+  </p>
+<% end %>

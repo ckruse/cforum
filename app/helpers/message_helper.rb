@@ -205,7 +205,7 @@ module MessageHelper
 
     if message.user_id
       html << '<span class="registered-user'
-      if (message.message_id != thread.message.message_id) && (message.user_id == thread.message.user_id)
+      if (message.message_id != thread.message.try(:message_id)) && (message.user_id == thread.message.try(:user_id))
         html << ' original-poster'
       end
       html << '">' << cf_link_to("<span class=\"visually-hidden\">#{t('messages.link_to_profile_of')} </span>".html_safe +
@@ -216,7 +216,7 @@ module MessageHelper
                                           user: message.owner.username),
                                  class: 'user-link') << ' '
     else
-      if (message.message_id != thread.message.message_id) && !message.uuid.blank? && (message.uuid == thread.message.uuid)
+      if (message.message_id != thread.message.try(:message_id)) && !message.uuid.blank? && (message.uuid == thread.message.try(:uuid))
         html << '<span class="icon-message original-poster" title="' << t('messages.original_poster') << '"> </span>'
       end
     end
@@ -503,13 +503,17 @@ module MessageHelper
   end
 
   def flag_reason(msg)
-    case msg.open_moderation_queue_entry.reason
+    flag_reason_entry(msg.open_moderation_queue_entry)
+  end
+
+  def flag_reason_entry(entry)
+    case entry.reason
     when 'custom'
-      msg.open_moderation_queue_entry.custom_reason
+      entry.custom_reason
     when 'duplicate'
-      cf_link_to I18n.t('plugins.flag_plugin.duplicate_message'), msg.open_moderation_queue_entry.duplicate_url
+      cf_link_to I18n.t('plugins.flag_plugin.duplicate_message'), entry.duplicate_url
     else
-      I18n.t('messages.close_vote.' + msg.open_moderation_queue_entry.reason)
+      I18n.t('messages.close_vote.' + entry.reason)
     end
   end
 end

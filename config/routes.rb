@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   post 'cites/:id/vote' => 'cites#vote', as: :cite_vote
   resources 'cites'
 
+  resources :moderation_queue, except: [:new, :create, :show]
+
   get '/forums' => 'forums#redirector', as: :forum_redirector
   get '/forums_titles' => 'forums#title'
 

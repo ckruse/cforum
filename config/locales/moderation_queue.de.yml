@@ -4,3 +4,14 @@ de:
     error_message:
       other: "%{count} Fehler verhinderten, dass dieser Beitrag gemeldet werden konnte:"
       one: "%{count} Fehler verhindert, dass dieser Beitrag gemeldet werden konnte:"
+
+    resolute: Klären
+    clear_case: "Fall #%{no} klären"
+    successfully_cleared_case: Der Fall wurde erfolgreich geklärt.
+    case_has_been_cleared: Der Fall wurde mit der Aktion „%{action}“ geklärt.
+
+    actions:
+      close: Nachricht schließen
+      delete: Nachricht löschen
+      no-archive: Thread nicht archivieren
+      none: Manuell eingreifen

@@ -207,6 +207,11 @@ end
               <%= cf_link_to t('cites.cites'), cites_path %>
               <% unless current_user.blank? %>(<%= cf_link_to "#{@undeceided_cites}", cites_vote_path %>)<% end %>
             </li>
+            <% if current_user.try(:moderator?) %>
+              <li id="moderator-queue">
+                <%= cf_link_to(t('moderation_queue.moderation_queue'), moderation_queue_index_path) %> <span id="moderation-queue-count">(<%= @open_moderation_queue_entries_count %>)</span>
+              </li>
+            <% end %>
             <li><%= cf_link_to t('search.search'), search_path %></li>
             <li><%= cf_link_to t("layout.chat"), "https://kiwiirc.com/client/irc.epd-me.net/?nick=" + (current_user.try(:username) || "Guest%7C" + rand(9999).to_s) + "&channel=#selfhtml", rel: 'nofollow' %></li>
             <li><%= cf_link_to(t('help.help'), help_path) %></li>

@@ -1,0 +1,15 @@
+<%
+content_for :title, t('moderation_queue.moderation_queue')
+content_for :h1, t('moderation_queue.moderation_queue')
+content_for :body_id, 'moderation_queue-index'
+content_for :body_classes, 'moderation_queue index'
+%>
+
+<%= paginate @moderation_queue_entries %>
+
+<% @moderation_queue_entries.each do |entry| %>
+  <%= render 'moderation_queue_entry', entry: entry, with_buttons: true %>
+<% end %>
+
+
+<%= paginate @moderation_queue_entries %>
