@@ -4,7 +4,7 @@ class NotifyModerationQueueJob < ApplicationJob
   queue_as :default
 
   def perform(mod_queue_entry_id)
-    mod_queue_entry = ModerationQueueEntry.preload(message: [:thread, :forum]).find(mod_queue_entry_id)
+    mod_queue_entry = ModerationQueueEntry.preload(message: %i[thread forum]).find(mod_queue_entry_id)
     users = admins_and_moderators(mod_queue_entry.message.forum_id)
 
     desc = I18n.t('messages.close_vote.' + mod_queue_entry.reason)
@@ -19,7 +19,15 @@ class NotifyModerationQueueJob < ApplicationJob
                      subject: mod_queue_entry.message.subject,
                      author: mod_queue_entry.message.author)
 
+    unread = ModerationQueueEntry.where(cleared: false).count
+
     users.each do |u|
+      ActionCable
+        .server
+        .broadcast("users/#{u.user_id}",
+                   type: 'moderation_queue:create',
+                   entry: mod_queue_entry, unread: unread)
+
       next unless uconf('notify_on_flagged', u, mod_queue_entry.message.forum) != 'no'
       notify_user(u, nil, subject, edit_moderation_queue_url(mod_queue_entry),
                   mod_queue_entry.moderation_queue_entry_id, 'message:flagged', nil, desc)
