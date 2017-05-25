@@ -25,35 +25,37 @@ end
 
 gen_link = (not cite.url.blank? and (cite.message_id.blank? or may_read?(cite.message)))
 
-%><article class="thread-message cite">
+%><article class="thread-message cite h-cite">
   <div class="posting-header">
     <header class="message">
       <h2><%= cf_link_to t('cites.cite', id: cite.cite_id), cite_path(cite) %></h2>
 
       <% if gen_link %>
-        <div class="origin"><%= cf_link_to cite.message_id.blank? ? cite.url : cite.message.subject, cite.url %></div>
+        <div class="origin"><%= cf_link_to cite.message_id.blank? ? cite.url : cite.message.subject, cite.url, class: 'p-name u-uid u-url' %></div>
       <% end %>
 
       <div class="details">
-        <span class="author">
+        <span class="author p-author h-card">
           <% unless cite.user_id.blank? %>
             <span class="registered-user">
-              <%= cf_link_to image_tag(cite.user.avatar(:thumb)), user_path(cite.user) %>
+              <%= cf_link_to image_tag(cite.user.avatar(:thumb), class: 'u-photo'), user_path(cite.user) %>
             </span>
 
-            <%= cf_link_to cite.author, user_path(cite.user) %>
+            <%= cf_link_to cite.author, user_path(cite.user), class: 'p-name u-uid u-url' %>
           <% else %>
-            <%= cite.author %>
+            <span class="p-name"><%= cite.author %></span>
           <% end %>
         </span>
 
-        <time datetime="<%= cite.cite_date.strftime("%FT%T%:z") %>">
-          <% if gen_link %>
-            <%= cf_link_to l(cite.cite_date, format: uconf('date_format_date')), cite.url %>
-          <% else %>
-            <%= l(cite.cite_date, format: uconf('date_format_date')) %>
-          <% end %>
-        </time>
+        <%=
+          time_tag cite.cite_date, class: 'dt-published' do
+            if gen_link
+              cf_link_to l(cite.cite_date, format: uconf('date_format_date')), cite.url
+            else
+              l(cite.cite_date, format: uconf('date_format_date'))
+            end
+          end
+        %>
       </div>
     </header>
 
@@ -76,7 +78,7 @@ gen_link = (not cite.url.blank? and (cite.message_id.blank? or may_read?(cite.me
     <% end %>
   </div>
 
-  <div class="posting-content cite"><%= cite.to_html(@app_controller) %></div>
+  <div class="posting-content cite p-content"><%= cite.to_html(@app_controller) %></div>
 
   <div>
     <% unless cite.creator.blank? %><%= t('cites.created_by_at') %>
@@ -91,6 +93,6 @@ gen_link = (not cite.url.blank? and (cite.message_id.blank? or may_read?(cite.me
         <% end %>
       </span>
     <% end %>
-    <%= l(cite.created_at, format: uconf('date_format_date')) %>
+    <%= time_tag cite.created_at, l(cite.created_at, format: uconf('date_format_date')), class: 'dt-accessed' %>
   </div>
 </article>

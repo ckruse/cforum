@@ -30,7 +30,7 @@ content_for(:h1) do
   <ol class="answers">
     <% messages.each do |m| %>
       <li>
-        <div class="posting-nested thread-message <%= message_classes(m, @thread, @message.message_id == m.message_id, :nested) %>">
+        <div class="posting-nested thread-message h-entry <%= message_classes(m, @thread, @message.message_id == m.message_id, :nested) %>">
           <%= render 'message', m: m, first: false %>
         </div>
 
@@ -44,7 +44,7 @@ content_for(:h1) do
 
 <div>
   <article class="thread-nested<% if @thread.archived %> archived<% end %>">
-    <div class="posting-nested thread-message <%= message_classes(@thread.message, @thread, @message.message_id == @thread.message.message_id, :nested) %>">
+    <div class="posting-nested thread-message h-entry <%= message_classes(@thread.message, @thread, @message.message_id == @thread.message.message_id, :nested) %>">
       <%= render 'message', m: @thread.message, first: true %>
     </div>
 
@@ -68,6 +68,3 @@ content_for(:h1) do
     </p>
   <% end %>
 <% end %>
-
-<img src="//www.browser-statistik.de/browser.png?style=0"
-     width="1" height="1" style="border: 0px;" alt="">

@@ -27,7 +27,7 @@ module LinksHelper
     link_to(*args, &block)
   end
 
-  def cf_link_to_unless(*args)
+  def cf_link_to_unless(*args, &block)
     if args.last.is_a?(Hash)
       attrs = args.last
     else
@@ -38,10 +38,10 @@ module LinksHelper
     url = args.third
     attrs[:rel] = 'nofollow' if !url_whitelisted?(url) && !attrs.key?(:rel)
 
-    link_to_unless(*args)
+    link_to_unless(*args, &block)
   end
 
-  def cf_link_to_if(*args)
+  def cf_link_to_if(*args, &block)
     if args.last.is_a?(Hash)
       attrs = args.last
     else
@@ -52,7 +52,7 @@ module LinksHelper
     url = args.third
     attrs[:rel] = 'nofollow' if !url_whitelisted?(url) && !attrs.key?(:rel)
 
-    link_to_if(*args)
+    link_to_if(*args, &block)
   end
 end
 

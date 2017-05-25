@@ -24,12 +24,12 @@ content_for(:body_classes, 'events index')
     <% end %>
 
     <% @events.each do |event| %>
-      <tr>
-        <td><%= link_to event.name, event_path(event) %></td>
+      <tr class="h-event">
+        <td><%= link_to event.name, event_path(event), class: 'p-name u-url' %></td>
         <td class="numeric"><%= event.attendees.length %></td>
-        <td><%= l(event.start_date) %></td>
-        <td><%= l(event.end_date) %></td>
-        <td><%= event.location %></td>
+        <td><%= time_tag event.start_date, l(event.start_date), class: 'dt-start' %></td>
+        <td><%= time_tag event.end_date, l(event.end_date), class: 'dt-end' %></td>
+        <td class="p-location"><%= event.location %></td>
         <td><%= l(event.created_at) %></td>
         <td><%= l(event.updated_at) %></td>
       </tr>

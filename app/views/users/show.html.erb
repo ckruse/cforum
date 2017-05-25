@@ -12,91 +12,92 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
   </script>
 <% end %>
 
-<div class="user-infos">
-  <div class="user-info-table">
-    <table>
-      <tbody>
-        <tr>
-          <td rowspan="<% if current_user == @user %>5<% else %>4<% end %>"><%= image_tag @user.avatar.url(:medium) %></td>
-          <th><%= t('users.name') %>:</th>
-          <td><%= @user.username %></td>
-        </tr>
-        <tr>
-          <th><%= t('users.score') %>:</th>
-          <td class="<% if @user.score < 0 %>score-down<% else %>score-up<% end %>"><%= number_with_delimiter(@user.score) %></td>
-        </tr>
-        <tr>
-          <th><%= t('users.num_messages') %>:</th>
-          <td><%= number_with_delimiter(@messages_count) %></td>
-        </tr>
-        <% if current_user == @user %><tr>
-          <th><%= User.human_attribute_name("email") %>:</th>
-          <td><%= @user.email %> <em>(<%= t('global.only_visible_for_you') %>)</em></td>
-        </tr><% end %>
-        <tr>
-          <th><%= t('users.registered_since') %>:</th>
-          <td><%= l(@user.created_at, format: date_format) %></td>
-        </tr>
-      </tbody>
-    </table>
+<div class="h-card">
+  <div class="user-infos">
+    <div class="user-info-table">
+      <table>
+        <tbody>
+          <tr>
+            <td rowspan="<% if current_user == @user %>5<% else %>4<% end %>"><%= image_tag(@user.avatar.url(:medium), class: ('u-photo' if @user.avatar.present?)) %></td>
+            <th><%= t('users.name') %>:</th>
+            <td class="p-name"><%= @user.username %></td>
+          </tr>
+          <tr>
+            <th><%= t('users.score') %>:</th>
+            <td class="<% if @user.score < 0 %>score-down<% else %>score-up<% end %>"><%= number_with_delimiter(@user.score) %></td>
+          </tr>
+          <tr>
+            <th><%= t('users.num_messages') %>:</th>
+            <td><%= number_with_delimiter(@messages_count) %></td>
+          </tr>
+          <% if current_user == @user %><tr>
+            <th><%= User.human_attribute_name("email") %>:</th>
+            <td><span class="u-email"><%= @user.email %></span> <em>(<%= t('global.only_visible_for_you') %>)</em></td>
+          </tr><% end %>
+          <tr>
+            <th><%= t('users.registered_since') %>:</th>
+            <td><%= l(@user.created_at, format: date_format) %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="user-profile">
+      <table>
+        <tbody>
+          <% unless @user.conf('jabber_id').blank? %>
+            <tr>
+              <th><%= t('users.settings.jabber_id') %>:</th>
+              <td><%= link_to @user.conf('jabber_id'), 'xmpp:' + @user.conf('jabber_id'), class: 'u-url' %></td>
+            </tr>
+          <% end %>
+
+          <% unless @user.conf('twitter_handle').blank? %>
+            <tr>
+              <th><%= t('users.settings.twitter_handle') %>:</th>
+              <td><%= cf_link_to @user.conf('twitter_handle'), 'https://twitter.com/' + @user.conf('twitter_handle'), class: 'u-url' %></td>
+            </tr>
+          <% end %>
+
+          <% unless @user.conf('url').blank? %>
+            <tr>
+              <th><%= t('users.settings.homepage') %>:</th>
+              <td><%= cf_link_to @user.conf('url'), @user.conf('url'), class: 'u-url' %></td>
+            </tr>
+          <% end %>
+
+          <tr>
+            <th><%= t('users.settings.description') %>:</th>
+            <td><%= @user.conf('description').blank? ? ('<em>'.html_safe + t('users.no_description') + "</em>".html_safe) : '<span class="p-note">'.html_safe + md2html(@user.conf('description'), @app_controller) + '</span>'.html_safe %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <div class="user-profile">
-    <table>
-      <tbody>
-        <% unless @user.conf('jabber_id').blank? %>
-          <tr>
-            <th><%= t('users.settings.jabber_id') %>:</th>
-            <td><%= link_to @user.conf('jabber_id'), 'xmpp:' + @user.conf('jabber_id') %></td>
-          </tr>
+  <ul class="user-info-tags">
+    <% @tags_cnts.each do |t| %>
+      <li>
+        <%= cf_link_to tag_path(t.tag.forum.slug, t.tag), class: 'cf-tag' do %>
+          <span><%= t.tag.forum.short_name %>:</span><%= t.tag.tag_name %>
         <% end %>
-
-        <% unless @user.conf('twitter_handle').blank? %>
-          <tr>
-            <th><%= t('users.settings.twitter_handle') %>:</th>
-            <td><%= cf_link_to @user.conf('twitter_handle'), 'https://twitter.com/' + @user.conf('twitter_handle') %></td>
-          </tr>
-        <% end %>
-
-        <% unless @user.conf('url').blank? %>
-          <tr>
-            <th><%= t('users.settings.homepage') %>:</th>
-            <td><%= cf_link_to @user.conf('url'), @user.conf('url') %></td>
-          </tr>
-        <% end %>
-
-        <tr>
-          <th><%= t('users.settings.description') %>:</th>
-          <td><%= @user.conf('description').blank? ? ('<em>'.html_safe + t('users.no_description') + "</em>".html_safe) : md2html(@user.conf('description'), @app_controller) %></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<ul class="user-info-tags">
-  <% @tags_cnts.each do |t| %>
-    <li>
-      <%= cf_link_to tag_path(t.tag.forum.slug, t.tag), class: 'cf-tag' do %>
-        <span><%= t.tag.forum.short_name %>:</span><%= t.tag.tag_name %>
-      <% end %>
-      <span class="cnt"><%= number_with_delimiter(t.cnt) %></span></li>
-  <% end %>
-</ul>
-
-<% unless @settings.conf('flattr').blank? %>
-  <p>
-    <%= t('layout.flattr_author') %>
-    <%= cf_link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(@settings.conf('flattr')) +
-    "&url=" + CGI.escape(user_url(@user)) +
-    "&title=" + CGI.escape(t('users.selfforum_user', name: @user.username)) do %>
-      <img src="//button.flattr.com/flattr-badge-large.png"
-           alt="Flattr this!"
-           title="Flattr this!">
+        <span class="cnt"><%= number_with_delimiter(t.cnt) %></span></li>
     <% end %>
-  </p>
-<% end %>
+  </ul>
 
+  <% unless @settings.conf('flattr').blank? %>
+    <p>
+      <%= t('layout.flattr_author') %>
+      <%= cf_link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(@settings.conf('flattr')) +
+      "&url=" + CGI.escape(user_url(@user)) +
+      "&title=" + CGI.escape(t('users.selfforum_user', name: @user.username)), class: 'u-url' do %>
+        <img src="//button.flattr.com/flattr-badge-large.png"
+             alt="Flattr this!"
+             title="Flattr this!">
+      <% end %>
+    </p>
+  <% end %>
+</div>
 
 <h2><%= t("users.user_activity") %></h2>
 

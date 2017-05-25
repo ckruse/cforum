@@ -12,6 +12,3 @@ content_for :body_classes, 'archive year forum-' + (current_forum.try(:slug) || 
     <li><%= cf_link_to l(mon, format: "%B"), cf_archive_month_path(current_forum, mon) %></li>
   <% end %>
 </ul>
-
-<img src="//www.browser-statistik.de/browser.png?style=0"
-     width="1" height="1" style="border: 0px;" alt="">
