@@ -392,7 +392,7 @@ module MessageHelper
   end
 
   def std_conditions(conditions, tid = false)
-    if conditions.is_a?(String)
+    if conditions.is_a?(String) || conditions.is_a?(Integer)
       conditions = if tid
                      { thread_id: conditions }
                    else
@@ -405,11 +405,14 @@ module MessageHelper
     conditions
   end
 
-  def get_thread
+  def get_thread(thread_id = nil)
     tid = false
     id  = nil
 
-    if params[:year] && params[:mon] && params[:day] && params[:tid]
+    if !thread_id.nil?
+      id = thread_id
+      tid = true
+    elsif params[:year] && params[:mon] && params[:day] && params[:tid]
       id = CfThread.make_id(params)
     else
       id = params[:id]
@@ -420,7 +423,7 @@ module MessageHelper
                .preload(:forum,
                         messages: [:editor, :tags, :thread, :versions, :cite, :open_moderation_queue_entry,
                                    { votes: :voters,
-                                     owner: %i(settings badges),
+                                     owner: %i[settings badges],
                                      message_references: { src_message: [{ thread: :forum },
                                                                          :owner, :tags, :votes] } }])
                .includes(messages: :owner)
@@ -436,12 +439,15 @@ module MessageHelper
     [thread, id]
   end
 
-  def get_thread_w_post
-    thread, id = get_thread
+  def get_thread_w_post(tid = nil, mid = nil)
+    thread, id = get_thread(tid)
 
+    mid = params[:mid] if mid.nil?
     message = nil
-    unless params[:mid].blank?
-      message = thread.find_message(params[:mid].to_i)
+
+    unless mid.blank?
+      mid = mid.to_i if mid.is_a?(String)
+      message = thread.find_message(mid)
       raise ActiveRecord::RecordNotFound if message.nil?
     end
 
