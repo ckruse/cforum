@@ -396,7 +396,7 @@ class MessagesController < ApplicationController
     if type == :thread
       show_thread_link_tags(thread, message)
       mark_message_read(thread, message)
-      notifications if check_for_deleting_notification(thread, message)
+      transient_infos if check_for_deleting_notification(thread, message)
     else
       show_message_link_tags(thread, message)
       mark_thread_read(thread)
