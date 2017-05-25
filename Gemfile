@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby File.read('.ruby-version').strip
+
 gem 'rails', '~> 5.0.0'
 gem 'rails-i18n'
 gem 'warden', '!= 1.2.5'
