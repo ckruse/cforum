@@ -1,8 +1,8 @@
 <span class="author p-author h-card">
   <% if message.user_id %>
-    <span class="registered-user"><%= cf_link_to(image_tag(message.owner.avatar(:thumb), class: "avatar#{' u-photo' if message.owner.avatar.present?}"), user_path(message.owner), title: t('messages.user_link', user: message.owner.username), class: 'user-link u-uid u-url') %> <%= cf_link_to message.author, message_path(thread, message), class: message.attribs['classes'].join(' ') %>: </span>
+    <span class="registered-user"><%= cf_link_to(image_tag(message.owner.avatar(:thumb), class: "avatar#{' u-photo' if message.owner.avatar.present?}"), user_path(message.owner), title: t('messages.user_link', user: message.owner.username), class: 'user-link u-uid u-url') %> <%= cf_link_to message.author, message_path(thread, message), class: 'p-name ' + message.attribs['classes'].join(' ') %>: </span>
   <% else %>
-    <%= cf_link_to message.author, message_path(thread, message), class: message.attribs['classes'].join(' ') %>:
+    <%= cf_link_to message.author, message_path(thread, message), class: 'p-name ' + message.attribs['classes'].join(' ') %>:
   <% end %>
 </span>
 
