@@ -41,7 +41,7 @@ class Messages::FlagController < ApplicationController
 
     if !has_error && @moderation_queue_entry.save
       audit(@message, 'flagged-' + @moderation_queue_entry.reason, nil)
-      notify_admins_and_moderators
+      NotifyModerationQueueJob.perform_later
       redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.flagged')
 
     else
@@ -53,30 +53,6 @@ class Messages::FlagController < ApplicationController
 
   def moderation_queue_params
     params.require(:moderation_queue_entry).permit(:reason, :duplicate_url, :custom_reason)
-  end
-
-  def admins_and_moderators(forum_id)
-    User.where('admin = true OR user_id IN ( ' \
-               '  SELECT user_id FROM forums_groups_permissions ' \
-               '    INNER JOIN groups_users USING(group_id) ' \
-               '    WHERE forum_id = ? AND permission = ?' \
-               ') OR user_id IN (' \
-               '  SELECT user_id FROM badges_users ' \
-               '    INNER JOIN badges USING(badge_id) ' \
-               '    WHERE badge_type = ?)',
-               forum_id, ForumGroupPermission::ACCESS_MODERATE,
-               Badge::MODERATOR_TOOLS)
-  end
-
-  def notify_admins_and_moderators
-    unread = ModerationQueueEntry.where(cleared: false).count
-    users = admins_and_moderators(@message.forum_id)
-
-    users.each do |user|
-      BroadcastUserJob.perform_later({ type: 'moderation_queue:create',
-                                       entry: @moderation_queue_entry, unread: unread },
-                                     user.user_id)
-    end
   end
 end
 
