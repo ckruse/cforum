@@ -3,10 +3,10 @@
 require 'digest/sha1'
 
 class MessagesController < ApplicationController
-  authorize_action([:show, :show_header, :versions]) { authorize_forum(permission: :read?) }
-  authorize_action([:new, :create, :edit, :update]) { authorize_forum(permission: :write?) }
-  authorize_action([:destroy, :restore]) { authorize_forum(permission: :moderator?) }
-  authorize_action([:show_retag, :retag]) { may?(Badge::RETAG) }
+  authorize_action(%i[show show_header versions]) { authorize_forum(permission: :read?) }
+  authorize_action(%i[new create edit update]) { authorize_forum(permission: :write?) }
+  authorize_action(%i[destroy restore]) { authorize_forum(permission: :moderator?) }
+  authorize_action(%i[show_retag retag]) { may?(Badge::RETAG) }
 
   include TagsHelper
   include MentionsHelper
@@ -38,7 +38,7 @@ class MessagesController < ApplicationController
     @read_mode = uconf('standard_view')
     @read_mode = cookies[:cf_readmode] if !cookies[:cf_readmode].blank? && current_user.blank?
     @read_mode = params[:rm] unless params[:rm].blank?
-    @read_mode = 'thread-view' unless %w(thread-view nested-view).include?(@read_mode)
+    @read_mode = 'thread-view' unless %w[thread-view nested-view].include?(@read_mode)
 
     @new_message = new_message(@message, uconf('quote_by_default') == 'yes' && @read_mode != 'nested-view')
     @max_tags = conf('max_tags_per_message')
@@ -73,7 +73,7 @@ class MessagesController < ApplicationController
   end
 
   def edit_message_params
-    fields = [:subject, :content, :email, :homepage, :problematic_site]
+    fields = %i[subject content email homepage problematic_site]
     fields << :author if current_user.try(:admin?)
 
     params.require(:message).permit(fields)
