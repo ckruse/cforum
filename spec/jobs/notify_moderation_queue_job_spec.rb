@@ -1,33 +1,34 @@
 require 'rails_helper'
 
-RSpec.describe NotifyFlaggedJob, type: :job do
+RSpec.describe NotifyModerationQueueJob, type: :job do
   let(:message) { create(:message) }
   let(:user) { create(:user_admin) }
+  let(:entry) do
+    ModerationQueueEntry.create!(message_id: message.message_id,
+                                 reason: 'off-topic',
+                                 reported: 1)
+  end
 
   before(:each) do
-    message.flags_will_change!
-    message.flags['flagged'] = 'off-topic'
-    message.save!
-
     Setting.create!(user_id: user.user_id, options: { 'notify_on_flagged' => 'yes' })
   end
 
   describe 'Queuing of job' do
-    subject(:job) { described_class.perform_later(message.message_id) }
+    subject(:job) { described_class.perform_later(entry.moderation_queue_entry_id) }
 
     it 'queues the job' do
-      expect { job }.to have_enqueued_job(NotifyFlaggedJob)
+      expect { job }.to have_enqueued_job(NotifyModerationQueueJob)
     end
 
     it 'queues with default priority' do
-      expect(NotifyFlaggedJob.new.queue_name).to eq('default')
+      expect(NotifyModerationQueueJob.new.queue_name).to eq('default')
     end
   end
 
   it 'notifies admins on flag' do
-    expect {
-      NotifyFlaggedJob.perform_now(message.message_id)
-    }.to change(Notification, :count).by(1)
+    expect do
+      NotifyModerationQueueJob.perform_now(entry.moderation_queue_entry_id)
+    end.to change(Notification, :count).by(1)
   end
 
   it "doesn't notify when disabled" do
@@ -35,7 +36,7 @@ RSpec.describe NotifyFlaggedJob, type: :job do
     Setting.create!(user_id: user.user_id, options: { 'notify_on_flagged' => 'no' })
 
     expect {
-      NotifyFlaggedJob.perform_now(message.message_id)
+      NotifyModerationQueueJob.perform_now(entry.moderation_queue_entry_id)
     }.to change(Notification, :count).by(0)
   end
 
@@ -47,9 +48,9 @@ RSpec.describe NotifyFlaggedJob, type: :job do
     grp.forums_groups_permissions << ForumGroupPermission.new(permission: ForumGroupPermission::ACCESS_MODERATE,
                                                               forum_id: message.forum_id)
 
-    expect {
-      NotifyFlaggedJob.perform_now(message.message_id)
-    }.to change(Notification, :count).by(1)
+    expect do
+      NotifyModerationQueueJob.perform_now(entry.moderation_queue_entry_id)
+    end.to change(Notification, :count).by(1)
   end
 
   it 'notifies users with moderator badge' do
@@ -57,18 +58,18 @@ RSpec.describe NotifyFlaggedJob, type: :job do
     usr = create(:user_moderator)
     Setting.create!(user_id: usr.user_id, options: { 'notify_on_flagged' => 'yes' })
 
-    expect {
-      NotifyFlaggedJob.perform_now(message.message_id)
-    }.to change(Notification, :count).by(1)
+    expect do
+      NotifyModerationQueueJob.perform_now(entry.moderation_queue_entry_id)
+    end.to change(Notification, :count).by(1)
   end
 
   it "doesn't notify normal users" do
     user.admin = false
     user.save!
 
-    expect {
-      NotifyFlaggedJob.perform_now(message.message_id)
-    }.to change(Notification, :count).by(0)
+    expect do
+      NotifyModerationQueueJob.perform_now(entry.moderation_queue_entry_id)
+    end.to change(Notification, :count).by(0)
   end
 
   it "doesn't notify users with moderator rights in different forum" do
@@ -81,8 +82,8 @@ RSpec.describe NotifyFlaggedJob, type: :job do
     grp.forums_groups_permissions << ForumGroupPermission.new(permission: ForumGroupPermission::ACCESS_MODERATE,
                                                               forum_id: f.forum_id)
 
-    expect {
-      NotifyFlaggedJob.perform_now(message.message_id)
-    }.to change(Notification, :count).by(0)
+    expect do
+      NotifyModerationQueueJob.perform_now(entry.moderation_queue_entry_id)
+    end.to change(Notification, :count).by(0)
   end
 end
