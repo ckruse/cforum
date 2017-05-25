@@ -8,7 +8,7 @@ de:
     resolute: Klären
     clear_case: "Fall #%{no} klären"
     successfully_cleared_case: Der Fall wurde erfolgreich geklärt.
-    case_has_been_cleared: Der Fall wurde mit der Aktion „%{action}“ geklärt.
+    case_has_been_cleared: Der Fall wurde am %{date_time} von %{closer} mit der Aktion „%{action}“ geklärt.
 
     actions:
       close: Nachricht schließen

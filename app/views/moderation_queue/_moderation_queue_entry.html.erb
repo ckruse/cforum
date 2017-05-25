@@ -9,7 +9,10 @@
   </p>
 
   <% if entry.cleared %>
-    <p><%= t('moderation_queue.case_has_been_cleared', action: entry.l_resolution_action) %></p>
+    <p><%= t('moderation_queue.case_has_been_cleared',
+             date_time: l(entry.updated_at),
+             closer: entry.closer_name,
+             action: entry.l_resolution_action) %></p>
 
     <%= entry.to_html(@app_controller) %>
   <% end %>
