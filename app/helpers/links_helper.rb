@@ -2,7 +2,7 @@
 
 module LinksHelper
   def url_whitelisted?(url)
-    return true unless url =~ /^https?:\/\//
+    return true unless url =~ %r{^https?://}
     list = conf('links_white_list').to_s.split(/\015\012|\015|\012/)
 
     list.each do |l|
