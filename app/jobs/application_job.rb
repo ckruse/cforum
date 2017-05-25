@@ -3,6 +3,8 @@
 require Rails.root + 'lib/script_helpers.rb'
 
 class ApplicationJob < ActiveJob::Base
+  include Rails.application.routes.url_helpers
+
   include CForum::Tools
   include SortingHelper
   include ScriptHelpers
@@ -31,6 +33,10 @@ class ApplicationJob < ActiveJob::Base
                '    WHERE badge_type = ?)',
                forum_id, ForumGroupPermission::ACCESS_MODERATE,
                Badge::MODERATOR_TOOLS)
+  end
+
+  def default_url_options
+    Rails.application.config.action_mailer.default_url_options
   end
 end
 
