@@ -1,10 +1,10 @@
 <dl>
   <dt><%= Attendee.human_attribute_name(:name) %></dt>
-  <dd>
+  <dd class="p-attendee h-card">
     <% unless attendee.user_id.blank? %>
       <span class="registered-user">
         <%= cf_link_to("<span class=\"visually-hidden\">#{t('messages.link_to_profile_of')} </span>".html_safe +
-                       image_tag(attendee.user.avatar(:thumb), class: 'avatar',
+                       image_tag(attendee.user.avatar(:thumb), class: "avatar#{' u-photo' if attendee.user.avatar.present?}",
                                  alt: t('messages.user_link', user: attendee.user.username)),
                        user_path(attendee.user),
                        title: t('messages.user_link',
@@ -12,23 +12,51 @@
                        class: 'user-link') %>
       </span>
     <% end %>
-    <%= cf_link_to_unless attendee.user_id.blank?, attendee.name, attendee.user %>
+    <%=
+      cf_link_to_unless attendee.user_id.blank?, attendee.name, attendee.user, class: 'p-name u-uid u-url' do
+        content_tag :span, attendee.name, class: 'p-name'
+      end
+    %>
   </dd>
 
   <dt><%= Attendee.human_attribute_name(:starts_at) %></dt>
-  <dd><%= attendee.starts_at.blank? ? ('<em>' + t('global.unset') + "</em>").html_safe : attendee.starts_at %></dd>
+  <dd><%= attendee.starts_at.blank? ? ('<em>' + t('global.unset') + '</em>').html_safe : attendee.starts_at %></dd>
 
   <dt><%= Attendee.human_attribute_name(:planned_start) %></dt>
-  <dd><%= attendee.planned_start ? l(attendee.planned_start, format: date_format) : ('<em>' + t('global.unset') + "</em>").html_safe %></dd>
+  <dd>
+    <%=
+      if attendee.planned_start.present?
+        time_tag attendee.planned_start, l(attendee.planned_start, format: date_format)
+      else
+        ('<em>' + t('global.unset') + '</em>').html_safe
+      end
+    %>
+  </dd>
 
   <dt><%= Attendee.human_attribute_name(:planned_arrival) %></dt>
-  <dd><%= attendee.planned_arrival ? l(attendee.planned_arrival, format: date_format) : ('<em>' + t('global.unset') + "</em>").html_safe %></dd>
+  <dd>
+    <%=
+      if attendee.planned_arrival.present?
+        time_tag attendee.planned_arrival, l(attendee.planned_arrival, format: date_format)
+      else
+        ('<em>' + t('global.unset') + '</em>').html_safe
+      end
+    %>
+  </dd>
 
   <dt><%= Attendee.human_attribute_name(:planned_leave) %></dt>
-  <dd><%= attendee.planned_leave ? l(attendee.planned_leave, format: date_format) : ('<em>' + t('global.unset') + "</em>").html_safe %></dd>
+  <dd>
+    <%=
+      if attendee.planned_leave.present?
+        time_tag attendee.planned_leave, l(attendee.planned_leave, format: date_format)
+      else
+        ('<em>' + t('global.unset') + '</em>').html_safe
+      end
+    %>
+  </dd>
 
   <dt><%= Attendee.human_attribute_name(:seats) %></dt>
-  <dd><%= attendee.seats.blank? ? ('<em>' + t('global.unset') + "</em>").html_safe : attendee.seats %></dd>
+  <dd><%= attendee.seats.blank? ? ('<em>' + t('global.unset') + '</em>').html_safe : attendee.seats %></dd>
 </dl>
 
 <p><%= attendee.comment %></p>

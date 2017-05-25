@@ -50,6 +50,8 @@ module MessageHelper
                   'open-vote-active')
     end
 
+    classes << 'h-entry' if opts[:tree]
+
     html = '<header'
     html << ' class="' << classes.join(' ') << '"' unless classes.blank?
     if opts[:id]
@@ -182,14 +184,14 @@ module MessageHelper
           html << '</span>'
         end
 
-        html << ' <h2>' << cf_link_to(message.subject, message_path(thread, message)) << '</h2>'
+        html << ' <h2 class="p-name">' << cf_link_to(message.subject, message_path(thread, message), class: 'u-uid u-url') << '</h2>'
       else
         if thread.thread_id && message.message_id
           if (opts[:hide_repeating_subjects] && message.subject_changed?) || !(opts[:hide_repeating_subjects])
-            html << '  <h3>' << cf_link_to(message.subject, message_path(thread, message)) << '</h3>'
+            html << '  <h3 class="p-name">' << cf_link_to(message.subject, message_path(thread, message), class: 'u-uid u-url') << '</h3>'
           end
         else
-          html << '  <h3>' << message.subject << '</h3>'
+          html << '  <h3 class="p-name">' << message.subject << '</h3>'
         end
       end
     end
@@ -199,7 +201,7 @@ module MessageHelper
       '
 
     html << ' ' << '
-      <span class="author">'
+      <span class="author p-author h-card">'
 
     if message.user_id
       html << '<span class="registered-user'
@@ -207,7 +209,7 @@ module MessageHelper
         html << ' original-poster'
       end
       html << '">' << cf_link_to("<span class=\"visually-hidden\">#{t('messages.link_to_profile_of')} </span>".html_safe +
-                                  image_tag(message.owner.avatar(:thumb), class: 'avatar',
+                                  image_tag(message.owner.avatar(:thumb), class: "avatar#{' u-photo' if message.owner.avatar.present?}",
                                                                           alt: t('messages.user_link', user: message.owner.username)),
                                  user_path(message.owner),
                                  title: t('messages.user_link',
@@ -222,22 +224,22 @@ module MessageHelper
     html << if opts[:author_link_to_message]
               cf_link_to(message.author, message_path(thread, message), 'aria-hidden' => 'true')
             elsif message.user_id
-              cf_link_to(message.author, user_path(message.user_id))
+              cf_link_to(message.author, user_path(message.user_id), class: 'p-name u-uid u-url')
             else
-              message.author.to_s
+              content_tag(:span, message.author.to_s, class: 'p-name')
             end
 
     html << '</span>' if message.user_id
 
     if !(opts[:tree]) && !thread.archived? && (!message.email.blank? || !message.homepage.blank?)
       html << ' <span class="author-infos">'
-      html << ' ' << cf_link_to('', 'mailto:' + message.email, class: 'author-email') unless message.email.blank?
+      html << ' ' << cf_link_to('', 'mailto:' + message.email, class: 'author-email u-email') unless message.email.blank?
 
       unless message.homepage.blank?
         if !message.user_id.blank? && message.owner.has_badge?('seo_profi') && (message.owner.conf('norelnofollow') == 'yes')
-          html << ' ' << cf_link_to('', message.homepage, class: 'author-homepage', rel: nil)
+          html << ' ' << cf_link_to('', message.homepage, class: 'author-homepage u-url', rel: nil)
         else
-          html << ' ' << cf_link_to('', message.homepage, class: 'author-homepage')
+          html << ' ' << cf_link_to('', message.homepage, class: 'author-homepage u-url')
         end
       end
       html << '</span>'
@@ -260,17 +262,11 @@ module MessageHelper
                 date_format('date_format_post')
               end
 
-    text = '<time datetime="' << message.created_at.strftime('%FT%T%:z') << '">' <<
-           encode_entities(l(message.created_at, format: dformat)) <<
-           '</time>'
+    text = time_tag(message.created_at, l(message.created_at, format: dformat), class: 'dt-published')
 
-    html << if thread.thread_id && message.message_id
-              cf_link_to(message_path(thread, message)) do
-                text.html_safe
-              end
-            else
-              text.html_safe
-            end
+    html << cf_link_to_if(thread.thread_id && message.message_id, text, message_path(thread, message)) do
+      text
+    end
 
     if opts[:show_editor] && !message.edit_author.blank? && !message.versions.blank?
       html << ' <span class="versions">(' << cf_link_to(t('messages.versions'),
@@ -286,8 +282,8 @@ module MessageHelper
 
     <ul class="cf-tags-list">'
 
-      for t in message.tags
-        html << '<li class="cf-tag">' << cf_link_to(t.tag_name, tag_path(thread.forum.slug, t)) << '</li>'
+      message.tags.each do |t|
+        html << '<li class="cf-tag p-category">' << cf_link_to(t.tag_name, tag_path(thread.forum.slug, t)) << '</li>'
       end
 
       html << '</ul>'
