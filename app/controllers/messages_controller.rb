@@ -21,6 +21,7 @@ class MessagesController < ApplicationController
   include NotifyHelper
   include SubscriptionsHelper
   include NewMessageHelper
+  include TransientInfosHelper
 
   def show
     @thread, @message, @id = get_thread_w_post
