@@ -44,6 +44,7 @@ group :development, :test do
   gem 'poltergeist'
   gem 'puma'
   gem 'rspec-rails'
+  gem 'rubocop', require: false
   gem 'spring-commands-rspec'
   gem 'terminal-notifier-guard'
 end
