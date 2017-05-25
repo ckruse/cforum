@@ -188,8 +188,9 @@ de:
       moderation_queue_entry:
         reason: Meldegrund
         message_id: Beitrag
-        resolution: Lösung
+        resolution: Beschreibung
         duplicate_url: Duplikats-URL
         custom_reason: sonstiger Grund
         closer_id: Moderator
+        resolution_action: Lösung
 

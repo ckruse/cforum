@@ -14,8 +14,9 @@ CREATE TABLE moderation_queue (
   custom_reason CHARACTER VARYING,
 
   resolution TEXT,
+  resolution_action CHARACTER VARYING(250),
 
-  closer_name CHARACTER VARYING,
+  closer_name CHARACTER VARYING(255),
   closer_id INT REFERENCES users(user_id) ON DELETE SET NULL ON UPDATE CASCADE,
 
   created_at TIMESTAMP WITHOUT TIME ZONE,

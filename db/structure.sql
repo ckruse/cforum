@@ -1500,7 +1500,8 @@ CREATE TABLE moderation_queue (
     duplicate_url character varying,
     custom_reason character varying,
     resolution text,
-    closer_name character varying,
+    resolution_action character varying(250),
+    closer_name character varying(255),
     closer_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
