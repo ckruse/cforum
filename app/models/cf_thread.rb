@@ -45,7 +45,7 @@ class CfThread < ApplicationRecord
   attr_writer :message
 
   def message
-    @message = sorted_messages[0] if @message.blank?
+    @message = sorted_messages[0] if @message.blank? && !sorted_messages.blank?
     @message
   end
 
