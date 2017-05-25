@@ -8,6 +8,7 @@ content_for :h1, t('images.images')
     <tr>
       <th> </th>
       <th><%= sortable Medium.human_attribute_name(:orig_name), :orig_name, :images_path %></th>
+      <th><%= sortable Medium.human_attribute_name(:owner_id), :owner_id, :images_path %></th>
       <th><%= sortable Medium.human_attribute_name(:created_at), :created_at, :images_path %></th>
       <th> </th>
     </tr>
@@ -18,6 +19,7 @@ content_for :h1, t('images.images')
       <tr>
         <td class="thumb"><%= image_tag image_path(m, size: :thumb) %></td>
         <td><%= m.orig_name %></td>
+        <td><%= cf_link_to_if m.owner.present?, m.owner.try(:username), m.owner %></td>
         <td><%= l(m.created_at, format: date_format) %></td>
         <td>
           <%= cf_link_to '', image_path(m), method: :delete, 'data-cf-confirm' => t('global.are_you_sure'), class: 'icon-image delete', title: t('images.delete') %>
