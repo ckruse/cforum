@@ -127,6 +127,7 @@ de:
 
       medium:
         orig_name: Name
+        owner_id: Besitzer
         created_at: erstellt
 
       search_section:
