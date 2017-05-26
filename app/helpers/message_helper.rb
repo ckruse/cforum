@@ -222,7 +222,7 @@ module MessageHelper
     end
 
     html << if opts[:author_link_to_message]
-              cf_link_to(message.author, message_path(thread, message), 'aria-hidden' => 'true', class: 'p-name u-uid u-url')
+              cf_link_to(message.author, message_path(thread, message), 'aria-hidden' => 'true', class: 'p-name')
             elsif message.user_id
               cf_link_to(message.author, user_path(message.user_id), class: 'p-name u-uid u-url')
             else
