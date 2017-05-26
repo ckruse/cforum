@@ -16,6 +16,36 @@ RSpec.describe ModerationQueueController, type: :controller do
       get :index
       expect(assigns(:moderation_queue_entries)).to eq(mqes)
     end
+
+    it 'assigns only the entries of the specific forum for moderators' do
+      mqe1 = create(:mod_queue_entry_cleared)
+      create(:mod_queue_entry_cleared)
+
+      group = Group.create!(name: 'Foo')
+      group.users << admin
+      group.forums_groups_permissions
+        .create!(permission: ForumGroupPermission::ACCESS_MODERATE,
+                 forum: mqe1.message.forum)
+
+      admin.admin = false
+      admin.save!
+
+      get :index
+      expect(assigns(:moderation_queue_entries)).to eq([mqe1])
+    end
+
+    it 'assigns all entries for users with moderator badge' do
+      sign_out admin
+
+      mqe1 = create(:mod_queue_entry_cleared)
+      mqe2 = create(:mod_queue_entry_cleared)
+
+      mod = create(:user_moderator)
+      sign_in mod
+
+      get :index
+      expect(assigns(:moderation_queue_entries)).to eq([mqe2, mqe1])
+    end
   end
 
   describe 'GET #edit' do
