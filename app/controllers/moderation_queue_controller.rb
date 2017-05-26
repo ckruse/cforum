@@ -13,7 +13,7 @@ class ModerationQueueController < ApplicationController
                                   .page(params[:page])
                                   .per(@limit)
 
-    unless current_user.moderate?
+    if !current_user.admin? && !current_user.has_badge?(Badge::MODERATOR_TOOLS)
       forums_w_access = ForumGroupPermission
                           .select(:forum_id)
                           .where('group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) ' \
