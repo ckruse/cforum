@@ -17,7 +17,7 @@ class ModerationQueueController < ApplicationController
       forums_w_access = ForumGroupPermission
                           .select(:forum_id)
                           .where('group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) ' \
-                                 'AND permission = ?', user_id, ForumGroupPermission::ACCESS_MODERATE)
+                                 'AND permission = ?', current_user.user_id, ForumGroupPermission::ACCESS_MODERATE)
 
       @moderation_queue_entries = @moderation_queue_entries
                                     .joins(:message)
