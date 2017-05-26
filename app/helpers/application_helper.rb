@@ -4,44 +4,18 @@ module ApplicationHelper
   include CForum::Tools
 
   def current_forum
-    if !params[:curr_forum].blank? && (params[:curr_forum] != 'all')
-      @_current_forum = Forum.find_by_slug(params[:curr_forum]) if !@_current_forum || @_current_forum.slug != params[:curr_forum]
-      raise ActiveRecord::RecordNotFound unless @_current_forum
-      return @_current_forum
+    return if params[:curr_forum] == 'all' || params[:curr_forum].blank?
+
+    if @_current_forum.try(:slug) != params[:curr_forum]
+      @_current_forum = Forum.find_by_slug!(params[:curr_forum])
     end
 
-    @_current_forum = nil
+    @_current_forum
   end
 
   def date_format(type = 'date_format_default')
     val = uconf(type)
     val.blank? ? '%d.%m.%Y %H:%M' : val
-  end
-
-  def human_val(val)
-    case val
-    when 'yes'
-      t('global.yeah')
-    when 'no'
-      t('global.nope')
-    when 'close', 'hide'
-      t('admin.forums.settings.' + val + '_subtree')
-    when 'thread-view', 'nested-view'
-      t('users.' + val)
-    else
-      val
-    end
-  end
-
-  def conf_val_or_default(name)
-    @forum ? conf(name) : ConfigManager::DEFAULTS[name]
-  end
-
-  def is_global_conf(name)
-    return false if @forum.blank?
-    @global_settings ||= Setting.where('user_id IS NULL and forum_id IS NULL').first
-    return false if @global_settings.blank?
-    @global_settings.options.key?(name)
   end
 
   def user_to_class_name(user)
@@ -69,7 +43,11 @@ module ApplicationHelper
     return I18n.translate('relative_time.minutes', count: diff_in_minutes) if diff_in_minutes < 60
     return I18n.translate('relative_time.hours', count: (diff_in_minutes / 60.0).round) if diff_in_minutes < 1440
     return I18n.translate('relative_time.days', count: (diff_in_minutes / 1440.0).round) if diff_in_minutes < 43_200
-    return I18n.translate('relative_time.months', count: (diff_in_minutes / 43_200.0).round) if diff_in_minutes < 518_400
+
+    if diff_in_minutes < 518_400
+      return I18n.translate('relative_time.months', count: (diff_in_minutes / 43_200.0).round)
+    end
+
     I18n.translate('relative_time.years', count: (diff_in_minutes / 518_400.0).round)
   end
 
@@ -85,13 +63,6 @@ module ApplicationHelper
 
   def view_all
     @view_all ||= false
-  end
-end
-
-require 'pp'
-class Object
-  def pp_inspect
-    PP.pp(self, '')
   end
 end
 

@@ -208,7 +208,7 @@ RSpec.describe Forum, type: :model do
       group = Group.create!(name: 'foo')
       group.users << user
       group.forums_groups_permissions.create!(forum_id: forums.first.forum_id,
-                                              permission: ForumGroupPermission::ACCESS_WRITE)
+                                              permission: ForumGroupPermission::WRITE)
 
       ret_forums = Forum.where('forum_id IN (' + Forum.visible_sql(user) + ')').order(:forum_id)
       expect(ret_forums.to_a).to eq([forums.first])

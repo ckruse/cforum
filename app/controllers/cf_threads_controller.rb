@@ -150,7 +150,7 @@ class CfThreadsController < ApplicationController
                             '  (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) ' \
                             '   WHERE user_id = ? AND permission = ?)',
                             current_user.user_id,
-                            ForumGroupPermission::ACCESS_MODERATE)
+                            ForumGroupPermission::MODERATE)
     end
   end
 

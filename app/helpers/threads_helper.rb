@@ -47,11 +47,11 @@ module ThreadsHelper
         crits = []
         crits << 'threads.forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ' + user.user_id.to_s + ')' if user
         crits << "threads.forum_id IN (SELECT forum_id FROM forums WHERE standard_permission IN ('" +
-                 ForumGroupPermission::ACCESS_READ + "','" +
-                 ForumGroupPermission::ACCESS_WRITE +
+                 ForumGroupPermission::READ + "','" +
+                 ForumGroupPermission::WRITE +
                  (user ? ("', '" +
-                          ForumGroupPermission::ACCESS_KNOWN_WRITE + "','" +
-                          ForumGroupPermission::ACCESS_KNOWN_READ) : ''
+                          ForumGroupPermission::KNOWN_WRITE + "','" +
+                          ForumGroupPermission::KNOWN_READ) : ''
                  ) +
                  "'))"
 

@@ -1,17 +1,14 @@
 # -*- encoding: utf-8 -*-
 
 class ForumGroupPermission < ApplicationRecord
-  ACCESS_MODERATE = 'moderate'.freeze
-  ACCESS_WRITE    = 'write'.freeze
-  ACCESS_READ     = 'read'.freeze
+  MODERATE = 'moderate'.freeze
+  WRITE    = 'write'.freeze
+  READ     = 'read'.freeze
 
-  ACCESS_KNOWN_WRITE = 'known-write'.freeze
-  ACCESS_KNOWN_READ  = 'known-read'.freeze
+  KNOWN_WRITE = 'known-write'.freeze
+  KNOWN_READ  = 'known-read'.freeze
 
-  PERMISSIONS = [
-    ACCESS_MODERATE, ACCESS_WRITE, ACCESS_READ,
-    ACCESS_KNOWN_WRITE, ACCESS_KNOWN_READ
-  ].freeze
+  PERMISSIONS = [MODERATE, WRITE, READ, KNOWN_WRITE, KNOWN_READ].freeze
 
   self.primary_key = 'forum_group_permission_id'
   self.table_name  = 'forums_groups_permissions'

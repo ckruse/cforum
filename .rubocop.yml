@@ -4,6 +4,8 @@ Metrics/LineLength:
   Max: 120
 Style/AsciiComments:
   Enabled: no
+Style/Documentation:
+  Enabled: no
 
 Metrics/ModuleLength:
   Exclude:

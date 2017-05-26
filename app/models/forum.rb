@@ -25,41 +25,46 @@ class Forum < ApplicationRecord
     return true if user.has_badge?(Badge::MODERATOR_TOOLS)
 
     permissions = ForumGroupPermission
-                    .where('group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?', user.user_id, forum_id)
+                    .where('group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?',
+                           user.user_id, forum_id)
 
     permissions.each do |p|
-      return true if p.permission == ForumGroupPermission::ACCESS_MODERATE
+      return true if p.permission == ForumGroupPermission::MODERATE
     end
 
     false
   end
 
   def write?(user)
-    return true if standard_permission == ForumGroupPermission::ACCESS_WRITE
+    return true if standard_permission == ForumGroupPermission::WRITE
     return false if user.blank?
-    return true if standard_permission == ForumGroupPermission::ACCESS_KNOWN_WRITE
+    return true if standard_permission == ForumGroupPermission::KNOWN_WRITE
     return true if user.admin?
     return true if user.has_badge?(Badge::MODERATOR_TOOLS)
 
     permissions = ForumGroupPermission
-                    .where('group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?', user.user_id, forum_id)
+                    .where('group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?',
+                           user.user_id, forum_id)
 
     permissions.each do |p|
-      return true if (p.permission == ForumGroupPermission::ACCESS_MODERATE) || (p.permission == ForumGroupPermission::ACCESS_WRITE)
+      if (p.permission == ForumGroupPermission::MODERATE) || (p.permission == ForumGroupPermission::WRITE)
+        return true
+      end
     end
 
     false
   end
 
   def read?(user)
-    return true if (standard_permission == ForumGroupPermission::ACCESS_READ) || (standard_permission == ForumGroupPermission::ACCESS_WRITE)
+    return true if standard_permission.in?([ForumGroupPermission::READ, ForumGroupPermission::WRITE])
     return false if user.blank?
-    return true if (standard_permission == ForumGroupPermission::ACCESS_KNOWN_READ) || (standard_permission == ForumGroupPermission::ACCESS_KNOWN_WRITE)
+    return true if standard_permission.in?([ForumGroupPermission::KNOWN_READ, ForumGroupPermission::KNOWN_WRITE])
     return true if user.admin?
     return true if user.has_badge?(Badge::MODERATOR_TOOLS)
 
     permissions = ForumGroupPermission
-                    .where('group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?', user.user_id, forum_id)
+                    .where('group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?',
+                           user.user_id, forum_id)
 
     return true unless permissions.blank?
     false
@@ -68,14 +73,13 @@ class Forum < ApplicationRecord
   # default_scope where('public = true')
 
   def self.visible_sql(user = nil)
-    sql = ''
     perm_list = (ForumGroupPermission::PERMISSIONS.map { |p| "'" + p + "'" }).join(', ')
 
     if user
-      sql = if user.admin?
-              'SELECT forum_id FROM forums'
-            else
-              "
+      if user.admin?
+        'SELECT forum_id FROM forums'
+      else
+        "
               SELECT
                   DISTINCT forums.forum_id
                 FROM
@@ -93,12 +97,11 @@ class Forum < ApplicationRecord
                         user_id = #{user.user_id}
                     )
               "
-            end
+      end
     else
-      sql = "SELECT forum_id FROM forums WHERE standard_permission = 'read' OR standard_permission = 'write' or standard_permission = 'moderate'"
+      "SELECT forum_id FROM forums WHERE standard_permission = 'read' OR " \
+      " standard_permission = 'write' or standard_permission = 'moderate'"
     end
-
-    sql
   end
 end
 

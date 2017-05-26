@@ -40,7 +40,7 @@ RSpec.describe NotifyOpenCloseVoteJob, type: :job do
     user.save!
     grp = Group.create!(name: 'foo')
     grp.users << user
-    grp.forums_groups_permissions << ForumGroupPermission.new(permission: ForumGroupPermission::ACCESS_MODERATE,
+    grp.forums_groups_permissions << ForumGroupPermission.new(permission: ForumGroupPermission::MODERATE,
                                                               forum_id: message.forum_id)
 
     expect {
@@ -74,7 +74,7 @@ RSpec.describe NotifyOpenCloseVoteJob, type: :job do
     f = create(:forum)
     grp = Group.create!(name: 'foo')
     grp.users << user
-    grp.forums_groups_permissions << ForumGroupPermission.new(permission: ForumGroupPermission::ACCESS_MODERATE,
+    grp.forums_groups_permissions << ForumGroupPermission.new(permission: ForumGroupPermission::MODERATE,
                                                               forum_id: f.forum_id)
 
     expect {

@@ -24,7 +24,7 @@ RSpec.describe ModerationQueueController, type: :controller do
       group = Group.create!(name: 'Foo')
       group.users << admin
       group.forums_groups_permissions
-        .create!(permission: ForumGroupPermission::ACCESS_MODERATE,
+        .create!(permission: ForumGroupPermission::MODERATE,
                  forum: mqe1.message.forum)
 
       admin.admin = false

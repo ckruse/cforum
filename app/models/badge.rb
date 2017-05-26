@@ -32,10 +32,10 @@ class Badge < ApplicationRecord
   validates :score_needed, numericality: { only_integer: true },
                            allow_blank: true
   validates :badge_type, presence: true, allow_blank: false,
-                         inclusion: { in: %w(custom) + RIGHTS }
+                         inclusion: { in: %w[custom] + RIGHTS }
   validates :badge_type, uniqueness: true, unless: "badge_type == 'custom'"
   validates :badge_medal_type, presence: true, allow_blank: false,
-                               inclusion: { in: %w(bronze silver gold) }
+                               inclusion: { in: %w[bronze silver gold] }
 
   validates :slug, presence: true, allow_blank: false
 
@@ -58,7 +58,7 @@ class Badge < ApplicationRecord
       unique_users[ub.user_id][:times] += 1
     end
 
-    unique_users.values.sort { |a, b| a[:created_at] <=> b[:created_at] }
+    unique_users.values.sort_by { |a| a[:created_at] }
   end
 end
 

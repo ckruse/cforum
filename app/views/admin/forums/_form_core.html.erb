@@ -33,10 +33,10 @@
     <div class="cntrls">
       <%= f.select :standard_permission, [
         [t('admin.forums.no_access'), 'private'],
-        [t('admin.forums.read'), ForumGroupPermission::ACCESS_READ],
-        [t('admin.forums.write'), ForumGroupPermission::ACCESS_WRITE],
-        [t('admin.forums.read_after_login'), ForumGroupPermission::ACCESS_KNOWN_READ],
-        [t('admin.forums.write_after_login'), ForumGroupPermission::ACCESS_KNOWN_WRITE]
+        [t('admin.forums.read'), ForumGroupPermission::READ],
+        [t('admin.forums.write'), ForumGroupPermission::WRITE],
+        [t('admin.forums.read_after_login'), ForumGroupPermission::KNOWN_READ],
+        [t('admin.forums.write_after_login'), ForumGroupPermission::KNOWN_WRITE]
       ] %>
     </div>
   </div>

@@ -118,7 +118,7 @@ RSpec.describe User, type: :model do
                             slug: 'aldebaran')
       group = Group.create!(name: 'Rebellion')
       group.users << user
-      group.forums_groups_permissions << ForumGroupPermission.new(permission: ForumGroupPermission::ACCESS_MODERATE,
+      group.forums_groups_permissions << ForumGroupPermission.new(permission: ForumGroupPermission::MODERATE,
                                                                   forum: forum)
 
       expect(group).to be_valid

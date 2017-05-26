@@ -31,7 +31,7 @@ class ApplicationJob < ActiveJob::Base
                '  SELECT user_id FROM badges_users ' \
                '    INNER JOIN badges USING(badge_id) ' \
                '    WHERE badge_type = ?)',
-               forum_id, ForumGroupPermission::ACCESS_MODERATE,
+               forum_id, ForumGroupPermission::MODERATE,
                Badge::MODERATOR_TOOLS)
   end
 

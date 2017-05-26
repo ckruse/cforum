@@ -78,7 +78,7 @@ class User < ApplicationRecord
                                               'AND forum_id = ?', user_id, forum.forum_id)
 
     @permissions[forum.forum_id].each do |p|
-      return true if p.permission == ForumGroupPermission::ACCESS_MODERATE
+      return true if p.permission == ForumGroupPermission::MODERATE
     end
 
     false
@@ -90,12 +90,12 @@ class User < ApplicationRecord
 
     @is_moderator ||=
       ForumGroupPermission.exists?(['group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) ' \
-                                    'AND permission = ?', user_id, ForumGroupPermission::ACCESS_MODERATE])
+                                    'AND permission = ?', user_id, ForumGroupPermission::MODERATE])
   end
 
   def write?(forum)
-    return true if forum.standard_permission == ForumGroupPermission::ACCESS_WRITE
-    return true if forum.standard_permission == ForumGroupPermission::ACCESS_KNOWN_WRITE
+    return true if forum.standard_permission == ForumGroupPermission::WRITE
+    return true if forum.standard_permission == ForumGroupPermission::KNOWN_WRITE
     return true if admin?
     return true if has_badge?(Badge::MODERATOR_TOOLS)
 
@@ -105,19 +105,19 @@ class User < ApplicationRecord
                                               'AND forum_id = ?', user_id, forum.forum_id)
 
     @permissions[forum.forum_id].each do |p|
-      return true if (p.permission == ForumGroupPermission::ACCESS_MODERATE) ||
-                     (p.permission == ForumGroupPermission::ACCESS_WRITE)
+      return true if (p.permission == ForumGroupPermission::MODERATE) ||
+                     (p.permission == ForumGroupPermission::WRITE)
     end
 
     false
   end
 
   def read?(forum)
-    return true if (forum.standard_permission == ForumGroupPermission::ACCESS_READ) ||
-                   (forum.standard_permission == ForumGroupPermission::ACCESS_WRITE)
+    return true if (forum.standard_permission == ForumGroupPermission::READ) ||
+                   (forum.standard_permission == ForumGroupPermission::WRITE)
 
-    return true if (forum.standard_permission == ForumGroupPermission::ACCESS_KNOWN_READ) ||
-                   (forum.standard_permission == ForumGroupPermission::ACCESS_KNOWN_WRITE)
+    return true if (forum.standard_permission == ForumGroupPermission::KNOWN_READ) ||
+                   (forum.standard_permission == ForumGroupPermission::KNOWN_WRITE)
 
     return true if admin?
     return true if has_badge?(Badge::MODERATOR_TOOLS)
@@ -128,9 +128,9 @@ class User < ApplicationRecord
                                               'AND forum_id = ?', user_id, forum.forum_id)
 
     @permissions[forum.forum_id].each do |p|
-      return true if (p.permission == ForumGroupPermission::ACCESS_MODERATE) ||
-                     (p.permission == ForumGroupPermission::ACCESS_WRITE) ||
-                     (p.permission == ForumGroupPermission::ACCESS_READ)
+      return true if (p.permission == ForumGroupPermission::MODERATE) ||
+                     (p.permission == ForumGroupPermission::WRITE) ||
+                     (p.permission == ForumGroupPermission::READ)
     end
 
     false

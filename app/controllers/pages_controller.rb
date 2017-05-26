@@ -8,7 +8,7 @@ class PagesController < ApplicationController
                            '    (SELECT group_id FROM forums_groups_permissions WHERE permission = ?)) OR' \
                            '  user_id IN (SELECT user_id FROM badges_users INNER JOIN badges USING(badge_id)' \
                            '              WHERE badge_type = ?)',
-                           ForumGroupPermission::ACCESS_MODERATE, Badge::MODERATOR_TOOLS)
+                           ForumGroupPermission::MODERATE, Badge::MODERATOR_TOOLS)
                     .order(:username)
 
     @badge_groups = BadgeGroup

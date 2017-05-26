@@ -10,23 +10,23 @@ FactoryGirl.define do
   end
 
   factory :read_forum, parent: :forum do
-    standard_permission ForumGroupPermission::ACCESS_READ
+    standard_permission ForumGroupPermission::READ
   end
 
   factory :known_read_forum, parent: :forum do
-    standard_permission ForumGroupPermission::ACCESS_KNOWN_READ
+    standard_permission ForumGroupPermission::KNOWN_READ
   end
 
   factory :write_forum, parent: :forum do
-    standard_permission ForumGroupPermission::ACCESS_WRITE
+    standard_permission ForumGroupPermission::WRITE
   end
 
   factory :known_write_forum, parent: :forum do
-    standard_permission ForumGroupPermission::ACCESS_KNOWN_WRITE
+    standard_permission ForumGroupPermission::KNOWN_WRITE
   end
 
   factory :moderate_forum, parent: :forum do
-    standard_permission ForumGroupPermission::ACCESS_MODERATE
+    standard_permission ForumGroupPermission::MODERATE
   end
 end
 

@@ -349,7 +349,7 @@ end
         <li>Seit 1995 — <%= cf_link_to "Die Energie des Verstehens", "//selfhtml.org/" %></li>
         <li><%= cf_link_to "Impressum", "//selfhtml.org/impressum.html" %></li>
         <li><%= cf_link_to "Datenschutz", "//selfhtml.org/impressum.html#datenschutz" %></li>
-        <li>Software: <%= cf_link_to "Classic Forum " + $CF_VERSION, "https://github.com/ckruse/cforum" %></li>
+        <li>Software: <%= cf_link_to "Classic Forum " + ApplicationController::VERSION, "https://github.com/ckruse/cforum" %></li>
       </ul>
 
       <p class="termitel-sponsor"><%= cf_link_to "https://termitel.de/" do %><%= image_tag 'termitel-customer-care-and-sales.png', alt: "Termitel - Customer Care & Sales" %><% end %></p>
