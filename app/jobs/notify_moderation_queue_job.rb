@@ -25,12 +25,12 @@ class NotifyModerationQueueJob < ApplicationJob
       ActionCable
         .server
         .broadcast("users/#{u.user_id}",
-                   type: 'moderation_queue:create',
+                   type: 'moderation_queue_entry:create',
                    entry: mod_queue_entry, unread: unread)
 
       next unless uconf('notify_on_flagged', u, mod_queue_entry.message.forum) != 'no'
       notify_user(u, nil, subject, edit_moderation_queue_url(mod_queue_entry),
-                  mod_queue_entry.moderation_queue_entry_id, 'message:flagged', nil, desc)
+                  mod_queue_entry.moderation_queue_entry_id, 'moderation_queue_entry:created', nil, desc)
 
       next if uconf('notify_on_flagged', u, mod_queue_entry.message.forum) != 'email'
 

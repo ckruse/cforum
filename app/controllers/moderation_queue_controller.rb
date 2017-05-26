@@ -37,6 +37,12 @@ class ModerationQueueController < ApplicationController
 
     raise Cforum::NotAllowedException unless current_user.moderate?(@moderation_queue_entry.message.forum)
 
+    Notification
+      .where(recipient_id: current_user.user_id,
+             otype: 'moderation_queue_entry:created',
+             oid: @moderation_queue_entry.moderation_queue_entry_id)
+      .delete_all
+
     respond_to do |format|
       format.html
     end
