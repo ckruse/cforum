@@ -135,45 +135,37 @@ blockquote { margin: 1em 0; }
   }
 
   .top.flex-item {
-    order: 1;
     flex:1 100%;
     margin:0;
   }
   .personallinks.flex-item {
     flex:1 100%;
-    order:2;
   }
 
   .page-header.flex-item {
-    order: 3;
     flex:1 100%;
   }
 
   aside.flex-item {
     flex:1 100%;
-    order:4;
     display:block;
   }
 
   main.flex-item {
-    order:5;
     flex:1 100%;
   }
 
   .logo.flex-item {
-    order: 1;
     flex:1 100%;
     margin: 0 0 1em 0;
   }
 
   .quicklinks.flex-item {
-    order:2;
     flex:1 100%;
     margin: 0 0 .5em 0;
   }
 
   .subnav.flex-item {
-    order:3;
     flex:1 100%;
     margin: 0;
   }
@@ -186,12 +178,8 @@ blockquote { margin: 1em 0; }
       margin: .5em 2em;
     }
 
-    .quicklinks.flex-item {
-      order: 1
-    }
     .logo.flex-item {
       flex:0 170px;
-      order:2;
       box-sizing:border-box;
       margin: 0 1em 0 0;
     }

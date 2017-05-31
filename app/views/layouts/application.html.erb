@@ -71,30 +71,6 @@ end
 
   <body data-controller="<%= controller_path %>" data-action="<%= action_name %>"<% if content_for?(:body_id) %> id="<%= yield(:body_id) %>"<% end %><% if content_for?(:body_classes) %> class="<%= yield(:body_classes) %>"<% end %>>
     <div class="flex-container">
-      <main class="flex-item">
-        <div id="alerts-container">
-          <% flash.each do |name,msg|
-          next if not msg.is_a?(String) or name == :timedout # needed because there seem to be messages like „true“ %>
-            <div class="cf-<%= name.to_s == 'notice' ? "success" : "error" %> cf-alert fade in">
-              <button type="button" class="close" data-dismiss="cf-alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-
-              <%= msg %>
-            </div>
-          <% end %>
-        </div>
-
-
-        <% if content_for?(:h1) %><h1><%= content_for(:h1) %></h1><% end %>
-
-        <div id="content">
-          <%= yield %>
-
-          <%= track_request %>
-        </div>
-      </main>
-
       <header class="top flex-item">
         <ul class="selflinks">
           <li><%= cf_link_to "SELFHTML", "//selfhtml.org/" %></li>
@@ -139,7 +115,6 @@ end
       </ul>
 
       <header class="flex-container flex-item page-header">
-
         <div class="flex-item logo">
           <h1><span>selfhtml-Forum - Ergänzung zur <%= cf_link_to "Dokumentation", "https://wiki.selfhtml.org" %></span><%= cf_link_to '', root_path, class: 'home' %></h1>
           <%= cf_link_to(image_tag('feed-rss.svg',
@@ -341,6 +316,30 @@ end
           <%= content_for :aside %>
         </aside>
       <% end %>
+
+      <main class="flex-item">
+        <div id="alerts-container">
+          <% flash.each do |name,msg|
+          next if not msg.is_a?(String) or name == :timedout # needed because there seem to be messages like „true“ %>
+            <div class="cf-<%= name.to_s == 'notice' ? "success" : "error" %> cf-alert fade in">
+              <button type="button" class="close" data-dismiss="cf-alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+
+              <%= msg %>
+            </div>
+          <% end %>
+        </div>
+
+
+        <% if content_for?(:h1) %><h1><%= content_for(:h1) %></h1><% end %>
+
+        <div id="content">
+          <%= yield %>
+
+          <%= track_request %>
+        </div>
+      </main>
 
     </div>
 
