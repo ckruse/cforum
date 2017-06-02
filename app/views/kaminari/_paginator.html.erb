@@ -8,6 +8,8 @@
 -%>
 <%= paginator.render do -%>
   <div class="cf-pages">
+    <h3 class="visually-hidden"><%= t('global.paging') %></h3>
+
     <ul>
     <%= first_page_tag %>
     <%= prev_page_tag %>

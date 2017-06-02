@@ -43,6 +43,7 @@ de:
     descending: absteigend
     events: Ereignisse
     unset: kein Wert
+    paging: Seitenauswahl
 
     scores:
       right_upvote: Upvote-Recht
