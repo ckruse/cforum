@@ -82,7 +82,7 @@ end
 
       <ul class="personallinks flex-item">
         <% if user_signed_in? %>
-          <li id="user-info"><%= cf_link_to(image_tag(current_user.avatar(:thumb)) + current_user.username,
+          <li id="user-info"><%= cf_link_to(image_tag(current_user.avatar(:thumb)) + content_tag(:span, current_user.username),
                                             user_path(current_user),
                                             id: 'username',
                                             title: t("users.score_num", num: current_user.score)) %>
