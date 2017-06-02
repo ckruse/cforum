@@ -7,5 +7,5 @@
     remote:        data-remote
 -%>
 <li<% if current_page.last? %> class="disabled"<% end %>>
-  <%= cf_link_to t('views.pagination.last_page'), url, remote: remote %>
+  <%= cf_link_to t('views.pagination.last_page'), url, remote: remote, "aria-disabled" => current_page.last? ? true : nil %>
 </li>
