@@ -7,6 +7,7 @@ cforum.markdown_buttons = {
     toggle: false,
     title: "Tabulator",
     icon: 'fa fa-indent',
+    tabIndex: '0',
     callback: function(e) {
       var cursor, selected = e.getSelection();
 
@@ -22,6 +23,7 @@ cforum.markdown_buttons = {
     toggle: false,
     title: "… (Horizontal Ellipsis)",
     btnText: "…",
+    tabIndex: '0',
     callback: function(e) {
       var cursor, selected = e.getSelection();
 
@@ -37,6 +39,7 @@ cforum.markdown_buttons = {
     toggle: false,
     title: "– (em dash)",
     btnText: "–",
+    tabIndex: '0',
     callback: function(e) {
       var cursor, selected = e.getSelection();
 
@@ -52,6 +55,7 @@ cforum.markdown_buttons = {
     toggle: false,
     title: "≈ (almost equal to)",
     btnText: "≈",
+    tabIndex: '0',
     callback: function(e) {
       var cursor, selected = e.getSelection();
 
@@ -67,6 +71,7 @@ cforum.markdown_buttons = {
     toggle: false,
     title: "≠ (unequal)",
     btnText: "≠",
+    tabIndex: '0',
     callback: function(e) {
       var cursor, selected = e.getSelection();
 
@@ -82,6 +87,7 @@ cforum.markdown_buttons = {
     toggle: false,
     title: "× (times)",
     btnText: "×",
+    tabIndex: '0',
     callback: function(e) {
       var cursor, selected = e.getSelection();
 
@@ -97,6 +103,7 @@ cforum.markdown_buttons = {
     toggle: false,
     title: "→ (arrow right)",
     btnText: "→",
+    tabIndex: '0',
     callback: function(e) {
       var cursor, selected = e.getSelection();
 
@@ -112,6 +119,7 @@ cforum.markdown_buttons = {
     toggle: false,
     title: "↑ (arrow up)",
     btnText: "↑",
+    tabIndex: '0',
     callback: function(e) {
       var cursor, selected = e.getSelection();
 
@@ -127,6 +135,7 @@ cforum.markdown_buttons = {
     toggle: false,
     title: "▲ (Black up pointing triangle)",
     btnText: "▲",
+    tabIndex: '0',
     callback: function(e) {
       var cursor, selected = e.getSelection();
 
@@ -142,6 +151,7 @@ cforum.markdown_buttons = {
     toggle: false,
     title: "⇒ (Rightwards double arrow)",
     btnText: "⇒",
+    tabIndex: '0',
     callback: function(e) {
       var cursor, selected = e.getSelection();
 
@@ -157,6 +167,7 @@ cforum.markdown_buttons = {
     toggle: false,
     title: "™ (trademark)",
     btnText: "™",
+    tabIndex: '0',
     callback: function(e) {
       var cursor, selected = e.getSelection();
 
@@ -171,6 +182,7 @@ cforum.markdown_buttons = {
     name: 'cmdDoublePunctuationMarks',
     title: "„“ (double punctuation marks)",
     btnText: "„“",
+    tabIndex: '0',
     callback: function(e) {
       var chunk = "", cursor, selected = e.getSelection(), content = e.getContent();
 
@@ -196,6 +208,7 @@ cforum.markdown_buttons = {
     name: 'cmdSingleePunctuationMarks',
     title: "‚‘ (single punctuation marks)",
     btnText: "‚‘",
+    tabIndex: '0',
     callback: function(e) {
       var chunk = "", cursor, selected = e.getSelection(), content = e.getContent();
 
@@ -221,6 +234,7 @@ cforum.markdown_buttons = {
     name: 'cmdNoMarkdown',
     title: "no markdown",
     btnText: "no markdown",
+    tabIndex: '0',
     callback: function(e) {
       var chunk = "", cursor, selected = e.getSelection(), content = e.getContent();
       var starting = "{::nomarkdown}";
