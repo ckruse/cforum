@@ -23,7 +23,7 @@ if @all_threads_count > @limit
 
     <% (start_page..end_page).each do |i| %>
       <% current = (i - 1 == @page) %>
-      <li<% if i - 1 == @page %> class="active disabled"<% end %>><%= cf_link_to(i, forum_path(current_forum, p: i-1),
+      <li<% if current %> class="active disabled"<% end %>><%= cf_link_to(i, forum_path(current_forum, p: i-1),
                                                                                  'aria-disabled' => current ? true : nil,
                                                                                  'aria-current' => current ? 'page' : nil) %></li>
     <% end %>
