@@ -1,8 +1,8 @@
 de:
   views:
     pagination:
-      first_page: ««
-      prev_page: «
-      next_page: »
-      last_page: »»
+      first_page: erste Seite
+      prev_page: eine Seite zurück
+      next_page: eine Seite vor
+      last_page: letzte Seite
       truncate: …
