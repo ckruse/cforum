@@ -22,7 +22,10 @@ if @all_threads_count > @limit
     <li class="prev<%= ' disabled' if is_first %>"><%= cf_link_to t('views.pagination.prev_page'), forum_path(current_forum, p: is_first ? nil : @page - 1), 'aria-disabled' => is_first ? true : nil, rel: 'prev' %></li>
 
     <% (start_page..end_page).each do |i| %>
-      <li<% if i - 1 == @page %> class="active disabled"<% end %>><%= cf_link_to i, forum_path(current_forum, p: i-1), 'aria-disabled' => (i - 1 == @page) ? true : nil %></li>
+      <% current = (i - 1 == @page) %>
+      <li<% if i - 1 == @page %> class="active disabled"<% end %>><%= cf_link_to(i, forum_path(current_forum, p: i-1),
+                                                                                 'aria-disabled' => current ? true : nil,
+                                                                                 'aria-current' => current ? 'page' : nil) %></li>
     <% end %>
 
     <li class="next<%= ' disabled' if is_last %>"><%= cf_link_to t('views.pagination.next_page'), forum_path(current_forum, p: is_last ? all_pages_count - 1 : @page + 1), 'aria-disabled' => is_last ? true : nil %></li>

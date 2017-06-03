@@ -8,7 +8,10 @@
     remote:        data-remote
 -%><%
 attrs = {}
-attrs['aria-disabled'] = 'true' if page.current?
+if page.current?
+  attrs['aria-disabled'] = 'true'
+  attrs['aria-current'] = 'true'
+end
 attrs[:rel] = 'next' if page.next?
 attrs[:rel] = 'prev' if page.prev?
 attrs[:remote] = remote
