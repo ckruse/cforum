@@ -1,324 +1,166 @@
-/* ========================================================================
- * Bootstrap: modal.js v3.3.1
- * http://getbootstrap.com/javascript/#modals
- * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
+/* -* coding: utf-8 -*- */
 
+/*
+ * A lot of this code is from <https://github.com/gdkraus/accessible-modal-dialog/>
+ * gdkruas did a *lot* of great work for accessible modals, thank you very much
+ */
 
-+function ($) {
-  'use strict';
+/* global jQuery */
 
-  // MODAL CLASS DEFINITION
-  // ======================
+(function($) {
+  var Modal = function(element, options) {
+    this.options = options;
+    this.$element = $(element);
+    this.$main = $(options.main || 'main');
+    this.$backdrop = null;
+    this.isShown = null;
+    this.focusedElementBeforeModal = null;
 
-  var Modal = function (element, options) {
-    this.options        = options
-    this.$body          = $(document.body)
-    this.$element       = $(element)
-    this.$backdrop      =
-    this.isShown        = null
-    this.scrollbarWidth = 0
+    this.$backdrop = $("#modal-backdrop");
 
-    if (this.options.remote) {
-      this.$element
-        .find('.modal-content')
-        .load(this.options.remote, $.proxy(function () {
-          this.$element.trigger('loaded.bs.modal')
-        }, this))
+    if(this.$backdrop.length === 0) {
+      $(document.body).append("<div id=\"modal-backdrop\" tabindex=\"-1\" style=\"display:none\"></div>");
+      this.$backdrop = $("#modal-backdrop");
     }
-  }
+  };
 
-  Modal.VERSION  = '3.3.1'
+  Modal.DEFAULTS = { main: 'main', mainAction: null, cancelAction: null };
+  Modal.focusableElementsString = "a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]";
 
-  Modal.TRANSITION_DURATION = 300
-  Modal.BACKDROP_TRANSITION_DURATION = 150
+  Modal.prototype.show = function() {
+    var that = this;
+    this.$main.attr('aria-hidden', 'true'); // mark the main page as hidden
+    this.$backdrop.css('display', 'block'); // insert an overlay to prevent clicking and make a visual change to indicate the main apge is not available
+    this.$element.css('display', 'block'); // make the modal window visible
+    this.$element.attr('aria-hidden', 'false'); // mark the modal window as visible
 
-  Modal.DEFAULTS = {
-    backdrop: true,
-    keyboard: true,
-    show: true
-  }
+    // attach a listener to redirect the tab to the modal window if the user somehow gets out of the modal window
+    $(document.body).on('focusin','main',function() {
+      that.setFocusToFirstItemInModal();
+    });
 
-  Modal.prototype.toggle = function (_relatedTarget) {
-    return this.isShown ? this.hide() : this.show(_relatedTarget)
-  }
+    // save current focus
+    this.focusedElementBeforeModal = $(':focus');
+    this.setFocusToFirstItemInModal(this.$element);
+    this.setEventHandlers();
+  };
 
-  Modal.prototype.show = function (_relatedTarget) {
-    var that = this
-    var e    = $.Event('show.bs.modal', { relatedTarget: _relatedTarget })
+  Modal.prototype.setEventHandlers = function() {
+    var that = this;
 
-    this.$element.trigger(e)
-
-    if (this.isShown || e.isDefaultPrevented()) return
-
-    this.isShown = true
-
-    this.checkScrollbar()
-    this.setScrollbar()
-    this.$body.addClass('modal-open')
-
-    this.escape()
-    this.resize()
-
-    this.$element.on('click.dismiss.bs.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
-
-    this.backdrop(function () {
-      var transition = $.support.transition && that.$element.hasClass('fade')
-
-      if (!that.$element.parent().length) {
-        that.$element.appendTo(that.$body) // don't move modals dom position
+    this.$element.find('button[data-modal="dismiss"]').on('click', function(e) {
+      if(that.options.cancelAction) {
+        that.options.cancelAction.apply(that);
       }
 
-      that.$element
-        .show()
-        .scrollTop(0)
+      that.hide();
+    });
 
-      if (that.options.backdrop) that.adjustBackdrop()
-      that.adjustDialog()
-
-      if (transition) {
-        that.$element[0].offsetWidth // force reflow
+    this.$element.find('button[data-modal="primary"]').on('click', function(e) {
+      if(that.options.primaryAction) {
+        that.options.primaryAction.apply(that);
       }
+    });
 
-      that.$element
-        .addClass('in')
-        .attr('aria-hidden', false)
+    this.$element.on('keydown', function(event) { that.trapTabKey(event); });
+    this.$element.on('keydown', function(event) { that.trapEscapeKey(event); });
+  };
 
-      that.enforceFocus()
+  Modal.prototype.trapEscapeKey = function(evt) {
+    // if escape pressed
+    if (evt.which == 27) {
+      // get list of focusable items
+      var cancelElement = this.$element.find('button[data-modal="dismiss"]');
 
-      var e = $.Event('shown.bs.modal', { relatedTarget: _relatedTarget })
+      // close the modal window
+      cancelElement.click();
+      evt.preventDefault();
+    }
+  };
 
-      transition ?
-        that.$element.find('.modal-dialog') // wait for modal to slide in
-          .one('bsTransitionEnd', function () {
-            that.$element.trigger('focus').trigger(e)
-          })
-          .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
-        that.$element.trigger('focus').trigger(e)
-    })
-  }
+  Modal.prototype.trapTabKey = function(evt) {
+    // if tab or shift-tab pressed
+    if (evt.which == 9) {
+      // get list of all children elements in given object
+      var o = this.$element.find('*');
 
-  Modal.prototype.hide = function (e) {
-    if (e) e.preventDefault()
+      // get list of focusable items
+      var focusableItems;
+      focusableItems = o.filter(Modal.focusableElementsString).filter(':visible');
 
-    e = $.Event('hide.bs.modal')
+      // get currently focused item
+      var focusedItem;
+      focusedItem = $(':focus');
 
-    this.$element.trigger(e)
+      // get the number of focusable items
+      var numberOfFocusableItems;
+      numberOfFocusableItems = focusableItems.length;
 
-    if (!this.isShown || e.isDefaultPrevented()) return
+      // get the index of the currently focused item
+      var focusedItemIndex;
+      focusedItemIndex = focusableItems.index(focusedItem);
 
-    this.isShown = false
-
-    this.escape()
-    this.resize()
-
-    $(document).off('focusin.bs.modal')
-
-    this.$element
-      .removeClass('in')
-      .attr('aria-hidden', true)
-      .off('click.dismiss.bs.modal')
-
-    $.support.transition && this.$element.hasClass('fade') ?
-      this.$element
-        .one('bsTransitionEnd', $.proxy(this.hideModal, this))
-        .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
-      this.hideModal()
-  }
-
-  Modal.prototype.enforceFocus = function () {
-    $(document)
-      .off('focusin.bs.modal') // guard against infinite focus loop
-      .on('focusin.bs.modal', $.proxy(function (e) {
-        if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
-          this.$element.trigger('focus')
+      if(evt.shiftKey) {
+        // back tab
+        // if focused on first item and user preses back-tab, go to the last focusable item
+        if(focusedItemIndex === 0) {
+          focusableItems.get(numberOfFocusableItems - 1).focus();
+          evt.preventDefault();
         }
-      }, this))
-  }
-
-  Modal.prototype.escape = function () {
-    if (this.isShown && this.options.keyboard) {
-      this.$element.on('keydown.dismiss.bs.modal', $.proxy(function (e) {
-        e.which == 27 && this.hide()
-      }, this))
-    } else if (!this.isShown) {
-      this.$element.off('keydown.dismiss.bs.modal')
-    }
-  }
-
-  Modal.prototype.resize = function () {
-    if (this.isShown) {
-      $(window).on('resize.bs.modal', $.proxy(this.handleUpdate, this))
-    } else {
-      $(window).off('resize.bs.modal')
-    }
-  }
-
-  Modal.prototype.hideModal = function () {
-    var that = this
-    this.$element.hide()
-    this.backdrop(function () {
-      that.$body.removeClass('modal-open')
-      that.resetAdjustments()
-      that.resetScrollbar()
-      that.$element.trigger('hidden.bs.modal')
-    })
-  }
-
-  Modal.prototype.removeBackdrop = function () {
-    this.$backdrop && this.$backdrop.remove()
-    this.$backdrop = null
-  }
-
-  Modal.prototype.backdrop = function (callback) {
-    var that = this
-    var animate = this.$element.hasClass('fade') ? 'fade' : ''
-
-    if (this.isShown && this.options.backdrop) {
-      var doAnimate = $.support.transition && animate
-
-      this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
-        .prependTo(this.$element)
-        .on('click.dismiss.bs.modal', $.proxy(function (e) {
-          if (e.target !== e.currentTarget) return
-          this.options.backdrop == 'static'
-            ? this.$element[0].focus.call(this.$element[0])
-            : this.hide.call(this)
-        }, this))
-
-      if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
-
-      this.$backdrop.addClass('in')
-
-      if (!callback) return
-
-      doAnimate ?
-        this.$backdrop
-          .one('bsTransitionEnd', callback)
-          .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
-        callback()
-
-    } else if (!this.isShown && this.$backdrop) {
-      this.$backdrop.removeClass('in')
-
-      var callbackRemove = function () {
-        that.removeBackdrop()
-        callback && callback()
       }
-      $.support.transition && this.$element.hasClass('fade') ?
-        this.$backdrop
-          .one('bsTransitionEnd', callbackRemove)
-          .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
-        callbackRemove()
-
-    } else if (callback) {
-      callback()
+      else {
+        //forward tab
+        // if focused on the last item and user preses tab, go to the first focusable item
+        if(focusedItemIndex == numberOfFocusableItems - 1) {
+          focusableItems.get(0).focus();
+          evt.preventDefault();
+        }
+      }
     }
-  }
+  };
 
-  // these following methods are used to handle overflowing modals
+  Modal.prototype.hide = function() {
+    this.$backdrop.css('display', 'none'); // remove the overlay in order to make the main screen available again
+    this.$element.css('display', 'none'); // hide the modal window
+    this.$element.attr('aria-hidden', 'true'); // mark the modal window as hidden
+    this.$main.attr('aria-hidden', 'false'); // mark the main page as visible
 
-  Modal.prototype.handleUpdate = function () {
-    if (this.options.backdrop) this.adjustBackdrop()
-    this.adjustDialog()
-  }
+    // remove the listener which redirects tab keys in the main content area to the modal
+    $(document.body).off('focusin', 'main');
 
-  Modal.prototype.adjustBackdrop = function () {
-    this.$backdrop
-      .css('height', 0)
-      .css('height', this.$element[0].scrollHeight)
-  }
+    // set focus back to element that had it before the modal was opened
+    this.focusedElementBeforeModal.focus();
+  };
 
-  Modal.prototype.adjustDialog = function () {
-    var modalIsOverflowing = this.$element[0].scrollHeight > document.documentElement.clientHeight
+  Modal.prototype.setFocusToFirstItemInModal = function() {
+    // get list of all children elements in given object
+    var o = this.$element.find('*');
 
-    this.$element.css({
-      paddingLeft:  !this.bodyIsOverflowing && modalIsOverflowing ? this.scrollbarWidth : '',
-      paddingRight: this.bodyIsOverflowing && !modalIsOverflowing ? this.scrollbarWidth : ''
-    })
-  }
-
-  Modal.prototype.resetAdjustments = function () {
-    this.$element.css({
-      paddingLeft: '',
-      paddingRight: ''
-    })
-  }
-
-  Modal.prototype.checkScrollbar = function () {
-    this.bodyIsOverflowing = document.body.scrollHeight > document.documentElement.clientHeight
-    this.scrollbarWidth = this.measureScrollbar()
-  }
-
-  Modal.prototype.setScrollbar = function () {
-    var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
-    if (this.bodyIsOverflowing) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
-  }
-
-  Modal.prototype.resetScrollbar = function () {
-    this.$body.css('padding-right', '')
-  }
-
-  Modal.prototype.measureScrollbar = function () { // thx walsh
-    var scrollDiv = document.createElement('div')
-    scrollDiv.className = 'modal-scrollbar-measure'
-    this.$body.append(scrollDiv)
-    var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
-    this.$body[0].removeChild(scrollDiv)
-    return scrollbarWidth
-  }
-
-
-  // MODAL PLUGIN DEFINITION
-  // =======================
+    // set the focus to the first keyboard focusable item
+    o.filter(Modal.focusableElementsString).filter(':visible').first().focus();
+  };
 
   function Plugin(option, _relatedTarget) {
     return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.modal')
-      var options = $.extend({}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option)
+      var $this   = $(this);
+      var data    = $this.data('cf.modal');
+      var options = $.extend({}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option);
 
-      if (!data) $this.data('bs.modal', (data = new Modal(this, options)))
-      if (typeof option == 'string') data[option](_relatedTarget)
-      else if (options.show) data.show(_relatedTarget)
-    })
+      if(!data) {
+        $this.data('cf.modal', (data = new Modal(this, options)));
+      }
+      if(typeof option == 'string') {
+        data[option](_relatedTarget);
+      }
+      else if(options.show) {
+        data.show(_relatedTarget);
+      }
+    });
   }
 
-  var old = $.fn.modal
+  $.fn.modal = Plugin;
+  $.fn.modal.Constructor = Modal;
 
-  $.fn.modal             = Plugin
-  $.fn.modal.Constructor = Modal
+})(jQuery);
 
-
-  // MODAL NO CONFLICT
-  // =================
-
-  $.fn.modal.noConflict = function () {
-    $.fn.modal = old
-    return this
-  }
-
-
-  // MODAL DATA-API
-  // ==============
-
-  $(document).on('click.bs.modal.data-api', '[data-toggle="modal"]', function (e) {
-    var $this   = $(this)
-    var href    = $this.attr('href')
-    var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) // strip for ie7
-    var option  = $target.data('bs.modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
-
-    if ($this.is('a')) e.preventDefault()
-
-    $target.one('show.bs.modal', function (showEvent) {
-      if (showEvent.isDefaultPrevented()) return // only register focus restorer if modal will actually get shown
-      $target.one('hidden.bs.modal', function () {
-        $this.is(':visible') && $this.trigger('focus')
-      })
-    })
-    Plugin.call($target, option, this)
-  })
-
-}(jQuery);
+/* eof */
