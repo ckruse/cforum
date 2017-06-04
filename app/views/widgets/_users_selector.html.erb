@@ -5,7 +5,7 @@ id ||= name
 single ||= false
 desc ||= ""
 
-%><div class="users-selector<% if single %> single<% end %>">
+%><div class="users-selector<% if single %> single<% end %>" data-modal-id="users-modal-<%= id %>" id="users-selector-<%= id %>">
   <div class="cf-cgroup">
     <% if not desc.blank? %><label><%= desc %></label><% end %>
 
@@ -26,34 +26,34 @@ desc ||= ""
     </div>
   </div>
 
-  <div class="users-modal modal fade in">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3><%= t('widgets.users_selector.search_user') %></h3>
-        </div>
-        <div class="modal-body">
-          <p><input type="text" class="user_search"></p>
+  <% content_for :modals do %>
+    <div class="users-modal modal" id="users-modal-<%= id %>" aria-hidden="true" aria-labelledby="users-selector-<%= id %>-title" aria-describedby="users-selector-<%= id %>-description" role="dialog" data-users-selector-id="users-selector-<%= id %>">
+      <div role="document" class="modal-inner">
+        <div id="users-selector-<%= id %>-description" class="visually-hidden"><%= t('widgets.users_selector.search_user_desc') %></div>
+        <h1 id="users-selector-<%= id %>-title"><%= t('widgets.users_selector.search_user') %></h1>
 
-          <h4><%= t('widgets.users_selector.found') %>:</h4>
-          <ul class="user-list">
+        <p><input type="text" class="user_search"></p>
+
+        <h3><%= t('widgets.users_selector.found') %>:</h3>
+        <ul class="user-list">
+        </ul>
+
+        <% if single %>
+          <ul class="found-user-list" style="display:none">
           </ul>
+        <% else %>
+          <h4><%= t('widgets.users_selector.chosen') %>:</h4>
+          <ul class="found-user-list">
+          </ul>
+        <% end %>
 
-          <% if single %>
-            <ul class="found-user-list" style="display:none">
-            </ul>
-          <% else %>
-            <h4><%= t('widgets.users_selector.chosen') %>:</h4>
-            <ul class="found-user-list">
-            </ul>
-          <% end %>
-
-        </div>
-        <div class="modal-footer">
-          <a href="#" class="cf-btn cancel"><%= t('global.cancel') %></a>
+        <p>
+          <a href="#" class="cf-btn" data-modal="dismiss"><%= t('global.cancel') %></a>
           <a href="#" class="cf-primary-btn ok"><%= t('global.save') %></a>
-        </div>
+        </p>
+
+        <button class="modal-close-button" title="<%= t('global.close_popup') %>" aria-label="<%= t('global.close_popup') %>" data-modal="dismiss">&times;</button>
       </div>
     </div>
-  </div>
+  <% end %>
 </div>

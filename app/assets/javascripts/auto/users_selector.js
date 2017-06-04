@@ -34,7 +34,7 @@ cforum.common.usersSelector.search = function(obj) {
 
 cforum.common.usersSelector.add = function(ev) {
   var $obj  = $(ev.target).closest(".found-user-line");
-  var $sel  = $obj.closest(".users-selector");
+  var $sel  = $obj.closest(".users-modal");
   var found = $sel.find(".found-user-list");
   var uid   = $obj.attr('data-user-id');
   var uname = $obj.attr('data-username');
@@ -70,8 +70,9 @@ cforum.common.usersSelector.add = function(ev) {
 cforum.common.usersSelector.select = function(event) {
   event.preventDefault();
 
-  var $selector = $(this).closest(".users-selector");
-  var found = $selector.find(".found-user-list");
+  var $modal = $(this).closest(".users-modal");
+  var $selector = $('#' + $modal.data('users-selector-id'));
+  var found = $modal.find(".found-user-list");
   var $sel = $selector.find(".users");
 
   if($selector.hasClass('single')) {
@@ -83,12 +84,14 @@ cforum.common.usersSelector.select = function(event) {
     $sel.append(
       Mustache.render(
         cforum.common.usersSelector.views.userLine,
-        {user: {user_id: $this.attr("data-user-id"), username: $this.attr("data-username")}, name: $sel.attr("data-name"), id: $sel.attr("data-id")}
+        { user: {user_id: $this.attr("data-user-id"),
+          username: $this.attr("data-username")},
+          name: $sel.attr("data-name"), id: $sel.attr("data-id") }
       )
     );
   });
 
-  $(this).closest('.users-selector').find('.users-modal').modal('hide');
+  $modal.modal('hide');
   cforum.common.usersSelector.trigger('users-selector:selected', [cforum.common.usersSelector.selectedUsers]);
 };
 
@@ -114,24 +117,21 @@ cforum.common.usersSelector.initiateSearch = function() {
   }
 
   tm = window.setTimeout(function() {
-    cforum.common.usersSelector.search($this.closest(".users-selector"));
-  }, 1500);
+    cforum.common.usersSelector.search($this.closest(".users-modal"));
+  }, 600);
   $this.data("timeout", tm);
 };
 
 cforum.common.usersSelector.init = function() {
-  $(".users-selector .users-modal").modal({show: false});
-  $(".users-selector .add-user").click(function() { $(this).closest(".users-selector").find(".users-modal").modal('show'); });
-  $(".users-selector .user_search").keyup(cforum.common.usersSelector.initiateSearch);
-  $(".users-selector .ok").click(cforum.common.usersSelector.select);
-  $(".users-selector .user-list").click(cforum.common.usersSelector.add);
-  $(".users-selector .found-user-list").click(cforum.common.usersSelector.remove);
+  $(".users-selector .add-user").click(function() {
+    $("#" + $(this).closest('.users-selector').attr('data-modal-id')).modal('show');
+  });
   $(".users-selector .users").click(cforum.common.usersSelector.unselect);
 
-  $(".users-selector .cancel").click(function(event) {
-    event.preventDefault();
-    $(this).closest(".users-selector").find(".users-modal").modal('hide');
-  });
+  $(".users-modal .user_search").keyup(cforum.common.usersSelector.initiateSearch);
+  $(".users-modal .ok").click(cforum.common.usersSelector.select);
+  $(".users-modal .user-list").click(cforum.common.usersSelector.add);
+  $(".users-modal .found-user-list").click(cforum.common.usersSelector.remove);
 };
 
 cforum.common.usersSelector.views = {

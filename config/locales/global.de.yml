@@ -8,8 +8,10 @@ de:
     errors: Fehler
     save: speichern
     delete: löschen
+    ok: OK
     cancel: abbrechen
     edit: bearbeiten
+    close_popup: Dialog-Fenster schließen
     are_you_sure: Sind Sie sicher?
     users: Benutzer
     forums: Foren

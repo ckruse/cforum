@@ -3,5 +3,6 @@ de:
     users_selector:
       edit_userlist: Benutzerliste bearbeiten
       search_user: Benutzer suchen
+      search_user_desc: Dies ist ein Dialog-Fenster. Es fängt an bei einer Überschrift Level 1 „Benutzer suchen“. Escape wird das Fenster schließen und die Aktion abbrechen.
       found: gefunden
       chosen: ausgewählt
