@@ -705,7 +705,7 @@
     __getLeadingNewlines: function(content, selected) {
       var newlines = '',
           str = content.substr(selected.start - 2, 2);
- 
+
       if(str.charAt(1) !== '\n') {
         newlines = '\n\n';
       }

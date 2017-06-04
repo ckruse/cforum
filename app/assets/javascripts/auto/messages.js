@@ -187,7 +187,7 @@ cforum.messages = {
       var msg = $(ev.target).closest('.thread-message');
       var node = msg.find("> .posting-header > .message > h3 a");
       var q_url;
-      if(node.length == 0) {
+      if(node.length === 0) {
         node = msg.find("> .posting-header > .message > h2 a");
       }
 
@@ -684,7 +684,7 @@ cforum.messages = {
       var header = $this.find("header");
       var id = header.attr("id");
       $this.css('display', 'none');
-      header.removeAttr("id")
+      header.removeAttr("id");
       $this.before("<div id=\"" + id + "\" class=\"hidden-posting\">" + author + " <span class=\"score-to-low-note\">" + t('score_to_low') + "</div>");
     });
 
