@@ -20,6 +20,7 @@ coverage
 *.swp
 /node_modules/*
 *.dump
+.DS_Store
 
 TAGS
 
