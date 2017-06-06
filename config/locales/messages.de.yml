@@ -105,6 +105,26 @@ de:
     thread_split: Der Thread wurde erfolgreich aufgeteilt!
     thread_split_redirection: Die Weiterleitung wurde aufgrund einer Aufteilung erstellt.
 
+    modals:
+      code:
+        description: Dies ist ein Dialog-Fenster. Es fängt an bei einer Überschrift Level 1 „Sprache auswählen“. Escape wird das Fenster schließen und die Aktion abbrechen.
+        title: Sprache auswählen
+        choose_language: Bitte geben Sie die Sprache des Codes an. Die Angabe ist optional.
+      link:
+        description: Dies ist ein Dialog-Fenster. Es fängt an bei einer Überschrift Level 1 „Linkziel angeben“. Escape wird das Fenster schließen und die Aktion abbrechen.
+        title: Linkziel angeben
+        enter_target: Bitte geben Sie das Linkziel an.
+        example_url: https://example.com/
+        enter_title: Bitte geben Sie einen Link-Titel an.
+      img:
+        description: Dies ist ein Dialog-Fenster. Es beginnt bei einer Überschrift Level 1 „Bild-Informationen angeben“. Escape wird das Fenster schließen und die Aktion abbrechen.
+        title: Bild-Informationen angeben
+        enter_src: Bitte geben Sie die Bild-URL an
+        enter_desc: Bitte geben Sie eine Bildbeschreibung an
+        example_desc: Bild eines blauen Himmels mit weißen Schäfchenwolken
+        enter_title: Bitte geben Sie einen Bild-Titel an
+        example_title: Urlaub Italien 1986
+
     close_vote:
       actions:
         close_message: Diese und alle folgenden Nachrichten sollen geschlossen werden.

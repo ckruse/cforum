@@ -1,0 +1,88 @@
+<div class="modal" id="md-code-modal" aria-hidden="true" aria-labelledby="md-code-modal-title" aria-describedby="md-code-modal-description" role="dialog">
+  <div role="document" class="modal-inner">
+    <div id="md-code-modal-description" class="visually-hidden"><%= t('messages.modals.code.description') %></div>
+    <h1 id="md-code-modal-title"><%= t('messages.modals.code.title') %></h1>
+
+    <div class="cf-form">
+      <div class="cf-cgroup">
+        <label for="md-code-lang"><%= t('messages.modals.code.choose_language') %></label>
+        <input type="text" id="md-code-lang" data-autocomplete="md-code-languages">
+        <datalist id="md-code-languages">
+          <option value="HTML">
+          <option value="CSS">
+          <option value="JavaScript">
+          <option value="Ruby">
+          <option value="PHP">
+          <option value="SQL">
+          <option value="Perl">
+          <option value="SVG">
+        </datalist>
+      </div>
+    </div>
+
+    <p>
+      <button class="cf-btn" data-modal="primary"><%= t('global.ok') %></button>
+      <button class="cf-btn" data-modal="dismiss"><%= t('global.cancel') %></button>
+    </p>
+
+    <button class="modal-close-button" title="<%= t('global.close_popup') %>" aria-label="<%= t('global.close_popup') %>" data-modal="dismiss">&times;</button>
+  </div>
+</div>
+
+<div class="modal" id="md-link-modal" aria-hidden="true" aria-labelledby="md-link-modal-title" aria-describedby="md-link-modal-description" role="dialog">
+  <div role="document" class="modal-inner">
+    <div id="md-link-modal-description" class="visually-hidden"><%= t('messages.modals.link.description') %></div>
+    <h1 id="md-link-modal-title"><%= t('messages.modals.link.title') %></h1>
+
+    <div class="cf-form">
+      <div class="cf-cgroup">
+        <label for="md-hyperlink-href"><%= t('messages.modals.link.enter_target') %></label>
+        <input type="url" id="md-hyperlink-href" placeholder="<%= t('messages.modals.link.example_url') %>">
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="md-hyperlink-title"><%= t('messages.modals.link.enter_title') %></label>
+        <input type="text" id="md-hyperlink-title">
+      </div>
+    </div>
+
+    <p>
+      <button class="cf-btn" data-modal="primary"><%= t('global.ok') %></button>
+      <button class="cf-btn" data-modal="dismiss"><%= t('global.cancel') %></button>
+    </p>
+
+    <button class="modal-close-button" title="<%= t('global.close_popup') %>" aria-label="<%= t('global.close_popup') %>" data-modal="dismiss">&times;</button>
+  </div>
+</div>
+
+<div class="modal" id="md-img-modal" aria-hidden="true" aria-labelledby="md-img-modal-title" aria-describedby="md-img-modal-description" role="dialog">
+  <div role="document" class="modal-inner">
+    <div id="md-img-modal-description" class="visually-hidden"><%= t('messages.modals.img.description') %></div>
+    <h1 id="md-img-modal-title"><%= t('messages.modals.img.title') %></h1>
+
+    <div class="cf-form" id="md-modal-image-src">
+      <div class="cf-cgroup">
+        <label for="md-img-src"><%= t('messages.modals.img.enter_src') %></label>
+        <input type="url" id="md-img-src" placeholder="https://example.com/example.png">
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="md-img-title"><%= t('messages.modals.img.enter_title') %></label>
+        <input type="text" id="md-img-title" placeholder="<%= t("messages.modals.img.example_title") %>">
+      </div>
+
+      <div class="cf-cgroup">
+        <label for="md-img-desc"><%= t('messages.modals.img.enter_desc') %></label>
+        <input type="text" id="md-img-desc" placeholder="<%= t("messages.modals.img.example_desc") %>">
+      </div>
+    </div>
+
+    <p>
+      <button class="cf-btn" data-modal="primary"><%= t('global.ok') %></button>
+      <button class="cf-btn" data-modal="dismiss"><%= t('global.cancel') %></button>
+    </p>
+
+    <button class="modal-close-button" title="<%= t('global.close_popup') %>" aria-label="<%= t('global.close_popup') %>" data-modal="dismiss">&times;</button>
+  </div>
+</div>
+

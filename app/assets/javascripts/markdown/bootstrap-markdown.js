@@ -592,6 +592,12 @@
       return this;
     },
 
+    getModal: function(which) {
+      var modal = $("#" + which);
+      modal.find("input").val("");
+      return modal;
+    },
+
 
     isDirty: function() {
       return this.$oldContent != this.getContent();
@@ -1111,30 +1117,40 @@
           },
           callback: function(e) {
             // Give [] surround the selection and prepend the link
-            var chunk, cursor, selected = e.getSelection(),
+            var chunk, selected = e.getSelection(),
                 content = e.getContent(),
                 link;
 
-            if(selected.length === 0) {
-              // Give extra word
-              chunk = e.__localize('enter link description here');
-            }
-            else {
+            if(selected.length !== 0) {
               chunk = selected.text;
             }
 
-            link = prompt(e.__localize('Insert Hyperlink'), 'http://');
+            var modal = e.getModal('md-link-modal');
+            $("#md-hyperlink-title").val(chunk);
+            modal.modal({
+              show: true,
+              primaryAction: function() {
+                link = $("#md-hyperlink-href").val();
+                chunk = $("#md-hyperlink-title").val();
 
-            if(link !== null && link !== '' && link !== 'http://' && link.substr(0, 4) === 'http') {
-              var sanitizedLink = $('<div>' + link + '</div>').text();
+                if(link !== null && link !== '' && link !== 'http://' && link.substr(0, 4) === 'http') {
+                  modal.modal('hide');
+                  var sanitizedLink = $('<div>' + link + '</div>').text();
 
-              // transform selection and set the cursor into chunked text
-              e.replaceSelection('[' + chunk + '](' + sanitizedLink + ')');
-              cursor = selected.start + 1;
+                  // transform selection and set the cursor into chunked text
+                  var text = "";
+                  if(chunk) {
+                    text = '[' + chunk + '](' + sanitizedLink + ')';
+                  }
+                  else {
+                    text = '<' + sanitizedLink + '>';
+                  }
 
-              // Set the cursor
-              e.setSelection(cursor, cursor + chunk.length);
-            }
+                  e.replaceSelection(text);
+                  e.setSelection(selected.start, selected.start + text.length);
+                }
+              }
+            });
           }
         }, {
           name: 'cmdImage',
@@ -1150,31 +1166,39 @@
             // Give ![] surround the selection and prepend the image link
             var chunk, cursor, selected = e.getSelection(),
                 content = e.getContent(),
-                link;
+                link, title;
 
-            if(selected.length === 0) {
-              // Give extra word
-              chunk = e.__localize('enter image description here');
-            }
-            else {
+            if(selected.length !== 0) {
               chunk = selected.text;
             }
 
-            link = prompt(e.__localize('Insert Image Hyperlink'), 'http://');
+            var modal = e.getModal('md-img-modal');
+            modal.find("#md-img-desc").val(chunk);
+            modal.modal({
+              show: true,
+              primaryAction: function() {
+                link = $("#md-img-src").val();
+                chunk = $("#md-img-desc").val();
+                title = $("#md-img-title").val();
 
-            if(link !== null && link !== '' && link !== 'http://' && link.substr(0, 4) === 'http') {
-              var sanitizedLink = $('<div>' + link + '</div>').text();
+                if(link && link !== 'http://' && link.substr(0, 4) === 'http') {
+                  modal.modal('hide');
 
-              // transform selection and set the cursor into chunked text
-              e.replaceSelection('![' + chunk + '](' + sanitizedLink + ' "' + e.__localize('enter image title here') + '")');
-              cursor = selected.start + 2;
+                  var sanitizedLink = $('<div>' + link + '</div>').text();
 
-              // Set the next tab
-              e.setNextTab(e.__localize('enter image title here'));
+                  // transform selection and set the cursor into chunked text
+                  var img = '![' + chunk + '](' + sanitizedLink;
+                  if(title) {
+                     img += ' "' + title + '"';
+                  }
+                  img += ')';
 
-              // Set the cursor
-              e.setSelection(cursor, cursor + chunk.length);
-            }
+                  e.replaceSelection(img);
+                  cursor = selected.start;
+                  e.setSelection(cursor, cursor + img.length);
+                }
+              }
+            });
           }
         }]
       }, {
@@ -1366,13 +1390,21 @@
             };
 
             var createCodeBlock = function() {
-              var lang = window.prompt(t('code_lang'));
-              if(languageIsValid(lang)) {
-                var prefix = e.__getLeadingNewlines(content, selection);
-                e.replaceSelection(prefix + '~~~' + lang + '\n' + text + '\n~~~\n');
-                var cursor = selection.start + 4 + prefix.length + lang.length;
-                e.setSelection(cursor, cursor + text.length);
-              }
+              var msgModal = e.getModal('md-code-modal');
+              msgModal.modal({
+                show: true,
+                primaryAction: function() {
+                  msgModal.modal('hide');
+
+                  var lang = $("#md-code-lang").val();
+                  if(languageIsValid(lang)) {
+                    var prefix = e.__getLeadingNewlines(content, selection);
+                    e.replaceSelection(prefix + '~~~' + lang + '\n' + text + '\n~~~\n');
+                    var cursor = selection.start + 4 + prefix.length + lang.length;
+                    e.setSelection(cursor, cursor + text.length);
+                  }
+                }
+              });
             };
 
             // Do something
