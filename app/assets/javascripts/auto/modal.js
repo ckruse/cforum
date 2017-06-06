@@ -149,6 +149,10 @@
       if(!data) {
         $this.data('cf.modal', (data = new Modal(this, options)));
       }
+      else {
+        data.options = options;
+      }
+
       if(typeof option == 'string') {
         data[option](_relatedTarget);
       }
