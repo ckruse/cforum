@@ -15,6 +15,7 @@
     this.$backdrop = null;
     this.isShown = null;
     this.focusedElementBeforeModal = null;
+    this.handlersSet = false;
 
     this.$backdrop = $("#modal-backdrop");
 
@@ -42,7 +43,11 @@
     // save current focus
     this.focusedElementBeforeModal = $(':focus');
     this.setFocusToFirstItemInModal(this.$element);
-    this.setEventHandlers();
+
+    if(!this.handlersSet) {
+      this.setEventHandlers();
+      this.handlersSet = true;
+    }
   };
 
   Modal.prototype.setEventHandlers = function() {
