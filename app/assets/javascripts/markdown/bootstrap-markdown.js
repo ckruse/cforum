@@ -1148,6 +1148,8 @@
 
                   e.replaceSelection(text);
                   e.setSelection(selected.start, selected.start + text.length);
+
+                  e.$textarea.trigger('input');
                 }
               }
             });
@@ -1196,6 +1198,8 @@
                   e.replaceSelection(img);
                   cursor = selected.start;
                   e.setSelection(cursor, cursor + img.length);
+
+                  e.$textarea.trigger('input');
                 }
               }
             });
@@ -1402,6 +1406,8 @@
                     e.replaceSelection(prefix + '~~~' + lang + '\n' + text + '\n~~~\n');
                     var cursor = selection.start + 4 + prefix.length + lang.length;
                     e.setSelection(cursor, cursor + text.length);
+
+                    e.$textarea.trigger('input');
                   }
                 }
               });
