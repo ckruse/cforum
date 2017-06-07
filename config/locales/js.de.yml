@@ -20,7 +20,6 @@ de:
       score_to_low: "Die Bewertung des Beitrags liegt unterhalb des Grenzwertes. <span class=\"show-posting\">Einblenden</span>"
       upload:
         image_area: 'Bilder hierher ziehen oder klicken, um sie hochzuladen. Bitte beachten Sie die <a href="http://selfhtml.org/impressum.html#upload">Nutzungsbedingungen</a>.'
-        alternative_text: Alternativ-Text
         dictDefaultMessage: Bilder hierher ziehen oder klicken, um sie hochzuladen.
         dictFallbackMessage: Ihr Browser unterstützt keinen Datei-Upload über Drag’n’Drop.
         dictFallbackText: Bitte benutzen Sie das Upload-Formular unten, wie in den guten alten Zeiten.
@@ -147,4 +146,4 @@ de:
         downloadSVG: 'Download als SVG-Bild'
         resetZoom: "Zoom zurücksetzen"
         resetZoomTitle: "Zoom zurücksetzen"
-        
+

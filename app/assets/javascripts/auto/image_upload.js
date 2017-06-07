@@ -29,19 +29,34 @@ function ImageUpload(input) {
     fallback: function() { },
     init: function() {
       this.on("success", function(file, rsp) {
-        var selection = input.getSelection();
-        var md = '[![' + t('upload.alternative_text') + '](' + cforum.basePath + 'images/' + rsp.path + '?size=medium)](' + cforum.basePath + 'images/' + rsp.path + ')';
+        var modal = $("#md-img-upload-modal");
+        modal.find("input").val("");
 
         zone.removeClass('loading');
         zone.html(t('upload.image_area'));
 
-        input.replaceSelection(md);
-        input.change();
+        modal.modal({
+          show: true,
+          primaryAction: function() {
+            modal.modal('hide');
 
-        window.setTimeout(function() {
-          input.focus();
-          input.setSelection(selection.start + 3, selection.start + 18);
-        }, 0);
+            var selection = input.getSelection();
+            var alt = $("#md-img-upload-desc").val();
+            var title = $("#md-img-upload-title").val();
+
+            var md = '[![' + alt + '](' + cforum.basePath + 'images/' + rsp.path + '?size=medium';
+            if(title) {
+              md += ' "' + title + '"';
+            }
+            md += ')](' + cforum.basePath + 'images/' + rsp.path + ')';
+
+            input.replaceSelection(md);
+            input.change();
+
+            input.focus();
+            input.setSelection(selection.start, selection.start + md.length);
+          }
+        });
       });
 
       this.on('error', function(file, response) {
