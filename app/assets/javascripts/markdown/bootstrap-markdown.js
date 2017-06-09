@@ -1151,6 +1151,10 @@
 
                   e.$textarea.trigger('input');
                 }
+                else {
+                  $("#md-hyperlink-href").closest('.cf-cgroup').addClass('error');
+                  $("#md-hyperlink-href").focus();
+                }
               }
             });
           }
@@ -1200,6 +1204,10 @@
                   e.setSelection(cursor, cursor + img.length);
 
                   e.$textarea.trigger('input');
+                }
+                else {
+                  $("#md-img-src").closest('.cf-cgroup').addClass('error');
+                  $("#md-img-src").focus();
                 }
               }
             });
