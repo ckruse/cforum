@@ -179,7 +179,7 @@ class ForumsController < ApplicationController
                .where("DATE_TRUNC('month', moment) < DATE_TRUNC('month', NOW())")
 
     @stats = if current_forum.blank?
-               @stats.where('forum_id IN (' + Forum.visible_sql(current_user) + ')')
+               @stats.where('forum_id IN (?)', Forum.visible_forums(current_user).select(:forum_id))
              else
                @stats.where(forum_id: current_forum.forum_id)
              end
@@ -199,7 +199,8 @@ class ForumsController < ApplicationController
     if current_forum
       @users_twelve_months = @users_twelve_months.where(forum_id: current_forum.forum_id)
     else
-      @users_twelve_months = @users_twelve_months.where('forum_id IN (' + Forum.visible_sql(current_user) + ')')
+      @users_twelve_months = @users_twelve_months.where('forum_id IN (?)',
+                                                        Forum.visible_forums(current_user).select(:forum_id))
     end
 
     @status = {
@@ -251,9 +252,10 @@ class ForumsController < ApplicationController
       tags = tags.where(forum_id: forum.forum_id)
       users = users.where(forum_id: forum.forum_id)
     else
-      num_threads_messages = num_threads_messages.where('forum_id IN (' + Forum.visible_sql(current_user) + ')')
-      tags = tags.where('forum_id IN (' + Forum.visible_sql(current_user) + ')')
-      users = users.where('forum_id IN (' + Forum.visible_sql(current_user) + ')')
+      fids = Forum.visible_forums(current_user).select(:forum_id)
+      num_threads_messages = num_threads_messages.where('forum_id IN (?)', fids)
+      tags = tags.where('forum_id IN (?)', fids)
+      users = users.where('forum_id IN (?)', fids)
     end
 
     num_threads_messages = num_threads_messages.all.to_a[0]

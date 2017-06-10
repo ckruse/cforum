@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_forums
-    @forums = Forum.where("forum_id IN (#{Forum.visible_sql(current_user)})")
+    @forums = Forum.visible_forums(current_user)
 
     return if !params.key?(:view_all) || params[:view_all] == 'false'
 

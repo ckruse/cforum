@@ -53,11 +53,11 @@ class UsersController < ApplicationController
 
     @messages_count = Message.where(user_id: @user.user_id, deleted: false).count
 
-    sql = Forum.visible_sql(current_user)
+    fids = Forum.visible_forums(current_user).select(:forum_id)
 
     @last_messages = Message
                        .preload(:owner, :tags, votes: :voters, thread: :forum)
-                       .where("user_id = ? AND deleted = false AND forum_id IN (#{sql})", @user.user_id)
+                       .where('user_id = ? AND deleted = false AND forum_id IN (?)', @user.user_id, fids)
                        .order('created_at DESC')
                        .limit(5)
 
@@ -65,14 +65,15 @@ class UsersController < ApplicationController
                    .preload(tag: :forum)
                    .joins('INNER JOIN messages USING(message_id)')
                    .select('tag_id, COUNT(*) AS cnt')
-                   .where("deleted = false AND user_id = ? AND forum_id IN (#{sql})", @user.user_id)
+                   .where('deleted = false AND user_id = ? AND forum_id IN (?)', @user.user_id, fids)
                    .group('tag_id')
                    .order('cnt DESC')
                    .limit(10)
 
     @point_msgs = Message
                     .preload(:owner, :tags, votes: :voters, thread: :forum)
-                    .where("deleted = false AND upvotes > 0 AND user_id = ? AND forum_id IN (#{sql})", @user.user_id)
+                    .where('deleted = false AND upvotes > 0 AND user_id = ? AND forum_id IN (?)',
+                           @user.user_id, fids)
                     .order('upvotes DESC')
                     .limit(10)
 
@@ -85,8 +86,8 @@ class UsersController < ApplicationController
              LEFT JOIN votes USING(vote_id)
              LEFT JOIN messages m2 ON votes.message_id = m2.message_id")
                     .where(user_id: @user.user_id)
-                    .where("m1.message_id IS NULL OR m1.forum_id IN (#{sql})")
-                    .where("m2.message_id IS NULL OR m2.forum_id IN (#{sql})")
+                    .where('m1.message_id IS NULL OR m1.forum_id IN (?)', fids)
+                    .where('m2.message_id IS NULL OR m2.forum_id IN (?)', fids)
                     .where('m1.message_id IS NULL OR m1.deleted = false')
                     .where('m2.message_id IS NULL OR m2.deleted = false')
                     .limit(10)
@@ -194,7 +195,7 @@ class UsersController < ApplicationController
   def show_scores
     @user = User.find(params[:id])
 
-    sql = Forum.visible_sql(current_user)
+    fids = Forum.visible_forums(current_user).select(:forum_id)
 
     @scored_msgs = Score
                      .preload(message: [:owner, :tags,
@@ -205,8 +206,8 @@ class UsersController < ApplicationController
              LEFT JOIN votes USING(vote_id)
              LEFT JOIN messages m2 ON votes.message_id = m2.message_id")
                      .where(user_id: @user.user_id)
-                     .where("m1.message_id IS NULL OR m1.forum_id IN (#{sql})")
-                     .where("m2.message_id IS NULL OR m2.forum_id IN (#{sql})")
+                     .where('m1.message_id IS NULL OR m1.forum_id IN (?)', fids)
+                     .where('m2.message_id IS NULL OR m2.forum_id IN (?)', fids)
                      .where('m1.message_id IS NULL OR m1.deleted = false')
                      .where('m2.message_id IS NULL OR m2.deleted = false')
                      .order('created_at DESC')
@@ -218,14 +219,14 @@ class UsersController < ApplicationController
 
   def show_votes
     @user = User.find(params[:id])
-    sql = Forum.visible_sql(current_user)
+    fids = Forum.visible_forums(current_user).select(:forum_id)
 
     @votes = Vote
                .joins(:message)
                .preload(:score, message: [:owner, :tags,
                                           { thread: :forum, votes: :voters }])
                .where(user_id: @user.user_id)
-               .where("forum_id IN (#{sql}) AND deleted = false")
+               .where('forum_id IN (?) AND deleted = false', fids)
                .order('created_at DESC')
                .page(params[:page])
                .per(conf('pagination'))
@@ -234,11 +235,11 @@ class UsersController < ApplicationController
   def show_messages
     @user = User.find(params[:id])
 
-    sql = Forum.visible_sql(current_user)
+    fids = Forum.visible_forums(current_user).select(:forum_id)
 
     @messages = Message
                   .preload(:owner, :tags, votes: :voters, thread: :forum)
-                  .where("user_id = ? AND deleted = false AND forum_id IN (#{sql})", @user.user_id)
+                  .where('user_id = ? AND deleted = false AND forum_id IN (?)', @user.user_id, fids)
                   .order('created_at DESC')
                   .page(params[:page])
                   .per(conf('pagination'))

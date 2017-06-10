@@ -72,36 +72,15 @@ class Forum < ApplicationRecord
 
   # default_scope where('public = true')
 
-  def self.visible_sql(user = nil)
-    perm_list = (ForumGroupPermission::PERMISSIONS.map { |p| "'" + p + "'" }).join(', ')
+  def self.visible_forums(user = nil)
+    return Forum.where(standard_permission: %w[read write moderate]).order(:position) if user.blank?
+    return Forum.order(:position) if user.admin?
 
-    if user
-      if user.admin?
-        'SELECT forum_id FROM forums'
-      else
-        "
-              SELECT
-                  DISTINCT forums.forum_id
-                FROM
-                    forums
-                  LEFT JOIN
-                    forums_groups_permissions USING(forum_id)
-                  LEFT JOIN
-                    groups_users USING(group_id)
-                WHERE
-                    (standard_permission IN (#{perm_list}))
-                  OR
-                    (
-                        permission IN (#{perm_list})
-                      AND
-                        user_id = #{user.user_id}
-                    )
-              "
-      end
-    else
-      "SELECT forum_id FROM forums WHERE standard_permission = 'read' OR " \
-      " standard_permission = 'write' or standard_permission = 'moderate'"
-    end
+    Forum
+      .joins('LEFT JOIN forums_groups_permissions USING(forum_id)')
+      .joins('LEFT JOIN groups_users USING(group_id)')
+      .where('standard_permission IN (?) OR (permission IN (?) AND user_id = ?)',
+             ForumGroupPermission::PERMISSIONS, ForumGroupPermission::PERMISSIONS, user.user_id)
   end
 end
 

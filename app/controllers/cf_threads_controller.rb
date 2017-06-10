@@ -76,7 +76,8 @@ class CfThreadsController < ApplicationController
     if @forum.blank?
       @forum = Forum
                  .where(forum_id: params[:cf_thread][:forum_id])
-                 .where('forum_id IN (' + Forum.visible_sql(current_user) + ')').first!
+                 .where('forum_id IN (?)', Forum.visible_forums(current_user).select(:forum_id))
+                 .first!
     end
 
     @thread  = CfThread.new

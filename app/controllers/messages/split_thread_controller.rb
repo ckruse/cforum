@@ -20,7 +20,7 @@ class Messages::SplitThreadController < ApplicationController
 
     @forum = Forum
                .where(forum_id: params[:message][:forum_id])
-               .where('forum_id IN (' + Forum.visible_sql(current_user) + ')')
+               .where('forum_id IN (?)', Forum.visible_forums(current_user).select(:forum_id))
                .first!
 
     @message.subject = params[:message][:subject]

@@ -174,7 +174,7 @@ RSpec.describe Forum, type: :model do
                 create(:read_forum), create(:known_read_forum),
                 create(:forum), create(:moderate_forum)]
 
-      ret_forums = Forum.where('forum_id IN (' + Forum.visible_sql + ')').order(:forum_id)
+      ret_forums = Forum.visible_forums.reorder(:forum_id)
 
       expect(ret_forums.to_a).to eq([forums[0], forums[2], forums[5]])
     end
@@ -185,7 +185,7 @@ RSpec.describe Forum, type: :model do
                 create(:forum), create(:moderate_forum)]
       u = create(:user)
 
-      ret_forums = Forum.where('forum_id IN (' + Forum.visible_sql(u) + ')').order(:forum_id)
+      ret_forums = Forum.visible_forums(u).reorder(:forum_id)
 
       expect(ret_forums.to_a).to eq([forums[0], forums[1], forums[2], forums[3], forums[5]])
     end
@@ -196,7 +196,7 @@ RSpec.describe Forum, type: :model do
                 create(:forum), create(:moderate_forum)]
       u = create(:user_admin)
 
-      ret_forums = Forum.where('forum_id IN (' + Forum.visible_sql(u) + ')').order(:forum_id)
+      ret_forums = Forum.visible_forums(u).reorder(:forum_id)
 
       expect(ret_forums.to_a).to eq(forums)
     end
@@ -210,7 +210,7 @@ RSpec.describe Forum, type: :model do
       group.forums_groups_permissions.create!(forum_id: forums.first.forum_id,
                                               permission: ForumGroupPermission::WRITE)
 
-      ret_forums = Forum.where('forum_id IN (' + Forum.visible_sql(user) + ')').order(:forum_id)
+      ret_forums = Forum.visible_forums(user).reorder(:forum_id)
       expect(ret_forums.to_a).to eq([forums.first])
     end
   end
