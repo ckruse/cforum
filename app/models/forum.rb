@@ -81,6 +81,7 @@ class Forum < ApplicationRecord
       .joins('LEFT JOIN groups_users USING(group_id)')
       .where('standard_permission IN (?) OR (permission IN (?) AND user_id = ?)',
              ForumGroupPermission::PERMISSIONS, ForumGroupPermission::PERMISSIONS, user.user_id)
+      .order(:position)
   end
 end
 
