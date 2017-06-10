@@ -428,6 +428,16 @@ input[type="search"] { -webkit-appearance: textfield; }
           padding-left:.5em;
           padding-right:.5em;
         }
+
+        .image-upload.dragging {
+          position: absolute;
+          left:0;
+          top: 0;
+          width: calc(100% + 2px);
+          height: 22em;
+          z-index: 100;
+          line-height: 22em;
+        }
       }
     }
   }
