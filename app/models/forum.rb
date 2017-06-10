@@ -76,12 +76,13 @@ class Forum < ApplicationRecord
     return Forum.where(standard_permission: %w[read write moderate]).order(:position) if user.blank?
     return Forum.order(:position) if user.admin?
 
-    Forum.where(forum_id: Forum
-                  .joins('LEFT JOIN forums_groups_permissions USING(forum_id)')
-                  .joins('LEFT JOIN groups_users USING(group_id)')
-                  .where('standard_permission IN (?) OR (permission IN (?) AND user_id = ?)',
-                         ForumGroupPermission::PERMISSIONS, ForumGroupPermission::PERMISSIONS, user.user_id)
-                  .order(:position))
+    Forum
+      .where(forum_id: Forum
+               .joins('LEFT JOIN forums_groups_permissions USING(forum_id)')
+               .joins('LEFT JOIN groups_users USING(group_id)')
+               .where('standard_permission IN (?) OR (permission IN (?) AND user_id = ?)',
+                      ForumGroupPermission::PERMISSIONS, ForumGroupPermission::PERMISSIONS, user.user_id))
+      .order(:position)
   end
 end
 
