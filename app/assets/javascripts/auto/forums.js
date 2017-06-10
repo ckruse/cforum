@@ -41,6 +41,18 @@ cforum.forums = {
       return true;
     });
 
+    var lastFourYears = moment().subtract(48, 'months').startOf('month');
+
+    var lastFourYearValues = $.grep(cforum.forums.statsValues, function(val, i) {
+      var mmt = moment(val.moment);
+      if(mmt.isBefore(lastFourYears)) {
+        return false;
+      }
+      return true;
+    });
+
+
+
     $(".chart-year.chart").highcharts({
       chart: { type: 'spline' },
       title: null,
@@ -77,6 +89,28 @@ cforum.forums = {
         data: $.map(cforum.forums.usersTwelveMonths, function(val, i) { return val.cnt; })
       }]
     });
+
+    $(".chart-48-months.chart").highcharts({
+      chart: { type: 'spline' },
+      title: null,
+      xAxis: {
+        categories: $.map(lastFourYearValues, function(val, i) { return Highcharts.dateFormat("%B %Y", new Date(val.moment)); })
+      },
+      yAxis: [
+        { title: { text: t('highcharts.cnt_threads') } },
+        { title: { text: t('highcharts.cnt_messages') }, opposite: true }],
+      series: [{
+        name: t('highcharts.threads'),
+        data: $.map(lastFourYearValues, function(val, i) { return val.threads; }),
+        yAxis: 0
+      },
+      {
+        name: t('highcharts.messages'),
+        data: $.map(lastFourYearValues, function(val, i) { return val.messages; }),
+        yAxis: 1
+      }]
+    });
+
   }
 };
 

@@ -6,6 +6,7 @@ de:
 
     stats: Foren-Statistiken „%{name}“
     by_date_all: Verteilung nach Datum
+    by_date_last_48_months: Verteilung nach Datum in den letzten vier Jahren
     by_date_year: Verteilung nach Datum in den letzten 12 Monaten
     stats_text: Das Forum „%{name}“ wurde am %{created} Uhr erstellt und enthält <strong>%{num_messages}</strong> Nachrichten in <strong>%{num_threads}</strong> Threads.
     no_messages_and_threads: "%{messages} Beiträge von %{users} Autoren in %{threads} Threads."
