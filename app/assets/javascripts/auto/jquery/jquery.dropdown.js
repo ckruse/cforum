@@ -2,29 +2,56 @@
 
 (function($) {
   $.fn.dropdown = function() {
-    var $this = $(this);
+    var mql = window.matchMedia("only screen and (min-width: 35em)");
+    if(!mql.matches) {
+      return;
+    }
 
+    var $this = $(this);
     var anchor = $this.find('.anchor');
+    var text = anchor
+        .text()
+        .replace(/&/, '&amp;')
+        .replace(/</, '&lt;')
+        .replace(/>/, '&gt;');
+
+    anchor.html('<button type="button" aria-haspopup="true" aria-expanded="false">' + text + '</button>');
+    var menuButton = anchor.find('button');
 
     anchor.addClass('visible');
-    anchor.attr("tabindex", '0');
     $this.addClass('js');
+
     var parent = anchor.parent();
+    var openMenu = function(element) {
+      element.addClass('open');
+      menuButton.attr('aria-expanded', 'true');
+    };
 
-    anchor.on('focus', function() {
-      parent.addClass('open');
-    });
+    var hideMenu = function(element) {
+      element.removeClass('open');
+      menuButton.attr('aria-expanded', 'false');
+      menuButton.focus();
+    };
 
-    anchor.on('keypress', function(ev) {
-      if(ev.which == 32 || ev.which == 13) {
+    var toggleMenu = function(element) {
+      if(element.hasClass('open')) {
+        hideMenu(element);
+      }
+      else {
+        openMenu(element);
+      }
+    };
+
+    $this.on('keypress', function(ev) {
+      if(ev.keyCode == 27) {
         ev.preventDefault();
-        parent.toggleClass('open');
+        hideMenu(parent);
       }
     });
 
-    anchor.on('click', function(ev) {
+    menuButton.on('click', function(ev) {
       ev.preventDefault();
-      parent.toggleClass('open');
+      toggleMenu(parent);
     });
 
     $this.on('keydown', function(ev) {
@@ -35,9 +62,7 @@
       ev.preventDefault();
       ev.stopPropagation();
 
-      if(!$this.hasClass('open')) {
-        $this.addClass('open');
-      }
+      openMenu(parent);
 
 
       var links = $this.find("li");

@@ -3,15 +3,30 @@
 .dropdown {
   padding-right:0;
 
+  .anchor { display:none; }
+  .menu {
+    li:first-of-type {
+      margin-top:0;
+      padding-top:0;
+    }
+    li:last-of-type {
+      margin-bottom:0;
+      padding-bottom:0;
+    }
+  }
+
   &.js {
-   .menu {
+    .menu {
       padding:0 0 .5em;
       margin:.45em 0 0;
-   }
+    }
 
-   .anchor:hover, .anchor:focus, .anchor:active {
-     color: #990909;
-   }
+    .anchor button {
+      border:0;
+      background:inherit;
+      margin:0;
+      padding:0;
+    }
 
     li {
       display: block;
