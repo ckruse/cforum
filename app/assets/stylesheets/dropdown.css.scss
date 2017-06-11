@@ -69,12 +69,13 @@
 
       &.visible {
         display: block;
-        cursor:pointer;
-      }
-      &.visible::after {
-      content:"▼";
-      font-size:0.6em;
-      padding-left:.5em;
+
+        button { display:block; }
+        button::after {
+          content:"▼";
+          font-size:0.6em;
+          padding-left:.5em;
+        }
       }
     }
     li {
