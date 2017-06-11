@@ -63,7 +63,7 @@
         if(focused.length === 0) {
           hideMenu(parent);
         }
-      }, 0);
+      }, 200);
     });
 
     $this.on('keydown', function(ev) {
