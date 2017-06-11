@@ -23,14 +23,16 @@
 
     var parent = anchor.parent();
     var openMenu = function(element) {
-      element.addClass('open');
-      menuButton.attr('aria-expanded', 'true');
+      if(!element.hasClass('open')) {
+        element.addClass('open');
+        menuButton.attr('aria-expanded', 'true');
+        menuButton.focus();
+      }
     };
 
     var hideMenu = function(element) {
       element.removeClass('open');
       menuButton.attr('aria-expanded', 'false');
-      menuButton.focus();
     };
 
     var toggleMenu = function(element) {
@@ -46,12 +48,22 @@
       if(ev.keyCode == 27) {
         ev.preventDefault();
         hideMenu(parent);
+        menuButton.focus();
       }
     });
 
     menuButton.on('click', function(ev) {
       ev.preventDefault();
       toggleMenu(parent);
+    });
+
+    $this.find("a, button").on('blur', function() {
+      window.setTimeout(function() {
+        var focused = $this.find(":focus");
+        if(focused.length === 0) {
+          hideMenu(parent);
+        }
+      }, 0);
     });
 
     $this.on('keydown', function(ev) {
