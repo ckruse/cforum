@@ -70,7 +70,6 @@
       &.visible {
         display: block;
 
-        button { display:block; }
         button::after {
           content:"▼";
           font-size:0.6em;
