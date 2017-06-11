@@ -19,7 +19,8 @@ function ImageUpload(input) {
   var leave = function(e) {
     elements = elements.not(e.target);
     if(tm) {
-      return;
+      window.clearTimeout(tm);
+      tm = null;
     }
 
     tm = window.setTimeout(function() {
