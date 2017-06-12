@@ -37,12 +37,11 @@
 }
 
 @media only screen and (min-width: 35em) {
-
   .dropdown {
     padding-right:0;
 
     &.js {
-     .menu {
+      .menu {
         padding:0 0 .5em;
         margin:.45em 0 0;
         border:1px solid #D5D5D5;
@@ -51,7 +50,7 @@
         position: absolute;
         background-color: #F1F3F4;
         display: none;
-       }
+      }
 
       &.open .menu {
         display: block;
@@ -82,7 +81,7 @@
       padding-top:0;
       padding-bottom:0;
       font-size: 1em;
-     }
+    }
   }
 }
 
