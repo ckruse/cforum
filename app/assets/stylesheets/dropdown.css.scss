@@ -26,6 +26,7 @@
       background:inherit;
       margin:0;
       padding:0;
+      line-height: 1.6;
     }
 
     li {
@@ -67,7 +68,7 @@
       color:#3481cd;
 
       &.visible {
-        display: block;
+        display:inline;
 
         button::after {
           content:"▼";
