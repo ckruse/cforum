@@ -10,6 +10,15 @@ function ImageUpload(input) {
   var elements = $();
 
   var enter = function(e) {
+    var dt = e.dataTransfer;
+    if(!dt) {
+      dt = e.originalEvent.dataTransfer;
+    }
+
+    if(dt.types.length === 0 || (!dt.types[0].match(/image\//) && dt.types[0] != 'Files')) {
+      return;
+    }
+
     window.clearTimeout(tm);
     tm = null;
     zone.addClass('dragging');
