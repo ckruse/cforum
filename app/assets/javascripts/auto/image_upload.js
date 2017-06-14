@@ -15,6 +15,10 @@ function ImageUpload(input) {
       dt = e.originalEvent.dataTransfer;
     }
 
+    if(!dt) {
+      return;
+    }
+
     if(dt.types.length === 0 || (!dt.types[0].match(/image\//) && dt.types[0] != 'Files')) {
       return;
     }
