@@ -33,6 +33,7 @@ de:
     edit_change_to_markdown: Achtung! Wenn Sie diesen Beitrag editieren, müssen Sie ihn nach Markdown konvertieren. Nach dem Editieren wird der Beitrag als Markdown geparsed werden.
 
     versions: Versionen
+    versions_header: (Versionen)
     message_versions: Versionen dieses Beitrags
 
     these_messages_reference: "Folgende Nachrichten verweisen auf diesen Beitrag:"
