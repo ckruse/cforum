@@ -1129,6 +1129,7 @@
             $("#md-hyperlink-title").val(chunk);
             modal.modal({
               show: true,
+              main: '#page-container',
               primaryAction: function() {
                 link = $("#md-hyperlink-href").val();
                 chunk = $("#md-hyperlink-title").val();
@@ -1182,6 +1183,7 @@
             modal.find("#md-img-desc").val(chunk);
             modal.modal({
               show: true,
+              main: '#page-container',
               primaryAction: function() {
                 link = $("#md-img-src").val();
                 chunk = $("#md-img-desc").val();
@@ -1405,6 +1407,7 @@
               var msgModal = e.getModal('md-code-modal');
               msgModal.modal({
                 show: true,
+                main: '#page-container',
                 primaryAction: function() {
                   msgModal.modal('hide');
 

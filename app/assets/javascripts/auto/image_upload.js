@@ -74,6 +74,7 @@ function ImageUpload(input) {
 
         modal.modal({
           show: true,
+          main: '#page-container',
           primaryAction: function() {
             modal.modal('hide');
 

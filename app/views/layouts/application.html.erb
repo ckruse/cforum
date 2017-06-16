@@ -70,257 +70,258 @@ end
   </head>
 
   <body data-controller="<%= controller_path %>" data-action="<%= action_name %>"<% if content_for?(:body_id) %> id="<%= yield(:body_id) %>"<% end %><% if content_for?(:body_classes) %> class="<%= yield(:body_classes) %>"<% end %>>
-    <div class="flex-container">
-      <header class="top flex-item">
-        <ul class="selflinks">
-          <li><%= cf_link_to "SELFHTML", "//selfhtml.org/" %></li>
-          <li><%= cf_link_to "Wiki", "//wiki.selfhtml.org/" %></li>
-          <li><%= cf_link_to "Forum", root_path %></li>
-          <li><%= cf_link_to "Blog", "//blog.selfhtml.org/" %></li>
+    <div id="page-container">
+      <div class="flex-container">
+        <header class="top flex-item">
+          <ul class="selflinks">
+            <li><%= cf_link_to "SELFHTML", "//selfhtml.org/" %></li>
+            <li><%= cf_link_to "Wiki", "//wiki.selfhtml.org/" %></li>
+            <li><%= cf_link_to "Forum", root_path %></li>
+            <li><%= cf_link_to "Blog", "//blog.selfhtml.org/" %></li>
+          </ul>
+        </header>
+
+        <ul class="personallinks flex-item">
+          <% if user_signed_in? %>
+            <li id="user-info"><%= cf_link_to(image_tag(current_user.avatar(:thumb), alt: t('global.avatar')) + content_tag(:span, current_user.username),
+                                              user_path(current_user),
+                                              id: 'username',
+                                              title: t("users.score_num", num: current_user.score)) %>
+              <span class="score" title="<%= t("users.score_num", num: current_user.score) %>">(<%= number_with_delimiter(current_user.score) %>)</span>
+            </li>
+            <li id="optionen-myadmin"><%= cf_link_to t("layout.settings"), edit_user_path(current_user) %></li>
+            <li id="user-notifications"><%= cf_link_to(t("notifications.notifications"),
+                                                       notifications_path,
+                                                       title: t("notifications.new_notifications",
+                                                                count: @new_notifications.length)) %>
+              (<span class="notifications<% if @new_notifications.length > 0 %> new<% end %>"
+                     id="notifications-display"
+                     title="<%= t("notifications.new_notifications",
+                                  count: @new_notifications.length) %>"><%= @new_notifications.length %></span>)
+            </li>
+            <li id="post-link"><%= cf_link_to(t("layout.mail"),
+                                              mails_path,
+                                              title: t("mails.new_mails_num",
+                                                       count: @new_mails.length)) %>
+              (<span class="mails new" id="mails"
+                     title="<%= t("mails.new_mails_num",
+                                  count: @new_mails.length) %>"><%= @new_mails.length %></span>)</li>
+            <li id="optionen-logout"><%= cf_link_to(t('layout.logout'), destroy_user_session_path, method: :delete) %></li>
+          <% else %>
+            <li id="user-not-signed-in"><%= image_tag("https://forum.selfhtml.org/images/thumb/missing.png") %> nicht angemeldet</li>
+            <li id="optionen-help"><%= cf_link_to(t('help.help'), help_path) %></li>
+            <li id="optionen-my"><%= cf_link_to(t('layout.login'), new_user_session_path, rel: 'nofollow') %></li>
+            <li id="optionen-myadmin"><%= cf_link_to(t("layout.register"), new_user_registration_path, rel: 'nofollow') %></li>
+          <% end %>
         </ul>
-      </header>
 
-      <ul class="personallinks flex-item">
-        <% if user_signed_in? %>
-          <li id="user-info"><%= cf_link_to(image_tag(current_user.avatar(:thumb), alt: t('global.avatar')) + content_tag(:span, current_user.username),
-                                            user_path(current_user),
-                                            id: 'username',
-                                            title: t("users.score_num", num: current_user.score)) %>
-            <span class="score" title="<%= t("users.score_num", num: current_user.score) %>">(<%= number_with_delimiter(current_user.score) %>)</span>
-          </li>
-          <li id="optionen-myadmin"><%= cf_link_to t("layout.settings"), edit_user_path(current_user) %></li>
-          <li id="user-notifications"><%= cf_link_to(t("notifications.notifications"),
-                                                     notifications_path,
-                                                     title: t("notifications.new_notifications",
-                                                              count: @new_notifications.length)) %>
-            (<span class="notifications<% if @new_notifications.length > 0 %> new<% end %>"
-                   id="notifications-display"
-                   title="<%= t("notifications.new_notifications",
-                                count: @new_notifications.length) %>"><%= @new_notifications.length %></span>)
-          </li>
-          <li id="post-link"><%= cf_link_to(t("layout.mail"),
-                                            mails_path,
-                                            title: t("mails.new_mails_num",
-                                                     count: @new_mails.length)) %>
-            (<span class="mails new" id="mails"
-                   title="<%= t("mails.new_mails_num",
-                                count: @new_mails.length) %>"><%= @new_mails.length %></span>)</li>
-          <li id="optionen-logout"><%= cf_link_to(t('layout.logout'), destroy_user_session_path, method: :delete) %></li>
-        <% else %>
-          <li id="user-not-signed-in"><%= image_tag("https://forum.selfhtml.org/images/thumb/missing.png") %> nicht angemeldet</li>
-          <li id="optionen-help"><%= cf_link_to(t('help.help'), help_path) %></li>
-          <li id="optionen-my"><%= cf_link_to(t('layout.login'), new_user_session_path, rel: 'nofollow') %></li>
-          <li id="optionen-myadmin"><%= cf_link_to(t("layout.register"), new_user_registration_path, rel: 'nofollow') %></li>
-        <% end %>
-      </ul>
+        <header class="flex-container flex-item page-header">
+          <div class="flex-item logo">
+            <h1><span>selfhtml-Forum - Ergänzung zur <%= cf_link_to "Dokumentation", "https://wiki.selfhtml.org" %></span><%= cf_link_to '', root_path, class: 'home' %></h1>
+            <%= cf_link_to(image_tag('feed-rss.svg',
+                                     alt: t("layout.rss_feed",
+                                            forum: current_forum ?
+                                            t('layout.forum', name: current_forum.name) :
+                                            t('forums.all_forums'))),
+                           forum_url(current_forum, format: :rss),
+                           title: t("layout.rss_feed",
+                                    forum: current_forum ?
+                                    t('layout.forum', name: current_forum.name) :
+                                    t('forums.all_forums')),
+                           class: 'rss') %>
 
-      <header class="flex-container flex-item page-header">
-        <div class="flex-item logo">
-          <h1><span>selfhtml-Forum - Ergänzung zur <%= cf_link_to "Dokumentation", "https://wiki.selfhtml.org" %></span><%= cf_link_to '', root_path, class: 'home' %></h1>
-          <%= cf_link_to(image_tag('feed-rss.svg',
-                                   alt: t("layout.rss_feed",
-                                          forum: current_forum ?
-                                          t('layout.forum', name: current_forum.name) :
-                                          t('forums.all_forums'))),
-                         forum_url(current_forum, format: :rss),
-                         title: t("layout.rss_feed",
-                                  forum: current_forum ?
-                                  t('layout.forum', name: current_forum.name) :
-                                  t('forums.all_forums')),
-                         class: 'rss') %>
+            <%= cf_link_to(image_tag('feed-atom.svg',
+                                     alt: t("layout.atom_feed",
+                                            forum: current_forum ?
+                                            t('layout.forum', name: current_forum.name) :
+                                            t('forums.all_forums'))),
+                           forum_url(current_forum, format: :atom),
+                           title: t("layout.atom_feed",
+                                    forum: current_forum ?
+                                    t('layout.forum', name: current_forum.name) :
+                                    t('forums.all_forums')),
+                           class: 'atom') %>
 
-          <%= cf_link_to(image_tag('feed-atom.svg',
-                                   alt: t("layout.atom_feed",
-                                          forum: current_forum ?
-                                          t('layout.forum', name: current_forum.name) :
-                                          t('forums.all_forums'))),
-                         forum_url(current_forum, format: :atom),
-                         title: t("layout.atom_feed",
-                                  forum: current_forum ?
-                                  t('layout.forum', name: current_forum.name) :
-                                  t('forums.all_forums')),
-                         class: 'atom') %>
+            <%= cf_link_to(image_tag('donate.svg', alt: t("layout.donate")),
+                           'https://selfhtml.org/spenden.html', title: t("layout.donate"),
+                           class: 'donate') %>
+          </div>
 
-          <%= cf_link_to(image_tag('donate.svg', alt: t("layout.donate")),
-                         'https://selfhtml.org/spenden.html', title: t("layout.donate"),
-                         class: 'donate') %>
-        </div>
-
-        <nav class="flex-item quicklinks">
-          <ul>
-            <li><%= cf_link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
-            <li><%= cf_link_to t('layout.home'), root_url %></li>
-            <li class="dropdown"><span class="anchor"><%= t('global.forums') %></span>
-              <ul class="menu">
-                <li<% if current_forum.blank? and controller_path == 'cf_threads' %> class="active"<% end %>>
-                  <%= link_to t('forums.all_forums'), forum_path %>
-                  <%= cf_link_to stats_path('all'), title: t('layout.statistics'), class: 'stats' do %>
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="22" height="14" viewBox="0, 0, 22, 14">
-                      <g id="stats-icon">
-                        <path d="M-0.001,13 L21.999,13 L21.999,14 L-0.001,14 z" fill="#BFBFBF"/>
-                        <path d="M17,-0.001 L20,-0.001 L20,12.999 L17,12.999 z" fill="#8CB433"/>
-                        <path d="M12,4 L15,4 L15,13 L12,13 z" fill="#5C7FDD"/>
-                        <path d="M7,2 L10,2 L10,13 L7,13 z" fill="#E7C248"/>
-                        <path d="M2,7 L5,7 L5,13 L2,13 z" fill="#C52D00"/>
-                      </g>
-                    </svg>
-                  <% end %>
-                </li>
-                <% @forums.each do |f| %>
-                  <li<% if current_forum.try(:forum_id) == f.forum_id %> class="active"<% end %>>
-                    <%= link_to f.name, forum_path(f) %>
-                    <%= cf_link_to stats_path(f), title: t('layout.statistics'), class: 'stats' do %>
+          <nav class="flex-item quicklinks">
+            <ul>
+              <li><%= cf_link_to t('threads.write_new_thread'), new_cf_thread_path(current_forum) %></li>
+              <li><%= cf_link_to t('layout.home'), root_url %></li>
+              <li class="dropdown"><span class="anchor"><%= t('global.forums') %></span>
+                <ul class="menu">
+                  <li<% if current_forum.blank? and controller_path == 'cf_threads' %> class="active"<% end %>>
+                    <%= link_to t('forums.all_forums'), forum_path %>
+                    <%= cf_link_to stats_path('all'), title: t('layout.statistics'), class: 'stats' do %>
                       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="22" height="14" viewBox="0, 0, 22, 14">
-                        <use xlink:href="#stats-icon"></use>
+                        <g id="stats-icon">
+                          <path d="M-0.001,13 L21.999,13 L21.999,14 L-0.001,14 z" fill="#BFBFBF"/>
+                          <path d="M17,-0.001 L20,-0.001 L20,12.999 L17,12.999 z" fill="#8CB433"/>
+                          <path d="M12,4 L15,4 L15,13 L12,13 z" fill="#5C7FDD"/>
+                          <path d="M7,2 L10,2 L10,13 L7,13 z" fill="#E7C248"/>
+                          <path d="M2,7 L5,7 L5,13 L2,13 z" fill="#C52D00"/>
+                        </g>
                       </svg>
                     <% end %>
                   </li>
-                <% end %>
-              </ul>
-            </li>
-            <li class="cites">
-              <%= cf_link_to t('cites.cites'), cites_path %>
-              <% unless current_user.blank? %>(<%= cf_link_to "#{@undeceided_cites}", cites_vote_path %>)<% end %>
-            </li>
-            <% if current_user.try(:moderator?) %>
-              <li id="moderator-queue">
-                <%= cf_link_to(t('moderation_queue.moderation_queue'), moderation_queue_index_path) %> <span id="moderation-queue-count">(<%= @open_moderation_queue_entries_count %>)</span>
+                  <% @forums.each do |f| %>
+                    <li<% if current_forum.try(:forum_id) == f.forum_id %> class="active"<% end %>>
+                      <%= link_to f.name, forum_path(f) %>
+                      <%= cf_link_to stats_path(f), title: t('layout.statistics'), class: 'stats' do %>
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="22" height="14" viewBox="0, 0, 22, 14">
+                          <use xlink:href="#stats-icon"></use>
+                        </svg>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
               </li>
-            <% end %>
-            <li><%= cf_link_to t('search.search'), search_path %></li>
-            <li><%= cf_link_to t("layout.chat"), "https://kiwiirc.com/client/irc.epd-me.net/?nick=" + (current_user.try(:username) || "Guest%7C" + rand(9999).to_s) + "&channel=#selfhtml", rel: 'nofollow' %></li>
-            <li><%= cf_link_to(t('help.help'), help_path) %></li>
-            <% if controller_path != "cf_search" %>
-              <li class="search">
-                <%= form_tag search_path + '#results', method: 'get', rel: 'nofollow' do %>
-                  <%= hidden_field_tag 'sections[]', 1, id: nil %>
-                  <%= hidden_field_tag 'sections[]', 2, id: nil %>
-                  <%= search_field_tag 'term', params[:term], placeholder: t('search.search_top') %>
-                <% end %>
+              <li class="cites">
+                <%= cf_link_to t('cites.cites'), cites_path %>
+                <% unless current_user.blank? %>(<%= cf_link_to "#{@undeceided_cites}", cites_vote_path %>)<% end %>
               </li>
-            <% end %>
-          </ul>
-        </nav>
-
-        <nav class="flex-item subnav">
-          <% if @has_subnav and not subnav.blank? %>
-            <%= subnav %>
-          <% end %>
-
-          <ul>
-            <% if current_forum %>
-              <li><%= cf_link_to current_forum.name, cf_threads_path(current_forum) %></li>
-            <% end %>
-
-            <% if @message and @thread and not @thread.new_record? %>
-              <% if @read_mode != 'thread-view' %>
-                <li><%= cf_link_to(t('layout.thread_view'),
-                                   message_path(@thread, @message,
-                                                p: params[:p],
-                                                rm: 'thread-view')) %></li>
-              <% else %>
-                <li><%= cf_link_to(t('layout.nested_view'),
-                                   message_path(@thread, @message,
-                                                p: params[:p],
-                                                rm: 'nested-view')) %></li>
+              <% if current_user.try(:moderator?) %>
+                <li id="moderator-queue">
+                  <%= cf_link_to(t('moderation_queue.moderation_queue'), moderation_queue_index_path) %> <span id="moderation-queue-count">(<%= @open_moderation_queue_entries_count %>)</span>
+                </li>
               <% end %>
-            <% end %>
-
-            <% if controller_path == 'cf_threads' and current_user.blank? %>
-              <% if @order != 'ascending' %>
-                <li><%= link_to(t('layout.sort_ascending'),
-                                forum_path(current_forum,
-                                           p: params[:p],
-                                           order: 'ascending')) %></li>
+              <li><%= cf_link_to t('search.search'), search_path %></li>
+              <li><%= cf_link_to t("layout.chat"), "https://kiwiirc.com/client/irc.epd-me.net/?nick=" + (current_user.try(:username) || "Guest%7C" + rand(9999).to_s) + "&channel=#selfhtml", rel: 'nofollow' %></li>
+              <li><%= cf_link_to(t('help.help'), help_path) %></li>
+              <% if controller_path != "cf_search" %>
+                <li class="search">
+                  <%= form_tag search_path + '#results', method: 'get', rel: 'nofollow' do %>
+                    <%= hidden_field_tag 'sections[]', 1, id: nil %>
+                    <%= hidden_field_tag 'sections[]', 2, id: nil %>
+                    <%= search_field_tag 'term', params[:term], placeholder: t('search.search_top') %>
+                  <% end %>
+                </li>
               <% end %>
-              <% if @order != 'descending' %>
-                <li><%= link_to(t('layout.sort_descending'),
-                                forum_path(current_forum,
-                                           p: params[:p],
-                                           order: 'descending')) %></li>
+            </ul>
+          </nav>
+
+          <nav class="flex-item subnav">
+            <% if @has_subnav and not subnav.blank? %>
+              <%= subnav %>
+            <% end %>
+
+            <ul>
+              <% if current_forum %>
+                <li><%= cf_link_to current_forum.name, cf_threads_path(current_forum) %></li>
               <% end %>
-              <% if @order != 'newest-first' %>
-                <li><%= link_to(t('layout.sort_newestfirst'),
-                                forum_path(current_forum,
-                                           p: params[:p],
-                                           order: 'newest-first')) %></li>
-              <% end %>
-            <% end %>
 
-            <% if @thread and not @thread.new_record? %>
-              <li id="nachricht-feed-atom"><%= cf_link_to t("layout.msg_atom_feed"), cf_thread_url(@thread, format: :atom) %></li>
-              <li id="nachricht-feed-rss"><%= cf_link_to t("layout.msg_rss_feed"), cf_thread_url(@thread, format: :rss) %></li>
-            <% end %>
-
-            <% if current_user.try(:admin) %>
-              <li><%= cf_link_to t('layout.administration'), admin_users_path %></li>
-            <% end %>
-
-            <% if current_user.try(:moderate?, current_forum) %>
-              <%
-              path = nil
-              if @message.blank?
-                path = cf_threads_path(current_forum, view_all: @view_all ? nil : "yes")
-              else
-                path = message_path(@thread, @message, view_all: @view_all ? nil : "yes")
-              end
-              %>
-              <% if @view_all %>
-                <li id="admin-view"><%= cf_link_to t("forums.normal_view"), path %></li>
-              <% else %>
-                <li id="admin-view"><%= cf_link_to t("forums.admin_view"), path %></li>
-              <% end %>
-            <% end %>
-
-            <% if %w(cf_threads messages cf_archive).include?(controller_path) %>
-              <li id="link-archiv"><%= cf_link_to t("threads.archive"), cf_archive_path(current_forum) %></li>
-            <% end %>
-
-            <% if @threads && current_user && !controller_path.in?(%w(interesting_messages_plugin hidden_threads_plugin)) %>
-              <li id="mark-all-read"><%= cf_link_to(t("plugins.mark_read.mark_all_read"),
-                                                    mark_all_read_path(current_forum, std_args),
-                                                    method: :post) %></li>
-              <li id="optionen-close-all-threads"><%= cf_link_to t('plugins.open_close.close_all_threads'), close_all_threads_path(current_forum, std_args), method: :post %></li>
-              <li id="optionen-open-all-threads"><%= cf_link_to t('plugins.open_close.open_all_threads'), open_all_threads_path(current_forum, std_args), method: :post %></li>
-
-              <% if uconf('hide_read_threads') == 'yes' %>
-                <% if session[:srt] %>
-                  <li id="optionen-hide-read-threads"><%= cf_link_to t('plugins.hide_read_threads.hide_read_threads'), forum_path(current_forum, 'srt' => 'no') %></li>
+              <% if @message and @thread and not @thread.new_record? %>
+                <% if @read_mode != 'thread-view' %>
+                  <li><%= cf_link_to(t('layout.thread_view'),
+                                     message_path(@thread, @message,
+                                                  p: params[:p],
+                                                  rm: 'thread-view')) %></li>
                 <% else %>
-                  <li id="optionen-show-read-threads"><%= cf_link_to t('plugins.hide_read_threads.show_read_threads'), forum_path(current_forum, 'srt' => 'yes') %></li>
+                  <li><%= cf_link_to(t('layout.nested_view'),
+                                     message_path(@thread, @message,
+                                                  p: params[:p],
+                                                  rm: 'nested-view')) %></li>
                 <% end %>
+              <% end %>
+
+              <% if controller_path == 'cf_threads' and current_user.blank? %>
+                <% if @order != 'ascending' %>
+                  <li><%= link_to(t('layout.sort_ascending'),
+                                  forum_path(current_forum,
+                                             p: params[:p],
+                                             order: 'ascending')) %></li>
+                <% end %>
+                <% if @order != 'descending' %>
+                  <li><%= link_to(t('layout.sort_descending'),
+                                  forum_path(current_forum,
+                                             p: params[:p],
+                                             order: 'descending')) %></li>
+                <% end %>
+                <% if @order != 'newest-first' %>
+                  <li><%= link_to(t('layout.sort_newestfirst'),
+                                  forum_path(current_forum,
+                                             p: params[:p],
+                                             order: 'newest-first')) %></li>
+                <% end %>
+              <% end %>
+
+              <% if @thread and not @thread.new_record? %>
+                <li id="nachricht-feed-atom"><%= cf_link_to t("layout.msg_atom_feed"), cf_thread_url(@thread, format: :atom) %></li>
+                <li id="nachricht-feed-rss"><%= cf_link_to t("layout.msg_rss_feed"), cf_thread_url(@thread, format: :rss) %></li>
+              <% end %>
+
+              <% if current_user.try(:admin) %>
+                <li><%= cf_link_to t('layout.administration'), admin_users_path %></li>
+              <% end %>
+
+              <% if current_user.try(:moderate?, current_forum) %>
+                <%
+                path = nil
+                if @message.blank?
+                  path = cf_threads_path(current_forum, view_all: @view_all ? nil : "yes")
+                else
+                  path = message_path(@thread, @message, view_all: @view_all ? nil : "yes")
+                end
+                %>
+                <% if @view_all %>
+                  <li id="admin-view"><%= cf_link_to t("forums.normal_view"), path %></li>
+                <% else %>
+                  <li id="admin-view"><%= cf_link_to t("forums.admin_view"), path %></li>
+                <% end %>
+              <% end %>
+
+              <% if %w(cf_threads messages cf_archive).include?(controller_path) %>
+                <li id="link-archiv"><%= cf_link_to t("threads.archive"), cf_archive_path(current_forum) %></li>
+              <% end %>
+
+              <% if @threads && current_user && !controller_path.in?(%w(interesting_messages_plugin hidden_threads_plugin)) %>
+                <li id="mark-all-read"><%= cf_link_to(t("plugins.mark_read.mark_all_read"),
+                                                      mark_all_read_path(current_forum, std_args),
+                                                      method: :post) %></li>
+                <li id="optionen-close-all-threads"><%= cf_link_to t('plugins.open_close.close_all_threads'), close_all_threads_path(current_forum, std_args), method: :post %></li>
+                <li id="optionen-open-all-threads"><%= cf_link_to t('plugins.open_close.open_all_threads'), open_all_threads_path(current_forum, std_args), method: :post %></li>
+
+                <% if uconf('hide_read_threads') == 'yes' %>
+                  <% if session[:srt] %>
+                    <li id="optionen-hide-read-threads"><%= cf_link_to t('plugins.hide_read_threads.hide_read_threads'), forum_path(current_forum, 'srt' => 'no') %></li>
+                  <% else %>
+                    <li id="optionen-show-read-threads"><%= cf_link_to t('plugins.hide_read_threads.show_read_threads'), forum_path(current_forum, 'srt' => 'yes') %></li>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <% if current_user && ((@threads && !controller_path.in?(%w(interesting_messages_plugin hidden_threads_plugin))) || controller_path.in?(%w(forums users))) %>
+                <li id="interesting-links"><%= cf_link_to t('plugins.interesting_messages.interesting_messages'), interesting_messages_path %></li>
+                <li id="invisible-links"><%= cf_link_to t('plugins.invisible_threads.invisible_threads'), hidden_threads_path %></li>
+              <% end %>
+
+              <% if controller_path == 'forums' %>
+                <li id="events-link"><%= cf_link_to t('events.events'), events_path %></li>
+              <% end %>
+            </ul>
+          </nav>
+
+        </header>
+
+        <% if not @motds.blank? or content_for?(:aside) %>
+          <aside class="flex-item">
+            <% if not @motds.blank? %>
+              <% @motds.each do |motd| %>
+                <div class="aktuelle-mitteilung"><%= motd %></div>
               <% end %>
             <% end %>
 
-            <% if current_user && ((@threads && !controller_path.in?(%w(interesting_messages_plugin hidden_threads_plugin))) || controller_path.in?(%w(forums users))) %>
-              <li id="interesting-links"><%= cf_link_to t('plugins.interesting_messages.interesting_messages'), interesting_messages_path %></li>
-              <li id="invisible-links"><%= cf_link_to t('plugins.invisible_threads.invisible_threads'), hidden_threads_path %></li>
-            <% end %>
+            <%= content_for :aside %>
+          </aside>
+        <% end %>
 
-            <% if controller_path == 'forums' %>
-              <li id="events-link"><%= cf_link_to t('events.events'), events_path %></li>
-            <% end %>
-          </ul>
-        </nav>
-
-      </header>
-
-      <% if not @motds.blank? or content_for?(:aside) %>
-        <aside class="flex-item">
-          <% if not @motds.blank? %>
-            <% @motds.each do |motd| %>
-              <div class="aktuelle-mitteilung"><%= motd %></div>
-            <% end %>
-          <% end %>
-
-          <%= content_for :aside %>
-        </aside>
-      <% end %>
-
-      <main class="flex-item">
-        <div id="alerts-container">
-          <% flash.each do |name,msg|
-          next if not msg.is_a?(String) or name == :timedout # needed because there seem to be messages like „true“ %>
+        <main class="flex-item">
+          <div id="alerts-container">
+            <% flash.each do |name,msg|
+            next if not msg.is_a?(String) or name == :timedout # needed because there seem to be messages like „true“ %>
             <div class="cf-<%= name.to_s == 'notice' ? "success" : "error" %> cf-alert fade in">
               <button type="button" class="close" data-dismiss="cf-alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -329,30 +330,31 @@ end
               <%= msg %>
             </div>
           <% end %>
-        </div>
+          </div>
 
 
-        <% if content_for?(:h1) %><h1><%= content_for(:h1) %></h1><% end %>
+          <% if content_for?(:h1) %><h1><%= content_for(:h1) %></h1><% end %>
 
-        <div id="content">
-          <%= yield %>
+          <div id="content">
+            <%= yield %>
 
-          <%= track_request %>
-        </div>
-      </main>
+            <%= track_request %>
+          </div>
+        </main>
 
+      </div>
+
+      <footer>
+        <ul>
+          <li>Seit 1995 — <%= cf_link_to "Die Energie des Verstehens", "//selfhtml.org/" %></li>
+          <li><%= cf_link_to "Impressum", "//selfhtml.org/impressum.html" %></li>
+          <li><%= cf_link_to "Datenschutz", "//selfhtml.org/impressum.html#datenschutz" %></li>
+          <li>Software: <%= cf_link_to "Classic Forum " + ApplicationController::VERSION, "https://github.com/ckruse/cforum" %></li>
+        </ul>
+
+        <p class="termitel-sponsor"><%= cf_link_to "https://termitel.de/" do %><%= image_tag 'termitel-customer-care-and-sales.png', alt: "Termitel - Customer Care & Sales" %><% end %></p>
+      </footer>
     </div>
-
-    <footer>
-      <ul>
-        <li>Seit 1995 — <%= cf_link_to "Die Energie des Verstehens", "//selfhtml.org/" %></li>
-        <li><%= cf_link_to "Impressum", "//selfhtml.org/impressum.html" %></li>
-        <li><%= cf_link_to "Datenschutz", "//selfhtml.org/impressum.html#datenschutz" %></li>
-        <li>Software: <%= cf_link_to "Classic Forum " + ApplicationController::VERSION, "https://github.com/ckruse/cforum" %></li>
-      </ul>
-
-      <p class="termitel-sponsor"><%= cf_link_to "https://termitel.de/" do %><%= image_tag 'termitel-customer-care-and-sales.png', alt: "Termitel - Customer Care & Sales" %><% end %></p>
-    </footer>
 
     <%= javascript_include_tag "application" %>
     <% if @own_js_file %><script src="<%= @own_js_file %>"></script><% end %>
