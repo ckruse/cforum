@@ -6,6 +6,11 @@ function ImageUpload(input) {
   input.after('<div class="image-upload">' + t('upload.image_area') + '</div>');
   var zone = input.next('.image-upload');
 
+  zone.find("button").on('click', function(ev) {
+    ev.preventDefault();
+    zone.click();
+  });
+
   var tm = null;
   var elements = $();
 
