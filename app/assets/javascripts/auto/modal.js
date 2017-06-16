@@ -32,7 +32,7 @@
     var that = this;
     this.$main.attr('aria-hidden', 'true'); // mark the main page as hidden
     this.$backdrop.css('display', 'block'); // insert an overlay to prevent clicking and make a visual change to indicate the main apge is not available
-    this.$element.css('display', 'block'); // make the modal window visible
+    this.$element.addClass('visible');
     this.$element.attr('aria-hidden', 'false'); // mark the modal window as visible
 
     // attach a listener to redirect the tab to the modal window if the user somehow gets out of the modal window
@@ -126,7 +126,7 @@
 
   Modal.prototype.hide = function() {
     this.$backdrop.css('display', 'none'); // remove the overlay in order to make the main screen available again
-    this.$element.css('display', 'none'); // hide the modal window
+    this.$element.removeClass('visible');
     this.$element.attr('aria-hidden', 'true'); // mark the modal window as hidden
     this.$main.attr('aria-hidden', 'false'); // mark the main page as visible
 

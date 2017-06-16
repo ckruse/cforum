@@ -56,6 +56,10 @@
   &.open { display:block; }
 }
 
+.modal.visible {
+  display:block;
+}
+
 #modal-backdrop {
   z-index: 1000;
   position: fixed;
