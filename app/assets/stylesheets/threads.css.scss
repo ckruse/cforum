@@ -65,7 +65,6 @@ a.thread-forum-plate {
 
   & > header > .thread-icons {
     position:static;
-    right:1em;
     float:right;
   }
 
@@ -106,7 +105,7 @@ a.thread-forum-plate {
 
   header {
     line-height: 1.6em;
-    white-space: nowrap;
+    overflow:hidden;
 
     h2, h3 {
       font-size: 1em;
@@ -210,10 +209,6 @@ a.thread-forum-plate {
   .thread header .details > .cf-tags-list,
   .thread-forum-plate {
     display: none;
-  }
-
-  .thread header {
-    white-space: normal;
   }
 
   .thread ol header .author {
@@ -346,10 +341,6 @@ a.thread-forum-plate {
     .thread header .details > .cf-tags-list,
     .thread-forum-plate {
       display: inline;
-    }
-
-    .thread header {
-      white-space: nowrap;
     }
 
     .thread ol header .author {

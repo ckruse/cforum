@@ -12,12 +12,13 @@ module MessageHelper
              parent_subscribed: false }.merge(opts)
 
     html = message_header_header_element(thread, message, opts)
-    html << message_header_thread_icons(thread, opts)
+
     html << message_header_message_icons(thread, message, opts)
     html << '  ' << message_header_forum_plate(thread.forum) if opts[:first] && current_forum.blank?
     html << message_header_votes(message, opts)
     html << message_header_subject(thread, message, opts)
     html << message_header_details(thread, message, opts)
+    html << message_header_thread_icons(thread, opts)
 
     html << '</header>'
 
