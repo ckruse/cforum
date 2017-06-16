@@ -378,10 +378,10 @@ module MessageHeaderHelper
   def message_header_versions(thread, message, opts)
     return '' if !opts[:show_editor] || message.edit_author.blank? || message.versions.blank?
 
-    ' ' + content_tag(:span, class: 'versions') do
-      cf_link_to(t('messages.versions_header'), versions_message_path(thread, message),
-                 rel: 'nofollow',
-                 class: 'version-link')
+    content_tag(:span, class: 'versions') do
+      (' (' + cf_link_to(t('messages.versions'), versions_message_path(thread, message),
+                         rel: 'nofollow',
+                         class: 'version-link') + ')').html_safe
     end
   end
 
