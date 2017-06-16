@@ -1149,8 +1149,8 @@
 
                   e.replaceSelection(text);
                   e.setSelection(selected.start, selected.start + text.length);
-
                   e.$textarea.trigger('input');
+                  e.$textarea.focus();
                 }
                 else {
                   $("#md-hyperlink-href").closest('.cf-cgroup').addClass('error');
@@ -1206,6 +1206,7 @@
                   e.setSelection(cursor, cursor + img.length);
 
                   e.$textarea.trigger('input');
+                  e.$textarea.focus();
                 }
                 else {
                   $("#md-img-src").closest('.cf-cgroup').addClass('error');
@@ -1419,6 +1420,7 @@
                     e.setSelection(cursor, cursor + text.length);
 
                     e.$textarea.trigger('input');
+                    e.$textarea.focus();
                   }
                 }
               });
