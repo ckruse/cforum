@@ -11,7 +11,7 @@
   var Modal = function(element, options) {
     this.options = options;
     this.$element = $(element);
-    this.$main = $(options.main || 'main');
+    this.$main = $(options.main);
     this.$backdrop = null;
     this.isShown = null;
     this.focusedElementBeforeModal = null;
@@ -36,7 +36,7 @@
     this.$element.attr('aria-hidden', 'false'); // mark the modal window as visible
 
     // attach a listener to redirect the tab to the modal window if the user somehow gets out of the modal window
-    $(document.body).on('focusin','main',function() {
+    $(document.body).on('focusin', this.options.main, function() {
       that.setFocusToFirstItemInModal();
     });
 
@@ -131,7 +131,7 @@
     this.$main.attr('aria-hidden', 'false'); // mark the main page as visible
 
     // remove the listener which redirects tab keys in the main content area to the modal
-    $(document.body).off('focusin', 'main');
+    $(document.body).off('focusin', this.options.main);
 
     // set focus back to element that had it before the modal was opened
     this.focusedElementBeforeModal.focus();
