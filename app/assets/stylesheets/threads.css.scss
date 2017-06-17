@@ -65,6 +65,7 @@ a.thread-forum-plate {
 
   & > header > .thread-icons {
     position:static;
+    right:1em;
     float:right;
   }
 
@@ -105,7 +106,6 @@ a.thread-forum-plate {
 
   header {
     line-height: 1.6em;
-    overflow:hidden;
 
     h2, h3 {
       font-size: 1em;
