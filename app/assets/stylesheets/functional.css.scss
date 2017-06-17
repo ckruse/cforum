@@ -25,17 +25,6 @@ p.no-data {
   line-height:0.8em;
 }
 
-.clearfix:after {
-	clear: both;
-	content: " ";
-	display: block;
-	font-size: 0;
-	height: 0;
-	line-height: 0;
-	visibility: hidden;
-	width: 0;
-}
-
 
 @media only screen and (min-width: 35em) {
   th.nummeric, td.nummeric,
