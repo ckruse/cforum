@@ -524,7 +524,7 @@ cforum.messages = {
       return;
     }
 
-    minput.before("<div class=\"character-count-container\"><span class=\"message-character-count\"></span></div>");
+    minput.before("<div class=\"character-count-container\" aria-live=\"polite\"><span class=\"message-character-count\"></span></div>");
     var mcount = $(".message-character-count");
 
     var checkLength = function() {
