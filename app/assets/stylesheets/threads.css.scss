@@ -119,7 +119,6 @@ a.thread-forum-plate {
     .details {
       display: inline;
       list-style-type: none;
-      margin-bottom: 0;
       margin-left: 0;
       font-size: 1em;
     }
@@ -144,7 +143,7 @@ a.thread-forum-plate {
       margin-right: 2px;
     }
     .votes {
-	     margin-left: .5em;
+       margin-left: .5em;
     }
     &.deleted {
       h2, h3, .details {
@@ -171,20 +170,20 @@ a.thread-forum-plate {
 
 .root {
   ol {
-	  overflow: hidden;
+    overflow: hidden;
   }
 
   ol header:before {
-	  content: '';
-	  font-size: 1.6px;
-	  font-size: 0rem;
-	  vertical-align: top;
-	  padding: 500% 1px 0;
-	  margin-right: 10px;
+    content: '';
+    font-size: 1.6px;
+    font-size: 0rem;
+    vertical-align: top;
+    padding: 500% 1px 0;
+    margin-right: 10px;
   }
 
   header {
-	  background: asset-data-url("posting-pfeil1.png") no-repeat left bottom;
+    background: asset-data-url("posting-pfeil1.png") no-repeat left bottom;
   }
 
   article > header, & > header, article ol li:only-child > header, &.posting ol li:only-child > header {
@@ -192,11 +191,11 @@ a.thread-forum-plate {
   }
 
   ol li:last-child > header:before {
-	  background: asset-data-url("posting-linie.png") repeat-y left top;
+    background: asset-data-url("posting-linie.png") repeat-y left top;
   }
 
   ol li:first-child > header:before {
-	  background-image: none;
+    background-image: none;
   }
 }
 /* end Posting-Linien */
@@ -355,7 +354,6 @@ a.thread-forum-plate {
   .thread li ol { padding-left: 2.5em; }
   .thread { min-width: 44em; }
   .thread > ol { padding-left:4.5em; }
-
 }
 
 
