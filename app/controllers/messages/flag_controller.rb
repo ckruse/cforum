@@ -41,7 +41,7 @@ class Messages::FlagController < ApplicationController
 
     if !has_error && @moderation_queue_entry.save
       audit(@message, 'flagged-' + @moderation_queue_entry.reason, nil)
-      NotifyModerationQueueJob.perform_later
+      NotifyModerationQueueJob.perform_later(@moderation_queue_entry.moderation_queue_entry_id)
       redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.flagged')
 
     else
