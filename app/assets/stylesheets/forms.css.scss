@@ -92,7 +92,11 @@
         color: #66AFE9;
       }
 
-      textarea { height:10em; }
+      textarea { 
+        height: 10em; 
+        -moz-tab-size: 2;
+        tab-size: 2;
+      }
 
       label.radio, label.checkbox {
         width:100%;
