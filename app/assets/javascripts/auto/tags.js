@@ -2,6 +2,7 @@
 /* global cforum, Mustache, t */
 
 cforum.tags = {
+  maxTagCompletes: 15,
   events: $({}),
   views: {
     tag: "<li class=\"cf-tag\" style=\"display:none\"><input name=\"tags[]\" type=\"hidden\" value=\"{{tag}}\"><i class=\"icon-del-tag del-tag\"> </i> {{tag}}</li>",
@@ -271,7 +272,7 @@ cforum.tags = {
     var i;
 
     if(term === "") {
-      for(i = 0; i < 5; ++i) {
+      for(i = 0; i < cforum.tags.maxTagCompletes; ++i) {
         found.push(tags[i].tag);
       }
       return found;
@@ -288,7 +289,7 @@ cforum.tags = {
 
     term = term.toLowerCase();
 
-    for(i = 0; i < tags.length && found.length <= 5; ++i) {
+    for(i = 0; i < tags.length && found.length <= cforum.tags.maxTagCompletes; ++i) {
       if(tags[i].tag.match(rx)) {
         found.push(tags[i].tag);
       }
