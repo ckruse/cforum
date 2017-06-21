@@ -27,7 +27,7 @@ desc ||= ""
   </div>
 
   <% content_for :modals do %>
-    <div class="users-modal modal" id="users-modal-<%= id %>" aria-hidden="true" aria-labelledby="users-selector-<%= id %>-title" aria-describedby="users-selector-<%= id %>-description" role="dialog" data-users-selector-id="users-selector-<%= id %>">
+    <div class="users-modal modal<% if single %> single<% end %>" id="users-modal-<%= id %>" aria-hidden="true" aria-labelledby="users-selector-<%= id %>-title" aria-describedby="users-selector-<%= id %>-description" role="dialog" data-users-selector-id="users-selector-<%= id %>">
       <div role="document" class="modal-inner">
         <div id="users-selector-<%= id %>-description" class="visually-hidden"><%= t('widgets.users_selector.search_user_desc') %></div>
         <h1 id="users-selector-<%= id %>-title"><%= t('widgets.users_selector.search_user') %></h1>
