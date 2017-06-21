@@ -254,7 +254,7 @@ cforum.tags = {
     $("#message_input").on('input', cforum.tags.handleSuggestionsKeyUp);
     $("#tags-suggestions").on('click', cforum.tags.addTagSuggestion);
 
-    if(cforum.tags.allTags.length == 0) {
+    if(cforum.tags.allTags.length === 0) {
       cforum.tags.getTags(cforum.tags.setupAutocomplete);
     }
     else {
@@ -270,7 +270,7 @@ cforum.tags = {
     var found = [];
     var i;
 
-    if(term == "") {
+    if(term === "") {
       for(i = 0; i < 5; ++i) {
         found.push(tags[i].tag);
       }
@@ -280,10 +280,10 @@ cforum.tags = {
 
     var rx;
     if(exact) {
-      rx = RegExp('^' + term + '$');
+      rx = new RegExp('^' + term + '$');
     }
     else {
-      rx = RegExp('^' + term);
+      rx = new RegExp('^' + term);
     }
 
     term = term.toLowerCase();
