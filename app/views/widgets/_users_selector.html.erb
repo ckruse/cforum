@@ -32,7 +32,9 @@ desc ||= ""
         <div id="users-selector-<%= id %>-description" class="visually-hidden"><%= t('widgets.users_selector.search_user_desc') %></div>
         <h1 id="users-selector-<%= id %>-title"><%= t('widgets.users_selector.search_user') %></h1>
 
-        <p><input type="text" class="user_search"></p>
+        <div class="cf-form">
+          <div class="cf-cgroup"><input type="text" class="user_search"></div>
+        </div>
 
         <h3><%= t('widgets.users_selector.found') %>:</h3>
         <ul class="user-list">
@@ -42,7 +44,7 @@ desc ||= ""
           <ul class="found-user-list" style="display:none">
           </ul>
         <% else %>
-          <h4><%= t('widgets.users_selector.chosen') %>:</h4>
+          <h3><%= t('widgets.users_selector.chosen') %>:</h3>
           <ul class="found-user-list">
           </ul>
         <% end %>
