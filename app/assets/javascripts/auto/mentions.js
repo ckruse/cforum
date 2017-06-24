@@ -63,7 +63,7 @@ cforum.replacements = function(elem, with_mentions) {
     id: 'emoji',
     type: 'row',
     rowLength: 5,
-    match: /\B:([\-+\w]*)$/,
+    match: /\B:([\-+\w]+)$/,
     index: 1,
     search: function(term, callback) {
       callback($.map(Object.keys(cforum.emojis), function(emoji) {
