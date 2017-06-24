@@ -393,6 +393,19 @@ cforum.messages = {
     cforum.messages.initPreview("message_input", "message_problematic_site");
     cforum.messages.initMaxLengthWarnings();
     cforum.replacements("#message_input", true);
+
+    $(".btn-group.groupCustom").append("<button class=\"md-editor-open-replacements\ btn-default btn-sm btn>😀</button>");
+    $(".md-editor-open-replacements").on('click', cforum.messages.triggerAutocomplete);
+  },
+
+  triggerAutocomplete: function(ev) {
+    ev.preventDefault();
+    $("#message_input").focus();
+
+    // we have to wait for the re-focus
+    window.setTimeout(function() {
+      $("#message_input").textcomplete('trigger', '::');
+    }, 0);
   },
 
   new: function() {

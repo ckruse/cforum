@@ -63,17 +63,17 @@ cforum.replacements = function(elem, with_mentions) {
     id: 'emoji',
     type: 'row',
     rowLength: 5,
-    match: /\B:([\-+\w]+)$/,
+    match: /\B:([:\-+\w]+)$/,
     index: 1,
     search: function(term, callback) {
       callback($.map(Object.keys(cforum.emojis), function(emoji) {
-        return emoji.indexOf(term) !== -1 ? emoji : null;
+        return (term == ':' || emoji.indexOf(term) !== -1) ? emoji : null;
       }));
     },
     template: function(value) {
       return cforum.emojis[value];
     },
-    replace: function (value) {
+    replace: function(value) {
       return cforum.emojis[value];
     }
   });
