@@ -29,9 +29,7 @@ cforum.cf_threads = {
     cforum.messages.initPreview("message_input", "cf_thread_message_problematic_site");
     cforum.messages.initMaxLengthWarnings();
     cforum.replacements("#message_input", true);
-
-    $(".btn-group.groupCustom").append("<button class=\"md-editor-open-replacements btn-default btn-sm btn\">😀</button>");
-    $(".md-editor-open-replacements").on('click', cforum.messages.triggerAutocomplete);
+    cforum.messages.initEmojis("#message_input", ".btn-group.groupUtil");
   },
   create: function() {
     cforum.cf_threads.initGlobal();
