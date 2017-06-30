@@ -405,6 +405,7 @@ cforum.messages = {
       // we have to wait for the re-focus
       window.setTimeout(function() {
         $(area).textcomplete('trigger', '::');
+        $(area).data('is-btn', true);
       }, 0);
     });
   },
