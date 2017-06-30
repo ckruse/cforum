@@ -278,6 +278,7 @@ cforum.tags = {
       return found;
     }
 
+    term = term.toLowerCase();
 
     var rx;
     if(exact) {
@@ -286,8 +287,6 @@ cforum.tags = {
     else {
       rx = new RegExp('^' + term);
     }
-
-    term = term.toLowerCase();
 
     for(i = 0; i < tags.length && found.length <= cforum.tags.maxTagCompletes; ++i) {
       if(tags[i].tag.match(rx)) {
