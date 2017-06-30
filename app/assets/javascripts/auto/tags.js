@@ -75,7 +75,7 @@ cforum.tags = {
     tag = tag.toLowerCase();
 
     for(i = 0; i < suggestions.length; ++i) {
-      if(tag.match(RegExp('^' + suggestions[i]))) {
+      if(tag.match(new RegExp('^' + suggestions[i]))) {
         return true;
       }
     }
