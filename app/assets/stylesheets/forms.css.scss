@@ -485,7 +485,11 @@ input[type="search"] { -webkit-appearance: textfield; }
       font-size:16px;
     }
 
-    input[type=radio], input[type=checkbox] { width:auto; }
+    input[type=radio], input[type=checkbox] {
+      width:auto;
+      display:inline;
+      margin-right:0.5em;
+    }
 
     input:focus, select:focus, textarea:focus {
       border-color: #66AFE9;
