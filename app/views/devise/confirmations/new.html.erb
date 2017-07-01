@@ -3,14 +3,12 @@ content_for(:title, t('devise.resend_confirmation_instructions'))
 content_for(:h1, t('devise.resend_confirmation_instructions'))
 %>
 
-<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post, class: 'form-horizontal' }) do |f| %>
+<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post, class: 'cf-form' }) do |f| %>
   <%= devise_error_messages! %>
 
   <div class="cf-cgroup">
     <%= f.label :email %>
-    <div class="cntrls">
-      <%= f.email_field :email, placeholder: 'info@example.com' %>
-    </div>
+    <%= f.email_field :email, placeholder: 'info@example.com' %>
   </div>
 
   <p class="form-actions">
