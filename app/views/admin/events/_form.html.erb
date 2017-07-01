@@ -2,39 +2,39 @@
 
 <div class="cf-cgroup">
   <%= f.label :name %>
-  <div class="cntrls"><%= f.text_field :name %></div>
+  <%= f.text_field :name %>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :location %>
-  <div class="cntrls"><%= f.text_field :location %></div>
+  <%= f.text_field :location %>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :maps_link %>
-  <div class="cntrls"><%= f.text_field :maps_link %></div>
+  <%= f.text_field :maps_link %>
 </div>
 
 <div class="cf-cgroup date-select">
   <%= f.label :start_date %>
-  <div class="cntrls"><%= f.date_select :start_date, start_year: DateTime.now.year %></div>
+  <%= f.date_select :start_date, start_year: DateTime.now.year %>
 </div>
 
 <div class="cf-cgroup date-select">
   <%= f.label :end_date %>
-  <div class="cntrls"><%= f.date_select :end_date, start_year: DateTime.now.year %></div>
+  <%= f.date_select :end_date, start_year: DateTime.now.year %>
 </div>
 
 <div class="cf-cgroup">
-  <%= f.label :visible %>
-  <div class="cntrls">
-    <label class="checkbox"><%= f.check_box :visible %></label>
-  </div>
+  <%= f.label :visible do %>
+    <%= f.check_box :visible %>
+    <%= Event.human_attribute_name(:visible) %>
+  <% end %>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :description %>
-  <div class="cntrls"><%= f.text_area :description, id: 'event_description' %></div>
+  <%= f.text_area :description, id: 'event_description' %>
 </div>
 
 <% if uconf('live_preview') == 'yes' %>
