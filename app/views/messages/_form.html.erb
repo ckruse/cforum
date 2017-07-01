@@ -4,46 +4,38 @@ with_name ||= false
 <fieldset>
   <div class="cf-cgroup">
     <%= f.label :subject %>
-    <div class="cntrls"><%= f.text_field :subject, placeholder: t('layout.placeholders.subject'), maxlength: 250, required: true %></div>
+    <%= f.text_field :subject, placeholder: t('layout.placeholders.subject'), maxlength: 250, required: true %>
   </div>
 
   <% if not current_user or (with_name and current_user.admin?) %>
   <div class="cf-cgroup">
     <%= f.label :author %>
-    <div class="cntrls"><%= f.text_field :author, placeholder: t('layout.placeholders.username'), maxlength: 60, required: true %></div>
+    <%= f.text_field :author, placeholder: t('layout.placeholders.username'), maxlength: 60, required: true %>
   </div>
   <% end %>
 
   <div class="cf-cgroup">
     <%= f.label :email %>
-    <div class="cntrls">
-      <%= f.email_field :email, placeholder: t('layout.placeholders.email_optional'), maxlength: 60 %>
-      <small><%= t('layout.voluntary_but_public') %></small>
-    </div>
+    <%= f.email_field :email, placeholder: t('layout.placeholders.email_optional'), maxlength: 60 %>
+    <small><%= t('layout.voluntary_but_public') %></small>
   </div>
 
   <div class="cf-cgroup">
     <%= f.label :homepage %>
-    <div class="cntrls">
-      <%= f.url_field :homepage, placeholder: t('layout.placeholders.homepage_optional'), maxlength: 250 %>
-      <small><%= t('layout.voluntary_but_public') %></small>
-    </div>
+    <%= f.url_field :homepage, placeholder: t('layout.placeholders.homepage_optional'), maxlength: 250 %>
+    <small><%= t('layout.voluntary_but_public') %></small>
   </div>
 
   <div class="cf-cgroup">
     <%= f.label :problematic_site %>
-    <div class="cntrls">
-      <%= f.url_field :problematic_site, placeholder: t('layout.placeholders.problematic_site_optional'), maxlength: 250 %>
-      <small><%= t('layout.voluntary_but_public') %></small>
-    </div>
+    <%= f.url_field :problematic_site, placeholder: t('layout.placeholders.problematic_site_optional'), maxlength: 250 %>
+    <small><%= t('layout.voluntary_but_public') %></small>
   </div>
 </fieldset>
 
 <fieldset>
   <div class="cf-cgroup cf-textarea-only">
-    <div class="cntrls">
-      <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt, required: true %>
-    </div>
+    <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt, required: true %>
   </div>
 
   <% if uconf('live_preview') == 'yes' %>
@@ -58,17 +50,15 @@ with_name ||= false
   <div class="cf-cgroup">
     <label><%= t('messages.tag_suggestions') %></label>
 
-    <div class="cntrls empty">
-      <ul id="tags-suggestions" class="cf-tags-list">
-        <li class="no-data"><%= t('messages.no_tag_suggestions') %></li>
-      </ul>
-    </div>
+    <ul id="tags-suggestions" class="cf-tags-list msg-form">
+      <li class="no-data"><%= t('messages.no_tag_suggestions') %></li>
+    </ul>
   </div>
 
   <div class="cf-cgroup">
-    <label><%= t('messages.tags') %></label>
-    <div class="cntrls" id="tags-group">
-      <ul id="tags-list" class="cf-tags-list"></ul>
+    <label for="tags-input"><%= t('messages.tags') %></label>
+    <div id="tags-group">
+      <ul id="tags-list" class="cf-tags-list msg-form"></ul>
       <input type="text" name="tag_list" value="<%= tags.join(", ") %>" id="tags-input" class="tags-input"><noscript> <em><%= t('messages.comma_separated_list') %></em></noscript>
     </div>
   </div>

@@ -1,10 +1,10 @@
 <%= render 'application/errors', object: @thread.message, scope: 'messages' %>
 
-<%= form_for @thread, url: cf_threads_path(current_forum), html: {class: 'form-horizontal'} do |f| %>
+<%= form_for @thread, url: cf_threads_path(current_forum), html: {class: 'cf-form'} do |f| %>
   <% if current_forum.blank? %>
     <div class="cf-cgroup">
       <%= f.label :forum_id %>
-      <div class="cntrls"><%= f.collection_select :forum_id, @forums, :forum_id, :name, required: true %></div>
+      <%= f.collection_select :forum_id, @forums, :forum_id, :name, required: true %>
     </div>
   <% end %>
 

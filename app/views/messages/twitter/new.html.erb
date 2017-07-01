@@ -3,12 +3,10 @@ content_for :title, t('plugins.twitter.tweet', subject: @message.subject, author
 content_for :h1, t('plugins.twitter.tweet', subject: @message.subject, author: @message.author)
 %>
 
-<%= form_tag tweet_message_path(@thread, @message), method: :post, class: 'form-horizontal' do %>
+<%= form_tag tweet_message_path(@thread, @message), method: :post, class: 'cf-form' do %>
 
   <div class="cf-cgroup cf-textarea-only">
-    <div class="cntrls">
-      <%= text_area_tag :tweet_text, @tweet_text %>
-    </div>
+    <%= text_area_tag :tweet_text, @tweet_text %>
   </div>
 
   <p class="form-actions">

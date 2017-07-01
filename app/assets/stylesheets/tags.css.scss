@@ -16,7 +16,7 @@
 .cf-tag, .thread li.cf-tag {
   display: inline;
   background-color: #e6f2f7;
-  margin-left: .5em;
+  margin-right:0.5em;
   padding: .1em .4em 0 .4em;
   font-weight: bold;
   color: #3983ab;
@@ -32,10 +32,9 @@
 }
 
 .cf-tag {
-  
   &:link, &:visited {
     color: #3481cd;
-  
+
     &:hover, &:focus, &:active {
       border: 1px solid #5983ab;
     }
@@ -79,9 +78,9 @@
   }
 }
 
-.form-horizontal .cf-cgroup .cntrls input[type="text"].tags-input {
-  width:10%;
-  display:inline;
+.cf-tags-list.msg-form {
+  display:block;
+  margin-bottom:0.5em;
 }
 
 

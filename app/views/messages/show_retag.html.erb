@@ -9,7 +9,7 @@ content_for(:h1) do
 <span class="title" id="posting-title"><%= @message.subject %></span>
 <% end %>
 
-<%= form_tag retag_message_path(@thread, @message), class: 'form-horizontal' do %>
+<%= form_tag retag_message_path(@thread, @message), class: 'cf-form' do %>
   <article class="thread-message">
     <%= message_header(@thread, @message, first: true, do_parent: false, tree: false) %>
 
@@ -27,10 +27,10 @@ content_for(:h1) do
       </div>
 
       <div class="cf-cgroup">
-        <label><%= t('messages.retag_answers') %></label>
-        <div class="cntrls">
-          <label class="checkbox"><input type="checkbox" name="retag_answers" value="1"></label>
-        </div>
+        <label>
+          <input type="checkbox" name="retag_answers" value="1">
+          <%= t('messages.retag_answers') %>
+        </label>
       </div>
     </fieldset>
 

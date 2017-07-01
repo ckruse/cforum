@@ -6,7 +6,7 @@ content_for :body_classes, 'threads split forum-' + (current_forum.try(:slug) ||
 %>
 
 <%= form_for(@message, url: split_thread_path(@thread, @message),
-             method: :post,  html: {class: 'form-horizontal'}) do |f| %>
+             method: :post,  html: {class: 'cf-form'}) do |f| %>
 
   <% if @message.errors.any? || @thread.errors.any? %>
     <div id="error_explanation" class="cf-error">
@@ -26,18 +26,16 @@ content_for :body_classes, 'threads split forum-' + (current_forum.try(:slug) ||
   <fieldset>
     <div class="cf-cgroup">
       <%= f.label :forum_id %>
-      <div class="cntrls"><%= f.collection_select :forum_id, @forums, :forum_id, :name, required: true %></div>
+      <%= f.collection_select :forum_id, @forums, :forum_id, :name, required: true %>
     </div>
 
     <div class="cf-cgroup">
       <%= f.label :subject %>
-      <div class="cntrls"><%= f.text_field :subject, placeholder: t('layout.placeholders.subject'), maxlength: 250, required: true %></div>
+      <%= f.text_field :subject, placeholder: t('layout.placeholders.subject'), maxlength: 250, required: true %>
     </div>
 
     <div class="cf-cgroup cf-textarea-only">
-      <div class="cntrls">
-        <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt, disabled: true %>
-      </div>
+      <%= f.text_area :content, class: 'big', id: 'message_input', maxlength: 12288, value: f.object.to_txt, disabled: true %>
     </div>
 
     <div class="cf-cgroup">
@@ -51,7 +49,7 @@ content_for :body_classes, 'threads split forum-' + (current_forum.try(:slug) ||
     </div>
 
     <div class="cf-cgroup">
-      <label><%= t('messages.tags') %></label>
+      <label for="tags-input"><%= t('messages.tags') %></label>
       <div class="cntrls" id="tags-group">
         <ul id="tags-list" class="cf-tags-list"></ul>
         <input type="text" name="tag_list" value="<%= @tags.join(", ") %>" id="tags-input" class="tags-input"><noscript> <em><%= t('messages.comma_separated_list') %></em></noscript>
@@ -60,10 +58,10 @@ content_for :body_classes, 'threads split forum-' + (current_forum.try(:slug) ||
 
     <% if may?(Badge::RETAG) %>
       <div class="cf-cgroup">
-        <label for="retag_answers"><%= t('messages.retag_answers') %></label>
-        <div class="cntrls">
-          <label class="checkbox"><%= check_box_tag 'retag_answers', '1' %></label>
-        </div>
+        <label for="retag_answers">
+          <%= check_box_tag 'retag_answers', '1' %>
+          <%= t('messages.retag_answers') %>
+        </label>
       </div>
     <% end %>
   </fieldset>
@@ -74,4 +72,3 @@ content_for :body_classes, 'threads split forum-' + (current_forum.try(:slug) ||
     <%= cf_link_to t('global.cancel'), message_path(@thread, @message), class: 'cf-btn' %>
   </p>
 <% end %>
-

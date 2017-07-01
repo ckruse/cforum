@@ -105,34 +105,6 @@
         height:20em;
       }
 
-      .image-upload {
-        cursor:pointer;
-        text-align:center;
-        vertical-align:middle;
-        width:100%;
-        min-height:3em;
-        background-color:#f5f5f5;
-        button {
-          border:0;
-          background:inherit;
-          margin:0;
-          padding:0;
-        }
-
-        button:focus {
-          color: #333;
-          text-decoration: none;
-          border: 1px solid transparent;
-          border-radius: 4px;
-        }
-      }
-
-      .image-upload.loading {
-        span { display:none; }
-        background:asset-data-url('ajax-loader.svg') center center no-repeat;
-        background-size:contain;
-      }
-
       input[type=radio], input[type=checkbox] { width:auto; }
 
       .radio, .checkbox {
@@ -162,6 +134,34 @@
     position: relative;
     display: block;
   }
+}
+
+.image-upload {
+  cursor:pointer;
+  text-align:center;
+  vertical-align:middle;
+  width:100%;
+  min-height:3em;
+  background-color:#f5f5f5;
+  button {
+    border:0;
+    background:inherit;
+    margin:0;
+    padding:0;
+  }
+
+  button:focus {
+    color: #333;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+}
+
+.image-upload.loading {
+  span { display:none; }
+  background:asset-data-url('ajax-loader.svg') center center no-repeat;
+  background-size:contain;
 }
 
 .form-search {
@@ -316,35 +316,33 @@ legend {
 
 /* markdown editor adjustments */
 
-.form-horizontal .cf-cgroup.cf-textarea-only {
-  .cntrls {
-    width: 100%;
-    padding-left:0;
+.cf-cgroup.cf-textarea-only {
+  width: 100%;
+  padding-left:0;
 
-    .md-editor {
-      max-width:100%;
+  .md-editor {
+    max-width:100%;
 
-      .btn-group {
-        display:inline;
-      }
+    .btn-group {
+      display:inline;
+    }
 
-      textarea.big.md-input {
-        width:99%;
-        margin:auto;
-        margin-bottom:.5em;
+    textarea.big.md-input {
+      width:99%;
+      margin:auto;
+      margin-bottom:.5em;
 
-        padding-left:0;
-        padding-right:0;
+      padding-left:0;
+      padding-right:0;
 
-        border-radius:4px 0 4px 4px;
-      }
+      border-radius:4px 0 4px 4px;
+    }
 
-      .image-upload a {
-        color: #3481cd;
+    .image-upload a {
+      color: #3481cd;
 
-        &:hover {
-          color: #990909;
-        }
+      &:hover {
+        color: #990909;
       }
     }
   }
@@ -398,61 +396,6 @@ input[type="search"] { -webkit-appearance: textfield; }
 
 .form-inline {
   display:inline;
-}
-
-@media only screen and (min-width: 35em) {
-  .form-horizontal {
-    .cf-cgroup {
-      label {
-        width: 26%;
-        padding-right: 1%;
-        padding-left: 1%;
-        text-align: right;
-        float: left;
-      }
-
-      .cntrls {
-        float: left;
-        width: 70%;
-
-        .image-upload {
-          line-height:3em;
-        }
-
-        input, select, textarea {
-          padding-left:1%;
-          padding-right:1%;
-          font-size:.9em;
-        }
-      }
-    }
-  }
-
-  .form-horizontal .cf-cgroup.cf-textarea-only {
-    .cntrls {
-      .md-editor {
-        width:55em;
-
-        textarea.big.md-input {
-          width:95.5%;
-          margin:0 auto .5em auto;
-
-          padding-left:.5em;
-          padding-right:.5em;
-        }
-
-        .image-upload.dragging {
-          position: absolute;
-          left:0;
-          top: 0;
-          width: calc(100% + 2px);
-          height: 22em;
-          z-index: 100;
-          line-height: 22em;
-        }
-      }
-    }
-  }
 }
 
 /* new form styles */
@@ -564,7 +507,67 @@ input[type="search"] { -webkit-appearance: textfield; }
     padding:.5em 1em;
     margin-top:.5em;
   }
+
 }
 
+
+
+@media only screen and (min-width: 35em) {
+  .form-horizontal {
+    .cf-cgroup {
+      label {
+        width: 26%;
+        padding-right: 1%;
+        padding-left: 1%;
+        text-align: right;
+        float: left;
+      }
+
+      .cntrls {
+        float: left;
+        width: 70%;
+
+        input, select, textarea {
+          padding-left:1%;
+          padding-right:1%;
+          font-size:.9em;
+        }
+      }
+    }
+  }
+
+  .cf-cgroup.cf-textarea-only {
+    width:55em;
+
+    textarea.big.md-input {
+      width:95.5%;
+      margin:0 auto .5em auto;
+
+      padding-left:.5em;
+      padding-right:.5em;
+    }
+
+    .image-upload { line-height:3em; }
+
+    .image-upload.dragging {
+      position: absolute;
+      left:0;
+      top: 0;
+      width: calc(100% + 2px);
+      height: 22em;
+      z-index: 100;
+      line-height: 22em;
+    }
+  }
+
+  .cf-form {
+    textarea, .cf-cgroup.cf-textarea-only .md-editor textarea.big.md-input {
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+    }
+
+    .cf-cgroup.cf-textarea-only .md-editor textarea.big.md-input { margin:0 auto .5em auto; }
+  }
+}
 
 /* eof */

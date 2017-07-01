@@ -18,24 +18,24 @@ content_for :body_classes, 'messages edit forum-' + (current_forum.try(:slug) ||
 <%= render 'application/errors', object: @message, scope: 'messages' %>
 
 <%= form_for(@message, url: edit_message_path(@thread, @message),
-             html: {class: 'form-horizontal'}) do |f| %>
+             html: {class: 'cf-form'}) do |f| %>
   <%= render "form", f: f, with_name: true, tags: @tags, message: @message %>
 
   <% if @edit and (current_user.try(:admin?) and @message.format == 'markdown') %>
     <div class="cf-cgroup">
-      <label for="delete_previous_versions"><%= t("messages.delete_previous_versions") %></label>
-      <div class="cntrls">
-        <label class="checkbox"><%= check_box_tag 'delete_previous_versions', '1', params[:delete_previous_versions] == '1' %></label>
-      </div>
+      <label for="delete_previous_versions">
+        <%= check_box_tag 'delete_previous_versions', '1', params[:delete_previous_versions] == '1' %>
+        <%= t("messages.delete_previous_versions") %>
+      </label>
     </div>
   <% end %>
 
   <% if may?(Badge::RETAG) %>
     <div class="cf-cgroup">
-      <label for="retag_answers"><%= t('messages.retag_answers') %></label>
-      <div class="cntrls">
-        <label class="checkbox"><%= check_box_tag 'retag_answers', '1' %></label>
-      </div>
+      <label for="retag_answers">
+        <%= check_box_tag 'retag_answers', '1' %>
+        <%= t('messages.retag_answers') %>
+      </label>
     </div>
   <% end %>
 
@@ -47,4 +47,3 @@ content_for :body_classes, 'messages edit forum-' + (current_forum.try(:slug) ||
     <%= cf_link_to t('global.cancel'), message_path(@thread, @message), class: 'cf-btn' %>
   </p>
 <% end %>
-

@@ -183,7 +183,7 @@ cforum.messages = {
       ev.preventDefault();
 
       var $trg = $(ev.target);
-      var $frm = $(".form-horizontal.inline-answer");
+      var $frm = $(".cf-form.inline-answer");
       var msg = $(ev.target).closest('.thread-message');
       var node = msg.find("> .posting-header > .message > h3 a");
       var q_url;
@@ -251,7 +251,7 @@ cforum.messages = {
 
     $(".btn-cancel").on('click', function(ev) {
       ev.preventDefault();
-      $(".form-horizontal.inline-answer").fadeOut('fast');
+      $(".cf-form.inline-answer").fadeOut('fast');
     });
   },
 
