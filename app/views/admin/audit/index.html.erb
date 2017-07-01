@@ -5,26 +5,20 @@ content_for :h1, t('admin.audit.audit_log')
 
 <h2><%= t('admin.audit.search') %></h2>
 
-<%= form_tag admin_audit_path, class: 'form-horizontal', method: 'get', rel: 'nofollow' do %>
+<%= form_tag admin_audit_path, class: 'cf-form', method: 'get', rel: 'nofollow' do %>
   <div class="cf-cgroup">
     <label for="term"><%= t('search.search_for') %></label>
-    <div class="cntrls">
-      <%= search_field_tag 'term', params[:term], placeholder: t('admin.audit.search_term'), autofocus: params[:term].blank? ? true : false %>
-    </div>
+    <%= search_field_tag 'term', params[:term], placeholder: t('admin.audit.search_term'), autofocus: params[:term].blank? ? true : false %>
   </div>
 
   <div class="cf-cgroup date-select">
     <label><%= t('global.from') %></label>
-    <div class="cntrls">
-      <%= select_date @start_date, prefix: :start_date, end_year: DateTime.now.year, start_year: @min_year %>
-    </div>
+    <%= select_date @start_date, prefix: :start_date, end_year: DateTime.now.year, start_year: @min_year %>
   </div>
 
   <div class="cf-cgroup date-select">
     <label><%= t('global.to') %></label>
-    <div class="cntrls">
-      <%= select_date @stop_date, prefix: :stop_date, end_year: DateTime.now.year, start_year: @min_year %>
-    </div>
+    <%= select_date @stop_date, prefix: :stop_date, end_year: DateTime.now.year, start_year: @min_year %>
   </div>
 
 
@@ -32,7 +26,7 @@ content_for :h1, t('admin.audit.audit_log')
     <label><%= t('admin.audit.objects') %></label>
     <div class="cntrls">
       <% t('admin.audit.the_objects').each do |k, v| %>
-        <label class="checkbox"><%= check_box_tag 'objects[]', k, @objects.include?(k.to_s) %> <%= v %></label>
+        <label><%= check_box_tag 'objects[]', k, @objects.include?(k.to_s) %> <%= v %></label>
       <% end %>
     </div>
   </div>
