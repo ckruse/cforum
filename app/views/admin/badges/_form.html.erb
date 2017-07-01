@@ -2,62 +2,54 @@
 
 <div class="cf-cgroup">
   <%= f.label :name %>
-  <div class="cntrls"><%= f.text_field :name %></div>
+  <%= f.text_field :name %>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :order %>
-  <div class="cntrls"><%= f.number_field :order %></div>
+  <%= f.number_field :order %>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :description %>
-  <div class="cntrls">
-    <%= f.text_area :description %>
-  </div>
+  <%= f.text_area :description %>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :slug %>
-  <div class="cntrls"><%= f.text_field :slug %></div>
+  <%= f.text_field :slug %>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :score_needed %>
-  <div class="cntrls"><%= f.number_field :score_needed %></div>
+  <%= f.number_field :score_needed %>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :badge_type %>
-
-  <div class="cntrls">
-    <%= f.select(:badge_type,
-                 options_for_select([
-                   [t('badges.badge_types.upvote'), 'upvote'],
-                   [t('badges.badge_types.downvote'), 'downvote'],
-                   [t('badges.badge_types.retag'), 'retag'],
-                   [t('badges.badge_types.visit_close_reopen'), 'visit_close_reopen'],
-                   [t('badges.badge_types.create_tag'), 'create_tag'],
-                   [t('badges.badge_types.edit_question'), 'edit_question'],
-                   [t('badges.badge_types.edit_answer'), 'edit_answer'],
-                   [t('badges.badge_types.create_tag_synonym'), 'create_tag_synonym'],
-                   [t('badges.badge_types.create_close_reopen_vote'), 'create_close_reopen_vote'],
-                   [t('badges.badge_types.moderator_tools'), 'moderator_tools'],
-                   [t('badges.badge_types.custom'), 'custom']
-                 ], @badge.badge_type)) %>
-  </div>
+  <%= f.select(:badge_type,
+               options_for_select([
+                 [t('badges.badge_types.upvote'), 'upvote'],
+                 [t('badges.badge_types.downvote'), 'downvote'],
+                 [t('badges.badge_types.retag'), 'retag'],
+                 [t('badges.badge_types.visit_close_reopen'), 'visit_close_reopen'],
+                 [t('badges.badge_types.create_tag'), 'create_tag'],
+                 [t('badges.badge_types.edit_question'), 'edit_question'],
+                 [t('badges.badge_types.edit_answer'), 'edit_answer'],
+                 [t('badges.badge_types.create_tag_synonym'), 'create_tag_synonym'],
+                 [t('badges.badge_types.create_close_reopen_vote'), 'create_close_reopen_vote'],
+                 [t('badges.badge_types.moderator_tools'), 'moderator_tools'],
+                 [t('badges.badge_types.custom'), 'custom']
+               ], @badge.badge_type)) %>
 </div>
 
 
 <div class="cf-cgroup">
   <%= f.label :badge_medal_type %>
-
-  <div class="cntrls">
-    <%= f.select(:badge_medal_type,
-                 options_for_select([
-                   [t('badges.badge_medal_types.bronze'), 'bronze'],
-                   [t('badges.badge_medal_types.silver'), 'silver'],
-                   [t('badges.badge_medal_types.gold'), 'gold']
-                 ], @badge.badge_medal_type)) %>
-  </div>
+  <%= f.select(:badge_medal_type,
+               options_for_select([
+                 [t('badges.badge_medal_types.bronze'), 'bronze'],
+                 [t('badges.badge_medal_types.silver'), 'silver'],
+                 [t('badges.badge_medal_types.gold'), 'gold']
+               ], @badge.badge_medal_type)) %>
 </div>

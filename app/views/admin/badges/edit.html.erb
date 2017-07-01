@@ -3,7 +3,7 @@ content_for :title, t('admin.badges.edit', name: @badge.name)
 content_for :h1, t('admin.badges.edit', name: @badge.name)
 %>
 
-<%= form_for @badge, url: admin_badge_path(@badge), html: {class: 'form-horizontal'} do |f| %>
+<%= form_for @badge, url: admin_badge_path(@badge), html: {class: 'cf-form'} do |f| %>
 
   <%= render 'form', f: f %>
 
