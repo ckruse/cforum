@@ -3,54 +3,42 @@
 
   <div class="cf-cgroup">
     <label class="control-label" for="settings_email"><%= t('users.settings.email_form') %></label>
-    <div class="cntrls">
-      <input type="email" value="<%= @settings.conf('email') %>" name="settings[email]" id="settings_email" placeholder="mail@example.com"<%= disabled %>>
-    </div>
+    <input type="email" value="<%= @settings.conf('email') %>" name="settings[email]" id="settings_email" placeholder="mail@example.com"<%= disabled %>>
   </div>
 
   <div class="cf-cgroup">
     <label class="control-label" for="settings_url"><%= t('users.settings.homepage') %></label>
-    <div class="cntrls">
-      <input type="url" value="<%= @settings.conf('url') %>" name="settings[url]" id="settings_url" placeholder="http://example.com/"<%= disabled %>>
-    </div>
+    <input type="url" value="<%= @settings.conf('url') %>" name="settings[url]" id="settings_url" placeholder="http://example.com/"<%= disabled %>>
   </div>
 
   <% if @user.has_badge?('seo_profi') %>
     <div class="cf-cgroup">
-      <label for="settings_norelnofollow"><%= t('users.settings.norelnofollow') %></label>
-      <div class="cntrls">
+      <label for="settings_norelnofollow">
         <%= hidden_field_tag 'settings[norelnofollow]', 'no', id: '' %>
-        <label class="checkbox"><%= check_box_tag 'settings[norelnofollow]', 'yes', @settings.conf('norelnofollow') == 'yes' %></label>
-      </div>
+        <%= check_box_tag 'settings[norelnofollow]', 'yes', @settings.conf('norelnofollow') == 'yes' %>
+        <%= t('users.settings.norelnofollow') %>
+      </label>
     </div>
   <% end %>
 
   <div class="cf-cgroup">
     <label class="control-label" for="settings_flattr"><%= t('users.settings.flattr') %></label>
-    <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('flattr') %>" name="settings[flattr]" id="settings_flattr"<%= disabled %>>
-    </div>
+    <input type="text" value="<%= @settings.conf('flattr') %>" name="settings[flattr]" id="settings_flattr"<%= disabled %>>
   </div>
 
   <div class="cf-cgroup">
     <label class="control-label" for="settings_flattr"><%= t('users.settings.jabber_id') %></label>
-    <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('jabber_id') %>" name="settings[jabber_id]" id="settings_jabber_id"<%= disabled %>>
-    </div>
+    <input type="text" value="<%= @settings.conf('jabber_id') %>" name="settings[jabber_id]" id="settings_jabber_id"<%= disabled %>>
   </div>
 
   <div class="cf-cgroup">
     <label class="control-label" for="settings_flattr"><%= t('users.settings.twitter_handle') %></label>
-    <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('twitter_handle') %>" name="settings[twitter_handle]" id="settings_twitter_handle"<%= disabled %>>
-    </div>
+    <input type="text" value="<%= @settings.conf('twitter_handle') %>" name="settings[twitter_handle]" id="settings_twitter_handle"<%= disabled %>>
   </div>
 
   <div class="cf-cgroup">
     <label for="settings_description"><%= t('users.settings.description') %></label>
-    <div class="cntrls">
-      <textarea name="settings[description]" id="settings_description"<%= disabled %>><%= @settings.conf('description') %></textarea>
-    </div>
+    <textarea name="settings[description]" id="settings_description"<%= disabled %>><%= @settings.conf('description') %></textarea>
   </div>
 
 </fieldset>

@@ -3,132 +3,105 @@
 
   <div class="cf-cgroup">
     <label><%= t('users.settings.standard_thread_view') %></label>
-    <div class="cntrls">
-      <label class="radio"><input type="radio" value="thread-view" name="settings[standard_view]"<%= disabled %><% if @settings.conf('standard_view') == 'thread-view' %> checked="checked"<% end %>> Thread-Ansicht</label>
-      <label class="radio"><input type="radio" value="nested-view" name="settings[standard_view]"<%= disabled %><% if @settings.conf('standard_view') == 'nested-view' %> checked="checked"<% end %>> Nested-Ansicht</label>
-    </div>
+    <label class="radio"><input type="radio" value="thread-view" name="settings[standard_view]"<%= disabled %><% if @settings.conf('standard_view') == 'thread-view' %> checked="checked"<% end %>> Thread-Ansicht</label>
+    <label class="radio"><input type="radio" value="nested-view" name="settings[standard_view]"<%= disabled %><% if @settings.conf('standard_view') == 'nested-view' %> checked="checked"<% end %>> Nested-Ansicht</label>
   </div>
 
   <div class="cf-cgroup" data-depends-on="settings[standard_view]=nested-view">
-    <label><%= t('users.settings.fold_read_nested') %></label>
-    <div class="cntrls">
+    <label>
       <%= hidden_field_tag 'settings[fold_read_nested]', 'no', id: '' %>
-      <label class="checkbox"><input type="checkbox" value="yes" name="settings[fold_read_nested]"<%= disabled %><% if @settings.conf('fold_read_nested') == 'yes' %> checked="checked"<% end %>></label>
-    </div>
+      <input type="checkbox" value="yes" name="settings[fold_read_nested]"<%= disabled %><% if @settings.conf('fold_read_nested') == 'yes' %> checked="checked"<% end %>>
+      <%= t('users.settings.fold_read_nested') %>
+    </label>
   </div>
 
   <div class="cf-cgroup">
     <label><%= t('users.settings.hide_subjects_when_unchanged') %></label>
-    <div class="cntrls">
-      <label class="radio"><input type="radio" value="no" name="settings[hide_subjects_unchanged]"<%= disabled %><% if @settings.conf('hide_subjects_unchanged') == 'no' %> checked="checked"<% end %>> anzeigen</label>
-      <label class="radio"><input type="radio" value="yes" name="settings[hide_subjects_unchanged]"<%= disabled %><% if @settings.conf('hide_subjects_unchanged') == 'yes' %> checked="checked"<% end %>> ausblenden</label>
-    </div>
+    <label class="radio"><input type="radio" value="no" name="settings[hide_subjects_unchanged]"<%= disabled %><% if @settings.conf('hide_subjects_unchanged') == 'no' %> checked="checked"<% end %>> anzeigen</label>
+    <label class="radio"><input type="radio" value="yes" name="settings[hide_subjects_unchanged]"<%= disabled %><% if @settings.conf('hide_subjects_unchanged') == 'yes' %> checked="checked"<% end %>> ausblenden</label>
   </div>
 
   <div class="cf-cgroup">
     <label><%= t('users.settings.hide_tags_when_unchanged') %></label>
-    <div class="cntrls">
-      <label class="radio"><input type="radio" value="no" name="settings[hide_repeating_tags]"<%= disabled %><% if @settings.conf('hide_repeating_tags') == 'no' %> checked="checked"<% end %>> anzeigen</label>
-      <label class="radio"><input type="radio" value="yes" name="settings[hide_repeating_tags]"<%= disabled %><% if @settings.conf('hide_repeating_tags') == 'yes' %> checked="checked"<% end %>> ausblenden</label>
-    </div>
+    <label class="radio"><input type="radio" value="no" name="settings[hide_repeating_tags]"<%= disabled %><% if @settings.conf('hide_repeating_tags') == 'no' %> checked="checked"<% end %>> anzeigen</label>
+    <label class="radio"><input type="radio" value="yes" name="settings[hide_repeating_tags]"<%= disabled %><% if @settings.conf('hide_repeating_tags') == 'yes' %> checked="checked"<% end %>> ausblenden</label>
   </div>
 
   <div class="cf-cgroup">
     <label><%= t('users.settings.hide_date_when_unchanged') %></label>
-    <div class="cntrls">
-      <label class="radio"><input type="radio" value="no" name="settings[hide_repeating_date]"<%= disabled %><% if @settings.conf('hide_repeating_date') == 'no' %> checked="checked"<% end %>> anzeigen</label>
-      <label class="radio"><input type="radio" value="yes" name="settings[hide_repeating_date]"<%= disabled %><% if @settings.conf('hide_repeating_date') == 'yes' %> checked="checked"<% end %>> ausblenden</label>
-    </div>
+    <label class="radio"><input type="radio" value="no" name="settings[hide_repeating_date]"<%= disabled %><% if @settings.conf('hide_repeating_date') == 'no' %> checked="checked"<% end %>> anzeigen</label>
+    <label class="radio"><input type="radio" value="yes" name="settings[hide_repeating_date]"<%= disabled %><% if @settings.conf('hide_repeating_date') == 'yes' %> checked="checked"<% end %>> ausblenden</label>
   </div>
 
   <div class="cf-cgroup">
     <label><%= t('users.settings.mark_suspicious') %></label>
-    <div class="cntrls">
-      <label class="radio"><input type="radio" value="yes"
-                                  name="settings[mark_suspicious]"<%= disabled %>
-        <% if @settings.conf('mark_suspicious') == 'yes' %> checked="checked"<% end %>>
-        Ja</label>
-      <label class="radio"><input type="radio" value="no"
-                                  name="settings[mark_suspicious]"<%= disabled %>
-        <% if @settings.conf('mark_suspicious') == 'no' %> checked="checked"<% end %>>
-        Nein</label>
-    </div>
+    <label class="radio"><input type="radio" value="yes" name="settings[mark_suspicious]"<%= disabled %><% if @settings.conf('mark_suspicious') == 'yes' %> checked="checked"<% end %>> <%= t('global.yeah') %></label>
+    <label class="radio"><input type="radio" value="no" name="settings[mark_suspicious]"<%= disabled %><% if @settings.conf('mark_suspicious') == 'no' %> checked="checked"<% end %>> Nein</label>
   </div>
 
   <div class="cf-cgroup">
-    <label><%= t('users.settings.page_messages') %></label>
-    <div class="cntrls">
+    <label>
       <%= hidden_field_tag 'settings[page_messages]', 'no', id: '' %>
-      <label class="checkbox"><input type="checkbox" value="yes" name="settings[page_messages]"<%= disabled %><% if @settings.conf('page_messages') == 'yes' %> checked="checked"<% end %>></label>
-    </div>
+      <input type="checkbox" value="yes" name="settings[page_messages]"<%= disabled %><% if @settings.conf('page_messages') == 'yes' %> checked="checked"<% end %>>
+      <%= t('users.settings.page_messages') %>
+    </label>
   </div>
 
   <div class="cf-cgroup">
     <label><%= t('users.settings.sort_threads') %></label>
-    <div class="cntrls">
-      <label class="radio"><input type="radio" value="ascending" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'ascending' %> checked="checked"<% end %>> Aufsteigend</label>
-      <label class="radio"><input type="radio" value="descending" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'descending' %> checked="checked"<% end %>> Absteigend</label>
-      <label class="radio"><input type="radio" value="newest-first" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'newest-first' %> checked="checked"<% end %>> Threads mit letzter Aktivität zuerst</label>
-    </div>
+    <label class="radio"><input type="radio" value="ascending" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'ascending' %> checked="checked"<% end %>> Aufsteigend</label>
+    <label class="radio"><input type="radio" value="descending" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'descending' %> checked="checked"<% end %>> Absteigend</label>
+    <label class="radio"><input type="radio" value="newest-first" name="settings[sort_threads]"<%= disabled %><% if @settings.conf('sort_threads') == 'newest-first' %> checked="checked"<% end %>> Threads mit letzter Aktivität zuerst</label>
   </div>
 
   <div class="cf-cgroup">
     <label><%= t('users.settings.sort_messages') %></label>
-    <div class="cntrls">
-      <label class="radio"><input type="radio" value="ascending" name="settings[sort_messages]"<%= disabled %><% if @settings.conf('sort_messages') == 'ascending' %> checked="checked"<% end %>> Aufsteigend</label>
-      <label class="radio"><input type="radio" value="descending" name="settings[sort_messages]"<%= disabled %><% if @settings.conf('sort_messages') == 'descending' %> checked="checked"<% end %>> Absteigend</label>
-    </div>
+    <label class="radio"><input type="radio" value="ascending" name="settings[sort_messages]"<%= disabled %><% if @settings.conf('sort_messages') == 'ascending' %> checked="checked"<% end %>> Aufsteigend</label>
+    <label class="radio"><input type="radio" value="descending" name="settings[sort_messages]"<%= disabled %><% if @settings.conf('sort_messages') == 'descending' %> checked="checked"<% end %>> Absteigend</label>
   </div>
 
   <div class="cf-cgroup">
-    <label><%= t('users.settings.highlight_self') %></label>
-    <div class="cntrls">
+    <label>
       <%= hidden_field_tag 'settings[highlight_self]', 'no', id: '' %>
-      <label class="checkbox"><%= check_box_tag 'settings[highlight_self]', 'yes', @settings.conf('highlight_self') == 'yes' %></label>
-    </div>
+      <%= check_box_tag 'settings[highlight_self]', 'yes', @settings.conf('highlight_self') == 'yes' %>
+      <%= t('users.settings.highlight_self') %>
+    </label>
   </div>
 
   <div class="cf-cgroup">
-    <label><%= t('users.settings.fold_quotes') %></label>
-    <div class="cntrls">
+    <label>
       <%= hidden_field_tag 'settings[fold_quotes]', 'no', id: '' %>
-      <label class="checkbox"><%= check_box_tag 'settings[fold_quotes]', 'yes', @settings.conf('fold_quotes') == 'yes' %></label>
-    </div>
+      <%= check_box_tag 'settings[fold_quotes]', 'yes', @settings.conf('fold_quotes') == 'yes' %>
+      <%= t('users.settings.fold_quotes') %>
+    </label>
   </div>
 
   <div class="cf-cgroup">
-    <label><%= t('users.settings.hide_read_threads') %></label>
-    <div class="cntrls">
+    <label>
       <%= hidden_field_tag 'settings[hide_read_threads]', 'no', id: '' %>
-      <label class="checkbox"><%= check_box_tag 'settings[hide_read_threads]', 'yes', @settings.conf('hide_read_threads') == 'yes' %></label>
-    </div>
+      <%= check_box_tag 'settings[hide_read_threads]', 'yes', @settings.conf('hide_read_threads') == 'yes' %>
+      <%= t('users.settings.hide_read_threads') %>
+    </label>
   </div>
 
   <div class="cf-cgroup">
-    <label for="settings_mail_index_grouped"><%= t('users.settings.mail_index_grouped') %></label>
-    <div class="cntrls">
+    <label for="settings_mail_index_grouped">
       <%= hidden_field_tag 'settings[mail_index_grouped]', 'no', id: '' %>
-      <label class="checkbox"><%= check_box_tag 'settings[mail_index_grouped]', 'yes', @settings.conf('mail_index_grouped') != 'no' %></label>
-    </div>
+      <%= check_box_tag 'settings[mail_index_grouped]', 'yes', @settings.conf('mail_index_grouped') != 'no' %>
+      <%= t('users.settings.mail_index_grouped') %>
+    </label>
   </div>
 
   <div class="cf-cgroup">
     <label><%= t('users.settings.mail_thread_sort') %></label>
-    <div class="cntrls">
-      <label class="radio"><input type="radio" value="ascending" name="settings[mail_thread_sort]"<%= disabled %><% if @settings.conf('mail_thread_sort') == 'ascending' %> checked="checked"<% end %>> <%= t('global.ascending') %></label>
-      <label class="radio"><input type="radio" value="descending" name="settings[mail_thread_sort]"<%= disabled %><% if @settings.conf('mail_thread_sort') == 'descending' %> checked="checked"<% end %>> <%= t('global.descending') %></label>
-    </div>
+    <label class="radio"><input type="radio" value="ascending" name="settings[mail_thread_sort]"<%= disabled %><% if @settings.conf('mail_thread_sort') == 'ascending' %> checked="checked"<% end %>> <%= t('global.ascending') %></label>
+    <label class="radio"><input type="radio" value="descending" name="settings[mail_thread_sort]"<%= disabled %><% if @settings.conf('mail_thread_sort') == 'descending' %> checked="checked"<% end %>> <%= t('global.descending') %></label>
   </div>
 
   <div class="cf-cgroup">
     <label for="settings_diff_context_lines"><%= t('users.settings.diff_context_lines') %></label>
-    <div class="cntrls">
-      <%= number_field_tag 'settings[diff_context_lines]', @settings.conf('diff_context_lines') %></label>
-    </div>
+    <%= number_field_tag 'settings[diff_context_lines]', @settings.conf('diff_context_lines') %></label>
   </div>
 
-
-
   <%= render 'widgets/users_selector', desc: t('users.settings.highlighted_users'), name: "settings[highlighted_users][]", id: "settings_highlighted_users", users: @highlighted_users_list %>
-
 </fieldset>

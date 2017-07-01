@@ -6,7 +6,7 @@ content_for(:body_id, "users-edit")
 content_for(:body_classes, 'users edit ' + user_to_class_name(@user))
 %>
 
-<%= form_for @user, url: user_path(@user), html: {:class => 'form-horizontal'} do |f| %>
+<%= form_for @user, url: user_path(@user), html: {:class => 'cf-form'} do |f| %>
 
   <%= render 'form', f: f %>
 

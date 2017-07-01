@@ -3,68 +3,51 @@
 
   <div class="cf-cgroup">
     <label><%= t('users.settings.threads_by_default') %></label>
-    <div class="cntrls">
-      <label class="radio"><input type="radio" value="open" name="settings[open_close_default]"<%= disabled %><% if @settings.conf('open_close_default') == 'open' or @settings.conf('open_close_default').blank? %> checked="checked"<% end %>> <%= t("users.settings.open") %></label>
-      <label class="radio"><input type="radio" value="closed" name="settings[open_close_default]"<%= disabled %><% if @settings.conf('open_close_default') == 'closed' %> checked="checked"<% end %>> <%= t("users.settings.closed") %></label>
-    </div>
+    <label class="radio"><input type="radio" value="open" name="settings[open_close_default]"<%= disabled %><% if @settings.conf('open_close_default') == 'open' or @settings.conf('open_close_default').blank? %> checked="checked"<% end %>> <%= t("users.settings.open") %></label>
+    <label class="radio"><input type="radio" value="closed" name="settings[open_close_default]"<%= disabled %><% if @settings.conf('open_close_default') == 'closed' %> checked="checked"<% end %>> <%= t("users.settings.closed") %></label>
   </div>
 
   <div class="cf-cgroup">
-    <label><%= t('users.settings.close_threads_when_read') %></label>
-    <div class="cntrls">
-      <label class="checkbox"><input type="checkbox" value="yes" name="settings[open_close_close_when_read]"<%= disabled %><% if @settings.conf('open_close_close_when_read') == 'yes' %> checked="checked"<% end %>> <%= t('global.yeah') %></label>
-    </div>
+    <label>
+      <input type="checkbox" value="yes" name="settings[open_close_close_when_read]"<%= disabled %><% if @settings.conf('open_close_close_when_read') == 'yes' %> checked="checked"<% end %>> <%= t('global.yeah') %>
+      <%= t('users.settings.close_threads_when_read') %>
+    </label>
   </div>
 
   <div class="cf-cgroup">
     <label for="settings_own_css_file"><%= t('users.settings.own_css_file') %></label>
-    <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('own_css_file') %>" name="settings[own_css_file]" id="settings_own_css_file" placeholder="<%= t('layout.placeholders.css_file') %>"<%= disabled %>>
-    </div>
+    <input type="text" value="<%= @settings.conf('own_css_file') %>" name="settings[own_css_file]" id="settings_own_css_file" placeholder="<%= t('layout.placeholders.css_file') %>"<%= disabled %>>
   </div>
 
   <div class="cf-cgroup">
     <label for="settings_own_js_file"><%= t('users.settings.own_js_file') %></label>
-    <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('own_js_file') %>" name="settings[own_js_file]" id="settings_own_js_file" placeholder="<%= t('layout.placeholders.js_file') %>"<%= disabled %>>
-    </div>
+    <input type="text" value="<%= @settings.conf('own_js_file') %>" name="settings[own_js_file]" id="settings_own_js_file" placeholder="<%= t('layout.placeholders.js_file') %>"<%= disabled %>>
   </div>
 
   <div class="cf-cgroup">
     <label for="settings_own_css"><%= t('users.settings.own_css') %></label>
-    <div class="cntrls">
-      <textarea name="settings[own_css]" id="settings_own_css" placeholder="<%= t('layout.placeholders.inline_css') %>"<%= disabled %>><%= @settings.conf('own_css') %></textarea>
-    </div>
+    <textarea name="settings[own_css]" id="settings_own_css" placeholder="<%= t('layout.placeholders.inline_css') %>"<%= disabled %>><%= @settings.conf('own_css') %></textarea>
   </div>
 
   <div class="cf-cgroup">
     <label for="settings_own_js"><%= t('users.settings.own_js') %></label>
-    <div class="cntrls">
-      <textarea name="settings[own_js]" id="settings_own_js" placeholder="<%= t('layout.placeholders.inline_js') %>"<%= disabled %>><%= @settings.conf('own_js') %></textarea>
-    </div>
+    <textarea name="settings[own_js]" id="settings_own_js" placeholder="<%= t('layout.placeholders.inline_js') %>"<%= disabled %>><%= @settings.conf('own_js') %></textarea>
   </div>
 
 
   <div class="cf-cgroup">
-    <label><%= t('users.settings.date_format_index') %></label>
-    <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('date_format_index') %>" name="settings[date_format_index]" id="settings_date_format_index" placeholder="<%= t('layout.placeholders.date_format') %>"<%= disabled %>>
-    </div>
+    <label for="settings_date_format_index"><%= t('users.settings.date_format_index') %></label>
+    <input type="text" value="<%= @settings.conf('date_format_index') %>" name="settings[date_format_index]" id="settings_date_format_index" placeholder="<%= t('layout.placeholders.date_format') %>"<%= disabled %>>
   </div>
 
   <div class="cf-cgroup">
-    <label><%= t('users.settings.date_format_post') %></label>
-    <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('date_format_post') %>" name="settings[date_format_post]" id="settings_date_format_post" placeholder="<%= t('layout.placeholders.date_format') %>"<%= disabled %>>
-    </div>
+    <label for="settings_date_format_post"><%= t('users.settings.date_format_post') %></label>
+    <input type="text" value="<%= @settings.conf('date_format_post') %>" name="settings[date_format_post]" id="settings_date_format_post" placeholder="<%= t('layout.placeholders.date_format') %>"<%= disabled %>>
   </div>
 
 
   <div class="cf-cgroup">
-    <label><%= t('users.settings.date_format_default') %></label>
-    <div class="cntrls">
-      <input type="text" value="<%= @settings.conf('date_format_default') %>" name="settings[date_format_default]" id="settings_date_format_default" placeholder="<%= t('layout.placeholders.date_format') %>"<%= disabled %>>
-    </div>
+    <label for="settings_date_format_default"><%= t('users.settings.date_format_default') %></label>
+    <input type="text" value="<%= @settings.conf('date_format_default') %>" name="settings[date_format_default]" id="settings_date_format_default" placeholder="<%= t('layout.placeholders.date_format') %>"<%= disabled %>>
   </div>
-
 </fieldset>
