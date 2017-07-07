@@ -9,21 +9,19 @@ desc ||= ""
   <div class="cf-cgroup">
     <% if not desc.blank? %><label><%= desc %></label><% end %>
 
-    <div class="cntrls">
-      <div class="users" data-name="<%= name %>" data-id="<%= id %>">
-        <% if users
-          users.each do |u| %>
-          <label class="checkbox">
-            <input type="checkbox" checked="checked" value="<%= u.user_id %>" name="<%= name %>" id="<%= id %>_<%= u.user_id %>"<% if disabled %> disabled="disabled"<% end %>>
-              <%= u.username %>
-          </label>
-          <% end
-        end %>
-      </div>
-
-
-      <% unless disabled %><i class="icon-edit-user add-user" title="<%= t('widgets.users_selector.edit_userlist') %>"> </i><% end %>
+    <div class="users" data-name="<%= name %>" data-id="<%= id %>">
+      <% if users
+        users.each do |u| %>
+        <label class="checkbox">
+          <input type="checkbox" checked="checked" value="<%= u.user_id %>" name="<%= name %>" id="<%= id %>_<%= u.user_id %>"<% if disabled %> disabled="disabled"<% end %>>
+          <%= u.username %>
+        </label>
+      <% end
+      end %>
     </div>
+
+
+    <% unless disabled %><i class="icon-edit-user add-user" title="<%= t('widgets.users_selector.edit_userlist') %>"> </i><% end %>
   </div>
 
   <% content_for :modals do %>
