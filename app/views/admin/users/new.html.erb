@@ -3,7 +3,7 @@ content_for :title, t('admin.users.new_user')
 content_for :h1, t('admin.users.new_user')
 %>
 
-<%= form_for @user, url: admin_users_path, html: {class: 'form-horizontal'} do |f| %>
+<%= form_for @user, url: admin_users_path, html: {class: 'cf-form'} do |f| %>
 
 <%= render 'form', f: f %>
 

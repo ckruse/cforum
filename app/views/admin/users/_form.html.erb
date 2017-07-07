@@ -2,37 +2,35 @@
 
 <div class="cf-cgroup">
   <%= f.label :username %>
-  <div class="cntrls"><%= f.text_field :username %></div>
+  <%= f.text_field :username %>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :email %>
-  <div class="cntrls"><%= f.email_field :email %></div>
+  <%= f.email_field :email %>
 </div>
 
 <div class="cf-cgroup">
-  <%= f.label :admin %>
-  <div class="cntrls">
-    <label class="checkbox"><%= f.check_box :admin %></label>
-  </div>
+  <%= f.label :admin do %>
+    <%= f.check_box :admin %> <%= User.human_attribute_name(:admin) %>
+  <% end %>
 </div>
 
 <div class="cf-cgroup">
-  <%= f.label :active %>
-  <div class="cntrls">
-    <label class="checkbox"><%= f.check_box :active %></label>
-  </div>
+  <%= f.label :active do %>
+    <%= f.check_box :active %> <%= User.human_attribute_name(:active) %>
+  <% end %>
 </div>
 
 
 <div class="cf-cgroup">
   <%= f.label :password %>
-  <div class="cntrls"><%= f.password_field :password %></div>
+  <%= f.password_field :password %>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :password_confirmation %>
-  <div class="cntrls"><%= f.password_field :password_confirmation %></div>
+  <%= f.password_field :password_confirmation %>
 </div>
 
 <div class="form-actions">
