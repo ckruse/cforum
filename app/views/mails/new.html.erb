@@ -10,7 +10,7 @@ content_for(:body_classes, 'mail new')
   <%= render 'mail', mail: @mail %>
 <% end %>
 
-<%= form_for @mail, url: mails_path, html: {class: 'form-horizontal'} do |f| %>
+<%= form_for @mail, url: mails_path, html: {class: 'cf-form'} do |f| %>
 
   <%= render 'form', f: f %>
 

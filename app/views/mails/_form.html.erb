@@ -7,17 +7,13 @@
 
     <div class="cf-cgroup">
       <%= f.label :subject %>
-      <div class="cntrls">
-        <%= f.text_field :subject, required: true %>
-      </div>
+      <%= f.text_field :subject, required: true %>
     </div>
   </fieldset>
 
   <fieldset>
     <div class="cf-cgroup cf-textarea-only">
-      <div class="cntrls">
-        <%= f.text_area :body, maxlength: 12288, value: f.object.to_txt, class: 'big', required: true %>
-      </div>
+      <%= f.text_area :body, maxlength: 12288, value: f.object.to_txt, class: 'big', required: true %>
     </div>
 
     <% if uconf('live_preview') == 'yes' %>
