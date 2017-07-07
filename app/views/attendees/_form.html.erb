@@ -3,38 +3,38 @@
 <% if current_user.blank? %>
   <div class="cf-cgroup">
     <%= f.label :name %>
-    <div class="cntrls"><%= f.text_field :name, placeholder: t('layout.placeholders.username') %></div>
+    <%= f.text_field :name, placeholder: t('layout.placeholders.username') %>
   </div>
 <% end %>
 
 <div class="cf-cgroup">
   <%= f.label :starts_at %>
-  <div class="cntrls"><%= f.text_field :starts_at, placeholder: t('events.attendees.placeholders.starts_at'), maxlength: 255 %></div>
+  <%= f.text_field :starts_at, placeholder: t('events.attendees.placeholders.starts_at'), maxlength: 255 %>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :seats %>
-  <div class="cntrls"><%= f.number_field :seats, step: 1, min: 0, placeholder: '2' %></div>
+  <%= f.number_field :seats, step: 1, min: 0, placeholder: '2' %>
 </div>
 
 <div class="cf-cgroup datetime-select">
   <%= f.label :planned_start %>
-  <div class="cntrls"><%= f.datetime_select :planned_start, include_blank: true %></div>
+  <%= f.datetime_select :planned_start, include_blank: true %>
 </div>
 
 <div class="cf-cgroup datetime-select">
   <%= f.label :planned_arrival %>
-  <div class="cntrls"><%= f.datetime_select :planned_arrival %></div>
+  <%= f.datetime_select :planned_arrival %>
 </div>
 
 <div class="cf-cgroup datetime-select">
   <%= f.label :planned_leave %>
-  <div class="cntrls"><%= f.datetime_select :planned_leave, include_blank: true %></div>
+  <%= f.datetime_select :planned_leave, include_blank: true %>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :comment %>
-  <div class="cntrls"><%= f.text_area :comment, placeholder: t('events.attendees.placeholders.comment') %></div>
+  <%= f.text_area :comment, placeholder: t('events.attendees.placeholders.comment') %>
 </div>
 
 <div class="form-actions">

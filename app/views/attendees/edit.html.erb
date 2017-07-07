@@ -3,7 +3,7 @@ content_for :title, t('events.attend')
 content_for :h1, t('events.attend')
 %>
 
-<%= form_for @attendee, url: event_attendee_path(@event, @attendee), html: {class: 'form-horizontal'} do |f| %>
+<%= form_for @attendee, url: event_attendee_path(@event, @attendee), html: {class: 'cf-form'} do |f| %>
   <%= render 'form', f: f %>
 <% end %>
 
