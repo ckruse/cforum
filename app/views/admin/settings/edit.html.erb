@@ -3,7 +3,7 @@ content_for :title, t('admin.settings.global_settings')
 content_for :h1, t('admin.settings.global_settings')
 %>
 
-<%= form_for @settings, method: 'post', url: admin_settings_path, html: {:class => 'form-horizontal'} do |t| %>
+<%= form_for @settings, method: 'post', url: admin_settings_path, html: {class: 'cf-form'} do |t| %>
 
   <fieldset class="tab-pane active" id="settings">
     <legend><%= t('admin.forums.settings_nam') %></legend>
