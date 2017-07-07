@@ -3,7 +3,7 @@ content_for :title, t('admin.search_sections.edit', name: @search_section.name)
 content_for :h1, t('admin.search_sections.edit', name: @search_section.name)
 %>
 
-<%= form_for @search_section, url: admin_search_section_path(@search_section), html: {class: 'form-horizontal'} do |f| %>
+<%= form_for @search_section, url: admin_search_section_path(@search_section), html: {class: 'cf-form'} do |f| %>
 
   <%= render 'form', f: f %>
 

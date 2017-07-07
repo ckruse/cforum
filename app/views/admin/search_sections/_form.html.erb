@@ -2,26 +2,21 @@
 
 <div class="cf-cgroup">
   <%= f.label :name %>
-  <div class="cntrls"><%= f.text_field :name %></div>
+  <%= f.text_field :name %>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :position %>
-  <div class="cntrls">
-    <%= f.number_field :position %>
-  </div>
+  <%= f.number_field :position %>
 </div>
 
 <div class="cf-cgroup">
-  <%= f.label :active_by_default %>
-  <div class="cntrls">
-    <label class="checkbox"><%= f.check_box :active_by_default %></label>
-  </div>
+  <%= f.label :active_by_default do %>
+    <%= f.check_box :active_by_default %> <%= SearchSection.human_attribute_name(:active_by_default) %>
+  <% end %>
 </div>
 
 <div class="cf-cgroup">
   <%= f.label :forum_id %>
-  <div class="cntrls">
-    <%= f.collection_select :forum_id, Forum.order(:position).all, :forum_id, :name, include_blank: true %>
-  </div>
+  <%= f.collection_select :forum_id, Forum.order(:position).all, :forum_id, :name, include_blank: true %>
 </div>
