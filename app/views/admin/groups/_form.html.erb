@@ -2,28 +2,28 @@
 
 <div class="cf-cgroup">
   <%= t.label :name %>
-  <div class="cntrls"><%= t.text_field :name %></div>
+  <%= t.text_field :name %>
 </div>
 
 <div class="cf-cgroup">
   <label>Foren</label>
-  <div class="cntrls" id="forums-container">
+  <div id="forums-container">
     <% @forums_groups_permissions.each do |gup| %>
-    <div class="lbl" data-js="row">
-      <select name="forums[]">
-        <% @forums.each do |f| %>
-          <option value="<%= f.forum_id %>"<% if gup.forum_id == f.forum_id %> selected="selected"<% end %>><%= f.name %></option>
-        <% end %>
-      </select>
+      <div class="lbl" data-js="row">
+        <select name="forums[]">
+          <% @forums.each do |f| %>
+            <option value="<%= f.forum_id %>"<% if gup.forum_id == f.forum_id %> selected="selected"<% end %>><%= f.name %></option>
+          <% end %>
+        </select>
 
-      <select name="permissions[]">
-        <option value="read"<% if gup.permission == 'read' %> selected="selected"<% end %>>Lesen</option>
-        <option value="write"<% if gup.permission == 'write' %> selected="selected"<% end %>>Schreiben</option>
-        <option value="moderate"<% if gup.permission == 'moderate' %> selected="selected"<% end %>>Moderieren</option>
-      </select>
+        <select name="permissions[]">
+          <option value="read"<% if gup.permission == 'read' %> selected="selected"<% end %>>Lesen</option>
+          <option value="write"<% if gup.permission == 'write' %> selected="selected"<% end %>>Schreiben</option>
+          <option value="moderate"<% if gup.permission == 'moderate' %> selected="selected"<% end %>>Moderieren</option>
+        </select>
 
-      <i class="icon-remove-permission" data-js="delete"> </i>
-    </div>
+        <i class="icon-remove-permission" data-js="delete"> </i>
+      </div>
     <% end %>
 
     <div class="lbl" data-js="row">
@@ -31,7 +31,7 @@
         <option> </option>
 
         <% @forums.each do |f| %>
-        <option value="<%= f.forum_id %>"><%= f.name %></option>
+          <option value="<%= f.forum_id %>"><%= f.name %></option>
         <% end %>
       </select>
 
