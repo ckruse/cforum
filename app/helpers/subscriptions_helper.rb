@@ -115,7 +115,10 @@ module SubscriptionsHelper
     confval = uconf('autosubscribe_on_post')
     return if confval == 'no'
 
+    thread, message, = get_thread_w_post(thread.thread_id, message.message_id)
     parent = message if parent.blank?
+
+    return if parent_subscribed?(message)
 
     case confval
     when 'yes'
