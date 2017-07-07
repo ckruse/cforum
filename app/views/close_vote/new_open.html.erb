@@ -10,25 +10,18 @@ content_for :h1, t("messages.close_vote.open_message",
 <%= render 'application/errors', object: @open_vote, scope: 'messages.close_vote' %>
 
 <%= form_for(@open_vote, url: open_message_path(@thread, @message),
-             html: {:class => 'form-horizontal'}, method: :put) do |f| %>
+             html: {class: 'cf-form'}, method: :put) do |f| %>
 
   <div class="cf-cgroup">
-    <%= f.label :reason %>
-
-    <div class="cntrls">
-      <label class="radio">
-        <%= f.hidden_field :reason, value: "custom" %>
-        <%= t('messages.close_vote.custom') %>
-      </label>
-    </div>
+    <label class="radio">
+      <%= f.hidden_field :reason, value: "custom" %>
+      <%= t('messages.close_vote.custom') %>
+    </label>
   </div>
 
   <div class="cf-cgroup" data-depends-on="close_vote[reason]=custom">
     <%= f.label :custom_reason %>
-
-    <div class="cntrls">
-      <%= f.text_field :custom_reason %>
-    </div>
+    <%= f.text_field :custom_reason %>
   </div>
 
 
