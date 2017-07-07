@@ -2,13 +2,12 @@
 
 <div class="cf-cgroup">
   <%= f.label :tag_name %>
-  <div class="cntrls"><%= f.text_field :tag_name %></div>
+  <%= f.text_field :tag_name %>
 </div>
 
 <div class="cf-cgroup">
-  <%= f.label :suggest %>
-  <div class="cntrls">
-    <label class="checkbox"><%= f.check_box :suggest %></label>
-  </div>
+  <%= f.label :suggest do %>
+    <%= f.check_box :suggest %> <%= Tag.human_attribute_name(:suggest) %>
+  <% end %>
 </div>
 
