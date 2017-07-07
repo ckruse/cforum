@@ -5,7 +5,7 @@ content_for :body_id, 'registrations-new'
 content_for :body_classes, 'registrations new'
 %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'form-horizontal'}) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'cf-form'}) do |f| %>
   <% if resource.errors.any? %>
   <div class="alert alert-error">
     <h4><%= t("errors.messages.not_saved", count: resource.errors.count, resource: resource.class.model_name.human.downcase) %></h4>
@@ -20,22 +20,22 @@ content_for :body_classes, 'registrations new'
 
   <div class="cf-cgroup">
     <%= f.label :username %>
-    <div class="cntrls"><%= f.text_field(:username, placeholder: t("layout.placeholders.username"), 'data-js' => 'username') %></div>
+    <%= f.text_field(:username, placeholder: t("layout.placeholders.username"), 'data-js' => 'username') %>
   </div>
 
   <div class="cf-cgroup">
     <%= f.label(:email) %>
-    <div class="cntrls"><%= f.text_field(:email, placeholder: t("layout.placeholders.email"), type: 'email') %></div>
+    <%= f.text_field(:email, placeholder: t("layout.placeholders.email"), type: 'email') %>
   </div>
 
   <div class="cf-cgroup">
     <%= f.label :password %>
-    <div class="cntrls"><%= f.text_field(:password, type: 'password') %></div>
+    <%= f.text_field(:password, type: 'password') %>
   </div>
 
   <div class="cf-cgroup">
     <%= f.label :password_confirmation %>
-    <div class="cntrls"><%= f.text_field :password_confirmation, type: 'password' %></div>
+    <%= f.text_field :password_confirmation, type: 'password' %>
   </div>
 
   <p class="form-actions">
