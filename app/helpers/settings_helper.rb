@@ -9,7 +9,7 @@ module SettingsHelper
       t('global.nope')
     when 'close', 'hide'
       t('admin.forums.settings.' + val + '_subtree')
-    when 'thread-view', 'nested-view'
+    when 'thread-view', 'nested-view', 'ascending', 'descending', 'newest-first'
       t('users.' + val)
     else
       val

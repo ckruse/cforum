@@ -86,3 +86,5 @@ de:
       max_image_filesize: Maximale Bildgröße (in Mib)
 
       diff_context_lines: Kontext-Zeilen für Versions-Unterschiede
+
+      standard_thread_sort: Standard-Sortierung für Threads

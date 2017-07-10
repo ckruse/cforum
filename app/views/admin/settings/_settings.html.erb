@@ -210,6 +210,16 @@
         </div>
       </div>
 
+      <div class="cf-cgroup">
+        <label for="settings-sort_threads-default"><%= t('users.settings.standard_thread_sort') %></label>
+        <div class="cntrls">
+          <label class="radio"><%= radio_button_tag 'settings[sort_threads]', '_DEFAULT_', @settings.options['sort_threads'].blank?, id: 'settings-sort_threads-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('sort_threads')), origin: t(global_conf?('sort_threads') ? 'global.global_conf' : 'global.global_default')) %></label>
+          <label class="radio"><%= radio_button_tag 'settings[sort_threads]', 'descending', @settings.options['sort_threads'] == 'descending', id: 'settings-sort_threads-descending' %> <%= t('users.descending') %></label>
+          <label class="radio"><%= radio_button_tag 'settings[sort_threads]', 'ascending', @settings.options['sort_threads'] == 'ascending', id: 'settings-sort_threads-ascending' %> <%= t('users.ascending') %></label>
+          <label class="radio"><%= radio_button_tag 'settings[sort_threads]', 'newest-first', @settings.options['sort_threads'] == 'newest-first', id: 'settings-sort_threads-newest-first' %> <%= t('users.newest-first') %></label>
+        </div>
+      </div>
+
       <% if @forum.blank? %>
         <div class="cf-cgroup">
           <label for="settings-links_white_list"><%= t('users.settings.links_white_list') %></label>
