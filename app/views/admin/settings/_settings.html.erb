@@ -204,8 +204,8 @@
       <div class="cf-cgroup">
         <label for="settings-standard_view-default"><%= t('users.settings.standard_thread_view') %></label>
         <div class="cntrls">
-          <label class="radio"><%= radio_button_tag 'settings[standard_view]', 'thread-view', @settings.options['standard_view'].blank?, id: 'settings-standard_view-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('standard_view')), origin: t(global_conf?('standard_view') ? 'global.global_conf' : 'global.global_default')) %></label>
-          <label class="radio"><%= radio_button_tag 'settings[standard_view]', 'nested-view', @settings.options['standard_view'] == 'nested-view', id: 'settings-standard_view-thread' %> <%= t('users.thread-view') %></label>
+          <label class="radio"><%= radio_button_tag 'settings[standard_view]', '_DEFAULT_', @settings.options['standard_view'].blank?, id: 'settings-standard_view-default' %> <%= t('global.default_value', name: human_val(conf_val_or_default('standard_view')), origin: t(global_conf?('standard_view') ? 'global.global_conf' : 'global.global_default')) %></label>
+          <label class="radio"><%= radio_button_tag 'settings[standard_view]', 'thread-view', @settings.options['standard_view'] == 'thread-view', id: 'settings-standard_view-thread' %> <%= t('users.thread-view') %></label>
           <label class="radio"><%= radio_button_tag 'settings[standard_view]', 'nested-view', @settings.options['standard_view'] == 'nested-view', id: 'settings-standard_view-nested' %> <%= t('users.nested-view') %></label>
         </div>
       </div>
