@@ -2,9 +2,6 @@
 
 require 'rails_helper'
 
-include Warden::Test::Helpers
-Warden.test_mode!
-
 RSpec.describe 'highlights self when configured' do
   let(:user) { create(:user, username: 'foo') }
   let(:message) do

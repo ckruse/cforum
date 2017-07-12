@@ -2,9 +2,6 @@
 
 require 'rails_helper'
 
-include Warden::Test::Helpers
-Warden.test_mode!
-
 describe 'deleting a thread' do
   let(:message) { create(:message) }
   let(:user) { create(:user) }

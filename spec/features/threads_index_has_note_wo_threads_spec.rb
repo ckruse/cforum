@@ -2,9 +2,6 @@
 
 require 'rails_helper'
 
-include Warden::Test::Helpers
-Warden.test_mode!
-
 describe 'threads index' do
   let(:forum) { create(:write_forum) }
 

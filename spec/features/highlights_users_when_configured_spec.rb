@@ -2,9 +2,6 @@
 
 require 'rails_helper'
 
-include Warden::Test::Helpers
-Warden.test_mode!
-
 RSpec.describe 'highlights users when configured' do
   let(:user) { create(:user, username: 'foo') }
   let(:user1) { create(:user, username: 'bar') }
