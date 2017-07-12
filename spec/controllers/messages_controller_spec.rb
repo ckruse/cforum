@@ -83,8 +83,17 @@ RSpec.describe MessagesController, type: :controller do
       expect(response).to redirect_to message_url(message.thread, assigns(:message))
     end
 
-    it 'fails to create a new message because of invalid tags' do
+    it 'fails to create a new message because of 0 tags' do
       post :create, params: message_params_from_slug(message).merge(message: attributes_for(:message, forum: message.thread.forum))
+
+      expect(response).to render_template 'new'
+    end
+
+    it 'fails to create a new message because of too many tags' do
+      post :create,
+           params: message_params_from_slug(message)
+             .merge(message: attributes_for(:message, forum: message.thread.forum),
+                    tags: ['old republic', 'rebellion', 'aldebaran', 'luke'])
 
       expect(response).to render_template 'new'
     end
@@ -138,6 +147,26 @@ RSpec.describe MessagesController, type: :controller do
       expect do
         post :retag, params: message_params_from_slug(message).merge(tags: ['old republic'])
       end.to change(message.tags, :count).by(1)
+    end
+
+    it 'only allows max_tags tags' do
+      sign_in admin
+
+      post :retag, params: message_params_from_slug(message).merge(tags: ['old republic', 'rebellion',
+                                                                          'aldebaran', 'luke'])
+      message.tags.reload
+      expect(message.tags.length).to be 0
+      expect(response).to be_success
+    end
+
+    it "doesn't allow 0 tags" do
+      sign_in admin
+
+      post :retag, params: message_params_from_slug(message).merge(tags: [])
+
+      message.tags.reload
+      expect(message.tags.length).to be 0
+      expect(response).to be_success
     end
   end
 
