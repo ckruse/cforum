@@ -202,6 +202,8 @@ cforum.tags = {
     if(!hidden) {
       list.find(".cf-tag").last().fadeIn('fast');
     }
+
+    $("#tags-list .no-data").fadeOut('fast');
   },
 
   removeTag: function(ev) {
@@ -214,9 +216,13 @@ cforum.tags = {
 
       $this.closest("li.cf-tag").fadeOut('fast', function() {
         $(this).remove();
-        $("#replaced_tag_input").fadeIn('fast');
+        $("#replaced_tag_input").closest('.cf-cgroup').fadeIn('fast');
         $("#replaced_tag_input").focus();
         cforum.tags.events.trigger('tags:remove', tag);
+
+        if($("#tags-list").find(".cf-tag").length === 0) {
+          $("#tags-list .no-data").fadeIn('fast');
+        }
       });
     }
   },
@@ -338,12 +344,12 @@ cforum.tags = {
 
     if(typeof data == 'object') {
       if(data.length === 0) {
-        var el = $("#replaced_tag_input").closest(".cntrls").find(".errors");
+        var el = $("#tags-group").closest(".cf-cgroup").find(".errors");
 
         if(el.length === 0) {
-          $("#replaced_tag_input").
-            closest(".cntrls").append("<div class=\"errors\"></div>");
-          el = $("#replaced_tag_input").closest(".cntrls").find(".errors");
+          $("#tags-group").
+            closest(".cf-cgroup").append("<div class=\"errors\"></div>");
+          el = $("#tags-group").closest(".cf-cgroup").find(".errors");
         }
 
         var text = '';
@@ -391,14 +397,14 @@ cforum.tags = {
       $("#tags-list").find('.cf-tag:last').fadeIn('fast');
 
       if($("#tags-list").find('.cf-tag').length >= cforum.tags.maxTags) {
-        $("#replaced_tag_input").fadeOut('fast');
+        $("#replaced_tag_input").closest('.cf-cgroup').fadeOut('fast');
       }
     }
   },
 
   hideInvalidWarnings: function(ev, tag) {
-    $("#replaced_tag_input").
-      closest(".cntrls").
+    $("#tags-group").
+      closest(".cf-cgroup").
       find(".errors div").
       fadeOut("fast", function() { $(this).remove(); });
   },

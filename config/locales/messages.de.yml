@@ -29,6 +29,8 @@ de:
     no_tag_suggestions: Keine Tag-Vorschläge verfügbar
     tag_suggestions: Tag-Vorschläge
     tags: Tags
+    used_tags: verwendete Tags
+    no_tags_chosen: keine Tags vergeben
     comma_separated_list: Komma-separierte Liste
     edit_change_to_markdown: Achtung! Wenn Sie diesen Beitrag editieren, müssen Sie ihn nach Markdown konvertieren. Nach dem Editieren wird der Beitrag als Markdown geparsed werden.
 
