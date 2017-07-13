@@ -252,7 +252,7 @@ cforum.tags = {
     el = $("#replaced_tag_input");
 
     if(tags.length >= cforum.tags.maxTags) {
-      el.css('display', 'none');
+      el.closest('.cf-cgroup').css('display', 'none');
     }
 
     el.on('keyup', cforum.tags.handleTagsKeyUp);
