@@ -23,3 +23,8 @@
       </article>
     <% end %>
   </fieldset>
+
+  <% content_for :modals do %>
+    <%= render 'mails/md_modals' %>
+    <%= render 'mails/img_upload_modal' %>
+  <% end %>
