@@ -260,6 +260,9 @@ cforum.tags = {
     $("#tags-list").on('click', cforum.tags.removeTag);
     $("#message_input").on('input', cforum.tags.handleSuggestionsKeyUp);
     $("#tags-suggestions").on('click', cforum.tags.addTagSuggestion);
+    $("#cf_thread_forum_id").on('change', function() {
+      cforum.tags.getTags(cforum.tags.suggestTags);
+    });
 
     if(cforum.tags.allTags.length === 0) {
       cforum.tags.getTags(cforum.tags.setupAutocomplete);
