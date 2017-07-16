@@ -23,9 +23,10 @@
 
 function hasLocalstorage() {
   try {
-    return 'localStorage' in window && window['localStorage'] !== null;
+    localStorage.setItem('test', 'test'), localStorage.removeItem('test');
+    return true;
   }
-  catch (e) {
+  catch (exception) {
     return false;
   }
 }
@@ -104,12 +105,17 @@ $(function() {
 
 cforum.alert = {
   alert: function(text, type) {
-    var alrt = $("<div class=\"" + type + " cf-alert\"><button type=\"button\" class=\"close\" data-dismiss=\"cf-alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>");
-    alrt.text(text);
-    $("#alerts-container").append(alrt);
+    var alert = $('<div class="' + type + ' cf-alert"><button type="button" class="close" data-dismiss="cf-alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+    alert.text(text);
+
+    $('#alerts-container').append(alert);
     setDismissHandlers();
 
-    window.setTimeout(function () { alrt.fadeOut('fast', function() { $(this).remove(); }); }, 3000);
+    window.setTimeout(function () {
+      alert.fadeOut('fast', function() {
+        $(this).remove();
+      });
+    }, 3000);
   },
 
   error: function(text) {
