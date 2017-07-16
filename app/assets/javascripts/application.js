@@ -23,9 +23,10 @@
 
 function hasLocalstorage() {
   try {
-    return 'localStorage' in window && window['localStorage'] !== null;
+    localStorage.setItem('test', 'test'), localStorage.removeItem('test');
+    return true;
   }
-  catch (e) {
+  catch (exception) {
     return false;
   }
 }
