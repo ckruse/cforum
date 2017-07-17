@@ -126,6 +126,8 @@ de:
         example_desc: blauer Himmel mit weißen Schäfchenwolken
         enter_title: Bitte geben Sie einen Bild-Titel an
         example_title: Urlaub Italien 1986
+        be_aware_of_legals_html: 'Bitte beachten Sie die <a href="http://selfhtml.org/impressum.html#upload">Nutzungsbedingungen</a>.'
+
 
     close_vote:
       actions:
