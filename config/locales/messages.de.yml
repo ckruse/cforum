@@ -121,7 +121,7 @@ de:
       img:
         description: Dies ist ein Dialog-Fenster. Es beginnt bei einer Überschrift Level 1 „Bild-Informationen angeben“. Escape wird das Fenster schließen und die Aktion abbrechen.
         title: Bild-Informationen angeben
-        enter_src: Bitte geben Sie die Bild-URL an
+        enter_src: Bitte wählen Sie ein Bild aus
         enter_desc: Bitte geben Sie eine Bildbeschreibung an (Alternativ-Text)
         example_desc: blauer Himmel mit weißen Schäfchenwolken
         enter_title: Bitte geben Sie einen Bild-Titel an

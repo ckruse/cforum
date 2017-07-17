@@ -389,7 +389,6 @@ cforum.messages = {
     }
 
     cforum.messages.initMarkdown("message_input");
-    cforum.messages.initUpload();
     cforum.messages.initPreview("message_input", "message_problematic_site");
     cforum.messages.initMaxLengthWarnings();
     cforum.replacements("#message_input", true);
@@ -450,12 +449,6 @@ cforum.messages = {
     var author = $("#message_author");
 
     cforum.cf_threads.setCursor(author, subj, content);
-  },
-
-  initUpload: function() {
-    if($("#message_input").length > 0 && window.Dropzone) {
-      ImageUpload($("#message_input"));
-    }
   },
 
   previewTimeout: null,

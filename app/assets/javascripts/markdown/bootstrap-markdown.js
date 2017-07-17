@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ========================================================== */
+/* global cforum, t */
 
 (function($) {
 
@@ -1185,19 +1186,23 @@
               show: true,
               main: '#page-container',
               primaryAction: function() {
-                link = $("#md-img-src").val();
-                chunk = $("#md-img-desc").val();
-                title = $("#md-img-title").val();
+                $("#md-img-modal [data-modal=primary]")
+                  .addClass('loading')
+                  .prop('disabled', true);
 
-                if(link && link !== 'http://' && link.substr(0, 4) === 'http') {
+                cforum.uploadFile(document.getElementById("md-img-src"), function(response) {
                   modal.modal('hide');
+
+                  link = cforum.basePath + 'images/' + response.path;
+                  chunk = $("#md-img-desc").val();
+                  title = $("#md-img-title").val();
 
                   var sanitizedLink = $('<div>' + link + '</div>').text();
 
                   // transform selection and set the cursor into chunked text
                   var img = '![' + chunk + '](' + sanitizedLink;
                   if(title) {
-                     img += ' "' + title + '"';
+                    img += ' "' + title + '"';
                   }
                   img += ')';
 
@@ -1207,11 +1212,27 @@
 
                   e.$textarea.trigger('input');
                   e.$textarea.focus();
-                }
-                else {
-                  $("#md-img-src").closest('.cf-cgroup').addClass('error');
-                  $("#md-img-src").focus();
-                }
+                },
+                function(response) {
+                  modal.modal('hide');
+                  $("#md-img-modal [data-modal=primary]")
+                    .removeClass('loading')
+                    .prop('disabled', false);
+
+                  var msg;
+
+                  if(typeof response == 'string') {
+                    msg = response;
+                  }
+                  else if(response.error) {
+                    msg = response.error;
+                  }
+                  else {
+                    msg = t('internal_error');
+                  }
+
+                  cforum.alert.error(msg);
+                });
               }
             });
           }

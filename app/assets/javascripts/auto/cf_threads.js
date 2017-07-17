@@ -25,7 +25,6 @@ cforum.cf_threads = {
     cforum.cf_threads.initCursor();
 
     cforum.messages.initMarkdown("message_input");
-    cforum.messages.initUpload();
     cforum.messages.initPreview("message_input", "cf_thread_message_problematic_site");
     cforum.messages.initMaxLengthWarnings();
     cforum.replacements("#message_input", true);
@@ -36,7 +35,6 @@ cforum.cf_threads = {
 
     cforum.tags.initTags();
     cforum.messages.initMarkdown("message_input");
-    cforum.messages.initUpload();
     cforum.messages.initPreview("message_input", "cf_thread_message_problematic_site");
     cforum.messages.initMaxLengthWarnings();
     cforum.replacements("#message_input", true);
