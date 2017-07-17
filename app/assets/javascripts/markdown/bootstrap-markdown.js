@@ -1191,6 +1191,10 @@
                   .prop('disabled', true);
 
                 cforum.uploadFile(document.getElementById("md-img-src"), function(response) {
+                  $("#md-img-modal [data-modal=primary]")
+                    .removeClass('loading')
+                    .prop('disabled', false);
+
                   modal.modal('hide');
 
                   link = cforum.basePath + 'images/' + response.path;
