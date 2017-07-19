@@ -1203,16 +1203,15 @@
 
                   var sanitizedLink = $('<div>' + link + '</div>').text();
 
-                  // transform selection and set the cursor into chunked text
-                  var img = '![' + chunk + '](' + sanitizedLink;
+                  var md = '[![' + chunk + '](' + cforum.basePath + 'images/' + response.path + '?size=medium';
                   if(title) {
-                    img += ' "' + title + '"';
+                    md += ' "' + title + '"';
                   }
-                  img += ')';
+                  md += ')](' + cforum.basePath + 'images/' + response.path + ')';
 
-                  e.replaceSelection(img);
+                  e.replaceSelection(md);
                   cursor = selected.start;
-                  e.setSelection(cursor, cursor + img.length);
+                  e.setSelection(cursor, cursor + md.length);
 
                   e.$textarea.trigger('input');
                   e.$textarea.focus();
