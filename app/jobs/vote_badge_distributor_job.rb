@@ -69,10 +69,10 @@ class VoteBadgeDistributorJob < ApplicationJob
       return if vote.blank?
     end
 
-    check_for_voter_badges(vote) if %w(changed-vote voted).include?(type)
+    check_for_voter_badges(vote) if %w[changed-vote voted].include?(type)
 
     case type
-    when 'removed-vote', 'changed-vote', 'unaccepted'
+    # when 'removed-vote', 'changed-vote', 'unaccepted'
     when 'voted', 'accepted'
       return if message.user_id.blank?
 
@@ -93,7 +93,6 @@ class VoteBadgeDistributorJob < ApplicationJob
                                               name: b.name,
                                               mtype: I18n.t('badges.badge_medal_types.' + b.badge_medal_type)),
                     badge_path(b), b.badge_id, 'badge')
-
       end
     end
   end
