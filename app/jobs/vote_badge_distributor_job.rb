@@ -83,6 +83,7 @@ class VoteBadgeDistributorJob < ApplicationJob
       user_badges = message.owner.badges
 
       badges.each do |b|
+        logger.info "Giving badge #{b.name} to user #{message.owner.username}"
         found = user_badges.find { |obj| obj.badge_id == b.badge_id }
 
         next if found
