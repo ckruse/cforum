@@ -59,6 +59,8 @@ class VoteBadgeDistributorJob < ApplicationJob
     message = nil
     vote = nil
 
+    logger.debug "starting VoteBadgeDistributorJob with arguments #{vote_id.inspect}, #{message_id.inspect}, #{type.inspect}"
+
     if message_id
       message = Message.where(message_id: message_id).first
       return if message.blank?
