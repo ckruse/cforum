@@ -70,23 +70,28 @@ class VoteBadgeDistributorJob < ApplicationJob
     end
 
     check_for_voter_badges(vote) if %w[changed-vote voted].include?(type)
+    logger.debug 'starting message owner badges'
 
     case type
     # when 'removed-vote', 'changed-vote', 'unaccepted'
     when 'voted', 'accepted'
       return if message.user_id.blank?
 
+      logger.debug "type: #{type} - pre check_for_owner_vote_badges"
       check_for_owner_vote_badges(message.owner, message) if type == 'voted'
 
       score = message.owner.score
       badges = Badge.where('score_needed <= ?', score)
       user_badges = message.owner.badges
 
+      logger.debug "score: #{score}"
+
       badges.each do |b|
-        logger.info "Giving badge #{b.name} to user #{message.owner.username}"
+        logger.debug "Checking for badge #{b.name} to user #{message.owner.username}"
         found = user_badges.find { |obj| obj.badge_id == b.badge_id }
 
         next if found
+        logger.debug 'giving badge!'
         message.owner.badge_users.create(badge_id: b.badge_id, created_at: DateTime.now, updated_at: DateTime.now)
         message.owner.reload
         audit(message.owner, 'badge-gained', nil)
