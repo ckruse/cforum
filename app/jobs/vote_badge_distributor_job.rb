@@ -68,6 +68,7 @@ class VoteBadgeDistributorJob < ApplicationJob
 
     if vote_id
       vote = Vote.where(vote_id: vote_id).first
+      logger.debug "vote is: #{vote.inspect}"
       return if vote.blank?
     end
 
