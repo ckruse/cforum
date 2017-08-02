@@ -88,14 +88,17 @@ module MessageHelper
     message.flags['flattr_id'] = flattr_id unless flattr_id.blank?
   end
 
-  def set_message_author(_message, author = current_user.try(:username))
-    if !author.blank?
-      @message.author = author
-    elsif !@message.author.blank?
-      unless User.where('LOWER(username) = LOWER(?)', @message.author.strip).first.blank?
-        flash.now[:error] = I18n.t('errors.name_taken')
-        return false
-      end
+  def set_message_author(message)
+    message.author = current_user.username unless current_user.blank?
+    # we ignore the case when user has forgotten to enter a name
+    return true if message.author.blank?
+
+    found_user = User.where('LOWER(username) = LOWER(?)', @message.author.strip).first
+    return true if found_user.blank?
+
+    if found_user.user_id != current_user.try(:user_id)
+      flash.now[:error] = I18n.t('errors.name_taken')
+      return false
     end
 
     true
