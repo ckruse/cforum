@@ -34,13 +34,19 @@ class Messages::VoteController < ApplicationController
 
     check_for_downvote_score(vtype) || return
 
+    job_type = nil
+
     Vote.transaction do
       if @vote
         update_existing_vote(vtype)
+        job_type = 'changed-voted'
       else
         create_new_vote(vtype)
+        job_type = 'voted'
       end
     end
+
+    VoteBadgeDistributorJob.perform_later(@vote.vote_id, @message.message_id, job_type)
 
     rescore_message(@message)
 
@@ -166,8 +172,6 @@ class Messages::VoteController < ApplicationController
     else
       update_existing_downvote
     end
-
-    VoteBadgeDistributorJob.perform_later(@vote.vote_id, @message.message_id, 'changed-voted')
   end
 
   def update_existing_upvote
@@ -250,8 +254,6 @@ class Messages::VoteController < ApplicationController
         .where(message_id: @message.message_id)
         .update_all('downvotes = downvotes + 1')
     end
-
-    VoteBadgeDistributorJob.perform_later(@vote.vote_id, @message.message_id, 'voted')
   end
 end
 
