@@ -21,7 +21,7 @@ module SuspiciousHelper
 
   def name_suspicious?(name)
     name.each_codepoint do |cp|
-      return true if cp > 255
+      return true if cp > 255 || cp < 32
     end
 
     false
