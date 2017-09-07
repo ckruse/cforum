@@ -159,7 +159,6 @@ module RightsHelper
 
   def may_answer(m)
     return false if m.thread.archived?
-    return false if m.flags['no-answer'] == 'yes'
     m.open?
   end
 
