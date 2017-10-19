@@ -18,6 +18,7 @@ de:
       no_at_in_name: Der Benutzername darf kein „@“ enthalten!
       something_went_wrong: Es ist etwas schief gegangen!
       score_to_low: "Die Bewertung des Beitrags liegt unterhalb des Grenzwertes. <span class=\"show-posting\">Einblenden</span>"
+      show_password: Passwort anzeigen
 
       uploads:
         no_image_given: Keine Datei ausgewählt oder kein Bild ausgewählt!

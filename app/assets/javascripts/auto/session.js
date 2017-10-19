@@ -4,14 +4,17 @@
 cforum.devise = {
   sessions: {
     init: function() {
-      $(".show-password").on("click", function() {
+      $(".login-password").after("<button class=\"show-password\" title=\"" + t("messages.show_password") + "\"></button>");
+      $(".show-password").on("click", function(ev) {
+        ev.preventDefault();
+
         var field = $(".login-password");
         var type = field.attr("type");
 
         type = (type == 'text') ? 'password' : 'text';
         field.attr("type", type);
       });
-      $(".show-password").css({display: 'inline'});
+      //$(".show-password").css({display: 'inline'});
     }
   }
 };

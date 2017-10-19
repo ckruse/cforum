@@ -243,9 +243,11 @@ i.icon-thread {
   @extend .fa;
   @extend .fa-eye;
   cursor:pointer;
-  display:none;
   margin-right:.5em;
   font-size:1.1em;
+  border:0;
+  background:inherit;
+  padding:0;
 }
 
 .icon-help {
