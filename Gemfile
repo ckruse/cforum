@@ -28,6 +28,7 @@ gem 'uglifier', '>= 1.0.3'
 gem 'cocaine'
 gem 'sidekiq'
 gem 'sidekiq-cron'
+gem 'redis', '~> 3.0'
 
 gem 'content_for_in_controllers'
 
