@@ -55,9 +55,9 @@ de:
       inline_js: "$('.avatar').css({border: '1px solid red'});"
       date_format: "%d.%m.%Y %H:%M"
       duplicate: http://forum.selfhtml.org/zu-diesem-forum/2001/may/28/test-bitte-ignorieren/572405
-      username: "Regina Schlauklug"
-      email: "r.schlauklug@example.com"
-      email_optional: "r.schlauklug@example.com (optional)"
+      username: ""
+      email: ""
+      email_optional: ""
       subject: "Problem mit flex-box und float:left"
       homepage: http://example.com
       homepage_optional: http://example.com (optional)

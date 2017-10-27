@@ -152,7 +152,7 @@ de:
     audit:
       audit_log: Audit-Log
       search: Suche
-      search_term: z.B. Regina Schlauklug
+      search_term: z.B. flexbox
       objects: Objekte
       events: Erreignisse für %{relation}
       the_objects:
