@@ -10,13 +10,13 @@ with_name ||= false
   <% if not current_user or (with_name and current_user.admin?) %>
   <div class="cf-cgroup">
     <%= f.label :author %>
-    <%= f.text_field :author, placeholder: t('layout.placeholders.username'), maxlength: 60, required: true %>
+    <%= f.text_field :author, maxlength: 60, required: true %>
   </div>
   <% end %>
 
   <div class="cf-cgroup">
     <%= f.label :email %>
-    <%= f.email_field :email, placeholder: t('layout.placeholders.email_optional'), maxlength: 60 %>
+    <%= f.email_field :email, maxlength: 60 %>
     <small><%= t('layout.voluntary_but_public') %></small>
   </div>
 

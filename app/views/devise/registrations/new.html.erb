@@ -20,12 +20,12 @@ content_for :body_classes, 'registrations new'
 
   <div class="cf-cgroup">
     <%= f.label :username %>
-    <%= f.text_field(:username, placeholder: t("layout.placeholders.username"), 'data-js' => 'username') %>
+    <%= f.text_field(:username, 'data-js' => 'username') %>
   </div>
 
   <div class="cf-cgroup">
     <%= f.label(:email) %>
-    <%= f.text_field(:email, placeholder: t("layout.placeholders.email"), type: 'email') %>
+    <%= f.text_field(:email, type: 'email') %>
   </div>
 
   <div class="cf-cgroup">

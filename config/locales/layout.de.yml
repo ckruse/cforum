@@ -49,19 +49,16 @@ de:
       greeting: Hallo {$vname},
       farewell: "Bis bald!\nOtto"
       signature: Rosen sind rot
-      css_file: http://example.com/forum.css
-      js_file: http://example.com/forum.js
+      css_file: https://example.com/forum.css
+      js_file: https://example.com/forum.js
       inline_css: ".avatar { border: 1px solid red; }"
       inline_js: "$('.avatar').css({border: '1px solid red'});"
       date_format: "%d.%m.%Y %H:%M"
-      duplicate: http://forum.selfhtml.org/zu-diesem-forum/2001/may/28/test-bitte-ignorieren/572405
-      username: "Regina Schlauklug"
-      email: "r.schlauklug@example.com"
-      email_optional: "r.schlauklug@example.com (optional)"
+      duplicate: https://forum.selfhtml.org/zu-diesem-forum/2001/may/28/test-bitte-ignorieren/572405
       subject: "Problem mit flex-box und float:left"
-      homepage: http://example.com
-      homepage_optional: http://example.com (optional)
-      problematic_site_optional: http://example.com (optional)
+      homepage: https://example.com
+      homepage_optional: https://example.com
+      problematic_site_optional: https://example.com
 
     voluntary_but_public: "freiwillige Angabe, für jeden sichtbar"
 
