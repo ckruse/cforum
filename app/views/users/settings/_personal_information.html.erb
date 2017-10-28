@@ -8,7 +8,7 @@
 
   <div class="cf-cgroup">
     <label class="control-label" for="settings_url"><%= t('users.settings.homepage') %></label>
-    <input type="url" value="<%= @settings.conf('url') %>" name="settings[url]" id="settings_url" placeholder="http://example.com/"<%= disabled %>>
+    <input type="url" value="<%= @settings.conf('url') %>" name="settings[url]" id="settings_url" placeholder="https://example.com/"<%= disabled %>>
   </div>
 
   <% if @user.has_badge?('seo_profi') %>
