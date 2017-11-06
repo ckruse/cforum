@@ -485,27 +485,23 @@ blockquote.show-quotes .unfold {
   background: #ebf5d7;
 }
 
-.thread-message.negative-score .posting-content {
-  opacity: .6;
-  transition: opacity, .5s, ease;
-  &:hover {
-    opacity: 1;
-  }
-}
-
-.thread-message.negativer-score .posting-content,
-.thread-message.negative-bad-score .posting-content {
-  opacity: .4;
-  transition: opacity, .5s, ease;
-  &:hover {
-    opacity: 1;
-  }
-}
-
-
-.thread-message.positive-score {
+.thread-message.negative-score {
   .posting-content, .problematic-site {
-    border-width: 2px;
+    opacity: .6;
+    transition: opacity, .5s, ease;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.thread-message.negativer-score, .thread-message.negative-bad-score {
+  .posting-content, .problematic-site {
+    opacity: .4;
+    transition: opacity, .5s, ease;
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 
