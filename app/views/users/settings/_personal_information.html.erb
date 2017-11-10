@@ -22,12 +22,12 @@
   <% end %>
 
   <div class="cf-cgroup">
-    <label class="control-label" for="settings_flattr"><%= t('users.settings.jabber_id') %></label>
+    <label class="control-label" for="settings_jabber_id"><%= t('users.settings.jabber_id') %></label>
     <input type="text" value="<%= @settings.conf('jabber_id') %>" name="settings[jabber_id]" id="settings_jabber_id"<%= disabled %>>
   </div>
 
   <div class="cf-cgroup">
-    <label class="control-label" for="settings_flattr"><%= t('users.settings.twitter_handle') %></label>
+    <label class="control-label" for="settings_twitter_handle"><%= t('users.settings.twitter_handle') %></label>
     <input type="text" value="<%= @settings.conf('twitter_handle') %>" name="settings[twitter_handle]" id="settings_twitter_handle"<%= disabled %>>
   </div>
 
