@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :forum do
     name { generate(:forum_name) }
     short_name { name }

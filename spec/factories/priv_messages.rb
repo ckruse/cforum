@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :priv_message do
     subject 'Use the force!'
     body { generate(:random_string) }

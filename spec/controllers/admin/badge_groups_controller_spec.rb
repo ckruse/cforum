@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Admin::BadgeGroupsController, type: :controller do
-  let(:admin) { FactoryGirl.create(:user_admin) }
+  let(:admin) { FactoryBot.create(:user_admin) }
   let(:badges) do
     [create(:badge, badge_type: Badge::UPVOTE),
      create(:badge, badge_type: Badge::DOWNVOTE),

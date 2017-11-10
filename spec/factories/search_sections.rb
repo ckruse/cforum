@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-FactoryGirl.define do
+FactoryBot.define do
   sequence(:section_name) { |n| "Search Section #{n}" }
 
   factory :search_section do

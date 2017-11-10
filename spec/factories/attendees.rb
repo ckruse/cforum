@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   sequence(:attendee_name) do |n|
     "Attendee #{n}"
   end

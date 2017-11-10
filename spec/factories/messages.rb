@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-FactoryGirl.define do
+FactoryBot.define do
   sequence(:random_string) do |_n|
     Faker::Lorem.paragraphs.join("\n\n")
   end

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-FactoryGirl.define do
+FactoryBot.define do
   sequence(:thread_slug) do |n|
     "thread-#{n}"
   end

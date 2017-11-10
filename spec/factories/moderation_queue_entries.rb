@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :mod_queue_entry, class: ModerationQueueEntry do
     reason 'off-topic'
     reported 1

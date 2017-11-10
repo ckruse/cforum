@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-FactoryGirl.define do
+FactoryBot.define do
   sequence(:notification_subject) do |n|
     "Subject #{n}"
   end

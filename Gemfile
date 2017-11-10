@@ -40,7 +40,7 @@ group :development, :test do
   gem 'capybara-screenshot'
   gem 'database_cleaner'
   gem 'email_spec'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'faker'
   gem 'guard-rspec'
   gem 'listen', '~> 3.0.7'

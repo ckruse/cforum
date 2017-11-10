@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'admin/badge_groups/new', type: :view do
   before(:each) do
-    assign(:badge_group, FactoryGirl.build(:badge_group, name: 'Foo'))
+    assign(:badge_group, FactoryBot.build(:badge_group, name: 'Foo'))
     @badges = assign(:badges, Badge.order(:order).all)
   end
 

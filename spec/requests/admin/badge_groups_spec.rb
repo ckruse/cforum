@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'BadgeGroups', type: :request do
-  let(:admin) { FactoryGirl.create(:user_admin, password: 'foo') }
-  let(:badge1) { FactoryGirl.create(:badge, badge_type: 'custom') }
-  let(:badge2) { FactoryGirl.create(:badge, badge_type: 'custom') }
+  let(:admin) { FactoryBot.create(:user_admin, password: 'foo') }
+  let(:badge1) { FactoryBot.create(:badge, badge_type: 'custom') }
+  let(:badge2) { FactoryBot.create(:badge, badge_type: 'custom') }
   before(:each) { login_user(admin) }
 
   it 'sends an empty list of badge groups' do

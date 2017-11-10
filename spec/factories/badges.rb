@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :badge do
     score_needed { 10 }
     name { generate(:badge_name) }

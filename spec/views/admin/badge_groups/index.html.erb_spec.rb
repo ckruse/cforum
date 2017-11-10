@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'admin/badge_groups/index', type: :view do
   let(:badge_groups) do
-    [FactoryGirl.create(:badge_group),
-     FactoryGirl.create(:badge_group)]
+    [FactoryBot.create(:badge_group),
+     FactoryBot.create(:badge_group)]
   end
 
   before(:each) do

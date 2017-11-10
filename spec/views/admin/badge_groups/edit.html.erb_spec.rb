@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'admin/badge_groups/edit', type: :view do
   before(:each) do
-    @badge_group = assign(:badge_group, FactoryGirl.create(:badge_group))
+    @badge_group = assign(:badge_group, FactoryBot.create(:badge_group))
     @badges = assign(:badges, Badge.order(:order).all)
   end
 

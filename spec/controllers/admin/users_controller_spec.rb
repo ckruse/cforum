@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Admin::UsersController, type: :controller do
-  let(:admin) { FactoryGirl.create(:user_admin) }
+  let(:admin) { FactoryBot.create(:user_admin) }
 
   before(:each) do
     sign_in admin
