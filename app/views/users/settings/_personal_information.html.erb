@@ -22,11 +22,6 @@
   <% end %>
 
   <div class="cf-cgroup">
-    <label class="control-label" for="settings_flattr"><%= t('users.settings.flattr') %></label>
-    <input type="text" value="<%= @settings.conf('flattr') %>" name="settings[flattr]" id="settings_flattr"<%= disabled %>>
-  </div>
-
-  <div class="cf-cgroup">
     <label class="control-label" for="settings_flattr"><%= t('users.settings.jabber_id') %></label>
     <input type="text" value="<%= @settings.conf('jabber_id') %>" name="settings[jabber_id]" id="settings_jabber_id"<%= disabled %>>
   </div>

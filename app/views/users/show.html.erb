@@ -84,19 +84,6 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
         <span class="cnt"><%= number_with_delimiter(t.cnt) %></span></li>
     <% end %>
   </ul>
-
-  <% unless @settings.conf('flattr').blank? %>
-    <p>
-      <%= t('layout.flattr_author') %>
-      <%= cf_link_to "https://flattr.com/submit/auto?user_id=" + CGI.escape(@settings.conf('flattr')) +
-      "&url=" + CGI.escape(user_url(@user)) +
-      "&title=" + CGI.escape(t('users.selfforum_user', name: @user.username)), class: 'u-url' do %>
-        <img src="//button.flattr.com/flattr-badge-large.png"
-             alt="Flattr this!"
-             title="Flattr this!">
-      <% end %>
-    </p>
-  <% end %>
 </div>
 
 <h2><%= t("users.user_activity") %></h2>

@@ -285,8 +285,7 @@ class UsersController < ApplicationController
        !settings.options['url'].blank? &&
        (!settings.options['email'].blank? ||
         !settings.options['jabber_id'].blank? ||
-        !settings.options['twitter_handle'].blank? ||
-        !settings.options['flattr'].blank?)
+        !settings.options['twitter_handle'].blank?)
       badge = Badge.where(slug: 'autobiographer').first!
 
       user.badge_users.create!(badge_id: badge.badge_id,
