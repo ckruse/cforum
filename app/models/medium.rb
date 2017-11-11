@@ -4,7 +4,7 @@ class Medium < ApplicationRecord
   self.primary_key = 'medium_id'
   self.table_name  = 'media'
 
-  belongs_to :owner, class_name: User
+  belongs_to :owner, class_name: 'User'
 
   validates_presence_of :filename, :orig_name, :content_type
 
