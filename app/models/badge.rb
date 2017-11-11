@@ -33,7 +33,7 @@ class Badge < ApplicationRecord
                            allow_blank: true
   validates :badge_type, presence: true, allow_blank: false,
                          inclusion: { in: %w[custom] + RIGHTS }
-  validates :badge_type, uniqueness: true, unless: "badge_type == 'custom'"
+  validates :badge_type, uniqueness: true, unless: proc { |a| a.badge_type == 'custom' }
   validates :badge_medal_type, presence: true, allow_blank: false,
                                inclusion: { in: %w[bronze silver gold] }
 
