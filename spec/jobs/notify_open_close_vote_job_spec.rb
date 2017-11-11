@@ -21,18 +21,18 @@ RSpec.describe NotifyOpenCloseVoteJob, type: :job do
   end
 
   it 'notifies admins on flag' do
-    expect {
+    expect do
       NotifyOpenCloseVoteJob.perform_now(message.message_id, 'created', 'close')
-    }.to change(Notification, :count).by(1)
+    end.to change(Notification, :count).by(1)
   end
 
   it "doesn't notify when disabled" do
     Setting.delete_all
     Setting.create!(user_id: user.user_id, options: { 'notify_on_open_close_vote' => 'no' })
 
-    expect {
+    expect do
       NotifyOpenCloseVoteJob.perform_now(message.message_id, 'created', 'close')
-    }.to change(Notification, :count).by(0)
+    end.to change(Notification, :count).by(0)
   end
 
   it 'notifies moderators' do
@@ -43,9 +43,9 @@ RSpec.describe NotifyOpenCloseVoteJob, type: :job do
     grp.forums_groups_permissions << ForumGroupPermission.new(permission: ForumGroupPermission::MODERATE,
                                                               forum_id: message.forum_id)
 
-    expect {
+    expect do
       NotifyOpenCloseVoteJob.perform_now(message.message_id, 'created', 'close')
-    }.to change(Notification, :count).by(1)
+    end.to change(Notification, :count).by(1)
   end
 
   it 'notifies users with moderator badge' do
@@ -53,18 +53,18 @@ RSpec.describe NotifyOpenCloseVoteJob, type: :job do
     usr = create(:user_moderator)
     Setting.create!(user_id: usr.user_id, options: { 'notify_on_open_close_vote' => 'yes' })
 
-    expect {
+    expect do
       NotifyOpenCloseVoteJob.perform_now(message.message_id, 'created', 'close')
-    }.to change(Notification, :count).by(1)
+    end.to change(Notification, :count).by(1)
   end
 
   it "doesn't notify normal users" do
     user.admin = false
     user.save!
 
-    expect {
+    expect do
       NotifyOpenCloseVoteJob.perform_now(message.message_id, 'created', 'close')
-    }.to change(Notification, :count).by(0)
+    end.to change(Notification, :count).by(0)
   end
 
   it "doesn't notify users with moderator rights in different forum" do
@@ -77,8 +77,8 @@ RSpec.describe NotifyOpenCloseVoteJob, type: :job do
     grp.forums_groups_permissions << ForumGroupPermission.new(permission: ForumGroupPermission::MODERATE,
                                                               forum_id: f.forum_id)
 
-    expect {
+    expect do
       NotifyOpenCloseVoteJob.perform_now(message.message_id, 'created', 'close')
-    }.to change(Notification, :count).by(0)
+    end.to change(Notification, :count).by(0)
   end
 end

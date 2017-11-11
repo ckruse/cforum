@@ -1,8 +1,8 @@
 class Admin::BadgeGroupsController < ApplicationController
   authorize_controller { authorize_admin }
 
-  before_action :set_badge_group, only: [:edit, :update, :destroy]
-  before_action :load_badges, only: [:edit, :update, :new, :create]
+  before_action :set_badge_group, only: %i[edit update destroy]
+  before_action :load_badges, only: %i[edit update new create]
 
   # GET /badge_groups
   def index
@@ -21,7 +21,7 @@ class Admin::BadgeGroupsController < ApplicationController
   def create
     @badge_group = BadgeGroup.new(badge_group_params)
 
-    unless params[:badges].blank?
+    if params[:badges].present?
       badge_ids = @badges.map(&:badge_id)
       params[:badges].each do |badge|
         @badge_group.badge_badge_groups.build(badge_id: badge.to_i) if badge.to_i.in?(badge_ids)
@@ -43,7 +43,7 @@ class Admin::BadgeGroupsController < ApplicationController
       if @badge_group.update(badge_group_params)
         @badge_group.badge_badge_groups.clear
 
-        unless params[:badges].blank?
+        if params[:badges].present?
           badge_ids = @badges.map(&:badge_id)
           params[:badges].each do |badge|
             @badge_group.badge_badge_groups.create!(badge_id: badge.to_i) if badge.to_i.in?(badge_ids)

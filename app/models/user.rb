@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -13,7 +11,7 @@ class User < ApplicationRecord
   self.primary_key = 'user_id'
   self.table_name  = 'users'
 
-  validates_presence_of :password, on: :create
+  validates :password, presence: { on: :create }
   validates :password, length: { minimum: 3 }, confirmation: true, if: :password, allow_blank: true
   validates :username, presence: true, uniqueness: { case_sensitive: false },
                        format: { with: /\A[^@]+\z/, message: I18n.t('users.no_at_in_name') }, length: { in: 2..255 }
@@ -35,7 +33,7 @@ class User < ApplicationRecord
   has_many :subscriptions
 
   def conf(nam)
-    vals = settings.options unless settings.blank?
+    vals = settings.options if settings.present?
     vals ||= {}
 
     vals[nam.to_s] || ConfigManager::DEFAULTS[nam]
@@ -143,7 +141,7 @@ class User < ApplicationRecord
   def serializable_hash(options = {})
     options ||= {}
     options[:except] ||= []
-    options[:except] += [:encrypted_password, :authentication_token, :email]
+    options[:except] += %i[encrypted_password authentication_token email]
     super(options)
   end
 
@@ -158,7 +156,7 @@ class User < ApplicationRecord
       unique_badges[ub.badge_id][:times] += 1
     end
 
-    unique_badges.values.sort { |a, b| a[:created_at] <=> b[:created_at] }
+    unique_badges.values.sort_by { |a| a[:created_at] }
   end
 end
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module Md2htmlHelper
   class Content2HTML
     include ParserHelper

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class GenForumStatsJob < ApplicationJob
   queue_as :cron
 

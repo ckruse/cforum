@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class AddForumKeywords < ActiveRecord::Migration
   def change
     change_table(:forums) do |t|

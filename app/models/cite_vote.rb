@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class CiteVote < ApplicationRecord
   UPVOTE   = 1
   DOWNVOTE = 0
@@ -10,8 +8,8 @@ class CiteVote < ApplicationRecord
   belongs_to :user
   belongs_to :cite
 
-  validates_presence_of :user_id
-  validates_uniqueness_of :cite_id, presence: true, scope: :user_id
+  validates :user_id, presence: true
+  validates :cite_id, uniqueness: { presence: true, scope: :user_id }
   validates :vote_type, inclusion: [UPVOTE, DOWNVOTE], presence: true
 end
 

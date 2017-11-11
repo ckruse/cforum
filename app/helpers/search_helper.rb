@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module SearchHelper
   def search_index_message(thread, message)
     section = SearchSection.where(forum_id: message.forum_id).first
@@ -39,7 +37,7 @@ module SearchHelper
       mids << m.message_id
     end
 
-    SearchDocument.delete_all(['reference_id IN (?)', mids]) unless mids.blank?
+    SearchDocument.delete_all(['reference_id IN (?)', mids]) if mids.present?
   end
 
   def rescore_message(message)
@@ -60,7 +58,7 @@ module SearchHelper
   def search_index_cite(cite)
     return unless cite.archived?
 
-    section = SearchSection.find_by_name(I18n.t('cites.cites'))
+    section = SearchSection.find_by(name: I18n.t('cites.cites'))
     section = SearchSection.create!(name: I18n.t('cites.cites'), position: -1) if section.blank?
     base_relevance = conf('search_cites_relevance')
 
@@ -182,7 +180,7 @@ module SearchHelper
     select = ['relevance']
     select_title = []
 
-    unless query[:all].blank?
+    if query[:all].present?
       q = to_ts_query(query[:all])
       quoted_q = SearchDocument.connection.quote(q)
 
@@ -197,7 +195,7 @@ module SearchHelper
       select_title << ts_headline("author || ' ' || title || ' ' || content", quoted_q, 'headline_doc')
     end
 
-    unless query[:title].blank?
+    if query[:title].present?
       q = to_ts_query(query[:title])
       quoted_q = SearchDocument.connection.quote(q)
 
@@ -210,7 +208,7 @@ module SearchHelper
       select_title << ts_headline('title', quoted_q, 'headline_title')
     end
 
-    unless query[:content].blank?
+    if query[:content].present?
       q = to_ts_query(query[:content])
       quoted_q = SearchDocument.connection.quote(q)
 
@@ -223,7 +221,7 @@ module SearchHelper
       select_title << ts_headline('content', quoted_q, 'headline_content')
     end
 
-    unless query[:author].blank?
+    if query[:author].present?
       q = to_ts_query(query[:author])
       quoted_q = SearchDocument.connection.quote(q)
 

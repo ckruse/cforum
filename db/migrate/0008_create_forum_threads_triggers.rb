@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class CreateForumThreadsTriggers < ActiveRecord::Migration
   def up
     sql = IO.read(File.dirname(__FILE__) + '/../count_threads.sql')

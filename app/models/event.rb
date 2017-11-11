@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
-
 class Event < ApplicationRecord
   include ParserHelper
 
   self.primary_key = 'event_id'
 
-  validates_presence_of :name, :description, :start_date, :end_date
+  validates :name, :description, :start_date, :end_date, presence: true
 
   has_many :attendees, -> { order(:name) }
 

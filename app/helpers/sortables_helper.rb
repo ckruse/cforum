@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module SortablesHelper
   def sort_query(valid_fields, query_object, replacements = {}, defaults = { dir: :asc })
     valid_fields = valid_fields.map(&:to_sym)
@@ -23,7 +21,7 @@ module SortablesHelper
       have_to_set_cookie = true
     end
 
-    @_sort_direction = :asc unless [:asc, :desc].include?(@_sort_direction.to_sym)
+    @_sort_direction = :asc unless %i[asc desc].include?(@_sort_direction.to_sym)
     @_sort_direction = @_sort_direction.to_sym
     @_sort_column = valid_fields.first unless valid_fields.include?(@_sort_column.to_sym)
     @_sort_column = @_sort_column.to_sym

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Messages::FlagController < ApplicationController
   authorize_controller { authorize_forum(permission: :read?) }
   authorize_action(:unflag) { authorize_forum(permission: :moderator?) }
@@ -20,7 +18,7 @@ class Messages::FlagController < ApplicationController
   def flagging
     @thread, @message, @id = get_thread_w_post
 
-    unless @message.open_moderation_queue_entry.blank?
+    if @message.open_moderation_queue_entry.present?
       @message.open_moderation_queue_entry.reported += 1
       @message.open_moderation_queue_entry.save!
       redirect_to message_url(@thread, @message), notice: t('plugins.flag_plugin.flagged')

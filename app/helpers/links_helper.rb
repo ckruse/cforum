@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 module LinksHelper
   def url_whitelisted?(url)
-    return true unless url =~ %r{^https?://}
+    return true unless url.match?(%r{^https?://})
     list = conf('links_white_list').to_s.split(/\015\012|\015|\012/)
 
     list.each do |l|
-      return true if Regexp.new(l, Regexp::IGNORECASE).match(url)
+      return true if Regexp.new(l, Regexp::IGNORECASE).match?(url)
     end
 
     false
@@ -21,7 +19,7 @@ module LinksHelper
     end
 
     url = args.second
-    url = args.first unless block.blank?
+    url = args.first if block.present?
     attrs[:rel] = 'nofollow' if !url_whitelisted?(url) && !attrs.key?(:rel)
 
     link_to(*args, &block)
@@ -60,26 +58,26 @@ module LinksHelper
           (args[:method] == 'get' ? 'get' : 'post') << '" action="' <<
           url << '">' << '<button'
 
-    str << ' title="' + encode_entities(args[:title]) + '"' unless args[:title].blank?
-    str << ' class="' + encode_entities(args[:class]) + '"' unless args[:class].blank?
+    str << ' title="' + encode_entities(args[:title]) + '"' if args[:title].present?
+    str << ' class="' + encode_entities(args[:class]) + '"' if args[:class].present?
 
-    if !args[:data].blank? && !args[:data]['cf-confirm'].blank?
+    if args[:data].present? && args[:data]['cf-confirm'].present?
       str << ' data-cf-confirm="' + encode_entities(args[:data]['cf-confirm']) + '"'
     end
 
     str << ' type="submit">'
-    str << (capture { yield }) unless block.blank?
+    str << (capture { yield }) if block.present?
     str << '</button><input type="hidden" name="authenticity_token" value="' <<
       form_authenticity_token << '">'
 
-    unless args[:params].blank?
+    if args[:params].present?
       for k, v in args[:params]
         str << '<input type="hidden" name="' + encode_entities(k.to_s) + '" value="' + encode_entities(v.to_s) + '">'
       end
     end
 
     m = args[:method].to_s
-    if !m.blank? && (m != 'get') && (m != 'post')
+    if m.present? && (m != 'get') && (m != 'post')
       str << '<input type="hidden" name="_method" value="' << encode_entities(m) << '">'
     end
 

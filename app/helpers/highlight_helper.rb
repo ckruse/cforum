@@ -1,21 +1,19 @@
-# -*- coding: utf-8 -*-
-
 module HighlightHelper
   def parsed_highlighted_users
     highlighted_users = uconf('highlighted_users')
     highlighted_users ||= ''
-    (highlight_self = uconf('highlight_self') == 'yes') && !current_user.blank?
+    (highlight_self = uconf('highlight_self') == 'yes') && current_user.present?
 
     user_map = {}
 
-    unless highlighted_users.blank?
+    if highlighted_users.present?
       highlighted_users.split(',').each do |s|
         user_map[s.strip.downcase] = true
       end
     end
 
     cu_nam = ''
-    cu_nam = current_user.username.strip.downcase unless current_user.blank?
+    cu_nam = current_user.username.strip.downcase if current_user.present?
 
     [user_map, highlight_self, cu_nam]
   end
@@ -65,7 +63,7 @@ module HighlightHelper
   end
 
   def highlight_saving_settings(settings)
-    unless settings.options['highlighted_users'].blank?
+    if settings.options['highlighted_users'].present?
       users = User.where(user_id: JSON.parse(settings.options['highlighted_users']))
       settings.options['highlighted_users'] = users.map(&:username).join(',')
     end

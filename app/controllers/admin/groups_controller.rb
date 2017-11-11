@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class Admin::GroupsController < ApplicationController
   authorize_controller { authorize_admin }
 
@@ -8,7 +6,7 @@ class Admin::GroupsController < ApplicationController
     @limit = 50 if @limit <= 0
 
     @groups = Group.select('*, (SELECT COUNT(*) FROM groups_users WHERE group_id = groups.group_id) AS members_cnt')
-    @groups = sort_query(%w(name members_cnt created_at updated_at),
+    @groups = sort_query(%w[name members_cnt created_at updated_at],
                          @groups, members_cnt: '(SELECT COUNT(*) FROM groups_users WHERE group_id = groups.group_id)')
                 .page(params[:page]).per(@limit)
   end
@@ -29,7 +27,7 @@ class Admin::GroupsController < ApplicationController
     @forums = Forum.all
 
     @users = []
-    @users = User.find(params[:users]) unless params[:users].blank?
+    @users = User.find(params[:users]) if params[:users].present?
 
     saved = false
     Group.transaction do
@@ -41,7 +39,7 @@ class Admin::GroupsController < ApplicationController
       end
 
       @group.forums_groups_permissions.clear
-      if !params[:forums].blank? && !params[:permissions].blank?
+      if params[:forums].present? && params[:permissions].present?
         params[:forums].each_with_index do |forum, i|
           next if forum.blank? || params[:permissions][i].blank?
 
@@ -72,7 +70,7 @@ class Admin::GroupsController < ApplicationController
     @forums = Forum.all
 
     @users = []
-    @users = User.find(params[:users]) unless params[:users].blank?
+    @users = User.find(params[:users]) if params[:users].present?
 
     saved = false
     Group.transaction do
@@ -82,7 +80,7 @@ class Admin::GroupsController < ApplicationController
         @group.group_users.create!(user_id: u.user_id)
       end
 
-      if !params[:forums].blank? && !params[:permissions].blank?
+      if params[:forums].present? && params[:permissions].present?
         params[:forums].each_with_index do |forum, i|
           next if forum.blank? || params[:permissions][i].blank?
           @group.forums_groups_permissions.create!(forum_id: forum,

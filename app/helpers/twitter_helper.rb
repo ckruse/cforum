@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module TwitterHelper
   def twitter_client
     auth_data = TwitterAuthorization.where(user_id: nil).first

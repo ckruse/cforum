@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module MessageHelper
   include MessageHeaderHelper
 
@@ -37,7 +35,7 @@ module MessageHelper
       classes = []
 
       html << '<li'
-      html << ' class="' << classes.join(' ') << '"' unless classes.blank?
+      html << ' class="' << classes.join(' ') << '"' if classes.present?
       html << '>'
       html << message_header(thread, message,
                              first: false,
@@ -50,7 +48,7 @@ module MessageHelper
                              id_prefix: opts[:id_prefix],
                              parent_subscribed: opts[:parent_subscribed])
 
-      unless message.messages.blank?
+      if message.messages.present?
         html << message_tree(thread, message.messages,
                              first: false,
                              prev_deleted: message.deleted?,
@@ -86,7 +84,7 @@ module MessageHelper
   end
 
   def set_message_author(message)
-    message.author = current_user.username unless current_user.blank?
+    message.author = current_user.username if current_user.present?
     # we ignore the case when user has forgotten to enter a name
     return true if message.author.blank?
 
@@ -166,7 +164,7 @@ module MessageHelper
     mid = params[:mid] if mid.nil?
     message = nil
 
-    unless mid.blank?
+    if mid.present?
       mid = mid.to_i if mid.is_a?(String)
       message = thread.find_message(mid)
       raise ActiveRecord::RecordNotFound if message.nil?

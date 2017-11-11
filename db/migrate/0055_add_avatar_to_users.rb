@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class AddAvatarToUsers < ActiveRecord::Migration
   def up
     add_attachment :users, :avatar

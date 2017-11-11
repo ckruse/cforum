@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class Group < ApplicationRecord
   self.primary_key = 'group_id'
   self.table_name  = 'groups'

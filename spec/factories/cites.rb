@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 FactoryBot.define do
   sequence(:random_cite) do |_n|
     Faker::Lorem.paragraphs.join("\n\n")

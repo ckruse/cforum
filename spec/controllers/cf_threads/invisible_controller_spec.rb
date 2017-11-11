@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require 'rails_helper'
 
 RSpec.describe CfThreads::InvisibleController, type: :controller do

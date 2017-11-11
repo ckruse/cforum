@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Messages::InterestingController < ApplicationController
   authorize_controller { authorize_user && authorize_forum(permission: :read?) }
 
@@ -71,7 +69,7 @@ class Messages::InterestingController < ApplicationController
                     .page(params[:page]).per(@limit)
     end
 
-    @messages = sort_query(%w(created_at), @messages,
+    @messages = sort_query(%w[created_at], @messages,
                            { created_at: 'messages.created_at' },
                            dir: :desc)
 

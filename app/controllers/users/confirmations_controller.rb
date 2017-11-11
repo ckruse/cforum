@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Users::ConfirmationsController < Devise::ConfirmationsController
   def show
     super

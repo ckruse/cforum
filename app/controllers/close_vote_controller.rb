@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class CloseVoteController < ApplicationController
   include CloseVoteHelper
 
@@ -7,14 +5,14 @@ class CloseVoteController < ApplicationController
 
   authorize_controller { authorize_forum(permission: :write?) }
 
-  authorize_action([:new, :create]) do
-    !current_user.blank? &&
+  authorize_action(%i[new create]) do
+    current_user.present? &&
       (current_forum.moderator?(current_user) ||
        may?(Badge::CREATE_CLOSE_REOPEN_VOTE))
   end
 
   authorize_action(:vote) do
-    !current_user.blank? &&
+    current_user.present? &&
       (current_forum.moderator?(current_user) ||
        may?(Badge::VISIT_CLOSE_REOPEN))
   end
@@ -22,13 +20,13 @@ class CloseVoteController < ApplicationController
   def new
     @thread, @message, @id = get_thread_w_post
 
-    unless @message.close_vote.blank?
+    if @message.close_vote.present?
       redirect_to message_url(@thread, @message),
                   notice: t('messages.close_vote.close_vote_already_exists')
       return
     end
 
-    unless @message.flags['no-answer-admin'].blank?
+    if @message.flags['no-answer-admin'].present?
       redirect_to message_url(@thread, @message),
                   notice: t('messages.close_vote.moderator_decision')
       return
@@ -43,13 +41,13 @@ class CloseVoteController < ApplicationController
   def new_open
     @thread, @message, @id = get_thread_w_post
 
-    unless @message.open_vote.blank?
+    if @message.open_vote.present?
       redirect_to message_url(@thread, @message),
                   notice: t('messages.close_vote.open_vote_already_exists')
       return
     end
 
-    unless @message.flags['no-answer-admin'].blank?
+    if @message.flags['no-answer-admin'].present?
       redirect_to message_url(@thread, @message),
                   notice: t('messages.close_vote.moderator_decision')
       return
@@ -65,13 +63,13 @@ class CloseVoteController < ApplicationController
   def create_open
     @thread, @message, @id = get_thread_w_post
 
-    unless @message.flags['no-answer-admin'].blank?
+    if @message.flags['no-answer-admin'].present?
       redirect_to message_url(@thread, @message),
                   notice: t('messages.close_vote.moderator_decision')
       return
     end
 
-    unless @message.open_vote.blank?
+    if @message.open_vote.present?
       redirect_to message_url(@thread, @message),
                   notice: t('messages.close_vote.open_vote_already_exists')
       return
@@ -83,13 +81,13 @@ class CloseVoteController < ApplicationController
   def create
     @thread, @message, @id = get_thread_w_post
 
-    unless @message.flags['no-answer-admin'].blank?
+    if @message.flags['no-answer-admin'].present?
       redirect_to message_url(@thread, @message),
                   notice: t('messages.close_vote.moderator_decision')
       return
     end
 
-    unless @message.close_vote.blank?
+    if @message.close_vote.present?
       redirect_to message_url(@thread, @message),
                   notice: t('messages.close_vote.close_vote_already_exists')
       return
@@ -103,7 +101,7 @@ class CloseVoteController < ApplicationController
     @close_vote.message_id = @message.message_id
     @close_vote.vote_type = vtype
 
-    if !@close_vote.duplicate_slug.blank? &&
+    if @close_vote.duplicate_slug.present? &&
        @close_vote.duplicate_slug =~ /^https?/
       begin
         uri = URI.parse(@close_vote.duplicate_slug)
@@ -147,7 +145,7 @@ class CloseVoteController < ApplicationController
   def vote
     @thread, @message, @id = get_thread_w_post
 
-    unless @message.flags['no-answer-admin'].blank?
+    if @message.flags['no-answer-admin'].present?
       redirect_to message_url(@thread, @message),
                   notice: t('messages.close_vote.moderator_decision')
       return
@@ -159,7 +157,7 @@ class CloseVoteController < ApplicationController
   def vote_open
     @thread, @message, @id = get_thread_w_post
 
-    unless @message.flags['no-answer-admin'].blank?
+    if @message.flags['no-answer-admin'].present?
       redirect_to message_url(@thread, @message),
                   notice: t('messages.close_vote.moderator_decision')
       return

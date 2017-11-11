@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module SortingHelper
   def sort_thread(thread, message = nil, direction = nil)
     direction = uconf('sort_messages') if direction.blank?
@@ -9,7 +7,7 @@ module SortingHelper
       return
     end
 
-    unless message.messages.blank?
+    if message.messages.present?
       if direction == 'ascending'
         message.messages.sort! { |a, b| a.created_at <=> b.created_at }
       else

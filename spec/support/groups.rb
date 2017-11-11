@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 FactoryBot.define do
   factory :group do
     name { generate(:group_name) }

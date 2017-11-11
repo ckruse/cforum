@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class AddCelebrationBadges < ActiveRecord::Migration
   WRITER_BADGES = [
     { messages: 100, name: 'chisel', type: 'bronze' },

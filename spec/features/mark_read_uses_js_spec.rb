@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require 'rails_helper'
 
 describe 'marking as read uses JS' do

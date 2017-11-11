@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 FactoryBot.define do
   sequence(:notification_subject) do |n|
     "Subject #{n}"

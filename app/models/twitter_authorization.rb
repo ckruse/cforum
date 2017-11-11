@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
-
 class TwitterAuthorization < ApplicationRecord
   self.primary_key = 'twitter_authorization_id'
   self.table_name = 'twitter_authorizations'
 
-  validates_presence_of :token, :secret
-  validates_uniqueness_of :user_id
+  validates :token, :secret, presence: true
+  validates :user_id, uniqueness: true
 
   belongs_to :user
 end

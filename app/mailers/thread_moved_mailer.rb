@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class ThreadMovedMailer < ActionMailer::Base
   def thread_moved(user, thread, old_forum, new_forum, url)
     @user      = user

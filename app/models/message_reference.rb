@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class MessageReference < ApplicationRecord
   self.primary_key = 'message_reference_id'
   self.table_name  = 'message_references'

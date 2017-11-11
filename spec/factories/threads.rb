@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 FactoryBot.define do
   sequence(:thread_slug) do |n|
     "thread-#{n}"

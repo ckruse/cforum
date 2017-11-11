@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require Rails.root + 'lib/cf_kramdown.rb'
 require Rails.root + 'lib/cforum_markup.rb'
 require Rails.root + 'lib/cf_plaintext.rb'
@@ -50,7 +48,7 @@ module ParserHelper
         retval = Regexp.last_match(1) + '[@' + Regexp.last_match(2) +
                  '](' + (root_path + 'users/' + m[1].to_s) + '){: .mention .registered-user'
 
-        unless classes.blank?
+        if classes.present?
           classes.each do |c|
             next if c.blank?
             retval << classes.join(' ')
@@ -87,7 +85,7 @@ module ParserHelper
       cnt = cforum2markdown(cnt) if md_format == 'cforum'
 
       mentions = md_mentions
-      cnt = highlight_mentions(app, mentions, cnt, opts[:notify_mentions]) unless mentions.blank?
+      cnt = highlight_mentions(app, mentions, cnt, opts[:notify_mentions]) if mentions.present?
 
       cnt.gsub!(/\\@/, '@')
 
@@ -164,7 +162,7 @@ module ParserHelper
     end
 
     c = c.gsub(/\n/, "\n> ")
-    c = '> ' + c unless c.blank?
+    c = '> ' + c if c.present?
     c
   end
 

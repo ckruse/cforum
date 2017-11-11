@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class CheckYearlingBadgesJob < ApplicationJob
   queue_as :cron
 

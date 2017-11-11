@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
 module NewMessageHelper
-  def new_message_saved(thread, message, parent, forum = current_forum, type = 'message')
+  def new_message_saved(thread, message, parent, _forum = current_forum, type = 'message')
     BroadcastMessageJob.perform_later(message.message_id, type, 'create')
 
     search_index_message(thread, message)

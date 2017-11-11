@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Messages::SplitThreadController < ApplicationController
   authorize_controller { authorize_forum(permission: :moderator?) }
 

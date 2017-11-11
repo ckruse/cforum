@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class ArchiveController < ApplicationController
   authorize_action([:years]) { authorize_forum(permission: :read?) }
 
@@ -15,7 +13,7 @@ class ArchiveController < ApplicationController
     @first_year = CfThread.order('created_at ASC').limit(1)
     @last_year = CfThread.order('created_at DESC').limit(1)
 
-    unless current_forum.blank?
+    if current_forum.present?
       @first_year = @first_year.where(forum_id: current_forum.forum_id)
       @last_year = @last_year.where(forum_id: current_forum.forum_id)
     end
@@ -48,12 +46,12 @@ class ArchiveController < ApplicationController
     @months = []
     @year = tmzone
 
-    if !first_month.blank? && !last_month.blank?
+    if first_month.present? && last_month.present?
       first_month = first_month.first.created_at
       last_month = last_month.first.created_at
 
       q = ''
-      q << "forum_id = #{current_forum.forum_id} AND " unless current_forum.blank?
+      q << "forum_id = #{current_forum.forum_id} AND " if current_forum.present?
       q << 'deleted = false AND ' unless @view_all
       mon = first_month
       loop do
@@ -114,7 +112,7 @@ class ArchiveController < ApplicationController
     unless ret.include?(:redirected)
       respond_to do |format|
         format.html
-        format.json { render json: @threads, include: { messages: { include: [:owner, :tags] } } }
+        format.json { render json: @threads, include: { messages: { include: %i[owner tags] } } }
       end
     end
   end

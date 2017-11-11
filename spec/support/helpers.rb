@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def thread_params_from_slug(thread)
   hsh = { curr_forum: thread.forum.slug }
 

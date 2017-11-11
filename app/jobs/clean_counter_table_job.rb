@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class CleanCounterTableJob < ApplicationJob
   queue_as :cron
 

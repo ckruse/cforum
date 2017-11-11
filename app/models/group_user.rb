@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class GroupUser < ApplicationRecord
   self.primary_key = 'group_user_id'
   self.table_name  = 'groups_users'
@@ -7,7 +5,7 @@ class GroupUser < ApplicationRecord
   belongs_to :user
   belongs_to :group
 
-  validates_presence_of :user_id, :group_id
+  validates :user_id, :group_id, presence: true
 end
 
 # eof

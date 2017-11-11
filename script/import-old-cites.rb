@@ -1,6 +1,4 @@
 #!/usr/bin/env ruby
-# -*- coding: utf-8 -*-
-
 require File.join(File.dirname(__FILE__), '..', 'config', 'boot')
 require File.join(File.dirname(__FILE__), '..', 'config', 'environment')
 
@@ -28,7 +26,7 @@ File.open(ARGV[0], 'r:utf-8') do |fd|
 
     thread = message = nil
 
-    if !c.url.blank? && c.url =~ /forum.de.selfhtml.org\/(?:my\/)?\?t=(\d+)&m=(\d+)/
+    if c.url.present? && c.url =~ /forum.de.selfhtml.org\/(?:my\/)?\?t=(\d+)&m=(\d+)/
       tid = Regexp.last_match(1)
       mid = Regexp.last_match(2)
 
@@ -42,21 +40,21 @@ File.open(ARGV[0], 'r:utf-8') do |fd|
 
       thread = CfThread.preload(:forum).where(slug: slug).first
 
-      unless thread.blank?
+      if thread.present?
         message = Message.where(thread_id: thread.thread_id, message_id: mid).first
       end
     end
 
-    if !tid.blank? && !mid.blank?
+    if tid.present? && mid.present?
       thread = CfThread.preload(:forum).where(tid: tid.to_i).first
 
-      unless thread.blank?
+      if thread.present?
         message = Message.where(thread_id: thread.thread_id, mid: mid).first
-        c.url = message_url(thread, message) unless message.blank?
+        c.url = message_url(thread, message) if message.present?
       end
     end
 
-    unless message.blank?
+    if message.present?
       c.message_id = message.message_id
       c.user_id = message.user_id
     end

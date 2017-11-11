@@ -1,6 +1,4 @@
 #!/usr/bin/env ruby
-# -*- coding: utf-8 -*-
-
 require 'libxml'
 require 'htmlentities'
 require 'pg'
@@ -30,8 +28,8 @@ def check_null_bytes(msg)
   msg.content.gsub!(/\0/, '')
   msg.subject.gsub!(/\0/, '')
   msg.author.gsub!(/\0/, '')
-  msg.email.gsub!(/\0/, '') unless msg.email.blank?
-  msg.homepage.gsub!(/\0/, '') unless msg.homepage.blank?
+  msg.email.gsub!(/\0/, '') if msg.email.present?
+  msg.homepage.gsub!(/\0/, '') if msg.homepage.present?
 end
 
 def handle_messages(old_msg, x_msg, thread)
@@ -43,7 +41,7 @@ def handle_messages(old_msg, x_msg, thread)
           .first
 
   if msg.blank?
-    $stderr.puts 'NEW MESSAGE!'
+    warn 'NEW MESSAGE!'
     exit
 
     the_date = Time.at(x_msg.find_first('./Header/Date')['longSec'].force_encoding('utf-8').to_i)
@@ -73,8 +71,8 @@ def handle_messages(old_msg, x_msg, thread)
     homepage = x_msg.find_first('./Header/Author/HomepageUrl').content.force_encoding('utf-8')
 
     # msg.category        = cat      unless cat.empty?
-    msg.email    = email    unless email.blank?
-    msg.homepage = homepage unless homepage.blank?
+    msg.email    = email    if email.present?
+    msg.homepage = homepage if homepage.present?
 
     check_null_bytes(msg)
 
@@ -82,15 +80,15 @@ def handle_messages(old_msg, x_msg, thread)
 
     category = x_msg.find_first('./Header/Category').content.force_encoding('utf-8')
 
-    unless category.blank?
+    if category.present?
       category = category.downcase.strip
 
-      t = Tag.find_by_forum_id_and_tag_name thread.forum_id, category
+      t = Tag.find_by forum_id: thread.forum_id, tag_name: category
 
       begin
         t = Tag.create!(tag_name: category, forum_id: thread.forum_id) if t.blank?
       rescue ActiveRecord::RecordNotUnique
-        t = Tag.find_by_forum_id_and_tag_name! thread.forum_id, category
+        t = Tag.find_by! forum_id: thread.forum_id, tag_name: category
       end
 
       MessageTag.create!(
@@ -103,7 +101,7 @@ def handle_messages(old_msg, x_msg, thread)
       if f['name'] == 'UserName'
         uname = f.content.force_encoding('utf-8')
 
-        usr = User.find_by_username(uname)
+        usr = User.find_by(username: uname)
         unless usr
           email = nil
           $old_db.exec("SELECT email FROM auth WHERE username = '" + uname + "'") do |result|
@@ -158,7 +156,7 @@ def handle_doc(doc, opts = {})
              .first
 
   if thread.blank?
-    $stderr.puts 'NEW THREAD!'
+    warn 'NEW THREAD!'
     exit
     forum_name = x_thread.find_first('./Message/Header/Category').content.force_encoding('utf-8')
 
@@ -177,7 +175,7 @@ def handle_doc(doc, opts = {})
     )
 
     i = 0
-    until CfThread.find_by_slug(thread.slug).blank?
+    until CfThread.find_by(slug: thread.slug).blank?
       i += 1
       thread.slug = thread_id(the_date, subject, i)
     end
@@ -227,25 +225,24 @@ def find_in_dir(dir)
       next
     end
 
-    next unless ent =~ /^t\d+\.xml$/
+    next unless ent.match?(/^t\d+\.xml$/)
 
     begin
       # do not use Parser.file since there seems to be a problem with open files
       parser = LibXML::XML::Parser.string(IO.read(dir + '/' + ent))
       doc = parser.parse
     rescue
-      $stderr.puts "Error parsing thread #{dir + '/' + ent}!"
+      warn "Error parsing thread #{dir + '/' + ent}!"
       next
     end
 
     begin
-      thread = handle_doc(doc, archived: (dir =~ /messages/ ? false : true))
+      thread = handle_doc(doc, archived: (dir.match?(/messages/) ? false : true))
       puts "saved #{thread.slug} from file #{dir + '/' + ent}"
-
     rescue SystemStackError
-      $stderr.puts "thread #{dir + '/' + ent} could not be saved!\n"
-      $stderr.puts $ERROR_INFO.message
-      $stderr.puts $ERROR_INFO.backtrace.join("\n")
+      warn "thread #{dir + '/' + ent} could not be saved!\n"
+      warn $ERROR_INFO.message
+      warn $ERROR_INFO.backtrace.join("\n")
     end
   end
 end

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class InterestingMessage < ApplicationRecord
   self.primary_key = 'interesting_message_id'
   self.table_name  = 'interesting_messages'

@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 class Medium < ApplicationRecord
   self.primary_key = 'medium_id'
   self.table_name  = 'media'
 
   belongs_to :owner, class_name: 'User'
 
-  validates_presence_of :filename, :orig_name, :content_type
+  validates :filename, :orig_name, :content_type, presence: true
 
   def to_param
     filename
@@ -41,7 +39,7 @@ class Medium < ApplicationRecord
     while i < 15 && !exists
       fname = SecureRandom.uuid
 
-      if !orig_name.blank? && orig_name =~ /\.([a-zA-Z0-9]+)$/
+      if orig_name.present? && orig_name =~ /\.([a-zA-Z0-9]+)$/
         fname << '.' + Regexp.last_match(1).downcase
       end
 
@@ -59,7 +57,7 @@ class Medium < ApplicationRecord
   end
 
   after_destroy do |_record|
-    %i(orig medium thumb).each do |style|
+    %i[orig medium thumb].each do |style|
       fname = full_path(style)
 
       begin

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module SettingsHelper
   def human_val(val)
     case val

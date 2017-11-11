@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class TagSynonym < ApplicationRecord
   self.primary_key = 'tag_synonym_id'
   self.table_name  = 'tag_synonyms'
@@ -7,9 +5,9 @@ class TagSynonym < ApplicationRecord
   belongs_to :tag
   belongs_to :forum
 
-  validates_presence_of :tag_id, :forum_id
+  validates :tag_id, :forum_id, presence: true
   validates :synonym, length: { in: 2..50 }, presence: true
-  validates_uniqueness_of :synonym, scope: :forum_id
+  validates :synonym, uniqueness: { scope: :forum_id }
 
   def audit_json
     as_json(include: [:tag])

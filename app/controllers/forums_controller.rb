@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class ForumsController < ApplicationController
   def index
     if params[:t] || params[:m]
@@ -48,10 +46,10 @@ class ForumsController < ApplicationController
       thread.attribs[:first] = thread.messages.first
     end
 
-    gather_portal_infos unless current_user.blank?
+    gather_portal_infos if current_user.present?
     forum_list_read(@overview_threads, @activities)
 
-    unless current_user.blank?
+    if current_user.present?
       @overview_threads.each do |thread|
         not_deleted_and_unread = thread.messages.select { |m| m.deleted == false && !m.attribs['classes'].include?('visited') }
         thread.attribs[:first_unread] = not_deleted_and_unread.min_by(&:created_at)
@@ -139,7 +137,7 @@ class ForumsController < ApplicationController
     if thread.length == 1
       thread = thread.first
 
-      if params[:m] && (message = thread.find_by_mid(params[:m].to_i))
+      if params[:m] && (message = thread.find_by(mid: params[:m].to_i))
         redirect_to message_url(thread, message), status: 301
       else
         redirect_to cf_thread_url(thread), status: 301
@@ -159,7 +157,7 @@ class ForumsController < ApplicationController
   def redirector
     forum = nil
 
-    forum = Forum.where(slug: params[:f]).first unless params[:f].blank?
+    forum = Forum.where(slug: params[:f]).first if params[:f].present?
 
     # TODO: add message
     raise ActiveRecord::RecordNotFound if forum.nil? && (params[:f] != 'all')

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module MailsHelper
   def index_mail_link(dir, col)
     if @user
@@ -11,7 +9,7 @@ module MailsHelper
 
   def has_unread?(mails_group)
     m = mails_group.find { |mail| !mail.is_read }
-    !m.blank?
+    m.present?
   end
 end
 

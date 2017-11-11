@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Admin::TwitterController < ApplicationController
   authorize_controller { authorize_admin }
 

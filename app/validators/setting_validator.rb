@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class SettingValidator < ActiveModel::EachValidator
   @@validators = {}
   def self.validators

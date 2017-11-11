@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # Caches the settings which are often used
 # When you use many workers the Rails.cache gets messed upp
 # therefor we use some manual timeout.
@@ -126,16 +124,16 @@ class ConfigManager
   end
 
   def fill_user_cache(user)
-    @value_cache[:users][user] = Setting.find_by_user_id(user) unless @value_cache[:users].key?(user)
+    @value_cache[:users][user] = Setting.find_by(user_id: user) unless @value_cache[:users].key?(user)
   end
 
   def fill_forum_cache(forum)
-    @value_cache[:forums][forum] = Setting.find_by_forum_id(forum) unless @value_cache[:forums].key?(forum)
+    @value_cache[:forums][forum] = Setting.find_by(forum_id: forum) unless @value_cache[:forums].key?(forum)
   end
 
   def read_settings(user = nil, forum = nil)
-    fill_user_cache(user) unless user.blank?
-    fill_forum_cache(forum) unless forum.blank?
+    fill_user_cache(user) if user.present?
+    fill_forum_cache(forum) if forum.present?
 
     unless @value_cache.key?(:global)
       @value_cache[:global] = Setting
@@ -145,43 +143,43 @@ class ConfigManager
   end
 
   def get(name, user = nil, forum = nil)
-    @mutex.lock if @mutex
+    @mutex&.lock
 
     Rails.logger.warn "unknown key: '#{name}'" unless DEFAULTS.key?(name)
 
     # reset cache before each setting query when cache is disabled
     @value_cache = { users: {}, forums: {} } unless @use_cache
 
-    unless user.blank?
-      user = User.find_by_username(user.to_s) if !user.is_a?(User) && !user.is_a?(Integer)
+    if user.present?
+      user = User.find_by(username: user.to_s) if !user.is_a?(User) && !user.is_a?(Integer)
       user = user.user_id if user.is_a?(User)
     end
 
-    unless forum.blank?
-      forum = Forum.find_by_slug forum.to_s if !forum.is_a?(Forum) && !forum.is_a?(Integer)
+    if forum.present?
+      forum = Forum.find_by slug: forum.to_s if !forum.is_a?(Forum) && !forum.is_a?(Integer)
       forum = forum.forum_id if forum.is_a?(Forum)
     end
 
     read_settings(user, forum)
 
-    if !@value_cache[:users][user].blank? && @value_cache[:users][user].options.key?(name)
+    if @value_cache[:users][user].present? && @value_cache[:users][user].options.key?(name)
       return DEFAULTS[name] if @value_cache[:users][user].options[name].blank?
       return @value_cache[:users][user].options[name]
     end
 
-    if !@value_cache[:forums][forum].blank? && @value_cache[:forums][forum].options.key?(name)
+    if @value_cache[:forums][forum].present? && @value_cache[:forums][forum].options.key?(name)
       return DEFAULTS[name] if @value_cache[:forums][forum].options[name].blank?
       return @value_cache[:forums][forum].options[name]
     end
 
-    if @value_cache[:global] && @value_cache[:global].options.key?(name)
+    if @value_cache[:global]&.options&.key?(name)
       return DEFAULTS[name] if @value_cache[:global].options[name].blank?
       return @value_cache[:global].options[name]
     end
 
     DEFAULTS[name]
   ensure
-    @mutex.unlock if @mutex
+    @mutex&.unlock
   end
 end
 

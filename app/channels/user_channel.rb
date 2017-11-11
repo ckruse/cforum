@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class UserChannel < ApplicationCable::Channel
   def subscribed
     reject if current_user.blank?

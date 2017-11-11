@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class MailsController < ApplicationController
   include UserDataHelper
 
@@ -39,7 +37,7 @@ class MailsController < ApplicationController
                  .where(owner_id: current_user.user_id)
     end
 
-    @mails = sort_query(%w(created_at sender recipient subject),
+    @mails = sort_query(%w[created_at sender recipient subject],
                         @mails, { sender: 'sender_name',
                                   recipient: 'recipient_name' },
                         dir: :desc)
@@ -79,7 +77,7 @@ class MailsController < ApplicationController
                              oid: @mail.priv_message_id,
                              otype: 'mails:create', is_read: false).first
 
-      unless n.blank?
+      if n.present?
         @new_notifications -= [n]
 
         if uconf('delete_read_notifications_on_new_mail') == 'yes'
@@ -95,16 +93,16 @@ class MailsController < ApplicationController
   def new
     @mail = PrivMessage.new(params[:priv_message].blank? ? {} : priv_message_params)
 
-    unless params[:priv_message_id].blank?
+    if params[:priv_message_id].present?
       @parent = PrivMessage
                   .where(owner_id: current_user.user_id,
                          priv_message_id: params[:priv_message_id])
                   .first!
     end
 
-    unless @parent.blank?
+    if @parent.present?
       @mail.recipient_id = @parent.recipient_id == current_user.user_id ? @parent.sender_id : @parent.recipient_id
-      @mail.subject      = @parent.subject =~ /^Re:/i ? @parent.subject : 'Re: ' + @parent.subject
+      @mail.subject      = @parent.subject.match?(/^Re:/i) ? @parent.subject : 'Re: ' + @parent.subject
       @mail.body         = @parent.to_quote(self) if params.key?(:quote_old_message)
       @mail.thread_id    = @parent.thread_id
     end
@@ -121,10 +119,10 @@ class MailsController < ApplicationController
 
     @mail.body      = PrivMessage.to_internal(@mail.body)
 
-    @preview = !params[:preview].blank?
+    @preview = params[:preview].present?
 
     saved = false
-    if !@mail.recipient_id.blank?
+    if @mail.recipient_id.present?
       recipient = User.find(@mail.recipient_id)
 
       @mail.recipient_name = recipient.username
@@ -181,7 +179,7 @@ class MailsController < ApplicationController
   end
 
   def batch_destroy
-    unless params[:ids].blank?
+    if params[:ids].present?
       PrivMessage.transaction do
         @mails = PrivMessage.where(owner_id: current_user.user_id,
                                    priv_message_id: params[:ids])

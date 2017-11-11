@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Badge < ApplicationRecord
   include ParserHelper
 

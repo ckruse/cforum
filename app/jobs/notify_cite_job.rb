@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class NotifyCiteJob < ApplicationJob
   queue_as :default
 
@@ -12,7 +10,7 @@ class NotifyCiteJob < ApplicationJob
                      "  (setting_id IS NOT NULL AND ((options->'notify_on_cite') != 'no' OR " \
                      "  (options->'notify_on_cite') IS NULL))")
 
-    users = users.where('user_id != ?', cite.creator_user_id) unless cite.creator_user_id.blank?
+    users = users.where('user_id != ?', cite.creator_user_id) if cite.creator_user_id.present?
 
     users.all.each do |user|
       notify_user(user, nil, I18n.t('cites.new_cite_arrived'),

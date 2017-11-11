@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module ExceptionHelpers
   def render_500(e = nil)
     if e

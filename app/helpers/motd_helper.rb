@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module MotdHelper
   class Motd
     include ParserHelper
@@ -33,9 +31,9 @@ module MotdHelper
     confs = Setting.where(where + ' AND user_id IS NULL', *args).all
     motds = []
 
-    unless confs.blank?
+    if confs.present?
       confs.each do |conf|
-        motds << Motd.new(conf.options['motd']).to_html(self) unless conf.options['motd'].blank?
+        motds << Motd.new(conf.options['motd']).to_html(self) if conf.options['motd'].present?
       end
     end
 

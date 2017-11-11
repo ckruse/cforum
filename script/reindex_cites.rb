@@ -1,6 +1,4 @@
 #!/usr/bin/env ruby
-# -*- coding: utf-8 -*-
-
 dir = File.dirname(__FILE__)
 require File.join(dir, '..', 'config', 'boot')
 require File.join(dir, '..', 'config', 'environment')
@@ -27,7 +25,7 @@ def conf(name)
 end
 
 $config_manager = ConfigManager.new
-section = SearchSection.find_by_name(I18n.t('cites.cites'))
+section = SearchSection.find_by(name: I18n.t('cites.cites'))
 no_messages = 1000
 current_block = 0
 start_date = nil
@@ -72,6 +70,6 @@ begin
       puts cite.created_at.strftime('%Y-%m-%d') + ' - ' + cite.message_id.to_s if i == no_messages - 1
     end
   end
-end while !cites.blank?
+end while cites.present?
 
 # eof

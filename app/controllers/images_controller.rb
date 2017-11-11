@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-
 class ImagesController < ApplicationController
-  authorize_action([:index, :destroy]) { authorize_admin }
+  authorize_action(%i[index destroy]) { authorize_admin }
 
   def index
-    @media = sort_query(%w(created_at orig_name owner_id), Medium)
+    @media = sort_query(%w[created_at orig_name owner_id], Medium)
                .page(params[:page])
                .per(conf('pagination').to_i)
   end
@@ -32,7 +30,7 @@ class ImagesController < ApplicationController
   def create
     path, fname, error = nil
     @medium = Medium.new
-    @medium.owner_id = current_user.user_id unless current_user.blank?
+    @medium.owner_id = current_user.user_id if current_user.present?
 
     if params[:file].content_type !~ %r{^image/}
       error = t('images.wrong_content_type')
@@ -42,7 +40,7 @@ class ImagesController < ApplicationController
       path, fname = Medium.gen_filename(params[:file].original_filename)
     end
 
-    unless fname.blank?
+    if fname.present?
       fd = File.open(path + fname, 'w:binary')
       fd.write(params[:file].read)
       fd.close
@@ -53,12 +51,12 @@ class ImagesController < ApplicationController
     end
 
     respond_to do |format|
-      if !fname.blank? && @medium.save
+      if fname.present? && @medium.save
         audit(@medium, 'create')
         ResizeImageJob.perform_later(@medium.medium_id)
         format.json { render json: { status: 'ok', path: @medium.filename } }
       else
-        File.unlink(path + fname) unless fname.blank?
+        File.unlink(path + fname) if fname.present?
         format.json do
           render(json: { status: 'error', error: error ? [error] : @medium.errors },
                  status: :unprocessable_entity)

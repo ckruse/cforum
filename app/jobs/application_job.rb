@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require Rails.root + 'lib/script_helpers.rb'
 
 class ApplicationJob < ActiveJob::Base

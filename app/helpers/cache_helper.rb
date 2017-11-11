@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module CacheHelper
   def get_cached_entry(realm, key)
     @cache ||= {}

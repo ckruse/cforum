@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Admin::SettingsController < ApplicationController
   authorize_controller { authorize_admin }
 

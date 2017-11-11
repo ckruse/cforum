@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class CssChooserController < ApplicationController
   def choose_css
     @css_styles = conf('css_styles').to_s.split(/\015\012|\012|\015/)

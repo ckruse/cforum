@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-
 module NotifyHelper
   def notify_user(opts = {})
     opts = { icon: nil, default: 'yes', body: nil }.merge(opts)
 
-    unless opts[:hook].blank?
+    if opts[:hook].present?
       cfg = @config_manager.get(opts[:hook], opts[:user])
       return if cfg == 'no'
     end
@@ -38,7 +36,7 @@ module NotifyHelper
             .where("otype IN ('message:create-answer','message:create-activity', 'message:mention')")
             .first
 
-      unless n.blank?
+      if n.present?
         had_one = true
 
         if (n.otype.in?(['message:create-answer', 'message:create-activity']) &&
@@ -59,7 +57,7 @@ module NotifyHelper
             .where("otype IN ('thread:moved')")
             .first
 
-      unless n.blank?
+      if n.present?
         had_one = true
         n.is_read = true
         n.save!

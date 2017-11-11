@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Cite < ApplicationRecord
   include ScoresHelper
   include ParserHelper
@@ -15,7 +13,7 @@ class Cite < ApplicationRecord
 
   validates :author, length: { in: 2..60 }, allow_blank: true
   validates :cite, length: { in: 10..12_288 }, presence: true
-  validates_uniqueness_of :message_id, message: I18n.t('cites.already_exists'), if: :message_id
+  validates :message_id, uniqueness: { message: I18n.t('cites.already_exists'), if: :message_id }
 
   def no_votes
     votes.length

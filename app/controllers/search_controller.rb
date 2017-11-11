@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require 'strscan'
 
 class SearchController < ApplicationController
@@ -28,7 +26,7 @@ class SearchController < ApplicationController
     @min_year = doc.document_created.year if doc
 
     @order = params[:order]
-    @order = 'rank' if @order.blank? || !%w(document_created rank).include?(@order)
+    @order = 'rank' if @order.blank? || !%w[document_created rank].include?(@order)
   end
 
   def show
@@ -45,7 +43,7 @@ class SearchController < ApplicationController
                          @search_sections.map(&:to_i)
                        end
 
-    unless params[:term].blank?
+    if params[:term].present?
       @query = parse_search_terms(params[:term])
       @limit = conf('pagination_search').to_i
 

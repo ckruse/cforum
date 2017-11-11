@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module ScriptHelpers
   include AuditHelper
 
@@ -33,7 +31,7 @@ module ScriptHelpers
   end
 
   def notify_user(user, hook, subject, path, oid, otype, icon = nil, description = nil)
-    return if !hook.blank? && (@config_manager.get(hook, user) != 'yes')
+    return if hook.present? && (@config_manager.get(hook, user) != 'yes')
 
     n = Notification.create!(
       recipient_id: user.user_id,

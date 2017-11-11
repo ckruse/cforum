@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
@@ -42,21 +40,21 @@ Rails.application.routes.draw do
   get '/users/:id/messages' => 'users#show_messages', as: :user_messages
   get '/users/:id/password' => 'users#edit_password', as: :user_edit_password
   post '/users/:id/password' => 'users#update_password'
-  resources :users, except: [:new, :create]
+  resources :users, except: %i[new create]
 
-  resources :notifications, except: [:edit, :new, :create]
+  resources :notifications, except: %i[edit new create]
   delete 'notifications' => 'notifications#batch_destroy'
 
   post 'preview' => 'messages#preview'
 
   get 'help' => 'pages#help', as: :help
 
-  resources :events, except: [:edit, :new, :create, :update, :destroy] do
-    resources :attendees, except: [:show, :index]
+  resources :events, except: %i[edit new create update destroy] do
+    resources :attendees, except: %i[show index]
   end
 
   namespace 'admin' do
-    authenticate :user, lambda { |u| u.admin? } do
+    authenticate :user, ->(u) { u.admin? } do
       mount Sidekiq::Web => '/sidekiq'
     end
 
@@ -96,7 +94,7 @@ Rails.application.routes.draw do
       as: :choose_css
   post '/choose_css' => 'css_chooser#css_chosen'
 
-  resources 'images', except: [:new, :edit, :update]
+  resources 'images', except: %i[new edit update]
 
   # old archive url
   get '/archiv' => 'forums#redirect_archive'
@@ -112,7 +110,7 @@ Rails.application.routes.draw do
     get 'tags/:id/merge' => 'tags#merge', as: :merge_tag
     post 'tags/:id/merge' => 'tags#do_merge'
     resources :tags do
-      resources :synonyms, except: [:show, :index]
+      resources :synonyms, except: %i[show index]
     end
 
     get '/redirect-to-page' => 'cf_threads#redirect_to_page'

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module CForum
   module Tools
     @@url_attribs = {}
@@ -40,8 +38,8 @@ module CForum
       end
 
       retval = ''
-      retval = '.' + format.to_s unless format.blank?
-      retval << '?' + qs.join('&') unless qs.blank?
+      retval = '.' + format.to_s if format.present?
+      retval << '?' + qs.join('&') if qs.present?
 
       retval
     end
@@ -51,7 +49,7 @@ module CForum
 
       return forum_url(current_forum, args) if thread.blank? && message.blank?
 
-      f = params[:f].gsub(/[^a-z0-9_-]/, '') unless params[:f].blank?
+      f = params[:f].gsub(/[^a-z0-9_-]/, '') if params[:f].present?
       f = current_forum.try(:slug) if f.blank?
       raise ActiveRecord::RecordNotFound if f.blank?
 
@@ -60,7 +58,7 @@ module CForum
         forum_url(f, args)
       when 'cf_threads'
         r = forum_url(f, args)
-        r << '#t' + thread.thread_id.to_s if !thread.blank? && !thread.thread_id.blank?
+        r << '#t' + thread.thread_id.to_s if thread.present? && thread.thread_id.present?
         r
       when 'messages'
         args.delete(:p)

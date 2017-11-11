@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require 'rails_helper'
 
 RSpec.describe MessagesController, type: :controller do
@@ -92,8 +90,8 @@ RSpec.describe MessagesController, type: :controller do
     it 'fails to create a new message because of too many tags' do
       post :create,
            params: message_params_from_slug(message)
-             .merge(message: attributes_for(:message, forum: message.thread.forum),
-                    tags: ['old republic', 'rebellion', 'aldebaran', 'luke'])
+                     .merge(message: attributes_for(:message, forum: message.thread.forum),
+                            tags: ['old republic', 'rebellion', 'aldebaran', 'luke'])
 
       expect(response).to render_template 'new'
     end

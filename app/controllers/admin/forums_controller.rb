@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class Admin::ForumsController < ApplicationController
   authorize_controller { authorize_admin }
 
@@ -43,7 +41,7 @@ class Admin::ForumsController < ApplicationController
   end
 
   def edit
-    @settings = Setting.find_by_forum_id(@forum.forum_id) || Setting.new
+    @settings = Setting.find_by(forum_id: @forum.forum_id) || Setting.new
   end
 
   def forum_params
@@ -52,11 +50,11 @@ class Admin::ForumsController < ApplicationController
 
   def update
     saved = false
-    @settings = Setting.find_by_forum_id(@forum.forum_id) || Setting.new
+    @settings = Setting.find_by(forum_id: @forum.forum_id) || Setting.new
     @settings.options ||= {}
     @settings.forum_id = @forum.forum_id
 
-    unless params[:settings].blank?
+    if params[:settings].present?
       params[:settings].each do |k, v|
         if v == '_DEFAULT_'
           @settings.options.delete(k)
@@ -92,7 +90,7 @@ class Admin::ForumsController < ApplicationController
     @settings.options ||= {}
     @settings.forum_id = @forum.forum_id
 
-    unless params[:settings].blank?
+    if params[:settings].present?
       params[:settings].each do |k, v|
         if v == '_DEFAULT_'
           @settings.options.delete(k)
@@ -132,7 +130,7 @@ class Admin::ForumsController < ApplicationController
   end
 
   def do_merge
-    @merge_forum = Forum.find_by_forum_id params[:merge_with]
+    @merge_forum = Forum.find_by forum_id: params[:merge_with]
 
     if @merge_forum
       Forum.transaction do

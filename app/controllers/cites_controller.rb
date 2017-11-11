@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 class CitesController < ApplicationController
-  authorize_action([:edit, :update, :destroy]) { may?(Badge::MODERATOR_TOOLS) || authorize_admin }
+  authorize_action(%i[edit update destroy]) { may?(Badge::MODERATOR_TOOLS) || authorize_admin }
   authorize_action(:vote_index) { authorize_user }
 
   include SearchHelper
 
-  before_action :set_cite, only: [:show, :edit, :update, :destroy, :vote]
+  before_action :set_cite, only: %i[show edit update destroy vote]
 
   def index(archived = true)
     @limit = conf('pagination').to_i
@@ -112,7 +110,7 @@ class CitesController < ApplicationController
   end
 
   def show
-    if !current_user.blank? && (uconf('delete_read_notifications_on_cite') == 'yes')
+    if current_user.present? && (uconf('delete_read_notifications_on_cite') == 'yes')
       Notification
         .where(recipient_id: current_user.user_id,
                oid: @cite.cite_id,
@@ -145,20 +143,20 @@ class CitesController < ApplicationController
   # POST /cites
   def create
     @cite = Cite.new(cite_params)
-    @cite.creator_user_id = current_user.user_id unless current_user.blank?
+    @cite.creator_user_id = current_user.user_id if current_user.present?
 
-    if !@cite.url.blank? && (@cite.url[0..(root_url.length - 1)] == root_url) && @cite.url =~ /\/\w+(\/\d{4,}\/[a-z]{3}\/\d{1,2}\/[^\/]+)\/(\d+)/
+    if @cite.url.present? && (@cite.url[0..(root_url.length - 1)] == root_url) && @cite.url =~ /\/\w+(\/\d{4,}\/[a-z]{3}\/\d{1,2}\/[^\/]+)\/(\d+)/
       slug = Regexp.last_match(1)
       mid = Regexp.last_match(2)
 
       @thread = CfThread.preload(:forum).where(slug: slug).first
 
-      unless @thread.blank?
+      if @thread.present?
         @message = Message.where(thread_id: @thread.thread_id,
                                  message_id: mid).first
       end
 
-      unless @message.blank?
+      if @message.present?
         @cite.message_id = @message.message_id
         @cite.user_id = @message.user_id
         @cite.cite_date = @message.created_at
@@ -167,8 +165,8 @@ class CitesController < ApplicationController
       @cite.cite_date = DateTime.now
     end
 
-    @cite.author = @message.author if @cite.author.blank? && !@message.blank?
-    @cite.creator = current_user.username if @cite.creator.blank? && !current_user.blank?
+    @cite.author = @message.author if @cite.author.blank? && @message.present?
+    @cite.creator = current_user.username if @cite.creator.blank? && current_user.present?
 
     if @cite.save
       if current_user
@@ -223,7 +221,7 @@ class CitesController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def cite_params
-    allowed_attribs = [:cite, :url, :author, :creator]
+    allowed_attribs = %i[cite url author creator]
 
     params.require(:cite).permit(*allowed_attribs)
   end

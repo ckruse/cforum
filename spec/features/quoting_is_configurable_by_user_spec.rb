@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require 'rails_helper'
 
 RSpec.feature 'Quoting is configurable by user', type: :feature do

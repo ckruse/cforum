@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-
 class CloseVote < ApplicationRecord
   self.primary_key = 'close_vote_id'
   self.table_name  = 'close_votes'
 
-  REASONS = %w(off-topic not-constructive illegal duplicate custom spam).freeze
+  REASONS = %w[off-topic not-constructive illegal duplicate custom spam].freeze
 
   has_many :voters, class_name: 'CloseVotesVoter',
                     foreign_key: :close_vote_id, dependent: :delete_all

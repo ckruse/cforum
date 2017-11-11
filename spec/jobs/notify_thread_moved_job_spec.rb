@@ -22,9 +22,9 @@ RSpec.describe NotifyThreadMovedJob, type: :job do
   end
 
   it 'notifies owner on move' do
-    expect {
+    expect do
       NotifyThreadMovedJob.perform_now(message.thread_id, old_forum.forum_id, message.forum_id)
-    }.to change(Notification, :count).by(1)
+    end.to change(Notification, :count).by(1)
   end
 
   it 'notifies subscriber on move' do
@@ -32,9 +32,9 @@ RSpec.describe NotifyThreadMovedJob, type: :job do
     Setting.create!(user_id: u1.user_id, options: { 'notify_on_move' => 'yes' })
     Subscription.create!(user_id: u1.user_id, message_id: message.message_id)
 
-    expect {
+    expect do
       NotifyThreadMovedJob.perform_now(message.thread_id, old_forum.forum_id, message.forum_id)
-    }.to change(Notification, :count).by(2)
+    end.to change(Notification, :count).by(2)
   end
 
   it 'notifies interested user on move' do
@@ -42,18 +42,18 @@ RSpec.describe NotifyThreadMovedJob, type: :job do
     Setting.create!(user_id: u1.user_id, options: { 'notify_on_move' => 'yes' })
     InterestingMessage.create!(user_id: u1.user_id, message_id: message.message_id)
 
-    expect {
+    expect do
       NotifyThreadMovedJob.perform_now(message.thread_id, old_forum.forum_id, message.forum_id)
-    }.to change(Notification, :count).by(2)
+    end.to change(Notification, :count).by(2)
   end
 
   it "doesn't notify owner when disabled" do
     Setting.delete_all
     Setting.create!(user_id: user.user_id, options: { 'notify_on_move' => 'no' })
 
-    expect {
+    expect do
       NotifyThreadMovedJob.perform_now(message.thread_id, old_forum.forum_id, message.forum_id)
-    }.to change(Notification, :count).by(0)
+    end.to change(Notification, :count).by(0)
   end
 
   it "doesn't notify interested user on move when disabled" do
@@ -61,9 +61,9 @@ RSpec.describe NotifyThreadMovedJob, type: :job do
     Setting.create!(user_id: u1.user_id, options: { 'notify_on_move' => 'no' })
     InterestingMessage.create!(user_id: u1.user_id, message_id: message.message_id)
 
-    expect {
+    expect do
       NotifyThreadMovedJob.perform_now(message.thread_id, old_forum.forum_id, message.forum_id)
-    }.to change(Notification, :count).by(1)
+    end.to change(Notification, :count).by(1)
   end
 
   it "doesn't notify subscriber on move when disabled" do
@@ -71,8 +71,8 @@ RSpec.describe NotifyThreadMovedJob, type: :job do
     Setting.create!(user_id: u1.user_id, options: { 'notify_on_move' => 'no' })
     Subscription.create!(user_id: u1.user_id, message_id: message.message_id)
 
-    expect {
+    expect do
       NotifyThreadMovedJob.perform_now(message.thread_id, old_forum.forum_id, message.forum_id)
-    }.to change(Notification, :count).by(1)
+    end.to change(Notification, :count).by(1)
   end
 end

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require 'kramdown'
 
 class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
@@ -67,7 +65,7 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
     @src.scan(/~~/)
     saved_pos = @src.save_pos
 
-    if @src.pre_match =~ /~\Z/
+    if @src.pre_match.match?(/~\Z/)
       add_text('~~')
       return
     end
@@ -148,15 +146,13 @@ class Kramdown::Parser::CfMarkdown < Kramdown::Parser::Kramdown
   end
 
   def update_attr_with_ial(attr, ial)
-    if ial[:refs]
-      ial[:refs].each do |ref|
-        ref = @alds[ref]
-        update_attr_with_ial(attr, ref) if ref
-      end
+    ial[:refs]&.each do |ref|
+      ref = @alds[ref]
+      update_attr_with_ial(attr, ref) if ref
     end
 
     ial.each do |k, v|
-      next if k =~ /^on.*/
+      next if k.match?(/^on.*/)
       next if k == 'style' && !@with_styles
 
       if k == IAL_CLASS_ATTR
@@ -260,9 +256,9 @@ class Kramdown::Converter::CfHtml < Kramdown::Converter::Html
         insert_space = false
       end
 
-      para.children << Kramdown::Element.new(:raw, footnote_backlink_fmt % [insert_space ? ' ' : '', name, '&#8617;'])
+      para.children << Kramdown::Element.new(:raw, format(footnote_backlink_fmt, insert_space ? ' ' : '', name, '&#8617;'))
       (1..repeat).each do |index|
-        para.children << Kramdown::Element.new(:raw, footnote_backlink_fmt % [' ', "#{name}:#{index}", "&#8617;<sup>#{index + 1}</sup>"])
+        para.children << Kramdown::Element.new(:raw, format(footnote_backlink_fmt, ' ', "#{name}:#{index}", "&#8617;<sup>#{index + 1}</sup>"))
       end
 
       ol.children << Kramdown::Element.new(:raw, convert(li, 4))

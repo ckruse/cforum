@@ -82,7 +82,7 @@ RSpec.describe CforumMarkup do
 
   describe 'converts ref' do
     it 'converts ref:self8x and ref:slef8x as well as with @title' do
-      %w(self8 self81 self811 self812 sel811 sef811 slef812).each do |ref|
+      %w[self8 self81 self811 self812 sel811 sef811 slef812].each do |ref|
         expect(cforum2markdown("[ref:#{ref};foo]")).to eq('[http://de.selfhtml.org/foo](http://de.selfhtml.org/foo)')
         expect(cforum2markdown("[ref:#{ref};foo@title=bar]")).to eq('[bar](http://de.selfhtml.org/foo)')
       end

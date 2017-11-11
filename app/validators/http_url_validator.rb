@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class HttpUrlValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     begin

@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class CreateCounterFramework < ActiveRecord::Migration
   def up
     sql = IO.read(File.dirname(__FILE__) + '/../counter_table.sql')

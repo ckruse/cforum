@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class Admin::BadgesController < ApplicationController
   authorize_controller { authorize_admin }
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module TransientInfosHelper
   def transient_infos
     return if current_user.blank?

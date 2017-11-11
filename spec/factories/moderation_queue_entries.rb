@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 FactoryBot.define do
   factory :mod_queue_entry, class: ModerationQueueEntry do
     reason 'off-topic'

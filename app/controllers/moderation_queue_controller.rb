@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class ModerationQueueController < ApplicationController
   authorize_controller { current_user.try(:moderator?) }
 

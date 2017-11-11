@@ -1,6 +1,4 @@
 #!/usr/bin/env ruby
-# -*- coding: utf-8 -*-
-
 require File.join(File.dirname(__FILE__), '..', 'config', 'boot')
 require File.join(File.dirname(__FILE__), '..', 'config', 'environment')
 
@@ -69,9 +67,9 @@ def repair_content(content)
 
       if directive == 'ref'
         ref, href = content.split(';', 2)
-        href, title = href.split('@title=', 2) if href =~ /@title=/
+        href, title = href.split('@title=', 2) if href.match?(/@title=/)
 
-        if %w(self8 self81 self811 self812 sel811 sef811 slef812).include?(ref)
+        if %w[self8 self81 self811 self812 sel811 sef811 slef812].include?(ref)
           href = "http://de.selfhtml.org/#{href}"
         elsif ref == 'self7'
           href = "http://aktuell.de.selfhtml.org/archiv/doku/7.0/#{href})"
@@ -85,7 +83,7 @@ def repair_content(content)
 
       elsif directive == 'link'
         href = content
-        href, title = href.split('@title=', 2) if href =~ /@title=/
+        href, title = href.split('@title=', 2) if href.match?(/@title=/)
       end
 
       if href.blank?
@@ -117,6 +115,6 @@ begin
     m.content = repair_content(m.content)
     m.save
   end
-end while !msgs.blank?
+end while msgs.present?
 
 # eof

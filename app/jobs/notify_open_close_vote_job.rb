@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class NotifyOpenCloseVoteJob < ApplicationJob
   queue_as :default
 

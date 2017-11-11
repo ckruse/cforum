@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require 'rails_helper'
 
 RSpec.describe Admin::BadgeGroupsController, type: :controller do

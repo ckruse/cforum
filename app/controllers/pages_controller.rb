@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class PagesController < ApplicationController
   def help
     @moderators = User

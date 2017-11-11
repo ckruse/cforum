@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class CleanUsersJob < ApplicationJob
   queue_as :cron
 

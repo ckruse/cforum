@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module DiffHelper
   def diff_posting(current, prev)
     options = {}

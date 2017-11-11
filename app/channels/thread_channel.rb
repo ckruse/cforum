@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class ThreadChannel < ApplicationCable::Channel
   def subscribed
     forum = Forum.where(slug: params[:forum]).first

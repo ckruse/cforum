@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class ForumGroupPermission < ApplicationRecord
   MODERATE = 'moderate'.freeze
   WRITE    = 'write'.freeze
@@ -16,7 +14,7 @@ class ForumGroupPermission < ApplicationRecord
   belongs_to :group, foreign_key: :group_id
   belongs_to :forum
 
-  validates_presence_of :permission, :group_id, :forum_id
+  validates :permission, :group_id, :forum_id, presence: true
   validates :permission, inclusion: PERMISSIONS
 end
 

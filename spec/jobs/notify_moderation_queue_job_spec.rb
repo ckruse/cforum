@@ -35,9 +35,9 @@ RSpec.describe NotifyModerationQueueJob, type: :job do
     Setting.delete_all
     Setting.create!(user_id: user.user_id, options: { 'notify_on_flagged' => 'no' })
 
-    expect {
+    expect do
       NotifyModerationQueueJob.perform_now(entry.moderation_queue_entry_id)
-    }.to change(Notification, :count).by(0)
+    end.to change(Notification, :count).by(0)
   end
 
   it 'notifies moderators' do

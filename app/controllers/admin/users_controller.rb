@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class Admin::UsersController < ApplicationController
   authorize_controller { authorize_admin }
 
@@ -20,7 +18,7 @@ class Admin::UsersController < ApplicationController
       @search_term = params[:s]
     end
 
-    @users = sort_query(%w(username email admin active created_at updated_at),
+    @users = sort_query(%w[username email admin active created_at updated_at],
                         @users, admin: 'COALESCE(admin, false)')
                .page(params[:page]).per(@limit)
 

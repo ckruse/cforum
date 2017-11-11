@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Plugin
   include CForum::Tools
   def initialize(app_controller)

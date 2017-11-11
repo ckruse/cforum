@@ -1,14 +1,12 @@
-# -*- coding: utf-8 -*-
-
 class TagsController < ApplicationController
   authorize_controller { authorize_forum(permission: :read?) }
-  authorize_action([:new, :create]) { may?(Badge::CREATE_TAGS) }
-  authorize_action([:edit, :update, :destroy, :merge, :do_merge]) { authorize_admin }
+  authorize_action(%i[new create]) { may?(Badge::CREATE_TAGS) }
+  authorize_action(%i[edit update destroy merge do_merge]) { authorize_admin }
 
   # GET /collections
   # GET /collections.json
   def index
-    if !params[:s].blank?
+    if params[:s].present?
       clean_tag = params[:s].strip + '%'
       @tags = Tag
                 .preload(:synonyms)
@@ -37,7 +35,7 @@ class TagsController < ApplicationController
 
   # just a post wrapper
   def suggestions
-    expires_in 1.hours, public: true
+    expires_in 1.hour, public: true
     last_msg = Message
                  .where(forum_id: current_forum.forum_id)
                  .order(updated_at: :desc)
@@ -67,7 +65,7 @@ class TagsController < ApplicationController
               .where(forum_id: current_forum.forum_id,
                      suggest: true)
 
-    unless term.blank?
+    if term.present?
       clean_tag = term.strip + '%'
       @tags = @tags
                 .preload(:synonyms)
@@ -78,7 +76,7 @@ class TagsController < ApplicationController
 
     @tags_list = []
     rx = nil
-    rx = Regexp.new('^' + Regexp.escape(term.downcase), Regexp::IGNORECASE) unless term.blank?
+    rx = Regexp.new('^' + Regexp.escape(term.downcase), Regexp::IGNORECASE) if term.present?
 
     @tags.each do |t|
       @tags_list << t.tag_name if rx.blank? || rx.match(t.tag_name)
@@ -127,7 +125,7 @@ class TagsController < ApplicationController
     @tag = Tag.new(tag_params)
     @tag.forum_id = current_forum.forum_id
 
-    @tag.slug = @tag.tag_name.parameterize unless @tag.tag_name.blank?
+    @tag.slug = @tag.tag_name.parameterize if @tag.tag_name.present?
 
     if @tag.save
       audit(@tag, 'create')
@@ -148,7 +146,7 @@ class TagsController < ApplicationController
 
     @tag.attributes = tag_params
 
-    @tag.slug = @tag.tag_name.parameterize unless @tag.tag_name.blank?
+    @tag.slug = @tag.tag_name.parameterize if @tag.tag_name.present?
 
     if @tag.save
       audit(@tag, 'update')
@@ -163,7 +161,7 @@ class TagsController < ApplicationController
              .where('tags.forum_id = ? AND slug = ?',
                     current_forum.forum_id, params[:id]).first!
 
-    unless @tag.messages.blank?
+    if @tag.messages.present?
       redirect_to tag_url(current_forum.slug, @tag), alert: t('tags.tag_has_messages')
       return
     end

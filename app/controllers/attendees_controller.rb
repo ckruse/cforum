@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
 class AttendeesController < ApplicationController
-  before_action :set_attendee, only: [:destroy, :edit, :update]
+  before_action :set_attendee, only: %i[destroy edit update]
   before_action :set_event
 
   authorize_controller do
@@ -13,9 +11,9 @@ class AttendeesController < ApplicationController
     end
   end
 
-  authorize_action([:destroy, :edit, :update]) do
+  authorize_action(%i[destroy edit update]) do
     set_attendee
-    if (@attendee.user_id == current_user.try(:user_id)) && !current_user.blank?
+    if (@attendee.user_id == current_user.try(:user_id)) && current_user.present?
       true
     else
       authorize_admin
@@ -32,7 +30,7 @@ class AttendeesController < ApplicationController
     @attendee = Attendee.new(attendee_params)
     @attendee.event_id = @event.event_id
 
-    unless current_user.blank?
+    if current_user.present?
       @attendee.user_id = current_user.user_id
       @attendee.name = current_user.username
     end
@@ -49,7 +47,7 @@ class AttendeesController < ApplicationController
 
   def update
     @attendee.attributes = attendee_params
-    unless current_user.blank?
+    if current_user.present?
       @attendee.user_id = current_user.user_id
       @attendee.name = current_user.username
     end

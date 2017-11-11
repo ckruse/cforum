@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module TrackerHelper
   def track_request
     return if controller_path.split('/').first == 'admin' || request.headers['HTTP_DNT'] == '1'

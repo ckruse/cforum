@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module TagsHelper
   def save_tags(forum, message, tags)
     tag_objs = []
@@ -24,7 +22,7 @@ module TagsHelper
           end
         end
 
-        next unless tag_obj.blank?
+        next if tag_obj.present?
 
         # create a savepoint (rails implements savepoints as nested transactions)
         tag_obj = Tag.create(forum_id: forum.forum_id, tag_name: t)
@@ -49,13 +47,13 @@ module TagsHelper
   def parse_tags
     tags = []
 
-    if !params[:tags].blank?
+    if params[:tags].present?
       tags = params[:tags]
       tags = tags.values unless tags.is_a?(Array)
       tags = (tags.map { |s| s.strip.downcase }).uniq
 
     # non-js variant for conservative people
-    elsif !params[:tag_list].blank?
+    elsif params[:tag_list].present?
       tags = (params[:tag_list].split(',').map { |s| s.strip.downcase }).uniq
     end
 
@@ -90,7 +88,7 @@ module TagsHelper
     end
 
     iv_tags = invalid_tags(forum, @tags)
-    unless iv_tags.blank?
+    if iv_tags.present?
       flash.now[:error] = t('messages.invalid_tags', count: iv_tags.length, tags: iv_tags.join(', '))
       return false
     end

@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class Admin::SearchSectionsController < ApplicationController
   authorize_controller { authorize_admin }
 

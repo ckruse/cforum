@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class NotifyNewMailer < ActionMailer::Base
   def new_message(user, thread, parent, message, url, txt_content)
     @user    = user

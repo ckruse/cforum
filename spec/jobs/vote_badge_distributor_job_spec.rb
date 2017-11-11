@@ -41,13 +41,13 @@ RSpec.describe VoteBadgeDistributorJob, type: :job do
     it 'successfully grats the voter badge' do
       VoteBadgeDistributorJob.perform_now(vote.vote_id, message.message_id, 'voted')
       user.reload
-      expect(user.badges).to include(Badge.find_by_slug!('voter'))
+      expect(user.badges).to include(Badge.find_by!(slug: 'voter'))
     end
 
     it 'successfully grants the enthusiast badge' do
       VoteBadgeDistributorJob.perform_now(vote.vote_id, message.message_id, 'voted')
       user.reload
-      expect(user.badges).to include(Badge.find_by_slug!('enthusiast'))
+      expect(user.badges).to include(Badge.find_by!(slug: 'enthusiast'))
     end
 
     it 'successfully grants the critic badge' do
@@ -56,7 +56,7 @@ RSpec.describe VoteBadgeDistributorJob, type: :job do
 
       VoteBadgeDistributorJob.perform_now(vote.vote_id, message.message_id, 'voted')
       user.reload
-      expect(user.badges).to include(Badge.find_by_slug!('critic'))
+      expect(user.badges).to include(Badge.find_by!(slug: 'critic'))
     end
 
     it 'successfully grants the controverse badge' do
@@ -66,7 +66,7 @@ RSpec.describe VoteBadgeDistributorJob, type: :job do
 
       VoteBadgeDistributorJob.perform_now(vote.vote_id, message.message_id, 'voted')
       user.reload
-      expect(user.badges).to include(Badge.find_by_slug!('controverse'))
+      expect(user.badges).to include(Badge.find_by!(slug: 'controverse'))
     end
   end
 
@@ -76,7 +76,7 @@ RSpec.describe VoteBadgeDistributorJob, type: :job do
 
     VoteBadgeDistributorJob.perform_now(vote.vote_id, message.message_id, 'voted')
     user.reload
-    expect(user.badges).to include(Badge.find_by_slug!('donee'))
+    expect(user.badges).to include(Badge.find_by!(slug: 'donee'))
   end
 
   it 'successfully grants the nice answer badge' do
@@ -85,7 +85,7 @@ RSpec.describe VoteBadgeDistributorJob, type: :job do
 
     VoteBadgeDistributorJob.perform_now(vote.vote_id, message.message_id, 'voted')
     user.reload
-    expect(user.badges).to include(Badge.find_by_slug!('nice_answer'))
+    expect(user.badges).to include(Badge.find_by!(slug: 'nice_answer'))
   end
 
   it 'successfully grants the good answer badge' do
@@ -94,7 +94,7 @@ RSpec.describe VoteBadgeDistributorJob, type: :job do
 
     VoteBadgeDistributorJob.perform_now(vote.vote_id, message.message_id, 'voted')
     user.reload
-    expect(user.badges).to include(Badge.find_by_slug!('good_answer'))
+    expect(user.badges).to include(Badge.find_by!(slug: 'good_answer'))
   end
 
   it 'successfully grants the great answer badge' do
@@ -103,7 +103,7 @@ RSpec.describe VoteBadgeDistributorJob, type: :job do
 
     VoteBadgeDistributorJob.perform_now(vote.vote_id, message.message_id, 'voted')
     user.reload
-    expect(user.badges).to include(Badge.find_by_slug!('great_answer'))
+    expect(user.badges).to include(Badge.find_by!(slug: 'great_answer'))
   end
 
   it 'successfully grants the superb answer badge' do
@@ -112,7 +112,7 @@ RSpec.describe VoteBadgeDistributorJob, type: :job do
 
     VoteBadgeDistributorJob.perform_now(vote.vote_id, message.message_id, 'voted')
     user.reload
-    expect(user.badges).to include(Badge.find_by_slug!('superb_answer'))
+    expect(user.badges).to include(Badge.find_by!(slug: 'superb_answer'))
   end
 
   it "doesn't fail if vote doesn't exist" do

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class ExceptionMailer < ActionMailer::Base
   def new_exception(exception)
     @exception = exception

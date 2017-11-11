@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-class Tag < ActiveRecord::Base
+class Tag < ApplicationRecord
   self.primary_key = 'tag_id'
   self.table_name  = 'tags'
 
@@ -20,7 +18,7 @@ class Tag < ActiveRecord::Base
   end
 end
 
-class CfTagThread < ActiveRecord::Base
+class CfTagThread < ApplicationRecord
   self.primary_key = 'tag_thread_id'
   self.table_name  = 'tags_threads'
 
@@ -32,10 +30,10 @@ end
 
 class AddForumIdToTags < ActiveRecord::Migration
   def up
-    execute <<-SQL
-ALTER TABLE tags ADD COLUMN forum_id BIGINT REFERENCES forums (forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
-DROP INDEX tags_tag_name_idx;
-CREATE UNIQUE INDEX tags_forum_id_tag_name_idx ON tags (forum_id, tag_name);
+    execute <<~SQL
+      ALTER TABLE tags ADD COLUMN forum_id BIGINT REFERENCES forums (forum_id) ON UPDATE CASCADE ON DELETE CASCADE;
+      DROP INDEX tags_tag_name_idx;
+      CREATE UNIQUE INDEX tags_forum_id_tag_name_idx ON tags (forum_id, tag_name);
     SQL
 
     tag_threads = CfTagThread.includes(:thread).all
@@ -49,7 +47,7 @@ CREATE UNIQUE INDEX tags_forum_id_tag_name_idx ON tags (forum_id, tag_name);
 
       next unless tt.tag.forum_id != tt.thread.forum_id
       Tag.transaction do
-        tag = Tag.find_by_forum_id_and_tag_name tt.thread.forum_id, tt.tag.tag_name
+        tag = Tag.find_by forum_id: tt.thread.forum_id, tag_name: tt.tag.tag_name
         tag = Tag.create!(tag_name: tt.tag.tag_name, forum_id: tt.thread.forum_id) if tag.blank?
 
         tt.tag_id = tag.tag_id
@@ -61,10 +59,10 @@ CREATE UNIQUE INDEX tags_forum_id_tag_name_idx ON tags (forum_id, tag_name);
   end
 
   def down
-    execute <<-SQL
-DROP INDEX tags_forum_id_tag_name_idx;
-CREATE UNIQUE INDEX tags_tag_name_idx ON tags (tag_name);
-ALTER TABLE tags DROP COLUMN forum_id;
+    execute <<~SQL
+      DROP INDEX tags_forum_id_tag_name_idx;
+      CREATE UNIQUE INDEX tags_tag_name_idx ON tags (tag_name);
+      ALTER TABLE tags DROP COLUMN forum_id;
     SQL
   end
 end

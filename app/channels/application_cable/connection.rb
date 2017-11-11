@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
     identified_by :current_user
 
     def connect
       self.current_user = find_verified_user
-      logger.add_tags 'ActionCable', current_user.username unless current_user.blank?
+      logger.add_tags 'ActionCable', current_user.username if current_user.present?
     end
 
     private

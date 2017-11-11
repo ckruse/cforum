@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 class Admin::EventsController < ApplicationController
   authorize_controller { authorize_admin }
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: %i[show edit update destroy]
 
   # GET /events
   def index
-    @events = sort_query(%w(name location start_date end_date visible created_at updated_at),
+    @events = sort_query(%w[name location start_date end_date visible created_at updated_at],
                          Event.all)
                 .page(params[:page])
   end

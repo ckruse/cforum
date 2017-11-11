@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module SuspiciousHelper
   def check_threads_for_suspiciousness(threads)
     return if uconf('mark_suspicious') == 'no'

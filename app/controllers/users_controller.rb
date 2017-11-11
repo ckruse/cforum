@@ -1,33 +1,31 @@
-# -*- encoding: utf-8 -*-
-
 class UsersController < ApplicationController
   include HighlightHelper
 
-  authorize_action([:edit, :update, :confirm_destroy, :destroy]) do
-    !current_user.blank? && (current_user.admin? || (current_user.user_id.to_s == params[:id]))
+  authorize_action(%i[edit update confirm_destroy destroy]) do
+    current_user.present? && (current_user.admin? || (current_user.user_id.to_s == params[:id]))
   end
 
-  authorize_action([:show_votes, :edit_password, :update_password]) do
-    !current_user.blank? && (current_user.user_id.to_s == params[:id])
+  authorize_action(%i[show_votes edit_password update_password]) do
+    current_user.present? && (current_user.user_id.to_s == params[:id])
   end
 
   def index
     @limit = conf('pagination_users').to_i
 
-    if !params[:s].blank?
+    if params[:s].present?
       @users = User.where('LOWER(username) LIKE LOWER(?)', '%' + params[:s].strip + '%')
       @search_term = params[:s]
-    elsif !params[:nick].blank?
+    elsif params[:nick].present?
       @users = User.where('LOWER(username) LIKE LOWER(?)', params[:nick].strip + '%')
       params[:sort] = 'activity'
       params[:dir] = 'desc'
-    elsif !params[:exact].blank?
+    elsif params[:exact].present?
       @users = User.where('LOWER(username) = LOWER(?)', params[:exact].strip)
     else
       @users = User
     end
 
-    @users = sort_query(%w(username created_at updated_at score active admin activity),
+    @users = sort_query(%w[username created_at updated_at score active admin activity],
                         @users, admin: 'COALESCE(admin, false)')
                .order('username ASC')
                .page(params[:page]).per(@limit)
@@ -117,8 +115,8 @@ class UsersController < ApplicationController
       b.last.created_at <=> a.last.created_at
     end
 
-    if (@user.confirmed_at.blank? || !@user.unconfirmed_email.blank?) &&
-       (!current_user.blank? && (current_user.username == @user.username))
+    if (@user.confirmed_at.blank? || @user.unconfirmed_email.present?) &&
+       (current_user.present? && (current_user.username == @user.username))
       flash[:error] = I18n.t('users.confirm_first')
     end
 
@@ -130,7 +128,7 @@ class UsersController < ApplicationController
     @settings = @user.settings || Setting.new
     @settings.options ||= {}
 
-    if (@user.confirmed_at.blank? || !@user.unconfirmed_email.blank?) &&
+    if (@user.confirmed_at.blank? || @user.unconfirmed_email.present?) &&
        (!current_user.admin? || (current_user.username == @user.username))
       redirect_to user_url(@user), flash: { error: I18n.t('users.confirm_first') }
       return
@@ -279,13 +277,13 @@ class UsersController < ApplicationController
     return if settings.blank?
 
     b = user.badges.find { |badge| badge.slug == 'autobiographer' }
-    return unless b.blank?
+    return if b.present?
 
-    if !settings.options['description'].blank? &&
-       !settings.options['url'].blank? &&
-       (!settings.options['email'].blank? ||
-        !settings.options['jabber_id'].blank? ||
-        !settings.options['twitter_handle'].blank?)
+    if settings.options['description'].present? &&
+       settings.options['url'].present? &&
+       (settings.options['email'].present? ||
+        settings.options['jabber_id'].present? ||
+        settings.options['twitter_handle'].present?)
       badge = Badge.where(slug: 'autobiographer').first!
 
       user.badge_users.create!(badge_id: badge.badge_id,

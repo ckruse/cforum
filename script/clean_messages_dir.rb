@@ -1,6 +1,4 @@
 #!/usr/bin/env ruby
-# -*- encoding: utf-8 -*-
-
 require 'libxml'
 
 directory = '/home/ckruse/dev/archiv/archiv/'

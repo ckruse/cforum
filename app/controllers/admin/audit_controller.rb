@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Admin::AuditController < ApplicationController
   authorize_controller { authorize_admin }
 
@@ -9,13 +7,13 @@ class Admin::AuditController < ApplicationController
     @stop_date = DateTime.now
     @start_date = @stop_date - 24.hours
 
-    unless params[:start_date].blank?
+    if params[:start_date].present?
       @start_date = Time.zone.parse(params[:start_date][:year].to_s + '-' +
                                     params[:start_date][:month].to_s + '-' +
                                     params[:start_date][:day].to_s + ' 00:00:00')
     end
 
-    unless params[:stop_date].blank?
+    if params[:stop_date].present?
       @stop_date = Time.zone.parse(params[:stop_date][:year].to_s + '-' +
                                    params[:stop_date][:month].to_s + '-' +
                                    params[:stop_date][:day].to_s + ' 23:59:59')
@@ -30,12 +28,12 @@ class Admin::AuditController < ApplicationController
                 .page(params[:page])
                 .per(conf('pagination').to_i)
 
-    unless params[:objects].blank?
+    if params[:objects].present?
       @objects = params[:objects].map(&:strip)
       @audits = @audits.where(relation: @objects)
     end
 
-    unless params[:events].blank?
+    if params[:events].present?
       @events = params[:events].map(&:strip).select do |e|
         rel, = e.split('_', 2)
         @objects.include?(rel)
@@ -52,7 +50,7 @@ class Admin::AuditController < ApplicationController
       @audits = @audits.where(sql.join(' OR '), *sql_params)
     end
 
-    unless params[:term].blank?
+    if params[:term].present?
       @audits = @audits.where('UPPER(username) LIKE UPPER(?)', params[:term].strip + '%')
     end
   end

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class SandboxEmailInterceptor
   def self.delivering_email(message)
     message.to = ['cjk@defunct.ch']

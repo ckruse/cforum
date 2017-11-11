@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Messages::AcceptController < ApplicationController
   authorize_controller { authorize_forum(permission: :write?) }
 
@@ -76,7 +74,7 @@ class Messages::AcceptController < ApplicationController
   end
 
   def give_score
-    unless @message.user_id.blank?
+    if @message.user_id.present?
 
       if @message.flags['accepted'] == 'yes'
         score_val = conf('accept_value').to_i
@@ -91,7 +89,7 @@ class Messages::AcceptController < ApplicationController
 
       else
         scores = Score.where(user_id: @message.user_id, message_id: @message.message_id)
-        unless scores.blank?
+        if scores.present?
           scores.each do |score|
             audit(score, 'accepted-no-unscore')
             score.destroy

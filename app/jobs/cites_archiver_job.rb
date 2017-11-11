@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-
 class CitesArchiverJob < ApplicationJob
   queue_as :cron
 
   def search_index(cite)
-    section = SearchSection.find_by_name(I18n.t('cites.cites'))
+    section = SearchSection.find_by(name: I18n.t('cites.cites'))
     section = SearchSection.create!(name: I18n.t('cites.cites'), position: -1) if section.blank?
     base_relevance = conf('search_cites_relevance')
 

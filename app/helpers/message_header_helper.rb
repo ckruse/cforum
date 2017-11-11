@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module MessageHeaderHelper
   def std_args(args = {})
     local_args = { p: params[:p],
@@ -153,14 +151,14 @@ module MessageHeaderHelper
 
     classes << thread.attribs['open_state'] == 'closed' ? 'closed' : 'open'
 
-    unless thread.accepted.blank?
+    if thread.accepted.present?
       classes << 'accepted-answer' if thread.accepted.include?(message)
       classes << 'has-accepted-answer' if thread.message.message_id == message.message_id
     end
-    unless message.close_vote.blank?
+    if message.close_vote.present?
       classes << (message.close_vote.finished ? 'close-vote-finished' : 'close-vote-active')
     end
-    unless message.open_vote.blank?
+    if message.open_vote.present?
       classes << (message.close_vote.finished ? 'open-vote-finished' : 'open-vote-active')
     end
 
@@ -173,10 +171,10 @@ module MessageHeaderHelper
     classes = message_header_classes(thread, message, opts)
 
     html = '<header'
-    html << ' class="' << classes.join(' ') << '"' unless classes.blank?
+    html << ' class="' << classes.join(' ') << '"' if classes.present?
     if opts[:id]
       html << ' id="'
-      html << opts[:id_prefix] unless opts[:id_prefix].blank?
+      html << opts[:id_prefix] if opts[:id_prefix].present?
       html << 'm' << message.message_id.to_s << '"'
     end
     html << ">\n"
@@ -263,7 +261,7 @@ module MessageHeaderHelper
            t('messages.num_messages', count: thread.messages.length) + '">' +
            thread.messages.length.to_s + '</span>'
 
-    unless thread.attribs[:msgs].blank?
+    if thread.attribs[:msgs].present?
       html << '<span class="num-unread" title="' <<
         t('plugins.mark_read.num_unread', count: thread.attribs[:msgs][:unread]) << '">' <<
         thread.attribs[:msgs][:unread].to_s << '</span>'
@@ -340,7 +338,7 @@ module MessageHeaderHelper
                                  title: t('messages.user_link', user: message.owner.username),
                                  class: 'user-link') << ' '
     elsif (message.message_id != thread.message.try(:message_id)) &&
-          !message.uuid.blank? && (message.uuid == thread.message.try(:uuid))
+          message.uuid.present? && (message.uuid == thread.message.try(:uuid))
       html << '<span class="icon-message original-poster" title="' << t('messages.original_poster') << '"> </span>'
     end
 
@@ -348,15 +346,15 @@ module MessageHeaderHelper
 
     html << '</span>' if message.user_id
 
-    if !(opts[:tree]) && !thread.archived? && (!message.email.blank? || !message.homepage.blank?)
+    if !(opts[:tree]) && !thread.archived? && (message.email.present? || message.homepage.present?)
       content_tag(:span, class: 'author-infos') do
         ' ' + message_header_email_link(message) + message_header_user_homepage_link(message)
       end
     end
 
     if current_user.try(:moderate?, current_forum) && @view_all
-      html << ' ' << content_tag(:span, message.ip, class: 'admin-infos ip') unless message.ip.blank?
-      html << ' ' << content_tag(:span, message.uuid, class: 'admin-infos uuid') unless message.uuid.blank?
+      html << ' ' << content_tag(:span, message.ip, class: 'admin-infos ip') if message.ip.present?
+      html << ' ' << content_tag(:span, message.uuid, class: 'admin-infos uuid') if message.uuid.present?
     end
 
     html << '</span> '

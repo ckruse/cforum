@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require 'kramdown/parser'
 require 'kramdown/converter'
 require 'kramdown/utils'
@@ -162,7 +160,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
   end
 
   def convert_raw(el)
-    if !el.options[:type] || el.options[:type].empty? || el.options[:type].include?('html')
+    if el.options[:type].blank? || el.options[:type].include?('html')
       plain(el.value) + (el.options[:category] == :block ? "\n" : '')
     else
       ''
@@ -259,7 +257,7 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
   def obfuscate(text)
     result = ''
     text.each_byte do |b|
-      result << (b > 128 ? b.chr : '&#%03d;' % b)
+      result << (b > 128 ? b.chr : format('&#%03d;', b))
     end
     result.force_encoding(text.encoding) if result.respond_to?(:force_encoding)
     result
@@ -285,9 +283,9 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
         insert_space = false
       end
 
-      para.children << Kramdown::Element.new(:raw, FOOTNOTE_BACKLINK_FMT % [insert_space ? ' ' : '', name, '&#8617;'])
+      para.children << Kramdown::Element.new(:raw, format(FOOTNOTE_BACKLINK_FMT, insert_space ? ' ' : '', name, '&#8617;'))
       (1..repeat).each do |index|
-        para.children << Kramdown::Element.new(:raw, FOOTNOTE_BACKLINK_FMT % [' ', "#{name}:#{index}", "&#8617;<sup>#{index + 1}</sup>"])
+        para.children << Kramdown::Element.new(:raw, format(FOOTNOTE_BACKLINK_FMT, ' ', "#{name}:#{index}", "&#8617;<sup>#{index + 1}</sup>"))
       end
 
       ol.children << Kramdown::Element.new(:raw, convert(li))

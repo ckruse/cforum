@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 class Auditing < ApplicationRecord
   self.primary_key = 'auditing_id'
   self.table_name  = 'auditing'
 
   belongs_to :user
 
-  validates_presence_of :relation, :relid, :act, :contents
+  validates :relation, :relid, :act, :contents, presence: true
 end
 
 # eof

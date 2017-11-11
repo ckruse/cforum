@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class Message < ApplicationRecord
   include ParserHelper
   include ScoresHelper
@@ -22,13 +20,13 @@ class Message < ApplicationRecord
 
   attr_accessor :messages, :attribs, :parent_level, :prev, :next
 
-  validates_length_of :author, in: 2..60, allow_blank: false, message: I18n.t('messages.error_present', min: 2, max: 60)
+  validates :author, length: { in: 2..60, allow_blank: false, message: I18n.t('messages.error_present', min: 2, max: 60) }
 
-  validates_length_of :subject, in: 4..250, allow_blank: false,
-                                message: I18n.t('messages.error_present', min: 4, max: 250)
+  validates :subject, length: { in: 4..250, allow_blank: false,
+                                message: I18n.t('messages.error_present', min: 4, max: 250) }
 
-  validates_length_of :content, in: 10..12_288, allow_blank: false, message: I18n.t('messages.error_present',
-                                                                                    min: 10, max: 12_288)
+  validates :content, length: { in: 10..12_288, allow_blank: false, message: I18n.t('messages.error_present',
+                                                                                    min: 10, max: 12_288) }
 
   validates :email, length: { in: 6..60 }, email: true, allow_blank: true
   validates :homepage, length: { in: 2..250 }, allow_blank: true, url: { allow_blank: true,
@@ -49,7 +47,7 @@ class Message < ApplicationRecord
 
   has_one :cite, foreign_key: :message_id
 
-  validates_presence_of :forum_id, :thread_id
+  validates :forum_id, :thread_id, presence: true
 
   after_initialize do
     self.flags ||= {} if attributes.key? 'flags'
@@ -62,7 +60,7 @@ class Message < ApplicationRecord
 
   def references(forums, lim = nil)
     fids = forums.map(&:forum_id)
-    @references ||= message_references.select { |ref| !ref.src_message.deleted }
+    @references ||= message_references.reject { |ref| ref.src_message.deleted }
     refs = @references.select { |ref| fids.include?(ref.src_message.forum_id) }
 
     if lim
@@ -165,7 +163,7 @@ class Message < ApplicationRecord
 
   def open?
     # admin decisions overrule normal decisions
-    unless flags['no-answer-admin'].blank?
+    if flags['no-answer-admin'].present?
       return true if flags['no-answer-admin'] != 'yes'
       return false if flags['no-answer-admin'] == 'yes'
     end
@@ -184,7 +182,7 @@ class Message < ApplicationRecord
   def serializable_hash(options = {})
     options ||= {}
     options[:except] ||= []
-    options[:except] += [:uuid, :ip]
+    options[:except] += %i[uuid ip]
     super(options)
   end
 

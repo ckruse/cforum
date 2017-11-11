@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module SubscriptionsHelper
   def subscribed?(message, user = current_user)
     return if user.blank?
@@ -72,7 +70,7 @@ module SubscriptionsHelper
       end
     end
 
-    unless ids.blank?
+    if ids.present?
       result = Message.connection.execute(format('SELECT message_id FROM subscriptions' \
                                                  '  WHERE message_id IN (%s) AND user_id = %d',
                                                  ids.join(', '), user.user_id))

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Messages::MarkReadController < ApplicationController
   authorize_controller { authorize_user && authorize_forum(permission: :read?) }
 

@@ -5,7 +5,7 @@ Rails.application.configure do
                         email: {
                           email_prefix: '[cforum] [exception] ',
                           sender_address: %("CForum Exception" <forum@selfhtml.org>),
-                          exception_recipients: %w(cjk@defunct.ch)
+                          exception_recipients: %w[cjk@defunct.ch]
                         }
 
   # Code is not reloaded between requests.

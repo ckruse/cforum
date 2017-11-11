@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 FactoryBot.define do
   factory :priv_message do
     subject 'Use the force!'

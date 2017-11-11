@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class CfThreads::InvisibleController < ApplicationController
   authorize_controller { authorize_user }
 

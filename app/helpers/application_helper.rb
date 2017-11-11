@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module ApplicationHelper
   include CForum::Tools
 
@@ -7,7 +5,7 @@ module ApplicationHelper
     return if params[:curr_forum] == 'all' || params[:curr_forum].blank?
 
     if @_current_forum.try(:slug) != params[:curr_forum]
-      @_current_forum = Forum.find_by_slug!(params[:curr_forum])
+      @_current_forum = Forum.find_by!(slug: params[:curr_forum])
     end
 
     @_current_forum

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class NotifyThreadMovedJob < ApplicationJob
   queue_as :default
 

@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-
 class SynonymsController < ApplicationController
   authorize_controller { authorize_forum(permission: :read?) }
-  authorize_action([:new, :create]) { may?(Badge::CREATE_TAG_SYNONYM) }
-  authorize_action([:edit, :update, :destroy]) { authorize_admin }
+  authorize_action(%i[new create]) { may?(Badge::CREATE_TAG_SYNONYM) }
+  authorize_action(%i[edit update destroy]) { authorize_admin }
 
   before_action :load_resource
 
@@ -31,7 +29,7 @@ class SynonymsController < ApplicationController
 
   def create
     @synonym = TagSynonym.new(tag_synonym_params)
-    @synonym.synonym.downcase! if @synonym.synonym
+    @synonym.synonym&.downcase!
     @synonym.forum_id = current_forum.forum_id
     @synonym.tag_id = @tag.tag_id
 

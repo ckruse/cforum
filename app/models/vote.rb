@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class Vote < ApplicationRecord
   UPVOTE   = 'upvote'.freeze
   DOWNVOTE = 'downvote'.freeze
@@ -11,8 +9,8 @@ class Vote < ApplicationRecord
   belongs_to :message
   has_one :score
 
-  validates_presence_of :user_id, :message_id, :vtype
-  validates_uniqueness_of :message_id, scope: :user_id
+  validates :user_id, :message_id, :vtype, presence: true
+  validates :message_id, uniqueness: { scope: :user_id }
   validates :vtype, inclusion: [UPVOTE, DOWNVOTE]
 end
 

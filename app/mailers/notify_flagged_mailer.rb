@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class NotifyFlaggedMailer < ActionMailer::Base
   def new_flagged(user, message, url)
     @user    = user

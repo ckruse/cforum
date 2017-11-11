@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class AddVoterBadge < ActiveRecord::Migration
   def up
     Badge.create!(name: I18n.t('badges.badge_types.voter'),

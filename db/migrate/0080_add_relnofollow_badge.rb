@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class AddRelnofollowBadge < ActiveRecord::Migration
   include NotifyHelper
 
@@ -24,8 +22,8 @@ class AddRelnofollowBadge < ActiveRecord::Migration
   end
 
   def down
-    b = Badge.find_by_slug('seo_profi')
-    b.destroy unless b.blank?
+    b = Badge.find_by(slug: 'seo_profi')
+    b.destroy if b.present?
   end
 end
 

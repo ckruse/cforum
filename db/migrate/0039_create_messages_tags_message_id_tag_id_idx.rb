@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class CreateMessagesTagsMessageIdTagIdIdx < ActiveRecord::Migration
   def up
     execute <<-SQL

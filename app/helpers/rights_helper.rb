@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module RightsHelper
   def may?(badge_type, user = current_user)
     return false if user.blank?
@@ -8,7 +6,7 @@ module RightsHelper
 
     badge = user.badges.find { |b| b.badge_type == badge_type }
 
-    return true unless badge.blank?
+    return true if badge.present?
     false
   end
 
@@ -53,7 +51,7 @@ module RightsHelper
 
   def check_editable(thread, message, redirect = true)
     # editing is always possible when user is an admin
-    return true if current_user && current_user.admin?
+    return true if current_user&.admin?
 
     # editing isn't possible when disabled
     if conf('editing_enabled') != 'yes'
@@ -98,7 +96,7 @@ module RightsHelper
     check_age = false
 
     if !current_user &&
-       !cookies[:cforum_user].blank? &&
+       cookies[:cforum_user].present? &&
        (message.uuid == cookies[:cforum_user])
       edit_it = true
       check_age = true
@@ -140,12 +138,12 @@ module RightsHelper
   end
 
   def authorize_admin
-    return true if current_user && current_user.admin?
+    return true if current_user&.admin?
     false
   end
 
   def authorize_user
-    !current_user.blank?
+    current_user.present?
   end
 
   def authorize_forum(forum: nil, user: nil, permission: nil)

@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class NotificationsController < ApplicationController
   include NotifyHelper
 
@@ -11,7 +9,7 @@ class NotificationsController < ApplicationController
 
     @notifications = Notification.where(recipient_id: current_user.user_id)
                        .page(params[:page]).per(@limit)
-    @notifications = sort_query(%w(created_at is_read subject),
+    @notifications = sort_query(%w[created_at is_read subject],
                                 @notifications, {}, dir: :desc)
 
     respond_to do |format|
@@ -61,7 +59,7 @@ class NotificationsController < ApplicationController
   end
 
   def batch_destroy
-    unless params[:ids].blank?
+    if params[:ids].present?
       Notification.transaction do
         @notifications = Notification.where(recipient_id: current_user.user_id, notification_id: params[:ids])
         @notifications.each(&:destroy)

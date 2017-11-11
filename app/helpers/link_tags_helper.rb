@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module LinkTagsHelper
   def top_link
     '<link rel="index" href="' + forum_path(current_forum) + '" title="' +

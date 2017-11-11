@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module ScoresHelper
   def score_str
     s = score

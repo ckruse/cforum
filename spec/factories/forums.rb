@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 FactoryBot.define do
   factory :forum do
     name { generate(:forum_name) }

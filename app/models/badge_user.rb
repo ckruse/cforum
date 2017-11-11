@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class BadgeUser < ApplicationRecord
   self.primary_key = 'badge_user_id'
   self.table_name  = 'badges_users'

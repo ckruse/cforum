@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class NewMessageBadgesJob < ApplicationJob
   queue_as :default
 
@@ -33,7 +31,7 @@ class NewMessageBadgesJob < ApplicationJob
     votes = Vote.where(message_id: message.parent_id, user_id: message.user_id).first
     b = message.owner.badges.find { |user_badge| user_badge.slug == 'teacher' }
 
-    return if !b.blank? || !votes.blank? || (message.parent.user_id == message.user_id)
+    return if b.present? || votes.present? || (message.parent.user_id == message.user_id)
     give_badge(message.owner, Badge.where(slug: 'teacher').first!)
   end
 

@@ -1,15 +1,13 @@
-# -*- coding: utf-8 -*-
-
 class AddTagsNoSuggest < ActiveRecord::Migration
   def up
-    execute <<-SQL
-ALTER TABLE tags ADD COLUMN suggest BOOLEAN NOT NULL DEFAULT true;
+    execute <<~SQL
+      ALTER TABLE tags ADD COLUMN suggest BOOLEAN NOT NULL DEFAULT true;
     SQL
   end
 
   def down
-    execute <<-SQL
-ALTER TABLE tags DROP COLUMN suggest;
+    execute <<~SQL
+      ALTER TABLE tags DROP COLUMN suggest;
     SQL
   end
 end

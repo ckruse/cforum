@@ -26,31 +26,31 @@ RSpec.describe NotifyNewMessageJob, type: :job do
     end
 
     it 'notifies on a mention' do
-      expect {
+      expect do
         NotifyNewMessageJob.perform_now(thread.thread_id, message.message_id, 'thread')
-      }.to change(Notification, :count).by(1)
+      end.to change(Notification, :count).by(1)
     end
 
     it "doesn't notify when disabled" do
       Setting.create!(user_id: user.user_id, options: { 'notify_on_mention' => 'no' })
-      expect {
+      expect do
         NotifyNewMessageJob.perform_now(thread.thread_id, message.message_id, 'thread')
-      }.to change(Notification, :count).by(0)
+      end.to change(Notification, :count).by(0)
     end
   end
 
   it 'notifies on new thread when enabled' do
     Setting.create!(user_id: user.user_id, options: { 'notify_on_new_thread' => 'yes' })
-    expect {
+    expect do
       NotifyNewMessageJob.perform_now(thread.thread_id, message.message_id, 'thread')
-    }.to change(Notification, :count).by(1)
+    end.to change(Notification, :count).by(1)
   end
 
   it "doesn't on new thread when not enabled" do
     Setting.create!(user_id: user.user_id, options: { 'notify_on_new_thread' => 'no' })
-    expect {
+    expect do
       NotifyNewMessageJob.perform_now(thread.thread_id, message.message_id, 'thread')
-    }.to change(Notification, :count).by(0)
+    end.to change(Notification, :count).by(0)
   end
 
   describe 'on new message' do
@@ -60,24 +60,24 @@ RSpec.describe NotifyNewMessageJob, type: :job do
     it 'notifies when thread is subscribed' do
       subscribe_message(message, user)
 
-      expect {
+      expect do
         NotifyNewMessageJob.perform_now(thread.thread_id, message1.message_id, 'message')
-      }.to change(Notification, :count).by(1)
+      end.to change(Notification, :count).by(1)
     end
 
     it "doesn't notify when thread isn't subscribed" do
-      expect {
+      expect do
         NotifyNewMessageJob.perform_now(thread.thread_id, message1.message_id, 'message')
-      }.to change(Notification, :count).by(0)
+      end.to change(Notification, :count).by(0)
     end
 
     it "doesn't notify when different sub-thread is subscribed" do
       message2 = create(:message, parent: message, thread: thread)
       subscribe_message(message2, user)
 
-      expect {
+      expect do
         NotifyNewMessageJob.perform_now(thread.thread_id, message1.message_id, 'message')
-      }.to change(Notification, :count).by(0)
+      end.to change(Notification, :count).by(0)
     end
 
     it 'notifies only once' do
@@ -85,9 +85,9 @@ RSpec.describe NotifyNewMessageJob, type: :job do
       subscribe_message(message, user)
       subscribe_message(message1, user)
 
-      expect {
+      expect do
         NotifyNewMessageJob.perform_now(thread.thread_id, message2.message_id, 'message')
-      }.to change(Notification, :count).by(1)
+      end.to change(Notification, :count).by(1)
     end
 
     it 'notifies only for mention' do
@@ -95,9 +95,9 @@ RSpec.describe NotifyNewMessageJob, type: :job do
       message1.save!
       subscribe_message(message, user)
 
-      expect {
+      expect do
         NotifyNewMessageJob.perform_now(thread.thread_id, message1.message_id, 'message')
-      }.to change(Notification, :count).by(1)
+      end.to change(Notification, :count).by(1)
 
       n = Notification.last
       expect(n.otype).to eq 'message:mention'

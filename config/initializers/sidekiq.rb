@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 if Sidekiq.server?
   Sidekiq.default_worker_options = { 'backtrace' => true }
 

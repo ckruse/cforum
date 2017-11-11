@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class CfThread < ApplicationRecord
   self.primary_key = 'thread_id'
   self.table_name  = 'threads'
@@ -9,8 +7,8 @@ class CfThread < ApplicationRecord
   belongs_to :forum
   has_many :messages, -> { order(:created_at) }, foreign_key: :thread_id, dependent: :destroy
 
-  validates :slug, uniqueness: true, allow_blank: false, format: { with: /\A[a-z0-9_\/-]+\z/ }
-  validates_presence_of :forum_id, :latest_message
+  validates :slug, uniqueness: true, allow_blank: false, format: { with: %r{\A[a-z0-9_/-]+\z} }
+  validates :forum_id, :latest_message, presence: true
 
   def find_message(mid)
     messages.each do |m|
@@ -45,7 +43,7 @@ class CfThread < ApplicationRecord
   attr_writer :message
 
   def message
-    @message = sorted_messages[0] if @message.blank? && !sorted_messages.blank?
+    @message = sorted_messages[0] if @message.blank? && sorted_messages.present?
     @message
   end
 
@@ -108,7 +106,7 @@ class CfThread < ApplicationRecord
     now = Time.now if now.nil?
 
     s = now.strftime('/%Y/%b/%d/').gsub(/0(\d)\/$/, '\1/').downcase
-    s << num.to_s + '-' unless num.blank?
+    s << num.to_s + '-' if num.present?
     s << thread.message.subject.to_s.gsub(/[<>]/, '').to_url
 
     s.gsub(/[^a-z0-9_\/-]/, '')
@@ -139,7 +137,7 @@ class CfThread < ApplicationRecord
     forbidden = false
 
     # current user is not the owner of the message
-    if !usr.blank?
+    if usr.present?
       forbidden = true if (message.user_id != usr.user_id) && !usr.admin?
     elsif message.uuid.blank? # has message not been posted anonymously?
       forbidden = true
@@ -151,7 +149,7 @@ class CfThread < ApplicationRecord
   end
 
   def audit_json
-    as_json(include: [:messages, :forum])
+    as_json(include: %i[messages forum])
   end
 end
 

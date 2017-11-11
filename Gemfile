@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
@@ -26,9 +25,9 @@ gem 'therubyracer'
 gem 'uglifier', '>= 1.0.3'
 
 gem 'cocaine'
+gem 'redis', '~> 3.0'
 gem 'sidekiq'
 gem 'sidekiq-cron'
-gem 'redis', '~> 3.0'
 
 gem 'content_for_in_controllers'
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class AddStandardBadges < ActiveRecord::Migration
   def up
     Badge.create!(score_needed: 50, name: I18n.t('badges.badge_types.upvote'),

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module MentionsHelper
   def find_mentions(msg)
     return [] if msg.blank? || msg.content.blank?
@@ -22,14 +20,14 @@ module MentionsHelper
         last_char = '\\'
 
       elsif doc.scan(/@([^@\n]+)/)
-        next if !last_char.blank? && last_char =~ /[a-zäöüß0-9_.@-]/
+        next if last_char.present? && last_char =~ /[a-zäöüß0-9_.@-]/
         nick = doc[1].strip[0..60]
 
         while (nick.length >= 2) && (user = User.where(username: nick).first).blank?
           nick.gsub!(/\s*\w+$/, '') unless nick.gsub!(/[^\w]+$/, '')
         end
 
-        users << [user, in_cite] unless user.blank?
+        users << [user, in_cite] if user.present?
 
       else doc.scan(/./m)
            last_char = doc.matched

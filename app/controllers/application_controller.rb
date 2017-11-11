@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 require Rails.root + 'lib/tools'
 
 class ApplicationController < ActionController::Base
@@ -49,7 +47,7 @@ class ApplicationController < ActionController::Base
 
   def handle_redirects
     redirection = Redirection.where(path: request.path).first
-    redirect_to redirection.destination, status: redirection.http_status unless redirection.blank?
+    redirect_to redirection.destination, status: redirection.http_status if redirection.present?
   end
 
   def set_forums

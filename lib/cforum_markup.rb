@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require 'strscan'
 
 module CforumMarkup
@@ -139,9 +137,9 @@ module CforumMarkup
                     '~~~'
                   end
 
-            unless content.blank?
+            if content.present?
               _, lang = content.split(/=/, 2)
-              val << ' ' + lang unless lang.blank?
+              val << ' ' + lang if lang.present?
             end
 
             val << "\n"
@@ -166,14 +164,14 @@ module CforumMarkup
           if code_open <= 1 # only close code when this [/code] is the last one
             top = code_stack.pop
 
-            unless top.blank? # broken markup
-              if ncnt =~ /\n/
+            if top.present? # broken markup
+              if ncnt.match?(/\n/)
                 ncnt = top[0] + top[1] + ncnt + "\n" + ('> ' * in_quote) + '~~~'
                 2.times { doc.scan(%r{<br ?/>}) } # eat up following newlines
                 ncnt << "\n\n"
               else
                 ncnt = top[0] + '`' + ncnt + '`'
-                ncnt << '{:.language-' + top[2] + '}' unless top[2].blank?
+                ncnt << '{:.language-' + top[2] + '}' if top[2].present?
               end
             end
           end
@@ -193,7 +191,7 @@ module CforumMarkup
     end
 
     # broken cforum markup
-    unless code_stack.blank?
+    if code_stack.present?
       while top = code_stack.pop
         ncnt = top[0] + '[code' + (top[2].blank? ? ']' : ' lang=' + top[2] + ']') + ncnt
       end
@@ -219,7 +217,7 @@ module CforumMarkup
 
   def cforum_gen_pref(href)
     orig = href
-    href, title = href.split('@title=', 2) if href =~ /@title=/
+    href, title = href.split('@title=', 2) if href.match?(/@title=/)
     t, m = href.split(/(?:&amp)?;/)
 
     return '[pref:' + orig + ']' if t.blank? || m.blank?
@@ -237,9 +235,9 @@ module CforumMarkup
 
     if directive == 'ref'
       ref, href = content.split(';', 2)
-      href, title = href.split('@title=', 2) if href =~ /@title=/
+      href, title = href.split('@title=', 2) if href.match?(/@title=/)
 
-      if %w(self8 self81 self811 self812 sel811 sef811 slef812).include?(ref)
+      if %w[self8 self81 self811 self812 sel811 sef811 slef812].include?(ref)
         href = "http://de.selfhtml.org/#{href}"
       elsif ref == 'self7'
         href = "http://aktuell.de.selfhtml.org/archiv/doku/7.0/#{href}"
@@ -251,7 +249,7 @@ module CforumMarkup
 
     elsif directive == 'link'
       href = content
-      href, title = href.split('@title=', 2) if href =~ /@title=/
+      href, title = href.split('@title=', 2) if href.match?(/@title=/)
     end
 
     return nil if href.blank?

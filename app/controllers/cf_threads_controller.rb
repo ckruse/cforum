@@ -1,11 +1,9 @@
-# -*- encoding: utf-8 -*-
-
 require 'digest/sha1'
 
 class CfThreadsController < ApplicationController
-  authorize_action([:index, :show]) { authorize_forum(permission: :read?) }
-  authorize_action([:new, :create]) { authorize_forum(permission: :write?) }
-  authorize_action([:moving, :move, :sticky]) { authorize_forum(permission: :moderator?) }
+  authorize_action(%i[index show]) { authorize_forum(permission: :read?) }
+  authorize_action(%i[new create]) { authorize_forum(permission: :write?) }
+  authorize_action(%i[moving move sticky]) { authorize_forum(permission: :moderator?) }
 
   include TagsHelper
   include ThreadsHelper
@@ -30,7 +28,7 @@ class CfThreadsController < ApplicationController
     unless ret == :redirected
       respond_to do |format|
         format.html
-        format.json { render json: @threads, include: { messages: { include: [:owner, :tags] } } }
+        format.json { render json: @threads, include: { messages: { include: %i[owner tags] } } }
         format.rss
         format.atom
       end
@@ -85,7 +83,7 @@ class CfThreadsController < ApplicationController
     @thread.message = @message
     @thread.slug = CfThread.gen_id(@thread)
 
-    if @thread.slug.end_with?('/') && !@thread.message.subject.blank?
+    if @thread.slug.end_with?('/') && @thread.message.subject.present?
       flash.now[:error] = t('errors.could_not_generate_slug')
       invalid = true
     end
@@ -191,7 +189,7 @@ class CfThreadsController < ApplicationController
 
   def sticky
     @id = CfThread.make_id(params)
-    @thread = CfThread.find_by_slug!(@id)
+    @thread = CfThread.find_by!(slug: @id)
 
     @thread.sticky = !@thread.sticky
 

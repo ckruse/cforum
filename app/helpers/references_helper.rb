@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-
 module ReferencesHelper
   def mid_from_uri(uri)
     uri = uri.gsub(/#.*$/, '')
-    return Regexp.last_match(1).to_i if uri =~ /\/m?(\d+)$/
+    return Regexp.last_match(1).to_i if uri =~ %r{/m?(\d+)$}
     nil
   end
 
@@ -14,13 +12,14 @@ module ReferencesHelper
     doc.css('blockquote').remove
 
     links = doc.xpath('//a')
-    links = links.select { |l| !l['href'].blank? }
+    links = links.reject { |l| l['href'].blank? }
     links.map { |l| l['href'] }
   end
 
-  def is_reference_uri(uri, hosts)
+  def reference_uri?(uri, hosts)
     parsed_uri = URI.parse(uri)
-    hosts.include?(parsed_uri.host) && (parsed_uri.path =~ /^\/[\w-]+\/\d{4}\/\w{3}\/\d+\/[\w-]+\/\d+$/ || parsed_uri.path =~ /^\/m\d+$/)
+    hosts.include?(parsed_uri.host) &&
+      (parsed_uri.path =~ %r{^/[\w-]+/\d{4}/\w{3}/\d+/[\w-]+/\d+$} || parsed_uri.path =~ %r{^/m\d+$})
   end
 
   def find_references(content, hosts)
@@ -29,7 +28,7 @@ module ReferencesHelper
 
     links.select do |l|
       begin
-        is_reference_uri(l, hosts)
+        reference_uri?(l, hosts)
       rescue
         false
       end
@@ -37,7 +36,7 @@ module ReferencesHelper
   end
 
   def save_references(message)
-    MessageReference.where(src_message_id: message.message_id).delete_all unless message.message_id.blank?
+    MessageReference.where(src_message_id: message.message_id).delete_all if message.message_id.present?
     references = find_references(message.to_html(self), URI.parse(root_url).hostname)
 
     return if references.blank?

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class ModerationQueueEntry < ApplicationRecord
   include ParserHelper
 
@@ -12,11 +10,11 @@ class ModerationQueueEntry < ApplicationRecord
   validates :reason, presence: true, inclusion: { in: REASONS }
   validates :message_id, presence: true, uniqueness: true
 
-  validates_presence_of :resolution, :closer_name, :closer_id, if: :cleared?
+  validates :resolution, :closer_name, :closer_id, presence: { if: :cleared? }
   validates :resolution_action, presence: true, inclusion: { in: ACTIONS }, if: :cleared?
 
-  validates_presence_of :duplicate_url, if: :duplicate?
-  validates_presence_of :custom_reason, if: :custom?
+  validates :duplicate_url, presence: { if: :duplicate? }
+  validates :custom_reason, presence: { if: :custom? }
 
   belongs_to :closer, class_name: 'User'
   belongs_to :message

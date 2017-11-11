@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 class Forum < ApplicationRecord
   self.primary_key = 'forum_id'
   self.table_name  = 'forums'
@@ -66,7 +64,7 @@ class Forum < ApplicationRecord
                     .where('group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?',
                            user.user_id, forum_id)
 
-    return true unless permissions.blank?
+    return true if permissions.present?
     false
   end
 

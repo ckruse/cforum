@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module AuditHelper
   def audit(object, action, creator = current_user)
     Auditing.create!(relation: object.class.table_name,

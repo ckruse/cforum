@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 require 'digest/sha1'
 
 class MessagesController < ApplicationController
@@ -26,7 +24,7 @@ class MessagesController < ApplicationController
   def show
     @thread, @message, @id = get_thread_w_post
 
-    if !current_forum.blank? && (@message.forum_id != current_forum.forum_id)
+    if current_forum.present? && (@message.forum_id != current_forum.forum_id)
       redirect_to message_url(@thread, @message), status: 301
       return
     end
@@ -36,15 +34,15 @@ class MessagesController < ApplicationController
     # parameter overwrites cookie overwrites config; validation
     # overwrites everything
     @read_mode = uconf('standard_view')
-    @read_mode = cookies[:cf_readmode] if !cookies[:cf_readmode].blank? && current_user.blank?
-    @read_mode = params[:rm] unless params[:rm].blank?
+    @read_mode = cookies[:cf_readmode] if cookies[:cf_readmode].present? && current_user.blank?
+    @read_mode = params[:rm] if params[:rm].present?
     @read_mode = 'thread-view' unless %w[thread-view nested-view].include?(@read_mode)
 
     @new_message = new_message(@message, uconf('quote_by_default') == 'yes' && @read_mode != 'nested-view')
     @max_tags = conf('max_tags_per_message')
     show_new_message_functions(@thread, @message, @new_message, false)
 
-    if !params[:rm].blank? && current_user.blank?
+    if params[:rm].present? && current_user.blank?
       cookies[:cf_readmode] = { value: @read_mode, expires: 1.year.from_now }
     end
 
@@ -219,7 +217,7 @@ class MessagesController < ApplicationController
       @version.content = @message.content_was
       @version.message_id = @message.message_id
 
-      if !current_user.blank?
+      if current_user.present?
         @message.editor_id = current_user.user_id
         @message.edit_author = current_user.username
         @version.user_id = current_user.user_id
@@ -438,8 +436,8 @@ class MessagesController < ApplicationController
       end
     end
 
-    Notification.where(notification_id: to_delete).delete_all unless to_delete.blank?
-    Notification.where(notification_id: to_mark_read).update_all(is_read: true) unless to_mark_read.blank?
+    Notification.where(notification_id: to_delete).delete_all if to_delete.present?
+    Notification.where(notification_id: to_mark_read).update_all(is_read: true) if to_mark_read.present?
 
     return unless had_one
     BroadcastUserJob.perform_later({ type: 'notification:update',

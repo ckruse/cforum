@@ -1,36 +1,34 @@
-# -*- coding: utf-8 -*-
-
 class AddCloseVotes < ActiveRecord::Migration
   def up
-    execute <<-SQL
-CREATE TABLE close_votes (
-  close_vote_id BIGSERIAL PRIMARY KEY,
-  message_id BIGINT NOT NULL REFERENCES messages(message_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  reason VARCHAR(20) NOT NULL,
-  duplicate_slug VARCHAR(255),
-  custom_reason VARCHAR(255),
+    execute <<~SQL
+      CREATE TABLE close_votes (
+        close_vote_id BIGSERIAL PRIMARY KEY,
+        message_id BIGINT NOT NULL REFERENCES messages(message_id) ON DELETE CASCADE ON UPDATE CASCADE,
+        reason VARCHAR(20) NOT NULL,
+        duplicate_slug VARCHAR(255),
+        custom_reason VARCHAR(255),
 
-  finished BOOLEAN NOT NULL DEFAULT false,
+        finished BOOLEAN NOT NULL DEFAULT false,
 
-  vote_type BOOLEAN NOT NULL DEFAULT false,
+        vote_type BOOLEAN NOT NULL DEFAULT false,
 
-  created_at TIMESTAMP NOT NULL,
-  updated_at TIMESTAMP NOT NULL,
+        created_at TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP NOT NULL,
 
-  UNIQUE(message_id, vote_type)
-);
+        UNIQUE(message_id, vote_type)
+      );
 
-CREATE TABLE close_votes_voters (
-  close_votes_voter_id BIGSERIAL PRIMARY KEY,
-  close_vote_id BIGINT NOT NULL REFERENCES close_votes(close_vote_id) ON DELETE CASCADE ON UPDATE CASCADE,
+      CREATE TABLE close_votes_voters (
+        close_votes_voter_id BIGSERIAL PRIMARY KEY,
+        close_vote_id BIGINT NOT NULL REFERENCES close_votes(close_vote_id) ON DELETE CASCADE ON UPDATE CASCADE,
 
-  user_id BIGINT NOT NULL,
+        user_id BIGINT NOT NULL,
 
-  created_at TIMESTAMP NOT NULL,
-  updated_at TIMESTAMP NOT NULL,
+        created_at TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP NOT NULL,
 
-  UNIQUE(close_vote_id, user_id)
-);
+        UNIQUE(close_vote_id, user_id)
+      );
     SQL
   end
 

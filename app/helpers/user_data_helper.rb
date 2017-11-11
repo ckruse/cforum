@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module UserDataHelper
   def gen_content(content, name, std_replacement = '')
     content ||= ''
@@ -9,7 +7,7 @@ module UserDataHelper
       farewell  = uconf('farewell')
       signature = uconf('signature')
 
-      unless greeting.blank?
+      if greeting.present?
         if name.blank?
           greeting.gsub!(/\s*\{\$name\}/, std_replacement)
           greeting.gsub!(/\s*\{\$vname\}/, std_replacement)
@@ -21,8 +19,8 @@ module UserDataHelper
         content = greeting + "\n" + content
       end
 
-      content = content + "\n" + farewell unless farewell.blank?
-      content = content + "\n-- \n" + signature unless signature.blank?
+      content = content + "\n" + farewell if farewell.present?
+      content = content + "\n-- \n" + signature if signature.present?
     end
 
     content

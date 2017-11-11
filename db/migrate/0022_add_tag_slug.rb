@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class AddTagSlug < ActiveRecord::Migration
   def up
     execute <<-SQL
@@ -18,9 +16,9 @@ class AddTagSlug < ActiveRecord::Migration
   end
 
   def down
-    execute <<-SQL
-DROP INDEX tags_forum_id_slug_idx;
-ALTER TABLE tags DROP COLUMN slug;
+    execute <<~SQL
+      DROP INDEX tags_forum_id_slug_idx;
+      ALTER TABLE tags DROP COLUMN slug;
     SQL
   end
 end

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class NotifyOpenCloseVoteMailer < ActionMailer::Base
   def notification_created_open(user, message)
     @user    = user

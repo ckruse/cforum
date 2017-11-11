@@ -1,6 +1,4 @@
 #!/usr/bin/env ruby
-# -*- coding: utf-8 -*-
-
 dir = File.dirname(__FILE__)
 require File.join(dir, '..', 'config', 'boot')
 require File.join(dir, '..', 'config', 'environment')
@@ -83,6 +81,6 @@ begin
       puts m.created_at.strftime('%Y-%m-%d') + ' - ' + m.message_id.to_s if i == no_messages - 1
     end
   end
-end while !msgs.blank?
+end while msgs.present?
 
 # eof

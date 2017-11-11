@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require 'rails_helper'
 
 RSpec.describe 'highlights with different cases' do
@@ -7,24 +5,24 @@ RSpec.describe 'highlights with different cases' do
 
   it 'renders to code class=block' do
     messages = []
-    messages << create(:message, content: <<HTML
-~~~html
-<html>
-~~~
+    messages << create(:message, content: <<~HTML
+      ~~~html
+      <html>
+      ~~~
 HTML
                       )
 
-    messages << create(:message, content: <<HTML
-~~~HTML
-<html>
-~~~
+    messages << create(:message, content: <<~HTML
+      ~~~HTML
+      <html>
+      ~~~
 HTML
                       )
 
-    messages << create(:message, content: <<HTML
-~~~hTmL
-<html>
-~~~
+    messages << create(:message, content: <<~HTML
+      ~~~hTmL
+      <html>
+      ~~~
 HTML
                       )
 
@@ -36,24 +34,24 @@ HTML
 
   it 'renders to code class=block in block quotes' do
     messages = []
-    messages << create(:message, content: <<HTML
-> ~~~html
-> <html>
-> ~~~
+    messages << create(:message, content: <<~HTML
+      > ~~~html
+      > <html>
+      > ~~~
 HTML
                       )
 
-    messages << create(:message, content: <<HTML
-> ~~~HTML
-> <html>
-> ~~~
+    messages << create(:message, content: <<~HTML
+      > ~~~HTML
+      > <html>
+      > ~~~
 HTML
                       )
 
-    messages << create(:message, content: <<HTML
-> ~~~hTmL
-> <html>
-> ~~~
+    messages << create(:message, content: <<~HTML
+      > ~~~hTmL
+      > <html>
+      > ~~~
 HTML
                       )
 
@@ -65,30 +63,30 @@ HTML
 
   it 'renders to code class=block when not at the beginning of the post' do
     messages = []
-    messages << create(:message, content: <<HTML
-ewfwefwef
+    messages << create(:message, content: <<~HTML
+      ewfwefwef
 
-~~~html
-<html>
-~~~
+      ~~~html
+      <html>
+      ~~~
 HTML
                       )
 
-    messages << create(:message, content: <<HTML
-ewfwefwef
+    messages << create(:message, content: <<~HTML
+      ewfwefwef
 
-~~~HTML
-<html>
-~~~
+      ~~~HTML
+      <html>
+      ~~~
 HTML
                       )
 
-    messages << create(:message, content: <<HTML
-ewfwefwef
+    messages << create(:message, content: <<~HTML
+      ewfwefwef
 
-~~~hTmL
-<html>
-~~~
+      ~~~hTmL
+      <html>
+      ~~~
 HTML
                       )
 

@@ -24,7 +24,7 @@
 #  * zeus: 'zeus rspec' (requires the server to be started separately)
 #  * 'just' rspec: 'rspec'
 
-notification :terminal_notifier if RUBY_PLATFORM =~ /darwin/
+notification :terminal_notifier if RUBY_PLATFORM.match?(/darwin/)
 notification :libnotify if RUBY_PLATFORM !~ /darwin|cygwin|mswin|mingw|bccwin|wince|emx/
 
 guard :rspec, cmd: 'spring rspec' do
@@ -44,7 +44,7 @@ guard :rspec, cmd: 'spring rspec' do
   dsl.watch_spec_files_for(ruby.lib_files)
 
   # Rails files
-  rails = dsl.rails(view_extensions: %w(erb haml slim))
+  rails = dsl.rails(view_extensions: %w[erb haml slim])
   dsl.watch_spec_files_for(rails.app_files)
   dsl.watch_spec_files_for(rails.views)
 

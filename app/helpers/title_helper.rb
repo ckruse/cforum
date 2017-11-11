@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module TitleHelper
   def set_title_infos
     return if current_user.blank?
@@ -38,7 +36,7 @@ module TitleHelper
       title << cnt
     end
 
-    @title_infos = '(' + title.join('/') + ') ' unless title.blank?
+    @title_infos = '(' + title.join('/') + ') ' if title.present?
   end
 end
 

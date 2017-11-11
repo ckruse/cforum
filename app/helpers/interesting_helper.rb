@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module InterestingHelper
   def mark_interesting(user, message)
     return if user.blank?
@@ -88,7 +86,7 @@ module InterestingHelper
       end
     end
 
-    unless ids.blank?
+    if ids.present?
       result = Message.connection.execute('SELECT message_id FROM interesting_messages WHERE message_id IN (' +
                                           ids.join(', ') + ') AND user_id = ' + user.user_id.to_s)
       result.each do |row|
@@ -132,7 +130,7 @@ module InterestingHelper
                                           ids.join(', ') + ') AND user_id = ' + user.user_id.to_s)
       result.each do |row|
         new_cache[row['message_id']] = true
-        msgs[row['message_id']].attribs['classes'] << 'interesting' if msgs[row['message_id']]
+        msgs[row['message_id']]&.attribs['classes'] << 'interesting'
         msgs[row['message_id']].attribs[:is_interesting] = true
         had_one = true
       end

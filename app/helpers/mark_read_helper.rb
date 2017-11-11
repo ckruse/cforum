@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module MarkReadHelper
   def is_read(user, message)
     return if user.blank? || message.blank?
@@ -59,7 +57,7 @@ module MarkReadHelper
     result = Message.connection.execute('SELECT message_id FROM read_messages WHERE message_id IN (' +
                                         ids.join(', ') + ') AND user_id = ' + current_user.user_id.to_s)
     result.each do |row|
-      msgs[row['message_id']].attribs['classes'] << 'visited' if msgs[row['message_id']]
+      msgs[row['message_id']]&.attribs['classes'] << 'visited'
     end
   end
 
@@ -110,7 +108,7 @@ module MarkReadHelper
       t.attribs[:msgs] = { all: num_msgs, unread: num_msgs }
     end
 
-    unless ids.blank?
+    if ids.present?
       result = Message.connection.execute('SELECT message_id FROM read_messages WHERE message_id IN (' +
                                           ids.join(', ') + ') AND user_id = ' + current_user.user_id.to_s)
       result.each do |row|
@@ -194,7 +192,7 @@ module MarkReadHelper
 
     result.each do |row|
       a = messages.find { |m| m.message_id == row['message_id'] }
-      a.attribs['classes'] << 'visited' if a
+      a&.attribs['classes'] << 'visited'
     end
   end
 end

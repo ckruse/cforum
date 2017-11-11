@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class NotificationMailer < ActionMailer::Base
   def new_notification(opts)
     @opts = opts

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 FactoryBot.define do
   factory :medium do
     filename Rails.root + 'public/images/medium/missing.png'

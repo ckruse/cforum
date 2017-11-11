@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 FactoryBot.define do
   sequence(:tag_name) { |n| "Tag #{n}" }
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module CssHelper
   def set_css
     return if cookies[:css_style].blank?

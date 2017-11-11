@@ -1,6 +1,4 @@
 #!/usr/bin/env ruby
-# -*- coding: utf-8 -*-
-
 dir = File.dirname(__FILE__)
 require File.join(dir, '..', 'config', 'boot')
 require File.join(dir, '..', 'config', 'environment')
@@ -18,7 +16,7 @@ public
 
 def from_uri(uri)
   uri = uri.gsub(/#.*$/, '')
-  return Regexp.last_match(1).to_i if uri =~ /\/(\d+)$/
+  return Regexp.last_match(1).to_i if uri.match?(/\/(\d+)$/)
   nil
 end
 
@@ -62,6 +60,6 @@ begin
       end
     end
   end
-end while !msgs.blank?
+end while msgs.present?
 
 # eof

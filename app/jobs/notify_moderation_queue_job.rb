@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class NotifyModerationQueueJob < ApplicationJob
   queue_as :default
 

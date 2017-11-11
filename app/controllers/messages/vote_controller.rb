@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Messages::VoteController < ApplicationController
   authorize_controller { authorize_user && authorize_forum(permission: :write?) }
 
@@ -130,7 +128,7 @@ class Messages::VoteController < ApplicationController
   def maybe_take_back_vote(vtype)
     @vote = Vote.where(user_id: current_user.user_id, message_id: @message.message_id).first
 
-    if !@vote.blank? && (@vote.vtype == vtype)
+    if @vote.present? && (@vote.vtype == vtype)
       Vote.transaction do
         if @vote.vtype == Vote::UPVOTE
           Message
@@ -184,7 +182,7 @@ class Messages::VoteController < ApplicationController
              vote_id: @vote.vote_id)
       .delete_all
 
-    unless @message.user_id.blank?
+    if @message.user_id.present?
       Score
         .where('user_id = ? AND vote_id = ?',
                @message.user_id, @vote.vote_id)
@@ -197,7 +195,7 @@ class Messages::VoteController < ApplicationController
       .where(message_id: @message.message_id)
       .update_all('downvotes = downvotes + 1, upvotes = upvotes - 1')
 
-    unless @message.user_id.blank?
+    if @message.user_id.present?
       Score
         .where('user_id = ? AND vote_id = ?',
                @message.user_id, @vote.vote_id)
@@ -227,7 +225,7 @@ class Messages::VoteController < ApplicationController
                          message_id: @message.message_id,
                          vtype: vtype)
 
-    unless @message.user_id.blank?
+    if @message.user_id.present?
       if ((vtype == Vote::DOWNVOTE) && (@message.owner.score + @vote_down_value >= -1)) || (vtype == Vote::UPVOTE)
         Score.create!(user_id: @message.user_id,
                       vote_id: @vote.vote_id,

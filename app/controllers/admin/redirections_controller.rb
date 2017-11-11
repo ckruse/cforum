@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 class Admin::RedirectionsController < ApplicationController
   authorize_controller { authorize_admin }
 
   before_action :load_ressource
 
   def index
-    @redirections = sort_query(%w(redirection_id path destination),
+    @redirections = sort_query(%w[redirection_id path destination],
                                Redirection)
                       .page(params[:page])
   end
@@ -41,7 +39,7 @@ class Admin::RedirectionsController < ApplicationController
   end
 
   def load_ressource
-    @redirection = Redirection.find(params[:id]) unless params[:id].blank?
+    @redirection = Redirection.find(params[:id]) if params[:id].present?
   end
 
   def redirection_params

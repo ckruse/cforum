@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require 'rails_helper'
 
 RSpec.describe NewMessageBadgesJob, type: :job do
@@ -24,9 +22,9 @@ RSpec.describe NewMessageBadgesJob, type: :job do
       99.times { create(:message, owner: user) }
       create(:badge, slug: 'chisel', badge_type: 'custom')
 
-      expect {
+      expect do
         NewMessageBadgesJob.perform_now(thread.thread_id, message.message_id)
-      }.to change(BadgeUser, :count).by(1)
+      end.to change(BadgeUser, :count).by(1)
     end
   end
 
@@ -39,9 +37,9 @@ RSpec.describe NewMessageBadgesJob, type: :job do
       user1 = create(:user)
       message1 = create(:message, owner: user1, parent: message, thread: thread)
 
-      expect {
+      expect do
         NewMessageBadgesJob.perform_now(thread.thread_id, message1.message_id)
-      }.to change(BadgeUser, :count).by(1)
+      end.to change(BadgeUser, :count).by(1)
     end
 
     it "it doesn't give the badge when parent author is oneself" do
@@ -51,9 +49,9 @@ RSpec.describe NewMessageBadgesJob, type: :job do
       create(:badge, slug: 'teacher', badge_type: 'custom')
       message1 = create(:message, owner: user, parent: message, thread: thread)
 
-      expect {
+      expect do
         NewMessageBadgesJob.perform_now(thread.thread_id, message1.message_id)
-      }.to change(BadgeUser, :count).by(0)
+      end.to change(BadgeUser, :count).by(0)
     end
 
     it "doesn't give the badge when parent voter is oneself" do
@@ -65,9 +63,9 @@ RSpec.describe NewMessageBadgesJob, type: :job do
       Vote.create!(message_id: message.message_id, user_id: user1.user_id, vtype: Vote::UPVOTE)
       message1 = create(:message, owner: user1, parent: message, thread: thread)
 
-      expect {
+      expect do
         NewMessageBadgesJob.perform_now(thread.thread_id, message1.message_id)
-      }.to change(BadgeUser, :count).by(0)
+      end.to change(BadgeUser, :count).by(0)
     end
 
     it "doesn't give the badge when parent is zero voted" do
@@ -75,9 +73,9 @@ RSpec.describe NewMessageBadgesJob, type: :job do
       user1 = create(:user)
       message1 = create(:message, owner: user1, parent: message, thread: thread)
 
-      expect {
+      expect do
         NewMessageBadgesJob.perform_now(thread.thread_id, message1.message_id)
-      }.to change(BadgeUser, :count).by(0)
+      end.to change(BadgeUser, :count).by(0)
     end
   end
 end

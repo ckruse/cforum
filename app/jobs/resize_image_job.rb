@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require 'fileutils'
 
 class ResizeImageJob < ApplicationJob

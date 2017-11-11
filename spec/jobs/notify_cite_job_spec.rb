@@ -18,18 +18,18 @@ RSpec.describe NotifyCiteJob, type: :job do
 
   it 'notifies user on creation' do
     user
-    expect {
+    expect do
       NotifyCiteJob.perform_now(cite.cite_id, 'create')
-    }.to change(Notification, :count).by(1)
+    end.to change(Notification, :count).by(1)
   end
 
   it 'destroys unread notifications on deletion' do
     user
     NotifyCiteJob.perform_now(cite.cite_id, 'create')
 
-    expect {
+    expect do
       NotifyCiteJob.perform_now(cite.cite_id, 'destroy')
-    }.to change(Notification, :count).by(-1)
+    end.to change(Notification, :count).by(-1)
   end
 
   it 'notifies user on deletion' do
@@ -37,16 +37,15 @@ RSpec.describe NotifyCiteJob, type: :job do
     NotifyCiteJob.perform_now(cite.cite_id, 'create')
     Notification.update_all(is_read: true)
 
-    expect {
+    expect do
       NotifyCiteJob.perform_now(cite.cite_id, 'destroy')
-    }.to change(Notification, :count).by(1)
+    end.to change(Notification, :count).by(1)
   end
 
   it "doesn't notify when disabled" do
     Setting.create!(user_id: user.user_id, options: { 'notify_on_cite' => 'no' })
-    expect {
+    expect do
       NotifyCiteJob.perform_now(cite.cite_id, 'create')
-    }.to change(Notification, :count).by(0)
+    end.to change(Notification, :count).by(0)
   end
-
 end

@@ -76,11 +76,11 @@ module ThreadsHelper
     forum  = current_forum
 
     @order = uconf('sort_threads')
-    @order = cookies[:cf_order] if !cookies[:cf_order].blank? && current_user.blank?
-    @order = params[:order] unless params[:order].blank?
-    @order = 'ascending' unless %w(ascending descending newest-first).include?(@order)
+    @order = cookies[:cf_order] if cookies[:cf_order].present? && current_user.blank?
+    @order = params[:order] if params[:order].present?
+    @order = 'ascending' unless %w[ascending descending newest-first].include?(@order)
 
-    if !params[:order].blank? && current_user.blank?
+    if params[:order].present? && current_user.blank?
       cookies[:cf_order] = { value: @order, expires: 1.year.from_now }
     end
 
@@ -159,7 +159,7 @@ module ThreadsHelper
     html << ' archived' if thread.archived
     html << ' no-archive' if thread.flags['no-archive'] == 'yes'
     html << ' sticky' if thread.sticky
-    html << ' ' << thread.attribs['classes'].join(' ') unless thread.attribs['classes'].blank?
+    html << ' ' << thread.attribs['classes'].join(' ') if thread.attribs['classes'].present?
     html << '" id="t' << thread.thread_id.to_s << '">'
 
     html << '<i class="no-archive-icon" title="' + t('threads.no_archive') + '"> </i>' if thread.flags['no-archive'] == 'yes'
@@ -168,7 +168,7 @@ module ThreadsHelper
 
     html << message_header(thread, thread.message, first: true, show_icons: true)
 
-    if !thread.message.messages.blank? && (thread.attribs['open_state'] != 'closed')
+    if thread.message.messages.present? && (thread.attribs['open_state'] != 'closed')
       html << message_tree(thread, thread.message.messages,
                            show_icons: true,
                            hide_repeating_subjects: uconf('hide_subjects_unchanged') == 'yes',
