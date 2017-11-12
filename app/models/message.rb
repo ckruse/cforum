@@ -16,11 +16,13 @@ class Message < ApplicationRecord
 
   has_many :versions, -> { order(message_version_id: :desc) }, class_name: 'MessageVersion', foreign_key: :message_id
 
-  has_many :subscriptions
+  has_many :subscriptions, dependent: :delete_all
 
   attr_accessor :messages, :attribs, :parent_level, :prev, :next
 
-  validates :author, length: { in: 2..60, allow_blank: false, message: I18n.t('messages.error_present', min: 2, max: 60) }
+  validates :author, length: { in: 2..60,
+                               allow_blank: false,
+                               message: I18n.t('messages.error_present', min: 2, max: 60) }
 
   validates :subject, length: { in: 4..250, allow_blank: false,
                                 message: I18n.t('messages.error_present', min: 4, max: 250) }
@@ -37,15 +39,15 @@ class Message < ApplicationRecord
                                                                                  allow_nil: true,
                                                                                  message: I18n.t('messages.error_url') }
 
-  has_many :votes, class_name: 'CloseVote', foreign_key: :message_id
+  has_many :votes, class_name: 'CloseVote', foreign_key: :message_id, dependent: :delete_all
 
   has_many :message_references, -> { order(created_at: :desc) },
            class_name: 'MessageReference', foreign_key: :dst_message_id
 
-  has_many :moderation_queue_entries
+  has_many :moderation_queue_entries, dependent: :delete_all
   has_one :open_moderation_queue_entry, -> { where(cleared: false) }, class_name: 'ModerationQueueEntry'
 
-  has_one :cite, foreign_key: :message_id
+  has_one :cite, foreign_key: :message_id, dependent: :nullify
 
   validates :forum_id, :thread_id, presence: true
 
@@ -199,7 +201,7 @@ class Message < ApplicationRecord
     nil
   end
 
-  def get_created_at
+  def get_created_at # rubocop:disable Naming/AccessorMethodName
     created_at || Time.zone.now
   end
 end

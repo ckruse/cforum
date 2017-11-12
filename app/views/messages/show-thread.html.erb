@@ -18,7 +18,7 @@ content_for(:h1) do
   <%= render 'message', m: @message, first: true, do_parent: true %>
 </article>
 
-<% if uconf("inline_answer") != 'no' && may_answer(@message) %>
+<% if uconf("inline_answer") != 'no' && may_answer?(@message) %>
   <%= form_for @new_message, url: '/foo/bar', html: {class: 'cf-form answer-form inline-answer hidden'} do |f| %>
 
     <%= render "form", f: f, tags: @message.tags.map(&:tag_name), message: @new_message %>

@@ -71,7 +71,7 @@ module LinksHelper
       form_authenticity_token << '">'
 
     if args[:params].present?
-      for k, v in args[:params]
+      args[:params].each do |k, v|
         str << '<input type="hidden" name="' + encode_entities(k.to_s) + '" value="' + encode_entities(v.to_s) + '">'
       end
     end

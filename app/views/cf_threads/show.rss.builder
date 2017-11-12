@@ -4,9 +4,12 @@ xml.rss version: '2.0', 'xmlns:atom' => 'http://www.w3.org/2005/Atom' do
     xml.title @thread.message.subject + ' - ' + @thread.forum.name
     xml.description 'Thread-Feed' # TODO
     xml.link message_url(@thread, @thread.message)
-    xml.tag! 'atom:link', rel: 'self', type: 'application/rss+xml', href: message_url(@thread, @thread.message, format: :rss)
+    xml.tag!('atom:link',
+             rel: 'self',
+             type: 'application/rss+xml',
+             href: message_url(@thread, @thread.message, format: :rss))
 
-    for msg in @thread.sorted_messages
+    @thread.sorted_messages.each do |msg|
       xml.item do
         xml.title msg.subject
         xml.description msg.to_html(@app_controller)

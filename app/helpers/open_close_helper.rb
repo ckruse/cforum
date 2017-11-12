@@ -19,7 +19,7 @@ module OpenCloseHelper
 
       if close_when_read
         mids = t.sorted_messages.map(&:message_id)
-        rslt = is_read(current_user.user_id, mids)
+        rslt = message_read?(current_user.user_id, mids)
 
         t.attribs['open_state'] = 'closed' if rslt.present? && (rslt.length == mids.length)
       end
@@ -27,11 +27,12 @@ module OpenCloseHelper
       t.message.attribs['classes'] << t.attribs['open_state']
     end
 
-    if ids.present?
-      result = CfThread.connection.execute('SELECT thread_id, state FROM opened_closed_threads WHERE thread_id IN (' + ids.join(', ') + ') AND user_id = ' + current_user.user_id.to_s)
-      result.each do |row|
-        thread_map[row['thread_id']]&.attribs['open_state'] = row['state']
-      end
+    return if ids.blank?
+
+    result = CfThread.connection.execute('SELECT thread_id, state FROM opened_closed_threads WHERE thread_id IN (' +
+                                         ids.join(', ') + ') AND user_id = ' + current_user.user_id.to_s)
+    result.each do |row|
+      thread_map[row['thread_id']].attribs['open_state'] = row['state']
     end
   end
 end

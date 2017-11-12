@@ -34,7 +34,7 @@ module MessageHeaderHelper
   end
 
   def message_header_hide_unhide_button(thread)
-    if is_invisible(current_user, thread).blank?
+    if invisible?(current_user, thread).blank?
       cf_button_to(hide_cf_thread_path(thread),
                    params: std_args,
                    class: 'icon-thread mark-invisible',
@@ -299,7 +299,7 @@ module MessageHeaderHelper
   def message_header_user_homepage_link(message)
     return '' if message.homepage.blank?
 
-    if message.owner.try(:has_badge?, 'seo_profi') && (message.owner.try(:conf, 'norelnofollow') == 'yes')
+    if message.owner.try(:badge?, 'seo_profi') && (message.owner.try(:conf, 'norelnofollow') == 'yes')
       ' ' + cf_link_to('', message.homepage, class: 'author-homepage u-url', rel: nil)
     else
       ' ' + cf_link_to('', message.homepage, class: 'author-homepage u-url')
@@ -330,7 +330,8 @@ module MessageHeaderHelper
         html << ' original-poster'
       end
 
-      html << '">' << cf_link_to("<span class=\"visually-hidden\">#{t('messages.link_to_profile_of')} </span>".html_safe +
+      html << '">' << cf_link_to("<span class=\"visually-hidden\">#{t('messages.link_to_profile_of')}" \
+                                 ' </span>'.html_safe +
                                  image_tag(message.owner.avatar(:thumb),
                                            class: "avatar#{' u-photo' if message.owner.avatar.present?}",
                                            alt: t('messages.user_link', user: message.owner.username)),

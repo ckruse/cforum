@@ -13,14 +13,12 @@ class Messages::TwitterController < ApplicationController
 
   def create
     @tweet_text = params[:tweet_text]
-
-    has_error = false
     has_error = params[:tweet_text].blank?
 
     unless has_error
       begin
         twitter_client.update params[:tweet_text]
-      rescue => e
+      rescue Twitter::Error::Unauthorized => e
         has_error = true
         flash.now[:error] = e.message
       end

@@ -21,16 +21,16 @@ class User < ApplicationRecord
 
   has_one :settings, class_name: 'Setting', foreign_key: :user_id, dependent: :destroy
 
-  has_many :group_users, foreign_key: :user_id
+  has_many :group_users, foreign_key: :user_id, dependent: :delete_all
   has_many :groups, through: :group_users
 
   has_many :badge_users, -> { order(:created_at) }, dependent: :delete_all,
                                                     foreign_key: :user_id
   has_many :badges, through: :badge_users
 
-  has_many :messages, foreign_key: :user_id
+  has_many :messages, foreign_key: :user_id, dependent: :nullify
 
-  has_many :subscriptions
+  has_many :subscriptions, dependent: :delete_all
 
   def conf(nam)
     vals = settings.options if settings.present?
@@ -47,9 +47,9 @@ class User < ApplicationRecord
     login = conditions.delete(:login)
 
     if login
-      where(conditions).where(['LOWER(username) = :value OR LOWER(email) = :value', { value: login.downcase }]).first
+      where(conditions).find_by(['LOWER(username) = :value OR LOWER(email) = :value', { value: login.downcase }])
     else
-      where(conditions).first
+      find_by(conditions)
     end
   end
 
@@ -57,7 +57,7 @@ class User < ApplicationRecord
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
-  def has_badge?(type)
+  def badge?(type)
     badges.each do |b|
       return true if b.badge_type == type
     end
@@ -67,7 +67,7 @@ class User < ApplicationRecord
 
   def moderate?(forum = nil)
     return true if admin?
-    return true if has_badge?(Badge::MODERATOR_TOOLS)
+    return true if badge?(Badge::MODERATOR_TOOLS)
     return false if forum.blank?
 
     @permissions ||= {}
@@ -84,7 +84,7 @@ class User < ApplicationRecord
 
   def moderator?
     return true if admin?
-    return true if has_badge?(Badge::MODERATOR_TOOLS)
+    return true if badge?(Badge::MODERATOR_TOOLS)
 
     @is_moderator ||=
       ForumGroupPermission.exists?(['group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) ' \
@@ -95,7 +95,7 @@ class User < ApplicationRecord
     return true if forum.standard_permission == ForumGroupPermission::WRITE
     return true if forum.standard_permission == ForumGroupPermission::KNOWN_WRITE
     return true if admin?
-    return true if has_badge?(Badge::MODERATOR_TOOLS)
+    return true if badge?(Badge::MODERATOR_TOOLS)
 
     @permissions ||= {}
     @permissions[forum.forum_id] ||= ForumGroupPermission
@@ -118,7 +118,7 @@ class User < ApplicationRecord
                    (forum.standard_permission == ForumGroupPermission::KNOWN_WRITE)
 
     return true if admin?
-    return true if has_badge?(Badge::MODERATOR_TOOLS)
+    return true if badge?(Badge::MODERATOR_TOOLS)
 
     @permissions ||= {}
     @permissions[forum.forum_id] ||= ForumGroupPermission

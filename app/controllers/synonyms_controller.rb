@@ -11,11 +11,11 @@ class SynonymsController < ApplicationController
     @tag = Tag.where(forum_id: current_forum.forum_id,
                      slug: params[:tag_id]).first!
 
-    if params[:id]
-      @synonym = TagSynonym.where(forum_id: current_forum.forum_id,
-                                  tag_id: @tag.tag_id,
-                                  tag_synonym_id: params[:id]).first!
-    end
+    return if params[:id].blank?
+
+    @synonym = TagSynonym.where(forum_id: current_forum.forum_id,
+                                tag_id: @tag.tag_id,
+                                tag_synonym_id: params[:id]).first!
   end
 
   def tag_synonym_params
@@ -29,7 +29,7 @@ class SynonymsController < ApplicationController
 
   def create
     @synonym = TagSynonym.new(tag_synonym_params)
-    @synonym.synonym&.downcase!
+    @synonym.synonym.downcase!
     @synonym.forum_id = current_forum.forum_id
     @synonym.tag_id = @tag.tag_id
 

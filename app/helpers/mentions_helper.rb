@@ -37,7 +37,7 @@ module MentionsHelper
     users
   end
 
-  def set_mentions(msg)
+  def save_mentions(msg)
     mentions = find_mentions(msg)
     msg.flags['mentions'] = mentions.map { |user| [user.first.username, user.first.user_id, user.second] }
   end

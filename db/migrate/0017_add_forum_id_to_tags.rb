@@ -38,7 +38,6 @@ class AddForumIdToTags < ActiveRecord::Migration
 
     tag_threads = CfTagThread.includes(:thread).all
     tag_threads.each do |tt|
-      puts '--- working on ' + tt.tag.tag_name
       if tt.tag.forum_id.nil?
         tt.tag.forum_id = tt.thread.forum_id
         tt.tag.save

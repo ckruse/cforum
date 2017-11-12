@@ -18,30 +18,30 @@ RSpec.describe Event, type: :model do
     expect(Event.new(name: 'Foo', description: 'bar', start_date: Time.zone.now)).to be_invalid
   end
 
-  context 'is_attendee' do
+  context 'attendee?' do
     let(:user) { create(:user) }
     let(:attendee) { create(:attendee, user: user) }
 
-    it 'returns the attendee for is_attendee' do
-      expect(attendee.event.is_attendee(user)).to eql attendee
+    it 'returns the attendee for attendee?' do
+      expect(attendee.event.attendee?(user)).to eql attendee
     end
     it 'returns nil when user is not an attendee' do
-      expect(attendee.event.is_attendee(create(:user))).to be_nil
+      expect(attendee.event.attendee?(create(:user))).to be_nil
     end
   end
 
-  context 'is_open?' do
+  context 'open?' do
     it 'returns true when the event is open and visible' do
-      expect(build(:event).is_open?).to be true
+      expect(build(:event).open?).to be true
     end
     it 'returns false when the event is not open' do
-      expect(build(:event, start_date: Date.today - 3, end_date: Date.today - 4).is_open?).to be false
+      expect(build(:event, start_date: Date.today - 3, end_date: Date.today - 4).open?).to be false
     end
     it 'returns false when the event is invisible' do
-      expect(build(:event, visible: false).is_open?).to be false
+      expect(build(:event, visible: false).open?).to be false
     end
     it 'returns true when the event has started but not ended' do
-      expect(build(:event, start_date: Date.today - 3, end_date: Date.today + 3).is_open?).to be true
+      expect(build(:event, start_date: Date.today - 3, end_date: Date.today + 3).open?).to be true
     end
   end
 end

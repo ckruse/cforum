@@ -34,7 +34,7 @@ module CforumMarkup
           matched = matched.gsub(%r{^<br ?/>}, '')
         end
 
-        ncnt << matched.gsub(/#\Z/, '') + (code_open > 0 ? '#' : '\\#')
+        ncnt << matched.gsub(/#\Z/, '') + (code_open.positive? ? '#' : '\\#')
 
       elsif doc.scan(%r{(?:<br ?/>)+})
         in_quote = 0
@@ -68,7 +68,7 @@ module CforumMarkup
         src = ''
 
         src = Regexp.last_match(1) if data =~ /src="([^"]+)"/
-        alt = Regexp.last_match(1) if data =~ /alt="([^"]+)"/
+        alt = Regexp.last_match(1) if data =~ /alt="([^"]+)"/ # rubocop:disable Performance/RegexpMatch
 
         alt = '' if alt.blank?
 
@@ -160,7 +160,7 @@ module CforumMarkup
         consecutive_newlines = 0
 
       elsif doc.scan(%r{\[/code\]})
-        if code_open > 0
+        if code_open.positive?
           if code_open <= 1 # only close code when this [/code] is the last one
             top = code_stack.pop
 
@@ -192,14 +192,14 @@ module CforumMarkup
 
     # broken cforum markup
     if code_stack.present?
-      while top = code_stack.pop
+      while (top = code_stack.pop)
         ncnt = top[0] + '[code' + (top[2].blank? ? ']' : ' lang=' + top[2] + ']') + ncnt
       end
     end
 
     cnt = ''
     ncnt.lines.each_with_index do |l, i|
-      if l =~ /^(?:(> )*)~~~/ && i > 0
+      if l =~ /^(?:(> )*)~~~/ && i.positive?
         q = Regexp.last_match(1)
         cnt << "#{q}\n" if ncnt.lines[i - 1] !~ /^(> )*$/
       end

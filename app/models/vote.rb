@@ -7,7 +7,7 @@ class Vote < ApplicationRecord
 
   belongs_to :user
   belongs_to :message
-  has_one :score
+  has_one :score, dependent: :delete
 
   validates :user_id, :message_id, :vtype, presence: true
   validates :message_id, uniqueness: { scope: :user_id }

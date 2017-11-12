@@ -15,33 +15,17 @@ module LinkTagsHelper
   end
 
   def prev_link(thread, message)
-    thread.sorted_messages.each_with_index do |m, i|
-      next if m.message_id != message.message_id
-
-      if i > 0
-        return '<link rel="prev" href="' + message_path(thread, thread.sorted_messages[i - 1]) +
-               '" title="' + t('plugins.link_tags.prev_msg') + '">'
-      end
-
-      return ''
-    end
-
-    ''
+    index = thread.sorted_messages.find_index { |m| m.message_id == message.message_id }
+    return '' if index.nil? || index.zero?
+    '<link rel="prev" href="' + message_path(thread, thread.sorted_messages[index - 1]) +
+      '" title="' + t('plugins.link_tags.prev_msg') + '">'
   end
 
   def next_link(thread, message)
-    thread.sorted_messages.each_with_index do |m, i|
-      next if m.message_id != message.message_id
-
-      if thread.sorted_messages[i + 1]
-        return '<link rel="next" href="' + message_path(thread, thread.sorted_messages[i + 1]) +
-               '" title="' + t('plugins.link_tags.next_msg') + '">'
-      end
-
-      return ''
-    end
-
-    ''
+    index = thread.sorted_messages.find_index { |m| m.message_id == message.message_id }
+    return '' if index.nil? || thread.sorted_messages[index + 1].blank?
+    '<link rel="next" href="' + message_path(thread, thread.sorted_messages[index + 1]) +
+      '" title="' + t('plugins.link_tags.next_msg') + '">'
   end
 
   def thread_list_link_tags

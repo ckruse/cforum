@@ -33,7 +33,7 @@ class CfThread < ApplicationRecord
   end
 
   def find_by_mid!(mid)
-    m = find_by_mid(mid)
+    m = find_by_mid(mid) # rubocop:disable Rails/DynamicFindBy
     raise ActiveRecord::RecordNotFound if m.blank?
     m
   end
@@ -54,14 +54,14 @@ class CfThread < ApplicationRecord
     @sorted_messages = messages.sort do |a, b|
       ret = a.parent_id.to_i <=> b.parent_id.to_i
 
-      if ret == 0
+      if ret.zero?
         ret = if direction == 'ascending'
                 a.created_at <=> b.created_at
               else
                 b.created_at <=> a.created_at
               end
 
-        ret = a.message_id <=> b.message_id if ret == 0
+        ret = a.message_id <=> b.message_id if ret.zero?
       end
 
       ret
@@ -70,7 +70,7 @@ class CfThread < ApplicationRecord
     @sorted_messages.first.attribs[:level] = 0
     prev = nil
 
-    for msg in @sorted_messages
+    @sorted_messages.each do |msg|
       accepted << msg if msg.flags['accepted'] == 'yes'
       @message = msg if msg.parent_id.blank?
 
@@ -90,12 +90,10 @@ class CfThread < ApplicationRecord
 
           map[msg.parent_id].messages << msg
           msg.parent_level = map[msg.parent_id]
-        else
-          if @sorted_messages[0].message_id != msg.message_id
-            msg.attribs[:level] = 1
-            @sorted_messages[0].messages << msg
-            msg.parent_level = @sorted_messages[0]
-          end
+        elsif @sorted_messages[0].message_id != msg.message_id
+          msg.attribs[:level] = 1
+          @sorted_messages[0].messages << msg
+          msg.parent_level = @sorted_messages[0]
         end
       end
     end
@@ -105,11 +103,11 @@ class CfThread < ApplicationRecord
     now = thread.message.created_at
     now = Time.now if now.nil?
 
-    s = now.strftime('/%Y/%b/%d/').gsub(/0(\d)\/$/, '\1/').downcase
+    s = now.strftime('/%Y/%b/%d/').gsub(%r{0(\d)/$}, '\1/').downcase
     s << num.to_s + '-' if num.present?
     s << thread.message.subject.to_s.gsub(/[<>]/, '').to_url
 
-    s.gsub(/[^a-z0-9_\/-]/, '')
+    s.gsub(%r{[^a-z0-9_/-]}, '')
   end
 
   def self.make_id(year, mon = nil, day = nil, tid = nil)
@@ -119,14 +117,6 @@ class CfThread < ApplicationRecord
       '/' + year[:year].to_s + '/' + year[:mon].to_s + '/' + year[:day].to_s + '/' + year[:tid].to_s
     end
   end
-
-  # default_scope do
-  #   where('EXISTS (SELECT thread_id FROM cforum.messages WHERE thread_id = cforum.threads.thread_id AND deleted = false)')
-  # end
-
-  # before_create do |t|
-  #   t.slug = CfThread.gen_id(t) if t.slug.blank?
-  # end
 
   after_initialize do
     self.attribs ||= { 'classes' => [] }
@@ -141,8 +131,8 @@ class CfThread < ApplicationRecord
       forbidden = true if (message.user_id != usr.user_id) && !usr.admin?
     elsif message.uuid.blank? # has message not been posted anonymously?
       forbidden = true
-    else
-      forbidden = true if uuid != message.uuid
+    elsif uuid != message.uuid
+      forbidden = true
     end
 
     forbidden

@@ -48,17 +48,18 @@ RSpec.describe CfThread, type: :model do
     end
 
     it 'finds a message by mid' do
-      expect(message.thread.find_by_mid(1)).to eq message
+      expect(message.thread.find_by_mid(1)).to eq message # rubocop:disable Rails/DynamicFindBy
     end
     it "returns nil when message doesn't exist" do
-      expect(message.thread.find_by_mid(-1)).to be nil
+      expect(message.thread.find_by_mid(-1)).to be nil # rubocop:disable Rails/DynamicFindBy
     end
 
     it 'finds a message by mid' do
-      expect(message.thread.find_by_mid!(1)).to eq message
+      expect(message.thread.find_by_mid!(1)).to eq message # rubocop:disable Rails/DynamicFindBy
     end
     it "throws an exception when message doesn't exist" do
-      expect { message.thread.find_by_mid!(-1) }.to raise_error ActiveRecord::RecordNotFound
+      expect { message.thread.find_by_mid!(-1) } # rubocop:disable Rails/DynamicFindBy
+        .to raise_error ActiveRecord::RecordNotFound
     end
   end
 
@@ -69,7 +70,7 @@ RSpec.describe CfThread, type: :model do
       thread.message.subject = 'The Rebellion'
 
       expect(CfThread.gen_id(thread)).to eq(thread.created_at.strftime('/%Y/%b/%d/')
-                                             .gsub(/0(\d)\/$/, '\1/').downcase +
+                                             .gsub(%r{0(\d)/$}, '\1/').downcase +
                                             'the-rebellion')
     end
 

@@ -75,7 +75,9 @@ RSpec.describe Admin::GroupsController, type: :controller do
       it 'creates permissions as an association' do
         forums = create_list(:forum, 3)
         expect do
-          post :create, params: { group: attributes_for(:group), forums: forums.map(&:forum_id), permissions: %w[read read read] }
+          post(:create, params: { group: attributes_for(:group),
+                                  forums: forums.map(&:forum_id),
+                                  permissions: %w[read read read] })
         end.to change(ForumGroupPermission, :count).by(3)
       end
     end
@@ -132,7 +134,10 @@ RSpec.describe Admin::GroupsController, type: :controller do
         forums = create_list(:forum, 3)
         group.forums_groups_permissions.clear
         expect do
-          post :update, params: { id: group.to_param, group: new_attributes, forums: forums.map(&:forum_id), permissions: %w[read read read] }
+          post(:update, params: { id: group.to_param,
+                                  group: new_attributes,
+                                  forums: forums.map(&:forum_id),
+                                  permissions: %w[read read read] })
         end.to change(ForumGroupPermission, :count).by(3)
       end
     end

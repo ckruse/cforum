@@ -1,3 +1,4 @@
+# rubocop:disable Style/ClassVars
 class SettingValidator < ActiveModel::EachValidator
   @@validators = {}
   def self.validators

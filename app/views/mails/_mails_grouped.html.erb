@@ -1,5 +1,5 @@
 <% @mail_groups_keys.each do |mg_key| %>
-  <% has_unread = has_unread?(@mail_groups[mg_key]) %>
+  <% has_unread = unread?(@mail_groups[mg_key]) %>
   <% is_only_mail = @mail_groups[mg_key].length <= 1 %>
   <tbody <% if has_unread %> class="open"<% end %>>
     <% @mail_groups[mg_key].each_with_index do |m, i| %>

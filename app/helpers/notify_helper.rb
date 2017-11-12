@@ -29,9 +29,9 @@ module NotifyHelper
   def check_for_deleting_notification(thread, message)
     had_one = false
 
-    if user = current_user
+    if current_user.present?
       n = Notification
-            .where(recipient_id: user.user_id,
+            .where(recipient_id: current_user.user_id,
                    oid: message.message_id)
             .where("otype IN ('message:create-answer','message:create-activity', 'message:mention')")
             .first
@@ -51,7 +51,7 @@ module NotifyHelper
       end
 
       n = Notification
-            .where(recipient_id: user.user_id,
+            .where(recipient_id: current_user.user_id,
                    oid: thread.thread_id,
                    is_read: false)
             .where("otype IN ('thread:moved')")

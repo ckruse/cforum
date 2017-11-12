@@ -6,7 +6,7 @@ xml.rss :version => '2.0', 'xmlns:atom' => 'http://www.w3.org/2005/Atom' do
     xml.link forum_url(current_forum)
     xml.tag! 'atom:link', rel: 'self', type: 'application/rss+xml', href: forum_url(current_forum, format: :rss)
 
-    for thread in @threads
+    @threads.each do |thread|
       xml.item do
         xml.title thread.message.subject
         xml.description thread.message.to_html(@app_controller)

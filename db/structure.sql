@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.3
--- Dumped by pg_dump version 9.6.3
+-- Dumped from database version 10.1
+-- Dumped by pg_dump version 10.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -697,6 +697,7 @@ CREATE TABLE attendees (
 --
 
 CREATE SEQUENCE attendees_attendee_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -762,6 +763,7 @@ CREATE TABLE badge_groups (
 --
 
 CREATE SEQUENCE badge_groups_badge_group_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -810,6 +812,7 @@ CREATE TABLE badges_badge_groups (
 --
 
 CREATE SEQUENCE badges_badge_groups_badges_badge_group_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -829,6 +832,7 @@ ALTER SEQUENCE badges_badge_groups_badges_badge_group_id_seq OWNED BY badges_bad
 --
 
 CREATE SEQUENCE badges_badge_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1070,6 +1074,7 @@ CREATE TABLE events (
 --
 
 CREATE SEQUENCE events_event_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1102,6 +1107,7 @@ CREATE TABLE forum_stats (
 --
 
 CREATE SEQUENCE forum_stats_forum_stat_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1129,7 +1135,7 @@ CREATE TABLE forums (
     name character varying NOT NULL,
     description character varying,
     standard_permission character varying(50) DEFAULT 'private'::character varying NOT NULL,
-    keywords character varying(255),
+    keywords character varying,
     "position" integer DEFAULT 0 NOT NULL
 );
 
@@ -1430,7 +1436,7 @@ CREATE TABLE messages (
     content character varying NOT NULL,
     flags hstore,
     uuid character varying(250),
-    ip character varying(255),
+    ip character varying,
     editor_id bigint,
     format character varying(100) DEFAULT 'markdown'::character varying NOT NULL,
     edit_author text,
@@ -1721,7 +1727,7 @@ ALTER SEQUENCE redirections_redirection_id_seq OWNED BY redirections.redirection
 --
 
 CREATE TABLE schema_migrations (
-    version character varying(255) NOT NULL
+    version character varying NOT NULL
 );
 
 
@@ -1820,6 +1826,7 @@ CREATE TABLE search_sections (
 --
 
 CREATE SEQUENCE search_sections_search_section_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1881,6 +1888,7 @@ CREATE TABLE subscriptions (
 --
 
 CREATE SEQUENCE subscriptions_subscription_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1937,8 +1945,7 @@ CREATE TABLE tags (
     forum_id bigint NOT NULL,
     num_messages bigint DEFAULT 0 NOT NULL,
     suggest boolean DEFAULT true NOT NULL
-)
-WITH (fillfactor='90');
+);
 
 
 --
@@ -2016,6 +2023,7 @@ CREATE TABLE twitter_authorizations (
 --
 
 CREATE SEQUENCE twitter_authorizations_twitter_authorization_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2056,8 +2064,8 @@ CREATE TABLE users (
     last_sign_in_ip character varying,
     current_sign_in_ip character varying,
     sign_in_count integer,
-    avatar_file_name character varying(255),
-    avatar_content_type character varying(255),
+    avatar_file_name character varying,
+    avatar_content_type character varying,
     avatar_file_size integer,
     avatar_updated_at timestamp without time zone,
     score integer DEFAULT 0 NOT NULL,
@@ -2730,6 +2738,14 @@ ALTER TABLE ONLY redirections
 
 
 --
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
 -- Name: scores scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3177,13 +3193,6 @@ CREATE INDEX threads_sticky_created_at_idx ON threads USING btree (sticky, creat
 --
 
 CREATE INDEX threads_tid_idx ON threads USING btree (tid);
-
-
---
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
 
 
 --

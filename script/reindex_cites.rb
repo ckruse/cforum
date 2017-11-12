@@ -17,14 +17,15 @@ def root_path
 end
 
 def root_url
-  (ActionMailer::Base.default_url_options[:protocol] || 'http') + '://' + ActionMailer::Base.default_url_options[:host] + root_path
+  (ActionMailer::Base.default_url_options[:protocol] || 'http') + '://' +
+    ActionMailer::Base.default_url_options[:host] + root_path
 end
 
 def conf(name)
-  $config_manager.get(name, nil, nil)
+  $config_manager.get(name, nil, nil) # rubocop:disable Style/GlobalVars
 end
 
-$config_manager = ConfigManager.new
+$config_manager = ConfigManager.new # rubocop:disable Style/GlobalVars
 section = SearchSection.find_by(name: I18n.t('cites.cites'))
 no_messages = 1000
 current_block = 0
@@ -34,7 +35,7 @@ start_date = Time.zone.parse(ARGV[0]) unless ARGV.empty?
 section = SearchSection.create!(name: I18n.t('cites.cites'), position: -1) if section.blank?
 base_relevance = conf('search_cites_relevance')
 
-begin
+loop do
   cites = Cite
             .includes(:user, :creator_user)
             .order(:cite_id)
@@ -70,6 +71,8 @@ begin
       puts cite.created_at.strftime('%Y-%m-%d') + ' - ' + cite.message_id.to_s if i == no_messages - 1
     end
   end
-end while cites.present?
+
+  break if cites.blank?
+end
 
 # eof

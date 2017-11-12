@@ -1,6 +1,11 @@
 class VoteBadgeDistributorJob < ApplicationJob
   queue_as :default
 
+  def give_controverse(user)
+    b = user.badges.find { |user_badge| user_badge.slug == 'controverse' }
+    give_badge(user, Badge.where(slug: 'controverse').first!) if b.blank?
+  end
+
   def check_for_owner_vote_badges(user, message)
     badges = [
       { votes: 1, name: 'donee' },
@@ -17,11 +22,6 @@ class VoteBadgeDistributorJob < ApplicationJob
         b = user.badges.find { |user_badge| user_badge.slug == badge[:name] }
         give_badge(user, Badge.where(slug: badge[:name]).first!) if b.blank?
       end
-    end
-
-    if (message.upvotes >= 5) && (message.downvotes >= 5)
-      b = user.badges.find { |user_badge| user_badge.slug == 'controverse' }
-      give_badge(user, Badge.where(slug: 'controverse').first!) if b.blank?
     end
   end
 
@@ -46,10 +46,10 @@ class VoteBadgeDistributorJob < ApplicationJob
       user_should_have_badges += 1 if all_user_votes >= vote_no
     end
 
-    if user_should_have_badges - all_user_badges > 0
-      (user_should_have_badges - all_user_badges).times do
-        give_badge(vote.user, voter_badge)
-      end
+    return unless (user_should_have_badges - all_user_badges).positive?
+
+    (user_should_have_badges - all_user_badges).times do
+      give_badge(vote.user, voter_badge)
     end
   end
 
@@ -57,7 +57,8 @@ class VoteBadgeDistributorJob < ApplicationJob
     message = nil
     vote = nil
 
-    logger.debug "starting VoteBadgeDistributorJob with arguments #{vote_id.inspect}, #{message_id.inspect}, #{type.inspect}"
+    logger.debug "starting VoteBadgeDistributorJob with arguments #{vote_id.inspect}," \
+                 " #{message_id.inspect}, #{type.inspect}"
 
     if message_id
       message = Message.where(message_id: message_id).first
@@ -79,7 +80,10 @@ class VoteBadgeDistributorJob < ApplicationJob
       return if message.user_id.blank?
 
       logger.debug "type: #{type} - pre check_for_owner_vote_badges"
-      check_for_owner_vote_badges(message.owner, message) if type == 'voted'
+      if type == 'voted'
+        check_for_owner_vote_badges(message.owner, message)
+        give_controverse(message.owner) if (message.upvotes >= 5) && (message.downvotes >= 5)
+      end
 
       score = message.owner.score
       badges = Badge.where('score_needed <= ?', score)
@@ -93,7 +97,7 @@ class VoteBadgeDistributorJob < ApplicationJob
 
         next if found
         logger.debug 'giving badge!'
-        message.owner.badge_users.create(badge_id: b.badge_id, created_at: DateTime.now, updated_at: DateTime.now)
+        message.owner.badge_users.create(badge_id: b.badge_id, created_at: Time.zone.now, updated_at: Time.zone.now)
         message.owner.reload
         audit(message.owner, 'badge-gained', nil)
         notify_user(message.owner, '', I18n.t('badges.badge_won',

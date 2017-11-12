@@ -25,13 +25,13 @@ class CfThreadsController < ApplicationController
 
     ret = show_threads_functions(@threads)
 
-    unless ret == :redirected
-      respond_to do |format|
-        format.html
-        format.json { render json: @threads, include: { messages: { include: %i[owner tags] } } }
-        format.rss
-        format.atom
-      end
+    return if ret == :redirected
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @threads, include: { messages: { include: %i[owner tags] } } }
+      format.rss
+      format.atom
     end
   end
 
@@ -90,9 +90,9 @@ class CfThreadsController < ApplicationController
 
     @thread.forum_id = @forum.forum_id
     set_message_attibutes(@message, @thread)
-    set_mentions(@message)
+    save_mentions(@message)
     @thread.latest_message = @message.created_at
-    invalid = true unless set_message_author(@message)
+    invalid = true unless message_author(@message)
 
     @tags    = parse_tags
     @preview = true if params[:preview]
@@ -103,7 +103,7 @@ class CfThreadsController < ApplicationController
       flash.now[:error] = t('global.spam_filter')
     end
 
-    set_user_cookies(@message)
+    save_user_cookies(@message)
 
     saved = false
     if !invalid && !@preview
@@ -144,13 +144,13 @@ class CfThreadsController < ApplicationController
     @thread.gen_tree
     @forums = Forum.order(name: :asc)
 
-    unless current_user.admin
-      @forums = Forum.where('forum_id IN ' \
-                            '  (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) ' \
-                            '   WHERE user_id = ? AND permission = ?)',
-                            current_user.user_id,
-                            ForumGroupPermission::MODERATE)
-    end
+    return if current_user.admin
+
+    @forums = Forum.where('forum_id IN ' \
+                          '  (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) ' \
+                          '   WHERE user_id = ? AND permission = ?)',
+                          current_user.user_id,
+                          ForumGroupPermission::MODERATE)
   end
 
   def move
@@ -254,7 +254,7 @@ class CfThreadsController < ApplicationController
     mark_threads_interesting(threads)
     leave_out_invisible_for_threadlist(threads)
     thread_list_link_tags
-    is_read_threadlist(threads)
+    read_threadlist?(threads)
     open_close_threadlist(threads)
     mark_threads_subscribed(threads)
   end

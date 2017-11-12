@@ -17,11 +17,11 @@
 
 <% if may?(Badge::VISIT_CLOSE_REOPEN) and not m.open_vote.finished %>
   <p>
-    <%= cf_link_to(m.open_vote.has_voted?(current_user) ?
+    <%= cf_link_to(m.open_vote.voted?(current_user) ?
                    t('messages.close_vote.take_back') :
                    t('messages.close_vote.agreeing'),
                    open_message_path(@thread, m),
-                   class:  (m.open_vote.has_voted?(current_user) ? "cf-primary-btn" : 'cf-btn'),
+                   class:  (m.open_vote.voted?(current_user) ? "cf-primary-btn" : 'cf-btn'),
                    method: :patch) %>
   </p>
 <% end %>

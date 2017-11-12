@@ -16,25 +16,26 @@ def root_path
 end
 
 def root_url
-  (ActionMailer::Base.default_url_options[:protocol] || 'http') + '://' + ActionMailer::Base.default_url_options[:host] + root_path
+  (ActionMailer::Base.default_url_options[:protocol] || 'http') + '://' +
+    ActionMailer::Base.default_url_options[:host] + root_path
 end
 
 def conf(name)
-  $config_manager.get(name, nil, nil)
+  $config_manager.get(name, nil, nil) # rubocop:disable Style/GlobalVars
 end
 
 def uconf(name)
   conf(name)
 end
 
-$config_manager = ConfigManager.new
+$config_manager = ConfigManager.new # rubocop:disable Style/GlobalVars
 sections = {}
 no_messages = 1000
 current_block = 0
 start_date = nil
 start_date = Time.zone.parse(ARGV[0]) unless ARGV.empty?
 
-begin
+loop do
   msgs = Message
            .includes(:thread, :forum, :tags)
            .order(:message_id)
@@ -69,7 +70,8 @@ begin
       doc.content = m.to_search(self, notify_mentions: false)
       doc.search_section_id = sections[m.forum_id].search_section_id
       doc.url = message_url(m.thread, m)
-      doc.relevance = base_relevance.to_f + (m.score.to_f / 10.0) + (m.flags['accepted'] == 'yes' ? 0.5 : 0.0) + ('0.0' + m.created_at.year.to_s).to_f
+      doc.relevance = base_relevance.to_f + (m.score.to_f / 10.0) + (m.flags['accepted'] == 'yes' ? 0.5 : 0.0) +
+                      ('0.0' + m.created_at.year.to_s).to_f
       doc.lang = Cforum::Application.config.search_dict
       doc.document_created = m.created_at
       doc.tags = m.tags.map { |t| t.tag_name.downcase }
@@ -81,6 +83,8 @@ begin
       puts m.created_at.strftime('%Y-%m-%d') + ' - ' + m.message_id.to_s if i == no_messages - 1
     end
   end
-end while msgs.present?
+
+  break if msgs.blank?
+end
 
 # eof

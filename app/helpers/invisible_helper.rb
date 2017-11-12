@@ -13,7 +13,7 @@ module InvisibleHelper
     thread.each do |t|
       begin
         Message.connection.execute(sql + t.to_s + ')')
-      rescue ActiveRecord::RecordNotUnique
+      rescue ActiveRecord::RecordNotUnique # rubocop:disable Lint/HandleExceptions
       end
     end
 
@@ -37,7 +37,7 @@ module InvisibleHelper
     end
   end
 
-  def is_invisible(user, thread, invalidate_cache = false)
+  def invisible?(user, thread, invalidate_cache = false)
     return if user.blank?
 
     thread = [thread] if !thread.is_a?(Array) && !thread.is_a?(ActiveRecord::Relation)
@@ -71,7 +71,9 @@ module InvisibleHelper
 
     invisible_threads = []
 
-    result = CfThread.connection.execute('SELECT thread_id FROM invisible_threads WHERE thread_id IN (' + thread.join(', ') + ') AND user_id = ' + user_id.to_s)
+    # TODO: this smells…
+    result = CfThread.connection.execute('SELECT thread_id FROM invisible_threads WHERE ' \
+                                         '  thread_id IN (' + thread.join(', ') + ') AND user_id = ' + user_id.to_s)
     result.each do |row|
       t = row['thread_id']
       invisible_threads << t
@@ -86,7 +88,9 @@ module InvisibleHelper
   def leave_out_invisible(threads)
     return threads if current_user.blank? || @view_all
     @invisible_modified = true
-    threads.where('NOT EXISTS(SELECT thread_id FROM invisible_threads WHERE user_id = ? AND invisible_threads.thread_id = threads.thread_id)', current_user.user_id)
+    threads.where('NOT EXISTS(SELECT thread_id FROM invisible_threads ' \
+                  '  WHERE user_id = ? AND invisible_threads.thread_id = threads.thread_id)',
+                  current_user.user_id)
   end
 
   def leave_out_invisible_for_threadlist(threads)
@@ -105,7 +109,7 @@ module InvisibleHelper
       set_cached_entry(:invisible, current_user.user_id, cache)
     else
       # we build up the cache to avoid threads.length queries
-      is_invisible(current_user, threads)
+      invisible?(current_user, threads)
     end
   end
 end

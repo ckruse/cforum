@@ -4,7 +4,7 @@ class AttendeesController < ApplicationController
 
   authorize_controller do
     set_event
-    if @event.is_open?
+    if @event.open?
       true
     else
       false
@@ -22,7 +22,9 @@ class AttendeesController < ApplicationController
 
   # GET /attendees/new
   def new
-    @attendee = Attendee.new(event_id: @event.event_id, planned_arrival: @event.start_date, planned_leave: @event.end_date)
+    @attendee = Attendee.new(event_id: @event.event_id,
+                             planned_arrival: @event.start_date,
+                             planned_leave: @event.end_date)
   end
 
   # POST /attendees
@@ -79,7 +81,9 @@ class AttendeesController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def attendee_params
-    params.require(:attendee).permit(:name, :comment, :starts_at, :planned_start, :planned_arrival, :planned_leave, :seats)
+    params.require(:attendee).permit(:name, :comment, :starts_at,
+                                     :planned_start, :planned_arrival,
+                                     :planned_leave, :seats)
   end
 
   def notify_admins_about_attendee

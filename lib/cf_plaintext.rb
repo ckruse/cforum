@@ -283,9 +283,11 @@ class Kramdown::Converter::Plain < Kramdown::Converter::Base
         insert_space = false
       end
 
-      para.children << Kramdown::Element.new(:raw, format(FOOTNOTE_BACKLINK_FMT, insert_space ? ' ' : '', name, '&#8617;'))
+      para.children << Kramdown::Element.new(:raw, format(FOOTNOTE_BACKLINK_FMT, insert_space ? ' ' : '',
+                                                          name, '&#8617;'))
       (1..repeat).each do |index|
-        para.children << Kramdown::Element.new(:raw, format(FOOTNOTE_BACKLINK_FMT, ' ', "#{name}:#{index}", "&#8617;<sup>#{index + 1}</sup>"))
+        para.children << Kramdown::Element.new(:raw, format(FOOTNOTE_BACKLINK_FMT, ' ', "#{name}:#{index}",
+                                                            "&#8617;<sup>#{index + 1}</sup>"))
       end
 
       ol.children << Kramdown::Element.new(:raw, convert(li))

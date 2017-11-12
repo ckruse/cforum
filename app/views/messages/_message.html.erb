@@ -38,7 +38,7 @@ controls ||= :yes
       <% if controls == :yes && !m.deleted %>
         <div class="controls">
           <% if m.open? and @thread.forum.write?(current_user) %>
-            <% if may_answer(m) %>
+            <% if may_answer?(m) %>
               <%= cf_link_to(t("messages.new_answer"), new_message_path(@thread, m),
                              class: 'cf-btn btn-answer', rel: 'nofollow') %>
 

@@ -48,7 +48,8 @@ class Medium < ApplicationRecord
         fd = File.open(path + fname, File::WRONLY | File::EXCL | File::CREAT)
         fd.close
         return path, fname
-      rescue
+      rescue Errno::EEXIST
+        next
       end
 
     end
@@ -59,11 +60,7 @@ class Medium < ApplicationRecord
   after_destroy do |_record|
     %i[orig medium thumb].each do |style|
       fname = full_path(style)
-
-      begin
-        File.unlink(fname) if File.exist?(fname)
-      rescue
-      end
+      File.unlink(fname) if File.exist?(fname) && File.writable?(fname)
     end
   end
 end

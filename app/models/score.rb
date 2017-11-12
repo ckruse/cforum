@@ -10,7 +10,7 @@ class Score < ApplicationRecord
   validates :user_id, :value, presence: true
   # TODO: validate one of :vote_id, :message_id
 
-  def get_message
+  def get_message # rubocop:disable Naming/AccessorMethodName
     return if vote_id.blank? && message_id.blank?
     return message if vote_id.blank?
     vote.message

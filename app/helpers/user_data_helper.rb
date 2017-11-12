@@ -2,7 +2,7 @@ module UserDataHelper
   def gen_content(content, name, std_replacement = '')
     content ||= ''
 
-    if current_user
+    if current_user.present?
       greeting  = uconf('greeting')
       farewell  = uconf('farewell')
       signature = uconf('signature')
@@ -27,12 +27,11 @@ module UserDataHelper
   end
 
   def set_user_data_vars(msg, parent = nil)
-    if user = current_user
-      msg.email    ||= user.conf('email')
-      msg.homepage ||= user.conf('url')
+    if current_user.present?
+      msg.email    ||= current_user.conf('email')
+      msg.homepage ||= current_user.conf('url')
 
-      msg.content = gen_content(msg.content, parent.try(:author),
-                                ' ' + I18n.t('plugins.user_data.all'))
+      msg.content = gen_content(msg.content, parent.try(:author), ' ' + I18n.t('plugins.user_data.all'))
 
     else
       msg.author    ||= cookies[:cforum_author]

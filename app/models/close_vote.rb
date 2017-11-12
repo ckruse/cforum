@@ -11,13 +11,13 @@ class CloseVote < ApplicationRecord
   validates :reason, presence: true, inclusion: { in: REASONS }
 
   validates :duplicate_slug, presence: true,
-                             format: { with: /\A\/\d{4}\/\w{3}\/\d{1,2}\/[\w-]+\/\d+\z/ },
+                             format: { with: %r{\A/\d{4}/\w{3}/\d{1,2}/[\w-]+/\d+\z} },
                              if: proc { |cv| cv.reason == 'duplicate' }
 
   validates :custom_reason, presence: true,
                             if: proc { |cv| cv.reason == 'custom' }
 
-  def has_voted?(user)
+  def voted?(user)
     user = user.user_id if user.respond_to? :user_id
 
     voters.each do |v|

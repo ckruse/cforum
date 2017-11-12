@@ -19,7 +19,7 @@ class NotifyNewMessageJob < ApplicationJob
       end
 
       sent_mails[user.email] = true
-    rescue => e
+    rescue => e # rubocop:disable Lint/RescueWithoutErrorClass
       Rails.logger.error('Error sending mail to ' + user.email.to_s + ': ' + e.message + "\n" + e.backtrace.join("\n"))
     end
   end
@@ -86,9 +86,10 @@ class NotifyNewMessageJob < ApplicationJob
     Rails.logger.debug('notify new task: send mention mail to ' + user.email)
 
     begin
-      NotifyNewMailer.new_mention(user, @thread, @message, message_url(@thread, @message), @message.to_txt).deliver_later
+      NotifyNewMailer.new_mention(user, @thread, @message,
+                                  message_url(@thread, @message), @message.to_txt).deliver_later
       sent_mails[user.email] = true
-    rescue => e
+    rescue => e # rubocop:disable Lint/RescueWithoutErrorClass
       Rails.logger.error('Error sending mail to ' + user.email.to_s + ': ' + e.message + "\n" + e.backtrace.join("\n"))
     end
   end

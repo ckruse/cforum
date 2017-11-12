@@ -6,13 +6,22 @@ module ThreadsHelper
       session.delete :srt
     end
 
-    return threads if current_user.blank? || @view_all || (uconf('hide_read_threads') != 'yes') || session[:srt] || (controller_path == 'cf_archive')
+    if current_user.blank? || @view_all || (uconf('hide_read_threads') != 'yes') ||
+       session[:srt] || (controller_path == 'cf_archive')
+      return threads
+    end
 
-    threads.where('EXISTS(SELECT a.message_id FROM messages a LEFT JOIN read_messages b ON a.message_id = b.message_id AND b.user_id = ? WHERE thread_id = threads.thread_id AND read_message_id IS NULL AND a.deleted = false) OR EXISTS(SELECT a.message_id FROM messages AS a INNER JOIN interesting_messages USING(message_id) WHERE thread_id = threads.thread_id AND interesting_messages.user_id = ? AND deleted = false)',
+    threads.where('EXISTS(SELECT a.message_id FROM messages a ' \
+                  '  LEFT JOIN read_messages b ON a.message_id = b.message_id AND b.user_id = ? ' \
+                  '  WHERE thread_id = threads.thread_id AND read_message_id IS NULL AND a.deleted = false) OR ' \
+                  'EXISTS(SELECT a.message_id FROM messages AS a ' \
+                  '  INNER JOIN interesting_messages USING(message_id) ' \
+                  '  WHERE thread_id = threads.thread_id AND interesting_messages.user_id = ? AND deleted = false)',
                   current_user.user_id, current_user.user_id)
   end
 
-  def get_threads(forum, order = 'threads.created_at DESC', user = current_user, with_sticky = false, thread_conditions = {})
+  def get_threads(forum, order = 'threads.created_at DESC', user = current_user,
+                  with_sticky = false, thread_conditions = {})
     conditions = {}
     conditions[:forum_id] = forum.forum_id if forum
     conditions[:archived] = false
@@ -42,22 +51,26 @@ module ThreadsHelper
     if forum
       @threads = @threads.where(forum_id: forum.forum_id)
       @sticky_threads = @sticky_threads.where(forum_id: forum.forum_id) if with_sticky
-    else
-      if !user || !user.admin?
-        crits = []
-        crits << 'threads.forum_id IN (SELECT forum_id FROM forums_groups_permissions INNER JOIN groups_users USING(group_id) WHERE user_id = ' + user.user_id.to_s + ')' if user
-        crits << "threads.forum_id IN (SELECT forum_id FROM forums WHERE standard_permission IN ('" +
-                 ForumGroupPermission::READ + "','" +
-                 ForumGroupPermission::WRITE +
-                 (user ? ("', '" +
-                          ForumGroupPermission::KNOWN_WRITE + "','" +
-                          ForumGroupPermission::KNOWN_READ) : ''
-                 ) +
-                 "'))"
-
-        @threads = @threads.where(crits.join(' OR '))
-        @sticky_threads = @sticky_threads.where(crits.join(' OR ')) if with_sticky
+    elsif !user || !user.admin?
+      crits = []
+      if user
+        crits << 'threads.forum_id IN (SELECT forum_id FROM forums_groups_permissions ' \
+                 '  INNER JOIN groups_users USING(group_id) WHERE user_id = ' + user.user_id.to_s + ')'
       end
+
+      additional_perms = if user
+                           "', '" + ForumGroupPermission::KNOWN_WRITE + "','" + ForumGroupPermission::KNOWN_READ
+                         else
+                           ''
+                         end
+
+      crits << "threads.forum_id IN (SELECT forum_id FROM forums WHERE standard_permission IN ('" +
+               ForumGroupPermission::READ + "','" +
+               ForumGroupPermission::WRITE +
+               additional_perms + "'))"
+
+      @threads = @threads.where(crits.join(' OR '))
+      @sticky_threads = @sticky_threads.where(crits.join(' OR ')) if with_sticky
     end
 
     @threads = @threads.order(order)
@@ -100,7 +113,9 @@ module ThreadsHelper
                        .joins(:messages)
                        .where(archived: false, deleted: false, messages: { deleted: false })
                        .where('threads.forum_id IN (?)', Forum.visible_forums(current_user).select(:forum_id))
-                       .where("(messages.flags->'no-answer-admin' = 'no' OR (messages.flags->'no-answer-admin') IS NULL) AND (messages.flags->'no-answer' = 'no' OR (messages.flags->'no-answer') IS NULL)")
+                       .where("(messages.flags->'no-answer-admin' = 'no' OR " \
+                              "  (messages.flags->'no-answer-admin') IS NULL) AND " \
+                              "  (messages.flags->'no-answer' = 'no' OR (messages.flags->'no-answer') IS NULL)")
                        .group('threads.thread_id')
                        .having('COUNT(*) <= 1')
 
@@ -111,7 +126,7 @@ module ThreadsHelper
     if uconf('page_messages') == 'yes'
       if page.nil?
         @page  = params[:p].to_i
-        @page  = 0 if @page < 0
+        @page  = 0 if @page.negative?
       elsif page >= 0
         @page = page
       end
@@ -136,14 +151,14 @@ module ThreadsHelper
     return @threads.to_sql, @sticky_threads.to_sql if only_sql
 
     if gen_tree
-      for t in @threads
+      @threads.each do |t|
         sort_thread(t)
       end
     end
 
     if with_sticky
       if gen_tree
-        for t in @sticky_threads
+        @sticky_threads.each do |t|
           sort_thread(t)
         end
       end
@@ -162,9 +177,17 @@ module ThreadsHelper
     html << ' ' << thread.attribs['classes'].join(' ') if thread.attribs['classes'].present?
     html << '" id="t' << thread.thread_id.to_s << '">'
 
-    html << '<i class="no-archive-icon" title="' + t('threads.no_archive') + '"> </i>' if thread.flags['no-archive'] == 'yes'
-    html << '<i class="sticky-icon" title="' + t('threads.is_sticky') + '"> </i>' if thread.sticky
-    html << '<i class="has-interesting-icon" title="' + t('threads.has_interesting') + '"> </i>' if thread.attribs[:has_interesting]
+    if thread.flags['no-archive'] == 'yes'
+      html << '<i class="no-archive-icon" title="' + t('threads.no_archive') + '"> </i>'
+    end
+
+    if thread.sticky
+      html << '<i class="sticky-icon" title="' + t('threads.is_sticky') + '"> </i>'
+    end
+
+    if thread.attribs[:has_interesting]
+      html << '<i class="has-interesting-icon" title="' + t('threads.has_interesting') + '"> </i>'
+    end
 
     html << message_header(thread, thread.message, first: true, show_icons: true)
 

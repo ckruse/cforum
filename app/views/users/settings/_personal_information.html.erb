@@ -11,7 +11,7 @@
     <input type="url" value="<%= @settings.conf('url') %>" name="settings[url]" id="settings_url" placeholder="https://example.com/"<%= disabled %>>
   </div>
 
-  <% if @user.has_badge?('seo_profi') %>
+  <% if @user.badge?('seo_profi') %>
     <div class="cf-cgroup">
       <label for="settings_norelnofollow">
         <%= hidden_field_tag 'settings[norelnofollow]', 'no', id: '' %>

@@ -30,12 +30,18 @@ class Messages::AcceptController < ApplicationController
     VoteBadgeDistributorJob.perform_later(nil, @message.message_id, type)
 
     respond_to do |format|
+      msg = if @message.flags['accepted'] == 'yes'
+              t('messages.accepted')
+            else
+              t('messages.unaccepted')
+            end
+
       format.html do
-        redirect_to message_url(@thread, @message), notice: (@message.flags['accepted'] == 'yes' ? t('messages.accepted') : t('messages.unaccepted'))
+        redirect_to message_url(@thread, @message), notice: msg
       end
 
       format.json do
-        render json: { status: 'success', message: (@message.flags['accepted'] == 'yes' ? t('messages.accepted') : t('messages.unaccepted')) }
+        render json: { status: 'success', message: msg }
       end
     end
   end
@@ -64,7 +70,7 @@ class Messages::AcceptController < ApplicationController
       return
     end
 
-    unless may_answer(@message)
+    unless may_answer?(@message)
       flash[:error] = t('messages.only_op_may_accept')
       redirect_to message_url(@thread, @message)
       return
@@ -74,29 +80,27 @@ class Messages::AcceptController < ApplicationController
   end
 
   def give_score
-    if @message.user_id.present?
+    return if @message.user_id.blank?
 
-      if @message.flags['accepted'] == 'yes'
-        score_val = conf('accept_value').to_i
-        score_val = conf('accept_self_value').to_i if @message.user_id == current_user.try(:user_id)
+    if @message.flags['accepted'] == 'yes'
+      score_val = conf('accept_value').to_i
+      score_val = conf('accept_self_value').to_i if @message.user_id == current_user.try(:user_id)
 
-        if score_val.to_i > 0
-          scre = Score.create!(user_id: @message.user_id,
-                               message_id: @message.message_id,
-                               value: score_val)
-          audit(scre, 'accepted-score')
-        end
-
-      else
-        scores = Score.where(user_id: @message.user_id, message_id: @message.message_id)
-        if scores.present?
-          scores.each do |score|
-            audit(score, 'accepted-no-unscore')
-            score.destroy
-          end
-        end
+      if score_val.to_i.positive?
+        scre = Score.create!(user_id: @message.user_id,
+                             message_id: @message.message_id,
+                             value: score_val)
+        audit(scre, 'accepted-score')
       end
 
+    else
+      scores = Score.where(user_id: @message.user_id, message_id: @message.message_id)
+      if scores.present?
+        scores.each do |score|
+          audit(score, 'accepted-no-unscore')
+          score.destroy
+        end
+      end
     end
   end
 end

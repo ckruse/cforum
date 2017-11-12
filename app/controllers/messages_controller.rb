@@ -85,7 +85,7 @@ class MessagesController < ApplicationController
   def new
     @thread, @parent, @id = get_thread_w_post
 
-    raise CForum::ForbiddenException unless may_answer(@parent)
+    raise CForum::ForbiddenException unless may_answer?(@parent)
 
     @tags = @parent.tags.map(&:tag_name)
     @max_tags = conf('max_tags_per_message')
@@ -105,7 +105,7 @@ class MessagesController < ApplicationController
   def show_quote
     @thread, @parent, @id = get_thread_w_post
 
-    raise CForum::ForbiddenException unless may_answer(@parent)
+    raise CForum::ForbiddenException unless may_answer?(@parent)
 
     if params[:only_quote]
       render plain: @parent.to_quote(self)
@@ -119,7 +119,7 @@ class MessagesController < ApplicationController
   def create
     @thread, @message, @id = get_thread_w_post
 
-    raise CForum::ForbiddenException unless may_answer(@message)
+    raise CForum::ForbiddenException unless may_answer?(@message)
 
     invalid  = false
 
@@ -127,9 +127,9 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
 
     set_message_attibutes(@message, @thread, current_user, @parent)
-    set_mentions(@message)
+    save_mentions(@message)
 
-    invalid = true unless set_message_author(@message)
+    invalid = true unless message_author(@message)
 
     @tags    = parse_tags
     @preview = true if params[:preview]
@@ -140,7 +140,7 @@ class MessagesController < ApplicationController
       flash.now[:error] = t('global.spam_filter')
     end
 
-    set_user_cookies(@message)
+    save_user_cookies(@message)
 
     saved = false
     if !invalid && !@preview
@@ -202,7 +202,7 @@ class MessagesController < ApplicationController
     @message.attributes = edit_message_params
     @message.content    = Message.to_internal(@message.content)
 
-    set_mentions(@message)
+    save_mentions(@message)
 
     (del_versions = params[:delete_previous_versions] == '1') && current_user.admin?
 
@@ -235,36 +235,28 @@ class MessagesController < ApplicationController
     saved = false
     if !invalid && !@preview
       Message.transaction do
-        if @message.save
-          save_references(@message)
-          audit(@message, 'update')
-        else
-          raise ActiveRecord::Rollback
-        end
+        raise ActiveRecord::Rollback unless @message.save
+
+        save_references(@message)
+        audit(@message, 'update')
 
         @message.tags.delete_all
-        if save_tags(current_forum, @message, @tags)
-          audit(@message, 'retag')
-        else
-          raise ActiveRecord::Rollback
-        end
+        raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
+        audit(@message, 'retag')
 
         if del_versions
           audit(@message, 'del_versions')
           MessageVersion.where(message_id: @message.message_id).delete_all
-        else
-          raise ActiveRecord::Rollback if @version && !@version.save
+        elsif @version && !@version.save
+          raise ActiveRecord::Rollback
         end
 
         if (params[:retag_answers] == '1') && may?(Badge::RETAG)
           @message.all_answers do |m|
             m.tags.delete_all
 
-            if save_tags(current_forum, m, @tags)
-              audit(@message, 'retag')
-            else
-              raise ActiveRecord::Rollback
-            end
+            raise ActiveRecord::Rollback unless save_tags(current_forum, m, @tags)
+            audit(@message, 'retag')
           end
         end
 
@@ -274,16 +266,13 @@ class MessagesController < ApplicationController
 
     if saved
       BroadcastMessageJob.perform_later(@message.message_id, 'message', 'update')
-
       search_index_message(@thread, @message)
-
       redirect_to message_url(@thread, @message), notice: I18n.t('messages.updated')
     else
       @message.valid? unless @preview
       @edit = true
 
       show_message_funtions(@thread, @message)
-
       render :edit
     end
   end
@@ -345,22 +334,16 @@ class MessagesController < ApplicationController
       Message.transaction do
         @message.tags.delete_all
 
-        if save_tags(current_forum, @message, @tags)
-          @message.reload
-          audit(@message, 'retag')
-        else
-          raise ActiveRecord::Rollback
-        end
+        raise ActiveRecord::Rollback unless save_tags(current_forum, @message, @tags)
+        @message.reload
+        audit(@message, 'retag')
 
         if params[:retag_answers] == '1'
           @message.all_answers do |m|
             m.tags.delete_all
-            if save_tags(current_forum, m, @tags)
-              m.reload
-              audit(m, 'retag')
-            else
-              raise ActiveRecord::Rollback
-            end
+            raise ActiveRecord::Rollback unless save_tags(current_forum, m, @tags)
+            m.reload
+            audit(m, 'retag')
           end
         end
 
@@ -381,7 +364,7 @@ class MessagesController < ApplicationController
 
   def preview
     m = Message.new(content: params[:content])
-    set_mentions(m)
+    save_mentions(m)
     render html: m.to_html(self)
   end
 

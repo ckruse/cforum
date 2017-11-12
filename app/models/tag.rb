@@ -6,7 +6,7 @@ class Tag < ApplicationRecord
   has_many :messages, through: :message_tags
   belongs_to :forum
 
-  has_many :synonyms, class_name: 'TagSynonym', foreign_key: :tag_id
+  has_many :synonyms, class_name: 'TagSynonym', foreign_key: :tag_id, dependent: :delete_all
 
   validates :forum_id, presence: true
   validates :tag_name, length: { in: 2..50 }, presence: true, uniqueness: { scope: :forum_id }

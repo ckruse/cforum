@@ -15,7 +15,9 @@ class Messages::VoteController < ApplicationController
 
     # we may use a different vote_up_value if user is the author of the OP
     @vote_up_value = conf('vote_up_value').to_i
-    @vote_up_value = conf('vote_up_value_user').to_i unless @thread.acceptance_forbidden?(current_user, cookies[:cforum_user])
+    unless @thread.acceptance_forbidden?(current_user, cookies[:cforum_user])
+      @vote_up_value = conf('vote_up_value_user').to_i
+    end
 
     vtype = params[:type] == 'up' ? Vote::UPVOTE : Vote::DOWNVOTE
 
@@ -182,12 +184,12 @@ class Messages::VoteController < ApplicationController
              vote_id: @vote.vote_id)
       .delete_all
 
-    if @message.user_id.present?
-      Score
-        .where('user_id = ? AND vote_id = ?',
-               @message.user_id, @vote.vote_id)
-        .update_all(['value = ?', @vote_up_value])
-    end
+    return if @message.user_id.blank?
+
+    Score
+      .where('user_id = ? AND vote_id = ?',
+             @message.user_id, @vote.vote_id)
+      .update_all(['value = ?', @vote_up_value])
   end
 
   def update_existing_downvote

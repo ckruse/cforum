@@ -2,11 +2,11 @@ module ScoresHelper
   def score_str
     s = score
 
-    return '–' if no_votes == 0
+    return '–' if no_votes.zero?
 
-    if s == 0
+    if s.zero?
       '±' + s.to_s
-    elsif s < 0
+    elsif s.negative?
       '−' + s.abs.to_s
     else
       '+' + s.to_s

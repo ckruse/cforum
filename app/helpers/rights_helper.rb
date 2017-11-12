@@ -1,3 +1,4 @@
+# rubocop:disable Style/ClassVars
 module RightsHelper
   def may?(badge_type, user = current_user)
     return false if user.blank?
@@ -79,7 +80,7 @@ module RightsHelper
 
     edit_it = false
 
-    if !message.open? || !may_answer(message)
+    if !message.open? || !may_answer?(message)
       raise CForum::ForbiddenException if redirect
       return
     end
@@ -151,22 +152,19 @@ module RightsHelper
     user = current_user if user.blank?
 
     return true if forum.blank?
-    return forum.send(permission, current_user) if permission
+    return forum.send(permission, user) if permission
     false
   end
 
-  def may_answer(m)
+  def may_answer?(m)
     return false if m.thread.archived?
     m.open?
   end
 
-  def may_vote(m, right, u = current_user)
-    if u.blank?
-      return t('messages.login_to_vote')
-    else
-      return t('messages.do_not_vote_yourself') if m.user_id == u.user_id
-      return t('messages.not_enough_score') unless may?(right, u)
-    end
+  def may_vote?(m, right, u = current_user)
+    return t('messages.login_to_vote') if u.blank?
+    return t('messages.do_not_vote_yourself') if m.user_id == u.user_id
+    return t('messages.not_enough_score') unless may?(right, u)
 
     false
   end

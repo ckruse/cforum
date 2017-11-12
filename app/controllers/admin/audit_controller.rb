@@ -50,9 +50,9 @@ class Admin::AuditController < ApplicationController
       @audits = @audits.where(sql.join(' OR '), *sql_params)
     end
 
-    if params[:term].present?
-      @audits = @audits.where('UPPER(username) LIKE UPPER(?)', params[:term].strip + '%')
-    end
+    return if params[:term].blank?
+
+    @audits = @audits.where('UPPER(username) LIKE UPPER(?)', params[:term].strip + '%')
   end
 end
 

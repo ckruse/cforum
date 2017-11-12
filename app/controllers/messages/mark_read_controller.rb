@@ -17,7 +17,7 @@ class Messages::MarkReadController < ApplicationController
     @thread.messages.each do |m|
       begin
         Message.connection.execute(sql + m.message_id.to_s + ')')
-      rescue ActiveRecord::RecordNotUnique
+      rescue ActiveRecord::RecordNotUnique # rubocop:disable Lint/HandleExceptions
       end
     end
 
@@ -43,7 +43,7 @@ class Messages::MarkReadController < ApplicationController
       t.messages.each do |m|
         begin
           Message.connection.execute(sql + m.message_id.to_s + ')')
-        rescue ActiveRecord::RecordNotUnique
+        rescue ActiveRecord::RecordNotUnique # rubocop:disable Lint/HandleExceptions
         end
       end
     end

@@ -7,7 +7,7 @@ module MailsHelper
     end
   end
 
-  def has_unread?(mails_group)
+  def unread?(mails_group)
     m = mails_group.find { |mail| !mail.is_read }
     m.present?
   end

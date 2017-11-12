@@ -73,16 +73,20 @@ RSpec.describe MessagesController, type: :controller do
 
   describe 'POST #create' do
     it 'creates a new message' do
+      my_params = message_params_from_slug(message)
+                    .merge(tags: [tag.tag_name],
+                           message: attributes_for(:message, forum: message.thread.forum))
+
       expect do
-        post :create, params: message_params_from_slug(message).merge(tags: [tag.tag_name],
-                                                                      message: attributes_for(:message,
-                                                                                              forum: message.thread.forum))
+        post :create, params: my_params
       end.to change(Message, :count).by(1)
       expect(response).to redirect_to message_url(message.thread, assigns(:message))
     end
 
     it 'fails to create a new message because of 0 tags' do
-      post :create, params: message_params_from_slug(message).merge(message: attributes_for(:message, forum: message.thread.forum))
+      my_params = message_params_from_slug(message)
+                    .merge(message: attributes_for(:message, forum: message.thread.forum))
+      post :create, params: my_params
 
       expect(response).to render_template 'new'
     end

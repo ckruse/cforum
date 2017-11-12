@@ -18,7 +18,8 @@ module SearchHelper
       title: message.subject,
       content: message.to_search(self),
       url: message_url(thread, message),
-      relevance: base_relevance.to_f + (message.score.to_f / 10.0) + (message.flags['accepted'] == 'yes' ? 0.5 : 0.0) + ('0.0' + message.created_at.year.to_s).to_f,
+      relevance: base_relevance.to_f + (message.score.to_f / 10.0) + (message.flags['accepted'] == 'yes' ? 0.5 : 0.0) +
+                 ('0.0' + message.created_at.year.to_s).to_f,
       lang: Cforum::Application.config.search_dict,
       document_created: message.created_at,
       tags: message.tags.map { |t| t.tag_name.downcase }
@@ -204,7 +205,8 @@ module SearchHelper
                              Cforum::Application.config.search_dict +
                              "', ?)", q)
 
-      select << "ts_rank_cd(ts_title, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + '), 32)'
+      select << "ts_rank_cd(ts_title, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q +
+                '), 32)'
       select_title << ts_headline('title', quoted_q, 'headline_title')
     end
 
@@ -217,7 +219,8 @@ module SearchHelper
                              Cforum::Application.config.search_dict +
                              "', ?)", q)
 
-      select << "ts_rank_cd(ts_content, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q + '), 32)'
+      select << "ts_rank_cd(ts_content, to_tsquery('" + Cforum::Application.config.search_dict + "', " + quoted_q +
+                '), 32)'
       select_title << ts_headline('content', quoted_q, 'headline_content')
     end
 

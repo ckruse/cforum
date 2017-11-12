@@ -17,7 +17,7 @@ class CheckYearlingBadgesJob < ApplicationJob
                    end
 
       years = (difference / 365).floor
-      years = 0 if years < 0
+      years = 0 if years.negative?
 
       years.times do
         give_badge(user, yearling)

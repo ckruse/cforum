@@ -101,14 +101,14 @@ class CloseVoteController < ApplicationController
     @close_vote.message_id = @message.message_id
     @close_vote.vote_type = vtype
 
-    if @close_vote.duplicate_slug.present? &&
-       @close_vote.duplicate_slug =~ /^https?/
-      begin
-        uri = URI.parse(@close_vote.duplicate_slug)
-        # we have to remove the forum slug as well, thus the gsub
-        @close_vote.duplicate_slug = uri.path.gsub(/^\/[^\/]+/, '')
-      rescue
-      end
+    if @close_vote.duplicate_slug.present? && @close_vote.duplicate_slug.match?(/^https?/)
+      @close_vote.duplicate_slug = begin
+                                     uri = URI.parse(@close_vote.duplicate_slug)
+                                     # we have to remove the forum slug as well, thus the gsub
+                                     uri.path.gsub(%r{^/[^/]+}, '')
+                                   rescue URI::InvalidURIError
+                                     nil
+                                   end
     end
 
     saved = false
@@ -181,7 +181,7 @@ class CloseVoteController < ApplicationController
       return
     end
 
-    if vote.has_voted?(current_user)
+    if vote.voted?(current_user)
       CloseVotesVoter.where(user_id: current_user.user_id,
                             close_vote_id: vote.close_vote_id)
         .first.destroy

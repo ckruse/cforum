@@ -63,10 +63,9 @@ module HighlightHelper
   end
 
   def highlight_saving_settings(settings)
-    if settings.options['highlighted_users'].present?
-      users = User.where(user_id: JSON.parse(settings.options['highlighted_users']))
-      settings.options['highlighted_users'] = users.map(&:username).join(',')
-    end
+    return if settings.options['highlighted_users'].blank?
+    users = User.where(user_id: JSON.parse(settings.options['highlighted_users']))
+    settings.options['highlighted_users'] = users.map(&:username).join(',')
   end
 
   def highlight_notify_mention(mention, app)

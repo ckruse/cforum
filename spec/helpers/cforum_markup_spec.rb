@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/LineLength
+
 require 'rails_helper'
 
 RSpec.describe CforumMarkup do

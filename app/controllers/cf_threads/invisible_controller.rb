@@ -41,15 +41,15 @@ class CfThreads::InvisibleController < ApplicationController
     ret << check_threads_for_suspiciousness(@threads)
     ret << check_threads_for_highlighting(@threads)
     ret << mark_threads_interesting(@threads)
-    ret << is_read_threadlist(@threads)
+    ret << read_threadlist?(@threads)
     ret << open_close_threadlist(@threads)
     ret << thread_list_link_tags
 
-    unless ret.include?(:redirected)
-      respond_to do |format|
-        format.html
-        format.json { render @threads }
-      end
+    return if ret.include?(:redirected)
+
+    respond_to do |format|
+      format.html
+      format.json { render @threads }
     end
   end
 

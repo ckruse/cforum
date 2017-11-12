@@ -1,7 +1,7 @@
 module SortablesHelper
   def sort_query(valid_fields, query_object, replacements = {}, defaults = { dir: :asc })
     valid_fields = valid_fields.map(&:to_sym)
-    controller_nam = controller_path.gsub(/\//, '-')
+    controller_nam = controller_path.gsub(%r{/}, '-')
 
     cookie_key_scol = ('cforum_' + controller_nam + '-sort_column').to_sym
     cookie_key_sord = ('cforum_' + controller_nam + '-sort_direction').to_sym

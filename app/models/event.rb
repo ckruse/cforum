@@ -15,14 +15,14 @@ class Event < ApplicationRecord
     'event-'
   end
 
-  def is_attendee(user)
+  def attendee?(user)
     return if user.blank?
     attendees.find { |u| user.user_id == u.user_id }
   end
 
-  def is_open?
+  def open?
     return false unless visible
-    return false if end_date < Date.today
+    return false if end_date < Time.zone.today
     true
   end
 end

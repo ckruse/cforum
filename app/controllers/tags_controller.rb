@@ -10,7 +10,8 @@ class TagsController < ApplicationController
       clean_tag = params[:s].strip + '%'
       @tags = Tag
                 .preload(:synonyms)
-                .where('forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))',
+                .where('forum_id = ? AND (LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (' \
+                       '  SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?)))',
                        current_forum.forum_id, clean_tag, clean_tag)
                 .order('tag_name ASC')
     else
@@ -69,7 +70,8 @@ class TagsController < ApplicationController
       clean_tag = term.strip + '%'
       @tags = @tags
                 .preload(:synonyms)
-                .where('LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?))',
+                .where('LOWER(tag_name) LIKE LOWER(?) OR tag_id IN (' \
+                       '  SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) LIKE LOWER(?))',
                        clean_tag,
                        clean_tag)
     end

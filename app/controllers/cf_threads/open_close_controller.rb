@@ -55,7 +55,7 @@ class CfThreads::OpenCloseController < ApplicationController
         ' FOR UPDATE'
       )
 
-      if rslt.ntuples == 0
+      if rslt.ntuples.zero?
         if uconf('open_close_default') != state || uconf('open_close_close_when_read') == 'yes'
           CfThread.connection.execute('INSERT INTO opened_closed_threads (user_id, thread_id, state) VALUES (' +
             current_user.user_id.to_s +
@@ -71,8 +71,10 @@ class CfThreads::OpenCloseController < ApplicationController
           tid
         )
       end
-    end # CfThreads.transaction
-  end # def check_existance_and_delete_or_set
+      # CfThreads.transaction
+    end
+    # def check_existance_and_delete_or_set
+  end
 end
 
 # eof

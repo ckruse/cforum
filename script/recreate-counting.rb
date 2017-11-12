@@ -4,7 +4,9 @@ require File.join(File.dirname(__FILE__), '..', 'config', 'environment')
 
 Forum.transaction do
   # correct all deleted flags for threads
-  Forum.connection.execute('UPDATE cforum.threads SET deleted = (SELECT NOT EXISTS(SELECT message_id FROM cforum.messages WHERE thread_id = threads.thread_id AND deleted = false))')
+  Forum.connection.execute('UPDATE cforum.threads SET deleted = (' \
+                           '  SELECT NOT EXISTS(SELECT message_id FROM cforum.messages ' \
+                           '  WHERE thread_id = threads.thread_id AND deleted = false))')
 
   # delete existing entries
   Forum.connection.execute("DELETE FROM cforum.counter_table WHERE table_name = 'threads' OR table_name = 'messages'")
@@ -24,7 +26,8 @@ Forum.transaction do
     )
   end
 
-  results = Forum.connection.execute('SELECT forum_id, COUNT(*) AS cnt FROM cforum.messages WHERE deleted = false GROUP BY forum_id')
+  results = Forum.connection.execute('SELECT forum_id, COUNT(*) AS cnt FROM cforum.messages ' \
+                                     '  WHERE deleted = false GROUP BY forum_id')
   results.each do |r|
     next if r['cnt'] == '0'
 
@@ -37,7 +40,8 @@ Forum.transaction do
     )
   end
 
-  results = Forum.connection.execute('SELECT forum_id, COUNT(*) AS cnt FROM cforum.threads WHERE deleted = false GROUP BY forum_id')
+  results = Forum.connection.execute('SELECT forum_id, COUNT(*) AS cnt FROM cforum.threads ' \
+                                     '  WHERE deleted = false GROUP BY forum_id')
   results.each do |r|
     next if r['cnt'] == '0'
 

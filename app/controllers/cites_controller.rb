@@ -118,18 +118,18 @@ class CitesController < ApplicationController
         .delete_all
     end
 
-    if @cite.archived?
-      @next_cite = Cite
-                     .where('cite_id < ?', @cite.cite_id)
-                     .order('cite_id DESC')
-                     .where(archived: true)
-                     .first
-      @prev_cite = Cite
-                     .where('cite_id > ?', @cite.cite_id)
-                     .where(archived: true)
-                     .order('cite_id ASC')
-                     .first
-    end
+    return unless @cite.archived?
+
+    @next_cite = Cite
+                   .where('cite_id < ?', @cite.cite_id)
+                   .order('cite_id DESC')
+                   .where(archived: true)
+                   .first
+    @prev_cite = Cite
+                   .where('cite_id > ?', @cite.cite_id)
+                   .where(archived: true)
+                   .order('cite_id ASC')
+                   .first
   end
 
   # GET /cites/new
@@ -145,7 +145,8 @@ class CitesController < ApplicationController
     @cite = Cite.new(cite_params)
     @cite.creator_user_id = current_user.user_id if current_user.present?
 
-    if @cite.url.present? && (@cite.url[0..(root_url.length - 1)] == root_url) && @cite.url =~ /\/\w+(\/\d{4,}\/[a-z]{3}\/\d{1,2}\/[^\/]+)\/(\d+)/
+    if @cite.url.present? && (@cite.url[0..(root_url.length - 1)] == root_url) &&
+       @cite.url =~ %r{/\w+(/\d{4,}/[a-z]{3}/\d{1,2}/[^/]+)/(\d+)}
       slug = Regexp.last_match(1)
       mid = Regexp.last_match(2)
 

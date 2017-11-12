@@ -24,11 +24,13 @@ class ArchiveController < ApplicationController
 
   def year
     tmzone = Time.zone.parse(params[:year] + '-12-31 00:00:00')
-    first_month = CfThread.where("EXTRACT(year FROM created_at + INTERVAL '? seconds') = ?", tmzone.utc_offset, params[:year])
+    first_month = CfThread.where("EXTRACT(year FROM created_at + INTERVAL '? seconds') = ?",
+                                 tmzone.utc_offset, params[:year])
                     .where(archived: true)
                     .order('created_at ASC')
                     .limit(1)
-    last_month = CfThread.where("EXTRACT(year FROM created_at + INTERVAL '? seconds') = ?", tmzone.utc_offset, params[:year])
+    last_month = CfThread.where("EXTRACT(year FROM created_at + INTERVAL '? seconds') = ?",
+                                tmzone.utc_offset, params[:year])
                    .where(archived: true)
                    .order('created_at DESC')
                    .limit(1)
@@ -46,22 +48,23 @@ class ArchiveController < ApplicationController
     @months = []
     @year = tmzone
 
-    if first_month.present? && last_month.present?
-      first_month = first_month.first.created_at
-      last_month = last_month.first.created_at
+    return if first_month.blank? || last_month.blank?
 
-      q = ''
-      q << "forum_id = #{current_forum.forum_id} AND " if current_forum.present?
-      q << 'deleted = false AND ' unless @view_all
-      mon = first_month
-      loop do
-        if CfThread.exists?(["#{q}DATE_TRUNC('month', created_at) = DATE_TRUNC('month', ?::timestamp without time zone)", mon])
-          @months << mon.to_date
-        end
+    first_month = first_month.first.created_at
+    last_month = last_month.first.created_at
 
-        break if mon.month == last_month.month
-        mon = Time.zone.parse(mon.year.to_s + '-' + (mon.month + 1).to_s + '-' + mon.day.to_s + ' 00:00:00')
+    q = ''
+    q << "forum_id = #{current_forum.forum_id} AND " if current_forum.present?
+    q << 'deleted = false AND ' unless @view_all
+    mon = first_month
+    loop do
+      if CfThread.exists?(["#{q}DATE_TRUNC('month', created_at) = DATE_TRUNC('month', ?::timestamp without time zone)",
+                           mon])
+        @months << mon.to_date
       end
+
+      break if mon.month == last_month.month
+      mon = Time.zone.parse(mon.year.to_s + '-' + (mon.month + 1).to_s + '-' + mon.day.to_s + ' 00:00:00')
     end
   end
 
@@ -74,7 +77,7 @@ class ArchiveController < ApplicationController
     @page  = params[:page].to_i
     @limit = uconf('pagination').to_i
 
-    @page  = 0 if @page < 0
+    @page  = 0 if @page.negative?
     @limit = 50 if @limit <= 0
 
     order = uconf('sort_threads')
@@ -105,15 +108,15 @@ class ArchiveController < ApplicationController
     ret << check_threads_for_highlighting(@threads)
     ret << mark_threads_interesting(@threads)
     ret << leave_out_invisible_for_threadlist(@threads)
-    ret << is_read_threadlist(@threads)
+    ret << read_threadlist?(@threads)
     ret << open_close_threadlist(@threads)
     ret << thread_list_link_tags
 
-    unless ret.include?(:redirected)
-      respond_to do |format|
-        format.html
-        format.json { render json: @threads, include: { messages: { include: %i[owner tags] } } }
-      end
+    return if ret.include?(:redirected)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @threads, include: { messages: { include: %i[owner tags] } } }
     end
   end
 end

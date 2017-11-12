@@ -8,7 +8,7 @@ module InterestingHelper
     message.each do |m|
       begin
         Message.connection.execute(sql + m.message_id.to_s + ')')
-      rescue ActiveRecord::RecordNotUnique
+      rescue ActiveRecord::RecordNotUnique # rubocop:disable Lint/HandleExceptions
       end
     end
 
@@ -130,7 +130,7 @@ module InterestingHelper
                                           ids.join(', ') + ') AND user_id = ' + user.user_id.to_s)
       result.each do |row|
         new_cache[row['message_id']] = true
-        msgs[row['message_id']]&.attribs['classes'] << 'interesting'
+        msgs[row['message_id']].attribs['classes'] << 'interesting'
         msgs[row['message_id']].attribs[:is_interesting] = true
         had_one = true
       end

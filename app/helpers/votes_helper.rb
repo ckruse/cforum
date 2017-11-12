@@ -1,10 +1,10 @@
 module VotesHelper
   def downvote_message(m, votes)
-    may_downvote_msg = may_vote(m, Badge::DOWNVOTE)
+    may_downvote_msg = may_vote?(m, Badge::DOWNVOTE)
 
     if may_downvote_msg.present?
       may_downvote_msg
-    elsif has_downvote?(m, votes)
+    elsif downvoted?(m, votes)
       t('messages.unvote')
     else
       t('messages.vote_down')
@@ -12,22 +12,22 @@ module VotesHelper
   end
 
   def upvote_message(m, votes)
-    may_upvote_msg = may_vote(m, Badge::UPVOTE)
+    may_upvote_msg = may_vote?(m, Badge::UPVOTE)
 
     if may_upvote_msg.present?
       may_upvote_msg
-    elsif has_upvote?(m, votes)
+    elsif upvoted?(m, votes)
       t('messages.unvote')
     else
       t('messages.vote_up')
     end
   end
 
-  def has_upvote?(m, votes)
+  def upvoted?(m, votes)
     votes && votes[m.message_id] && votes[m.message_id].vtype == Vote::UPVOTE
   end
 
-  def has_downvote?(m, votes)
+  def downvoted?(m, votes)
     votes && votes[m.message_id] && votes[m.message_id].vtype == Vote::DOWNVOTE
   end
 end

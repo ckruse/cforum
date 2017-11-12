@@ -29,12 +29,12 @@ module CForum
       args.each do |k, v|
         had_key[k.to_s] = true
         next if v.nil?
-        qs << URI.escape(k.to_s) + '=' + URI.escape(v.to_s)
+        qs << CGI.escape(k.to_s) + '=' + CGI.escape(v.to_s)
       end
 
       @@url_attribs.each do |k, v|
         next if had_key[k.to_s] == true
-        qs << URI.escape(k.to_s) + '=' + URI.escape(v.to_s)
+        qs << CGI.escape(k.to_s) + '=' + CGI.escape(v.to_s)
       end
 
       retval = ''

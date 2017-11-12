@@ -42,7 +42,8 @@ module TagsHelper
     end
 
     tag_objs
-  end # save_tags
+    # save_tags
+  end
 
   def parse_tags
     tags = []
@@ -65,7 +66,8 @@ module TagsHelper
     invalid = []
 
     tags.each do |t|
-      tag = Tag.exists?(['tags.forum_id = ? AND (LOWER(tag_name) = ? OR tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) = ? AND forum_id = ?))',
+      tag = Tag.exists?(['tags.forum_id = ? AND (LOWER(tag_name) = ? OR ' \
+                         '  tag_id IN (SELECT tag_id FROM tag_synonyms WHERE LOWER(synonym) = ? AND forum_id = ?))',
                          forum.forum_id, t, t,
                          forum.forum_id])
       invalid << t if tag.blank? && !may_create

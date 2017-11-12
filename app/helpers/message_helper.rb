@@ -31,7 +31,7 @@ module MessageHelper
              parent_subscribed: false }.merge(opts)
 
     html = "<ol>\n"
-    for message in messages
+    messages.each do |message|
       classes = []
 
       html << '<li'
@@ -83,7 +83,7 @@ module MessageHelper
     message.parent_id  = parent.try(:message_id)
   end
 
-  def set_message_author(message)
+  def message_author(message)
     message.author = current_user.username if current_user.present?
     # we ignore the case when user has forgotten to enter a name
     return true if message.author.blank?
@@ -99,7 +99,7 @@ module MessageHelper
     true
   end
 
-  def set_user_cookies(message)
+  def save_user_cookies(message)
     return if current_user
 
     cookies[:cforum_user] = { value: request.uuid, expires: 1.year.from_now } if cookies[:cforum_user].blank?

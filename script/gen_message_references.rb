@@ -16,17 +16,17 @@ public
 
 def from_uri(uri)
   uri = uri.gsub(/#.*$/, '')
-  return Regexp.last_match(1).to_i if uri.match?(/\/(\d+)$/)
+  return Regexp.last_match(1).to_i if uri =~ %r{/(\d+)$} # rubocop:disable Performance/RegexpMatch
   nil
 end
 
-$config_manager = ConfigManager.new
+$config_manager = ConfigManager.new # rubocop:disable Style/GlobalVars
 no_messages = 1000
 current_block = 0
 start_date = nil
 start_date = Time.zone.parse(ARGV[0]) unless ARGV.empty?
 
-begin
+loop do
   msgs = Message
            .includes(:thread, :forum, :tags)
            .order(:message_id)
@@ -60,6 +60,8 @@ begin
       end
     end
   end
-end while msgs.present?
+
+  break if msgs.blank?
+end
 
 # eof

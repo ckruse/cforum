@@ -9,7 +9,7 @@ class Cite < ApplicationRecord
   belongs_to :user
   belongs_to :creator_user, class_name: 'User'
 
-  has_many :votes, class_name: 'CiteVote', foreign_key: :cite_id
+  has_many :votes, class_name: 'CiteVote', foreign_key: :cite_id, dependent: :delete_all
 
   validates :author, length: { in: 2..60 }, allow_blank: true
   validates :cite, length: { in: 10..12_288 }, presence: true

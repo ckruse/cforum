@@ -34,7 +34,7 @@ class CitesArchiverJob < ApplicationJob
     Rails.logger.info "Running cite archiver for #{cites.length} cites"
 
     cites.each do |cite|
-      if cite.score > 0
+      if cite.score.positive?
         Rails.logger.info "Archiving cite #{cite.cite_id}"
         cite.archived = true
         cite.save

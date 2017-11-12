@@ -8,7 +8,9 @@ class Admin::ForumsController < ApplicationController
   def index
     @forums = Forum.order('position ASC, UPPER(name) ASC')
 
-    results = Forum.connection.execute("SELECT table_name, group_crit, SUM(difference) AS diff FROM counter_table WHERE table_name = 'threads' OR table_name = 'messages' GROUP BY table_name, group_crit")
+    results = Forum.connection.execute('SELECT table_name, group_crit, SUM(difference) AS diff ' \
+                                       "  FROM counter_table WHERE table_name = 'threads' OR table_name = 'messages'" \
+                                       '  GROUP BY table_name, group_crit')
 
     @counts = {}
     results.each do |r|
@@ -68,7 +70,8 @@ class Admin::ForumsController < ApplicationController
 
     Forum.transaction do
       if @forum.update_attributes(forum_params)
-        raise ActiveRecord::Rollback unless saved = @settings.save
+        saved = @settings.save
+        raise ActiveRecord::Rollback unless saved
       end
     end
 
@@ -103,7 +106,8 @@ class Admin::ForumsController < ApplicationController
     saved = false
     Forum.transaction do
       if @forum.save
-        raise ActiveRecord::Rollback unless saved = @settings.save
+        saved = @settings.save
+        raise ActiveRecord::Rollback unless saved
       end
     end
 
@@ -134,9 +138,12 @@ class Admin::ForumsController < ApplicationController
 
     if @merge_forum
       Forum.transaction do
-        Forum.connection.execute 'UPDATE threads SET forum_id = ' + @merge_forum.forum_id.to_s + ' WHERE forum_id = ' + @forum.forum_id.to_s
-        Message.connection.execute 'UPDATE messages SET forum_id = ' + @merge_forum.forum_id.to_s + ' WHERE forum_id = ' + @forum.forum_id.to_s
-        ForumGroupPermission.connection.execute 'DELETE FROM forums_groups_permissions WHERE forum_id = ' + @merge_forum.forum_id.to_s
+        Forum.connection.execute 'UPDATE threads SET forum_id = ' + @merge_forum.forum_id.to_s +
+                                 ' WHERE forum_id = ' + @forum.forum_id.to_s
+        Message.connection.execute 'UPDATE messages SET forum_id = ' + @merge_forum.forum_id.to_s +
+                                   ' WHERE forum_id = ' + @forum.forum_id.to_s
+        ForumGroupPermission.connection.execute 'DELETE FROM forums_groups_permissions WHERE forum_id = ' +
+                                                @merge_forum.forum_id.to_s
 
         @forum.destroy
       end

@@ -54,7 +54,9 @@ RSpec.describe Admin::BadgeGroupsController, type: :controller do
     context 'with valid params' do
       it 'creates a new BadgeGroup' do
         expect do
-          post :create, params: { badge_group: valid_attributes, badges: badges.map(&:badge_id) }, session: valid_session
+          post(:create,
+               params: { badge_group: valid_attributes, badges: badges.map(&:badge_id) },
+               session: valid_session)
           expect(assigns(:badge_group).badges).to eq(badges)
         end.to change(BadgeGroup, :count).by(1)
       end
@@ -92,7 +94,9 @@ RSpec.describe Admin::BadgeGroupsController, type: :controller do
 
       it 'updates the requested badge_group' do
         badge_group = BadgeGroup.create! valid_attributes
-        put :update, params: { id: badge_group.to_param, badge_group: new_attributes, badges: badges.map(&:badge_id) }, session: valid_session
+        put(:update,
+            params: { id: badge_group.to_param, badge_group: new_attributes, badges: badges.map(&:badge_id) },
+            session: valid_session)
         badge_group.reload
         expect(badge_group.name).to eq 'Foo 1'
         expect(badge_group.badges).to eq badges

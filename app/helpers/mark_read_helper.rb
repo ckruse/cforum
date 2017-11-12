@@ -1,5 +1,5 @@
 module MarkReadHelper
-  def is_read(user, message)
+  def message_read?(user, message)
     return if user.blank? || message.blank?
 
     message = [message] if !message.is_a?(Array) && !message.is_a?(ActiveRecord::Relation)
@@ -19,8 +19,8 @@ module MarkReadHelper
       message.each do |m|
         if !cache.key?(m)
           has_all = false
-        else
-          retval << m if cache[m]
+        elsif cache[m]
+          retval << m
         end
         new_cache[m] = false
       end
@@ -57,7 +57,7 @@ module MarkReadHelper
     result = Message.connection.execute('SELECT message_id FROM read_messages WHERE message_id IN (' +
                                         ids.join(', ') + ') AND user_id = ' + current_user.user_id.to_s)
     result.each do |row|
-      msgs[row['message_id']]&.attribs['classes'] << 'visited'
+      msgs[row['message_id']].attribs['classes'] << 'visited'
     end
   end
 
@@ -77,7 +77,7 @@ module MarkReadHelper
             Message.connection.execute(sql + m.message_id.to_s + ')')
           end
           cache[m.message_id] = true
-        rescue ActiveRecord::RecordNotUnique
+        rescue ActiveRecord::RecordNotUnique # rubocop:disable Lint/HandleExceptions
         end
       end
     end
@@ -87,7 +87,7 @@ module MarkReadHelper
     message
   end
 
-  def is_read_threadlist(threads)
+  def read_threadlist?(threads)
     return if current_user.blank?
 
     ids = []
@@ -141,7 +141,7 @@ module MarkReadHelper
             Message.connection.execute(sql + m.message_id.to_s + ')')
           end
           cache[m.message_id] = true
-        rescue ActiveRecord::RecordNotUnique
+        rescue ActiveRecord::RecordNotUnique # rubocop:disable Lint/HandleExceptions
         end
       end
     end
@@ -166,7 +166,7 @@ module MarkReadHelper
         end
 
         cache[message.message_id] = true
-      rescue ActiveRecord::RecordNotUnique
+      rescue ActiveRecord::RecordNotUnique # rubocop:disable Lint/HandleExceptions
       end
     end
 
@@ -192,7 +192,7 @@ module MarkReadHelper
 
     result.each do |row|
       a = messages.find { |m| m.message_id == row['message_id'] }
-      a&.attribs['classes'] << 'visited'
+      a.attribs['classes'] << 'visited'
     end
   end
 end

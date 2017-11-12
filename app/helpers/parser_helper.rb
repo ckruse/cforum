@@ -1,3 +1,5 @@
+# rubocop:disable Style/ClassVars
+
 require Rails.root + 'lib/cf_kramdown.rb'
 require Rails.root + 'lib/cforum_markup.rb'
 require Rails.root + 'lib/cf_plaintext.rb'
@@ -28,7 +30,7 @@ module ParserHelper
     nil
   end
 
-  def get_created_at
+  def get_created_at # rubocop:disable Naming/AccessorMethodName
     Time.zone.now
   end
 

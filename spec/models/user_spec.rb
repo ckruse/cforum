@@ -50,22 +50,22 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'has_badge?' do
+  describe 'badge?' do
     it 'returns true when user has badge' do
       user = User.new
       user.badges = [Badge.new(badge_type: 'silver medal')]
-      expect(user.has_badge?('silver medal')).to be true
+      expect(user.badge?('silver medal')).to be true
     end
 
     it "returns false when user doesn't have that badge" do
       user = User.new
       user.badges = [Badge.new(badge_type: 'silver medal')]
-      expect(user.has_badge?('gold medal')).to be false
+      expect(user.badge?('gold medal')).to be false
     end
 
     it "returns false when user hasn't got any badges" do
       user = User.new
-      expect(user.has_badge?('silver medal')).to be false
+      expect(user.badge?('silver medal')).to be false
     end
   end
 

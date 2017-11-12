@@ -135,11 +135,11 @@ class ConfigManager
     fill_user_cache(user) if user.present?
     fill_forum_cache(forum) if forum.present?
 
-    unless @value_cache.key?(:global)
-      @value_cache[:global] = Setting
-                                .where('user_id IS NULL and forum_id IS NULL')
-                                .first
-    end
+    return if @value_cache.key?(:global)
+
+    @value_cache[:global] = Setting
+                              .where('user_id IS NULL and forum_id IS NULL')
+                              .first
   end
 
   def get(name, user = nil, forum = nil)

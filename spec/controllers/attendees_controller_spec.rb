@@ -193,7 +193,9 @@ RSpec.describe AttendeesController, type: :controller do
 
     it 'forbids #update for closed events' do
       expect do
-        put :update, params: { event_id: cevent.event_id, id: attendee.attendee_id, attendee: attributes_for(:attendee) }
+        put :update, params: { event_id: cevent.event_id,
+                               id: attendee.attendee_id,
+                               attendee: attributes_for(:attendee) }
       end.to raise_error(CForum::ForbiddenException)
     end
 

@@ -6,11 +6,12 @@ module ScriptHelpers
   end
 
   def root_url
-    (ActionMailer::Base.default_url_options[:protocol] || 'http') + '://' + ActionMailer::Base.default_url_options[:host] + root_path
+    (ActionMailer::Base.default_url_options[:protocol] || 'http') + '://' +
+      ActionMailer::Base.default_url_options[:host] + root_path
   end
 
   def conf(name, forum = nil)
-    $config_manager.get(name, nil, forum)
+    $config_manager.get(name, nil, forum) # rubocop:disable Style/GlobalVars
   end
 
   def uconf(name, forum = nil)

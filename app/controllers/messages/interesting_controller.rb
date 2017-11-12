@@ -13,7 +13,7 @@ class Messages::InterestingController < ApplicationController
     begin
       InterestingMessage.create!(message_id: @message.message_id,
                                  user_id: current_user.user_id)
-    rescue ActiveRecord::RecordNotUnique
+    rescue ActiveRecord::RecordNotUnique # rubocop:disable Lint/HandleExceptions
     end
 
     respond_to do |format|
@@ -59,7 +59,9 @@ class Messages::InterestingController < ApplicationController
       @search_documents, = gen_search_query(query)
 
       @search_documents = @search_documents
-                            .joins('INNER JOIN interesting_messages im ON im.message_id = search_documents.reference_id AND im.user_id = ' + current_user.user_id.to_s)
+                            .joins('INNER JOIN interesting_messages im ON ' \
+                                   '  im.message_id = search_documents.reference_id AND im.user_id = ' +
+                                   current_user.user_id.to_s)
 
       @messages = Message
                     .preload(:owner, :tags, thread: :forum, votes: :voters)
@@ -80,11 +82,11 @@ class Messages::InterestingController < ApplicationController
     ret << are_read(@messages)
     ret << thread_list_link_tags
 
-    unless ret.include?(:redirected)
-      respond_to do |format|
-        format.html
-        format.json { render @messages }
-      end
+    return if ret.include?(:redirected)
+
+    respond_to do |format|
+      format.html
+      format.json { render @messages }
     end
   end
 end

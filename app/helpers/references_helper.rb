@@ -1,7 +1,7 @@
 module ReferencesHelper
   def mid_from_uri(uri)
     uri = uri.gsub(/#.*$/, '')
-    return Regexp.last_match(1).to_i if uri =~ %r{/m?(\d+)$}
+    return Regexp.last_match(1).to_i if uri =~ %r{/m?(\d+)$} # rubocop:disable Performance/RegexpMatch
     nil
   end
 
@@ -29,7 +29,7 @@ module ReferencesHelper
     links.select do |l|
       begin
         reference_uri?(l, hosts)
-      rescue
+      rescue URI::InvalidURIError
         false
       end
     end
