@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 ruby File.read('.ruby-version').strip
 
-gem 'rails', '~> 5.0.0'
+gem 'rails', '~> 5.1.0'
 gem 'rails-i18n'
 gem 'warden', '!= 1.2.5'
 
@@ -42,7 +42,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'guard-rspec'
-  gem 'listen', '~> 3.0.7'
+  gem 'listen'
   gem 'phantomjs', require: 'phantomjs/poltergeist'
   gem 'poltergeist'
   gem 'pry-byebug'
