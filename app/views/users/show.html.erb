@@ -174,7 +174,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
     <% @badges.each do |ub| %>
       <li><%= image_tag(ub[:badge].badge_medal_type + '.png', class: "medal-image",
                         alt: t("badges.badge_medal_types." + ub[:badge].badge_medal_type)) %>
-        <%= cf_link_to ub[:badge].name, ub[:badge] %>
+        <%= cf_link_to ub[:badge].name, badge_url(ub[:badge]) %>
         <% if ub[:times] > 1 %>× <%= ub[:times] %><% end %> (<%= l(ub[:created_at], format: date_format) %>)</li>
     <% end %>
   </ul>
