@@ -10,26 +10,18 @@ class CfThread < ApplicationRecord
   validates :slug, uniqueness: true, allow_blank: false, format: { with: %r{\A[a-z0-9_/-]+\z} }
   validates :forum_id, :latest_message, presence: true
 
-  def find_message(mid)
-    messages.each do |m|
-      return m if m.message_id == mid
-    end
-
-    nil
+  def find_message(message_id)
+    messages.find { |m| m.message_id == message_id }
   end
 
-  def find_message!(mid)
-    m = find_message(mid)
+  def find_message!(message_id)
+    m = find_message(message_id)
     raise ActiveRecord::RecordNotFound if m.blank?
     m
   end
 
   def find_by_mid(mid)
-    messages.each do |m|
-      return m if m.mid == mid
-    end
-
-    nil
+    messages.find { |m| m.mid == mid }
   end
 
   def find_by_mid!(mid)
