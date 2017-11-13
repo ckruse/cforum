@@ -144,7 +144,7 @@ class ForumsController < ApplicationController
     if thread.length == 1
       thread = thread.first
 
-      if params[:m] && (message = thread.find_by(mid: params[:m].to_i))
+      if params[:m] && (message = thread.find_by_mid(params[:m].to_i)) # rubocop:disable Rails/DynamicFindBy
         redirect_to message_url(thread, message), status: 301
       else
         redirect_to cf_thread_url(thread), status: 301
