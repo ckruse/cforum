@@ -1,16 +1,27 @@
+AllCops:
+  Exclude:
+    - 'bin/*'
+    - 'config/initializers/secret_token.rb'
+    - 'lib/cf_kramdown.rb'
+    - '.pryrc'
+
 MultilineMethodCallIndentation:
   EnforcedStyle: indented_relative_to_receiver
-Metrics/LineLength:
-  Max: 120
+
 Style/AsciiComments:
   Enabled: no
 Style/Documentation:
+  Enabled: no
+Style/ClassAndModuleChildren:
+  Enabled: no
+Style/FrozenStringLiteralComment:
   Enabled: no
 
 Metrics/ModuleLength:
   Exclude:
     - "**/*_spec.rb"
-
+Metrics/LineLength:
+  Max: 120
 Metrics/BlockLength:
   Exclude:
     - "**/*_spec.rb"
