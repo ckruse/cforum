@@ -1,6 +1,6 @@
 <%
 bottom ||= false
-%><div class="voting<% if bottom %> bottom<% end %>">
+%><% if bottom %><div class="voting bottom">
   <% if @thread.forum.write?(current_user) %>
 
     <% if @thread.message.message_id != m.message_id %>
@@ -36,3 +36,11 @@ bottom ||= false
     <% end %>
   <% end %>
 </div>
+<% else %>
+  <% if m.upvotes > 0 || m.downvotes > 0 %>
+    <div class="voting">
+      <span class="votes" title="<%= t('messages.votes_tree', count: m.upvotes + m.downvotes, score: m.score_str) %>"><%= m.score_str %></span>
+      <%= cf_link_to ' ', "https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bewertungsregeln", class: 'infos', title: t('messages.infos_for_scoring') %>
+    </div>
+  <% end %>
+<% end %>
