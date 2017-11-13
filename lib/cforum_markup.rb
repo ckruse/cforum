@@ -235,7 +235,7 @@ module CforumMarkup
 
     if directive == 'ref'
       ref, href = content.split(';', 2)
-      href, title = href.split('@title=', 2) if href.match?(/@title=/)
+      href, title = href.split('@title=', 2) if href.present? && href.match?(/@title=/)
 
       if %w[self8 self81 self811 self812 sel811 sef811 slef812].include?(ref)
         href = "http://de.selfhtml.org/#{href}"
