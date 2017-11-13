@@ -1,5 +1,6 @@
 module LinksHelper
   def url_whitelisted?(url)
+    return true if url.is_a?(ApplicationRecord)
     return true unless url.match?(%r{^https?://})
     list = conf('links_white_list').to_s.split(/\015\012|\015|\012/)
 
@@ -34,7 +35,8 @@ module LinksHelper
     end
 
     url = args.third
-    attrs[:rel] = 'nofollow' if !url_whitelisted?(url) && !attrs.key?(:rel)
+    # let link_to_unless() handle url.nil? cases
+    attrs[:rel] = 'nofollow' if !url.nil? && !url_whitelisted?(url) && !attrs.key?(:rel)
 
     link_to_unless(*args, &block)
   end
