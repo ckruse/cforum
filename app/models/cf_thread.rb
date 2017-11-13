@@ -71,7 +71,7 @@ class CfThread < ApplicationRecord
     prev = nil
 
     @sorted_messages.each do |msg|
-      accepted << msg if msg.flags['accepted'] == 'yes'
+      accepted << msg if msg.accepted?
       @message = msg if msg.parent_id.blank?
 
       if prev

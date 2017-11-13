@@ -18,7 +18,7 @@ module SearchHelper
       title: message.subject,
       content: message.to_search(self),
       url: message_url(thread, message),
-      relevance: base_relevance.to_f + (message.score.to_f / 10.0) + (message.flags['accepted'] == 'yes' ? 0.5 : 0.0) +
+      relevance: base_relevance.to_f + (message.score.to_f / 10.0) + (message.accepted? ? 0.5 : 0.0) +
                  ('0.0' + message.created_at.year.to_s).to_f,
       lang: Cforum::Application.config.search_dict,
       document_created: message.created_at,
@@ -51,7 +51,7 @@ module SearchHelper
 
     doc.relevance = base_relevance.to_f +
                     (message.score.to_f / 10.0) +
-                    (message.flags['accepted'] == 'yes' ? 0.5 : 0.0) +
+                    (message.accepted? ? 0.5 : 0.0) +
                     ('0.0' + message.created_at.year.to_s).to_f
     doc.save
   end

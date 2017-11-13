@@ -12,7 +12,7 @@ class Messages::AcceptController < ApplicationController
     Message.transaction do
       @message.flags_will_change!
 
-      if @message.flags['accepted'] == 'yes'
+      if @message.accepted?
         @message.flags.delete('accepted')
         audit(@message, 'accepted-no')
       else
@@ -26,11 +26,11 @@ class Messages::AcceptController < ApplicationController
 
     rescore_message(@message)
 
-    type = @message.flags['accepted'] == 'yes' ? 'accepted' : 'unaccepted'
+    type = @message.accepted? ? 'accepted' : 'unaccepted'
     VoteBadgeDistributorJob.perform_later(nil, @message.message_id, type)
 
     respond_to do |format|
-      msg = if @message.flags['accepted'] == 'yes'
+      msg = if @message.accepted?
               t('messages.accepted')
             else
               t('messages.unaccepted')
@@ -82,7 +82,7 @@ class Messages::AcceptController < ApplicationController
   def give_score
     return if @message.user_id.blank?
 
-    if @message.flags['accepted'] == 'yes'
+    if @message.accepted?
       score_val = conf('accept_value').to_i
       score_val = conf('accept_self_value').to_i if @message.user_id == current_user.try(:user_id)
 

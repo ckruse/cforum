@@ -70,7 +70,7 @@ loop do
       doc.content = m.to_search(self, notify_mentions: false)
       doc.search_section_id = sections[m.forum_id].search_section_id
       doc.url = message_url(m.thread, m)
-      doc.relevance = base_relevance.to_f + (m.score.to_f / 10.0) + (m.flags['accepted'] == 'yes' ? 0.5 : 0.0) +
+      doc.relevance = base_relevance.to_f + (m.score.to_f / 10.0) + (m.accepted? ? 0.5 : 0.0) +
                       ('0.0' + m.created_at.year.to_s).to_f
       doc.lang = Cforum::Application.config.search_dict
       doc.document_created = m.created_at

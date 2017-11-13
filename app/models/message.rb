@@ -181,6 +181,10 @@ class Message < ApplicationRecord
     upvotes + downvotes
   end
 
+  def accepted?
+    flags['accepted'] == 'yes'
+  end
+
   def serializable_hash(options = {})
     options ||= {}
     options[:except] ||= []
