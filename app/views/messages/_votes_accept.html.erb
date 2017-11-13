@@ -1,38 +1,47 @@
 <%
 bottom ||= false
-%><div class="voting<% if bottom %> bottom<% end %>">
-  <% if @thread.forum.write?(current_user) %>
+%><% if bottom %>
+  <div class="voting bottom">
+    <% if @thread.forum.write?(current_user) %>
 
-    <% if @thread.message.message_id != m.message_id %>
-      <%= form_tag accept_message_path(@thread, m), method: :post, class: 'form-inline' do %>
-        <% if not @thread.acceptance_forbidden?(current_user, cookies[:cforum_user]) %>
-          <button
-            class="<%= (m.flags['accepted'] == 'yes' ? 'accepted-answer' : 'unaccepted-answer') %> cf-btn accept"
-            title="<%= m.flags['accepted'] == 'yes' ? t('messages.unaccept_answer') : t('messages.accept_answer') %>">✓</button>
-        <% elsif m.flags['accepted'] == 'yes' %>
-          <span class="accepted-answer cf-btn accept" title="<% t('messages.accepted_answer') %>"><% t('messages.accepted_answer') %></span>
+      <% if @thread.message.message_id != m.message_id %>
+        <%= form_tag accept_message_path(@thread, m), method: :post, class: 'form-inline' do %>
+          <% if not @thread.acceptance_forbidden?(current_user, cookies[:cforum_user]) %>
+            <button
+              class="<%= (m.accepted? ? 'accepted-answer' : 'unaccepted-answer') %> cf-btn accept"
+              title="<%= m.accepted? ? t('messages.unaccept_answer') : t('messages.accept_answer') %>">✓</button>
+          <% elsif m.accepted? %>
+            <span class="accepted-answer cf-btn accept" title="<% t('messages.accepted_answer') %>"><% t('messages.accepted_answer') %></span>
+          <% end %>
         <% end %>
+	    <% end %>
+
+      <%= form_tag vote_message_path(@thread, m), method: :post, class: 'form-inline' do %>
+        <button name="type"
+                value="down"
+                title="<%= downvote_message(m, @votes) %>"
+                <% unless may_vote?(m, Badge::DOWNVOTE).blank? %>disabled="disabled"<% end %>
+                class="cf-btn vote icon-vote-down<% if downvoted?(m, @votes) %> active<% end %>
+                      <% if current_user.blank? or not may?(Badge::DOWNVOTE) %> disabled<% end %>">‒</button>
+
+        <span class="votes" title="<%= t('messages.votes_tree', count: m.upvotes + m.downvotes, score: m.score_str) %>"><%= m.score_str %></span>
+
+        <button name="type"
+                value="up"
+                title="<%= upvote_message(m, @votes) %>"
+                <% unless may_vote?(m, Badge::UPVOTE).blank? %>disabled="disabled"<% end %>
+                class="cf-btn vote icon-vote-up<% if upvoted?(m, @votes) %> active<% end %>
+                      <% if current_user.blank? or not may?(Badge::UPVOTE) %> disabled<% end %>">+</button>
+
+        <%= cf_link_to ' ', "https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bewertungsregeln", class: 'infos', title: t('messages.infos_for_scoring') %>
       <% end %>
-	  <% end %>
-
-    <%= form_tag vote_message_path(@thread, m), method: :post, class: 'form-inline' do %>
-      <button name="type"
-              value="down"
-              title="<%= downvote_message(m, @votes) %>"
-              <% unless may_vote?(m, Badge::DOWNVOTE).blank? %>disabled="disabled"<% end %>
-              class="cf-btn vote icon-vote-down<% if downvoted?(m, @votes) %> active<% end %>
-                     <% if current_user.blank? or not may?(Badge::DOWNVOTE) %> disabled<% end %>">‒</button>
-
-      <span class="votes" title="<%= t('messages.votes_tree', count: m.upvotes + m.downvotes, score: m.score_str) %>"><%= m.score_str %></span>
-
-      <button name="type"
-              value="up"
-              title="<%= upvote_message(m, @votes) %>"
-              <% unless may_vote?(m, Badge::UPVOTE).blank? %>disabled="disabled"<% end %>
-              class="cf-btn vote icon-vote-up<% if upvoted?(m, @votes) %> active<% end %>
-                     <% if current_user.blank? or not may?(Badge::UPVOTE) %> disabled<% end %>">+</button>
-
-      <%= cf_link_to ' ', "https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bewertungsregeln", class: 'infos', title: t('messages.infos_for_scoring') %>
     <% end %>
+  </div>
+<% else %>
+  <% if m.upvotes > 0 || m.downvotes > 0 || m.accepted? %>
+    <div class="voting">
+      <span class="votes" title="<%= t('messages.votes_tree', count: m.upvotes + m.downvotes, score: m.score_str) %>"><%= m.score_str %></span>
+      <%= cf_link_to ' ', "https://wiki.selfhtml.org/wiki/SELFHTML:Forum/Bewertungsregeln", class: 'infos', title: t('messages.infos_for_scoring') %>
+    </div>
   <% end %>
-</div>
+<% end %>
