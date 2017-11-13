@@ -210,8 +210,8 @@ class CfThreadsController < ApplicationController
 
     if uconf('page_messages') == 'yes'
       threads, sticky_threads = index_threads(true, -1, -1, false, true)
-      threads.gsub!(/SELECT.*?FROM/, 'SELECT threads.thread_id FROM')
-      sticky_threads.gsub!(/SELECT.*?FROM/, 'SELECT COUNT(*) FROM').gsub!(/ORDER BY.*/, '')
+      threads = threads.gsub(/SELECT.*?FROM/, 'SELECT threads.thread_id FROM')
+      sticky_threads = sticky_threads.gsub(/SELECT.*?FROM/, 'SELECT COUNT(*) FROM').gsub!(/ORDER BY.*/, '')
 
       threads = CfThread.connection.execute threads
       sticky_threads = CfThread.connection.execute sticky_threads
