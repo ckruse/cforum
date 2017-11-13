@@ -1,15 +1,13 @@
 module CForum
   module Tools
-    @@url_attribs = {}
-
     def init
-      @@url_attribs = {}
+      @url_attribs = {}
     end
     module_function :init
 
     def set_url_attrib(nam, val)
-      @@url_attribs ||= {}
-      @@url_attribs[nam] = val
+      @url_attribs ||= {}
+      @url_attribs[nam] = val
     end
 
     def encode_entities(txt)
@@ -24,7 +22,7 @@ module CForum
 
       qs = []
       had_key = {}
-      @@url_attribs ||= {}
+      @url_attribs ||= {}
 
       args.each do |k, v|
         had_key[k.to_s] = true
@@ -32,7 +30,7 @@ module CForum
         qs << CGI.escape(k.to_s) + '=' + CGI.escape(v.to_s)
       end
 
-      @@url_attribs.each do |k, v|
+      @url_attribs.each do |k, v|
         next if had_key[k.to_s] == true
         qs << CGI.escape(k.to_s) + '=' + CGI.escape(v.to_s)
       end
