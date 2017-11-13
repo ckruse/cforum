@@ -32,3 +32,4 @@ TAGS
 /public/uploads/thumb/*
 /.vagrant/
 /cookbooks/
+/.byebug_history

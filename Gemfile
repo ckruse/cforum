@@ -45,6 +45,7 @@ group :development, :test do
   gem 'listen', '~> 3.0.7'
   gem 'phantomjs', require: 'phantomjs/poltergeist'
   gem 'poltergeist'
+  gem 'pry-byebug'
   gem 'puma'
   gem 'rspec-rails'
   gem 'rubocop', require: false
@@ -55,9 +56,8 @@ end
 gem 'rails-controller-testing', require: false, group: :test
 gem 'simplecov', require: false, group: :test
 
-gem 'byebug', group: :development
 gem 'spring', group: :development
-gem 'web-console', '~> 2.0', group: :development
+gem 'web-console', '~> 3.5', group: :development
 
 gem 'libnotify',
     group: :development,
