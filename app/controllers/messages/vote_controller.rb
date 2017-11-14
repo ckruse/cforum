@@ -189,7 +189,7 @@ class Messages::VoteController < ApplicationController
     Score
       .where('user_id = ? AND vote_id = ?',
              @message.user_id, @vote.vote_id)
-      .update_all(['value = ?', @vote_up_value])
+      .update_all(value: @vote_up_value)
   end
 
   def update_existing_downvote
