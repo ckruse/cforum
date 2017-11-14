@@ -18,7 +18,7 @@ class ArchiverJob < ApplicationJob
                             t.thread_id.to_s + ' because of to many messages')
 
           audit(t, 'destroy', nil)
-          SearchDocument.delete_all(['reference_id IN (?)', t.messages.map(&:message_id)])
+          SearchDocument.where('reference_id IN (?)', t.messages.map(&:message_id)).delete_all
           t.destroy
 
         else

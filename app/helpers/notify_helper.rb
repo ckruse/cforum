@@ -23,7 +23,7 @@ module NotifyHelper
   end
 
   def unnotify_user(oid, types = nil)
-    Notification.delete_all(['oid = ? AND otype IN (?)', oid, types])
+    Notification.where('oid = ? AND otype IN (?)', oid, types).delete_all
   end
 
   def check_for_deleting_notification(thread, message)

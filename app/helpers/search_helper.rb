@@ -38,7 +38,7 @@ module SearchHelper
       mids << m.message_id
     end
 
-    SearchDocument.delete_all(['reference_id IN (?)', mids]) if mids.present?
+    SearchDocument.where('reference_id IN (?)', mids).delete_all if mids.present?
   end
 
   def rescore_message(message)
