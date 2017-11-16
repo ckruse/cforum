@@ -60,43 +60,28 @@ class Message < ApplicationRecord
   #   where("deleted = false")
   # end
 
-  def references(forums, lim = nil)
+  def references(forums, lim = -1)
     fids = forums.map(&:forum_id)
     @references ||= message_references.reject { |ref| ref.src_message.deleted }
     refs = @references.select { |ref| fids.include?(ref.src_message.forum_id) }
-
-    if lim
-      refs[0..lim]
-    else
-      refs
-    end
+    refs[0..lim]
   end
 
   def close_vote
-    votes.each do |v|
-      return v if v.vote_type == false
-    end
-
-    nil
+    votes.find { |v| v.vote_type == false }
   end
 
   def open_vote
-    votes.each do |v|
-      return v if v.vote_type == true
-    end
-
-    nil
+    votes.find { |v| v.vote_type == true }
   end
 
   def delete_with_subtree
     update_attributes(deleted: true)
-
     messages.each(&:delete_with_subtree)
   end
 
   def restore_with_subtree
     update_attributes(deleted: false)
-
     messages.each(&:restore_with_subtree)
   end
 
@@ -129,25 +114,14 @@ class Message < ApplicationRecord
 
   def subject_changed?
     return false if parent_id.blank?
-
-    self.parent_level = Message.find parent_id if parent_level.blank?
-
+    self.parent_level ||= Message.find parent_id
     parent_level.subject != subject
   end
 
   def tags_changed?
     return true if parent_id.blank?
     self.parent_level ||= Message.find parent_id
-
-    tags.each do |tag|
-      return true unless parent_level.tags.include?(tag)
-    end
-
-    parent_level.tags.each do |tag|
-      return true unless tags.include?(tag)
-    end
-
-    false
+    ((tags + parent_level.tags) - (tags & parent_level.tags)).present?
   end
 
   def day_changed?(msg = nil)
@@ -158,18 +132,12 @@ class Message < ApplicationRecord
       msg = parent_level
     end
 
-    msg.created_at.day != created_at.day ||
-      msg.created_at.month != created_at.month ||
-      msg.created_at.year != created_at.year
+    msg.created_at.to_date != created_at.to_date
   end
 
   def open?
     # admin decisions overrule normal decisions
-    if flags['no-answer-admin'].present?
-      return true if flags['no-answer-admin'] != 'yes'
-      return false if flags['no-answer-admin'] == 'yes'
-    end
-
+    return flags['no-answer-admin'] != 'yes' if flags['no-answer-admin'].present?
     flags['no-answer'] != 'yes'
   end
 

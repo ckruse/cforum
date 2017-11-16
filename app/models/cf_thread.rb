@@ -93,7 +93,7 @@ class CfThread < ApplicationRecord
 
   def self.gen_id(thread, num = nil)
     now = thread.message.created_at
-    now = Time.now if now.nil?
+    now = Time.zone.now if now.nil?
 
     s = now.strftime('/%Y/%b/%d/').gsub(%r{0(\d)/$}, '\1/').downcase
     s << num.to_s + '-' if num.present?
@@ -102,12 +102,8 @@ class CfThread < ApplicationRecord
     s.gsub(%r{[^a-z0-9_/-]}, '')
   end
 
-  def self.make_id(year, mon = nil, day = nil, tid = nil)
-    if year && mon && day && tid
-      '/' + year.to_s + '/' + mon.to_s + '/' + day.to_s + '/' + tid.to_s
-    else
-      '/' + year[:year].to_s + '/' + year[:mon].to_s + '/' + year[:day].to_s + '/' + year[:tid].to_s
-    end
+  def self.make_id(opts = {})
+    '/' + opts[:year].to_s + '/' + opts[:mon].to_s + '/' + opts[:day].to_s + '/' + opts[:tid].to_s
   end
 
   after_initialize do

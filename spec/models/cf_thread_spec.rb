@@ -83,10 +83,6 @@ RSpec.describe CfThread, type: :model do
       expect(CfThread.gen_id(thread)).to eq('/1999/jan/1/the-rebellion')
     end
 
-    it 'generates an id from year, mon, day and tid' do
-      expect(CfThread.make_id(1999, 'jan', 1, 'the-rebellion')).to eq '/1999/jan/1/the-rebellion'
-    end
-
     it 'generates an id from hash' do
       hash = { year: 1999, mon: 'jan', day: 1, tid: 'the-rebellion' }
       expect(CfThread.make_id(hash)).to eq '/1999/jan/1/the-rebellion'
