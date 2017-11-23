@@ -50,7 +50,7 @@ module LinksHelper
     end
 
     url = args.third
-    attrs[:rel] = 'nofollow' if !url_whitelisted?(url) && !attrs.key?(:rel)
+    attrs[:rel] = 'nofollow' if !url.nil? && !url_whitelisted?(url) && !attrs.key?(:rel)
 
     link_to_if(*args, &block)
   end
