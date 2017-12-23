@@ -568,7 +568,7 @@ cforum.messages = {
   twitter: {
     new: function() {
       var minput = $("#tweet_text");
-      var maxLen = 140;
+      var maxLen = 280;
 
       if(!minput.length) {
         return;
