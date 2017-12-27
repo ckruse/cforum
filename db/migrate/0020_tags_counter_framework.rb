@@ -1,4 +1,4 @@
-class TagsCounterFramework < ActiveRecord::Migration
+class TagsCounterFramework < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE tags ADD COLUMN num_threads BIGINT NOT NULL DEFAULT 0;

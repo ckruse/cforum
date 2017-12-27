@@ -1,4 +1,4 @@
-class AddMessageVersions < ActiveRecord::Migration
+class AddMessageVersions < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE message_versions (

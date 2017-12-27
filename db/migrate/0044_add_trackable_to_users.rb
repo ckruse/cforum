@@ -1,4 +1,4 @@
-class AddTrackableToUsers < ActiveRecord::Migration
+class AddTrackableToUsers < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE users ADD COLUMN last_sign_in_at TIMESTAMP WITHOUT TIME ZONE;

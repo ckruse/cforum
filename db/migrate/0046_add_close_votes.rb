@@ -1,4 +1,4 @@
-class AddCloseVotes < ActiveRecord::Migration
+class AddCloseVotes < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE close_votes (

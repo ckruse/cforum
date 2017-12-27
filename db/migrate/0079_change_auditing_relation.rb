@@ -1,4 +1,4 @@
-class ChangeAuditingRelation < ActiveRecord::Migration
+class ChangeAuditingRelation < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE auditing ALTER COLUMN relation TYPE character varying(120);

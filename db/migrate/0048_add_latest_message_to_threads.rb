@@ -1,4 +1,4 @@
-class AddLatestMessageToThreads < ActiveRecord::Migration
+class AddLatestMessageToThreads < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE threads ADD COLUMN latest_message TIMESTAMP WITHOUT TIME ZONE;

@@ -1,4 +1,4 @@
-class AddFormatToMessages < ActiveRecord::Migration
+class AddFormatToMessages < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE messages ADD COLUMN format CHARACTER VARYING(100) NOT NULL DEFAULT 'markdown';

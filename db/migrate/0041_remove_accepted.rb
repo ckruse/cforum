@@ -1,4 +1,4 @@
-class RemoveAccepted < ActiveRecord::Migration
+class RemoveAccepted < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       UPDATE messages SET flags = flags || '"accepted" => "yes"'::hstore WHERE accepted = true;

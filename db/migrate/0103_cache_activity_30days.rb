@@ -1,4 +1,4 @@
-class CacheActivity30days < ActiveRecord::Migration
+class CacheActivity30days < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE users ADD COLUMN activity INT NOT NULL DEFAULT 0;

@@ -1,4 +1,4 @@
-class FixThreadLatestMessageTrigger < ActiveRecord::Migration
+class FixThreadLatestMessageTrigger < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       DROP TRIGGER IF EXISTS messages__thread_set_latest_trigger ON messages;

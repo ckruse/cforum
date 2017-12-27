@@ -1,4 +1,4 @@
-class ChangeAuthorDictSimple < ActiveRecord::Migration
+class ChangeAuthorDictSimple < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE OR REPLACE FUNCTION search_document_before_insert() RETURNS trigger LANGUAGE plpgsql AS $body$

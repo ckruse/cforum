@@ -1,4 +1,4 @@
-class CreateSticky < ActiveRecord::Migration
+class CreateSticky < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE threads ADD COLUMN sticky BOOLEAN NOT NULL DEFAULT false;

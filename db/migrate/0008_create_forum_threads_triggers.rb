@@ -1,4 +1,4 @@
-class CreateForumThreadsTriggers < ActiveRecord::Migration
+class CreateForumThreadsTriggers < ActiveRecord::Migration[5.0]
   def up
     sql = IO.read(File.dirname(__FILE__) + '/../count_threads.sql')
     execute sql

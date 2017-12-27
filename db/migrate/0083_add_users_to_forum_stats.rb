@@ -1,4 +1,4 @@
-class AddUsersToForumStats < ActiveRecord::Migration
+class AddUsersToForumStats < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE forum_stats

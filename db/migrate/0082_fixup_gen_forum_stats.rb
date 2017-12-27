@@ -1,4 +1,4 @@
-class FixupGenForumStats < ActiveRecord::Migration
+class FixupGenForumStats < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE OR REPLACE FUNCTION gen_forum_stats(p_forum_id INTEGER) RETURNS INTEGER LANGUAGE plpgsql AS $body$

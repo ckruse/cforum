@@ -1,4 +1,4 @@
-class AddStandardBadges < ActiveRecord::Migration
+class AddStandardBadges < ActiveRecord::Migration[5.0]
   def up
     Badge.create!(score_needed: 50, name: I18n.t('badges.badge_types.upvote'),
                   slug: 'upvote', badge_type: 'upvote', badge_medal_type: 'bronze',

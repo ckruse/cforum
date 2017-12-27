@@ -1,4 +1,4 @@
-class AddAuthorToPrivMessages < ActiveRecord::Migration
+class AddAuthorToPrivMessages < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE priv_messages ADD COLUMN sender_name CHARACTER VARYING;

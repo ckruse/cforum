@@ -1,4 +1,4 @@
-class FixUniquenessCheck < ActiveRecord::Migration
+class FixUniquenessCheck < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       DROP TRIGGER settings_unique_check ON settings;

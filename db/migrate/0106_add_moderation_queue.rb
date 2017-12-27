@@ -1,4 +1,4 @@
-class AddModerationQueue < ActiveRecord::Migration
+class AddModerationQueue < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE moderation_queue (

@@ -1,4 +1,4 @@
-class UserIdNotMandatory < ActiveRecord::Migration
+class UserIdNotMandatory < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE message_versions ALTER COLUMN user_id DROP NOT NULL;

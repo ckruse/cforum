@@ -1,4 +1,4 @@
-class AddCaseInsensitiveIndexUsernameEmail < ActiveRecord::Migration
+class AddCaseInsensitiveIndexUsernameEmail < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       DROP INDEX users_username_idx;

@@ -1,4 +1,4 @@
-class AddGroupsToBadges < ActiveRecord::Migration
+class AddGroupsToBadges < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE badge_groups (

@@ -1,4 +1,4 @@
-class PeonSchema < ActiveRecord::Migration
+class PeonSchema < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE peon_jobs (

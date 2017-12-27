@@ -1,4 +1,4 @@
-class AddThreadIdToPrivMessages < ActiveRecord::Migration
+class AddThreadIdToPrivMessages < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE priv_messages

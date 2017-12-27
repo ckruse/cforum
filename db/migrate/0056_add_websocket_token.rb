@@ -1,4 +1,4 @@
-class AddWebsocketToken < ActiveRecord::Migration
+class AddWebsocketToken < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE users ADD COLUMN websocket_token CHARACTER VARYING(250) UNIQUE;

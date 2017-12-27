@@ -1,4 +1,4 @@
-class CreatePrivilegeTables < ActiveRecord::Migration
+class CreatePrivilegeTables < ActiveRecord::Migration[5.0]
   def up
     execute <<-SQL
       CREATE TABLE forum_permissions (

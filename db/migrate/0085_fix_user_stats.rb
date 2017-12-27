@@ -1,4 +1,4 @@
-class FixUserStats < ActiveRecord::Migration
+class FixUserStats < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE forum_stats DROP COLUMN users;

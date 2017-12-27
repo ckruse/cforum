@@ -1,4 +1,4 @@
-class CreateUpdateTrigger < ActiveRecord::Migration
+class CreateUpdateTrigger < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       --

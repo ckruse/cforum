@@ -1,4 +1,4 @@
-class AddPlannedLeave < ActiveRecord::Migration
+class AddPlannedLeave < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE attendees ADD COLUMN planned_leave TIMESTAMP WITHOUT TIME ZONE;

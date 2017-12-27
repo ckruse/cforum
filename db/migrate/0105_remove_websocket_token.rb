@@ -1,4 +1,4 @@
-class RemoveWebsocketToken < ActiveRecord::Migration
+class RemoveWebsocketToken < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE users

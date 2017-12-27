@@ -1,4 +1,4 @@
-class AddSubscriptions < ActiveRecord::Migration
+class AddSubscriptions < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE subscriptions (

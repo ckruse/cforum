@@ -1,4 +1,4 @@
-class PointsSystem < ActiveRecord::Migration
+class PointsSystem < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE scores (

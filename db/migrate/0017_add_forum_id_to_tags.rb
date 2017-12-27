@@ -28,7 +28,7 @@ class CfTagThread < ApplicationRecord
   validates_presence_of :tag_id, :thread_id
 end
 
-class AddForumIdToTags < ActiveRecord::Migration
+class AddForumIdToTags < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE tags ADD COLUMN forum_id BIGINT REFERENCES forums (forum_id) ON UPDATE CASCADE ON DELETE CASCADE;

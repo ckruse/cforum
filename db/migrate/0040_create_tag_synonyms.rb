@@ -1,4 +1,4 @@
-class CreateTagSynonyms < ActiveRecord::Migration
+class CreateTagSynonyms < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE tag_synonyms (

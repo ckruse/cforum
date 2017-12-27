@@ -1,4 +1,4 @@
-class AddVotingToCites < ActiveRecord::Migration
+class AddVotingToCites < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE cites ADD COLUMN cite_date TIMESTAMP WITHOUT TIME ZONE;

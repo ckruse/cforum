@@ -1,4 +1,4 @@
-class CreateCounterFramework < ActiveRecord::Migration
+class CreateCounterFramework < ActiveRecord::Migration[5.0]
   def up
     sql = IO.read(File.dirname(__FILE__) + '/../counter_table.sql')
     execute sql

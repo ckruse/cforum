@@ -1,4 +1,4 @@
-class CreateNotifications < ActiveRecord::Migration
+class CreateNotifications < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE notifications (

@@ -1,4 +1,4 @@
-class OpenedClosedThreads < ActiveRecord::Migration
+class OpenedClosedThreads < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE opened_closed_threads (

@@ -1,4 +1,4 @@
-class AddTwitterAuthorizations < ActiveRecord::Migration
+class AddTwitterAuthorizations < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE twitter_authorizations (

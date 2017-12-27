@@ -1,4 +1,4 @@
-class AddProblematicSite < ActiveRecord::Migration
+class AddProblematicSite < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE messages ADD COLUMN problematic_site character varying;

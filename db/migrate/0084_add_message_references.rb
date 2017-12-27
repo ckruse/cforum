@@ -1,4 +1,4 @@
-class AddMessageReferences < ActiveRecord::Migration
+class AddMessageReferences < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE message_references (

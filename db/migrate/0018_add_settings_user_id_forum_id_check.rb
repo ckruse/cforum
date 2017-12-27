@@ -1,4 +1,4 @@
-class AddSettingsUserIdForumIdCheck < ActiveRecord::Migration
+class AddSettingsUserIdForumIdCheck < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE OR REPLACE FUNCTION settings_unique_check() RETURNS trigger AS $body$

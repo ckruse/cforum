@@ -1,4 +1,4 @@
-class MissingForeignKeyIndexes < ActiveRecord::Migration
+class MissingForeignKeyIndexes < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE INDEX messages_editor_id_idx ON messages(editor_id);

@@ -1,4 +1,4 @@
-class AddVoterBadge < ActiveRecord::Migration
+class AddVoterBadge < ActiveRecord::Migration[5.0]
   def up
     Badge.create!(name: I18n.t('badges.badge_types.voter'),
                   slug: 'voter',

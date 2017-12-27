@@ -1,4 +1,4 @@
-class CreateMessages < ActiveRecord::Migration
+class CreateMessages < ActiveRecord::Migration[5.0]
   def up
     execute <<-SQL
       CREATE EXTENSION hstore;

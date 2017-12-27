@@ -1,4 +1,4 @@
-class AddTagSlug < ActiveRecord::Migration
+class AddTagSlug < ActiveRecord::Migration[5.0]
   def up
     execute <<-SQL
       ALTER TABLE tags ADD COLUMN slug CHARACTER VARYING(250);

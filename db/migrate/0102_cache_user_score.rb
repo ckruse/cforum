@@ -1,4 +1,4 @@
-class CacheUserScore < ActiveRecord::Migration
+class CacheUserScore < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE users ADD COLUMN score INT NOT NULL DEFAULT 0;

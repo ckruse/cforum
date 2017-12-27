@@ -1,4 +1,4 @@
-class RevampTags < ActiveRecord::Migration
+class RevampTags < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       DROP TABLE IF EXISTS tags_threads CASCADE;

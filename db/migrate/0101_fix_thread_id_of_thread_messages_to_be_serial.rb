@@ -1,4 +1,4 @@
-class FixThreadIdOfThreadMessagesToBeSerial < ActiveRecord::Migration
+class FixThreadIdOfThreadMessagesToBeSerial < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE priv_messages

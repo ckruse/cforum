@@ -1,4 +1,4 @@
-class AddOrderToForums < ActiveRecord::Migration
+class AddOrderToForums < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE forums ADD COLUMN position INTEGER NOT NULL DEFAULT 0;

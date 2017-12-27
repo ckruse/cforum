@@ -1,4 +1,4 @@
-class CreatePrivMessages < ActiveRecord::Migration
+class CreatePrivMessages < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE priv_messages (

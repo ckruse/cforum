@@ -1,4 +1,4 @@
-class RemoveSecuredNames < ActiveRecord::Migration
+class RemoveSecuredNames < ActiveRecord::Migration[5.0]
   def up
     drop_table 'secured_names'
   end

@@ -1,4 +1,4 @@
-class FixAdminFlag < ActiveRecord::Migration
+class FixAdminFlag < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE users ALTER COLUMN admin TYPE BOOLEAN USING CASE WHEN 't' THEN true ELSE false END;

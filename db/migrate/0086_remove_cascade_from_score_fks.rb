@@ -1,4 +1,4 @@
-class RemoveCascadeFromScoreFks < ActiveRecord::Migration
+class RemoveCascadeFromScoreFks < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE scores DROP CONSTRAINT scores_message_id_fkey;

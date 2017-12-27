@@ -1,4 +1,4 @@
-class VotingChecks < ActiveRecord::Migration
+class VotingChecks < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE votes (

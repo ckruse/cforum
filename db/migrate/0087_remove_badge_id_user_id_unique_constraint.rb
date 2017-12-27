@@ -1,4 +1,4 @@
-class RemoveBadgeIdUserIdUniqueConstraint < ActiveRecord::Migration
+class RemoveBadgeIdUserIdUniqueConstraint < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE badges_users

@@ -1,4 +1,4 @@
-class FixLatestMessageForDeleted < ActiveRecord::Migration
+class FixLatestMessageForDeleted < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE OR REPLACE FUNCTION messages__thread_set_latest_insert() RETURNS trigger LANGUAGE plpgsql AS $body$

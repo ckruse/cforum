@@ -1,4 +1,4 @@
-class AddFlagsForThread < ActiveRecord::Migration
+class AddFlagsForThread < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE threads ADD COLUMN flags hstore;

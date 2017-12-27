@@ -1,4 +1,4 @@
-class AddTsAuthor < ActiveRecord::Migration
+class AddTsAuthor < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
 

@@ -1,4 +1,4 @@
-class SecuredNames < ActiveRecord::Migration
+class SecuredNames < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE secured_names (

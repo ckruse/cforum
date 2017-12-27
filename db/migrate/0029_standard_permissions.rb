@@ -1,4 +1,4 @@
-class StandardPermissions < ActiveRecord::Migration
+class StandardPermissions < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE forums DROP COLUMN public;

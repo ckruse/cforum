@@ -1,4 +1,4 @@
-class AddInvisibleThreads < ActiveRecord::Migration
+class AddInvisibleThreads < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE invisible_threads (

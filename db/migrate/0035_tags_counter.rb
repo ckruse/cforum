@@ -1,4 +1,4 @@
-class TagsCounter < ActiveRecord::Migration
+class TagsCounter < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE tags ALTER COLUMN num_messages SET DEFAULT 0;

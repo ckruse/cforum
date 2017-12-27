@@ -1,4 +1,4 @@
-class EditorIdToMessages < ActiveRecord::Migration
+class EditorIdToMessages < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE messages ADD COLUMN editor_id BIGINT

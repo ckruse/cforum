@@ -1,4 +1,4 @@
-class CreateAccepted < ActiveRecord::Migration
+class CreateAccepted < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE messages ADD COLUMN accepted BOOLEAN NOT NULL DEFAULT false;

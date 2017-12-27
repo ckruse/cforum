@@ -1,4 +1,4 @@
-class InterestingThreadsToMessages < ActiveRecord::Migration
+class InterestingThreadsToMessages < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE interesting_messages (

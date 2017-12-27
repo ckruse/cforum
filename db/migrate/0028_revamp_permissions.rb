@@ -1,4 +1,4 @@
-class RevampPermissions < ActiveRecord::Migration
+class RevampPermissions < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       DROP TABLE forum_permissions;

@@ -1,4 +1,4 @@
-class AddDescToNotifications < ActiveRecord::Migration
+class AddDescToNotifications < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE notifications ADD COLUMN description TEXT;

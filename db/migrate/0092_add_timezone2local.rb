@@ -1,4 +1,4 @@
-class AddTimezone2local < ActiveRecord::Migration
+class AddTimezone2local < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE OR REPLACE FUNCTION timestamp2local(ts_p TIMESTAMP WITHOUT TIME ZONE, tz_p CHARACTER VARYING) RETURNS TIMESTAMP WITH TIME ZONE AS $fun$

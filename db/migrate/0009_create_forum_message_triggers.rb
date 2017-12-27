@@ -1,4 +1,4 @@
-class CreateForumMessageTriggers < ActiveRecord::Migration
+class CreateForumMessageTriggers < ActiveRecord::Migration[5.0]
   def up
     sql = IO.read(File.dirname(__FILE__) + '/../count_messages.sql')
     execute sql

@@ -1,4 +1,4 @@
-class AddRelnofollowBadge < ActiveRecord::Migration
+class AddRelnofollowBadge < ActiveRecord::Migration[5.0]
   include NotifyHelper
 
   def up

@@ -1,4 +1,4 @@
-class BadgeTypeToString < ActiveRecord::Migration
+class BadgeTypeToString < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE badges ADD COLUMN badge_type_new CHARACTER VARYING(250);

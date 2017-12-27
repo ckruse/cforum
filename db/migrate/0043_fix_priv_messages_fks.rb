@@ -1,4 +1,4 @@
-class FixPrivMessagesFks < ActiveRecord::Migration
+class FixPrivMessagesFks < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE priv_messages ALTER COLUMN sender_id DROP NOT NULL;

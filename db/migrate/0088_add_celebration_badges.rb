@@ -1,4 +1,4 @@
-class AddCelebrationBadges < ActiveRecord::Migration
+class AddCelebrationBadges < ActiveRecord::Migration[5.0]
   WRITER_BADGES = [
     { messages: 100, name: 'chisel', type: 'bronze' },
     { messages: 1000, name: 'brush', type: 'bronze' },

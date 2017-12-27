@@ -1,4 +1,4 @@
-class AddCreatedAtToPeonJobs < ActiveRecord::Migration
+class AddCreatedAtToPeonJobs < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE peon_jobs ADD COLUMN created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW();

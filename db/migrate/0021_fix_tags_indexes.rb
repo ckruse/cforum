@@ -1,4 +1,4 @@
-class FixTagsIndexes < ActiveRecord::Migration
+class FixTagsIndexes < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       DROP INDEX tags_forum_id_tag_name_idx;

@@ -1,4 +1,4 @@
-class RemovePeonSchema < ActiveRecord::Migration
+class RemovePeonSchema < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       DROP TABLE peon_jobs;

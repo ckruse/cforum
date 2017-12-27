@@ -1,4 +1,4 @@
-class FixUpdateMessagesTrigger < ActiveRecord::Migration
+class FixUpdateMessagesTrigger < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
             ALTER TABLE threads ADD COLUMN deleted BOOLEAN NOT NULL DEFAULT false;

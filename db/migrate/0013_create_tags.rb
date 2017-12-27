@@ -1,4 +1,4 @@
-class CreateTags < ActiveRecord::Migration
+class CreateTags < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE tags (

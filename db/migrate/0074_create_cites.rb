@@ -1,4 +1,4 @@
-class CreateCites < ActiveRecord::Migration
+class CreateCites < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TABLE cites (

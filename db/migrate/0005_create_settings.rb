@@ -1,4 +1,4 @@
-class CreateSettings < ActiveRecord::Migration
+class CreateSettings < ActiveRecord::Migration[5.0]
   def up
     execute <<-SQL
       CREATE TABLE settings (

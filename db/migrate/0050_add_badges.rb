@@ -1,4 +1,4 @@
-class AddBadges < ActiveRecord::Migration
+class AddBadges < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       CREATE TYPE badge_medal_type_t AS ENUM('bronze', 'silver', 'gold');

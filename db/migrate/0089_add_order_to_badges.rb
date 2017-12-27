@@ -1,4 +1,4 @@
-class AddOrderToBadges < ActiveRecord::Migration
+class AddOrderToBadges < ActiveRecord::Migration[5.0]
   def up
     execute <<~SQL
       ALTER TABLE badges
