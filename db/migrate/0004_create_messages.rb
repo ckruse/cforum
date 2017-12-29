@@ -1,8 +1,6 @@
 class CreateMessages < ActiveRecord::Migration[5.0]
   def up
     execute <<-SQL
-      CREATE EXTENSION hstore;
-
       CREATE TABLE messages (
         message_id BIGSERIAL NOT NULL PRIMARY KEY,
         thread_id BIGINT NOT NULL REFERENCES threads(thread_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -27,7 +25,7 @@ class CreateMessages < ActiveRecord::Migration[5.0]
         subject CHARACTER VARYING NOT NULL,
         content CHARACTER VARYING NOT NULL,
 
-        flags HSTORE
+        flags JSONB
       );
 
       ALTER TABLE threads ADD COLUMN message_id BIGINT REFERENCES messages (message_id) ON DELETE SET NULL ON UPDATE CASCADE;

@@ -113,9 +113,9 @@ module ThreadsHelper
                        .joins(:messages)
                        .where(archived: false, deleted: false, messages: { deleted: false })
                        .where('threads.forum_id IN (?)', Forum.visible_forums(current_user).select(:forum_id))
-                       .where("(messages.flags->'no-answer-admin' = 'no' OR " \
-                              "  (messages.flags->'no-answer-admin') IS NULL) AND " \
-                              "  (messages.flags->'no-answer' = 'no' OR (messages.flags->'no-answer') IS NULL)")
+                       .where("(messages.flags->>'no-answer-admin' = 'no' OR " \
+                              "  (messages.flags->>'no-answer-admin') IS NULL) AND " \
+                              "  (messages.flags->>'no-answer' = 'no' OR (messages.flags->>'no-answer') IS NULL)")
                        .group('threads.thread_id')
                        .having('COUNT(*) <= 1')
 

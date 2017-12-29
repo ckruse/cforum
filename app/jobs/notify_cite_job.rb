@@ -7,8 +7,8 @@ class NotifyCiteJob < ApplicationJob
     users = User
               .joins('LEFT JOIN settings USING(user_id)')
               .where('setting_id IS NULL OR' \
-                     "  (setting_id IS NOT NULL AND ((options->'notify_on_cite') != 'no' OR " \
-                     "  (options->'notify_on_cite') IS NULL))")
+                     "  (setting_id IS NOT NULL AND ((options->>'notify_on_cite') != 'no' OR " \
+                     "  (options->>'notify_on_cite') IS NULL))")
 
     users = users.where('user_id != ?', cite.creator_user_id) if cite.creator_user_id.present?
 

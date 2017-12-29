@@ -21,20 +21,6 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
---
--- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
-
-
---
--- Name: EXTENSION hstore; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
-
-
 SET search_path = public, pg_catalog;
 
 --
@@ -1421,7 +1407,7 @@ CREATE TABLE messages (
     homepage character varying,
     subject character varying NOT NULL,
     content character varying NOT NULL,
-    flags hstore,
+    flags jsonb,
     uuid character varying(250),
     ip character varying(255),
     editor_id bigint,
@@ -1835,7 +1821,7 @@ CREATE TABLE settings (
     setting_id bigint NOT NULL,
     forum_id bigint,
     user_id bigint,
-    options hstore
+    options jsonb
 );
 
 
@@ -1968,7 +1954,7 @@ CREATE TABLE threads (
     message_id bigint,
     deleted boolean DEFAULT false NOT NULL,
     sticky boolean DEFAULT false NOT NULL,
-    flags hstore,
+    flags jsonb,
     latest_message timestamp without time zone NOT NULL
 );
 

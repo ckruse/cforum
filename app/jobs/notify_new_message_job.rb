@@ -27,7 +27,7 @@ class NotifyNewMessageJob < ApplicationJob
   def perform_thread(message, thread)
     settings = Setting
                  .preload(:user)
-                 .where("options->'notify_on_new_thread' = 'yes'")
+                 .where("options->>'notify_on_new_thread' = 'yes'")
                  .all
 
     settings.each do |setting|

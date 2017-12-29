@@ -33,10 +33,10 @@ class ForumsController < ApplicationController
                                .joins(:messages)
                                .where(archived: false, deleted: false, messages: { deleted: false })
                                .where(forum_id: @forums)
-                               .where("(messages.flags->'no-answer-admin' = 'no' OR " \
-                                      "  (messages.flags->'no-answer-admin') IS NULL) AND " \
-                                      "(messages.flags->'no-answer' = 'no' OR " \
-                                      "  (messages.flags->'no-answer') IS NULL)")
+                               .where("(messages.flags->>'no-answer-admin' = 'no' OR " \
+                                      "  (messages.flags->>'no-answer-admin') IS NULL) AND " \
+                                      "(messages.flags->>'no-answer' = 'no' OR " \
+                                      "  (messages.flags->>'no-answer') IS NULL)")
                                .group('threads.thread_id')
                                .having('COUNT(*) <= 1'))
                       .order(latest_message: :desc)

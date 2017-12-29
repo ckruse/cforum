@@ -5,7 +5,7 @@ class CreateSettings < ActiveRecord::Migration[5.0]
         setting_id BIGSERIAL NOT NULL PRIMARY KEY,
         forum_id BIGINT REFERENCES forums(forum_id) ON DELETE CASCADE ON UPDATE CASCADE,
         user_id BIGINT REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-        options HSTORE
+        options JSONB
       );
 
       CREATE INDEX settings_forum_id_idx ON settings (forum_id);
