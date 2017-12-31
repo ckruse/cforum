@@ -15,11 +15,15 @@ class SearchController < ApplicationController
                  end
 
     @start_date = if params[:start_date].blank?
-                    Date.today - 2.years
+                    Time.zone.today - 2.years
                   else
-                    Time.zone.parse(params[:start_date][:year].to_s + '-' +
-                                    params[:start_date][:month].to_s + '-' +
-                                    params[:start_date][:day].to_s + ' 00:00:00')
+                    begin
+                      Time.zone.parse(params[:start_date][:year].to_s + '-' +
+                                      params[:start_date][:month].to_s + '-' +
+                                      params[:start_date][:day].to_s + ' 00:00:00')
+                    rescue
+                      Time.zone.today - 2.years
+                    end
                   end
 
     doc = SearchDocument.order('document_created').first
