@@ -8,7 +8,7 @@ gem 'rails', '~> 5.1.0'
 gem 'rails-i18n'
 gem 'warden', '!= 1.2.5'
 
-gem 'pg'
+gem 'pg', '~> 0.21'
 
 gem 'bcrypt'
 gem 'kramdown'
