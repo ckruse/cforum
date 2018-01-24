@@ -251,6 +251,12 @@ main h2 { margin-left:0; }
   //& > .voting.bottom { float:right; }
 
 
+  header .icon-message + h2,
+  header .icon-message + h3 {
+    display: inline;
+    padding-left: .2em;
+  }
+
   header h2 a,
   header h3 a,
   header .details a.version-link,
@@ -267,6 +273,10 @@ main h2 { margin-left:0; }
   header.visited h3 a:hover,
   header.visited .details a.version-link:hover {
     color: #990909;
+  }
+
+  header .avatar {
+    margin-left: 0;
   }
 
   header .versions {
