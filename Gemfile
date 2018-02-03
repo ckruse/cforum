@@ -25,7 +25,7 @@ gem 'therubyracer'
 gem 'uglifier', '>= 1.0.3'
 
 gem 'cocaine'
-gem 'redis', '~> 3.0'
+gem 'redis'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 
