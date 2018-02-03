@@ -316,7 +316,7 @@ GEM
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
     shellany (0.0.1)
-    sidekiq (5.1.0)
+    sidekiq (5.0.5)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
@@ -430,7 +430,7 @@ DEPENDENCIES
   rubocop
   sass-rails (> 4.0.0)
   selenium-webdriver
-  sidekiq
+  sidekiq (~> 5.0.0)
   sidekiq-cron
   simplecov
   spring
