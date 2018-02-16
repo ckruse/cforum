@@ -209,11 +209,12 @@ class ForumsController < ApplicationController
                            end
 
     @status = {
-      today: forum_state(Time.now.beginning_of_day, Time.now.end_of_day, current_forum),
-      last_week: forum_state((Time.now - 7.days).beginning_of_day, (Time.now - 7.days).end_of_day, current_forum),
-      week: forum_state((Time.now - 7.days).beginning_of_day, Time.now.end_of_day, current_forum),
-      month: forum_state((Time.now - 30.days).beginning_of_day, Time.now.end_of_day, current_forum),
-      year: forum_state((Time.now - 360.days).beginning_of_day, Time.now.end_of_day, current_forum)
+      today: forum_state(Time.zone.now.beginning_of_day, Time.zone.now.end_of_day, current_forum),
+      last_week: forum_state((Time.zone.now - 7.days).beginning_of_day,
+                             (Time.zone.now - 7.days).end_of_day, current_forum),
+      week: forum_state((Time.zone.now - 7.days).beginning_of_day, Time.zone.now.end_of_day, current_forum),
+      month: forum_state((Time.zone.now - 30.days).beginning_of_day, Time.zone.now.end_of_day, current_forum),
+      year: forum_state((Time.zone.now - 360.days).beginning_of_day, Time.zone.now.end_of_day, current_forum)
     }
   end
 
