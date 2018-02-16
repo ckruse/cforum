@@ -61,7 +61,7 @@ gem 'libnotify',
     group: :development,
     require: RUBY_PLATFORM.include?('linux') && 'libnotify'
 
-gem 'font-awesome-sass'
+gem 'font-awesome-sass', '<5.0'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
