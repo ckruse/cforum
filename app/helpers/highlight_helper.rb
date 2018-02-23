@@ -64,7 +64,13 @@ module HighlightHelper
 
   def highlight_saving_settings(settings)
     return if settings.options['highlighted_users'].blank?
-    users = User.where(user_id: JSON.parse(settings.options['highlighted_users']))
+    users_ary = if settings.options['highlighted_users'].is_a?(Array)
+                  settings.options['highlighted_users']
+                else
+                  JSON.parse(settings.options['highlighted_users'])
+                end
+
+    users = User.where(user_id: users_ary)
     settings.options['highlighted_users'] = users.map(&:username).join(',')
   end
 
