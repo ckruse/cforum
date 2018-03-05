@@ -7,7 +7,7 @@ class SearchController < ApplicationController
 
   def set_start_stop
     @stop_date = if params[:stop_date].blank?
-                   Date.today
+                   Time.zone.today
                  else
                    Time.zone.parse(params[:stop_date][:year].to_s + '-' +
                                    params[:stop_date][:month].to_s + '-' +
