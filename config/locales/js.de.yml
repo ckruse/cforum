@@ -20,6 +20,11 @@ de:
       score_to_low: "Die Bewertung des Beitrags liegt unterhalb des Grenzwertes. <span class=\"show-posting\">Einblenden</span>"
       show_password: Passwort anzeigen
 
+      replacements:
+        minus_sign: Minus-Sybmol, U+2212
+        en_dash: Halbgeviertstrich/Bis-Strich/Gedankenstrich, U+2013
+        em_dash: Geviertstrich, U+2014
+
       uploads:
         no_image_given: Keine Datei ausgewählt oder kein Bild ausgewählt!
 
