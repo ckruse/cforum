@@ -24,10 +24,10 @@ gem 'sprockets'
 gem 'therubyracer'
 gem 'uglifier', '>= 1.0.3'
 
-gem 'cocaine'
 gem 'redis', '~> 3.0'
 gem 'sidekiq', '~> 5.0.0'
 gem 'sidekiq-cron'
+gem 'terrapin'
 
 gem 'content_for_in_controllers'
 
