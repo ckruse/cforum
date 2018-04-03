@@ -78,7 +78,6 @@ module MessageHelper
 
     message.created_at = Time.zone.now
     message.updated_at = message.created_at
-    message.ip         = Digest::SHA1.hexdigest(request.remote_ip)
 
     message.parent_id  = parent.try(:message_id)
   end
