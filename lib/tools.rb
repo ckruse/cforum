@@ -276,16 +276,16 @@ module CForum
       badges_path + '/' + badge + query_string(args)
     end
 
-    def cf_archive_path(forum)
-      forum_path(forum) + '/archive'
+    def cf_archive_path(forum, args = {})
+      _forum_path(forum) + '/archive' + query_string(args)
     end
 
-    def cf_archive_year_path(forum, year)
-      forum_path(forum) + '/' + year.to_s
+    def cf_archive_year_path(forum, year, args = {})
+      _forum_path(forum) + '/' + year.to_s + query_string(args)
     end
 
-    def cf_archive_month_path(forum, month)
-      forum_path(forum) + '/' + month.strftime('%Y/%b').downcase
+    def cf_archive_month_path(forum, month, args = {})
+      _forum_path(forum) + '/' + month.strftime('%Y/%b').downcase + query_string(args)
     end
 
     #
