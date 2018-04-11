@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 
 ruby File.read('.ruby-version').strip
 
+gem 'bootsnap', require: false
+
 gem 'rails', '~> 5.1.0'
 gem 'rails-i18n'
 gem 'warden', '!= 1.2.5'
