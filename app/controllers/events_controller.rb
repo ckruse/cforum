@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show]
+  after_action :allow_iframe
 
   # GET /events
   def index
@@ -17,6 +18,12 @@ class EventsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_event
     @event = Event.preload(:attendees).where(visible: true, event_id: params[:id]).first!
+  end
+
+  private
+
+  def allow_iframe
+    response.headers['X-Frame-Options'] = 'ALLOW-FROM www.openstreetmap.org'
   end
 end
 
