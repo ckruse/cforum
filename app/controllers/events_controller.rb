@@ -1,6 +1,5 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show]
-  after_action :allow_iframe
 
   # GET /events
   def index
