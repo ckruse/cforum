@@ -19,12 +19,6 @@ class EventsController < ApplicationController
   def set_event
     @event = Event.preload(:attendees).where(visible: true, event_id: params[:id]).first!
   end
-
-  private
-
-  def allow_iframe
-    response.headers['X-Frame-Options'] = 'ALLOW-FROM www.openstreetmap.org'
-  end
 end
 
 # eof
