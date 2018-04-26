@@ -2843,6 +2843,13 @@ CREATE UNIQUE INDEX badge_groups_lower_idx ON public.badge_groups USING btree (l
 
 
 --
+-- Name: badges_badge_type_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX badges_badge_type_idx ON public.badges USING btree (badge_type) WHERE ((badge_type)::text <> 'custom'::text);
+
+
+--
 -- Name: cites_votes_cite_id_user_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3914,6 +3921,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('19'),
 ('2'),
 ('20'),
+('20180426071152'),
 ('21'),
 ('22'),
 ('23'),
