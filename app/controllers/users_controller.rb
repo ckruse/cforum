@@ -72,7 +72,7 @@ class UsersController < ApplicationController
                     .preload(:owner, :tags, votes: :voters, thread: :forum)
                     .where('deleted = false AND upvotes > 0 AND user_id = ? AND forum_id IN (?)',
                            @user.user_id, fids)
-                    .order('upvotes - downvotes DESC')
+                    .order('upvotes - downvotes DESC', 'created_at DESC')
                     .limit(10)
 
     scored_msgs = Score
