@@ -2951,7 +2951,7 @@ CREATE INDEX messages_user_id_idx ON public.messages USING btree (user_id);
 -- Name: moderation_queue_message_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX moderation_queue_message_id_idx ON public.moderation_queue USING btree (message_id) WHERE (cleared = true);
+CREATE UNIQUE INDEX moderation_queue_message_id_idx ON public.moderation_queue USING btree (message_id);
 
 
 --
@@ -3922,6 +3922,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('2'),
 ('20'),
 ('20180426071152'),
+('20180519191106'),
 ('21'),
 ('22'),
 ('23'),
