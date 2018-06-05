@@ -189,7 +189,7 @@ end
                 </li>
               <% end %>
               <li><%= cf_link_to t('search.search'), search_path %></li>
-              <li><%= cf_link_to t("layout.chat"), "https://kiwiirc.com/client/irc.epd-me.net/?nick=" + (current_user.try(:username) || "Guest%7C" + rand(9999).to_s) + "&channel=#selfhtml", rel: 'nofollow' %></li>
+              <li><%= cf_link_to t("layout.chat"), "https://webchat.freenode.net/?nick=" + (current_user.try(:username) || "Guest%7C" + rand(9999).to_s) + "&channels=%23selfhtml&prompt=1", rel: 'nofollow' %></li>
               <li><%= cf_link_to(t('help.help'), help_path) %></li>
               <% if controller_path != "cf_search" %>
                 <li class="search">
