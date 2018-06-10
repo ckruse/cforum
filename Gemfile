@@ -29,6 +29,7 @@ gem 'uglifier', '>= 1.0.3'
 gem 'redis', '~> 3.0'
 gem 'sidekiq', '~> 5.0.0'
 gem 'sidekiq-cron'
+gem 'rufus-scheduler', '~> 3.4.0'
 gem 'terrapin'
 
 gem 'content_for_in_controllers'
