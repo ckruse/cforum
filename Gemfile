@@ -23,7 +23,6 @@ gem 'autoprefixer-rails'
 gem 'coffee-rails'
 gem 'sass-rails', '> 4.0.0'
 gem 'sprockets'
-gem 'therubyracer'
 gem 'uglifier', '>= 1.0.3'
 
 gem 'redis', '~> 3.0'
