@@ -308,6 +308,13 @@ end
 
         <% if not @motds.blank? or content_for?(:aside) %>
           <aside class="flex-item">
+            <div class="aktuelle-mitteilung">
+              <h3>20 Jahre SELFHTML Forum</h3>
+
+              <p>Das SELFHTML Forum existiert <a href="https://forum.selfhtml.org/meta/2018/jul/26/20-jahre-selfhtml-forum/1727277#m1727277">seit nunmehr 20 Jahren</a>.<br>
+                Happy Birthday! 🎂</p>
+            </div>
+
             <% if not @motds.blank? %>
               <% @motds.each do |motd| %>
                 <div class="aktuelle-mitteilung"><%= motd %></div>
