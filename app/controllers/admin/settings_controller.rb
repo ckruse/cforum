@@ -10,6 +10,7 @@ class Admin::SettingsController < ApplicationController
   # PUT /collections/1.json
   def update
     @settings = Setting.where(user_id: nil, forum_id: nil).first || Setting.new
+    @settings.options_will_change!
     @settings.options ||= {}
 
     params[:settings].each do |k, v|
@@ -19,8 +20,6 @@ class Admin::SettingsController < ApplicationController
         @settings.options[k] = v
       end
     end
-
-    @settings.options_will_change!
 
     respond_to do |format|
       if @settings.save
