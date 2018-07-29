@@ -524,11 +524,11 @@ $$;
 CREATE FUNCTION public.messages__thread_set_latest_insert() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
-BEGIN
-  UPDATE threads SET latest_message = COALESCE((SELECT MAX(created_at) FROM messages WHERE thread_id = threads.thread_id AND deleted = false), '1970-01-01 00:00:00') WHERE thread_id = NEW.thread_id;
-  RETURN NULL;
-END;
-$$;
+      BEGIN
+        UPDATE threads SET latest_message = COALESCE((SELECT MAX(created_at) FROM messages WHERE thread_id = threads.thread_id AND deleted = false),(SELECT MAX(created_at) FROM messages WHERE thread_id = threads.thread_id), '1970-01-01 00:00:00') WHERE thread_id = NEW.thread_id;
+        RETURN NULL;
+      END;
+      $$;
 
 
 --
@@ -538,11 +538,11 @@ $$;
 CREATE FUNCTION public.messages__thread_set_latest_update_delete() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
-BEGIN
-  UPDATE threads SET latest_message = COALESCE((SELECT MAX(created_at) FROM messages WHERE thread_id = threads.thread_id AND deleted = false), '1970-01-01 00:00:00') WHERE thread_id = OLD.thread_id;
-  RETURN NULL;
-END;
-$$;
+      BEGIN
+        UPDATE threads SET latest_message = COALESCE((SELECT MAX(created_at) FROM messages WHERE thread_id = threads.thread_id AND deleted = false), (SELECT MAX(created_at) FROM messages WHERE thread_id = threads.thread_id), '1970-01-01 00:00:00') WHERE thread_id = OLD.thread_id;
+        RETURN NULL;
+      END;
+      $$;
 
 
 --
@@ -3944,6 +3944,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180426071152'),
 ('20180519191106'),
 ('20180729063729'),
+('20180729073106'),
 ('21'),
 ('22'),
 ('23'),
