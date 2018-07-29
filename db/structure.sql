@@ -570,26 +570,36 @@ $$;
 CREATE FUNCTION public.settings_unique_check__insert() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
-BEGIN
-  IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL THEN
-    IF NEW.user_id IN (
-        SELECT user_id FROM settings WHERE user_id = NEW.user_id AND forum_id IS NULL
-      ) THEN
-      RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
-    END IF;
-  END IF;
+      DECLARE
+        global_id BIGINT;
+      BEGIN
+        IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL THEN
+          IF NEW.user_id IN (
+              SELECT user_id FROM settings WHERE user_id = NEW.user_id AND forum_id IS NULL
+            ) THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
 
-  IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL THEN
-    IF NEW.forum_id IN (
-        SELECT forum_id FROM settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
-      ) THEN
-      RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
-    END IF;
-  END IF;
+        IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL THEN
+          IF NEW.forum_id IN (
+              SELECT forum_id FROM settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
+            ) THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
 
-  RETURN NEW;
-END;
-$$;
+        IF NEW.user_id IS NULL AND NEW.forum_id IS NULL THEN
+          SELECT setting_id FROM settings WHERE forum_id IS NULL AND user_id IS NULL INTO global_id;
+
+          IF global_id IS NOT NULL THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
+
+        RETURN NEW;
+      END;
+      $$;
 
 
 --
@@ -599,26 +609,36 @@ $$;
 CREATE FUNCTION public.settings_unique_check__update() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
-BEGIN
-  IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL AND NEW.user_id != OLD.user_id THEN
-    IF NEW.user_id IN (
-        SELECT user_id FROM settings WHERE user_id = NEW.user_id AND forum_id IS NULL
-      ) THEN
-      RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
-    END IF;
-  END IF;
+      DECLARE
+        global_id BIGINT;
+      BEGIN
+        IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL AND NEW.user_id != OLD.user_id THEN
+          IF NEW.user_id IN (
+              SELECT user_id FROM settings WHERE user_id = NEW.user_id AND forum_id IS NULL
+            ) THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
 
-  IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL AND NEW.forum_id != OLD.forum_id THEN
-    IF NEW.forum_id IN (
-        SELECT forum_id FROM settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
-      ) THEN
-      RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
-    END IF;
-  END IF;
+        IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL AND NEW.forum_id != OLD.forum_id THEN
+          IF NEW.forum_id IN (
+              SELECT forum_id FROM settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
+            ) THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
 
-  RETURN NEW;
-END;
-$$;
+        IF NEW.user_id IS NULL AND NEW.forum_id IS NULL THEN
+          SELECT setting_id FROM settings WHERE forum_id IS NULL AND user_id IS NULL INTO global_id;
+
+          IF global_id IS NOT NULL AND global_id != NEW.setting_id THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
+
+        RETURN NEW;
+      END;
+      $$;
 
 
 --
@@ -3923,6 +3943,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20'),
 ('20180426071152'),
 ('20180519191106'),
+('20180729063729'),
 ('21'),
 ('22'),
 ('23'),

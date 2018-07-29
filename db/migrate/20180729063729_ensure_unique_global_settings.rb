@@ -1,0 +1,117 @@
+class EnsureUniqueGlobalSettings < ActiveRecord::Migration[5.1]
+  def up
+    execute <<-SQL
+      CREATE OR REPLACE FUNCTION settings_unique_check__insert() RETURNS trigger AS $body$
+      DECLARE
+        global_id BIGINT;
+      BEGIN
+        IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL THEN
+          IF NEW.user_id IN (
+              SELECT user_id FROM settings WHERE user_id = NEW.user_id AND forum_id IS NULL
+            ) THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
+
+        IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL THEN
+          IF NEW.forum_id IN (
+              SELECT forum_id FROM settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
+            ) THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
+
+        IF NEW.user_id IS NULL AND NEW.forum_id IS NULL THEN
+          SELECT setting_id FROM settings WHERE forum_id IS NULL AND user_id IS NULL INTO global_id;
+
+          IF global_id IS NOT NULL THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
+
+        RETURN NEW;
+      END;
+      $body$ LANGUAGE plpgsql;
+
+      CREATE OR REPLACE FUNCTION settings_unique_check__update() RETURNS trigger AS $body$
+      DECLARE
+        global_id BIGINT;
+      BEGIN
+        IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL AND NEW.user_id != OLD.user_id THEN
+          IF NEW.user_id IN (
+              SELECT user_id FROM settings WHERE user_id = NEW.user_id AND forum_id IS NULL
+            ) THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
+
+        IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL AND NEW.forum_id != OLD.forum_id THEN
+          IF NEW.forum_id IN (
+              SELECT forum_id FROM settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
+            ) THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
+
+        IF NEW.user_id IS NULL AND NEW.forum_id IS NULL THEN
+          SELECT setting_id FROM settings WHERE forum_id IS NULL AND user_id IS NULL INTO global_id;
+
+          IF global_id IS NOT NULL AND global_id != NEW.setting_id THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
+
+        RETURN NEW;
+      END;
+      $body$ LANGUAGE plpgsql;
+    SQL
+  end
+
+  def down
+    execute <<~SQL
+      CREATE OR REPLACE FUNCTION settings_unique_check__insert() RETURNS trigger AS $body$
+      BEGIN
+        IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL THEN
+          IF NEW.user_id IN (
+              SELECT user_id FROM settings WHERE user_id = NEW.user_id AND forum_id IS NULL
+            ) THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
+
+        IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL THEN
+          IF NEW.forum_id IN (
+              SELECT forum_id FROM settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
+            ) THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
+
+        RETURN NEW;
+      END;
+      $body$ LANGUAGE plpgsql;
+
+      CREATE OR REPLACE FUNCTION settings_unique_check__update() RETURNS trigger AS $body$
+      BEGIN
+        IF NEW.user_id IS NOT NULL AND NEW.forum_id IS NULL AND NEW.user_id != OLD.user_id THEN
+          IF NEW.user_id IN (
+              SELECT user_id FROM settings WHERE user_id = NEW.user_id AND forum_id IS NULL
+            ) THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
+
+        IF NEW.user_id IS NULL AND NEW.forum_id IS NOT NULL AND NEW.forum_id != OLD.forum_id THEN
+          IF NEW.forum_id IN (
+              SELECT forum_id FROM settings WHERE forum_id = NEW.forum_id AND user_id IS NULL
+            ) THEN
+            RAISE EXCEPTION 'Uniqueness violation on column id (%)', NEW.setting_id;
+          END IF;
+        END IF;
+
+        RETURN NEW;
+      END;
+      $body$ LANGUAGE plpgsql;
+    SQL
+  end
+end
