@@ -348,9 +348,10 @@ module MessageHeaderHelper
     html << '</span>' if message.user_id
 
     if !(opts[:tree]) && !thread.archived? && (message.email.present? || message.homepage.present?)
-      content_tag(:span, class: 'author-infos') do
-        ' ' + message_header_email_link(message) + message_header_user_homepage_link(message)
-      end
+      html << ' <span class="author-infos">' +
+              message_header_email_link(message) +
+              message_header_user_homepage_link(message) +
+              '</span>'
     end
 
     if current_user.try(:moderate?, current_forum) && @view_all
