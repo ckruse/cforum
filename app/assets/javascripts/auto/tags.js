@@ -345,62 +345,80 @@ cforum.tags = {
     var data = cforum.tags.autocompleteFilter(tag, true);
     var show = true;
 
-    if(typeof data == 'object') {
-      if(data.length === 0) {
-        var el = $("#tags-group").closest(".cf-cgroup").find(".errors");
+    if (typeof data == "object") {
+      if (data.length === 0) {
+        var el = $("#tags-group")
+          .closest(".cf-cgroup")
+          .find(".errors");
 
-        if(el.length === 0) {
-          $("#tags-group").
-            closest(".cf-cgroup").append("<div class=\"errors\"></div>");
-          el = $("#tags-group").closest(".cf-cgroup").find(".errors");
+        if (el.length === 0) {
+          $("#tags-group")
+            .closest(".cf-cgroup")
+            .append('<div class="errors"></div>');
+          el = $("#tags-group")
+            .closest(".cf-cgroup")
+            .find(".errors");
         }
 
-        var text = '';
-        var clss = '';
-        if(cforum.tags.mayCreateTag(cforum.currentUser)) {
-          text = t('tags.tag_will_be_created');
-          clss = 'cf-warning';
-        }
-        else {
-          var last = $("#tags-list").find('.cf-tag:last');
+        var text = "";
+        var clss = "";
+        if (cforum.tags.mayCreateTag(cforum.currentUser)) {
+          text = t("tags.tag_will_be_created");
+          clss = "cf-warning";
+        } else {
+          var last = $("#tags-list").find(".cf-tag:last");
 
-          text = t('tags.tag_doesnt_exist');
-          clss = 'cf-error';
+          text = t("tags.tag_doesnt_exist");
+          clss = "cf-error";
           show = false;
 
-          if(!last.is(":visible")) {
+          if (!last.is(":visible")) {
             last.remove();
           }
         }
 
         var divs = el.find("div");
-        if(divs.length > 0) {
+        if (divs.length > 0) {
           divs.fadeOut("fast", function() {
-            el.html("<div class=\"cf-alert " + clss + "\" style=\"display:none\">" + text + "</div>");
+            el.html(
+              '<div class="cf-alert ' +
+                clss +
+                '" style="display:none">' +
+                text +
+                "</div>"
+            );
             el.find("div").fadeIn("fast");
           });
-        }
-        else {
-          el.html("<div class=\"cf-alert " + clss + "\" style=\"display:none\">" + text + "</div>");
+        } else {
+          el.html(
+            '<div class="cf-alert ' +
+              clss +
+              '" style="display:none">' +
+              text +
+              "</div>"
+          );
           el.find("div").fadeIn("fast");
         }
 
         window.setTimeout(cforum.tags.hideInvalidWarnings, 3000);
-      }
-      else {
+      } else {
         cforum.tags.hideInvalidWarnings();
       }
     }
 
-    if(show) {
+    if (show) {
       var $this = $("#replaced_tag_input");
       var v = $this.val();
-      $this.val(v.replace(/.*,?/, ''));
+      $this.val(v.replace(/.*,?/, ""));
 
-      $("#tags-list").find('.cf-tag:last').fadeIn('fast');
+      $("#tags-list")
+        .find(".cf-tag:last")
+        .fadeIn("fast");
 
-      if($("#tags-list").find('.cf-tag').length >= cforum.tags.maxTags) {
-        $("#replaced_tag_input").closest('.cf-cgroup').fadeOut('fast');
+      if ($("#tags-list").find(".cf-tag").length >= cforum.tags.maxTags) {
+        $("#replaced_tag_input")
+          .closest(".cf-cgroup")
+          .fadeOut("fast");
       }
     }
   },
@@ -413,22 +431,22 @@ cforum.tags = {
   },
 
   mayCreateTag: function(user) {
-    if(!user) {
+    if (!user) {
       return false;
     }
 
-    if(user.admin) {
+    if (user.admin) {
       return true;
     }
 
-    if(user.badges) {
-      for(var i = 0; i < user.badges.length; ++i) {
-        var b = user.badges[i];
+    if (user.badges_users) {
+      for (var i = 0; i < user.badges_users.length; ++i) {
+        var b = user.badges_users[i];
 
-        switch(b.badge_type) {
-        case 'create_tag':
-        case 'create_tag_synonym':
-          return true;
+        switch (b.badge.badge_type) {
+          case "create_tag":
+          case "create_tag_synonym":
+            return b.active;
         }
       }
     }
@@ -436,6 +454,5 @@ cforum.tags = {
     return false;
   }
 };
-
 
 /* eof */

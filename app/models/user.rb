@@ -146,7 +146,7 @@ class User < ApplicationRecord
   end
 
   def audit_json
-    as_json(include: :badges)
+    as_json(include: [:badges, { badges_users: :badges }])
   end
 
   def unique_badges

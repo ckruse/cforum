@@ -850,7 +850,8 @@ CREATE TABLE public.badges_users (
     user_id integer NOT NULL,
     badge_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    active boolean DEFAULT true NOT NULL
 );
 
 
@@ -3945,6 +3946,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180519191106'),
 ('20180729063729'),
 ('20180729073106'),
+('20180911180817'),
 ('21'),
 ('22'),
 ('23'),

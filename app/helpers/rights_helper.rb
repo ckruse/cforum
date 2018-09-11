@@ -5,7 +5,7 @@ module RightsHelper
     user = User.find(user) unless user.is_a?(User)
     return true if user.admin
 
-    badge = user.badges.find { |b| b.badge_type == badge_type }
+    badge = user.badge_users.find { |bu| bu.active? && bu.badge.badge_type == badge_type }
 
     return true if badge.present?
     false
