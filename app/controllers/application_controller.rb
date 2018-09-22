@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   end
 
   def locked?
-    render :locked, status: 403, layout: nil if (conf('locked') == 'yes') && !current_user.try(:admin?)
+    render :locked, status: :forbidden, layout: nil if (conf('locked') == 'yes') && !current_user.try(:admin?)
   end
 
   def handle_redirects

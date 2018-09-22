@@ -4,7 +4,12 @@ require 'sidekiq/cron/web'
 Rails.application.routes.draw do
   devise_for(:users, path_names: { sign_in: 'login',
                                    sign_out: 'logout' },
-                     controllers: { confirmations: 'users/confirmations' })
+                     controllers: { confirmations: 'users/confirmations',
+                                    registrations: 'users/registrations' })
+
+  devise_scope :user do
+    patch 'users/confirmation' => 'users/confirmations#update', as: nil
+  end
 
   get '/m:id' => 'forums#message_redirect', id: /\d+/
 

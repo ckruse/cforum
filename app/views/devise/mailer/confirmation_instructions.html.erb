@@ -3,3 +3,5 @@
 <p><%= t('devise.mailer.confirmation_instructions.instruction') %></p>
 
 <p><%= link_to t('devise.mailer.confirmation_instructions.action'), confirmation_url(@resource, confirmation_token: @token) %></p>
+
+<p><%= t('devise.cf_mailer.captcha', captcha: @resource.confirmation_captcha).html_safe %></p>

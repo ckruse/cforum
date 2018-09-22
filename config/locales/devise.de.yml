@@ -3,6 +3,8 @@ de:
     confirmation_instructions: Bestätigung
     sign_in: anmelden
     sign_up: Benutzerkonto erstellen
+    confirm_user: Benutzerkonto bestätigen
+    confirm: bestätigen
     forgot_your_password: Passwort vergessen?
     unlock_instructions: Entsperrungsanweisungen
     resend_confirmation_instructions: Bestätigungsanweisungen erneut senden
@@ -10,6 +12,7 @@ de:
     new_password: neues Passwort
     confirm_new_password: Passwort-Bestätigung
     email_is_used: Diese E-Mail-Adresse ist bereits vergeben.
+    could_not_find_appropriate_user: Es konnte kein passender Benutzer gefunden werden.
 
     passwords:
       send_instructions: Rücksetzungsanweisungen wurden versendet.
@@ -17,3 +20,6 @@ de:
 
     confirmations:
       welcome: Willkommen
+
+    cf_mailer:
+      captcha: Das Bestätigungs-Captcha ist <strong>%{captcha}</strong>. Diese Maßnahme ist leider aus Spam-Gründen notwendig.

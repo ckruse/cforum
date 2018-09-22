@@ -3,7 +3,7 @@ de:
 
   errors: &errors
     name_taken: Der Name ist bereits vergeben.
-    format: ! '%{attribute} %{message}'
+    format: ! "%{attribute} %{message}"
     messages:
       accepted: muss akzeptiert werden
       blank: muss ausgefüllt werden
@@ -21,7 +21,7 @@ de:
       not_a_number: ist keine Zahl
       not_an_integer: muss ganzzahlig sein
       odd: muss ungerade sein
-      record_invalid: ! 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
+      record_invalid: ! "Gültigkeitsprüfung ist fehlgeschlagen: %{errors}"
       taken: ist bereits vergeben
       too_long: ist zu lang (nicht mehr als %{count} Zeichen)
       too_short: ist zu kurz (nicht weniger als %{count} Zeichen)
@@ -82,6 +82,7 @@ de:
         updated_at: geändert
         remember_me: Login merken
         login: Benutzername oder E-Mail
+        confirmation_captcha: Bestätigungs-Captcha
 
       cf_forum_access:
         permission: Zugriffsrecht
@@ -194,4 +195,3 @@ de:
         custom_reason: sonstiger Grund
         closer_id: Moderator
         resolution_action: Lösung
-

@@ -2060,7 +2060,8 @@ CREATE TABLE public.users (
     avatar_file_size integer,
     avatar_updated_at timestamp without time zone,
     score integer DEFAULT 0 NOT NULL,
-    activity integer DEFAULT 0 NOT NULL
+    activity integer DEFAULT 0 NOT NULL,
+    confirmation_captcha character varying
 );
 
 
@@ -3947,6 +3948,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180729063729'),
 ('20180729073106'),
 ('20180911180817'),
+('20180922124839'),
 ('21'),
 ('22'),
 ('23'),

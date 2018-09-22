@@ -1,0 +1,32 @@
+<!-- fgyG -->
+<%
+content_for(:title, t('devise.confirm_user'))
+content_for(:h1, t('devise.confirm_user'))
+content_for :body_id, 'confirmations-show'
+content_for :body_classes, 'confirmations show'
+%>
+
+<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), method: 'patch', html: {class: 'cf-form'}) do |f| %>
+  <% if resource.errors.any? %>
+  <div class="alert alert-error">
+    <h4><%= t("errors.messages.not_saved", count: resource.errors.count, resource: resource.class.model_name.human.downcase) %></h4>
+
+    <ul>
+      <% for message in resource.errors.full_messages %>
+      <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <%= hidden_field_tag(:confirmation_token, params[:confirmation_token]) %>
+
+  <div class="cf-cgroup">
+    <%= f.label :confirmation_captcha %>
+    <%= text_field_tag(:confirmation_captcha, params[:confirmation_captcha]) %>
+  </div>
+
+  <p class="form-actions">
+    <%= f.submit t('devise.confirm'), class: 'cf-primary-btn' %>
+  </p>
+<% end %>
