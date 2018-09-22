@@ -185,6 +185,9 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
     <% if @user.user_id == current_user.user_id %>
       <%= cf_link_to t('users.edit'), edit_user_path(@user), class: 'cf-btn' %>
       <%= cf_link_to t('users.change_password'), user_edit_password_path(@user), class: 'cf-btn' %>
+    <% end %>
+
+    <% if @user.user_id == current_user.user_id || current_user.admin? %>
       <%= cf_link_to t('users.delete'), users_confirm_destroy_path(@user), class: 'cf-btn' %>
     <% end %>
 
