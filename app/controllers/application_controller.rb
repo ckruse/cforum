@@ -39,6 +39,8 @@ class ApplicationController < ActionController::Base
     @_current_forum      = nil
 
     CForum::Tools.init
+
+    User.where(user_id: current_user.user_id).update_all(last_visit: Time.zone.now) if current_user.present?
   end
 
   def locked?

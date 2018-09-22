@@ -2056,7 +2056,8 @@ CREATE TABLE public.users (
     avatar_updated_at timestamp without time zone,
     score integer DEFAULT 0 NOT NULL,
     activity integer DEFAULT 0 NOT NULL,
-    confirmation_captcha character varying
+    confirmation_captcha character varying,
+    last_visit timestamp without time zone
 );
 
 
@@ -3945,6 +3946,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180911180817'),
 ('20180922124839'),
 ('20180922170037'),
+('20180922172423'),
 ('21'),
 ('22'),
 ('23'),
