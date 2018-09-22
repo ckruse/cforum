@@ -8,8 +8,9 @@ class UsersController < ApplicationController
   authorize_action(:update) do
     may_update = current_user.present? && (current_user.admin? || current_user.user_id.to_s == params[:id])
     if may_update
-      has_updated_profile = params[:settings][:url].present? || params[:settings][:jabber_id].present? ||
-                            params[:settings][:twitter_handle].present? || params[:settings][:description].present?
+      has_updated_profile = params.dig(:settings, :url).present? || params.dig(:settings, :jabber_id).present? ||
+                            params.dig(:settings, :twitter_handle).present? ||
+                            params.dig(:settings, :description).present?
 
       if has_updated_profile
         Message.where(user_id: params[:id], deleted: false).count.positive?
