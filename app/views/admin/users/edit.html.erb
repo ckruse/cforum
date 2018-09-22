@@ -6,3 +6,7 @@ content_for :h1, t('admin.users.edit_user', username: @user.username)
 <%= form_for @user, url: admin_user_path(@user), html: {class: 'cf-form'} do |f| %>
   <%= render 'form', f: f %>
 <% end %>
+
+<%= cf_button_to(admin_user_path(@user), data: {'cf-confirm' => t('global.are_you_sure')}, method: :delete, class: 'cf-btn') do %>
+  <%= t("global.delete") %>
+<% end %>
