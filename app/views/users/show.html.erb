@@ -18,7 +18,9 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
       <table>
         <tbody>
           <tr>
-            <td rowspan="<% if current_user == @user %>5<% else %>4<% end %>"><%= image_tag(@user.avatar.url(:medium), class: ('u-photo' if @user.avatar.present?)) %></td>
+            <% if edit_profile?(@user) %>
+              <td rowspan="<% if current_user == @user %>5<% else %>4<% end %>"><%= image_tag(@user.avatar.url(:medium), class: ('u-photo' if @user.avatar.present?)) %></td>
+            <% end %>
             <th><%= t('users.name') %>:</th>
             <td class="p-name"><%= @user.username %></td>
           </tr>
@@ -42,6 +44,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
       </table>
     </div>
 
+<% if edit_profile?(@user) %>
     <div class="user-profile">
       <table>
         <tbody>
@@ -73,6 +76,7 @@ content_for(:body_classes, 'users show ' + user_to_class_name(@user))
         </tbody>
       </table>
     </div>
+<% end %>
   </div>
 
   <ul class="user-info-tags">

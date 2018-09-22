@@ -1,8 +1,24 @@
 class UsersController < ApplicationController
   include HighlightHelper
 
-  authorize_action(%i[edit update confirm_destroy destroy]) do
+  authorize_action(%i[edit confirm_destroy destroy]) do
     current_user.present? && (current_user.admin? || (current_user.user_id.to_s == params[:id]))
+  end
+
+  authorize_action(:update) do
+    may_update = current_user.present? && (current_user.admin? || current_user.user_id.to_s == params[:id])
+    if may_update
+      has_updated_profile = params[:settings][:url].present? || params[:settings][:jabber_id].present? ||
+                            params[:settings][:twitter_handle].present? || params[:settings][:description].present?
+
+      if has_updated_profile
+        Message.where(user_id: params[:id], deleted: false).count.positive?
+      else
+        true
+      end
+    else
+      false
+    end
   end
 
   authorize_action(%i[show_votes edit_password update_password]) do

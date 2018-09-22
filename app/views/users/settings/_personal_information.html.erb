@@ -1,6 +1,7 @@
 <fieldset class="cf-tab-pane" id="personal_information">
   <legend><%= t('users.settings.personal_information') %></legend>
 
+<% if edit_profile?(@user) %>
   <div class="cf-cgroup">
     <label class="control-label" for="settings_email"><%= t('users.settings.email_form') %></label>
     <input type="email" value="<%= @settings.conf('email') %>" name="settings[email]" id="settings_email" placeholder="mail@example.com"<%= disabled %>>
@@ -35,5 +36,6 @@
     <label for="settings_description"><%= t('users.settings.description') %></label>
     <textarea name="settings[description]" id="settings_description"<%= disabled %>><%= @settings.conf('description') %></textarea>
   </div>
+<% end %>
 
 </fieldset>

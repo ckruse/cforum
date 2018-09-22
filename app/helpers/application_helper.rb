@@ -62,6 +62,10 @@ module ApplicationHelper
   def view_all
     @view_all ||= false
   end
+
+  def edit_profile?(user = current_user)
+    @edit_profile ||= Message.where(user_id: @user.user_id, deleted: false).count.positive?
+  end
 end
 
 # eof
