@@ -63,12 +63,13 @@ class ForumsController < ApplicationController
   end
 
   def gather_portal_infos
-    cnt = Message.select('thread_id, count(*) AS cnt')
+    cnt = Message.select('messages.thread_id, count(*) AS cnt')
             .joins('LEFT JOIN read_messages ON read_messages.message_id = messages.message_id AND ' \
                    '  read_messages.user_id = ' + current_user.user_id.to_s)
-            .where('forum_id IN (?) AND read_messages.message_id IS NULL AND messages.created_at > ? AND ' \
-                   '  deleted = false',
-                   @forums.map(&:forum_id), current_user.last_sign_in_at)
+            .joins('INNER JOIN threads USING(thread_id)')
+            .where('messages.forum_id IN (?) AND read_messages.message_id IS NULL AND ' \
+                   '  messages.deleted = false AND threads.archived = false',
+                   @forums.map(&:forum_id))
             .group(:thread_id).all
 
     @new_messages = 0

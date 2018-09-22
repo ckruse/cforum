@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable,
-         :rememberable, :confirmable, :trackable
+         :rememberable, :confirmable
 
   has_attached_file :avatar, styles: { medium: '80x80>', thumb: '20x20>' }, default_url: '/images/:style/missing.png'
   validates_attachment_content_type :avatar, content_type: %r{\Aimage/.*\Z}
