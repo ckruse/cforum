@@ -158,6 +158,10 @@ class User < ApplicationRecord
 
     unique_badges.values.sort_by { |a| a[:created_at] }
   end
+
+  def should_update_last_visit?
+    last_visit.blank? || last_visit + 1.hour < Time.zone.now
+  end
 end
 
 # eof

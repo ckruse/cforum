@@ -40,7 +40,9 @@ class ApplicationController < ActionController::Base
 
     CForum::Tools.init
 
-    User.where(user_id: current_user.user_id).update_all(last_visit: Time.zone.now) if current_user.present?
+    if current_user.present? && current_user.should_update_last_visit?
+      User.where(user_id: current_user.user_id).update_all(last_visit: Time.zone.now)
+    end
   end
 
   def locked?
