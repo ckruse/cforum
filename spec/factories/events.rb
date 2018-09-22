@@ -6,9 +6,9 @@ FactoryBot.define do
 
   factory :event do
     sequence(:name) { |n| "Event #{n}" }
-    start_date Time.zone.now.to_date
-    end_date Time.zone.now.to_date
-    visible true
+    start_date { Time.zone.now.to_date }
+    end_date { Time.zone.now.to_date }
+    visible { true }
     description { generate(:random_event_desc) }
   end
 end

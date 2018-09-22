@@ -10,7 +10,7 @@ FactoryBot.define do
     end
 
     association :forum, factory: :write_forum
-    archived false
+    archived { false }
     latest_message { DateTime.now }
   end
 end

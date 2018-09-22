@@ -6,7 +6,7 @@ FactoryBot.define do
   factory :cite do
     sequence(:author) { |n| "Author #{n}" }
     cite { generate(:random_cite) }
-    url 'http://example.org/'
+    url { 'http://example.org/' }
     cite_date { DateTime.now }
   end
 end

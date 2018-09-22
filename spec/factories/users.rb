@@ -2,15 +2,15 @@ FactoryBot.define do
   factory :user do
     username
     email
-    password 'some password'
+    password { 'some password' }
 
-    admin false
-    active true
-    confirmed_at DateTime.now
+    admin { false }
+    active { true }
+    confirmed_at { DateTime.now }
   end
 
   factory :user_admin, parent: :user do
-    admin true
+    admin { true }
   end
 
   factory :user_moderator, parent: :user do

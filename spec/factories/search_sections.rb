@@ -3,7 +3,7 @@ FactoryBot.define do
 
   factory :search_section do
     name { generate(:section_name) }
-    position 0
+    position { 0 }
   end
 end
 
