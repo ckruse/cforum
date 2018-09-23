@@ -13,7 +13,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
              .first
 
     if user.blank?
-      redirect_to root_url, t('devise.could_not_find_appropriate_user')
+      redirect_to root_url, alert: t('devise.could_not_find_appropriate_user')
     else
       orig_show
       audit(resource, 'confirm') if resource.errors.empty?

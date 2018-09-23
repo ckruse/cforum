@@ -32,6 +32,8 @@ class User < ApplicationRecord
 
   has_many :subscriptions, dependent: :delete_all
 
+  before_create :generate_captcha
+
   def conf(nam)
     vals = settings.options if settings.present?
     vals ||= {}
@@ -161,6 +163,11 @@ class User < ApplicationRecord
 
   def should_update_last_visit?
     last_visit.blank? || last_visit + 1.hour < Time.zone.now
+  end
+
+  def generate_captcha
+    vals = [('a'..'z'), ('A'..'Z')].map(&:to_a).flatten
+    self.confirmation_captcha = (0..3).map { vals[rand(vals.length)] }.join
   end
 end
 
