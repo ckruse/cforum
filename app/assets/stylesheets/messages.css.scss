@@ -252,7 +252,8 @@ main h2 { margin-left:0; }
 
 
   header .icon-message + h2,
-  header .icon-message + h3 {
+  header .icon-message + h3,
+  header .thread-forum-plate + h2 {
     display: inline;
     padding-left: .2em;
   }

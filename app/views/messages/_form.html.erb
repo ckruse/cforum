@@ -40,7 +40,13 @@ with_name ||= false
 
   <% if uconf('live_preview') == 'yes' %>
     <article class="thread-message preview">
-      <h3><%= t("messages.preview") %></h3>
+      <h3>
+        <% if current_forum.blank? %>
+          <%= t("messages.preview") %>
+        <% else %>
+          <%= t("messages.preview_w_forum", forum: current_forum.short_name) %>
+        <% end %>
+      </h3>
       <div class="posting-content" id="on-the-fly-preview"></div>
     </article>
   <% end %>

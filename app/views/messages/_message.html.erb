@@ -5,7 +5,7 @@ controls ||= :yes
 <div class="posting-header">
 <%= message_header(@thread, m, first: first, do_parent: do_parent,
                    tree: false, show_editor: true,
-                   author_link_to_message: false) %>
+                   author_link_to_message: false, plate: true) %>
 
   <% if m.flags["no-answer"] != 'yes' && m.flags['no-answer-admin'] != 'yes' && controls == :yes && !m.deleted %>
     <%= render 'votes_accept', m: m %>

@@ -59,6 +59,7 @@ de:
     original_poster: Thread-Ersteller
     previous_message: "Vorheriger Beitrag zum Thema:"
     preview: Vorschau
+    preview_w_forum: Vorschau (Nachricht wird im Forum „%{forum}“ erscheinen)
 
     new_answer: antworten
     new_answer_with_quote: antworten mit Zitat
@@ -127,7 +128,6 @@ de:
         enter_title: Bitte geben Sie einen Bild-Titel an
         example_title: Urlaub Italien 1986
         be_aware_of_legals_html: 'Bitte beachten Sie die <a href="http://selfhtml.org/impressum.html#upload">Nutzungsbedingungen</a>.'
-
 
     close_vote:
       actions:
