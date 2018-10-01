@@ -45,6 +45,13 @@ main h2 { margin-left:0; }
     border-color: #faebcc;
   }
 
+  header .avatar {
+    margin-left: 0;
+    margin-top: .3em;
+    max-height: 1.2em;
+    border-radius: 0 .3em .3em;
+  }
+
   .versions {
     font-size: .8em;
   }
