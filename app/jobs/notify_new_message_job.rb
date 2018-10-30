@@ -19,7 +19,7 @@ class NotifyNewMessageJob < ApplicationJob
       end
 
       sent_mails[user.email] = true
-    rescue => e # rubocop:disable Lint/RescueWithoutErrorClass
+    rescue => e # rubocop:disable Style/RescueStandardError
       Rails.logger.error('Error sending mail to ' + user.email.to_s + ': ' + e.message + "\n" + e.backtrace.join("\n"))
     end
   end
