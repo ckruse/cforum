@@ -168,7 +168,7 @@ GEM
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
     kgio (2.11.2)
-    kramdown (2.0.0)
+    kramdown (1.17.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     libnotify (0.9.4)
@@ -419,7 +419,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   kaminari
-  kramdown
+  kramdown (< 2.0.0)
   libnotify
   listen
   oauth

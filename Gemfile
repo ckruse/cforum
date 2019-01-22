@@ -13,7 +13,7 @@ gem 'warden', '!= 1.2.5'
 gem 'pg', '~> 1.0.0'
 
 gem 'bcrypt'
-gem 'kramdown'
+gem 'kramdown', '< 2.0.0'
 gem 'pygments.rb'
 
 gem 'devise'
