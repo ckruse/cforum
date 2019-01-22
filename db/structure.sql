@@ -9,20 +9,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
 -- Name: badge_medal_type_t; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -695,6 +681,7 @@ CREATE TABLE public.attendees (
 --
 
 CREATE SEQUENCE public.attendees_attendee_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -760,6 +747,7 @@ CREATE TABLE public.badge_groups (
 --
 
 CREATE SEQUENCE public.badge_groups_badge_group_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -808,6 +796,7 @@ CREATE TABLE public.badges_badge_groups (
 --
 
 CREATE SEQUENCE public.badges_badge_groups_badges_badge_group_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -827,6 +816,7 @@ ALTER SEQUENCE public.badges_badge_groups_badges_badge_group_id_seq OWNED BY pub
 --
 
 CREATE SEQUENCE public.badges_badge_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1069,6 +1059,7 @@ CREATE TABLE public.events (
 --
 
 CREATE SEQUENCE public.events_event_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1101,6 +1092,7 @@ CREATE TABLE public.forum_stats (
 --
 
 CREATE SEQUENCE public.forum_stats_forum_stat_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1128,7 +1120,7 @@ CREATE TABLE public.forums (
     name character varying NOT NULL,
     description character varying,
     standard_permission character varying(50) DEFAULT 'private'::character varying NOT NULL,
-    keywords character varying(255),
+    keywords character varying,
     "position" integer DEFAULT 0 NOT NULL
 );
 
@@ -1429,7 +1421,7 @@ CREATE TABLE public.messages (
     content character varying NOT NULL,
     flags jsonb,
     uuid character varying(250),
-    ip character varying(255),
+    ip character varying,
     editor_id bigint,
     format character varying(100) DEFAULT 'markdown'::character varying NOT NULL,
     edit_author text,
@@ -1720,7 +1712,7 @@ ALTER SEQUENCE public.redirections_redirection_id_seq OWNED BY public.redirectio
 --
 
 CREATE TABLE public.schema_migrations (
-    version character varying(255) NOT NULL
+    version character varying NOT NULL
 );
 
 
@@ -1819,6 +1811,7 @@ CREATE TABLE public.search_sections (
 --
 
 CREATE SEQUENCE public.search_sections_search_section_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1880,6 +1873,7 @@ CREATE TABLE public.subscriptions (
 --
 
 CREATE SEQUENCE public.subscriptions_subscription_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1936,8 +1930,7 @@ CREATE TABLE public.tags (
     forum_id bigint NOT NULL,
     num_messages bigint DEFAULT 0 NOT NULL,
     suggest boolean DEFAULT true NOT NULL
-)
-WITH (fillfactor='90');
+);
 
 
 --
@@ -2015,6 +2008,7 @@ CREATE TABLE public.twitter_authorizations (
 --
 
 CREATE SEQUENCE public.twitter_authorizations_twitter_authorization_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2050,9 +2044,9 @@ CREATE TABLE public.users (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     authentication_token character varying(255),
-    avatar_file_name character varying(255),
-    avatar_content_type character varying(255),
-    avatar_file_size integer,
+    avatar_file_name character varying,
+    avatar_content_type character varying,
+    avatar_file_size bigint,
     avatar_updated_at timestamp without time zone,
     score integer DEFAULT 0 NOT NULL,
     activity integer DEFAULT 0 NOT NULL,
@@ -2726,6 +2720,14 @@ ALTER TABLE ONLY public.redirections
 
 
 --
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
 -- Name: scores scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2893,6 +2895,13 @@ CREATE UNIQUE INDEX events_lower_idx ON public.events USING btree (lower(name));
 --
 
 CREATE UNIQUE INDEX forums_slug_idx ON public.forums USING btree (slug);
+
+
+--
+-- Name: index_media_on_filename; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_media_on_filename ON public.media USING btree (filename);
 
 
 --
@@ -3187,13 +3196,6 @@ CREATE INDEX threads_sticky_created_at_idx ON public.threads USING btree (sticky
 --
 
 CREATE INDEX threads_tid_idx ON public.threads USING btree (tid);
-
-
---
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING btree (version);
 
 
 --
@@ -3947,6 +3949,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180922124839'),
 ('20180922170037'),
 ('20180922172423'),
+('20190106164844'),
 ('21'),
 ('22'),
 ('23'),
@@ -3980,7 +3983,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('49'),
 ('5'),
 ('50'),
-('51'),
 ('52'),
 ('53'),
 ('54'),
@@ -4012,7 +4014,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('78'),
 ('79'),
 ('8'),
-('80'),
 ('81'),
 ('82'),
 ('83'),
@@ -4026,7 +4027,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('90'),
 ('91'),
 ('92'),
-('93'),
 ('94'),
 ('95'),
 ('96'),
