@@ -115,11 +115,9 @@ module ParserHelper
         ncnt << l
       end
 
+      ncnt = ncnt.dup if ncnt.frozen?
       opts[:app] = app
-      @doc = Kramdown::Document.new(
-        ncnt,
-        opts
-      )
+      @doc = Kramdown::Document.new(ncnt, opts)
     end
 
     @doc
