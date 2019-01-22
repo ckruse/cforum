@@ -140,6 +140,7 @@ module RightsHelper
 
   def authorize_admin
     return true if current_user&.admin?
+
     false
   end
 
@@ -153,18 +154,20 @@ module RightsHelper
 
     return true if forum.blank?
     return forum.send(permission, user) if permission
+
     false
   end
 
-  def may_answer?(m)
-    return false if m.thread.archived?
-    m.open?
+  def may_answer?(message)
+    return false if message.thread.archived?
+
+    message.open?
   end
 
-  def may_vote?(m, right, u = current_user)
-    return t('messages.login_to_vote') if u.blank?
-    return t('messages.do_not_vote_yourself') if m.user_id == u.user_id
-    return t('messages.not_enough_score') unless may?(right, u)
+  def may_vote?(message, right, user = current_user)
+    return t('messages.login_to_vote') if user.blank?
+    return t('messages.do_not_vote_yourself') if message.user_id == user.user_id
+    return t('messages.not_enough_score') unless may?(right, user)
 
     false
   end

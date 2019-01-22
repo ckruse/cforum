@@ -20,7 +20,7 @@ class Forum < ApplicationRecord
   def moderator?(user)
     return false if user.blank?
     return true if user.admin?
-    return true if user.badge?(Badge::MODERATOR_TOOLS)
+    return true if user.badge?(Badge::MODERATOR_TOOLS) && read?(user)
 
     permissions = ForumGroupPermission
                     .where('group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?',
@@ -38,7 +38,7 @@ class Forum < ApplicationRecord
     return false if user.blank?
     return true if standard_permission == ForumGroupPermission::KNOWN_WRITE
     return true if user.admin?
-    return true if user.badge?(Badge::MODERATOR_TOOLS)
+    return true if user.badge?(Badge::MODERATOR_TOOLS) && read?(user)
 
     permissions = ForumGroupPermission
                     .where('group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?',
@@ -58,13 +58,13 @@ class Forum < ApplicationRecord
     return false if user.blank?
     return true if standard_permission.in?([ForumGroupPermission::KNOWN_READ, ForumGroupPermission::KNOWN_WRITE])
     return true if user.admin?
-    return true if user.badge?(Badge::MODERATOR_TOOLS)
 
     permissions = ForumGroupPermission
                     .where('group_id IN (SELECT group_id FROM groups_users WHERE user_id = ?) AND forum_id = ?',
                            user.user_id, forum_id)
 
     return true if permissions.present?
+
     false
   end
 

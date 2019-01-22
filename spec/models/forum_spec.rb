@@ -136,9 +136,9 @@ RSpec.describe Forum, type: :model do
       expect(forum.read?(build(:user_admin))).to be true
     end
 
-    it 'returns true if user has moderator badge' do
+    it 'returns false if user only has a moderator badge' do
       forum = build(:forum)
-      expect(forum.read?(create(:user_moderator))).to be true
+      expect(forum.read?(create(:user_moderator))).to be false
     end
 
     it 'returns true if user is in group with read permission' do
