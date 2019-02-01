@@ -42,7 +42,8 @@
 }
 
 .md-editor>textarea {
-  font-family: $monospace_fonts;
+  font-family: "Source Code Pro", Consolas, "DejaVu Sans Mono", "Bitstream Vera Sans Mono",
+  "Andale Mono", "Droid Sans Mono", "Lucida Console", monospace;
   font-size: 14px;
   outline: 0;
   margin: 0;
