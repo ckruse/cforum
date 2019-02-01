@@ -42,7 +42,7 @@
 }
 
 .md-editor>textarea {
-  font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+  font-family: $monospace_fonts;
   font-size: 14px;
   outline: 0;
   margin: 0;
