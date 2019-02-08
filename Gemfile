@@ -85,4 +85,6 @@ gem 'unicorn', group: :production
 gem 'oauth'
 gem 'twitter'
 
+gem 'appsignal'
+
 # eof

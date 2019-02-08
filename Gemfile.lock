@@ -41,6 +41,8 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
+    appsignal (2.8.2)
+      rack
     arel (8.0.0)
     ast (2.4.0)
     autoprefixer-rails (9.4.7)
@@ -78,7 +80,7 @@ GEM
     connection_pool (2.2.2)
     content_for_in_controllers (0.0.2)
     crass (1.0.4)
-    devise (4.5.0)
+    devise (4.6.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 6.0)
@@ -398,6 +400,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_record_query_trace
+  appsignal
   autoprefixer-rails
   bcrypt
   bootsnap
@@ -454,7 +457,7 @@ DEPENDENCIES
   web-console (~> 3.5)
 
 RUBY VERSION
-   ruby 2.6.0p0
+   ruby 2.6.1p33
 
 BUNDLED WITH
    1.17.3

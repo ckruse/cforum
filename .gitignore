@@ -33,3 +33,4 @@ TAGS
 /.vagrant/
 /cookbooks/
 /.byebug_history
+/config/appsignal.yml
