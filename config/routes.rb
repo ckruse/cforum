@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   devise_for(:users, path_names: { sign_in: 'login',
                                    sign_out: 'logout' },
                      controllers: { confirmations: 'users/confirmations',
-                                    registration: 'users/registration' })
+                                    registrations: 'users/registrations' })
 
   devise_scope :user do
     patch 'users/confirmation' => 'users/confirmations#update', as: nil
