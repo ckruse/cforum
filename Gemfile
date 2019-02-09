@@ -87,4 +87,6 @@ gem 'twitter'
 
 gem 'appsignal'
 
+gem 'invisible_captcha'
+
 # eof

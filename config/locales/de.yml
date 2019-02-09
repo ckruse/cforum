@@ -13,3 +13,6 @@ de:
   notifications:
     delete: Benachrichtigung löschen
 
+  invisible_captcha:
+    sentence_for_humans: "Wenn Sie ein Mensch sind, ignorieren Sie dieses Feld einfach."
+    timestamp_error_message: "Sorry, aber das war zu schnell! Bitte nochmal absenden."
