@@ -6,7 +6,7 @@ content_for :body_classes, 'registrations new'
 %>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'cf-form'}) do |f| %>
-  <%= f.invisible_captcha :lastname %>
+  <%= f.invisible_captcha %>
 
   <% if resource.errors.any? %>
   <div class="alert alert-error">
