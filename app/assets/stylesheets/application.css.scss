@@ -241,4 +241,12 @@ blockquote { margin: 1em 0; }
   }
 }
 
+.save-the-internet {
+  img {
+    max-width:75%;
+  }
+
+  &, & a { font-weight:bold; }
+}
+
 /* eof */
