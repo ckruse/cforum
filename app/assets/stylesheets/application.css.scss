@@ -247,6 +247,9 @@ blockquote { margin: 1em 0; }
   }
 
   &, & a { font-weight:bold; }
+
+  display: inline-block;
+  max-width: 60em;
 }
 
 /* eof */
