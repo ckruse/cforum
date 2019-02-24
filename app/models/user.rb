@@ -16,7 +16,7 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: { case_sensitive: false },
                        format: { with: /\A[^@]+\z/, message: I18n.t('users.no_at_in_name') }, length: { in: 2..255 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }, email: true, length: { in: 2..255 },
-    format: { without: /(mail\.ru|hotmails\.com|pba\.su|torrents\.top|downloadism.\top)\z/ }
+                    format: { without: /(mail\.ru|hotmails\.com|pba\.su|torrents\.top|downloadism.\top|yandex\.com)\z/ }
 
   attr_accessor :login
 
