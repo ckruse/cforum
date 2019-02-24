@@ -439,9 +439,9 @@ cforum.tags = {
       return true;
     }
 
-    if (user.badges_users) {
-      for (var i = 0; i < user.badges_users.length; ++i) {
-        var b = user.badges_users[i];
+    if (user.badge_users) {
+      for (var i = 0; i < user.badge_users.length; ++i) {
+        var b = user.badge_users[i];
 
         switch (b.badge.badge_type) {
           case "create_tag":
