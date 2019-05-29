@@ -8,7 +8,7 @@ class ArchiverJob < ApplicationJob
     CfThread.transaction do
       threads = CfThread.select('threads.thread_id, COUNT(*) AS cnt, threads.flags')
                   .joins(:messages)
-                  .where(archived: false, forum_id: forum.forum_id)
+                  .where(archived: false, forum_id: forum.forum_id, sticky: false)
                   .group('threads.thread_id')
 
       threads.each do |t|
@@ -43,7 +43,7 @@ class ArchiverJob < ApplicationJob
         rslt = CfThread.connection.execute 'SELECT threads.thread_id, MAX(messages.created_at) AS created_at' \
                                            '  FROM threads INNER JOIN messages USING(thread_id)' \
                                            '  WHERE threads.forum_id = ' + forum.forum_id.to_s +
-                                           '        AND archived = false' \
+                                           '        AND archived = false AND sticky = false' \
                                            '  GROUP BY threads.thread_id' \
                                            '  ORDER BY MAX(messages.created_at) ASC LIMIT 1'
         tid = rslt[0]['thread_id']
