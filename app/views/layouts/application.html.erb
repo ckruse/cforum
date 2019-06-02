@@ -380,7 +380,7 @@ end
     <% unless conf('js_ressource').blank? %><script src="<%= conf('js_ressource') %>"></script><% end %>
 
     <% if Rails.env != 'test' %>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="https://forum.selfhtml.org/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
       <script>
        if(typeof MathJax != 'undefined') {
          MathJax.Hub.Config({
